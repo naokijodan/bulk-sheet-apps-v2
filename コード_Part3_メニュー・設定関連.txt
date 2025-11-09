@@ -1621,62 +1621,98 @@ function saveDuplicateCheckSettings(formData) {
 }
 
 /**
- * 🆕 重複チェック式をシートに実際に適用
+ * 🆕 重複チェック式をシートに実際に適用（ARRAYFORMULA版）
  * @param {Sheet} sheet - 出力先シート
  * @param {string} column - 出力先列（例: 'A', 'B', 'C'）
  * @param {number} startRow - 開始行番号
  * @param {string} formula - 適用する数式
- * @param {string} range - 適用範囲（'ALL', 'DATA', 'CUSTOM'）
+ * @param {string} range - 適用範囲（'ALL', 'DATA', 'CUSTOM'）※ARRAYFORMULAでは使用しない
  * @return {Object} 適用結果
  */
 function applyDuplicateFormulaToSheet(sheet, column, startRow, formula, range) {
   try {
-    var endRow;
-    
-    // 適用範囲の決定
-    switch (range) {
-      case 'ALL':
-        // シート全体（最大1000行）
-        endRow = Math.min(1000, sheet.getMaxRows());
-        break;
-      case 'DATA':
-        // データがある範囲まで
-        endRow = Math.max(startRow, sheet.getLastRow());
-        break;
-      case 'CUSTOM':
-        // カスタム範囲（現在は100行固定、将来的に拡張可能）
-        endRow = startRow + 99;
-        break;
-      default:
-        endRow = Math.max(startRow + 99, sheet.getLastRow());
-    }
-    
-    if (endRow < startRow) {
-      return { success: false, error: '終了行が開始行より小さくなっています。' };
-    }
-    
-    var rowCount = endRow - startRow + 1;
-    var targetRange = sheet.getRange(startRow, getColumnNumber(column), rowCount, 1);
-    
-    // 各行に対応した数式を生成（行番号を動的に変更）
-    var formulas = [];
-    for (var i = 0; i < rowCount; i++) {
-      var currentRow = startRow + i;
-      var rowFormula = formula.replace(/([A-Z]+)1/g, '$1' + currentRow);
-      formulas.push([rowFormula]);
-    }
-    
-    // 数式を一括設定
-    targetRange.setFormulas(formulas);
-    
+    // ARRAYFORMULAを使用するため、開始セルにのみ式を設定
+    var targetCell = sheet.getRange(startRow, getColumnNumber(column));
+
+    // 元の式からARRAYFORMULA版を生成
+    var arrayFormula = convertToArrayFormula(formula, column, startRow);
+
+    // ARRAYFORMULAを設定
+    targetCell.setFormula(arrayFormula);
+
     return {
       success: true,
-      range: targetRange.getA1Notation(),
-      count: rowCount
+      range: targetCell.getA1Notation(),
+      count: 1 // ARRAYFORMULAは1セルのみ
     };
-    
+
   } catch (e) {
     return { success: false, error: '数式適用エラー: ' + e.message };
+  }
+}
+
+/**
+ * 通常の重複チェック式をARRAYFORMULA形式に変換
+ * @param {string} formula - 元の数式（例: =IF(AND(NOT(ISBLANK(H1)), OR(COUNTIF('保存データ_'!H:H,H1)>0)), "重複", "")）
+ * @param {string} column - 対象列（例: 'H'）
+ * @param {number} startRow - 開始行（見出し行、例: 4）
+ * @return {string} ARRAYFORMULA形式の数式
+ */
+function convertToArrayFormula(formula, column, startRow) {
+  try {
+    var dataStartRow = startRow + 1; // データ開始行（見出しの次の行）
+
+    // 元の式: =IF(AND(NOT(ISBLANK(H1)), OR(COUNTIF('保存データ_'!H:H,H1)>0,...)), "重複", "")
+    // 目標: =ARRAYFORMULA(IF(ROW(AF4:AF)=4,"重複チェック",IF((H5:H<>"")*((COUNTIF('保存データ_'!H:H,H5:H)>0)+...)>0,"重複","")))
+
+    // 式から条件部分を抽出
+    var match = formula.match(/=IF\(AND\(NOT\(ISBLANK\(([A-Z]+)1\)\),\s*OR\((.*)\)\),\s*"重複",\s*""\)/);
+
+    if (!match) {
+      throw new Error('重複チェック式の形式が不正です: ' + formula);
+    }
+
+    var sourceColumn = match[1]; // ソース列（例：H）
+    var conditions = match[2];
+
+    // 出力列の範囲（結果を表示する列）
+    var outputColRange = column + startRow + ':' + column;
+    // ソース列の範囲（チェック対象のデータ列） - startRowから開始
+    var sourceColRange = sourceColumn + startRow + ':' + sourceColumn;
+
+    // COUNTIF条件を配列化
+    // 各COUNTIF内の sourceColumn + '1' を sourceColRange に置換
+    // 例: COUNTIF('保存データ_'!H:H,H1) → COUNTIF('保存データ_'!H:H,H4:H)
+    var arrayConditions = conditions.replace(new RegExp(',' + sourceColumn + '1', 'g'), ',' + sourceColRange);
+
+    // ORを加算に変換
+    // 各COUNTIF条件（...>0）を抽出して括弧で囲む
+    // 例: COUNTIF('保存データ_'!H:H,AF5:AF)>0,COUNTIF('EAGLE商品一覧'!A:A,AF5:AF)>0
+    // → (COUNTIF('保存データ_'!H:H,AF5:AF)>0)+(COUNTIF('EAGLE商品一覧'!A:A,AF5:AF)>0)
+    var conditionParts = arrayConditions.split(')>0');
+    var formattedConditions = [];
+    for (var i = 0; i < conditionParts.length; i++) {
+      var part = conditionParts[i].trim();
+      if (part) {
+        // カンマを削除
+        part = part.replace(/^,\s*/, '');
+        // 最後の要素以外は )>0 を付ける
+        if (i < conditionParts.length - 1) {
+          formattedConditions.push('(' + part + ')>0)');
+        }
+      }
+    }
+    var sumConditions = '(' + formattedConditions.join('+') + ')';
+
+    // 最終的なARRAYFORMULA（1行で生成）
+    // 見出し行とデータ行を正しく対応させる
+    // 例: =ARRAYFORMULA(IF(ROW(AF4:AF)=4,"重複チェック",IF(H4:H<>"",IF((COUNTIF('保存データ_'!H:H,H4:H)>0)+(COUNTIF('EAGLE商品一覧'!A:A,H4:H)>0)>0,"重複",""),"")))
+    var arrayFormula = '=ARRAYFORMULA(IF(ROW(' + outputColRange + ')=' + startRow + ',"重複チェック",IF(' + sourceColRange + '<>"",IF(' + sumConditions + '>0,"重複",""),"")))';
+
+    return arrayFormula;
+
+  } catch (e) {
+    throw new Error('ARRAYFORMULA変換エラー: ' + e.message);
   }
 }
 
