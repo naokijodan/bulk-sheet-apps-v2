@@ -2704,7 +2704,7 @@ function saveIntegratedSettings(formData) {
     ensureSurchargeCellsOnWorkSheet();
     setupStopControlCell();
 
-    // 設定値を作業シートのAG列以降に書き出し
+    // 設定値を作業シートのAI列以降に書き出し
     writeSettingsToSheet(sheetName, {
       platform: platform,
       model: model,
@@ -2720,6 +2720,16 @@ function saveIntegratedSettings(formData) {
       duplicateCheckEnabled: duplicateCheckEnabled,
       duplicateSettings: duplicateSettings
     });
+
+    // 🆕 計算式ARRAYFORMULAを作業シートに適用
+    var formulaResult = applyCalculationFormulas(sheetName, {
+      profitCalc: profitCalc,
+      shippingCalcMethod: shippingCalcMethod
+    });
+
+    if (!formulaResult.success) {
+      throw new Error('計算式の適用に失敗しました: ' + formulaResult.error);
+    }
 
     // 成功メッセージ
     var platformNames = { openai:'OpenAI', claude:'Claude (Anthropic)', gemini:'Gemini (Google)' };
@@ -2888,6 +2898,97 @@ function writeSettingsToSheet(sheetName, settings) {
       .setFontSize(9)
       .setFontColor('#666666')
       .setWrap(true);
+
+    return { success: true };
+
+  } catch (e) {
+    return { success: false, error: e.message };
+  }
+}
+
+/**
+ * 🆕 計算式ARRAYFORMULAを作業シートに適用
+ * @param {string} sheetName - シート名
+ * @param {Object} settings - 設定オブジェクト
+ * @return {Object} 適用結果
+ */
+function applyCalculationFormulas(sheetName, settings) {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(sheetName);
+    if (!sheet) {
+      return { success: false, error: 'シート "' + sheetName + '" が見つかりません' };
+    }
+
+    var profitCalc = settings.profitCalc;  // 'RATE' or 'AMOUNT'
+    var shippingCalc = settings.shippingCalcMethod;  // 'TABLE' or 'FIXED'
+
+    // 🆕 前回の設定を取得してモード変更を検出
+    var props = PropertiesService.getScriptProperties();
+    var prevProfitCalc = props.getProperty('PROFIT_CALCULATION_METHOD') || '';
+    var prevShippingCalc = props.getProperty('SHIPPING_CALC_METHOD') || '';
+
+    // モード変更時は該当列をクリア（5行目以降）
+    var lastRow = sheet.getLastRow();
+    if (lastRow >= 5) {
+      if (prevProfitCalc !== '' && prevProfitCalc !== profitCalc) {
+        // 利益計算方法が変更された場合、R, U, W列をクリア
+        sheet.getRange('R5:R' + lastRow).clearContent();
+        sheet.getRange('U5:U' + lastRow).clearContent();
+        sheet.getRange('W5:W' + lastRow).clearContent();
+      }
+      if (prevShippingCalc !== '' && prevShippingCalc !== shippingCalc) {
+        // 送料計算方法が変更された場合、T列をクリア
+        sheet.getRange('T5:T' + lastRow).clearContent();
+      }
+    }
+
+    // R列: 販売価格
+    var priceFormula = '';
+    if (profitCalc === 'RATE') {
+      priceFormula = '=ARRAYFORMULA(IF(ROW(R4:R)=4,"販売価格",IF(I4:I="","",ROUND(((I4:I+T4:T)/(1-(V4:V+W4:W+$F$2+$Z$2))/$C$2)*100)/100)))';
+    } else {
+      priceFormula = '=ARRAYFORMULA(IF(ROW(R4:R)=4,"販売価格",IF(I4:I="","",ROUND(((I4:I+T4:T+U4:U)/(1-(V4:V+$F$2+$Z$2))/$C$2)*100)/100)))';
+    }
+    sheet.getRange('R4').setFormula(priceFormula);
+
+    // S列: 関税込み価格
+    sheet.getRange('S4').setFormula('=ARRAYFORMULA(IF(ROW(S4:S)=4,"関税込み価格",IF(R4:R="","",ROUND(R4:R+AD4:AD,2))))');
+
+    // T列: 送料
+    var shippingFormula = '';
+    if (shippingCalc === 'TABLE') {
+      shippingFormula = '=ARRAYFORMULA(IF(ROW(T4:T)=4,"送料",IF(I4:I="","",SHIPPING_COST(I4:I,Y4:Y,AC4:AC,X4:X,AC4:AC))))';
+    } else {
+      shippingFormula = '=ARRAYFORMULA(IF(ROW(T4:T)=4,"送料",IF(I4:I="","",IF($J$1<>"", $J$1, VLOOKUP(I4:I,Profit_Amounts!$A$2:$D$8,4,TRUE)))))';
+    }
+    sheet.getRange('T4').setFormula(shippingFormula);
+
+    // U列: 利益
+    var profitFormula = '';
+    if (profitCalc === 'RATE') {
+      profitFormula = '=ARRAYFORMULA(IF(ROW(U4:U)=4,"利益",IF(R4:R="","",ROUND(R4:R*$C$2*(1-(V4:V+$F$2+$Z$2))-I4:I-T4:T,0))))';
+    } else {
+      profitFormula = '=ARRAYFORMULA(IF(ROW(U4:U)=4,"利益",IF(I4:I="","",IF($H$1<>"", $H$1, VLOOKUP(I4:I,Profit_Amounts!$A$2:$C$8,3,TRUE)))))';
+    }
+    sheet.getRange('U4').setFormula(profitFormula);
+
+    // V列: 手数料率
+    sheet.getRange('V4').setFormula('=ARRAYFORMULA(IF(ROW(V4:V)=4,"手数料率",IF(I4:I="","",$F$1)))');
+
+    // W列: 利益率
+    if (profitCalc === 'RATE') {
+      sheet.getRange('W4').setFormula('=ARRAYFORMULA(IF(ROW(W4:W)=4,"利益率",IF(I4:I="","",$H$2)))');
+    } else {
+      // 利益額モードの場合はW列をクリア
+      sheet.getRange('W4').clearContent();
+    }
+
+    // AC列: 容積重量
+    sheet.getRange('AC4').setFormula('=ARRAYFORMULA(IF(ROW(AC4:AC)=4,"容積重量",IF(Z4:Z="","",MAX(ROUND((Z4:Z*AA4:AA*AB4:AB)/5),200))))');
+
+    // AD列: 想定関税
+    sheet.getRange('AD4').setFormula('=ARRAYFORMULA(IF(ROW(AD4:AD)=4,"想定関税",IF(R4:R="","",ROUND(R4:R*$AF$2*$AG$2+$AE$1,2))))');
 
     return { success: true };
 

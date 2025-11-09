@@ -759,6 +759,16 @@ function setCellValues(sheet, row, values) {
 // Part 2の setFormulas 関数を以下のように修正してください
 
 function setFormulas(sheet, row, settings) {
+  // 🆕 ARRAYFORMULAが設定されているかチェック
+  // R4セルに式がある場合はARRAYFORMULA方式が適用されているとみなし、何もしない
+  var r4Formula = sheet.getRange('R4').getFormula();
+  if (r4Formula && r4Formula.indexOf('ARRAYFORMULA') !== -1) {
+    // ARRAYFORMULAが設定されている場合は何もしない
+    // X, Y, Z-AB列（配送方法、重量、サイズ）のみAI処理で値が設定される
+    return;
+  }
+
+  // 以下は旧方式（ARRAYFORMULA未設定時）の処理
   // 依存セルを先に読み込んで計算をトリガー
   sheet.getRange("AF2").getValue();  // 関税率
   sheet.getRange("AG2").getValue();  // 安全係数
@@ -767,7 +777,7 @@ function setFormulas(sheet, row, settings) {
   SpreadsheetApp.flush();
   var feeRate = sheet.getRange("F1").getValue() || 0;  // 変更なし
   var adRate  = sheet.getRange("F2").getValue() || 0;  // 変更なし
-  
+
   sheet.getRange(row, CONFIG.COLUMNS.FEE).setValue(feeRate);  // 21→22
   
   if (settings.profitCalculationMethod === 'RATE') {
