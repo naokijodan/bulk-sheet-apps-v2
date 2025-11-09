@@ -2779,19 +2779,9 @@ function writeSettingsToSheet(sheetName, settings) {
     var height = sheet.getRange('N2').getValue() || '';
 
     // その他の設定を取得
-    var exchangeRate = sheet.getRange('C2').getValue() || '';
     var feeRate = sheet.getRange('F1').getValue() || '';
     var adRate = sheet.getRange('F2').getValue() || '';
     var profitValue = settings.profitCalc === 'RATE' ? sheet.getRange('H2').getValue() : sheet.getRange('H1').getValue();
-
-    // 重複チェック式を取得
-    var duplicateFormula = '';
-    if (settings.duplicateCheckEnabled && settings.duplicateSettings) {
-      var outputColumn = settings.duplicateSettings.outputColumn || 'AF';
-      var outputStartRow = settings.duplicateSettings.outputStartRow || 4;
-      var formulaCell = sheet.getRange(outputColumn + outputStartRow);
-      duplicateFormula = formulaCell.getFormula() || '';
-    }
 
     // AG1: 見出し
     sheet.getRange('AG1').setValue('【初期設定値一覧】')
@@ -2843,30 +2833,12 @@ function writeSettingsToSheet(sheetName, settings) {
     sheet.getRange('AM2:AN4').setBackground('#F3E5F5');
     sheet.getRange('AM2:AM4').setFontWeight('bold');
 
-    // バックアップ情報（グレー系）
-    var backupData = [
-      ['AIプラットフォーム', settings.platform],
-      ['AIモデル', settings.model],
-      ['プロンプトID', settings.promptId],
-      ['為替レート', exchangeRate],
-      ['重複チェック', settings.duplicateCheckEnabled ? 'ON' : 'OFF']
-    ];
-    sheet.getRange('AO2:AP6').setValues(backupData);
-    sheet.getRange('AO2:AP6').setBackground('#F5F5F5');
-    sheet.getRange('AO2:AO6').setFontWeight('bold');
-
-    // 重複チェック式（長いので複数行）
-    if (duplicateFormula) {
-      sheet.getRange('AO7').setValue('重複チェック式:').setFontWeight('bold').setBackground('#F5F5F5');
-      sheet.getRange('AP7').setValue(duplicateFormula).setWrap(true).setBackground('#F5F5F5');
-    }
-
-    // 枠線を設定
-    var settingsRange = sheet.getRange('AG1:AP7');
+    // 枠線を設定（AG1からAN5まで）
+    var settingsRange = sheet.getRange('AG1:AN5');
     settingsRange.setBorder(true, true, true, true, true, true, '#000000', SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
 
     // 注釈を追加
-    sheet.getRange('AG8').setValue('※この設定値は計算式から参照されます。値セル（AH, AJ, AL, AN, AP列）は直接編集可能です。')
+    sheet.getRange('AG6').setValue('※この設定値は計算式から参照されます。値セル（AH, AJ, AL, AN列）は直接編集可能です。')
       .setFontSize(9)
       .setFontColor('#666666')
       .setWrap(true);
