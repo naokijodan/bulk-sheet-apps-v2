@@ -356,9 +356,9 @@ function calculateAdjustedPriceForPolicy(sheet, dduPrice) {
     var BASE_RATE = 0.15;
     
     // セルから値を取得
-    var safetyFactor = Number(sheet.getRange('AE2').getValue()) || 1.35;
-    var customsFee = Number(sheet.getRange('AC1').getValue()) || 10;
-    var currentRate = Number(sheet.getRange('AD2').getValue()) || 0.15;
+    var safetyFactor = Number(sheet.getRange('AG2').getValue()) || 1.35;
+    var customsFee = Number(sheet.getRange('AE1').getValue()) || 10;
+    var currentRate = Number(sheet.getRange('AF2').getValue()) || 0.15;
     
     // DDU価格が無効な場合はそのまま返す
     if (isNaN(dduPrice) || dduPrice <= 0) {
@@ -714,9 +714,9 @@ function testAdjustedPriceCalculation() {
     }
     
     // 現在の設定値を取得
-    var currentRate = Number(sheet.getRange('AD2').getValue()) || 0.15;
-    var safetyFactor = Number(sheet.getRange('AE2').getValue()) || 1.35;
-    var customsFee = Number(sheet.getRange('AC1').getValue()) || 10;
+    var currentRate = Number(sheet.getRange('AF2').getValue()) || 0.15;
+    var safetyFactor = Number(sheet.getRange('AG2').getValue()) || 1.35;
+    var customsFee = Number(sheet.getRange('AE1').getValue()) || 10;
     
     // テストケース
     var testCases = [
@@ -728,16 +728,16 @@ function testAdjustedPriceCalculation() {
     
     var report = '📊 調整後価格計算テスト\n\n';
     report += '現在のセル設定:\n';
-    report += '• AD2（関税率）: ' + (currentRate * 100) + '%\n';
-    report += '• AE2（安全係数）: ' + safetyFactor + '\n';
-    report += '• AC1（通関手数料）: $' + customsFee + '\n\n';
+    report += '• AF2（関税率）: ' + (currentRate * 100) + '%\n';
+    report += '• AG2（安全係数）: ' + safetyFactor + '\n';
+    report += '• AE1（通関手数料）: $' + customsFee + '\n\n';
     report += '━━━━━━━━━━━━━━━━━━━━━━\n\n';
     
     for (var i = 0; i < testCases.length; i++) {
       var tc = testCases[i];
       
       // 一時的に関税率を変更
-      sheet.getRange('AD2').setValue(tc.rate);
+      sheet.getRange('AF2').setValue(tc.rate);
       SpreadsheetApp.flush();
       
       var adjustedPrice = calculateAdjustedPriceForPolicy(sheet, tc.ddu);
@@ -751,7 +751,7 @@ function testAdjustedPriceCalculation() {
     }
     
     // 元の関税率に戻す
-    sheet.getRange('AD2').setValue(currentRate);
+    sheet.getRange('AF2').setValue(currentRate);
     SpreadsheetApp.flush();
     
     showAlert(report, 'info');
@@ -817,7 +817,7 @@ function testPolicySelection() {
     }
     
     // 現在の関税率を取得
-    var currentRate = Number(sheet.getRange('AD2').getValue()) || 0.15;
+    var currentRate = Number(sheet.getRange('AF2').getValue()) || 0.15;
     
     var testCase = {
       category: 'Other',
@@ -827,19 +827,19 @@ function testPolicySelection() {
     };
     
     // 15%でテスト
-    sheet.getRange('AD2').setValue(0.15);
+    sheet.getRange('AF2').setValue(0.15);
     SpreadsheetApp.flush();
     var adjustedPrice15 = calculateAdjustedPriceForPolicy(sheet, testCase.dduPrice);
     var policyId15 = findShippingPolicyId(testCase.category, testCase.condition, testCase.shippingType, adjustedPrice15);
     
     // 39%でテスト
-    sheet.getRange('AD2').setValue(0.39);
+    sheet.getRange('AF2').setValue(0.39);
     SpreadsheetApp.flush();
     var adjustedPrice39 = calculateAdjustedPriceForPolicy(sheet, testCase.dduPrice);
     var policyId39 = findShippingPolicyId(testCase.category, testCase.condition, testCase.shippingType, adjustedPrice39);
     
     // 元の関税率に戻す
-    sheet.getRange('AD2').setValue(currentRate);
+    sheet.getRange('AF2').setValue(currentRate);
     SpreadsheetApp.flush();
     
     var report = '📊 ポリシー判定テスト\n\n';

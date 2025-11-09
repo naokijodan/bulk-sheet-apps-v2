@@ -31,12 +31,14 @@ var CONFIG = {
     RATE: 23,
     METHOD: 24,
     WEIGHT: 25,
-    SIZE: 26,
-    VOLUME: 27,
-    ESTIMATED_TAX: 28,
-    CONDITION: 29,
-    EBAY_CATEGORY: 30,
-    DDU_ADJUSTED_PRICE: 31
+    LENGTH: 26,        // Z列: 長さ (cm)
+    WIDTH: 27,         // AA列: 幅 (cm)
+    HEIGHT: 28,        // AB列: 高さ (cm)
+    VOLUME: 29,        // AC列: 容積重量
+    ESTIMATED_TAX: 30, // AD列
+    CONDITION: 31,     // AE列
+    EBAY_CATEGORY: 32, // AF列
+    DDU_ADJUSTED_PRICE: 33  // AG列
   },
 
   // 料金・見積

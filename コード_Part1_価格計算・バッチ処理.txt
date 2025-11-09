@@ -167,12 +167,12 @@ function calculateEffectiveThreshold(baseThreshold, sheet, targetRate) {
   var BASE_RATE = 0.15;  // 基準関税率（固定）
   
   // セルから値を取得
-  var safetyFactor = Number(sheet.getRange('AE2').getValue()) || 1.35;
-  var customsFee = Number(sheet.getRange('AC1').getValue()) || 10;
-  
-  // targetRateが省略された場合、AD2セルから取得
+  var safetyFactor = Number(sheet.getRange('AG2').getValue()) || 1.35;
+  var customsFee = Number(sheet.getRange('AE1').getValue()) || 10;
+
+  // targetRateが省略された場合、AF2セルから取得
   if (typeof targetRate === 'undefined' || targetRate === null) {
-    targetRate = Number(sheet.getRange('AD2').getValue()) || 0.15;
+    targetRate = Number(sheet.getRange('AF2').getValue()) || 0.15;
   }
   
   // 二分探索で解を求める
@@ -210,12 +210,12 @@ function calculateEffectiveThreshold(baseThreshold, sheet, targetRate) {
   var BASE_RATE = 0.15;  // 基準関税率（固定）
   
   // セルから値を取得
-  var safetyFactor = Number(sheet.getRange('AE2').getValue()) || 1.35;
-  var customsFee = Number(sheet.getRange('AC1').getValue()) || 10;
-  
-  // targetRateが省略された場合、AD2セルから取得
+  var safetyFactor = Number(sheet.getRange('AG2').getValue()) || 1.35;
+  var customsFee = Number(sheet.getRange('AE1').getValue()) || 10;
+
+  // targetRateが省略された場合、AF2セルから取得
   if (typeof targetRate === 'undefined' || targetRate === null) {
-    targetRate = Number(sheet.getRange('AD2').getValue()) || 0.15;
+    targetRate = Number(sheet.getRange('AF2').getValue()) || 0.15;
   }
   
   // 二分探索で解を求める
@@ -305,19 +305,19 @@ function ensureSurchargeCellsOnWorkSheet() {
     }
   }
   
-  // 関税率（AC2→AD2）
-  if (!sh.getRange('AD2').getNote()) {
-    safeSetNote(sh.getRange('AD2'), '関税率（例: 0.2 = 20%）');
+  // 関税率（AC2→AD2→AF2）
+  if (!sh.getRange('AF2').getNote()) {
+    safeSetNote(sh.getRange('AF2'), '関税率（例: 0.2 = 20%）');
   }
-  
-  // 安全係数（AD2→AE2）
-  if (!sh.getRange('AE2').getNote()) {
-    safeSetNote(sh.getRange('AE2'), '関税安全係数（例: 1.1 = 10%上乗せ）');
+
+  // 安全係数（AD2→AE2→AG2）
+  if (!sh.getRange('AG2').getNote()) {
+    safeSetNote(sh.getRange('AG2'), '関税安全係数（例: 1.1 = 10%上乗せ）');
   }
-  
-  // 通関手数料（AB1→AC1）
-  if (!sh.getRange('AC1').getNote()) {
-    safeSetNote(sh.getRange('AC1'), '通関手数料（USD）（例: 10）');
+
+  // 通関手数料（AB1→AC1→AE1）
+  if (!sh.getRange('AE1').getNote()) {
+    safeSetNote(sh.getRange('AE1'), '通関手数料（USD）（例: 10）');
   }
   
   // U1→V1, U2→V2
@@ -750,9 +750,9 @@ function setCellValues(sheet, row, values) {
 
 function setFormulas(sheet, row, settings) {
   // 依存セルを先に読み込んで計算をトリガー
-  sheet.getRange("AD2").getValue();  // 関税率
-  sheet.getRange("AE2").getValue();  // 安全係数
-  sheet.getRange("AC1").getValue();  // 通関手数料
+  sheet.getRange("AF2").getValue();  // 関税率
+  sheet.getRange("AG2").getValue();  // 安全係数
+  sheet.getRange("AE1").getValue();  // 通関手数料
   sheet.getRange("C2").getValue();   // 為替レート
   SpreadsheetApp.flush();
   var feeRate = sheet.getRange("F1").getValue() || 0;  // 変更なし
@@ -795,14 +795,14 @@ function setFormulas(sheet, row, settings) {
   
   // 🔹 修正: 関税込み価格から通関手数料を削除
 sheet.getRange(row, CONFIG.COLUMNS.TAX_INCLUDED_PRICE).setFormula(  // 18→19（S列）
-  '=ROUND(R' + row + '+AB' + row + ',2)'
-  // R列（販売価格） + AB列（想定関税+通関手数料）
+  '=ROUND(R' + row + '+AD' + row + ',2)'
+  // R列（販売価格） + AD列（想定関税+通関手数料）
 );
-  
+
  // 🔹 修正: 想定関税に通関手数料を含める
-sheet.getRange(row, CONFIG.COLUMNS.ESTIMATED_TAX).setFormula(  // 27→28（AB列）
-  '=ROUND(R' + row + '*$AD$2*$AE$2+$AC$1,2)'
-  // R列 × 関税率(AD2) × 安全係数(AE2) + 通関手数料(AC1)
+sheet.getRange(row, CONFIG.COLUMNS.ESTIMATED_TAX).setFormula(  // 27→28→30（AD列）
+  '=ROUND(R' + row + '*$AF$2*$AG$2+$AE$1,2)'
+  // R列 × 関税率(AF2) × 安全係数(AG2) + 通関手数料(AE1)
 );
   
 // DDU価格調整機能

@@ -1663,7 +1663,7 @@ function convertToArrayFormula(formula, column, startRow) {
     var dataStartRow = startRow + 1; // データ開始行（見出しの次の行）
 
     // 元の式: =IF(AND(NOT(ISBLANK(H1)), OR(COUNTIF('保存データ_'!H:H,H1)>0,...)), "重複", "")
-    // 目標: =ARRAYFORMULA(IF(ROW(AF4:AF)=4,"重複チェック",IF((H5:H<>"")*((COUNTIF('保存データ_'!H:H,H5:H)>0)+...)>0,"重複","")))
+    // 目標: =ARRAYFORMULA(IF(ROW(AH4:AH)=4,"重複チェック",IF((H5:H<>"")*((COUNTIF('保存データ_'!H:H,H5:H)>0)+...)>0,"重複","")))
 
     // 式から条件部分を抽出
     var match = formula.match(/=IF\(AND\(NOT\(ISBLANK\(([A-Z]+)1\)\),\s*OR\((.*)\)\),\s*"重複",\s*""\)/);
@@ -1687,8 +1687,8 @@ function convertToArrayFormula(formula, column, startRow) {
 
     // ORを加算に変換
     // 各COUNTIF条件（...>0）を抽出して括弧で囲む
-    // 例: COUNTIF('保存データ_'!H:H,AF5:AF)>0,COUNTIF('EAGLE商品一覧'!A:A,AF5:AF)>0
-    // → (COUNTIF('保存データ_'!H:H,AF5:AF)>0)+(COUNTIF('EAGLE商品一覧'!A:A,AF5:AF)>0)
+    // 例: COUNTIF('保存データ_'!H:H,AH5:AH)>0,COUNTIF('EAGLE商品一覧'!A:A,AH5:AH)>0
+    // → (COUNTIF('保存データ_'!H:H,AH5:AH)>0)+(COUNTIF('EAGLE商品一覧'!A:A,AH5:AH)>0)
     var conditionParts = arrayConditions.split(')>0');
     var formattedConditions = [];
     for (var i = 0; i < conditionParts.length; i++) {
@@ -1706,7 +1706,7 @@ function convertToArrayFormula(formula, column, startRow) {
 
     // 最終的なARRAYFORMULA（1行で生成）
     // 見出し行とデータ行を正しく対応させる
-    // 例: =ARRAYFORMULA(IF(ROW(AF4:AF)=4,"重複チェック",IF(H4:H<>"",IF((COUNTIF('保存データ_'!H:H,H4:H)>0)+(COUNTIF('EAGLE商品一覧'!A:A,H4:H)>0)>0,"重複",""),"")))
+    // 例: =ARRAYFORMULA(IF(ROW(AH4:AH)=4,"重複チェック",IF(H4:H<>"",IF((COUNTIF('保存データ_'!H:H,H4:H)>0)+(COUNTIF('EAGLE商品一覧'!A:A,H4:H)>0)>0,"重複",""),"")))
     var arrayFormula = '=ARRAYFORMULA(IF(ROW(' + outputColRange + ')=' + startRow + ',"重複チェック",IF(' + sourceColRange + '<>"",IF(' + sumConditions + '>0,"重複",""),"")))';
 
     return arrayFormula;
@@ -2783,8 +2783,8 @@ function writeSettingsToSheet(sheetName, settings) {
     var adRate = sheet.getRange('F2').getValue() || '';
     var profitValue = settings.profitCalc === 'RATE' ? sheet.getRange('H2').getValue() : sheet.getRange('H1').getValue();
 
-    // AG1: 見出し
-    sheet.getRange('AG1').setValue('【初期設定値一覧】')
+    // AI1: 見出し
+    sheet.getRange('AI1').setValue('【初期設定値一覧】')
       .setFontWeight('bold')
       .setFontSize(12)
       .setBackground('#4285F4')
@@ -2797,9 +2797,9 @@ function writeSettingsToSheet(sheetName, settings) {
       ['送料切替基準(円)', settings.shippingThreshold],
       ['送料計算方法', settings.shippingCalcMethod === 'TABLE' ? 'テーブル計算' : '固定金額']
     ];
-    sheet.getRange('AG2:AH5').setValues(shippingData);
-    sheet.getRange('AG2:AH5').setBackground('#E8F0FE');
-    sheet.getRange('AG2:AG5').setFontWeight('bold');
+    sheet.getRange('AI2:AJ5').setValues(shippingData);
+    sheet.getRange('AI2:AJ5').setBackground('#E8F0FE');
+    sheet.getRange('AI2:AI5').setFontWeight('bold');
 
     // 利益設定（オレンジ系）
     var profitData = [
@@ -2807,14 +2807,14 @@ function writeSettingsToSheet(sheetName, settings) {
       ['手数料率', feeRate],
       ['広告費率', adRate]
     ];
-    sheet.getRange('AI2:AJ4').setValues(profitData);
-    sheet.getRange('AI2:AJ4').setBackground('#FFF3E0');
-    sheet.getRange('AI2:AI4').setFontWeight('bold');
+    sheet.getRange('AK2:AL4').setValues(profitData);
+    sheet.getRange('AK2:AL4').setBackground('#FFF3E0');
+    sheet.getRange('AK2:AK4').setFontWeight('bold');
 
-    // AI5: AJ2に連動するラベル（数式）
-    sheet.getRange('AI5').setFormula('=IF(AJ2="利益率","利益率","利益額")').setBackground('#FFF3E0').setFontWeight('bold');
-    // AJ5: 利益値
-    sheet.getRange('AJ5').setValue(profitValue).setBackground('#FFF3E0');
+    // AK5: AL2に連動するラベル（数式）
+    sheet.getRange('AK5').setFormula('=IF(AL2="利益率","利益率","利益額")').setBackground('#FFF3E0').setFontWeight('bold');
+    // AL5: 利益値
+    sheet.getRange('AL5').setValue(profitValue).setBackground('#FFF3E0');
 
     // 梱包情報（緑系）
     var packingData = [
@@ -2823,9 +2823,9 @@ function writeSettingsToSheet(sheetName, settings) {
       ['幅(cm)', width],
       ['高さ(cm)', height]
     ];
-    sheet.getRange('AK2:AL5').setValues(packingData);
-    sheet.getRange('AK2:AL5').setBackground('#E8F5E9');
-    sheet.getRange('AK2:AK5').setFontWeight('bold');
+    sheet.getRange('AM2:AN5').setValues(packingData);
+    sheet.getRange('AM2:AN5').setBackground('#E8F5E9');
+    sheet.getRange('AM2:AM5').setFontWeight('bold');
 
     // DDU調整（紫系）
     var dduData = [
@@ -2833,16 +2833,16 @@ function writeSettingsToSheet(sheetName, settings) {
       ['DDU閾値($)', settings.dduThreshold],
       ['DDU調整額($)', settings.dduAdjustment]
     ];
-    sheet.getRange('AM2:AN4').setValues(dduData);
-    sheet.getRange('AM2:AN4').setBackground('#F3E5F5');
-    sheet.getRange('AM2:AM4').setFontWeight('bold');
+    sheet.getRange('AO2:AP4').setValues(dduData);
+    sheet.getRange('AO2:AP4').setBackground('#F3E5F5');
+    sheet.getRange('AO2:AO4').setFontWeight('bold');
 
-    // 枠線を設定（AG1からAN5まで）
-    var settingsRange = sheet.getRange('AG1:AN5');
+    // 枠線を設定（AI1からAP5まで）
+    var settingsRange = sheet.getRange('AI1:AP5');
     settingsRange.setBorder(true, true, true, true, true, true, '#000000', SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
 
     // ドロップダウンを設定
-    // AH2: 低価格配送方法
+    // AJ2: 低価格配送方法
     var lowPriceOptions = Object.keys(CONFIG.SHIPPING_METHOD_OPTIONS.lowPrice).map(function(key) {
       return CONFIG.SHIPPING_METHOD_OPTIONS.lowPrice[key].displayName;
     });
@@ -2850,9 +2850,9 @@ function writeSettingsToSheet(sheetName, settings) {
       .requireValueInList(lowPriceOptions, true)
       .setAllowInvalid(false)
       .build();
-    sheet.getRange('AH2').setDataValidation(rule1);
+    sheet.getRange('AJ2').setDataValidation(rule1);
 
-    // AH3: 高価格配送方法
+    // AJ3: 高価格配送方法
     var highPriceOptions = Object.keys(CONFIG.SHIPPING_METHOD_OPTIONS.highPrice).map(function(key) {
       return CONFIG.SHIPPING_METHOD_OPTIONS.highPrice[key].displayName;
     });
@@ -2860,31 +2860,31 @@ function writeSettingsToSheet(sheetName, settings) {
       .requireValueInList(highPriceOptions, true)
       .setAllowInvalid(false)
       .build();
-    sheet.getRange('AH3').setDataValidation(rule2);
+    sheet.getRange('AJ3').setDataValidation(rule2);
 
-    // AH5: 送料計算方法
+    // AJ5: 送料計算方法
     var rule3 = SpreadsheetApp.newDataValidation()
       .requireValueInList(['テーブル計算', '固定金額'], true)
       .setAllowInvalid(false)
       .build();
-    sheet.getRange('AH5').setDataValidation(rule3);
+    sheet.getRange('AJ5').setDataValidation(rule3);
 
-    // AJ2: 利益計算方法
+    // AL2: 利益計算方法
     var rule4 = SpreadsheetApp.newDataValidation()
       .requireValueInList(['利益率', '利益額'], true)
       .setAllowInvalid(false)
       .build();
-    sheet.getRange('AJ2').setDataValidation(rule4);
+    sheet.getRange('AL2').setDataValidation(rule4);
 
-    // AN2: DDU調整有効
+    // AP2: DDU調整有効
     var rule5 = SpreadsheetApp.newDataValidation()
       .requireValueInList(['ON', 'OFF'], true)
       .setAllowInvalid(false)
       .build();
-    sheet.getRange('AN2').setDataValidation(rule5);
+    sheet.getRange('AP2').setDataValidation(rule5);
 
     // 注釈を追加
-    sheet.getRange('AG6').setValue('※この設定値は計算式から参照されます。値セル（AH, AJ, AL, AN列）は直接編集可能です。ドロップダウンから選択できます。')
+    sheet.getRange('AI6').setValue('※この設定値は計算式から参照されます。値セル（AJ, AL, AN, AP列）は直接編集可能です。ドロップダウンから選択できます。')
       .setFontSize(9)
       .setFontColor('#666666')
       .setWrap(true);
