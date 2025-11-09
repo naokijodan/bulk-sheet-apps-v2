@@ -2805,12 +2805,16 @@ function writeSettingsToSheet(sheetName, settings) {
     var profitData = [
       ['利益計算方法', settings.profitCalc === 'RATE' ? '利益率' : '利益額'],
       ['手数料率', feeRate],
-      ['広告費率', adRate],
-      [settings.profitCalc === 'RATE' ? '利益率' : '利益額', profitValue]
+      ['広告費率', adRate]
     ];
-    sheet.getRange('AI2:AJ5').setValues(profitData);
-    sheet.getRange('AI2:AJ5').setBackground('#FFF3E0');
-    sheet.getRange('AI2:AI5').setFontWeight('bold');
+    sheet.getRange('AI2:AJ4').setValues(profitData);
+    sheet.getRange('AI2:AJ4').setBackground('#FFF3E0');
+    sheet.getRange('AI2:AI4').setFontWeight('bold');
+
+    // AI5: AJ2に連動するラベル（数式）
+    sheet.getRange('AI5').setFormula('=IF(AJ2="利益率","利益率","利益額")').setBackground('#FFF3E0').setFontWeight('bold');
+    // AJ5: 利益値
+    sheet.getRange('AJ5').setValue(profitValue).setBackground('#FFF3E0');
 
     // 梱包情報（緑系）
     var packingData = [
@@ -2837,8 +2841,50 @@ function writeSettingsToSheet(sheetName, settings) {
     var settingsRange = sheet.getRange('AG1:AN5');
     settingsRange.setBorder(true, true, true, true, true, true, '#000000', SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
 
+    // ドロップダウンを設定
+    // AH2: 低価格配送方法
+    var lowPriceOptions = Object.keys(CONFIG.SHIPPING_METHOD_OPTIONS.lowPrice).map(function(key) {
+      return CONFIG.SHIPPING_METHOD_OPTIONS.lowPrice[key].displayName;
+    });
+    var rule1 = SpreadsheetApp.newDataValidation()
+      .requireValueInList(lowPriceOptions, true)
+      .setAllowInvalid(false)
+      .build();
+    sheet.getRange('AH2').setDataValidation(rule1);
+
+    // AH3: 高価格配送方法
+    var highPriceOptions = Object.keys(CONFIG.SHIPPING_METHOD_OPTIONS.highPrice).map(function(key) {
+      return CONFIG.SHIPPING_METHOD_OPTIONS.highPrice[key].displayName;
+    });
+    var rule2 = SpreadsheetApp.newDataValidation()
+      .requireValueInList(highPriceOptions, true)
+      .setAllowInvalid(false)
+      .build();
+    sheet.getRange('AH3').setDataValidation(rule2);
+
+    // AH5: 送料計算方法
+    var rule3 = SpreadsheetApp.newDataValidation()
+      .requireValueInList(['テーブル計算', '固定金額'], true)
+      .setAllowInvalid(false)
+      .build();
+    sheet.getRange('AH5').setDataValidation(rule3);
+
+    // AJ2: 利益計算方法
+    var rule4 = SpreadsheetApp.newDataValidation()
+      .requireValueInList(['利益率', '利益額'], true)
+      .setAllowInvalid(false)
+      .build();
+    sheet.getRange('AJ2').setDataValidation(rule4);
+
+    // AN2: DDU調整有効
+    var rule5 = SpreadsheetApp.newDataValidation()
+      .requireValueInList(['ON', 'OFF'], true)
+      .setAllowInvalid(false)
+      .build();
+    sheet.getRange('AN2').setDataValidation(rule5);
+
     // 注釈を追加
-    sheet.getRange('AG6').setValue('※この設定値は計算式から参照されます。値セル（AH, AJ, AL, AN列）は直接編集可能です。')
+    sheet.getRange('AG6').setValue('※この設定値は計算式から参照されます。値セル（AH, AJ, AL, AN列）は直接編集可能です。ドロップダウンから選択できます。')
       .setFontSize(9)
       .setFontColor('#666666')
       .setWrap(true);
