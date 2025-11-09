@@ -395,14 +395,14 @@ function determineListingPriceFormula(settings, workSheetRow) {
     var sheetName = settings.sheetName;
     var priceMode = getPriceDisplayMode();
     
-    // DDU価格調整機能が有効 かつ 価格表示モードがNORMAL（DDU）の場合のみAE列を考慮
-    // ⚠️ AD→AE列
+    // DDU価格調整機能が有効 かつ 価格表示モードがNORMAL（DDU）の場合のみAG列を考慮
+    // ⚠️ AD→AE→AG列
     if (settings.dduAdjustmentEnabled && priceMode !== 'TAX_INCLUDED') {
-      var dduFormula = "=IF(AND(NOT(ISBLANK('" + sheetName + "'!AE" + workSheetRow + ")), " +
-                       "ISNUMBER('" + sheetName + "'!AE" + workSheetRow + ")), " +
-                       "'" + sheetName + "'!AE" + workSheetRow + ", " +
+      var dduFormula = "=IF(AND(NOT(ISBLANK('" + sheetName + "'!AG" + workSheetRow + ")), " +
+                       "ISNUMBER('" + sheetName + "'!AG" + workSheetRow + ")), " +
+                       "'" + sheetName + "'!AG" + workSheetRow + ", " +
                        getStandardPriceFormula(settings, workSheetRow) + ")";
-      // AD→AE（DDU調整価格）
+      // AD→AE→AG（DDU調整価格）
       return dduFormula;
     }
     
@@ -461,7 +461,7 @@ function checkDduAdjustmentStatus(workSheetRow) {
     if (!adjustedPrice || adjustedPrice === '' || isNaN(Number(adjustedPrice))) {
       return { 
         applied: false, 
-        reason: 'AE列に有効な調整価格がない',  // AD→AE
+        reason: 'AG列に有効な調整価格がない',  // AD→AE→AG
         dduPrice: dduPrice,
         ddpPrice: ddpPrice
       };
@@ -535,9 +535,9 @@ function verifyTestResults(sheet, row, settings) {
         var expectedPrice = ddpPrice - settings.dduAdjustmentAmount;
         var actualPrice = Number(adjustedPrice);
         
-        report += 'AE列（調整価格）: $' + actualPrice.toFixed(2) + '\n';  // AD→AE
+        report += 'AG列（調整価格）: $' + actualPrice.toFixed(2) + '\n';  // AD→AE→AG
         report += '期待値: $' + expectedPrice.toFixed(2) + '\n';
-        
+
         if (Math.abs(actualPrice - expectedPrice) < 0.01) {
           report += '計算結果: ✅ 正確\n';
           success = true;
@@ -545,15 +545,15 @@ function verifyTestResults(sheet, row, settings) {
           report += '計算結果: ❌ 不正確（差異: $' + (actualPrice - expectedPrice).toFixed(2) + '）\n';
         }
       } else {
-        report += 'AE列（調整価格）: ❌ 値なし\n';  // AD→AE
+        report += 'AG列（調整価格）: ❌ 値なし\n';  // AD→AE→AG
       }
     } else {
       report += '閾値判定: 対象外 ($' + dduPrice.toFixed(2) + ' < $' + settings.dduThreshold + ')\n';
       if (!adjustedPrice || adjustedPrice === '') {
-        report += 'AE列（調整価格）: ✅ 空白（正常）\n';  // AD→AE
+        report += 'AG列（調整価格）: ✅ 空白（正常）\n';  // AD→AE→AG
         success = true;
       } else {
-        report += 'AE列（調整価格）: ❌ 値あり（異常）\n';  // AD→AE
+        report += 'AG列（調整価格）: ❌ 値あり（異常）\n';  // AD→AE→AG
       }
     }
     
@@ -728,13 +728,23 @@ function validateAndSetEbayCategory(sheet, row, ebayCategory) {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function setCellValues(sheet, row, values) {
   var updates = [
-    [row, CONFIG.COLUMNS.WEIGHT, values.weight],      // 24→25
-    [row, CONFIG.COLUMNS.SIZE, values.size],          // 25→26
-    [row, CONFIG.COLUMNS.METHOD, values.method],      // 23→24
+    [row, CONFIG.COLUMNS.WEIGHT, values.weight],      // 25（Y列）
+    [row, CONFIG.COLUMNS.METHOD, values.method],      // 24（X列）
     [row, CONFIG.COLUMNS.EN_TITLE, values.title],     // 13（変更なし）
     [row, CONFIG.COLUMNS.EN_DESC, values.description] // 14（変更なし）
   ];
-  
+
+  // サイズをZ, AA, AB列に分解して設定
+  if (values.length !== undefined) {
+    updates.push([row, CONFIG.COLUMNS.LENGTH, values.length]);  // 26（Z列）
+  }
+  if (values.width !== undefined) {
+    updates.push([row, CONFIG.COLUMNS.WIDTH, values.width]);    // 27（AA列）
+  }
+  if (values.height !== undefined) {
+    updates.push([row, CONFIG.COLUMNS.HEIGHT, values.height]);  // 28（AB列）
+  }
+
   for (var i = 0; i < updates.length; i++) {
     var u = updates[i];
     sheet.getRange(u[0], u[1]).setValue(u[2]);
@@ -844,17 +854,17 @@ sheet.getRange(row, CONFIG.COLUMNS.ESTIMATED_TAX).setFormula(  // 27→28→30�
     sheet.getRange(row, CONFIG.COLUMNS.SHIPPING).setValue(fixed);  // 19→20
   } else {
     sheet.getRange(row, CONFIG.COLUMNS.SHIPPING)  // 19→20
-      .setFormula('=SHIPPING_COST(I' + row + ',Y' + row + ',AA' + row + ',X' + row + ',Z' + row + ')');
+      .setFormula('=SHIPPING_COST(I' + row + ',Y' + row + ',AC' + row + ',X' + row + ',AC' + row + ')');
       // I列: 変更なし（仕入れ値）
-      // X→Y（実重量）
-      // Z→AA（容積重量）
-      // W→X（配送方法）
-      // Y→Z（サイズ）
+      // Y列: 実重量
+      // AC列: 容積重量
+      // X列: 配送方法
+      // AC列: サイズ（容積重量と同じ）
   }
   
-  sheet.getRange(row, CONFIG.COLUMNS.VOLUME)  // 26→27
-    .setFormula('=MAX(ROUND((INDEX(SPLIT(Z' + row + ',"x"),1)*INDEX(SPLIT(Z' + row + ',"x"),2)*INDEX(SPLIT(Z' + row + ',"x"),3))/5),200)');
-    // Y→Z（サイズ）
+  sheet.getRange(row, CONFIG.COLUMNS.VOLUME)  // 26→27→29
+    .setFormula('=MAX(ROUND((Z' + row + '*AA' + row + '*AB' + row + ')/5),200)');
+    // Z列: 長さ、AA列: 幅、AB列: 高さ
 
   setPriceCellHighlight(sheet, row);
   updateListingSheetPrice(row); // 🆕 DDU価格も考慮されるように後で修正
@@ -995,10 +1005,12 @@ function applyAIResultToRow_(sheet, row, settings, fields, manualWeight, manualS
   if (settings.shippingCalculationMethod === 'FIXED') {
     // 🔹 修正: 送料固定時でも配送方法は判定する
     var determinedMethod = getSelectedShippingMethod(costYen, 0, 0, '');
-    
+
     setCellValues(sheet, row, {
       weight: '',  // 空欄
-      size: '',    // 空欄
+      length: '',  // 空欄
+      width: '',   // 空欄
+      height: '',  // 空欄
       method: determinedMethod,  // 配送方法は出力
       title: (fields && fields.title) || '',
       description: (fields && fields.description) || '',
@@ -1006,17 +1018,25 @@ function applyAIResultToRow_(sheet, row, settings, fields, manualWeight, manualS
       ebayCategory: (fields && fields.ebayCategory) || ''
     });
   } else {
-    // 既存のテーブル計算モード（変更なし）
+    // 既存のテーブル計算モード
     var weight = Number(manualWeight);
-    var size = String(manualSize || '');
-    if (!weight || !size) throw new Error('重量/サイズ未設定');
+    var sizeStr = String(manualSize || '');
+    if (!weight || !sizeStr) throw new Error('重量/サイズ未設定');
+
+    // サイズを "30x25x20" 形式から分解
+    var sizeParts = sizeStr.split('x');
+    var length = sizeParts[0] ? Number(sizeParts[0]) : 0;
+    var width = sizeParts[1] ? Number(sizeParts[1]) : 0;
+    var height = sizeParts[2] ? Number(sizeParts[2]) : 0;
 
     var volWeight = weight;
-    var method = getSelectedShippingMethod(costYen, weight, volWeight, size);
+    var method = getSelectedShippingMethod(costYen, weight, volWeight, sizeStr);
 
     setCellValues(sheet, row, {
       weight: weight,
-      size: size,
+      length: length,
+      width: width,
+      height: height,
       method: method,
       title: (fields && fields.title) || '',
       description: (fields && fields.description) || '',
@@ -3225,48 +3245,62 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
     }
     
     // ========================================
-    // ① Y列・Z列・X列設定
+    // ① Y列・Z-AB列・X列設定
     // ========================================
-    console.log('① Y列・Z列・X列設定中...');
-    
+    console.log('① Y列・Z-AB列・X列設定中...');
+
     var weightData = [];
-    var sizeData = [];
+    var lengthData = [];
+    var widthData = [];
+    var heightData = [];
     var methodData = [];
-    
+
     // I列（COST_YEN）を一括読み取り
     var costYenRange = sheet.getRange(minRow, CONFIG.COLUMNS.COST_YEN, rowCount, 1);
     var costYenValues = costYenRange.getValues();
-    
+
     for (var row = minRow; row <= maxRow; row++) {
       if (batchRowsSet[row]) {
         // データあり
         var costYen = Number(costYenValues[row - minRow][0]);
-        
+
         if (settings.shippingCalculationMethod === 'FIXED') {
           var determinedMethod = getSelectedShippingMethod(costYen, 0, 0, '');
           weightData.push(['']);
-          sizeData.push(['']);
+          lengthData.push(['']);
+          widthData.push(['']);
+          heightData.push(['']);
           methodData.push([determinedMethod]);
         } else {
           var weight = Number(manualWeight);
-          var size = String(manualSize || '');
+          var sizeStr = String(manualSize || '');
+          var sizeParts = sizeStr.split('x');
+          var length = sizeParts[0] ? Number(sizeParts[0]) : '';
+          var width = sizeParts[1] ? Number(sizeParts[1]) : '';
+          var height = sizeParts[2] ? Number(sizeParts[2]) : '';
           var volWeight = weight;
-          var method = getSelectedShippingMethod(costYen, weight, volWeight, size);
-          
+          var method = getSelectedShippingMethod(costYen, weight, volWeight, sizeStr);
+
           weightData.push([weight]);
-          sizeData.push([size]);
+          lengthData.push([length]);
+          widthData.push([width]);
+          heightData.push([height]);
           methodData.push([method]);
         }
       } else {
         // データなし（空欄）
         weightData.push(['']);
-        sizeData.push(['']);
+        lengthData.push(['']);
+        widthData.push(['']);
+        heightData.push(['']);
         methodData.push(['']);
       }
     }
-    
+
     sheet.getRange(minRow, CONFIG.COLUMNS.WEIGHT, rowCount, 1).setValues(weightData);
-    sheet.getRange(minRow, CONFIG.COLUMNS.SIZE, rowCount, 1).setValues(sizeData);
+    sheet.getRange(minRow, CONFIG.COLUMNS.LENGTH, rowCount, 1).setValues(lengthData);
+    sheet.getRange(minRow, CONFIG.COLUMNS.WIDTH, rowCount, 1).setValues(widthData);
+    sheet.getRange(minRow, CONFIG.COLUMNS.HEIGHT, rowCount, 1).setValues(heightData);
     sheet.getRange(minRow, CONFIG.COLUMNS.METHOD, rowCount, 1).setValues(methodData);
     SpreadsheetApp.flush();
     Utilities.sleep(300);
@@ -4040,28 +4074,23 @@ function setupDropdownValidation() {
     var categoryOptions = CONFIG.EBAY_CATEGORIES;
 
     var rules = [
-      { 
-        range: sheet.getRange(5, CONFIG.COLUMNS.WEIGHT, last-4, 1),  // 24→25
+      {
+        range: sheet.getRange(5, CONFIG.COLUMNS.WEIGHT, last-4, 1),  // 25（Y列）
         options: weight,
-        helpText: "梱包重量（50-2000g:50g刻み, 2000g以降:500g刻み）" 
+        helpText: "梱包重量（50-2000g:50g刻み, 2000g以降:500g刻み）"
       },
-      { 
-        range: sheet.getRange(5, CONFIG.COLUMNS.SIZE, last-4, 1),  // 25→26
-        options: size,
-        helpText: "代表サイズ。必要なら手入力（例：25x20x15）" 
-      },
-      { 
-        range: sheet.getRange(5, CONFIG.COLUMNS.METHOD, last-4, 1),  // 23→24
+      {
+        range: sheet.getRange(5, CONFIG.COLUMNS.METHOD, last-4, 1),  // 24（X列）
         options: shippingOptions,
-        helpText: "配送方法。「自動選択」= Small Packet or Cpass-DHL を自動判定" 
+        helpText: "配送方法。「自動選択」= Small Packet or Cpass-DHL を自動判定"
       },
-      { 
-        range: sheet.getRange(5, CONFIG.COLUMNS.CONDITION, last-4, 1),  // 28→29
+      {
+        range: sheet.getRange(5, CONFIG.COLUMNS.CONDITION, last-4, 1),  // 31（AE列）
         options: conditionOptions,
-        helpText: "商品の状態。AI判定後に手動変更可能です。" 
+        helpText: "商品の状態。AI判定後に手動変更可能です。"
       },
-      { 
-        range: sheet.getRange(5, CONFIG.COLUMNS.EBAY_CATEGORY, last-4, 1),  // 29→30
+      {
+        range: sheet.getRange(5, CONFIG.COLUMNS.EBAY_CATEGORY, last-4, 1),  // 32（AF列）
         options: categoryOptions,
         helpText: "eBayのメインカテゴリー。関税計算に使用します。" 
       }
@@ -4172,9 +4201,11 @@ function checkCurrentValidation() {
     if (sheet && lastRow >= 5) {
       var testRow = 5;
       var cells = [
-        { name: "重量", col: CONFIG.COLUMNS.WEIGHT },      // 24→25
-        { name: "サイズ", col: CONFIG.COLUMNS.SIZE },      // 25→26
-        { name: "発送方法", col: CONFIG.COLUMNS.METHOD }   // 23→24
+        { name: "重量", col: CONFIG.COLUMNS.WEIGHT },      // 25（Y列）
+        { name: "長さ", col: CONFIG.COLUMNS.LENGTH },      // 26（Z列）
+        { name: "幅", col: CONFIG.COLUMNS.WIDTH },        // 27（AA列）
+        { name: "高さ", col: CONFIG.COLUMNS.HEIGHT },      // 28（AB列）
+        { name: "発送方法", col: CONFIG.COLUMNS.METHOD }   // 24（X列）
       ];
       for (var i=0;i<cells.length;i++) {
         var c = cells[i];
