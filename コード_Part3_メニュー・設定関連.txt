@@ -2704,6 +2704,23 @@ function saveIntegratedSettings(formData) {
     ensureSurchargeCellsOnWorkSheet();
     setupStopControlCell();
 
+    // 設定値を作業シートのAG列以降に書き出し
+    writeSettingsToSheet(sheetName, {
+      platform: platform,
+      model: model,
+      promptId: promptId,
+      profitCalc: profitCalc,
+      shippingCalcMethod: shippingCalcMethod,
+      shippingThreshold: shippingThreshold,
+      lowPriceMethod: lowPriceMethod,
+      highPriceMethod: highPriceMethod,
+      dduAdjustmentEnabled: dduAdjustmentEnabled,
+      dduThreshold: dduThreshold,
+      dduAdjustment: dduAdjustment,
+      duplicateCheckEnabled: duplicateCheckEnabled,
+      duplicateSettings: duplicateSettings
+    });
+
     // 成功メッセージ
     var platformNames = { openai:'OpenAI', claude:'Claude (Anthropic)', gemini:'Gemini (Google)' };
     var lowPriceName = CONFIG.SHIPPING_METHOD_OPTIONS.lowPrice[lowPriceMethod].displayName;
@@ -2737,6 +2754,130 @@ function saveIntegratedSettings(formData) {
     return { success: false, error: e.message };
   }
 }
+/**
+ * 初期設定値を作業シートのAG列以降に書き出す
+ * @param {string} sheetName - 作業シート名
+ * @param {Object} settings - 設定オブジェクト
+ */
+function writeSettingsToSheet(sheetName, settings) {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(sheetName);
+
+    if (!sheet) {
+      throw new Error('シート「' + sheetName + '」が見つかりません');
+    }
+
+    // 配送方法の表示名を取得
+    var lowPriceName = CONFIG.SHIPPING_METHOD_OPTIONS.lowPrice[settings.lowPriceMethod].displayName;
+    var highPriceName = CONFIG.SHIPPING_METHOD_OPTIONS.highPrice[settings.highPriceMethod].displayName;
+
+    // 梱包情報を取得
+    var weight = sheet.getRange('J2').getValue() || '';
+    var length = sheet.getRange('L2').getValue() || '';
+    var width = sheet.getRange('M2').getValue() || '';
+    var height = sheet.getRange('N2').getValue() || '';
+
+    // その他の設定を取得
+    var exchangeRate = sheet.getRange('C2').getValue() || '';
+    var feeRate = sheet.getRange('F1').getValue() || '';
+    var adRate = sheet.getRange('F2').getValue() || '';
+    var profitValue = settings.profitCalc === 'RATE' ? sheet.getRange('H2').getValue() : sheet.getRange('H1').getValue();
+
+    // 重複チェック式を取得
+    var duplicateFormula = '';
+    if (settings.duplicateCheckEnabled && settings.duplicateSettings) {
+      var outputColumn = settings.duplicateSettings.outputColumn || 'AF';
+      var outputStartRow = settings.duplicateSettings.outputStartRow || 4;
+      var formulaCell = sheet.getRange(outputColumn + outputStartRow);
+      duplicateFormula = formulaCell.getFormula() || '';
+    }
+
+    // AG1: 見出し
+    sheet.getRange('AG1').setValue('【初期設定値一覧】')
+      .setFontWeight('bold')
+      .setFontSize(12)
+      .setBackground('#4285F4')
+      .setFontColor('#FFFFFF');
+
+    // 配送設定（青系）
+    var shippingData = [
+      ['低価格配送方法', lowPriceName],
+      ['高価格配送方法', highPriceName],
+      ['送料切替基準(円)', settings.shippingThreshold],
+      ['送料計算方法', settings.shippingCalcMethod === 'TABLE' ? 'テーブル計算' : '固定金額']
+    ];
+    sheet.getRange('AG2:AH5').setValues(shippingData);
+    sheet.getRange('AG2:AH5').setBackground('#E8F0FE');
+    sheet.getRange('AG2:AG5').setFontWeight('bold');
+
+    // 利益設定（オレンジ系）
+    var profitData = [
+      ['利益計算方法', settings.profitCalc === 'RATE' ? '利益率' : '利益額'],
+      ['手数料率', feeRate],
+      ['広告費率', adRate],
+      [settings.profitCalc === 'RATE' ? '利益率' : '利益額', profitValue]
+    ];
+    sheet.getRange('AI2:AJ5').setValues(profitData);
+    sheet.getRange('AI2:AJ5').setBackground('#FFF3E0');
+    sheet.getRange('AI2:AI5').setFontWeight('bold');
+
+    // 梱包情報（緑系）
+    var packingData = [
+      ['重量(g)', weight],
+      ['長さ(cm)', length],
+      ['幅(cm)', width],
+      ['高さ(cm)', height]
+    ];
+    sheet.getRange('AK2:AL5').setValues(packingData);
+    sheet.getRange('AK2:AL5').setBackground('#E8F5E9');
+    sheet.getRange('AK2:AK5').setFontWeight('bold');
+
+    // DDU調整（紫系）
+    var dduData = [
+      ['DDU調整有効', settings.dduAdjustmentEnabled === 'true' ? 'ON' : 'OFF'],
+      ['DDU閾値($)', settings.dduThreshold],
+      ['DDU調整額($)', settings.dduAdjustment]
+    ];
+    sheet.getRange('AM2:AN4').setValues(dduData);
+    sheet.getRange('AM2:AN4').setBackground('#F3E5F5');
+    sheet.getRange('AM2:AM4').setFontWeight('bold');
+
+    // バックアップ情報（グレー系）
+    var backupData = [
+      ['AIプラットフォーム', settings.platform],
+      ['AIモデル', settings.model],
+      ['プロンプトID', settings.promptId],
+      ['為替レート', exchangeRate],
+      ['重複チェック', settings.duplicateCheckEnabled ? 'ON' : 'OFF']
+    ];
+    sheet.getRange('AO2:AP6').setValues(backupData);
+    sheet.getRange('AO2:AP6').setBackground('#F5F5F5');
+    sheet.getRange('AO2:AO6').setFontWeight('bold');
+
+    // 重複チェック式（長いので複数行）
+    if (duplicateFormula) {
+      sheet.getRange('AO7').setValue('重複チェック式:').setFontWeight('bold').setBackground('#F5F5F5');
+      sheet.getRange('AP7').setValue(duplicateFormula).setWrap(true).setBackground('#F5F5F5');
+    }
+
+    // 枠線を設定
+    var settingsRange = sheet.getRange('AG1:AP7');
+    settingsRange.setBorder(true, true, true, true, true, true, '#000000', SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
+
+    // 注釈を追加
+    sheet.getRange('AG8').setValue('※この設定値は計算式から参照されます。値セル（AH, AJ, AL, AN, AP列）は直接編集可能です。')
+      .setFontSize(9)
+      .setFontColor('#666666')
+      .setWrap(true);
+
+    return { success: true };
+
+  } catch (e) {
+    return { success: false, error: e.message };
+  }
+}
+
 function saveIntegratedDuplicateCheckSettings(duplicateData) {
   try {
     var props = PropertiesService.getScriptProperties();
