@@ -1,0 +1,270 @@
+/******************************************************
+ * Utils.gs - ユーティリティ関数
+ * - UI関連 (アラート、確認ダイアログ)
+ * - 配列・データ処理 (バッチ作成)
+ * - 処理制御 (停止制御、トリガー管理)
+ * - シート操作 (シート取得、行取得)
+ ******************************************************/
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  UI関連
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+function showAlert(message, type) {
+  if (typeof type === 'undefined') type = "info";
+  try {
+    var ui = SpreadsheetApp.getUi();
+    var icons = { success: "✅", error: "⚠️", warning: "⚠️", info: "ℹ️" };
+    var title = (icons[type] || icons.info) + ' ' + type.toUpperCase();
+    ui.alert(title, message, ui.ButtonSet.OK);
+  } catch (e) {}
+}
+
+function shouldShowPopups() {
+  try {
+    var props = PropertiesService.getScriptProperties();
+    var showPopups = props.getProperty('SHOW_POPUPS') || 'true';
+    return showPopups === 'true';
+  } catch (e) {
+    return true; // エラー時はデフォルトで表示
+  }
+}
+
+// 一般的なポップアップ制御（エラーは常に表示）
+function conditionalShowAlert(message, type) {
+  // エラーは常に表示（安全のため）
+  if (type === 'error') {
+    showAlert(message, type);
+    return;
+  }
+
+  // それ以外は初期設定に従う
+  if (shouldShowPopups()) {
+    showAlert(message, type);
+  }
+}
+
+// 開始確認専用（OFF時は確認なしで即実行）
+function conditionalStartConfirmation(message, title) {
+  if (shouldShowPopups()) {
+    var ui = SpreadsheetApp.getUi();
+    return ui.alert(title || '実行確認', message, ui.ButtonSet.YES_NO);
+  } else {
+    // サイレントモード時は確認なしで即実行
+    return SpreadsheetApp.getUi().Button.YES;
+  }
+}
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  配列・データ処理
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+function createBatches(arr, size) {
+  var batches = [];
+  for (var i = 0; i < arr.length; i += size) {
+    batches.push(arr.slice(i, i + size));
+  }
+  return batches;
+}
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  処理制御
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+function setupStopControlCell() {
+  var props = PropertiesService.getScriptProperties();
+  var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
+  var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
+  if (!sh) return;
+
+  // D2セルに作業制御のドロップダウンを設定（GO/STOP）
+  var d2Cell = sh.getRange('D2');
+  var options = ['GO', 'STOP'];
+
+  d2Cell.clearDataValidations();
+  var validation = SpreadsheetApp.newDataValidation()
+    .requireValueInList(options, true)
+    .setAllowInvalid(false)
+    .setHelpText('GO: 作業続行, STOP: 作業停止')
+    .build();
+  d2Cell.setDataValidation(validation);
+
+  // 初期値を設定（既に値がある場合は変更しない）
+  var currentValue = d2Cell.getValue();
+  if (!currentValue || !options.includes(currentValue)) {
+    d2Cell.setValue('GO');
+    currentValue = 'GO';
+  }
+
+  // セルの書式設定
+  d2Cell.setFontWeight('bold').setHorizontalAlignment('center');
+  if (currentValue === 'GO') {
+    d2Cell.setBackground('#c6efce'); // 緑
+  } else {
+    d2Cell.setBackground('#ffcdd2'); // 赤
+  }
+
+  // ラベル設定
+  sh.getRange('D1').setValue('作業制御').setFontWeight('bold').setHorizontalAlignment('center');
+}
+
+function checkStopControl() {
+  try {
+    var props = PropertiesService.getScriptProperties();
+    var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
+    var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
+    if (!sh) return true; // シートが見つからない場合は続行
+
+    var stopValue = sh.getRange('D2').getValue();
+    return stopValue === 'GO'; // GOなら続行、STOPなら停止
+  } catch (e) {
+    return true; // エラー時は続行
+  }
+}
+
+function clearProcessingState() {
+  var props = PropertiesService.getScriptProperties();
+  [
+    'isProcessing','processingMode','lastProcessedRowIndex','totalTokens',
+    'totalPrompt','totalCompletion','processedCount','errorCount','skippedCount',
+    'manualWeight','manualSize','targetRows','startTime'
+  ].forEach(function(k){ props.deleteProperty(k); });
+}
+
+function createSelfContinuationTrigger(functionName) {
+  clearAllTriggers();
+  ScriptApp.newTrigger(functionName).timeBased()
+    .at(new Date(Date.now() + CONFIG.CONTINUATION_INTERVAL_MINUTES * 60 * 1000))
+    .create();
+}
+
+function clearAllTriggers() {
+  var triggers = ScriptApp.getProjectTriggers();
+  for (var i=0;i<triggers.length;i++) {
+    var h = triggers[i].getHandlerFunction();
+    if (h.indexOf('runSelectedRows') === 0) {
+      ScriptApp.deleteTrigger(triggers[i]);
+    }
+  }
+}
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  為替レート・時間計算
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+function updateExchangeRate(sheet) {
+  try {
+    var exchangeCell = sheet.getRange("C2");
+    exchangeCell.setFormula('=GOOGLEFINANCE("USDJPY")');
+    SpreadsheetApp.flush();
+    Utilities.sleep(1000);
+    var rate = Number(exchangeCell.getValue());
+    if (!rate || rate < 100 || rate > 200) exchangeCell.setValue(145);
+    return rate || 145;
+  } catch (e) {
+    sheet.getRange("C2").setValue(145);
+    return 145;
+  }
+}
+
+function calculateElapsedTime(startTimeISO) {
+  const startTime = new Date(startTimeISO);
+  const endTime = new Date();
+  const elapsedMs = endTime - startTime;
+
+  const hours = Math.floor(elapsedMs / 3600000);
+  const minutes = Math.floor((elapsedMs % 3600000) / 60000);
+  const seconds = Math.floor((elapsedMs % 60000) / 1000);
+
+  if (hours > 0) {
+    return hours + '時間' + minutes + '分';
+  } else if (minutes > 0) {
+    return minutes + '分' + seconds + '秒';
+  } else {
+    return seconds + '秒';
+  }
+}
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  シート操作
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+function getTargetRows(sheet) {
+  var last = sheet.getLastRow();
+  if (last < 5) return [];
+  var targets = [];
+  for (var r = 5; r <= last; r++) {
+    var jpTitle = sheet.getRange(r, CONFIG.COLUMNS.JP_TITLE).getValue();     // 10（変更なし）
+    var jpDesc  = sheet.getRange(r, CONFIG.COLUMNS.JP_DESC).getValue();      // 11（変更なし）
+    var costYen = Number(sheet.getRange(r, CONFIG.COLUMNS.COST_YEN).getValue());  // 9（変更なし）
+    var enTitle = sheet.getRange(r, CONFIG.COLUMNS.EN_TITLE).getValue();     // 13（変更なし）
+    var enDesc  = sheet.getRange(r, CONFIG.COLUMNS.EN_DESC).getValue();      // 14（変更なし）
+    if (jpTitle && jpDesc && costYen > 0 && (!enTitle || !enDesc)) {
+      targets.push(r);
+    }
+  }
+  return targets;
+}
+
+function validateAndGetSheet() {
+  var settings = getSettings(); if (!settings) return null;
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(settings.sheetName);
+    if (!sheet) { showAlert('⚠️ シート「' + settings.sheetName + '」が見つかりません。「初期設定」で確認してください。',"error"); return null; }
+    return sheet;
+  } catch(e) {
+    showAlert('シート取得エラー: ' + e.message, "error"); return null;
+  }
+}
+
+function getAllSheetNames() {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    return ss.getSheets().map(function(sheet) { return sheet.getName(); });
+  } catch (e) {
+    return ['作業シート'];
+  }
+}
+
+function findMatchingSheets(pattern) {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var allSheets = ss.getSheets();
+    var matchingSheets = [];
+
+    allSheets.forEach(function(sheet) {
+      var sheetName = sheet.getName();
+      if (pattern.endsWith('*')) {
+        var prefix = pattern.slice(0, -1);
+        if (sheetName.indexOf(prefix) === 0) {
+          matchingSheets.push(sheetName);
+        }
+      } else {
+        if (sheetName === pattern) {
+          matchingSheets.push(sheetName);
+        }
+      }
+    });
+
+    return matchingSheets;
+  } catch (e) {
+    return [];
+  }
+}
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  列番号変換
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+function getColumnNumber(column) {
+  var result = 0;
+  for (var i = 0; i < column.length; i++) {
+    result = result * 26 + (column.charCodeAt(i) - 'A'.charCodeAt(0) + 1);
+  }
+  return result;
+}
+
+function getColumnIndex(columnLetter) {
+  var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  return letters.indexOf(columnLetter.toUpperCase()) + 1;
+}

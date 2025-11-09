@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      padding: 20px; 
+      line-height: 1.6;
+    }
+    .form-group { 
+      margin-bottom: 20px; 
+    }
+    label { 
+      display: block; 
+      font-weight: bold; 
+      margin-bottom: 5px; 
+    }
+    select, input { 
+      width: 100%; 
+      padding: 8px; 
+      border: 1px solid #ddd; 
+      border-radius: 4px; 
+      font-size: 14px;
+    }
+    .error-message {
+      background: #ffebee;
+      color: #c62828;
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      border-left: 4px solid #c62828;
+    }
+    .manual-input {
+      background: #fff3e0;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+    .target-sheets-container {
+      border: 1px solid #ddd;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 4px;
+      min-height: 100px;
+    }
+    .target-sheet-item {
+      display: grid;
+      grid-template-columns: 1fr 100px 80px;
+      gap: 10px;
+      margin-bottom: 15px;
+      padding: 10px;
+      background: white;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+    
+    /* 🆕 新しい出力設定用のスタイル */
+    .section {
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #ddd;
+    }
+    .checkbox-group {
+      margin: 10px 0;
+    }
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .checkbox-label input[type="checkbox"] {
+      margin-right: 8px;
+      width: auto;
+    }
+    .output-settings {
+      margin-top: 15px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #f9f9f9;
+    }
+    .input-row {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+    }
+    .input-group {
+      flex: 1;
+    }
+    
+    .buttons { 
+      text-align: center; 
+      margin-top: 30px;
+    }
+    .btn { 
+      padding: 10px 20px; 
+      margin: 0 10px; 
+      border: none; 
+      border-radius: 4px; 
+      cursor: pointer; 
+      font-size: 14px;
+    }
+    .btn-primary { background: #4CAF50; color: white; }
+    .btn-secondary { background: #6c757d; color: white; }
+    .btn-danger { background: #dc3545; color: white; }
+    .help-text { font-size: 12px; color: #666; margin-top: 5px; }
+  </style>
+</head>
+<body>
+  <div id="error-container"></div>
+  
+  <h3>重複チェック設定</h3>
+  
+  <div class="form-group">
+    <label for="sourceSheet">作業シート（重複をチェックされる側）:</label>
+    <select id="sourceSheet">
+      <option value="">読み込み中...</option>
+    </select>
+    <div id="manualSheetInput" class="manual-input" style="display: none;">
+      <label for="manualSheet">手動入力:</label>
+      <input type="text" id="manualSheet" placeholder="シート名を入力してください">
+      <button onclick="useManualSheet()">この名前を使用</button>
+    </div>
+    <div class="help-text">データ入力時に重複チェックを行うシートです</div>
+  </div>
+  
+  <div class="form-group">
+    <label for="sourceColumn">作業シートの列:</label>
+    <select id="sourceColumn">
+      <option value="">列を選択してください</option>
+      <option value="A">A列</option>
+      <option value="B">B列</option>
+      <option value="C">C列</option>
+      <option value="D">D列</option>
+      <option value="E">E列</option>
+      <option value="F">F列</option>
+      <option value="G">G列</option>
+      <option value="H">H列</option>
+      <option value="I">I列</option>
+      <option value="J">J列</option>
+    </select>
+  </div>
+  
+  <div class="form-group">
+    <label>チェック対象シート（重複元）:</label>
+    <div id="targetSheetsContainer" class="target-sheets-container">
+      <div id="noTargetSheetsMsg">参照シートを追加してください。</div>
+    </div>
+    <button onclick="addTargetSheetDropdown()">参照シート追加</button>
+  </div>
+
+  <!-- 🆕 出力設定セクション -->
+  <div class="section">
+    <h4>📤 出力設定</h4>
+    
+    <div class="checkbox-group">
+      <label class="checkbox-label">
+        <input type="checkbox" id="applyToSheet" name="applyToSheet">
+        生成した式をシートに直接適用する
+      </label>
+    </div>
+    
+    <div id="outputSettings" class="output-settings" style="display: none;">
+      <div class="form-group">
+        <label for="outputSheet">出力先シート:</label>
+        <select id="outputSheet" name="outputSheet">
+          <option value="">シートを選択...</option>
+        </select>
+      </div>
+      
+      <div class="input-row">
+        <div class="input-group">
+          <label for="outputColumn">出力先列:</label>
+          <select id="outputColumn" name="outputColumn">
+            <option value="">列を選択...</option>
+          </select>
+        </div>
+        
+        <div class="input-group">
+          <label for="outputStartRow">開始行:</label>
+          <input type="number" id="outputStartRow" name="outputStartRow" value="1" min="1">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="outputRange">適用範囲:</label>
+        <select id="outputRange" name="outputRange">
+          <option value="DATA">データがある範囲まで</option>
+          <option value="CUSTOM">カスタム範囲（100行）</option>
+          <option value="ALL">シート全体（1000行）</option>
+        </select>
+      </div>
+      
+      <div class="help-text">
+        選択した範囲に重複チェック数式が適用されます。既存のデータは上書きされますのでご注意ください。
+      </div>
+    </div>
+  </div>
+  
+  <div class="buttons">
+    <button class="btn btn-primary" onclick="saveSettings()">設定を保存・適用</button>
+    <button class="btn btn-danger" onclick="disableCheck()">重複チェックを無効化</button>
+    <button class="btn btn-secondary" onclick="google.script.host.close()">キャンセル</button>
+  </div>
+
+  <script>
+    var allSheetNames = [];
+    var targetSheetCounter = 0;
+    var loadAttempts = 0;
+    var maxLoadAttempts = 3;
+
+    window.onload = function() {
+      loadSheetNamesWithRetry();
+      setupEventListeners(); // 🆕 イベントリスナーの初期設定
+    };
+
+    // 🆕 イベントリスナーの設定
+    function setupEventListeners() {
+      var applyCheckbox = document.getElementById('applyToSheet');
+      if (applyCheckbox) {
+        applyCheckbox.addEventListener('change', function() {
+          var outputSettings = document.getElementById('outputSettings');
+          outputSettings.style.display = this.checked ? 'block' : 'none';
+          
+          if (this.checked) {
+            loadOutputOptions();
+          }
+        });
+      }
+    }
+
+    function showError(message) {
+      var container = document.getElementById('error-container');
+      container.innerHTML = '<div class="error-message">' + message + '</div>';
+    }
+
+    function loadSheetNamesWithRetry() {
+      loadAttempts++;
+      
+      if (loadAttempts > maxLoadAttempts) {
+        showError('シート名の自動取得に失敗しました。手動入力モードに切り替えます。');
+        enableManualMode();
+        return;
+      }
+
+      console.log('シート名取得試行 ' + loadAttempts + '/' + maxLoadAttempts);
+      
+      var timeoutId = setTimeout(function() {
+        console.log('タイムアウト: 再試行します');
+        loadSheetNamesWithRetry();
+      }, 5000);
+
+      google.script.run
+        .withSuccessHandler(function(sheetNames) {
+          clearTimeout(timeoutId);
+          console.log('シート名取得成功:', sheetNames);
+          allSheetNames = sheetNames;
+          populateSourceSheetDropdown();
+          loadCurrentSettings();
+        })
+        .withFailureHandler(function(error) {
+          clearTimeout(timeoutId);
+          console.error('シート名取得エラー:', error);
+          loadSheetNamesWithRetry();
+        })
+        .getAllSheetNames();
+    }
+
+    // 🆕 出力オプションを読み込み
+function loadOutputOptions() {
+  // シート一覧を取得（エラー処理付き）
+  google.script.run
+    .withSuccessHandler(function(sheets) {
+      var select = document.getElementById('outputSheet');
+      if (select) {
+        select.innerHTML = '<option value="">シートを選択...</option>';
+        if (sheets && sheets.length > 0) {
+          sheets.forEach(function(sheet) {
+            var option = document.createElement('option');
+            option.value = sheet;
+            option.textContent = sheet;
+            select.appendChild(option);
+          });
+        } else {
+          // フォールバック: allSheetNames を使用
+          allSheetNames.forEach(function(sheet) {
+            var option = document.createElement('option');
+            option.value = sheet;
+            option.textContent = sheet;
+            select.appendChild(option);
+          });
+        }
+      }
+    })
+    .withFailureHandler(function(error) {
+      console.error('出力先シート取得エラー:', error);
+      // フォールバック処理
+      var select = document.getElementById('outputSheet');
+      if (select && allSheetNames.length > 0) {
+        select.innerHTML = '<option value="">シートを選択...</option>';
+        allSheetNames.forEach(function(sheet) {
+          var option = document.createElement('option');
+          option.value = sheet;
+          option.textContent = sheet;
+          select.appendChild(option);
+        });
+      }
+    })
+    .getOutputAvailableSheets();
+    
+  // 列一覧を手動で設定（AE列まで対応）
+  var columnSelect = document.getElementById('outputColumn');
+  if (columnSelect) {
+    columnSelect.innerHTML = '<option value="">列を選択...</option>';
+    
+    // A～Z列（1～26列）
+    for (var i = 0; i < 26; i++) {
+      var col = String.fromCharCode(65 + i);
+      var option = document.createElement('option');
+      option.value = col;
+      option.textContent = col + '列';
+      columnSelect.appendChild(option);
+    }
+    
+    // AA～AZ列（27～52列）
+    for (var i = 0; i < 26; i++) {
+      var col = 'A' + String.fromCharCode(65 + i);
+      var option = document.createElement('option');
+      option.value = col;
+      option.textContent = col + '列';
+      columnSelect.appendChild(option);
+    }
+  }
+} // ← この閉じ括弧が重要！
+
+    function enableManualMode() {
+      var sourceSelect = document.getElementById('sourceSheet');
+      sourceSelect.innerHTML = '<option value="">手動入力モードが有効です</option>';
+      document.getElementById('manualSheetInput').style.display = 'block';
+      
+      addTargetSheetDropdown();
+    }
+
+    function useManualSheet() {
+      var manualSheet = document.getElementById('manualSheet').value.trim();
+      if (!manualSheet) {
+        alert('シート名を入力してください。');
+        return;
+      }
+      
+      var sourceSelect = document.getElementById('sourceSheet');
+      sourceSelect.innerHTML = '';
+      var option = document.createElement('option');
+      option.value = manualSheet;
+      option.textContent = manualSheet + ' (手動入力)';
+      option.selected = true;
+      sourceSelect.appendChild(option);
+      
+      document.getElementById('manualSheetInput').style.display = 'none';
+    }
+
+    function populateSourceSheetDropdown() {
+      var sourceSelect = document.getElementById('sourceSheet');
+      sourceSelect.innerHTML = '<option value="">シートを選択してください</option>';
+      
+      allSheetNames.forEach(function(name) {
+        var option = document.createElement('option');
+        option.value = name;
+        option.textContent = name;
+        sourceSelect.appendChild(option);
+      });
+    }
+
+    function addTargetSheetDropdown() {
+      var container = document.getElementById('targetSheetsContainer');
+      var noMsgDiv = document.getElementById('noTargetSheetsMsg');
+      if (noMsgDiv) noMsgDiv.style.display = 'none';
+      
+      targetSheetCounter++;
+      var itemDiv = document.createElement('div');
+      itemDiv.className = 'target-sheet-item';
+      itemDiv.id = 'targetSheet_' + targetSheetCounter;
+      
+      var sheetDiv = document.createElement('div');
+      if (allSheetNames.length > 0) {
+        var sheetSelect = document.createElement('select');
+        sheetSelect.className = 'target-sheet-select';
+        sheetSelect.innerHTML = '<option value="">参照シートを選択</option>';
+        
+        allSheetNames.forEach(function(name) {
+          var option = document.createElement('option');
+          option.value = name;
+          option.textContent = name;
+          sheetSelect.appendChild(option);
+        });
+        
+        var specialOption = document.createElement('option');
+        specialOption.value = '保存データ_*';
+        specialOption.textContent = '保存データ_* (パターンマッチ)';
+        sheetSelect.appendChild(specialOption);
+        
+        sheetDiv.appendChild(sheetSelect);
+      } else {
+        var sheetInput = document.createElement('input');
+        sheetInput.type = 'text';
+        sheetInput.className = 'target-sheet-input';
+        sheetInput.placeholder = 'シート名を入力';
+        sheetDiv.appendChild(sheetInput);
+      }
+      
+      var columnDiv = document.createElement('div');
+      var columnSelect = document.createElement('select');
+      columnSelect.className = 'target-column-select';
+      columnSelect.innerHTML = '<option value="">列選択</option>';
+      ['A','B','C','D','E','F','G','H','I','J'].forEach(function(col) {
+        var option = document.createElement('option');
+        option.value = col;
+        option.textContent = col + '列';
+        if (col === 'H') option.selected = true;
+        columnSelect.appendChild(option);
+      });
+      columnDiv.appendChild(columnSelect);
+      
+      var removeBtn = document.createElement('button');
+      removeBtn.textContent = '削除';
+      removeBtn.onclick = function() {
+        itemDiv.remove();
+        if (container.querySelectorAll('.target-sheet-item').length === 0) {
+          if (noMsgDiv) noMsgDiv.style.display = 'block';
+        }
+      };
+      
+      itemDiv.appendChild(sheetDiv);
+      itemDiv.appendChild(columnDiv);
+      itemDiv.appendChild(removeBtn);
+      container.appendChild(itemDiv);
+    }
+
+    function loadCurrentSettings() {
+      google.script.run
+        .withSuccessHandler(function(settings) {
+          if (settings && settings.sourceSheet) {
+            document.getElementById('sourceSheet').value = settings.sourceSheet;
+            document.getElementById('sourceColumn').value = settings.sourceColumn;
+          }
+        })
+        .withFailureHandler(function(error) {
+          console.error('設定読み込みエラー:', error);
+        })
+        .getDuplicateCheckSettings();
+    }
+
+    function saveSettings() {
+      var sourceSheet = document.getElementById('sourceSheet').value;
+      var sourceColumn = document.getElementById('sourceColumn').value;
+      
+      var targetSheets = [];
+      var targetItems = document.querySelectorAll('.target-sheet-item');
+      
+      targetItems.forEach(function(item) {
+        var sheetSelect = item.querySelector('.target-sheet-select');
+        var columnSelect = item.querySelector('.target-column-select');
+        
+        if (sheetSelect && sheetSelect.value && columnSelect && columnSelect.value) {
+          targetSheets.push({
+            sheet: sheetSelect.value,
+            column: columnSelect.value
+          });
+        }
+      });
+      
+      if (!sourceSheet || !sourceColumn || targetSheets.length === 0) {
+        alert('すべての項目を設定してください。');
+        return;
+      }
+      
+      // 🆕 出力設定を含めるように修正
+      var formData = {
+        sourceSheet: sourceSheet,
+        sourceColumn: sourceColumn,
+        targetSheets: targetSheets
+      };
+      
+      var applyCheckbox = document.getElementById('applyToSheet');
+      if (applyCheckbox && applyCheckbox.checked) {
+        formData.outputSheet = document.getElementById('outputSheet').value;
+        formData.outputColumn = document.getElementById('outputColumn').value;
+        formData.outputStartRow = document.getElementById('outputStartRow').value;
+        formData.outputRange = document.getElementById('outputRange').value;
+      }
+      
+      google.script.run
+        .withSuccessHandler(function(result) {
+          if (result.success) {
+            if (result.applied) {
+              alert('重複チェック式を生成し、' + result.appliedRange + 'に適用しました（' + result.appliedCount + '行）。');
+              google.script.host.close();
+            } else if (result.formula) {
+              // 従来通りの表示
+              document.body.innerHTML += `
+                <div style="margin-top: 20px; padding: 15px; border: 2px solid #28a745; background: #f8f9fa;">
+                  <h4>生成された関数</h4>
+                  <p>以下の関数をコピーして、${sourceSheet}の隣の列（例：I列）に貼り付けてください：</p>
+                  <textarea id="generatedFormula" style="width: 100%; height: 80px; font-family: monospace; font-size: 14px;" readonly>${result.formula}</textarea>
+                  <br><br>
+                  <button onclick="copyFormula()" style="padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 4px;">関数をコピー</button>
+                  <button onclick="google.script.host.close()" style="padding: 8px 16px; background: #28a745; color: white; border: none; border-radius: 4px; margin-left: 10px;">閉じる</button>
+                </div>
+              `;
+              
+              var textarea = document.getElementById('generatedFormula');
+              textarea.focus();
+              textarea.select();
+            } else {
+              alert(result.message);
+              google.script.host.close();
+            }
+          } else {
+            alert('エラー: ' + result.error);
+          }
+        })
+        .withFailureHandler(function(error) {
+          alert('保存エラー: ' + error.message);
+        })
+        .saveDuplicateCheckSettings(formData);
+    }
+
+    function copyFormula() {
+      var textarea = document.getElementById('generatedFormula');
+      textarea.select();
+      document.execCommand('copy');
+      alert('関数をコピーしました！');
+    }
+
+    function disableCheck() {
+      if (confirm('重複チェック機能を無効化しますか？')) {
+        google.script.run
+          .withSuccessHandler(function() {
+            alert('重複チェック機能を無効化しました。');
+            google.script.host.close();
+          })
+          .disableDuplicateCheck();
+      }
+    }
+  </script>
+</body>
+</html>

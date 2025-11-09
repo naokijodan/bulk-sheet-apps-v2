@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Google Sans', Arial, sans-serif;
+      padding: 0;
+      margin: 0;
+      font-size: 13px;
+      background-color: #f8f9fa;
+    }
+    
+    .container {
+      max-width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .header {
+      background: white;
+      padding: 15px 20px;
+      border-bottom: 1px solid #dadce0;
+    }
+    
+    .mode-selector {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .mode-button {
+      flex: 1;
+      padding: 10px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      background: white;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    
+    .mode-button:hover {
+      border-color: #1a73e8;
+    }
+    
+    .mode-button.active {
+      border-color: #1a73e8;
+      background: #e8f0fe;
+      color: #1a73e8;
+    }
+    
+    .url-section {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    
+    .url-section input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    
+    .content {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+    }
+    
+    .simple-layout {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    
+    .advanced-layout {
+      flex: 1;
+      display: flex;
+      gap: 0;
+    }
+    
+    .sheet-list-panel {
+      width: 320px;
+      background: white;
+      border-right: 1px solid #dadce0;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .panel-header {
+      padding: 15px;
+      border-bottom: 1px solid #e0e0e0;
+      font-weight: 600;
+      font-size: 14px;
+      background: #f8f9fa;
+    }
+    
+    .sheet-list-scroll {
+      flex: 1;
+      overflow-y: auto;
+    }
+    
+    .config-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .config-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+    
+    .section {
+      margin-bottom: 20px;
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .section-title {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 15px;
+      color: #202124;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .button {
+      padding: 8px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    
+    .button-primary {
+      background-color: #1a73e8;
+      color: white;
+    }
+    
+    .button-primary:hover:not(:disabled) {
+      background-color: #1557b0;
+    }
+    
+    .button-primary:disabled {
+      background-color: #dadce0;
+      cursor: not-allowed;
+    }
+    
+    .button-secondary {
+      background-color: white;
+      color: #5f6368;
+      border: 1px solid #dadce0;
+    }
+    
+    .button-secondary:hover {
+      background-color: #f8f9fa;
+    }
+    
+    .button-success {
+      background-color: #1e8e3e;
+      color: white;
+    }
+    
+    .button-success:hover:not(:disabled) {
+      background-color: #188038;
+    }
+    
+    .button-success:disabled {
+      background-color: #dadce0;
+      cursor: not-allowed;
+    }
+    
+    .button-danger {
+      background-color: #d93025;
+      color: white;
+    }
+    
+    .sheet-item {
+      padding: 12px 15px;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .sheet-item:hover {
+      background-color: #f8f9fa;
+    }
+    
+    .sheet-item.selected {
+      background-color: #e8f0fe;
+      border-left: 4px solid #1a73e8;
+      padding-left: 11px;
+    }
+    
+    .sheet-item.dangerous-item {
+      background-color: #fff5f5;
+      border-left: 4px solid #d93025;
+      padding-left: 11px;
+    }
+    
+    .sheet-item.dangerous-item .sheet-name {
+      color: #d93025;
+      font-weight: 700;
+    }
+    
+    .sheet-item.recommended-item {
+      background-color: #f0f9ff;
+      border-left: 4px solid #1e8e3e;
+      padding-left: 11px;
+    }
+    
+    .sheet-name {
+      font-weight: 500;
+      color: #202124;
+      margin-bottom: 4px;
+    }
+    
+    .sheet-info {
+      color: #5f6368;
+      font-size: 12px;
+      white-space: pre-line;
+      line-height: 1.5;
+    }
+    
+    .sheet-check-item {
+      padding: 12px 15px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      gap: 12px;
+    }
+    
+    /* 🔴 危険シートのスタイル */
+    .sheet-check-item.dangerous {
+      background-color: #fff5f5;
+      border-left: 4px solid #d93025;
+      padding-left: 11px;
+    }
+    
+    .sheet-check-item.dangerous .sheet-name {
+      color: #d93025;
+      font-weight: 700;
+    }
+    
+    .sheet-check-item.dangerous .sheet-info {
+      color: #c5221f;
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 1.6;
+      white-space: pre-line;
+      margin-top: 8px;
+      padding: 8px;
+      background-color: #ffebee;
+      border-radius: 4px;
+      border-left: 3px solid #d93025;
+    }
+    
+    /* ✅ 推奨シートのスタイル */
+    .sheet-check-item.recommended {
+      background-color: #f0f9ff;
+      border-left: 4px solid #1e8e3e;
+      padding-left: 11px;
+    }
+    
+    .form-group {
+      margin-bottom: 18px;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: #202124;
+      font-size: 13px;
+    }
+    
+    input[type="text"], input[type="number"], select {
+      padding: 8px 12px;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    
+    input[type="text"] {
+      width: 100%;
+    }
+    
+    input[type="number"] {
+      width: 90px;
+    }
+    
+    select {
+      width: 100%;
+    }
+    
+    .form-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    
+    .help-text {
+      color: #5f6368;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+    
+    .preview-box {
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      padding: 12px;
+      background-color: #f8f9fa;
+      max-height: 200px;
+      overflow: auto;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 11px;
+    }
+    
+    .preview-table {
+      border-collapse: collapse;
+      width: 100%;
+      background: white;
+    }
+    
+    .preview-table td {
+      border: 1px solid #dadce0;
+      padding: 6px 8px;
+      white-space: nowrap;
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .config-list {
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      max-height: 300px;
+      overflow-y: auto;
+      background: white;
+    }
+    
+    .config-item {
+      padding: 15px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .config-details {
+      font-size: 12px;
+      color: #5f6368;
+      margin-top: 6px;
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #5f6368;
+    }
+    
+    .message {
+      padding: 12px 16px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+    }
+    
+    .error {
+      background-color: #fce8e6;
+      color: #c5221f;
+      border: 1px solid #f5c6cb;
+      border-left: 4px solid #d93025;
+      white-space: pre-line;
+      line-height: 1.6;
+    }
+    
+    .success {
+      background-color: #e6f4ea;
+      color: #137333;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .warning {
+      background-color: #fef7e0;
+      color: #9f6c00;
+      border: 1px solid #ffc107;
+      border-left: 4px solid #ff9800;
+      white-space: pre-line;
+      line-height: 1.6;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 500;
+      margin-left: 6px;
+    }
+    
+    .badge-mode {
+      background-color: #e8f0fe;
+      color: #1967d2;
+    }
+    
+    .badge-recommended {
+      background-color: #e6f4ea;
+      color: #137333;
+    }
+    
+    .badge-danger {
+      background-color: #fce8e6;
+      color: #d93025;
+    }
+    
+    .badge-optional {
+      background-color: #f5f5f5;
+      color: #5f6368;
+    }
+    
+    .action-bar {
+      padding: 15px 20px;
+      background: white;
+      border-top: 1px solid #dadce0;
+      display: flex;
+      gap: 10px;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: flex;
+      flex: 1;
+    }
+    
+    .empty-state {
+      padding: 40px 20px;
+      text-align: center;
+      color: #5f6368;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- ヘッダー -->
+    <div class="header">
+      <div class="mode-selector">
+        <button class="mode-button active" onclick="switchMode('simple')" id="modeSimple">
+          🚀 簡単モード
+        </button>
+        <button class="mode-button" onclick="switchMode('advanced')" id="modeAdvanced">
+          ⚙️ 詳細モード
+        </button>
+      </div>
+      
+      <div class="url-section">
+        <input type="text" id="sourceUrl" placeholder="インポート元のスプレッドシートURL">
+        <button class="button button-primary" onclick="loadSheetsList()">読み込み</button>
+      </div>
+    </div>
+    
+    <!-- メッセージエリア -->
+    <div style="padding: 0 20px;">
+      <div id="loading" class="loading" style="display: none;">読み込み中...</div>
+      <div id="error" class="message error" style="display: none;"></div>
+      <div id="success" class="message success" style="display: none;"></div>
+      <div id="warning" class="message warning" style="display: none;"></div>
+    </div>
+    
+    <!-- コンテンツエリア -->
+    <div class="content">
+      <!-- 簡単モード -->
+      <div id="simpleMode" class="tab-content active">
+        <div class="simple-layout">
+          <div id="simpleEmpty" class="empty-state">
+            上部のURL欄にインポート元のスプレッドシートURLを入力して、<br>
+            「読み込み」ボタンをクリックしてください
+          </div>
+          
+          <div id="simpleContent" style="display: none;">
+            <div class="section">
+              <div class="section-title">📋 インポートするデータを選択</div>
+              <div id="spreadsheetName" style="margin-bottom: 12px; color: #5f6368; font-size: 12px;"></div>
+              <div id="simpleSheetsList"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 詳細モード -->
+      <div id="advancedMode" class="tab-content">
+        <div id="advancedEmpty" class="empty-state" style="flex: 1;">
+          上部のURL欄にインポート元のスプレッドシートURLを入力して、<br>
+          「読み込み」ボタンをクリックしてください
+        </div>
+        
+        <div id="advancedContent" class="advanced-layout" style="display: none;">
+          <!-- 左パネル: シート一覧 -->
+          <div class="sheet-list-panel">
+            <div class="panel-header">📋 シート一覧</div>
+            <div class="sheet-list-scroll" id="advancedSheetsList"></div>
+          </div>
+          
+          <!-- 右パネル: 設定 -->
+          <div class="config-panel">
+            <div class="config-scroll" id="configArea">
+              <div class="empty-state">
+                左のシート一覧からシートを選択してください
+              </div>
+            </div>
+            
+            <!-- 確認画面 -->
+            <div id="confirmArea" style="display: none; flex: 1; overflow-y: auto; padding: 20px;">
+              <div class="section">
+                <div class="section-title">✅ インポート設定の確認</div>
+                <div class="form-group">
+                  <label class="form-label">設定一覧（<span id="configCount">0</span>件）</label>
+                  <div id="configList" class="config-list"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- アクションバー -->
+    <div class="action-bar">
+      <button class="button button-success" onclick="executeImport()" disabled id="executeBtn">
+        インポート実行
+      </button>
+      <button class="button button-secondary" onclick="showConfirmList()" style="display: none;" id="showConfirmBtn">
+        設定を確認
+      </button>
+      <button class="button button-danger" onclick="clearAllConfigs()" style="display: none;" id="clearBtn">
+        全てクリア
+      </button>
+      <button class="button button-secondary" onclick="google.script.host.close()">閉じる</button>
+    </div>
+  </div>
+  
+  <script>
+    var currentMode = 'simple';
+    var currentSheet = null;
+    var sourceUrl = '';
+    var allSheets = [];
+    var importConfigs = [];
+    
+    function switchMode(mode) {
+      currentMode = mode;
+      
+      document.getElementById('modeSimple').classList.toggle('active', mode === 'simple');
+      document.getElementById('modeAdvanced').classList.toggle('active', mode === 'advanced');
+      document.getElementById('simpleMode').classList.toggle('active', mode === 'simple');
+      document.getElementById('advancedMode').classList.toggle('active', mode === 'advanced');
+      
+      updateUI();
+    }
+    
+    function loadSheetsList() {
+      var url = document.getElementById('sourceUrl').value.trim();
+      
+      if (!url) {
+        showError('URLを入力してください');
+        return;
+      }
+      
+      if (url.indexOf('docs.google.com/spreadsheets') === -1) {
+        showError('有効なGoogleスプレッドシートのURLを入力してください');
+        return;
+      }
+      
+      sourceUrl = url;
+      hideMessages();
+      document.getElementById('loading').style.display = 'block';
+      
+      google.script.run
+        .withSuccessHandler(onSheetsListLoaded)
+        .withFailureHandler(onError)
+        .getSourceSheetsInfo(url);
+    }
+    
+    function onSheetsListLoaded(result) {
+      document.getElementById('loading').style.display = 'none';
+      
+      if (!result.success) {
+        showError(result.error);
+        return;
+      }
+      
+      allSheets = result.sheets;
+      document.getElementById('spreadsheetName').textContent = 'インポート元: ' + result.spreadsheetName;
+      
+      if (currentMode === 'simple') {
+        renderSimpleSheetsList();
+      } else {
+        renderAdvancedSheetsList();
+      }
+    }
+    
+    function renderSimpleSheetsList() {
+      var html = '';
+      
+      for (var i = 0; i < allSheets.length; i++) {
+        var sheet = allSheets[i];
+        
+        // バッジを決定
+        var badge = '';
+        var itemClass = '';
+        
+        if (sheet.isDangerous) {
+          badge = '<span class="badge badge-danger">⚠️ 要注意</span>';
+          itemClass = 'dangerous';
+        } else if (sheet.isRecommended) {
+          badge = '<span class="badge badge-recommended">✅ 推奨</span>';
+          itemClass = 'recommended';
+        } else {
+          badge = '<span class="badge badge-optional">基本的に不要</span>';
+        }
+        
+        html += '<div class="sheet-check-item ' + itemClass + '">' +
+          '<input type="checkbox" id="simple_' + i + '" value="' + i + '" onchange="updateSimpleUI()" ' + 
+          (sheet.isRecommended ? 'checked' : '') + '>' +
+          '<div style="flex: 1;">' +
+          '<label for="simple_' + i + '" style="cursor: pointer;">' +
+          '<div class="sheet-name">' + sheet.name + badge + '</div>' +
+          '<div class="sheet-info">' + sheet.description + ' (' + sheet.rows + '行 × ' + sheet.cols + '列)</div>' +
+          '</label>' +
+          '</div>' +
+          '</div>';
+      }
+      
+      document.getElementById('simpleSheetsList').innerHTML = html;
+      document.getElementById('simpleEmpty').style.display = 'none';
+      document.getElementById('simpleContent').style.display = 'block';
+      updateSimpleUI();
+    }
+    
+    function updateSimpleUI() {
+      var checked = document.querySelectorAll('#simpleSheetsList input:checked').length;
+      document.getElementById('executeBtn').disabled = checked === 0;
+    }
+    
+    function renderAdvancedSheetsList() {
+      var html = '';
+      
+      for (var i = 0; i < allSheets.length; i++) {
+        var sheet = allSheets[i];
+        var badge = '';
+        var itemClass = '';
+        
+        if (sheet.isDangerous) {
+          badge = '<span class="badge badge-danger">⚠️ 要注意</span>';
+          itemClass = 'dangerous-item';
+        } else if (sheet.isRecommended) {
+          badge = '<span class="badge badge-recommended">✅ 推奨</span>';
+          itemClass = 'recommended-item';
+        } else {
+          badge = '<span class="badge badge-optional">基本的に不要</span>';
+        }
+        
+        html += '<div class="sheet-item ' + itemClass + '" onclick="selectSheet(' + i + ')">' +
+          '<div class="sheet-name">' + sheet.name + badge + '</div>' +
+          '<div class="sheet-info">' + sheet.rows + '行 × ' + sheet.cols + '列</div>' +
+          '</div>';
+      }
+      
+      document.getElementById('advancedSheetsList').innerHTML = html;
+      document.getElementById('advancedEmpty').style.display = 'none';
+      document.getElementById('advancedContent').style.display = 'flex';
+    }
+    
+    function selectSheet(index) {
+      var items = document.querySelectorAll('#advancedSheetsList .sheet-item');
+      items.forEach(function(item, i) {
+        item.classList.toggle('selected', i === index);
+      });
+      
+      currentSheet = allSheets[index];
+      showConfigPanel();
+    }
+    
+    function showConfigPanel() {
+      var dangerWarning = '';
+      if (currentSheet.isDangerous) {
+        dangerWarning = '<div class="message error" style="display: block; white-space: pre-line; line-height: 1.8;">' +
+          currentSheet.description +
+          '</div>';
+      }
+      
+      var html = dangerWarning +
+        '<div class="section">' +
+        '<div class="section-title">⚙️ インポート設定</div>' +
+        '<div class="form-group">' +
+        '<label class="form-label">シート: <span style="color: #1a73e8;">' + currentSheet.name + '</span></label>' +
+        '<div class="sheet-info">' + currentSheet.rows + '行 × ' + currentSheet.cols + '列</div>' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<label class="form-label">インポートモード</label>' +
+        '<select id="importMode" onchange="updateModeOptions()">' +
+        '<option value="full_copy">完全コピー（シート全体、フォーマット込み）</option>' +
+        '<option value="range_with_format">範囲指定（フォーマット込み）</option>' +
+        '<option value="range_values_only">範囲指定（値のみ）</option>' +
+        '<option value="append_values">既存シートに追加</option>' +
+        '<option value="conditional">条件付きインポート</option>' +
+        '</select>' +
+        '</div>' +
+        '<div id="modeOptions"></div>' +
+        '<div class="form-group">' +
+        '<button class="button button-secondary" onclick="previewData()">プレビュー</button>' +
+        '</div>' +
+        '<div id="previewSection" style="display: none;">' +
+        '<div class="form-group">' +
+        '<label class="form-label">プレビュー</label>' +
+        '<div id="preview" class="preview-box"></div>' +
+        '<div class="help-text">総行数: <span id="totalRows"></span>行</div>' +
+        '</div>' +
+        '</div>' +
+        '<div style="margin-top: 20px;">' +
+        '<button class="button button-primary" onclick="addToList()">この設定をリストに追加</button>' +
+        '</div>' +
+        '</div>';
+      
+      document.getElementById('configArea').innerHTML = html;
+      document.getElementById('confirmArea').style.display = 'none';
+      
+      if (currentSheet.recommended) {
+        document.getElementById('importMode').value = currentSheet.recommended;
+      }
+      
+      updateModeOptions();
+    }
+    
+    function updateModeOptions() {
+      var mode = document.getElementById('importMode').value;
+      var html = '';
+      
+      if (mode === 'range_with_format' || mode === 'range_values_only') {
+        html = '<div class="form-group">' +
+          '<label class="form-label">📥 コピー元の範囲</label>' +
+          '<div class="form-row">' +
+          '<span>行:</span><input type="number" id="startRow" value="1" min="1" onchange="syncTargetPosition()">' +
+          '<span>〜</span><input type="number" id="endRow" value="' + currentSheet.rows + '">' +
+          '</div>' +
+          '<div class="form-row" style="margin-top: 8px;">' +
+          '<span>列:</span><input type="number" id="startCol" value="1" min="1" onchange="syncTargetPosition()">' +
+          '<span>〜</span><input type="number" id="endCol" value="' + currentSheet.cols + '">' +
+          '</div>' +
+          '</div>' +
+          '<div class="form-group">' +
+          '<label class="form-label">📤 貼り付け先の位置</label>' +
+          '<div class="form-row">' +
+          '<span>開始行:</span><input type="number" id="targetStartRow" value="1" min="1">' +
+          '<span>開始列:</span><input type="number" id="targetStartCol" value="1" min="1">' +
+          '</div>' +
+          '<div class="help-text">💡 コピー元と同じ位置に貼り付けます。変更も可能です。</div>' +
+          '</div>';
+      } else if (mode === 'append_values') {
+        html = '<div class="form-group">' +
+          '<label class="form-label">追加範囲</label>' +
+          '<div class="form-row">' +
+          '<span>行:</span><input type="number" id="appendStartRow" value="5" min="1">' +
+          '<span>〜</span><input type="number" id="appendEndRow" value="' + currentSheet.rows + '">' +
+          '</div>' +
+          '<div class="help-text">💡 列位置はコピー元と同じになります</div>' +
+          '</div>' +
+          '<div class="form-group">' +
+          '<label><input type="checkbox" id="appendIncludeFormat"> フォーマットも含める</label>' +
+          '</div>';
+      } else if (mode === 'conditional') {
+        html = '<div class="form-group">' +
+          '<label class="form-label">条件</label>' +
+          '<select id="condition">' +
+          '<option value="untranslated">未翻訳のみ</option>' +
+          '<option value="translated">翻訳済みのみ</option>' +
+          '<option value="has_error">エラー行のみ</option>' +
+          '<option value="no_template">テンプレート未設定</option>' +
+          '<option value="no_policy">ポリシー未設定</option>' +
+          '<option value="all">全行</option>' +
+          '</select>' +
+          '</div>' +
+          '<div class="form-group">' +
+          '<label class="form-label">検索範囲</label>' +
+          '<div class="form-row">' +
+          '<span>行:</span><input type="number" id="condStartRow" value="5" min="1">' +
+          '<span>〜</span><input type="number" id="condEndRow" value="' + currentSheet.rows + '">' +
+          '</div>' +
+          '<div class="help-text">💡 列位置はコピー元と同じになります</div>' +
+          '</div>' +
+          '<div class="form-group">' +
+          '<label><input type="checkbox" id="condIncludeFormat"> フォーマットも含める</label>' +
+          '</div>';
+      }
+      
+      document.getElementById('modeOptions').innerHTML = html;
+    }
+    
+    function syncTargetPosition() {
+      var startRow = document.getElementById('startRow');
+      var startCol = document.getElementById('startCol');
+      var targetStartRow = document.getElementById('targetStartRow');
+      var targetStartCol = document.getElementById('targetStartCol');
+      
+      if (startRow && targetStartRow) {
+        targetStartRow.value = startRow.value;
+      }
+      
+      if (startCol && targetStartCol) {
+        targetStartCol.value = startCol.value;
+      }
+    }
+    
+    function previewData() {
+      var mode = document.getElementById('importMode').value;
+      var startRow, endRow, condition;
+      
+      if (mode === 'full_copy') {
+        startRow = 1;
+        endRow = currentSheet.rows;
+        condition = 'none';
+      } else if (mode === 'range_with_format' || mode === 'range_values_only') {
+        startRow = parseInt(document.getElementById('startRow').value) || 1;
+        endRow = parseInt(document.getElementById('endRow').value) || currentSheet.rows;
+        condition = 'none';
+      } else if (mode === 'append_values') {
+        startRow = parseInt(document.getElementById('appendStartRow').value) || 5;
+        endRow = parseInt(document.getElementById('appendEndRow').value) || currentSheet.rows;
+        condition = 'none';
+      } else if (mode === 'conditional') {
+        startRow = parseInt(document.getElementById('condStartRow').value) || 5;
+        endRow = parseInt(document.getElementById('condEndRow').value) || currentSheet.rows;
+        condition = document.getElementById('condition').value;
+      }
+      
+      document.getElementById('loading').style.display = 'block';
+      
+      google.script.run
+        .withSuccessHandler(onPreviewLoaded)
+        .withFailureHandler(onError)
+        .getSheetPreview(sourceUrl, currentSheet.name, startRow, endRow, condition);
+    }
+    
+    function onPreviewLoaded(result) {
+      document.getElementById('loading').style.display = 'none';
+      
+      if (!result.success) {
+        showError(result.error);
+        return;
+      }
+      
+      if (result.message) {
+        showWarning(result.message);
+      }
+      
+      var html = '<table class="preview-table">';
+      for (var i = 0; i < result.preview.length; i++) {
+        html += '<tr>';
+        for (var j = 0; j < result.preview[i].length; j++) {
+          var val = result.preview[i][j];
+          html += '<td>' + (val || '').toString().substring(0, 40) + '</td>';
+        }
+        html += '</tr>';
+      }
+      html += '</table>';
+      
+      document.getElementById('preview').innerHTML = html;
+      document.getElementById('totalRows').textContent = result.totalRows;
+      document.getElementById('previewSection').style.display = 'block';
+    }
+    
+    function addToList() {
+      var mode = document.getElementById('importMode').value;
+      var config = {
+        sheetName: currentSheet.name,
+        targetSheetName: currentSheet.name,
+        importMode: mode
+      };
+      
+      if (mode === 'range_with_format' || mode === 'range_values_only') {
+        config.startRow = parseInt(document.getElementById('startRow').value) || 1;
+        config.endRow = parseInt(document.getElementById('endRow').value) || currentSheet.rows;
+        config.startCol = parseInt(document.getElementById('startCol').value) || 1;
+        config.endCol = parseInt(document.getElementById('endCol').value) || currentSheet.cols;
+        config.targetStartRow = parseInt(document.getElementById('targetStartRow').value) || config.startRow;
+        config.targetStartCol = parseInt(document.getElementById('targetStartCol').value) || config.startCol;
+      } else if (mode === 'append_values') {
+        config.startRow = parseInt(document.getElementById('appendStartRow').value) || 5;
+        config.endRow = parseInt(document.getElementById('appendEndRow').value) || currentSheet.rows;
+        config.startCol = 1;
+        config.endCol = currentSheet.cols;
+        config.includeFormat = document.getElementById('appendIncludeFormat').checked;
+      } else if (mode === 'conditional') {
+        config.startRow = parseInt(document.getElementById('condStartRow').value) || 5;
+        config.endRow = parseInt(document.getElementById('condEndRow').value) || currentSheet.rows;
+        config.condition = document.getElementById('condition').value;
+        config.includeFormat = document.getElementById('condIncludeFormat').checked;
+      }
+      
+      importConfigs.push(config);
+      updateAdvancedUI();
+      showSuccess('設定をリストに追加しました（' + importConfigs.length + '件）');
+    }
+    
+    function updateAdvancedUI() {
+      document.getElementById('executeBtn').disabled = importConfigs.length === 0;
+      document.getElementById('showConfirmBtn').style.display = importConfigs.length > 0 ? 'inline-block' : 'none';
+      document.getElementById('clearBtn').style.display = importConfigs.length > 0 ? 'inline-block' : 'none';
+    }
+    
+    function showConfirmList() {
+      var html = '';
+      
+      for (var i = 0; i < importConfigs.length; i++) {
+        var cfg = importConfigs[i];
+        var modeNames = {
+          'full_copy': '完全コピー',
+          'range_with_format': '範囲+書式',
+          'range_values_only': '範囲（値のみ）',
+          'append_values': '追加',
+          'conditional': '条件付き'
+        };
+        
+        var details = [];
+        if (cfg.startRow) details.push('行' + cfg.startRow + '〜' + cfg.endRow);
+        if (cfg.condition) {
+          var condNames = {
+            'untranslated': '未翻訳のみ',
+            'translated': '翻訳済みのみ',
+            'has_error': 'エラー行のみ',
+            'no_template': 'テンプレート未設定',
+            'no_policy': 'ポリシー未設定',
+            'all': '全行'
+          };
+          details.push(condNames[cfg.condition] || cfg.condition);
+        }
+        
+        html += '<div class="config-item">' +
+          '<div style="flex: 1;">' +
+          '<strong>' + cfg.sheetName + '</strong>' +
+          '<span class="badge badge-mode">' + (modeNames[cfg.importMode] || cfg.importMode) + '</span>' +
+          '<div class="config-details">' + details.join(' / ') + '</div>' +
+          '</div>' +
+          '<button class="button button-secondary" onclick="removeConfig(' + i + ')">削除</button>' +
+          '</div>';
+      }
+      
+      if (!html) {
+        html = '<div class="empty-state">設定がありません</div>';
+      }
+      
+      document.getElementById('configList').innerHTML = html;
+      document.getElementById('configCount').textContent = importConfigs.length;
+      document.getElementById('configArea').style.display = 'none';
+      document.getElementById('confirmArea').style.display = 'block';
+    }
+    
+    function removeConfig(index) {
+      importConfigs.splice(index, 1);
+      showConfirmList();
+      updateAdvancedUI();
+    }
+    
+    function clearAllConfigs() {
+      if (confirm('全ての設定をクリアしますか？')) {
+        importConfigs = [];
+        updateAdvancedUI();
+        document.getElementById('confirmArea').style.display = 'none';
+        document.getElementById('configArea').innerHTML = '<div class="empty-state">左のシート一覧からシートを選択してください</div>';
+      }
+    }
+    
+    function executeImport() {
+      var configs = [];
+      
+      if (currentMode === 'simple') {
+        var checkboxes = document.querySelectorAll('#simpleSheetsList input:checked');
+        checkboxes.forEach(function(cb) {
+          var idx = parseInt(cb.value);
+          var sheet = allSheets[idx];
+          configs.push({
+            sheetName: sheet.name,
+            targetSheetName: sheet.name,
+            importMode: sheet.recommended || 'full_copy'
+          });
+        });
+      } else {
+        configs = importConfigs;
+      }
+      
+      if (configs.length === 0) {
+        showError('設定がありません');
+        return;
+      }
+      
+      if (!confirm(configs.length + '件のデータをインポートします。\n既存データは上書きされます。\n\nよろしいですか？')) {
+        return;
+      }
+      
+      hideMessages();
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('executeBtn').disabled = true;
+      
+      google.script.run
+        .withSuccessHandler(onImportComplete)
+        .withFailureHandler(onError)
+        .importWithUnifiedSettings(sourceUrl, configs);
+    }
+    
+    function onImportComplete(result) {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('executeBtn').disabled = false;
+      
+      if (!result.success) {
+        showError(result.error);
+        return;
+      }
+      
+      var msg = '✅ インポート完了\n\n';
+      var ok = 0, ng = 0;
+      
+      result.results.forEach(function(r) {
+        if (r.success) {
+          msg += '✓ ' + r.sheetName + ' (' + r.rowsImported + '行)\n';
+          ok++;
+        } else {
+          msg += '✗ ' + r.sheetName + ': ' + r.error + '\n';
+          ng++;
+        }
+      });
+      
+      msg += '\n成功: ' + ok + '件 / 失敗: ' + ng + '件';
+      showSuccess(msg);
+      
+      setTimeout(function() {
+        google.script.host.close();
+      }, 3000);
+    }
+    
+    function updateUI() {
+      if (currentMode === 'simple') {
+        updateSimpleUI();
+      } else {
+        updateAdvancedUI();
+      }
+    }
+    
+    function showError(msg) {
+      document.getElementById('error').textContent = '❌ ' + msg;
+      document.getElementById('error').style.display = 'block';
+    }
+    
+    function showSuccess(msg) {
+      document.getElementById('success').textContent = '✅ ' + msg;
+      document.getElementById('success').style.display = 'block';
+    }
+    
+    function showWarning(msg) {
+      document.getElementById('warning').textContent = '⚠️ ' + msg;
+      document.getElementById('warning').style.display = 'block';
+    }
+    
+    function hideMessages() {
+      document.getElementById('error').style.display = 'none';
+      document.getElementById('success').style.display = 'none';
+      document.getElementById('warning').style.display = 'none';
+    }
+    
+    function onError(error) {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('executeBtn').disabled = false;
+      showError(error.message);
+    }
+  </script>
+</body>
+</html>

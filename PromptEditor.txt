@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    body { font-family: sans-serif; margin: 10px; background-color: #f8f9fa; }
+    h3 { color: #1a73e8; margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; font-weight: bold; color: #3c4043; }
+    textarea { 
+      width: calc(100% - 20px); /* 左右のパディングを考慮 */
+      height: 250px; /* 編集エリアの高さを確保 */
+      margin-bottom: 15px; 
+      padding: 10px; 
+      font-size: 14px; 
+      border: 1px solid #dadce0; 
+      border-radius: 4px;
+      box-sizing: border-box; /* パディングとボーダーを幅に含める */
+      resize: vertical; /* 縦方向のみリサイズ可能にする */
+    }
+    select { 
+      width: calc(100% - 20px); 
+      margin-bottom: 15px; 
+      padding: 8px; 
+      font-size: 14px; 
+      border: 1px solid #dadce0; 
+      border-radius: 4px;
+      background-color: #fff;
+    }
+    button { 
+      padding: 10px 20px; 
+      font-size: 14px; 
+      border: none; 
+      border-radius: 4px; 
+      cursor: pointer; 
+      margin-right: 10px;
+    }
+    button.primary { 
+      background-color: #1a73e8; 
+      color: white; 
+    }
+    button.secondary { 
+      background-color: #e8eaed; 
+      color: #3c4043; 
+    }
+    .message {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 4px;
+      font-weight: bold;
+      display: none; /* 初期状態では非表示 */
+    }
+    .message.success {
+      background-color: #e6ffe6;
+      color: #188038;
+      border: 1px solid #188038;
+    }
+    .message.error {
+      background-color: #ffe6e6;
+      color: #d93025;
+      border: 1px solid #d93025;
+    }
+  </style>
+</head>
+<body>
+  <h3>プロンプト編集</h3>
+  <label for="promptSelect">プロンプトID:</label>
+  <select id="promptSelect" onchange="loadPrompt()">
+    </select>
+  <br>
+  <label for="promptContent">プロンプト内容:</label>
+  <textarea id="promptContent"></textarea>
+  <button class="primary" onclick="savePrompt()">保存</button>
+  <button class="secondary" onclick="google.script.host.close()">閉じる</button>
+
+  <div id="messageBox" class="message"></div>
+
+  <script>
+    // メッセージ表示関数
+    function showMessage(msg, type) {
+      const msgBox = document.getElementById('messageBox');
+      msgBox.textContent = msg;
+      msgBox.className = 'message ' + type; // クラスを更新
+      msgBox.style.display = 'block';
+      setTimeout(() => {
+        msgBox.style.display = 'none'; // 3秒後にメッセージを非表示
+      }, 3000);
+    }
+
+    // GASからプロンプトIDのリストを受け取り、ドロップダウンに表示
+    function populatePromptSelect(promptIds) {
+      const select = document.getElementById('promptSelect');
+      select.innerHTML = '<option value="">--選択してください--</option>';
+      promptIds.forEach(id => {
+        const option = document.createElement('option');
+        option.value = id;
+        option.textContent = id;
+        select.appendChild(option);
+      });
+    }
+
+    // 選択されたプロンプトの内容をGASから読み込む
+    function loadPrompt() {
+      const promptId = document.getElementById('promptSelect').value;
+      if (promptId) {
+        google.script.run.withSuccessHandler(function(content) {
+          document.getElementById('promptContent').value = content;
+        }).withFailureHandler(function(error) {
+          showMessage('プロンプトの読み込みに失敗しました: ' + error.message, 'error');
+          document.getElementById('promptContent').value = '';
+        }).getPromptContent(promptId); // GASのgetPromptContentを呼び出す
+      } else {
+        document.getElementById('promptContent').value = '';
+      }
+    }
+
+    // 編集したプロンプトの内容をGASに渡して保存する
+    function savePrompt() {
+      const promptId = document.getElementById('promptSelect').value;
+      const promptContent = document.getElementById('promptContent').value;
+      if (!promptId) {
+        showMessage('プロンプトIDを選択してください。', 'error');
+        return;
+      }
+      if (!promptContent.trim()) {
+        showMessage('プロンプト内容を入力してください。', 'error');
+        return;
+      }
+      
+      google.script.run.withSuccessHandler(function() {
+        showMessage('プロンプトを保存しました！', 'success');
+      }).withFailureHandler(function(error) {
+        showMessage('プロンプトの保存に失敗しました: ' + error.message, 'error');
+      }).savePromptContent(promptId, promptContent); // GASのsavePromptContentを呼び出す
+    }
+
+    // 初期ロード時にプロンプトIDリストを取得してドロップダウンを生成
+    google.script.run.withSuccessHandler(populatePromptSelect).getAllPromptIds();
+  </script>
+</body>
+</html>

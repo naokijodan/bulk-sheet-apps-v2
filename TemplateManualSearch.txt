@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      margin: 0;
+    }
+    
+    .header {
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #4285f4;
+    }
+    
+    .header h2 {
+      margin: 0 0 10px 0;
+      color: #202124;
+      font-size: 20px;
+    }
+    
+    .header p {
+      margin: 0;
+      color: #5f6368;
+      font-size: 14px;
+    }
+    
+    .info-box {
+      background-color: #e8f0fe;
+      border-left: 4px solid #4285f4;
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #202124;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #202124;
+      font-size: 14px;
+    }
+    
+    select {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      background-color: white;
+      cursor: pointer;
+      box-sizing: border-box;
+    }
+    
+    select:focus {
+      outline: none;
+      border-color: #4285f4;
+      box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+    }
+    
+    .result-box {
+      background-color: #f8f9fa;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      padding: 15px;
+      margin-top: 20px;
+      display: none;
+    }
+    
+    .result-box.success {
+      background-color: #e6f4ea;
+      border-color: #34a853;
+    }
+    
+    .result-box.error {
+      background-color: #fce8e6;
+      border-color: #ea4335;
+    }
+    
+    .result-box h3 {
+      margin: 0 0 10px 0;
+      font-size: 16px;
+    }
+    
+    .result-item {
+      margin: 8px 0;
+      font-size: 14px;
+    }
+    
+    .result-item strong {
+      color: #1967d2;
+    }
+    
+    .buttons {
+      text-align: center;
+      margin-top: 25px;
+    }
+    
+    .btn {
+      padding: 10px 24px;
+      font-size: 14px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 0 5px;
+      font-weight: 500;
+    }
+    
+    .btn-primary {
+      background-color: #4285f4;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: #3367d6;
+    }
+    
+    .btn-secondary {
+      background-color: #f1f3f4;
+      color: #202124;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #e8eaed;
+    }
+    
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      color: #5f6368;
+      font-size: 14px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h2>🔍 テンプレート手動検索</h2>
+    <p>条件を入力して該当するテンプレートを検索します</p>
+  </div>
+  
+  <div class="info-box">
+    条件に合うテンプレートIDを検索します。<br>
+    エラーで自動設定できなかった場合の確認用です。
+  </div>
+  
+  <div class="form-group">
+    <label for="categorySelect">カテゴリー：</label>
+    <select id="categorySelect" onchange="updateConditionVisibility()">
+      <option value="">-- 選択してください --</option>
+      <option value="general">汎用（送料上限なし）</option>
+      <option value="videogames">Video Games（送料上限$20）</option>
+      <option value="books">Books（送料上限$20）</option>
+      <option value="movies">Movies & TV（送料上限$20）</option>
+      <option value="music">Music（送料上限$25）</option>
+      <option value="console">Video Game Consoles（送料上限$50）</option>
+      <option value="card_graded">トレカ - Graded</option>
+      <option value="card_raw">トレカ - 未鑑定</option>
+      <option value="preorder">予約販売</option>
+    </select>
+  </div>
+  
+  <div class="form-group" id="conditionGroup">
+    <label for="conditionSelect">商品状態：</label>
+    <select id="conditionSelect">
+      <option value="">-- 選択してください --</option>
+      <option value="新品">新品</option>
+      <option value="中古">中古</option>
+    </select>
+  </div>
+  
+  <div class="form-group" id="shippingGroup">
+    <label for="shippingTypeSelect">配送方法：</label>
+    <select id="shippingTypeSelect">
+      <option value="">-- 選択してください --</option>
+      <option value="エコノミー">エコノミー（Small Packet / Cpass-Economy）</option>
+      <option value="EX">EX（Cpass-FedEx / Cpass-DHL / eLogistics）</option>
+    </select>
+  </div>
+  
+  <div class="buttons">
+    <button class="btn btn-primary" id="searchBtn" onclick="searchTemplate()">検索</button>
+    <button class="btn btn-secondary" onclick="google.script.host.close()">閉じる</button>
+  </div>
+  
+  <div class="loading" id="loading">検索中...</div>
+  
+  <div class="result-box" id="resultBox">
+    <h3 id="resultTitle">検索結果</h3>
+    <div id="resultContent"></div>
+  </div>
+  
+  <script>
+    // カテゴリー変更時の表示制御
+    function updateConditionVisibility() {
+      var category = document.getElementById('categorySelect').value;
+      var conditionGroup = document.getElementById('conditionGroup');
+      var shippingGroup = document.getElementById('shippingGroup');
+      
+      // トレカは状態・配送不要
+      if (category === 'card_graded' || category === 'card_raw') {
+        conditionGroup.style.display = 'none';
+        shippingGroup.style.display = 'none';
+      }
+      // 予約販売は状態不要（新品固定）
+      else if (category === 'preorder') {
+        conditionGroup.style.display = 'none';
+        shippingGroup.style.display = 'block';
+      }
+      // その他は全て必要
+      else {
+        conditionGroup.style.display = 'block';
+        shippingGroup.style.display = 'block';
+      }
+    }
+    
+    // 検索実行
+    function searchTemplate() {
+      var category = document.getElementById('categorySelect').value;
+      var condition = document.getElementById('conditionSelect').value;
+      var shippingType = document.getElementById('shippingTypeSelect').value;
+      
+      // バリデーション
+      if (!category) {
+        alert('カテゴリーを選択してください');
+        return;
+      }
+      
+      // トレカ・予約販売以外は状態・配送チェック
+      if (!['card_graded', 'card_raw'].includes(category)) {
+        if (category !== 'preorder' && !condition) {
+          alert('商品状態を選択してください');
+          return;
+        }
+        if (!shippingType) {
+          alert('配送方法を選択してください');
+          return;
+        }
+      }
+      
+      // UI状態変更
+      document.getElementById('searchBtn').disabled = true;
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('resultBox').style.display = 'none';
+      
+      // 検索実行
+      google.script.run
+        .withSuccessHandler(function(result) {
+          document.getElementById('searchBtn').disabled = false;
+          document.getElementById('loading').style.display = 'none';
+          displayResult(result);
+        })
+        .withFailureHandler(function(error) {
+          document.getElementById('searchBtn').disabled = false;
+          document.getElementById('loading').style.display = 'none';
+          alert('検索エラー: ' + error.message);
+        })
+        .searchTemplateManually({
+          category: category,
+          condition: condition,
+          shippingType: shippingType
+        });
+    }
+    
+    // 結果表示
+    function displayResult(result) {
+      var resultBox = document.getElementById('resultBox');
+      var resultTitle = document.getElementById('resultTitle');
+      var resultContent = document.getElementById('resultContent');
+      
+      if (!result.success) {
+        resultBox.className = 'result-box error';
+        resultTitle.textContent = '❌ エラー';
+        resultContent.innerHTML = '<div class="result-item">' + result.error + '</div>';
+        resultBox.style.display = 'block';
+        return;
+      }
+      
+      if (result.templateId === null) {
+        resultBox.className = 'result-box error';
+        resultTitle.textContent = '⚠️ 該当なし';
+        
+        var html = '<div class="result-item">該当するテンプレートが見つかりませんでした。</div>';
+        html += '<div class="result-item"><strong>検索条件：</strong></div>';
+        html += '<div class="result-item">・カテゴリー: ' + getCategoryDisplay(result.searchConditions.category) + '</div>';
+        if (result.searchConditions.condition) {
+          html += '<div class="result-item">・商品状態: ' + result.searchConditions.condition + '</div>';
+        }
+        if (result.searchConditions.shippingType) {
+          html += '<div class="result-item">・配送方法: ' + result.searchConditions.shippingType + '</div>';
+        }
+        
+        resultContent.innerHTML = html;
+        resultBox.style.display = 'block';
+        return;
+      }
+      
+      resultBox.className = 'result-box success';
+      resultTitle.textContent = '✅ 検索成功';
+      
+      var html = '<div class="result-item"><strong>テンプレートID:</strong> ' + result.templateId + '</div>';
+      if (result.templateName) {
+        html += '<div class="result-item"><strong>テンプレート名称:</strong> ' + result.templateName + '</div>';
+      }
+      html += '<div class="result-item" style="margin-top: 10px;"><strong>検索条件：</strong></div>';
+      html += '<div class="result-item">・カテゴリー: ' + getCategoryDisplay(result.searchConditions.category) + '</div>';
+      if (result.searchConditions.condition) {
+        html += '<div class="result-item">・商品状態: ' + result.searchConditions.condition + '</div>';
+      }
+      if (result.searchConditions.shippingType) {
+        html += '<div class="result-item">・配送方法: ' + result.searchConditions.shippingType + '</div>';
+      }
+      
+      resultContent.innerHTML = html;
+      resultBox.style.display = 'block';
+    }
+    
+    // カテゴリー表示名取得
+    function getCategoryDisplay(value) {
+      var mapping = {
+        'general': '汎用',
+        'videogames': 'Video Games',
+        'books': 'Books',
+        'movies': 'Movies & TV',
+        'music': 'Music',
+        'console': 'Video Game Consoles',
+        'card_graded': 'トレカ - Graded',
+        'card_raw': 'トレカ - 未鑑定',
+        'preorder': '予約販売'
+      };
+      return mapping[value] || value;
+    }
+    
+    // 初期化
+    updateConditionVisibility();
+  </script>
+</body>
+</html>

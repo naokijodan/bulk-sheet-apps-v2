@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      margin: 0;
+    }
+    
+    .header {
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #4285f4;
+    }
+    
+    .header h2 {
+      margin: 0 0 10px 0;
+      color: #202124;
+      font-size: 20px;
+    }
+    
+    .header p {
+      margin: 0;
+      color: #5f6368;
+      font-size: 14px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #202124;
+      font-size: 14px;
+    }
+    
+    select, input {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    
+    select {
+      background-color: white;
+      cursor: pointer;
+    }
+    
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+    
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    
+    select:focus, input:focus {
+      outline: none;
+      border-color: #4285f4;
+      box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+    }
+    
+    .info-box {
+      background-color: #e8f0fe;
+      border-left: 4px solid #4285f4;
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #202124;
+    }
+    
+    .result-box {
+      background-color: #f8f9fa;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      padding: 15px;
+      margin-top: 20px;
+      display: none;
+    }
+    
+    .result-box.success {
+      background-color: #e6f4ea;
+      border-color: #34a853;
+    }
+    
+    .result-box.error {
+      background-color: #fce8e6;
+      border-color: #ea4335;
+    }
+    
+    .result-box h3 {
+      margin: 0 0 10px 0;
+      font-size: 16px;
+    }
+    
+    .result-item {
+      margin: 8px 0;
+      font-size: 14px;
+    }
+    
+    .result-item strong {
+      color: #1967d2;
+    }
+    
+    .buttons {
+      text-align: center;
+      margin-top: 25px;
+    }
+    
+    .btn {
+      padding: 10px 24px;
+      font-size: 14px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 0 5px;
+      font-weight: 500;
+    }
+    
+    .btn-primary {
+      background-color: #4285f4;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: #3367d6;
+    }
+    
+    .btn-secondary {
+      background-color: #f1f3f4;
+      color: #202124;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #e8eaed;
+    }
+    
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      color: #5f6368;
+      font-size: 14px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h2>🔍 シッピングポリシー手動検索</h2>
+    <p>条件を入力して該当するポリシーを検索します</p>
+  </div>
+  
+  <div class="info-box">
+    条件に合うシッピングポリシーIDを検索します。<br>
+    エラーで自動設定できなかった場合の確認用です。
+  </div>
+  
+  <div class="form-group">
+    <label for="categorySelect">カテゴリー：</label>
+    <select id="categorySelect">
+      <option value="">-- 選択してください --</option>
+    </select>
+  </div>
+  
+  <div class="form-group">
+    <label for="conditionSelect">商品状態：</label>
+    <select id="conditionSelect">
+      <option value="">-- 選択してください --</option>
+      <option value="新品">新品</option>
+      <option value="中古">中古</option>
+    </select>
+  </div>
+  
+  <div class="form-group">
+    <label for="shippingTypeSelect">配送方法：</label>
+    <select id="shippingTypeSelect">
+      <option value="">-- 選択してください --</option>
+      <option value="エコノミー">エコノミー（Small Packet / Cpass-Economy）</option>
+      <option value="EX">EX（Cpass-FedEx / Cpass-DHL / eLogistics）</option>
+    </select>
+  </div>
+  
+  <div class="form-group">
+    <label for="priceInput">販売価格（USD）：</label>
+    <input type="number" id="priceInput" placeholder="例: 85.50" step="0.01" min="0">
+  </div>
+  
+  <div class="buttons">
+    <button class="btn btn-primary" id="searchBtn" onclick="searchPolicy()">検索</button>
+    <button class="btn btn-secondary" onclick="google.script.host.close()">閉じる</button>
+  </div>
+  
+  <div class="loading" id="loading">検索中...</div>
+  
+  <div class="result-box" id="resultBox">
+    <h3 id="resultTitle">検索結果</h3>
+    <div id="resultContent"></div>
+  </div>
+  
+  <script>
+    // カテゴリーデータを読み込み
+    google.script.run
+      .withSuccessHandler(function(categories) {
+        var select = document.getElementById('categorySelect');
+        
+        categories.forEach(function(cat) {
+          var option = document.createElement('option');
+          option.value = cat.value;
+          option.textContent = cat.display;
+          select.appendChild(option);
+        });
+      })
+      .withFailureHandler(function(error) {
+        alert('カテゴリーの取得に失敗しました: ' + error.message);
+      })
+      .getShippingPolicyCategories();
+    
+    // 検索実行
+    function searchPolicy() {
+      var category = document.getElementById('categorySelect').value;
+      var condition = document.getElementById('conditionSelect').value;
+      var shippingType = document.getElementById('shippingTypeSelect').value;
+      var price = parseFloat(document.getElementById('priceInput').value);
+      
+      // バリデーション
+      if (!category) {
+        alert('カテゴリーを選択してください');
+        return;
+      }
+      if (!condition) {
+        alert('商品状態を選択してください');
+        return;
+      }
+      if (!shippingType) {
+        alert('配送方法を選択してください');
+        return;
+      }
+      if (isNaN(price) || price < 0) {
+        alert('価格を正しく入力してください');
+        return;
+      }
+      
+      // UI状態変更
+      document.getElementById('searchBtn').disabled = true;
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('resultBox').style.display = 'none';
+      
+      // 検索実行
+      google.script.run
+        .withSuccessHandler(function(result) {
+          document.getElementById('searchBtn').disabled = false;
+          document.getElementById('loading').style.display = 'none';
+          displayResult(result);
+        })
+        .withFailureHandler(function(error) {
+          document.getElementById('searchBtn').disabled = false;
+          document.getElementById('loading').style.display = 'none';
+          alert('検索エラー: ' + error.message);
+        })
+        .searchShippingPolicyManually({
+          category: category,
+          condition: condition,
+          shippingType: shippingType,
+          price: price
+        });
+    }
+    
+    // 結果表示
+    function displayResult(result) {
+      var resultBox = document.getElementById('resultBox');
+      var resultTitle = document.getElementById('resultTitle');
+      var resultContent = document.getElementById('resultContent');
+      
+      if (result.success && result.policyId !== null) {
+  html += '<div class="result-success">';
+  html += '<h3>✅ 検索成功</h3>';
+  html += '<p><strong>ポリシーID:</strong> ' + result.policyId + '</p>';
+  html += '<p><strong>ポリシー名:</strong> ' + (result.policyName || '不明') + '</p>';
+  
+  // 【追加】価格情報の表示
+  if (result.originalPrice !== undefined && result.adjustedPrice !== undefined) {
+    html += '<hr style="margin: 15px 0; border: none; border-top: 1px solid #ddd;">';
+    html += '<h4 style="margin-top: 15px; color: #666;">価格情報（関税率考慮）</h4>';
+    html += '<p><strong>入力価格（DDU）:</strong> $' + result.originalPrice.toFixed(2) + '</p>';
+    html += '<p><strong>調整後価格:</strong> $' + result.adjustedPrice.toFixed(2) + '</p>';
+    
+    if (result.adjustment > 0) {
+      html += '<p><strong>調整額:</strong> <span style="color: #d32f2f;">+$' + result.adjustment.toFixed(2) + '</span></p>';
+      html += '<p style="font-size: 13px; color: #666; background: #fff3cd; padding: 8px; border-radius: 4px;">';
+      html += '💡 現在の関税率（AD2セル）により、価格帯が上方調整されました。';
+      html += '</p>';
+    } else {
+      html += '<p><strong>調整額:</strong> $0.00（調整なし）</p>';
+      html += '<p style="font-size: 13px; color: #666;">💡 基準関税率（15%）と同じため、調整はありません。</p>';
+    }
+  }
+  
+  // 送料上限の表示（既存）
+  if (result.shippingLimit !== null && result.shippingLimit !== undefined) {
+    html += '<p><strong>送料上限:</strong> $' + result.shippingLimit + '</p>';
+  } else {
+    html += '<p><strong>送料上限:</strong> なし</p>';
+  }
+  
+  html += '</div>';
+}
+      
+      if (result.policyId === null) {
+        resultBox.className = 'result-box error';
+        resultTitle.textContent = '⚠️ 該当なし';
+        
+        var html = '<div class="result-item">該当するシッピングポリシーが見つかりませんでした。</div>';
+        html += '<div class="result-item"><strong>検索条件：</strong></div>';
+        html += '<div class="result-item">・カテゴリー: ' + result.searchConditions.category + '</div>';
+        html += '<div class="result-item">・商品状態: ' + result.searchConditions.condition + '</div>';
+        html += '<div class="result-item">・配送方法: ' + result.searchConditions.shippingType + '</div>';
+        html += '<div class="result-item">・価格: $' + result.searchConditions.price.toFixed(2) + '</div>';
+        
+        if (result.shippingLimit !== null) {
+          html += '<div class="result-item" style="color: #d93025; margin-top: 10px;">このカテゴリーの送料上限: $' + result.shippingLimit + '</div>';
+        }
+        
+        resultContent.innerHTML = html;
+        resultBox.style.display = 'block';
+        return;
+      }
+      
+      resultBox.className = 'result-box success';
+      resultTitle.textContent = '✅ 検索成功';
+      
+      var html = '<div class="result-item"><strong>ポリシーID:</strong> ' + result.policyId + '</div>';
+      if (result.policyName) {
+        html += '<div class="result-item"><strong>ポリシー名称:</strong> ' + result.policyName + '</div>';
+      }
+      html += '<div class="result-item" style="margin-top: 10px;"><strong>検索条件：</strong></div>';
+      html += '<div class="result-item">・カテゴリー: ' + result.searchConditions.category + '</div>';
+      html += '<div class="result-item">・商品状態: ' + result.searchConditions.condition + '</div>';
+      html += '<div class="result-item">・配送方法: ' + result.searchConditions.shippingType + '</div>';
+      html += '<div class="result-item">・価格: $' + result.searchConditions.price.toFixed(2) + '</div>';
+      
+      if (result.shippingLimit !== null) {
+        html += '<div class="result-item" style="color: #1967d2; margin-top: 10px;">このカテゴリーの送料上限: $' + result.shippingLimit + '</div>';
+      }
+      
+      resultContent.innerHTML = html;
+      resultBox.style.display = 'block';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      margin: 0;
+    }
+    
+    .header {
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #4285f4;
+    }
+    
+    .header h2 {
+      margin: 0 0 10px 0;
+      color: #202124;
+      font-size: 20px;
+    }
+    
+    .header p {
+      margin: 0;
+      color: #5f6368;
+      font-size: 14px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #202124;
+      font-size: 14px;
+    }
+    
+    select {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      background-color: white;
+      cursor: pointer;
+    }
+    
+    select:focus {
+      outline: none;
+      border-color: #4285f4;
+      box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+    }
+    
+    .info-box {
+      background-color: #e8f0fe;
+      border-left: 4px solid #4285f4;
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #202124;
+    }
+    
+    .info-box strong {
+      color: #1967d2;
+    }
+    
+    .buttons {
+      text-align: center;
+      margin-top: 25px;
+    }
+    
+    .btn {
+      padding: 10px 24px;
+      font-size: 14px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 0 5px;
+      font-weight: 500;
+    }
+    
+    .btn-primary {
+      background-color: #4285f4;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: #3367d6;
+    }
+    
+    .btn-secondary {
+      background-color: #f1f3f4;
+      color: #202124;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #e8eaed;
+    }
+    
+    .category-option {
+      padding: 8px;
+    }
+    
+    .limit-warning {
+      color: #d93025;
+      font-size: 12px;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h2>📦 シッピングポリシー設定</h2>
+    <p>カテゴリーを選択してください</p>
+  </div>
+  
+  <div class="info-box">
+    <strong>💡 送料上限について：</strong><br>
+    一部のカテゴリーではeBayの規定により送料上限が設定されています。<br>
+    上限を超える商品には、最大許容範囲のポリシーが適用されます。
+  </div>
+  
+  <div class="form-group">
+    <label for="categorySelect">カテゴリーを選択：</label>
+    <select id="categorySelect" onchange="updateLimitWarning()">
+      <option value="">-- 選択してください --</option>
+    </select>
+    <div id="limitWarning" class="limit-warning" style="display: none;"></div>
+  </div>
+  
+  <div class="buttons">
+    <button class="btn btn-primary" onclick="applyCategory()">適用</button>
+    <button class="btn btn-secondary" onclick="google.script.host.close()">キャンセル</button>
+  </div>
+  
+  <script>
+    // カテゴリーデータを読み込み
+    google.script.run
+      .withSuccessHandler(function(categories) {
+        var select = document.getElementById('categorySelect');
+        
+        categories.forEach(function(cat) {
+          var option = document.createElement('option');
+          option.value = cat.value;
+          option.textContent = cat.display;
+          option.dataset.limit = cat.limit;
+          select.appendChild(option);
+        });
+      })
+      .withFailureHandler(function(error) {
+        alert('カテゴリーの取得に失敗しました: ' + error.message);
+      })
+      .getShippingPolicyCategories();
+    
+    // 上限警告の表示制御
+    function updateLimitWarning() {
+      var select = document.getElementById('categorySelect');
+      var warning = document.getElementById('limitWarning');
+      var selectedOption = select.options[select.selectedIndex];
+      
+      if (selectedOption && selectedOption.dataset.limit && selectedOption.dataset.limit !== 'null') {
+        var limit = selectedOption.dataset.limit;
+        warning.textContent = '⚠️ このカテゴリーは送料上限 $' + limit + ' が設定されています';
+        warning.style.display = 'block';
+      } else {
+        warning.style.display = 'none';
+      }
+    }
+    
+    // カテゴリーを適用
+    function applyCategory() {
+      var select = document.getElementById('categorySelect');
+      var selectedValue = select.value;
+      
+      if (!selectedValue) {
+        alert('カテゴリーを選択してください');
+        return;
+      }
+      
+      // サーバー側の処理を呼び出し
+      google.script.run
+        .withSuccessHandler(function() {
+          google.script.host.close();
+        })
+        .withFailureHandler(function(error) {
+          alert('設定エラー: ' + error.message);
+        })
+        .applyShippingPolicyWithCategory(selectedValue);
+    }
+  </script>
+</body>
+</html>

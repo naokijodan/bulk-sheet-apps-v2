@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    
+    .container {
+      max-width: 650px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 20px;
+    }
+    
+    .section {
+      margin-bottom: 20px;
+    }
+    
+    .section-title {
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+    
+    .input-group {
+      margin-bottom: 15px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #666;
+      font-size: 13px;
+    }
+    
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #4CAF50;
+    }
+    
+    .mode-selector {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .mode-option {
+      flex: 1;
+      padding: 15px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    
+    .mode-option:hover {
+      border-color: #4CAF50;
+      background: #f0f9f0;
+    }
+    
+    .mode-option.selected {
+      border-color: #4CAF50;
+      background: #e8f5e9;
+    }
+    
+    .mode-option input[type="radio"] {
+      display: none;
+    }
+    
+    .mode-title {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 5px;
+      font-size: 15px;
+    }
+    
+    .mode-desc {
+      font-size: 12px;
+      color: #666;
+    }
+    
+    .settings-container {
+      display: none;
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background: #fafafa;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .settings-container.visible {
+      display: block;
+    }
+    
+    .setting-group {
+      margin-bottom: 20px;
+    }
+    
+    .group-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+    
+    .group-title {
+      flex: 1;
+      font-weight: 600;
+      color: #333;
+      font-size: 14px;
+    }
+    
+    .group-toggle {
+      font-size: 12px;
+      color: #4CAF50;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    
+    .setting-item {
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      margin-bottom: 5px;
+      background: white;
+      border-radius: 4px;
+    }
+    
+    .setting-item input[type="checkbox"] {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    
+    .setting-label {
+      flex: 1;
+      font-size: 13px;
+      color: #555;
+    }
+    
+    .setting-value {
+      font-size: 12px;
+      color: #888;
+      font-family: monospace;
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    button {
+      flex: 1;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .btn-primary {
+      background: #4CAF50;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #45a049;
+    }
+    
+    .btn-secondary {
+      background: #2196F3;
+      color: white;
+    }
+    
+    .btn-secondary:hover {
+      background: #0b7dda;
+    }
+    
+    .btn-cancel {
+      background: #f44336;
+      color: white;
+    }
+    
+    .btn-cancel:hover {
+      background: #da190b;
+    }
+    
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    
+    .message {
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    
+    .message.info {
+      background: #e3f2fd;
+      color: #1976d2;
+      border-left: 4px solid #2196F3;
+    }
+    
+    .message.success {
+      background: #e8f5e9;
+      color: #388e3c;
+      border-left: 4px solid #4CAF50;
+    }
+    
+    .message.error {
+      background: #ffebee;
+      color: #c62828;
+      border-left: 4px solid #f44336;
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+    }
+    
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #4CAF50;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 10px auto;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>⚙️ 初期設定インポート</h2>
+    
+    <div class="section">
+      <div class="input-group">
+        <label for="sourceUrl">📂 インポート元スプレッドシートURL</label>
+        <input type="text" id="sourceUrl" placeholder="https://docs.google.com/spreadsheets/d/..." />
+      </div>
+      
+      <button class="btn-secondary" onclick="loadSettings()">設定を読み込む</button>
+    </div>
+    
+    <div id="settingsSection" style="display:none;">
+      <div class="message info" id="sourceInfo"></div>
+      
+      <div class="section">
+        <div class="section-title">インポートモード選択</div>
+        <div class="mode-selector">
+          <label class="mode-option selected" for="modeAll">
+            <input type="radio" id="modeAll" name="importMode" value="all" checked onchange="toggleMode()">
+            <div class="mode-title">🔄 全部引き継ぐ</div>
+            <div class="mode-desc">APIキー以外のすべての設定を一括インポート</div>
+          </label>
+          
+          <label class="mode-option" for="modeSelected">
+            <input type="radio" id="modeSelected" name="importMode" value="selected" onchange="toggleMode()">
+            <div class="mode-title">✅ 個別に選択</div>
+            <div class="mode-desc">必要な設定項目だけを選んでインポート</div>
+          </label>
+        </div>
+      </div>
+      
+      <div id="settingsContainer" class="settings-container">
+        <!-- ここに設定項目が動的に表示される -->
+      </div>
+      
+      <div class="button-group">
+        <button class="btn-primary" onclick="executeImport()">📥 インポート実行</button>
+        <button class="btn-cancel" onclick="google.script.host.close()">キャンセル</button>
+      </div>
+    </div>
+    
+    <div id="messageArea"></div>
+  </div>
+
+  <script>
+    let settingsData = null;
+    
+    // モード切り替え
+    function toggleMode() {
+      const mode = document.querySelector('input[name="importMode"]:checked').value;
+      const container = document.getElementById('settingsContainer');
+      const options = document.querySelectorAll('.mode-option');
+      
+      options.forEach(opt => opt.classList.remove('selected'));
+      document.querySelector(`label[for="mode${mode === 'all' ? 'All' : 'Selected'}"]`).classList.add('selected');
+      
+      if (mode === 'selected') {
+        container.classList.add('visible');
+      } else {
+        container.classList.remove('visible');
+      }
+    }
+    
+    // 設定を読み込む
+    function loadSettings() {
+      const sourceUrl = document.getElementById('sourceUrl').value.trim();
+      
+      if (!sourceUrl) {
+        showMessage('error', 'インポート元URLを入力してください');
+        return;
+      }
+      
+      showMessage('info', '<div class="loading"><div class="spinner"></div>設定を読み込んでいます...</div>');
+      
+      google.script.run
+        .withSuccessHandler(onSettingsLoaded)
+        .withFailureHandler(onError)
+        .getSourceSettings(sourceUrl);
+    }
+    
+    // 設定読み込み成功時
+    function onSettingsLoaded(result) {
+      if (!result.success) {
+        showMessage('error', '❌ ' + result.error);
+        return;
+      }
+      
+      settingsData = result;
+      document.getElementById('sourceInfo').textContent = 
+        `📊 インポート元: ${result.spreadsheetName}`;
+      document.getElementById('settingsSection').style.display = 'block';
+      
+      renderSettings(result.settingGroups);
+      showMessage('success', '✅ 設定を読み込みました');
+    }
+    
+    // 設定項目を表示
+    function renderSettings(groups) {
+      const container = document.getElementById('settingsContainer');
+      container.innerHTML = '';
+      
+      for (const groupKey in groups) {
+        const group = groups[groupKey];
+        const groupDiv = document.createElement('div');
+        groupDiv.className = 'setting-group';
+        
+        const header = document.createElement('div');
+        header.className = 'group-header';
+        header.innerHTML = `
+          <div class="group-title">${group.title}</div>
+          <span class="group-toggle" onclick="toggleGroup('${groupKey}', true)">すべて選択</span>
+          <span class="group-toggle" onclick="toggleGroup('${groupKey}', false)" style="margin-left:10px;">解除</span>
+        `;
+        groupDiv.appendChild(header);
+        
+        group.settings.forEach(setting => {
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'setting-item';
+          
+          const displayValue = setting.value || '(未設定)';
+          const truncatedValue = displayValue.length > 30 
+            ? displayValue.substring(0, 30) + '...' 
+            : displayValue;
+          
+          itemDiv.innerHTML = `
+            <input type="checkbox" class="setting-checkbox" data-group="${groupKey}" value="${setting.key}" checked>
+            <span class="setting-label">${setting.label}</span>
+            <span class="setting-value" title="${displayValue}">${truncatedValue}</span>
+          `;
+          groupDiv.appendChild(itemDiv);
+        });
+        
+        container.appendChild(groupDiv);
+      }
+    }
+    
+    // グループの一括選択/解除
+    function toggleGroup(groupKey, checked) {
+      const checkboxes = document.querySelectorAll(`.setting-checkbox[data-group="${groupKey}"]`);
+      checkboxes.forEach(cb => cb.checked = checked);
+    }
+    
+    // インポート実行
+    function executeImport() {
+      const sourceUrl = document.getElementById('sourceUrl').value.trim();
+      const mode = document.querySelector('input[name="importMode"]:checked').value;
+      
+      let selectedKeys = [];
+      if (mode === 'selected') {
+        const checkboxes = document.querySelectorAll('.setting-checkbox:checked');
+        selectedKeys = Array.from(checkboxes).map(cb => cb.value);
+        
+        if (selectedKeys.length === 0) {
+          showMessage('error', '❌ 設定項目を1つ以上選択してください');
+          return;
+        }
+      }
+      
+      if (!confirm(`${mode === 'all' ? 'すべての設定' : selectedKeys.length + '個の設定'}をインポートしますか？\n\n⚠️ 現在の設定は上書きされます。`)) {
+        return;
+      }
+      
+      showMessage('info', '<div class="loading"><div class="spinner"></div>インポート中...</div>');
+      
+      google.script.run
+        .withSuccessHandler(onImportSuccess)
+        .withFailureHandler(onError)
+        .importSelectedSettings(sourceUrl, mode, selectedKeys);
+    }
+    
+    // インポート成功時
+    function onImportSuccess(result) {
+      if (!result.success) {
+        showMessage('error', '❌ ' + result.error);
+        return;
+      }
+      
+      let message = `✅ インポート完了！\n\n`;
+      message += `📊 インポート元: ${result.sourceSpreadsheet}\n`;
+      message += `📋 モード: ${result.mode === 'all' ? '全部引き継ぐ' : '個別選択'}\n\n`;
+      message += `✅ インポートされた設定: ${result.imported.length}個\n`;
+      
+      if (result.imported.length > 0) {
+        message += result.imported.map(k => `  • ${k}`).join('\n') + '\n';
+      }
+      
+      if (result.skipped.length > 0) {
+        message += `\n⚠️ スキップされた設定: ${result.skipped.length}個\n`;
+        message += result.skipped.map(k => `  • ${k}`).join('\n');
+      }
+      
+      alert(message);
+      google.script.host.close();
+    }
+    
+    // エラー処理
+    function onError(error) {
+      showMessage('error', '❌ エラー: ' + error.message);
+    }
+    
+    // メッセージ表示
+    function showMessage(type, text) {
+      const area = document.getElementById('messageArea');
+      area.innerHTML = `<div class="message ${type}">${text}</div>`;
+      
+      if (type === 'success') {
+        setTimeout(() => area.innerHTML = '', 3000);
+      }
+    }
+  </script>
+</body>
+</html>

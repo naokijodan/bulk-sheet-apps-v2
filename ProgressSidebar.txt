@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 16px;
+      background-color: #f5f5f5;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 16px;
+      margin: -16px -16px 16px -16px;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .header h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .status-card {
+      background: white;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .status-label {
+      font-size: 12px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .status-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .status-value.success {
+      color: #10b981;
+    }
+
+    .status-value.error {
+      color: #ef4444;
+    }
+
+    .status-value.batch {
+      color: #3b82f6;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background-color: #e5e7eb;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      transition: width 0.3s ease;
+      border-radius: 4px;
+    }
+
+    .log-container {
+      background: white;
+      border-radius: 8px;
+      padding: 12px;
+      max-height: 300px;
+      overflow-y: auto;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .log-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .log-entry {
+      font-size: 12px;
+      padding: 6px 8px;
+      margin-bottom: 4px;
+      border-radius: 4px;
+      border-left: 3px solid #e5e7eb;
+      background-color: #f9fafb;
+    }
+
+    .log-entry.success {
+      border-left-color: #10b981;
+      background-color: #f0fdf4;
+    }
+
+    .log-entry.error {
+      border-left-color: #ef4444;
+      background-color: #fef2f2;
+    }
+
+    .log-entry.info {
+      border-left-color: #3b82f6;
+      background-color: #eff6ff;
+    }
+
+    .log-entry.warning {
+      border-left-color: #f59e0b;
+      background-color: #fffbeb;
+    }
+
+    .timestamp {
+      color: #9ca3af;
+      font-size: 10px;
+      margin-right: 6px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .stat-mini {
+      background: white;
+      border-radius: 6px;
+      padding: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .stat-mini-label {
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 4px;
+    }
+
+    .stat-mini-value {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .completion-banner {
+      display: none;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 20px;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .completion-banner.show {
+      display: block;
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .completion-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .completion-message {
+      font-size: 14px;
+      margin-bottom: 16px;
+      opacity: 0.95;
+    }
+
+    .close-button {
+      background: white;
+      color: #10b981;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: all 0.2s ease;
+    }
+
+    .close-button:hover {
+      background: #f0fdf4;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    }
+
+    .close-button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h2 id="headerTitle">🔄 翻訳処理の進捗</h2>
+  </div>
+
+  <div class="completion-banner" id="completionBanner">
+    <div class="completion-title">✅ 処理完了！</div>
+    <div class="completion-message">すべての処理が完了しました。<br>サイドバーを閉じてください。</div>
+    <button class="close-button" onclick="closeSidebar()">サイドバーを閉じる</button>
+  </div>
+
+  <div class="status-card">
+    <div class="status-label">現在のバッチ</div>
+    <div class="status-value batch" id="currentBatch">-</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-mini">
+      <div class="stat-mini-label">✅ 成功</div>
+      <div class="stat-mini-value" style="color: #10b981;" id="successCount">0</div>
+    </div>
+    <div class="stat-mini">
+      <div class="stat-mini-label">❌ エラー</div>
+      <div class="stat-mini-value" style="color: #ef4444;" id="errorCount">0</div>
+    </div>
+  </div>
+
+  <div class="log-container">
+    <div class="log-title">📋 処理ログ</div>
+    <div id="logEntries"></div>
+  </div>
+
+  <script>
+    var pollingInterval = null;
+    var isCompleted = false;
+
+    function updateProgress(data) {
+      // バッチ進捗
+      if (data.currentBatch !== undefined && data.totalBatches !== undefined) {
+        document.getElementById('currentBatch').textContent =
+          data.currentBatch + ' / ' + data.totalBatches;
+
+        var progress = (data.currentBatch / data.totalBatches) * 100;
+        document.getElementById('progressBar').style.width = progress + '%';
+      }
+
+      // 完了検知（明示的なフラグで判定）
+      if (!isCompleted && data.isCompleted === true) {
+        showCompletionBanner();
+      }
+
+      // 成功・エラーカウント
+      if (data.successCount !== undefined) {
+        document.getElementById('successCount').textContent = data.successCount;
+      }
+      if (data.errorCount !== undefined) {
+        document.getElementById('errorCount').textContent = data.errorCount;
+      }
+
+      // ログメッセージ
+      if (data.message) {
+        addLogEntry(data.message, data.logType || 'info');
+      }
+    }
+
+    function showCompletionBanner() {
+      isCompleted = true;
+
+      // ヘッダーアイコンを変更
+      document.getElementById('headerTitle').textContent = '✅ 翻訳処理の進捗';
+
+      // 完了バナーを表示
+      var banner = document.getElementById('completionBanner');
+      banner.classList.add('show');
+
+      // ポーリングを停止
+      if (pollingInterval) {
+        clearInterval(pollingInterval);
+        pollingInterval = null;
+        console.log('✅ ポーリング停止（処理完了）');
+      }
+
+      // 完了ログを追加
+      addLogEntry('✅ すべての処理が完了しました！', 'success');
+    }
+
+    function closeSidebar() {
+      // Google Apps Scriptのサイドバーを閉じる
+      google.script.host.close();
+    }
+
+    var lastMessage = '';  // 最後に追加したメッセージを記録
+
+    function addLogEntry(message, type) {
+      // 同じメッセージが連続する場合はスキップ
+      if (message === lastMessage) {
+        return;
+      }
+
+      lastMessage = message;
+
+      var logContainer = document.getElementById('logEntries');
+      var entry = document.createElement('div');
+      entry.className = 'log-entry ' + type;
+
+      var timestamp = new Date().toLocaleTimeString('ja-JP');
+      entry.innerHTML = '<span class="timestamp">' + timestamp + '</span>' + message;
+
+      logContainer.insertBefore(entry, logContainer.firstChild);
+
+      // 最大50件までのログを保持
+      while (logContainer.children.length > 50) {
+        logContainer.removeChild(logContainer.lastChild);
+      }
+    }
+
+    // 初期メッセージ
+    addLogEntry('サイドバーを初期化しました', 'info');
+
+    // 定期的にサーバーから進捗データを取得
+    function pollProgress() {
+      google.script.run
+        .withSuccessHandler(function(data) {
+          if (data) {
+            updateProgress(data);
+          }
+        })
+        .withFailureHandler(function(error) {
+          console.error('進捗取得エラー:', error);
+        })
+        .getProgressData();
+    }
+
+    // 5秒ごとにポーリング
+    pollingInterval = setInterval(pollProgress, 5000);
+
+    // 初回実行
+    pollProgress();
+  </script>
+</body>
+</html>

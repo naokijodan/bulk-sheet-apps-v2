@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      padding: 0;
+      margin: 0;
+      background: #fff;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 30px 30px 100px 30px;
+    }
+    
+    h2 {
+      font-size: 22px;
+      margin: 0 0 8px 0;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+    
+    .subtitle {
+      color: #666;
+      font-size: 14px;
+      margin: 0 0 30px 0;
+    }
+    
+    .prev-settings {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      font-size: 13px;
+      display: none;
+    }
+    
+    .prev-settings.show {
+      display: block;
+    }
+    
+    .prev-settings-label {
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #333;
+    }
+    
+    .prev-settings-value {
+      color: #666;
+    }
+    
+    .section {
+      margin-bottom: 35px;
+    }
+    
+    .section.hidden {
+      display: none;
+    }
+    
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #1a1a1a;
+    }
+    
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .radio-item {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      background: #fff;
+    }
+    
+    .radio-item:hover {
+      border-color: #999;
+      background: #fafafa;
+    }
+    
+    .radio-item.selected {
+      border-color: #2196F3;
+      background: #f0f8ff;
+    }
+    
+    .radio-item input[type="radio"] {
+      margin: 0 10px 0 0;
+      vertical-align: middle;
+    }
+    
+    .radio-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+      vertical-align: middle;
+    }
+    
+    .radio-desc {
+      font-size: 12px;
+      color: #666;
+      margin: 6px 0 0 26px;
+      line-height: 1.5;
+    }
+    
+    .warning {
+      background: #fff3cd;
+      border-left: 3px solid #ffc107;
+      padding: 12px;
+      margin-top: 15px;
+      font-size: 12px;
+      border-radius: 4px;
+      display: none;
+    }
+    
+    .warning.show {
+      display: block;
+    }
+    
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      background: #fff;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    
+    select:focus {
+      outline: none;
+      border-color: #2196F3;
+    }
+    
+    .buttons {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      padding: 16px 20px;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .btn {
+      padding: 11px 24px;
+      font-size: 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.15s ease;
+    }
+    
+    .btn-primary {
+      background: #2196F3;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #1976D2;
+    }
+    
+    .btn-primary:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    
+    .btn-quick {
+      background: #4CAF50;
+      color: white;
+    }
+    
+    .btn-quick:hover {
+      background: #45a049;
+    }
+    
+    .btn-secondary {
+      background: #f5f5f5;
+      color: #333;
+      border: 1px solid #ddd;
+    }
+    
+    .btn-secondary:hover {
+      background: #e8e8e8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>テンプレート＋ポリシー設定</h2>
+    <p class="subtitle">選択範囲にテンプレートとシッピングポリシーを設定します</p>
+    
+    <div class="prev-settings" id="prevSettings">
+      <div class="prev-settings-label">前回の設定</div>
+      <div class="prev-settings-value" id="prevSettingsValue"></div>
+    </div>
+    
+    <!-- テンプレート出力方法 -->
+    <div class="section">
+      <div class="section-title">1. テンプレート出力方法</div>
+      <div class="radio-group">
+        <label class="radio-item selected" onclick="selectTemplateMode('auto')">
+          <input type="radio" name="templateMode" value="auto" checked>
+          <span class="radio-label">自動出力（推奨）</span>
+          <div class="radio-desc">Policy_Masterから自動判定</div>
+        </label>
+        
+        <label class="radio-item" onclick="selectTemplateMode('manual')">
+          <input type="radio" name="templateMode" value="manual">
+          <span class="radio-label">手動入力</span>
+          <div class="radio-desc">E列を空欄にして後で手動入力</div>
+        </label>
+      </div>
+      
+      <div class="warning" id="manualWarning">
+        ⚠️ 手動モードではE列は空欄になります
+      </div>
+    </div>
+    
+    <!-- テンプレート名選択 -->
+    <div class="section" id="templateNameSection">
+      <div class="section-title">2. テンプレート名</div>
+      <div class="radio-group" id="templateNameOptions">
+        <div style="text-align: center; padding: 20px; color: #999;">読み込み中...</div>
+      </div>
+    </div>
+    
+    <!-- 送料上限カテゴリー -->
+    <div class="section">
+      <div class="section-title" id="categoryTitle">3. 送料上限カテゴリー</div>
+      <div class="radio-group">
+        <label class="radio-item" onclick="selectCategory('general')">
+          <input type="radio" name="category" value="general">
+          <span class="radio-label">汎用（上限なし）</span>
+          <div class="radio-desc">Electronics、Clothingなど</div>
+        </label>
+        
+        <label class="radio-item" onclick="selectCategory('videogames')">
+          <input type="radio" name="category" value="videogames">
+          <span class="radio-label">Video Games（$20）</span>
+        </label>
+        
+        <label class="radio-item" onclick="selectCategory('books')">
+          <input type="radio" name="category" value="books">
+          <span class="radio-label">Books（$20）</span>
+        </label>
+        
+        <label class="radio-item" onclick="selectCategory('movies')">
+          <input type="radio" name="category" value="movies">
+          <span class="radio-label">Movies & TV（$20）</span>
+        </label>
+        
+        <label class="radio-item" onclick="selectCategory('music')">
+          <input type="radio" name="category" value="music">
+          <span class="radio-label">Music（$25）</span>
+        </label>
+        
+        <label class="radio-item" onclick="selectCategory('console')">
+          <input type="radio" name="category" value="console">
+          <span class="radio-label">Game Consoles（$50）</span>
+        </label>
+      </div>
+    </div>
+    
+    <!-- ポリシー出力方法 -->
+    <div class="section">
+      <div class="section-title">4. ポリシー出力方法</div>
+      <div class="radio-group">
+        <label class="radio-item selected" onclick="selectPolicyMode('auto')">
+          <input type="radio" name="policyMode" value="auto" checked>
+          <span class="radio-label">自動判定（推奨）</span>
+          <div class="radio-desc">価格・状態・配送方法から自動選択</div>
+        </label>
+        
+        <label class="radio-item" onclick="selectPolicyMode('manual')">
+          <input type="radio" name="policyMode" value="manual">
+          <span class="radio-label">手動選択</span>
+          <div class="radio-desc">特定のポリシーを指定</div>
+        </label>
+      </div>
+      
+      <div id="manualPolicySection" style="display: none;">
+        <select id="manualPolicySelect">
+          <option value="">読み込み中...</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  
+  <div class="buttons">
+    <button class="btn btn-quick" id="quickApplyBtn" onclick="applyPreviousSettings()" style="display: none;">前回の設定で適用</button>
+    <button class="btn btn-primary" id="applyBtn" onclick="applySettings()" disabled>適用</button>
+    <button class="btn btn-secondary" onclick="google.script.host.close()">キャンセル</button>
+  </div>
+  
+  <script>
+    var selectedCategory = null;
+    var selectedTemplateName = null;
+    var selectedTemplateMode = 'auto';
+    var selectedPolicyMode = 'auto';
+    var selectedManualPolicyId = null;
+    var previousSettings = null;
+    
+    window.onload = function() {
+      loadPreviousSettings();
+      loadTemplateNames();
+      loadManualPolicies();
+    };
+    
+    function loadPreviousSettings() {
+      google.script.run
+        .withSuccessHandler(function(settings) {
+          if (settings) {
+            previousSettings = settings;
+            displayPreviousSettings(settings);
+            restorePreviousSettings(settings);
+          }
+        })
+        .withFailureHandler(function(error) {
+          console.log('前回設定の読み込み失敗:', error);
+        })
+        .getPreviousSettings();
+    }
+    
+    function displayPreviousSettings(settings) {
+      var valueEl = document.getElementById('prevSettingsValue');
+      var boxEl = document.getElementById('prevSettings');
+      var quickBtn = document.getElementById('quickApplyBtn');
+      
+      var parts = [];
+      
+      if (settings.templateMode === 'auto' && settings.templateName) {
+        parts.push('テンプレート: ' + settings.templateName);
+      } else if (settings.templateMode === 'manual') {
+        parts.push('テンプレート: 手動');
+      }
+      
+      var categoryNames = {
+        'general': '汎用',
+        'videogames': 'Video Games',
+        'books': 'Books',
+        'movies': 'Movies & TV',
+        'music': 'Music',
+        'console': 'Game Consoles'
+      };
+      if (settings.category) {
+        parts.push('カテゴリー: ' + categoryNames[settings.category]);
+      }
+      
+      if (settings.policyMode === 'auto') {
+        parts.push('ポリシー: 自動');
+      } else if (settings.policyMode === 'manual' && settings.manualPolicyId) {
+        parts.push('ポリシー: ID ' + settings.manualPolicyId);
+      }
+      
+      valueEl.textContent = parts.join(' / ');
+      boxEl.classList.add('show');
+      quickBtn.style.display = 'inline-block';
+    }
+    
+    function restorePreviousSettings(settings) {
+      setTimeout(function() {
+        if (settings.category) {
+          selectCategoryByValue(settings.category);
+        }
+        
+        if (settings.templateMode) {
+          selectTemplateModeByValue(settings.templateMode);
+        }
+        
+        if (settings.templateMode === 'auto' && settings.templateName) {
+          selectTemplateNameByValue(settings.templateName);
+        }
+        
+        if (settings.policyMode) {
+          selectPolicyModeByValue(settings.policyMode);
+        }
+        
+        if (settings.policyMode === 'manual' && settings.manualPolicyId) {
+          var select = document.getElementById('manualPolicySelect');
+          if (select) {
+            select.value = settings.manualPolicyId;
+            selectedManualPolicyId = settings.manualPolicyId;
+          }
+        }
+        
+        updateApplyButton();
+      }, 500);
+    }
+    
+    function selectCategoryByValue(value) {
+      var items = document.querySelectorAll('input[name="category"]');
+      items.forEach(function(radio) {
+        if (radio.value === value) {
+          radio.closest('.radio-item').classList.add('selected');
+          radio.checked = true;
+          selectedCategory = value;
+        }
+      });
+    }
+    
+    function selectTemplateModeByValue(value) {
+      var items = document.querySelectorAll('input[name="templateMode"]');
+      items.forEach(function(radio) {
+        if (radio.value === value) {
+          radio.closest('.radio-item').classList.add('selected');
+          radio.checked = true;
+          selectedTemplateMode = value;
+          
+          var warning = document.getElementById('manualWarning');
+          var templateSection = document.getElementById('templateNameSection');
+          var categoryTitle = document.getElementById('categoryTitle');
+          
+          if (value === 'manual') {
+            warning.classList.add('show');
+            templateSection.classList.add('hidden');
+            categoryTitle.textContent = '2. 送料上限カテゴリー';
+          } else {
+            warning.classList.remove('show');
+            templateSection.classList.remove('hidden');
+            categoryTitle.textContent = '3. 送料上限カテゴリー';
+          }
+        }
+      });
+    }
+    
+    function selectTemplateNameByValue(value) {
+      var items = document.querySelectorAll('input[name="templateName"]');
+      items.forEach(function(radio) {
+        if (radio.value === value) {
+          radio.closest('.radio-item').classList.add('selected');
+          radio.checked = true;
+          selectedTemplateName = value;
+        }
+      });
+    }
+    
+    function selectPolicyModeByValue(value) {
+      var items = document.querySelectorAll('input[name="policyMode"]');
+      items.forEach(function(radio) {
+        if (radio.value === value) {
+          radio.closest('.radio-item').classList.add('selected');
+          radio.checked = true;
+          selectedPolicyMode = value;
+          
+          var manualSection = document.getElementById('manualPolicySection');
+          if (value === 'manual') {
+            manualSection.style.display = 'block';
+          } else {
+            manualSection.style.display = 'none';
+          }
+        }
+      });
+    }
+    
+    function applyPreviousSettings() {
+      if (!previousSettings) return;
+      
+      var btn = document.getElementById('quickApplyBtn');
+      btn.disabled = true;
+      btn.textContent = '処理中...';
+      
+      google.script.run
+        .withSuccessHandler(function() {
+          google.script.host.close();
+        })
+        .withFailureHandler(function(error) {
+          alert('エラー: ' + error.message);
+          btn.disabled = false;
+          btn.textContent = '前回の設定で適用';
+        })
+        .applyUnifiedSettings(
+          previousSettings.category,
+          previousSettings.templateName,
+          previousSettings.templateMode,
+          previousSettings.policyMode,
+          previousSettings.manualPolicyId
+        );
+    }
+    
+    function loadTemplateNames() {
+      google.script.run
+        .withSuccessHandler(function(templateNames) {
+          renderTemplateOptions(templateNames);
+        })
+        .withFailureHandler(function(error) {
+          document.getElementById('templateNameOptions').innerHTML = 
+            '<div style="text-align: center; color: red;">読み込みエラー</div>';
+        })
+        .getTemplateNameList();
+    }
+    
+    function loadManualPolicies() {
+      google.script.run
+        .withSuccessHandler(function(policies) {
+          renderManualPolicyOptions(policies);
+        })
+        .withFailureHandler(function(error) {
+          document.getElementById('manualPolicySelect').innerHTML = 
+            '<option value="">読み込みエラー</option>';
+        })
+        .getManualPolicies();
+    }
+    
+    function renderTemplateOptions(templateNames) {
+      var container = document.getElementById('templateNameOptions');
+      container.innerHTML = '';
+      
+      if (!templateNames || templateNames.length === 0) {
+        container.innerHTML = '<div style="text-align: center; color: #999;">テンプレートなし</div>';
+        return;
+      }
+      
+      templateNames.forEach(function(name) {
+        var label = document.createElement('label');
+        label.className = 'radio-item';
+        label.onclick = function() { selectTemplateName(name); };
+        
+        var radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'templateName';
+        radio.value = name;
+        
+        var span = document.createElement('span');
+        span.className = 'radio-label';
+        span.textContent = name;
+        
+        label.appendChild(radio);
+        label.appendChild(span);
+        container.appendChild(label);
+      });
+    }
+    
+    function renderManualPolicyOptions(policies) {
+      var select = document.getElementById('manualPolicySelect');
+      select.innerHTML = '<option value="">選択してください</option>';
+      
+      if (!policies || policies.length === 0) {
+        select.innerHTML = '<option value="">ポリシーなし</option>';
+        return;
+      }
+      
+      policies.forEach(function(policy) {
+        var option = document.createElement('option');
+        option.value = policy.id;
+        option.textContent = 'ID ' + policy.id + ': ' + policy.name;
+        select.appendChild(option);
+      });
+      
+      select.onchange = function() {
+        selectedManualPolicyId = this.value;
+        updateApplyButton();
+      };
+    }
+    
+    function selectTemplateMode(mode) {
+      selectedTemplateMode = mode;
+      
+      var items = document.querySelectorAll('input[name="templateMode"]');
+      items.forEach(function(radio) {
+        radio.closest('.radio-item').classList.remove('selected');
+      });
+      
+      event.currentTarget.classList.add('selected');
+      event.currentTarget.querySelector('input').checked = true;
+      
+      var warning = document.getElementById('manualWarning');
+      var templateSection = document.getElementById('templateNameSection');
+      var categoryTitle = document.getElementById('categoryTitle');
+      
+      if (mode === 'manual') {
+        warning.classList.add('show');
+        templateSection.classList.add('hidden');
+        categoryTitle.textContent = '2. 送料上限カテゴリー';
+        selectedTemplateName = null;
+      } else {
+        warning.classList.remove('show');
+        templateSection.classList.remove('hidden');
+        categoryTitle.textContent = '3. 送料上限カテゴリー';
+      }
+      
+      updateApplyButton();
+    }
+    
+    function selectTemplateName(name) {
+      selectedTemplateName = name;
+      
+      var items = document.querySelectorAll('input[name="templateName"]');
+      items.forEach(function(radio) {
+        radio.closest('.radio-item').classList.remove('selected');
+      });
+      
+      event.currentTarget.classList.add('selected');
+      event.currentTarget.querySelector('input').checked = true;
+      
+      updateApplyButton();
+    }
+    
+    function selectCategory(value) {
+      selectedCategory = value;
+      
+      var items = document.querySelectorAll('input[name="category"]');
+      items.forEach(function(radio) {
+        radio.closest('.radio-item').classList.remove('selected');
+      });
+      
+      event.currentTarget.classList.add('selected');
+      event.currentTarget.querySelector('input').checked = true;
+      
+      updateApplyButton();
+    }
+    
+    function selectPolicyMode(mode) {
+      selectedPolicyMode = mode;
+      
+      var items = document.querySelectorAll('input[name="policyMode"]');
+      items.forEach(function(radio) {
+        radio.closest('.radio-item').classList.remove('selected');
+      });
+      
+      event.currentTarget.classList.add('selected');
+      event.currentTarget.querySelector('input').checked = true;
+      
+      var manualSection = document.getElementById('manualPolicySection');
+      if (mode === 'manual') {
+        manualSection.style.display = 'block';
+      } else {
+        manualSection.style.display = 'none';
+        selectedManualPolicyId = null;
+      }
+      
+      updateApplyButton();
+    }
+    
+    function updateApplyButton() {
+      var btn = document.getElementById('applyBtn');
+      
+      var templateOk = (selectedTemplateMode === 'manual') || selectedTemplateName;
+      var categoryOk = selectedCategory;
+      var policyOk = (selectedPolicyMode === 'auto') || selectedManualPolicyId;
+      
+      btn.disabled = !(templateOk && categoryOk && policyOk);
+    }
+    
+    function applySettings() {
+      if (!selectedCategory) {
+        alert('カテゴリーを選択してください');
+        return;
+      }
+      
+      if (selectedTemplateMode === 'auto' && !selectedTemplateName) {
+        alert('テンプレート名を選択してください');
+        return;
+      }
+      
+      if (selectedPolicyMode === 'manual' && !selectedManualPolicyId) {
+        alert('ポリシーを選択してください');
+        return;
+      }
+      
+      var btn = document.getElementById('applyBtn');
+      btn.disabled = true;
+      btn.textContent = '処理中...';
+      
+      var settings = {
+        category: selectedCategory,
+        templateName: selectedTemplateName,
+        templateMode: selectedTemplateMode,
+        policyMode: selectedPolicyMode,
+        manualPolicyId: selectedManualPolicyId
+      };
+      
+      google.script.run
+        .withSuccessHandler(function() {
+          google.script.host.close();
+        })
+        .withFailureHandler(function(error) {
+          alert('エラー: ' + error.message);
+          btn.disabled = false;
+          btn.textContent = '適用';
+        })
+        .applyUnifiedSettingsWithSave(
+          selectedCategory,
+          selectedTemplateName,
+          selectedTemplateMode,
+          selectedPolicyMode,
+          selectedManualPolicyId,
+          settings
+        );
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <style>
+      body { font-family: Arial, sans-serif; padding: 14px; }
+      label { display:block; margin-bottom:6px; }
+      input[type="password"], input[type="text"] { width:100%; padding:8px; box-sizing:border-box; }
+      .row { margin: 10px 0; }
+      .hint { font-size: 12px; color: #666; margin-top: 6px; }
+      .actions { margin-top: 16px; display:flex; gap:8px; }
+      button { padding:8px 14px; cursor:pointer; }
+      .ok { background:#1976d2; color:white; border:none; }
+      .cancel { background:#eee; border:1px solid #ccc; }
+      .msg { margin-top:10px; font-size: 12px; }
+    </style>
+  </head>
+  <body>
+    <h3>🔑 簡易版 初期設定（APIキーのみ）</h3>
+    <div class="row">
+      <label for="apiKey">OpenAI APIキー</label>
+      <input id="apiKey" type="password" placeholder="sk-..." />
+      <div class="hint">
+        ※ このキーはユーザーごとの設定（UserProperties）に保存され、フル版設定とは独立です。<br>
+        ※ 簡易版では <b>GPT-5-nano</b> / <b>EBAY_FULL_LISTING_PROMPT</b> / <b>Profit-Amounts</b> 固定で動作します。
+      </div>
+    </div>
+    <div class="actions">
+      <button class="ok" onclick="save()">保存</button>
+      <button class="cancel" onclick="google.script.host.close()">閉じる</button>
+    </div>
+    <div id="msg" class="msg"></div>
+
+    <script>
+      // 既存値の読み込み（初期表示）
+      google.script.run.withSuccessHandler(function(s){
+        if (s && s.apiKey) document.getElementById('apiKey').value = s.apiKey;
+      }).getSimpleSettings();
+
+      function save(){
+        const el = document.getElementById('apiKey');
+        const key = (el.value || '').trim();
+        const msg = document.getElementById('msg');
+        msg.textContent = '保存中…';
+        google.script.run.withSuccessHandler(function(res){
+          if (res && res.ok) {
+            msg.textContent = '✅ 保存しました。';
+            setTimeout(()=> google.script.host.close(), 600);
+          } else {
+            msg.textContent = '⚠️ エラー: ' + (res && res.error ? res.error : '保存に失敗しました');
+          }
+        }).saveSimpleSettings(key);
+      }
+    </script>
+  </body>
+</html>
