@@ -264,6 +264,11 @@ function getSelectedShippingMethod(costYen, actualWeight, volWeight, sizeString)
     // 低価格配送方法名を取得（短縮形式）
     var lowPriceMethodName = lowPriceMethod || 'SP';
 
+    // 低価格配送方法が「なし」の場合、金額に関わらず常に高価格配送
+    if (lowPriceMethod === 'NONE') {
+      return highPriceMethodName;
+    }
+
     // 🔹 送料固定モード判定（重量・サイズが空 = 固定モード）
     var isFixedShippingMode = (actualWeight === 0 || !actualWeight) &&
                               (volWeight === 0 || !volWeight) &&
@@ -271,10 +276,6 @@ function getSelectedShippingMethod(costYen, actualWeight, volWeight, sizeString)
 
     if (isFixedShippingMode) {
       // 送料固定モード: 仕入れ金額のみで判定
-      if (lowPriceMethod === 'NONE') {
-        return highPriceMethodName;
-      }
-
       if (costYen >= threshold) {
         return highPriceMethodName;
       } else {
@@ -284,11 +285,6 @@ function getSelectedShippingMethod(costYen, actualWeight, volWeight, sizeString)
 
     // 🔹 以下はテーブル計算モードのみ実行される
     var chargeable = Math.max(actualWeight, volWeight);
-
-    // 低価格配送方法が「なし」の場合
-    if (lowPriceMethod === 'NONE') {
-      return highPriceMethodName;
-    }
 
     // 基準金額以上 → 高価格配送方法
     if (costYen >= threshold) {

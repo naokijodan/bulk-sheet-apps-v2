@@ -3173,10 +3173,10 @@ function applyCalculationFormulas(sheetName, settings) {
       abRange.setFormulas(abFormulas);
       abRange.setNumberFormat('0'); // 整数形式
 
-      // X列: 配送方法 = IF(仕入れ価格>=切替基準, 高価格配送, 低価格配送)
+      // X列: 配送方法 = IF(低価格配送が「NONE」または仕入れ価格>=切替基準, 高価格配送, 低価格配送)
       var xFormulas = [];
       for (var i = 5; i <= dataLastRow; i++) {
-        xFormulas.push(['=IF(I' + i + '>=$AJ$4,$AQ$3,$AQ$2)']);
+        xFormulas.push(['=IF(OR($AQ$2="NONE",I' + i + '>=$AJ$4),$AQ$3,$AQ$2)']);
       }
       sheet.getRange(5, CONFIG.COLUMNS.METHOD, dataLastRow - 4, 1).setFormulas(xFormulas);
     }
