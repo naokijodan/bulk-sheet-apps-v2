@@ -258,27 +258,11 @@ function getSelectedShippingMethod(costYen, actualWeight, volWeight, sizeString)
     var lowPriceMethod = props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'SP';
     var highPriceMethod = props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF';
 
-    // 高価格配送方法名を取得
-    var highPriceMethodName;
-    if (highPriceMethod === 'CF') {
-      highPriceMethodName = 'Cpass-FedEx';
-    } else if (highPriceMethod === 'CD') {
-      highPriceMethodName = 'Cpass-DHL';
-    } else if (highPriceMethod === 'EL') {
-      highPriceMethodName = 'eLogistics';
-    } else {
-      highPriceMethodName = 'Cpass-FedEx';
-    }
+    // 高価格配送方法名を取得（短縮形式）
+    var highPriceMethodName = highPriceMethod || 'CF';
 
-    // 低価格配送方法名を取得
-    var lowPriceMethodName;
-    if (lowPriceMethod === 'SP') {
-      lowPriceMethodName = 'Small Packet';
-    } else if (lowPriceMethod === 'CE') {
-      lowPriceMethodName = 'Cpass-Economy';
-    } else {
-      lowPriceMethodName = 'Small Packet';
-    }
+    // 低価格配送方法名を取得（短縮形式）
+    var lowPriceMethodName = lowPriceMethod || 'SP';
 
     // 🔹 送料固定モード判定（重量・サイズが空 = 固定モード）
     var isFixedShippingMode = (actualWeight === 0 || !actualWeight) &&
@@ -314,12 +298,12 @@ function getSelectedShippingMethod(costYen, actualWeight, volWeight, sizeString)
     // 基準金額未満 → 低価格配送方法を試行（制限チェックあり）
     if (lowPriceMethod === 'SP') {
       if (isMethodAvailable('SP', chargeable, sizeString)) {
-        return 'Small Packet';
+        return 'SP';
       } else {
         return highPriceMethodName; // 制限超過時はフォールバック
       }
     } else if (lowPriceMethod === 'CE') {
-      return 'Cpass-Economy';
+      return 'CE';
     }
 
     return highPriceMethodName;
@@ -328,11 +312,7 @@ function getSelectedShippingMethod(costYen, actualWeight, volWeight, sizeString)
     var props = PropertiesService.getScriptProperties();
     var highPriceMethod = props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF';
 
-    if (highPriceMethod === 'CF') return 'Cpass-FedEx';
-    if (highPriceMethod === 'CD') return 'Cpass-DHL';
-    if (highPriceMethod === 'EL') return 'eLogistics';
-
-    return 'Cpass-FedEx';
+    return highPriceMethod;
   }
 }
 
@@ -415,6 +395,34 @@ function calculateSpecificMethodRate(shippingMethod, actualWeight, volWeight) {
   UDF：SHIPPING_COST（数値のみ返す）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function SHIPPING_COST(costYen, actualWeight, volWeight, shippingMethod, sizeString) {
+  // 🆕 配列対応（ARRAYFORMULA用）
+  if (Array.isArray(costYen)) {
+    return costYen.map(function(cost, i) {
+      var weight = Array.isArray(actualWeight) ? actualWeight[i] : actualWeight;
+      var vol = Array.isArray(volWeight) ? volWeight[i] : volWeight;
+      var method = Array.isArray(shippingMethod) ? shippingMethod[i] : shippingMethod;
+      var size = Array.isArray(sizeString) ? sizeString[i] : sizeString;
+
+      if (!cost || cost === '') return '';
+
+      var parsedCostYen = parseFloat(cost);
+      var parsedActualWeight = parseFloat(weight);
+      var parsedVolWeight = parseFloat(vol);
+
+      if (isNaN(parsedCostYen) || isNaN(parsedActualWeight) || isNaN(parsedVolWeight)) return 999999;
+
+      try {
+        if (method && method !== "" && method !== "自動選択") {
+          return calculateSpecificMethodRate(method, parsedActualWeight, parsedVolWeight);
+        }
+        return selectCheapestShippingRateWithConstraints(parsedCostYen, parsedActualWeight, parsedVolWeight, size);
+      } catch (e) {
+        return 999999;
+      }
+    });
+  }
+
+  // 単一値の場合（従来通り）
   var parsedCostYen = parseFloat(costYen);
   var parsedActualWeight = parseFloat(actualWeight);
   var parsedVolWeight = parseFloat(volWeight);

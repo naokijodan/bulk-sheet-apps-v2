@@ -1823,86 +1823,95 @@ function writePoliciesToMaster(masterSheet, sourceSheet, startRow) {
       .setBorder(true, true, true, true, true, true, '#000000', SpreadsheetApp.BorderStyle.SOLID);
   }
   
-  // 🔹 手動選択用ポリシーセクション
+  // 🔹 手動選択用ポリシーセクション（E-G列に出力）
   if (manualPolicies.length > 0) {
-    dataRow += 2; // 空行
-    
-    masterSheet.getRange(dataRow, 1, 1, 3).mergeAcross();
-    masterSheet.getRange(dataRow, 1).setValue('【Shipping Policies - 手動選択用】');
-    masterSheet.getRange(dataRow, 1).setFontWeight('bold').setFontSize(12)
+    var manualStartRow = 1; // E列の開始行
+
+    // ヘッダー
+    masterSheet.getRange(manualStartRow, 5, 1, 3).mergeAcross();
+    masterSheet.getRange(manualStartRow, 5).setValue('【Shipping Policies - 手動選択用】');
+    masterSheet.getRange(manualStartRow, 5).setFontWeight('bold').setFontSize(12)
       .setBackground('#ff9800').setFontColor('white').setHorizontalAlignment('center');
-    
-    dataRow++;
-    
+
+    manualStartRow++;
+
     // 列ヘッダー
-    masterSheet.getRange(dataRow, 1).setValue('Policy ID');
-    masterSheet.getRange(dataRow, 2).setValue('Policy Name');
-    masterSheet.getRange(dataRow, 3).setValue('備考');
-    masterSheet.getRange(dataRow, 1, 1, 3).setFontWeight('bold').setBackground('#ffe0b2');
-    
-    dataRow++;
-    
+    masterSheet.getRange(manualStartRow, 5).setValue('Policy ID');
+    masterSheet.getRange(manualStartRow, 6).setValue('Policy Name');
+    masterSheet.getRange(manualStartRow, 7).setValue('備考');
+    masterSheet.getRange(manualStartRow, 5, 1, 3).setFontWeight('bold').setBackground('#ffe0b2');
+
+    manualStartRow++;
+
     // 手動用データを書き込み
     for (var j = 0; j < manualPolicies.length; j++) {
       var manual = manualPolicies[j];
-      masterSheet.getRange(dataRow, 1).setValue(manual.id);
-      masterSheet.getRange(dataRow, 2).setValue(manual.name);
-      masterSheet.getRange(dataRow, 3).setValue('価格範囲不明・手動選択用');
-      dataRow++;
+      masterSheet.getRange(manualStartRow, 5).setValue(manual.id);
+      masterSheet.getRange(manualStartRow, 6).setValue(manual.name);
+      masterSheet.getRange(manualStartRow, 7).setValue('価格範囲不明・手動選択用');
+      manualStartRow++;
     }
-    
+
     // 罫線
-    masterSheet.getRange(dataRow - manualPolicies.length - 2, 1, manualPolicies.length + 2, 3)
+    masterSheet.getRange(1, 5, manualStartRow - 1, 3)
       .setBorder(true, true, true, true, true, true, '#000000', SpreadsheetApp.BorderStyle.SOLID);
+
+    // 列幅設定
+    masterSheet.setColumnWidth(5, 130); // E列
+    masterSheet.setColumnWidth(6, 350); // F列
+    masterSheet.setColumnWidth(7, 280); // G列
   }
-  
+
   return dataRow;
 }
 /**
- * 手動選択用ポリシーのリストを取得
+ * 手動選択用ポリシーのリストを取得（E-G列から取得）
  * @return {Array} [{id: xxx, name: xxx}]
  */
 function getManualPolicies() {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var masterSheet = ss.getSheetByName('Policy_Master');
-    
+
     if (!masterSheet) {
       return [];
     }
-    
+
     var lastRow = masterSheet.getLastRow();
-    var data = masterSheet.getRange(1, 1, lastRow, 3).getValues();
+    if (lastRow < 3) {
+      return []; // ヘッダー含めて最低3行必要
+    }
+
+    // E-G列（列5-7）からデータを取得
+    var data = masterSheet.getRange(1, 5, lastRow, 3).getValues();
     var manualPolicies = [];
     var inManualSection = false;
-    
+
     for (var i = 0; i < data.length; i++) {
       var cellValue = String(data[i][0]);
-      
+
       // 手動選択用セクション開始
       if (cellValue.indexOf('【Shipping Policies - 手動選択用】') !== -1) {
         inManualSection = true;
         continue;
       }
-      
-      // 次のセクションが始まったら終了
-      if (inManualSection && cellValue.indexOf('【') !== -1) {
-        break;
+
+      // ヘッダー行をスキップ
+      if (inManualSection && cellValue === 'Policy ID') {
+        continue;
       }
-      
+
       // 手動セクション内でポリシーを抽出
       if (inManualSection && data[i][0] && data[i][1]) {
-        if (cellValue !== 'Policy ID') { // ヘッダー行をスキップ
-          manualPolicies.push({
-            id: data[i][0],
-            name: data[i][1]
-          });
-        }
+        manualPolicies.push({
+          id: data[i][0],
+          name: data[i][1]
+        });
       }
     }
-    
+
     return manualPolicies;
-    
+
   } catch (e) {
     console.error('手動ポリシー取得エラー: ' + e.message);
     return [];

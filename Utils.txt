@@ -4,11 +4,31 @@
  * - 配列・データ処理 (バッチ作成)
  * - 処理制御 (停止制御、トリガー管理)
  * - シート操作 (シート取得、行取得)
+ * - カスタム関数 (テンプレートID取得、ポリシーID取得)
  ******************************************************/
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   UI関連
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+/**
+ * 為替レートを更新（GOOGLEFINANCEで取得）
+ * エラー時や異常値の場合は145円を設定
+ */
+function updateExchangeRate(sheet) {
+  try {
+    var exchangeCell = sheet.getRange("C2");
+    exchangeCell.setFormula('=GOOGLEFINANCE("USDJPY")');
+    SpreadsheetApp.flush();
+    Utilities.sleep(1000);
+    var rate = Number(exchangeCell.getValue());
+    if (!rate || rate < 100 || rate > 200) exchangeCell.setValue(145);
+    return rate || 145;
+  } catch (e) {
+    sheet.getRange("C2").setValue(145);
+    return 145;
+  }
+}
 
 function showAlert(message, type) {
   if (typeof type === 'undefined') type = "info";
@@ -48,9 +68,9 @@ function conditionalShowAlert(message, type) {
 function conditionalStartConfirmation(message, title) {
   if (shouldShowPopups()) {
     var ui = SpreadsheetApp.getUi();
-    return ui.alert(title || '実行確認', message, ui.ButtonSet.YES_NO);
+    return ui.alert(title || '確認', message, ui.ButtonSet.YES_NO);
   } else {
-    // サイレントモード時は確認なしで即実行
+    // ポップアップOFFの場合はYESを返して実行
     return SpreadsheetApp.getUi().Button.YES;
   }
 }
@@ -59,10 +79,10 @@ function conditionalStartConfirmation(message, title) {
   配列・データ処理
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-function createBatches(arr, size) {
+function createBatches(array, size) {
   var batches = [];
-  for (var i = 0; i < arr.length; i += size) {
-    batches.push(arr.slice(i, i + size));
+  for (var i = 0; i < array.length; i += size) {
+    batches.push(array.slice(i, i + size));
   }
   return batches;
 }
@@ -72,40 +92,14 @@ function createBatches(arr, size) {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
 function setupStopControlCell() {
-  var props = PropertiesService.getScriptProperties();
-  var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
-  var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
-  if (!sh) return;
-
-  // D2セルに作業制御のドロップダウンを設定（GO/STOP）
-  var d2Cell = sh.getRange('D2');
-  var options = ['GO', 'STOP'];
-
-  d2Cell.clearDataValidations();
-  var validation = SpreadsheetApp.newDataValidation()
-    .requireValueInList(options, true)
-    .setAllowInvalid(false)
-    .setHelpText('GO: 作業続行, STOP: 作業停止')
-    .build();
-  d2Cell.setDataValidation(validation);
-
-  // 初期値を設定（既に値がある場合は変更しない）
-  var currentValue = d2Cell.getValue();
-  if (!currentValue || !options.includes(currentValue)) {
-    d2Cell.setValue('GO');
-    currentValue = 'GO';
-  }
-
-  // セルの書式設定
-  d2Cell.setFontWeight('bold').setHorizontalAlignment('center');
-  if (currentValue === 'GO') {
-    d2Cell.setBackground('#c6efce'); // 緑
-  } else {
-    d2Cell.setBackground('#ffcdd2'); // 赤
-  }
-
-  // ラベル設定
-  sh.getRange('D1').setValue('作業制御').setFontWeight('bold').setHorizontalAlignment('center');
+  try {
+    var props = PropertiesService.getScriptProperties();
+    var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(sheetName);
+    if (!sheet) return;
+    sheet.getRange("D2").setValue("GO");
+  } catch (e) {}
 }
 
 function checkStopControl() {
@@ -119,6 +113,20 @@ function checkStopControl() {
     return stopValue === 'GO'; // GOなら続行、STOPなら停止
   } catch (e) {
     return true; // エラー時は続行
+  }
+}
+
+function shouldContinueProcessing() {
+  try {
+    var props = PropertiesService.getScriptProperties();
+    var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(sheetName);
+    if (!sheet) return true;
+    var val = sheet.getRange("D2").getValue();
+    return (val !== "STOP");
+  } catch (e) {
+    return true;
   }
 }
 
@@ -148,24 +156,19 @@ function clearAllTriggers() {
   }
 }
 
-/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  為替レート・時間計算
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-
-function updateExchangeRate(sheet) {
+function createContinuationTrigger(scriptName, intervalMinutes) {
   try {
-    var exchangeCell = sheet.getRange("C2");
-    exchangeCell.setFormula('=GOOGLEFINANCE("USDJPY")');
-    SpreadsheetApp.flush();
-    Utilities.sleep(1000);
-    var rate = Number(exchangeCell.getValue());
-    if (!rate || rate < 100 || rate > 200) exchangeCell.setValue(145);
-    return rate || 145;
-  } catch (e) {
-    sheet.getRange("C2").setValue(145);
-    return 145;
-  }
+    clearAllTriggers();
+    ScriptApp.newTrigger(scriptName)
+      .timeBased()
+      .after(intervalMinutes * 60 * 1000)
+      .create();
+  } catch (e) {}
 }
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  時間計算
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
 function calculateElapsedTime(startTimeISO) {
   const startTime = new Date(startTimeISO);
@@ -194,11 +197,11 @@ function getTargetRows(sheet) {
   if (last < 5) return [];
   var targets = [];
   for (var r = 5; r <= last; r++) {
-    var jpTitle = sheet.getRange(r, CONFIG.COLUMNS.JP_TITLE).getValue();     // 10（変更なし）
-    var jpDesc  = sheet.getRange(r, CONFIG.COLUMNS.JP_DESC).getValue();      // 11（変更なし）
-    var costYen = Number(sheet.getRange(r, CONFIG.COLUMNS.COST_YEN).getValue());  // 9（変更なし）
-    var enTitle = sheet.getRange(r, CONFIG.COLUMNS.EN_TITLE).getValue();     // 13（変更なし）
-    var enDesc  = sheet.getRange(r, CONFIG.COLUMNS.EN_DESC).getValue();      // 14（変更なし）
+    var jpTitle = sheet.getRange(r, CONFIG.COLUMNS.JP_TITLE).getValue();
+    var jpDesc  = sheet.getRange(r, CONFIG.COLUMNS.JP_DESC).getValue();
+    var costYen = Number(sheet.getRange(r, CONFIG.COLUMNS.COST_YEN).getValue());
+    var enTitle = sheet.getRange(r, CONFIG.COLUMNS.EN_TITLE).getValue();
+    var enDesc  = sheet.getRange(r, CONFIG.COLUMNS.EN_DESC).getValue();
     if (jpTitle && jpDesc && costYen > 0 && (!enTitle || !enDesc)) {
       targets.push(r);
     }
@@ -207,23 +210,73 @@ function getTargetRows(sheet) {
 }
 
 function validateAndGetSheet() {
-  var settings = getSettings(); if (!settings) return null;
   try {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(settings.sheetName);
-    if (!sheet) { showAlert('⚠️ シート「' + settings.sheetName + '」が見つかりません。「初期設定」で確認してください。',"error"); return null; }
+    var props = PropertiesService.getScriptProperties();
+    var sheetName = props.getProperty('SHEET_NAME');
+    if (!sheetName) {
+      showAlert('作業シート名が設定されていません。初期設定を実行してください。', 'error');
+      return null;
+    }
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(sheetName);
+    if (!sheet) {
+      showAlert('作業シート「' + sheetName + '」が見つかりません。', 'error');
+      return null;
+    }
     return sheet;
-  } catch(e) {
-    showAlert('シート取得エラー: ' + e.message, "error"); return null;
+  } catch (e) {
+    showAlert('シート取得エラー: ' + e.message, 'error');
+    return null;
   }
 }
 
-function getAllSheetNames() {
+function getSelectedRows() {
   try {
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    return ss.getSheets().map(function(sheet) { return sheet.getName(); });
+    var sheet = validateAndGetSheet();
+    if (!sheet) return [];
+    var range = sheet.getActiveRange();
+    if (!range) return [];
+    var startRow = range.getRow();
+    var endRow = range.getLastRow();
+    var rows = [];
+    for (var i = startRow; i <= endRow; i++) {
+      if (i >= 5) rows.push(i);
+    }
+    return rows;
   } catch (e) {
-    return ['作業シート'];
+    return [];
   }
+}
+
+function getDataRows(sheet) {
+  try {
+    if (!sheet) return [];
+    var lastRow = sheet.getLastRow();
+    var rows = [];
+    for (var i = 5; i <= lastRow; i++) {
+      rows.push(i);
+    }
+    return rows;
+  } catch (e) {
+    return [];
+  }
+}
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  列番号変換
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+function getColumnNumber(column) {
+  var result = 0;
+  for (var i = 0; i < column.length; i++) {
+    result = result * 26 + (column.charCodeAt(i) - 'A'.charCodeAt(0) + 1);
+  }
+  return result;
+}
+
+function getColumnIndex(columnLetter) {
+  var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  return letters.indexOf(columnLetter.toUpperCase()) + 1;
 }
 
 function findMatchingSheets(pattern) {
@@ -248,23 +301,370 @@ function findMatchingSheets(pattern) {
 
     return matchingSheets;
   } catch (e) {
+    console.error('シート検索エラー: ' + e.message);
     return [];
   }
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  列番号変換
+  カスタム関数（スプレッドシートから呼び出し可能）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-function getColumnNumber(column) {
-  var result = 0;
-  for (var i = 0; i < column.length; i++) {
-    result = result * 26 + (column.charCodeAt(i) - 'A'.charCodeAt(0) + 1);
+/**
+ * テンプレートIDを取得するカスタム関数
+ *
+ * @param {string} categoryDisplay - カテゴリー表示名（O1セル）
+ * @param {string} templateName - テンプレート名（O2セル）
+ * @param {string} condition - 商品状態（AE列: 新品/中古）
+ * @param {string} shippingMethod - 配送方法（X列: CF/CD/EL/SP/CEなど）
+ * @return {number|string} テンプレートID、またはエラーメッセージ
+ * @customfunction
+ */
+function GET_TEMPLATE_ID(categoryDisplay, templateName, condition, shippingMethod) {
+  try {
+    // 入力チェック
+    if (!categoryDisplay || !templateName || !condition || !shippingMethod) {
+      return '';
+    }
+
+    // 配送方法を配送タイプに変換
+    var shippingType = convertShippingMethodToType_(shippingMethod);
+    if (shippingType === 'エラー') {
+      return 'エラー';
+    }
+
+    // テンプレート標準名を生成
+    var standardName = generateTemplateName_(templateName, condition, shippingType);
+    if (!standardName) {
+      return 'エラー';
+    }
+
+    // Policy_Masterから検索
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName('Policy_Master');
+
+    if (!sheet) {
+      return 'エラー';
+    }
+
+    var lastRow = sheet.getLastRow();
+    if (lastRow < 2) {
+      return '該当なし';
+    }
+
+    var data = sheet.getRange(1, 1, lastRow, 2).getValues();
+    var inTemplateSection = false;
+
+    for (var i = 0; i < data.length; i++) {
+      var cellA = String(data[i][0] || '');
+
+      // テンプレートセクション開始
+      if (cellA.indexOf('【Templates】') !== -1) {
+        inTemplateSection = true;
+        continue;
+      }
+
+      // セクション終了
+      if (cellA.indexOf('【') !== -1 && inTemplateSection) {
+        break;
+      }
+
+      // テンプレート検索
+      if (inTemplateSection) {
+        var name = String(data[i][1] || '');
+        if (name === standardName) {
+          var id = data[i][0];
+          return typeof id === 'number' ? id : Number(id);
+        }
+      }
+    }
+
+    return '該当なし';
+
+  } catch (e) {
+    return 'エラー';
   }
-  return result;
 }
 
-function getColumnIndex(columnLetter) {
-  var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  return letters.indexOf(columnLetter.toUpperCase()) + 1;
+/**
+ * 配送方法を配送タイプに変換（カスタム関数用）
+ * @private
+ */
+function convertShippingMethodToType_(shippingMethod) {
+  try {
+    var method = String(shippingMethod || '').trim();
+
+    if (method === '自動選択' || method === '') {
+      return 'エラー';
+    }
+
+    // エコノミー系
+    var economyMethods = ['CE', 'SP', 'Cpass-Economy', 'Small Packet'];
+    for (var i = 0; i < economyMethods.length; i++) {
+      if (method === economyMethods[i]) {
+        return 'エコノミー';
+      }
+    }
+
+    // EX系
+    var exMethods = ['CF', 'CD', 'EL', 'Cpass-FedEx', 'Cpass-DHL', 'eLogistics'];
+    for (var j = 0; j < exMethods.length; j++) {
+      if (method === exMethods[j]) {
+        return 'EX';
+      }
+    }
+
+    return 'エラー';
+
+  } catch (error) {
+    return 'エラー';
+  }
+}
+
+/**
+ * テンプレート標準名を生成（カスタム関数用）
+ * @private
+ */
+function generateTemplateName_(templateName, condition, shippingType) {
+  try {
+    // 配送タイプを略称に変換
+    var shipping = (shippingType === 'エコノミー') ? 'eco' :
+                   (shippingType === 'EX') ? 'xp' : null;
+
+    if (!shipping) {
+      return null;
+    }
+
+    // 状態を英語に変換
+    var cond = (condition === '新品') ? 'new' :
+               (condition === '中古') ? 'used' : null;
+
+    if (!cond) {
+      return null;
+    }
+
+    // Template_テンプレート名_状態_配送方法
+    return 'Template_' + templateName + '_' + cond + '_' + shipping;
+
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
+ * シッピングポリシーIDを取得するカスタム関数
+ *
+ * @param {string} categoryDisplay - カテゴリー表示名（O1セル）
+ * @param {number} priceUSD - 販売価格（R列）
+ * @param {string} condition - 商品状態（AE列: 新品/中古）
+ * @param {string} shippingMethod - 配送方法（X列: CF/CD/EL/SP/CEなど）
+ * @return {number|string} シッピングポリシーID、またはエラーメッセージ
+ * @customfunction
+ */
+function GET_SHIPPING_POLICY_ID(categoryDisplay, priceUSD, condition, shippingMethod) {
+  try {
+    // 入力チェック
+    if (!categoryDisplay || !priceUSD || !condition || !shippingMethod) {
+      return '';
+    }
+
+    // 価格の検証
+    var price = Number(priceUSD);
+    if (isNaN(price) || price <= 0) {
+      return 'エラー';
+    }
+
+    // 配送方法を配送タイプに変換
+    var shippingType = convertShippingMethodToType_(shippingMethod);
+    if (shippingType === 'エラー') {
+      return 'エラー';
+    }
+
+    // 状態の検証
+    if (condition !== '新品' && condition !== '中古') {
+      return 'エラー';
+    }
+
+    // カテゴリーから送料上限を取得
+    var shippingLimit = getShippingLimitForCategory_(categoryDisplay);
+
+    // 価格調整（関税率差を考慮）
+    var adjustedPrice = calculateAdjustedPriceForPolicy_(price);
+
+    // Policy_Masterから検索
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName('Policy_Master');
+
+    if (!sheet) {
+      return 'エラー';
+    }
+
+    var lastRow = sheet.getLastRow();
+    if (lastRow < 2) {
+      return '該当なし';
+    }
+
+    // A列:ID、B列:名称、C列:送料上乗せ を取得
+    var data = sheet.getRange(2, 1, lastRow - 1, 3).getValues();
+    var candidates = [];
+
+    for (var i = 0; i < data.length; i++) {
+      var id = data[i][0];
+      var name = String(data[i][1] || '');
+      var shippingFee = data[i][2];
+
+      // 空行やヘッダー行をスキップ
+      if (!name || name.indexOf('【') !== -1) {
+        continue;
+      }
+
+      // ポリシー名をパース
+      var parsed = parseShippingPolicyName_(name);
+      if (!parsed) continue;
+
+      // 基本条件チェック
+      if (parsed.condition !== condition) continue;
+      if (parsed.shippingType !== shippingType) continue;
+      if (adjustedPrice < parsed.minPrice || adjustedPrice > parsed.maxPrice) continue;
+
+      // 送料上限チェック
+      if (shippingLimit !== null && typeof shippingFee === 'number' && shippingFee > shippingLimit) {
+        continue;
+      }
+
+      // 条件に合致
+      candidates.push({
+        id: id,
+        shippingFee: shippingFee
+      });
+    }
+
+    if (candidates.length === 0) {
+      return '該当なし';
+    }
+
+    // 最初に見つかったものを返す
+    var result = candidates[0].id;
+    return typeof result === 'number' ? result : Number(result);
+
+  } catch (e) {
+    return 'エラー';
+  }
+}
+
+/**
+ * カテゴリーから送料上限を取得（カスタム関数用）
+ * @private
+ */
+function getShippingLimitForCategory_(categoryDisplay) {
+  try {
+    var categories = CONFIG.SHIPPING_POLICY_CATEGORIES;
+
+    if (categories[categoryDisplay] && typeof categories[categoryDisplay].limit !== 'undefined') {
+      return categories[categoryDisplay].limit;
+    }
+
+    // カテゴリーが見つからない場合は「その他」扱い（上限なし）
+    return null;
+
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
+ * ポリシー判定用の調整後価格を計算（カスタム関数用・簡易版）
+ * @private
+ */
+function calculateAdjustedPriceForPolicy_(priceUSD) {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var props = PropertiesService.getScriptProperties();
+    var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
+    var sheet = ss.getSheetByName(sheetName);
+
+    if (!sheet) {
+      return priceUSD; // シートが見つからない場合はそのまま
+    }
+
+    // セルから値を取得
+    var BASE_RATE = 0.15;
+    var safetyFactor = Number(sheet.getRange('AG2').getValue()) || 1.35;
+    var actualRate = Number(sheet.getRange('AF2').getValue()) || 0.15;
+
+    // 実効閾値を計算
+    var effectiveThreshold = 800 * (1 + BASE_RATE) / (1 + actualRate);
+
+    // 調整
+    if (priceUSD >= effectiveThreshold) {
+      return priceUSD / safetyFactor;
+    } else {
+      return priceUSD;
+    }
+
+  } catch (e) {
+    return priceUSD; // エラー時はそのまま
+  }
+}
+
+/**
+ * シッピングポリシー名称から情報をパース（カスタム関数用）
+ * @private
+ */
+function parseShippingPolicyName_(policyName) {
+  try {
+    if (!policyName || typeof policyName !== 'string') {
+      return null;
+    }
+
+    // アンダースコアで分割
+    var parts = policyName.split('_');
+
+    // 最低限必要な要素数チェック（6要素以上）
+    if (parts.length < 6) {
+      return null;
+    }
+
+    // 配送タイプ（eco/xp）
+    var shippingTypeRaw = parts[2].toLowerCase();
+    var shippingType = (shippingTypeRaw === 'eco') ? 'エコノミー' :
+                       (shippingTypeRaw === 'xp') ? 'EX' : null;
+
+    if (!shippingType) {
+      return null;
+    }
+
+    // 状態（new/used）
+    var conditionRaw = parts[3].toLowerCase();
+    var condition = (conditionRaw === 'new') ? '新品' :
+                    (conditionRaw === 'used') ? '中古' : null;
+
+    if (!condition) {
+      return null;
+    }
+
+    // 価格範囲（最後の2要素）
+    var minPriceStr = parts[parts.length - 2];
+    var maxPriceStr = parts[parts.length - 1];
+
+    var minPrice = parseInt(minPriceStr, 10);
+    var maxPrice = maxPriceStr ? parseInt(maxPriceStr, 10) : 999999;
+
+    if (isNaN(minPrice)) {
+      return null;
+    }
+
+    // _0001_0050 → 1～50（50.00以下）
+    var adjustedMin = minPrice === 1 ? minPrice : minPrice - 0.99;
+
+    return {
+      shippingType: shippingType,
+      condition: condition,
+      minPrice: adjustedMin,
+      maxPrice: isNaN(maxPrice) ? 999999 : maxPrice
+    };
+
+  } catch (e) {
+    return null;
+  }
 }

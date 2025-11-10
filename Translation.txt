@@ -708,7 +708,7 @@ function applyTranslationBatch_(sheet, results, conditionMode) {
     var minRow = Math.min.apply(null, results.map(function(r) { return r.row; }));
     var maxRow = Math.max.apply(null, results.map(function(r) { return r.row; }));
     var rowCount = maxRow - minRow + 1;
-    
+
     // ========================================
     // Step 2: resultsを行番号でマップ化（高速検索用）
     // ========================================
@@ -716,46 +716,57 @@ function applyTranslationBatch_(sheet, results, conditionMode) {
     for (var i = 0; i < results.length; i++) {
       resultsMap[results[i].row] = results[i];
     }
-    
+
     // ========================================
-    // Step 3: M列・N列用のデータ配列を作成（空欄込み）
+    // Step 3: 既存データを一括読み込み（M列・N列・AE列）
+    // ========================================
+    var existingData = sheet.getRange(minRow, CONFIG.COLUMNS.EN_TITLE, rowCount, 2).getValues();
+    var existingConditions = sheet.getRange(minRow, CONFIG.COLUMNS.CONDITION, rowCount, 1).getValues();
+
+    // ========================================
+    // Step 4: M列・N列用のデータ配列を作成（既存値保持）
     // ========================================
     var titleDescData = [];
-    
+
     for (var row = minRow; row <= maxRow; row++) {
       var res = resultsMap[row];
-      
+      var idx = row - minRow;
+
       if (res) {
-        // データあり
+        // データあり：新しい翻訳結果で上書き
         var fields = res.fields;
         titleDescData.push([
           fields.title || '',
           fields.description || ''
         ]);
       } else {
-        // データなし（空欄）
-        titleDescData.push(['', '']);
+        // データなし：既存の値を保持
+        titleDescData.push([
+          existingData[idx][0],
+          existingData[idx][1]
+        ]);
       }
     }
-    
+
     // ========================================
-    // Step 4: M列・N列を一括書き込み
+    // Step 5: M列・N列を一括書き込み
     // ========================================
     sheet.getRange(minRow, CONFIG.COLUMNS.EN_TITLE, rowCount, 2).setValues(titleDescData);
-    
+
     // ========================================
-    // Step 5: AC列（商品状態）のデータ配列を作成（空欄込み）
+    // Step 6: AE列（商品状態）のデータ配列を作成（既存値保持）
     // ========================================
     var conditionData = [];
     var conditionNotes = [];
-    
+
     for (var row = minRow; row <= maxRow; row++) {
       var res = resultsMap[row];
-      
+      var idx = row - minRow;
+
       if (res) {
-        // データあり
+        // データあり：新しい商品状態で上書き
         var fields = res.fields;
-        
+
         // 商品状態の決定
         var finalCondition;
         if (conditionMode === '中古') {
@@ -786,27 +797,26 @@ function applyTranslationBatch_(sheet, results, conditionMode) {
         conditionData.push([conditionValue]);
         conditionNotes.push({ row: row, note: conditionNote });
       } else {
-        // データなし（空欄）
-        conditionData.push(['']);
+        // データなし：既存の値を保持
+        conditionData.push([existingConditions[idx][0]]);
         conditionNotes.push({ row: row, note: '' });
       }
     }
-    
+
     // ========================================
-    // Step 6: AC列（商品状態）を一括書き込み
+    // Step 7: AE列（商品状態）を一括書き込み
     // ========================================
     sheet.getRange(minRow, CONFIG.COLUMNS.CONDITION, rowCount, 1).setValues(conditionData);
-    
+
     // ========================================
-    // Step 7: メモは個別に設定（一括メソッドがないため）
+    // Step 8: メモは個別に設定（一括メソッドがないため）
     // ========================================
     for (var j = 0; j < conditionNotes.length; j++) {
       var noteInfo = conditionNotes[j];
       if (noteInfo.note) {
         sheet.getRange(noteInfo.row, CONFIG.COLUMNS.CONDITION).setNote(noteInfo.note);
-      } else {
-        sheet.getRange(noteInfo.row, CONFIG.COLUMNS.CONDITION).clearNote();
       }
+      // 既存値保持の場合はメモもそのまま（clearNoteしない）
     }
 
   } catch (e) {

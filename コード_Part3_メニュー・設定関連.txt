@@ -35,6 +35,9 @@ function onOpen() {
       .addItem("📦 選択行を保存してクリア", "saveSelectedRowsAndClear")
       .addItem("🗑️ 選択行のデータのみ削除", "clearSelectedRowsOnly")
       .addSeparator()
+      .addItem("🔄 計算式を再出力（R～AG列）", "reapplyCalculationFormulasToSelectedRows")
+      .addItem("🔄 選択行クリア＋式再設定", "clearAndReapplyFormulas")
+      .addSeparator()
       .addItem('選択行の高さを150pxに調整', 'adjustSelectedRowHeights')
       .addItem('選択行の高さをリセット', 'resetSelectedRowHeights')
       .addItem('選択行をクリア', 'clearSelectedRowsSafely')
@@ -278,7 +281,7 @@ function getPayoneerRateForPopup() {
 function getTariffRateForPopup() {
   var name = _getWorkSheetName_();
   var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(name);
-  var v = sh ? Number(sh.getRange('AD2').getValue()) : NaN;
+  var v = sh ? Number(sh.getRange('AF2').getValue()) : NaN;
   return (!isNaN(v) && v >= 0) ? v : 0;
 }
 
@@ -1909,6 +1912,27 @@ function getDuplicateCheckSettings() {
 }
 
 /**
+ * スプレッドシート内の全シート名を取得
+ * @return {Array} シート名の配列
+ */
+function getAllSheetNames() {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheets = ss.getSheets();
+    var sheetNames = [];
+
+    for (var i = 0; i < sheets.length; i++) {
+      sheetNames.push(sheets[i].getName());
+    }
+
+    return sheetNames;
+  } catch (e) {
+    console.error('シート名取得エラー: ' + e.message);
+    return [];
+  }
+}
+
+/**
  * 参照データシートのL列からユニークなカテゴリー一覧を取得
  * @return {Array} カテゴリー名の配列
  */
@@ -1981,32 +2005,44 @@ function testGetCategoryList() {
 function convertShippingMethodToType(shippingMethod) {
   try {
     var method = String(shippingMethod || '').trim();
-    
+
     // 自動選択の場合はエラー
     if (method === '自動選択' || method === '') {
       return 'エラー';
     }
-    
-    // エコノミー系の判定
-    var economyMethods = ['Cpass-Economy', 'Small Packet'];
+
+    // エコノミー系の判定（新形式の略称と旧形式の両方に対応）
+    var economyMethods = [
+      'CE',              // Cpass-Economy (新形式)
+      'SP',              // Small Packet (新形式)
+      'Cpass-Economy',   // 旧形式（互換性のため）
+      'Small Packet'     // 旧形式（互換性のため）
+    ];
     for (var i = 0; i < economyMethods.length; i++) {
       if (method === economyMethods[i]) {
         return 'エコノミー';
       }
     }
-    
-    // EX系の判定
-    var exMethods = ['Cpass-FedEx', 'Cpass-DHL', 'eLogistics'];
+
+    // EX系の判定（新形式の略称と旧形式の両方に対応）
+    var exMethods = [
+      'CF',             // Cpass-FedEx (新形式)
+      'CD',             // Cpass-DHL (新形式)
+      'EL',             // eLogistics (新形式)
+      'Cpass-FedEx',    // 旧形式（互換性のため）
+      'Cpass-DHL',      // 旧形式（互換性のため）
+      'eLogistics'      // 旧形式（互換性のため）
+    ];
     for (var j = 0; j < exMethods.length; j++) {
       if (method === exMethods[j]) {
         return 'EX';
       }
     }
-    
+
     // どちらにも該当しない場合はエラー
     console.log('未対応の配送方法: ' + method);
     return 'エラー';
-    
+
   } catch (error) {
     console.error('配送方法変換エラー: ' + error.message);
     return 'エラー';
@@ -2837,6 +2873,16 @@ function writeSettingsToSheet(sheetName, settings) {
     sheet.getRange('AM2:AN5').setBackground('#E8F5E9');
     sheet.getRange('AM2:AM5').setFontWeight('bold');
 
+    // 配送方法略称（非表示列、式で参照用）
+    var methodCodesData = [
+      [settings.lowPriceMethod],   // AQ2: 低価格配送方法略称
+      [settings.highPriceMethod]   // AQ3: 高価格配送方法略称
+    ];
+    var methodCodesRange = sheet.getRange('AQ2:AQ3');
+    methodCodesRange.clearDataValidations(); // データ入力規則をクリア
+    methodCodesRange.setValues(methodCodesData);
+    methodCodesRange.setBackground('#E8F0FE').setFontSize(9).setFontColor('#666666');
+
     // DDU調整（紫系）
     var dduData = [
       ['DDU調整有効', settings.dduAdjustmentEnabled === 'true' ? 'ON' : 'OFF'],
@@ -2923,27 +2969,35 @@ function applyCalculationFormulas(sheetName, settings) {
     var profitCalc = settings.profitCalc;  // 'RATE' or 'AMOUNT'
     var shippingCalc = settings.shippingCalcMethod;  // 'TABLE' or 'FIXED'
 
-    // 🆕 前回の設定を取得してモード変更を検出
-    var props = PropertiesService.getScriptProperties();
-    var prevProfitCalc = props.getProperty('PROFIT_CALCULATION_METHOD') || '';
-    var prevShippingCalc = props.getProperty('SHIPPING_CALC_METHOD') || '';
-
-    // モード変更時は該当列をクリア（5行目以降）
+    // ========================================
+    // E列・O列・R列～AG列（5行目以降）を全てクリア（AE列は除外）
+    // ARRAYFORMULAがエラーにならないよう、既存データを削除
+    // ========================================
     var lastRow = sheet.getLastRow();
     if (lastRow >= 5) {
-      if (prevProfitCalc !== '' && prevProfitCalc !== profitCalc) {
-        // 利益計算方法が変更された場合、R, U, W列をクリア
-        sheet.getRange('R5:R' + lastRow).clearContent();
-        sheet.getRange('U5:U' + lastRow).clearContent();
-        sheet.getRange('W5:W' + lastRow).clearContent();
-      }
-      if (prevShippingCalc !== '' && prevShippingCalc !== shippingCalc) {
-        // 送料計算方法が変更された場合、T列をクリア
-        sheet.getRange('T5:T' + lastRow).clearContent();
-      }
+      var clearRowCount = lastRow - 4; // 5行目からlastRowまで
+      // E列（5列目）をクリア
+      sheet.getRange(5, 5, clearRowCount, 1).clearContent();
+      // O列（15列目）をクリア
+      sheet.getRange(5, CONFIG.COLUMNS.SHIPPING_POLICY, clearRowCount, 1).clearContent();
+      // R列(18)からAD列(30)まで = 13列（AE列の直前まで）
+      sheet.getRange(5, CONFIG.COLUMNS.PRICE, clearRowCount, 13).clearContent();
+      // AF列(32)からAG列(33)まで = 2列（AE列の直後から）
+      sheet.getRange(5, CONFIG.COLUMNS.EBAY_CATEGORY, clearRowCount, 2).clearContent();
+      console.log('E列・O列・R列～AD列・AF列～AG列（5～' + lastRow + '行）をクリアしました（AE列は保持）');
     }
 
-    // R列: 販売価格
+    // 🆕 dataLastRowを先に取得（全ての列で使用）
+    // I列（仕入れ価格）に値がある最終行を取得
+    var dataLastRow = sheet.getLastRow();
+    if (dataLastRow < 5) {
+      dataLastRow = 50; // データがない場合は50行まで設定（軽量化）
+    } else {
+      // 実際のデータ行数+余裕として10行追加
+      dataLastRow = Math.min(dataLastRow + 10, 1000);
+    }
+
+    // R列: 販売価格（ARRAYFORMULA）
     var priceFormula = '';
     if (profitCalc === 'RATE') {
       priceFormula = '=ARRAYFORMULA(IF(ROW(R4:R)=4,"販売価格",IF(I4:I="","",ROUND(((I4:I+T4:T)/(1-(V4:V+W4:W+$F$2+$Z$2))/$C$2)*100)/100)))';
@@ -2952,43 +3006,392 @@ function applyCalculationFormulas(sheetName, settings) {
     }
     sheet.getRange('R4').setFormula(priceFormula);
 
-    // S列: 関税込み価格
+    // S列: 関税込み価格（ARRAYFORMULA）
     sheet.getRange('S4').setFormula('=ARRAYFORMULA(IF(ROW(S4:S)=4,"関税込み価格",IF(R4:R="","",ROUND(R4:R+AD4:AD,2))))');
 
-    // T列: 送料
-    var shippingFormula = '';
-    if (shippingCalc === 'TABLE') {
-      shippingFormula = '=ARRAYFORMULA(IF(ROW(T4:T)=4,"送料",IF(I4:I="","",SHIPPING_COST(I4:I,Y4:Y,AC4:AC,X4:X,AC4:AC))))';
-    } else {
-      shippingFormula = '=ARRAYFORMULA(IF(ROW(T4:T)=4,"送料",IF(I4:I="","",IF($J$1<>"", $J$1, VLOOKUP(I4:I,Profit_Amounts!$A$2:$D$8,4,TRUE)))))';
+    // E列: テンプレートID（カスタム関数を使用）
+    try {
+      sheet.getRange('E4').setValue('テンプレート');
+      var templateFormulas = [];
+      for (var row = 5; row <= dataLastRow; row++) {
+        var formula = '=IF(OR(ISBLANK($O$1),ISBLANK($O$2),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_TEMPLATE_ID($O$1,$O$2,AE' + row + ',X' + row + '))';
+        templateFormulas.push([formula]);
+      }
+      if (templateFormulas.length > 0) {
+        sheet.getRange(5, 5, templateFormulas.length, 1).setFormulas(templateFormulas);
+        console.log('E列（テンプレートID）設定完了（5～' + dataLastRow + '行）');
+      }
+    } catch (eTemplate) {
+      console.error('E列（テンプレート）設定エラー: ' + eTemplate.message);
+      // エラーが発生してもスキップして続行
     }
-    sheet.getRange('T4').setFormula(shippingFormula);
+
+    // O列: シッピングポリシーID（カスタム関数を使用）
+    try {
+      sheet.getRange('O4').setValue('シッピングポリシー');
+      var policyFormulas = [];
+      for (var row = 5; row <= dataLastRow; row++) {
+        var formula = '=IF(OR(ISBLANK($O$1),ISBLANK(R' + row + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_SHIPPING_POLICY_ID($O$1,R' + row + ',AE' + row + ',X' + row + '))';
+        policyFormulas.push([formula]);
+      }
+      if (policyFormulas.length > 0) {
+        sheet.getRange(5, CONFIG.COLUMNS.SHIPPING_POLICY, policyFormulas.length, 1).setFormulas(policyFormulas);
+        console.log('O列（シッピングポリシーID）設定完了（5～' + dataLastRow + '行）');
+      }
+    } catch (ePolicy) {
+      console.error('O列（シッピングポリシー）設定エラー: ' + ePolicy.message);
+      // エラーが発生してもスキップして続行
+    }
+
+    // AF列: 基本送料（VLOOKUPでShipping_Ratesから取得、テーブル計算モードのみ）
+    if (shippingCalc === 'TABLE') {
+      // SPは実重量(Y列)、他は容積重量(AC列)で検索
+      var baseCostFormula = '=ARRAYFORMULA(IF(ROW(AF4:AF)=4,"基本送料",IF(AC4:AC="","",IF(ISNUMBER(AC4:AC),IF(X4:X="SP",VLOOKUP(CEILING(Y4:Y/500)*500,Shipping_Rates!$A$3:$H,3,TRUE),IF(X4:X="CE",VLOOKUP(CEILING(AC4:AC/500)*500,Shipping_Rates!$A$3:$H,4,TRUE),IF(X4:X="EMS",VLOOKUP(CEILING(AC4:AC/500)*500,Shipping_Rates!$A$3:$H,5,TRUE),IF(X4:X="CF",VLOOKUP(CEILING(AC4:AC/500)*500,Shipping_Rates!$A$3:$H,6,TRUE),IF(X4:X="CD",VLOOKUP(CEILING(AC4:AC/500)*500,Shipping_Rates!$A$3:$H,7,TRUE),IF(X4:X="EL",VLOOKUP(CEILING(AC4:AC/500)*500,Shipping_Rates!$A$3:$H,8,TRUE),"")))))),""))))';
+      sheet.getRange('AF4').setFormula(baseCostFormula);
+    } else {
+      sheet.getRange('AF4').clearContent();
+    }
+
+    // T列: 送料（配送方法に応じた計算）
+    sheet.getRange('T4').setValue('送料');
+    if (shippingCalc === 'TABLE') {
+      // テーブル計算モード：個別行の式を設定
+      var shippingFormulas = [];
+      for (var row = 5; row <= dataLastRow; row++) {
+        // CF: base + extra + fuel - discount
+        // CD: base + extra + fuel - discount
+        // CE: base + fuel - discount
+        // SP/EL: base のみ
+        var formula = '=IF(AF' + row + '="","",IF(X' + row + '="CF",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$1,subtotal,base+extra,fuel,subtotal*$V$1,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),IF(X' + row + '="CD",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$2,subtotal,base+extra,fuel,subtotal*$V$2,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),IF(X' + row + '="CE",ROUND(LET(base,AF' + row + ',fuel,base*$V$1,discount,-(base+fuel)*$W$2,base+fuel+discount)),ROUND(AF' + row + ')))))';
+        shippingFormulas.push([formula]);
+      }
+      if (shippingFormulas.length > 0) {
+        sheet.getRange(5, CONFIG.COLUMNS.SHIPPING, shippingFormulas.length, 1).setFormulas(shippingFormulas);
+      }
+    } else {
+      // 固定金額モード：個別行の式を設定（ARRAYFORMULAを使わない）
+      var shippingFormulas = [];
+      for (var row = 5; row <= dataLastRow; row++) {
+        var formula = '=IF(I' + row + '="","",IF($J$1<>"", $J$1, VLOOKUP(I' + row + ',Profit_Amounts!$A$2:$D$8,4,TRUE)))';
+        shippingFormulas.push([formula]);
+      }
+      if (shippingFormulas.length > 0) {
+        sheet.getRange(5, CONFIG.COLUMNS.SHIPPING, shippingFormulas.length, 1).setFormulas(shippingFormulas);
+      }
+    }
 
     // U列: 利益
-    var profitFormula = '';
+    sheet.getRange('U4').setValue('利益');
     if (profitCalc === 'RATE') {
-      profitFormula = '=ARRAYFORMULA(IF(ROW(U4:U)=4,"利益",IF(R4:R="","",ROUND(R4:R*$C$2*(1-(V4:V+$F$2+$Z$2))-I4:I-T4:T,0))))';
+      // 利益率モード：ARRAYFORMULA（計算式なので個別変更は想定しない）
+      var profitFormula = '=ARRAYFORMULA(IF(ROW(U4:U)=4,"利益",IF(R4:R="","",ROUND(R4:R*$C$2*(1-(V4:V+$F$2+$Z$2))-I4:I-T4:T,0))))';
+      sheet.getRange('U4').setFormula(profitFormula);
     } else {
-      profitFormula = '=ARRAYFORMULA(IF(ROW(U4:U)=4,"利益",IF(I4:I="","",IF($H$1<>"", $H$1, VLOOKUP(I4:I,Profit_Amounts!$A$2:$C$8,3,TRUE)))))';
-    }
-    sheet.getRange('U4').setFormula(profitFormula);
-
-    // V列: 手数料率
-    sheet.getRange('V4').setFormula('=ARRAYFORMULA(IF(ROW(V4:V)=4,"手数料率",IF(I4:I="","",$F$1)))');
-
-    // W列: 利益率
-    if (profitCalc === 'RATE') {
-      sheet.getRange('W4').setFormula('=ARRAYFORMULA(IF(ROW(W4:W)=4,"利益率",IF(I4:I="","",$H$2)))');
-    } else {
-      // 利益額モードの場合はW列をクリア
-      sheet.getRange('W4').clearContent();
+      // 利益額モード：個別行の式を設定（手動変更可能にする）
+      var profitFormulas = [];
+      for (var row = 5; row <= dataLastRow; row++) {
+        var formula = '=IF(I' + row + '="","",IF($H$1<>"", $H$1, VLOOKUP(I' + row + ',Profit_Amounts!$A$2:$C$8,3,TRUE)))';
+        profitFormulas.push([formula]);
+      }
+      if (profitFormulas.length > 0) {
+        sheet.getRange(5, CONFIG.COLUMNS.PROFIT, profitFormulas.length, 1).setFormulas(profitFormulas);
+      }
     }
 
-    // AC列: 容積重量
-    sheet.getRange('AC4').setFormula('=ARRAYFORMULA(IF(ROW(AC4:AC)=4,"容積重量",IF(Z4:Z="","",MAX(ROUND((Z4:Z*AA4:AA*AB4:AB)/5),200))))');
+    // V列: 手数料率（ヘッダーのみ、個別行の値はsetFormulasで設定）
+    sheet.getRange('V4').setValue('手数料率');
 
-    // AD列: 想定関税
+    // W列: 利益率（ヘッダーのみ、個別行の値はsetFormulasで設定）
+    if (profitCalc === 'RATE') {
+      sheet.getRange('W4').setValue('利益率');
+    } else {
+      // 利益額モードの場合はW列全体をクリア
+      var lastRow = sheet.getLastRow();
+      if (lastRow >= 4) {
+        sheet.getRange('W4:W' + lastRow).clearContent();
+      }
+    }
+
+    // 🆕 デフォルト値列に式を一括設定（5行目以降）
+    // dataLastRowは既に上で定義済み
+
+    if (dataLastRow >= 5) {
+      // V列: 手数料率 = $F$1
+      var vFormulas = [];
+      for (var i = 5; i <= dataLastRow; i++) {
+        vFormulas.push(['=$F$1']);
+      }
+      sheet.getRange(5, CONFIG.COLUMNS.FEE, dataLastRow - 4, 1).setFormulas(vFormulas);
+
+      // W列: 利益率 = $H$2（利益率モードのみ）
+      if (profitCalc === 'RATE') {
+        var wFormulas = [];
+        for (var i = 5; i <= dataLastRow; i++) {
+          wFormulas.push(['=$H$2']);
+        }
+        sheet.getRange(5, CONFIG.COLUMNS.RATE, dataLastRow - 4, 1).setFormulas(wFormulas);
+      }
+
+      // Y列: 重量 = $J$2
+      var yFormulas = [];
+      for (var i = 5; i <= dataLastRow; i++) {
+        yFormulas.push(['=$J$2']);
+      }
+      sheet.getRange(5, CONFIG.COLUMNS.WEIGHT, dataLastRow - 4, 1).setFormulas(yFormulas);
+
+      // Z列、AA列、AB列: データ入力規則とドロップダウンをクリア
+      sheet.getRange(5, CONFIG.COLUMNS.LENGTH, dataLastRow - 4, 1).clearDataValidations();
+      sheet.getRange(5, CONFIG.COLUMNS.WIDTH, dataLastRow - 4, 1).clearDataValidations();
+      sheet.getRange(5, CONFIG.COLUMNS.HEIGHT, dataLastRow - 4, 1).clearDataValidations();
+
+      // Z列: 長さ = $L$2（整数形式）
+      var zFormulas = [];
+      for (var i = 5; i <= dataLastRow; i++) {
+        zFormulas.push(['=$L$2']);
+      }
+      var zRange = sheet.getRange(5, CONFIG.COLUMNS.LENGTH, dataLastRow - 4, 1);
+      zRange.setFormulas(zFormulas);
+      zRange.setNumberFormat('0'); // 整数形式
+
+      // AA列: 幅 = $M$2（整数形式）
+      var aaFormulas = [];
+      for (var i = 5; i <= dataLastRow; i++) {
+        aaFormulas.push(['=$M$2']);
+      }
+      var aaRange = sheet.getRange(5, CONFIG.COLUMNS.WIDTH, dataLastRow - 4, 1);
+      aaRange.setFormulas(aaFormulas);
+      aaRange.setNumberFormat('0'); // 整数形式
+
+      // AB列: 高さ = $N$2（整数形式）
+      var abFormulas = [];
+      for (var i = 5; i <= dataLastRow; i++) {
+        abFormulas.push(['=$N$2']);
+      }
+      var abRange = sheet.getRange(5, CONFIG.COLUMNS.HEIGHT, dataLastRow - 4, 1);
+      abRange.setFormulas(abFormulas);
+      abRange.setNumberFormat('0'); // 整数形式
+
+      // X列: 配送方法 = IF(仕入れ価格>=切替基準, 高価格配送, 低価格配送)
+      var xFormulas = [];
+      for (var i = 5; i <= dataLastRow; i++) {
+        xFormulas.push(['=IF(I' + i + '>=$AJ$4,$AQ$3,$AQ$2)']);
+      }
+      sheet.getRange(5, CONFIG.COLUMNS.METHOD, dataLastRow - 4, 1).setFormulas(xFormulas);
+    }
+
+    // AC列: 容積重量（ARRAYFORMULA）
+    sheet.getRange('AC4').setFormula('=ARRAYFORMULA(IF(ROW(AC4:AC)=4,"容積重量",IF(Z4:Z="","",IF(ROUND((Z4:Z*AA4:AA*AB4:AB)/5)>200,ROUND((Z4:Z*AA4:AA*AB4:AB)/5),200))))');
+
+    // AD列: 想定関税（ARRAYFORMULA）
     sheet.getRange('AD4').setFormula('=ARRAYFORMULA(IF(ROW(AD4:AD)=4,"想定関税",IF(R4:R="","",ROUND(R4:R*$AF$2*$AG$2+$AE$1,2))))');
+
+    // AG列: DDU調整後価格（AP2:AP4のセル参照を使用）
+    sheet.getRange('AG4').setValue('DDU調整後価格');
+    if (dataLastRow >= 5) {
+      // AP2=ON/OFF, AP3=閾値, AP4=調整額
+      // 式: IF(AP2="ON", IF(AND(R>=AP3, NOT(ISBLANK(S))), S-AP4, ""), "")
+      var dduFormulas = [];
+      for (var row = 5; row <= dataLastRow; row++) {
+        var formula = '=IF($AP$2="ON", IF(AND(R' + row + '>=$AP$3, NOT(ISBLANK(S' + row + '))), S' + row + '-$AP$4, ""), "")';
+        dduFormulas.push([formula]);
+      }
+      sheet.getRange(5, CONFIG.COLUMNS.DDU_ADJUSTED_PRICE, dduFormulas.length, 1).setFormulas(dduFormulas);
+    }
+
+    // ========================================
+    // 🆕 ドロップダウン（データ入力規則）の設定
+    // ========================================
+    if (dataLastRow >= 5) {
+      // E列: テンプレートID（Import_TemplatesシートのA列を参照）
+      var templateValidation = SpreadsheetApp.newDataValidation()
+        .requireValueInRange(ss.getSheetByName('Import_Templates').getRange('A2:A50'), true)
+        .setAllowInvalid(true)
+        .setHelpText('テンプレートIDを選択してください')
+        .build();
+      sheet.getRange(5, 5, dataLastRow - 4, 1).setDataValidation(templateValidation);
+
+      // G列: 仕入先（参照データシートのD列を参照）
+      var supplierValidation = SpreadsheetApp.newDataValidation()
+        .requireValueInRange(ss.getSheetByName('参照データ').getRange('D2:D35'), true)
+        .setAllowInvalid(true)
+        .setHelpText('仕入先を選択してください')
+        .build();
+      sheet.getRange(5, 7, dataLastRow - 4, 1).setDataValidation(supplierValidation);
+
+      // X列: 配送方法（SP, CE, CF, CD, EL, AM）
+      var shippingMethodValidation = SpreadsheetApp.newDataValidation()
+        .requireValueInList(['SP', 'CE', 'CF', 'CD', 'EL', 'AM'], true)
+        .setAllowInvalid(true)
+        .setHelpText('配送方法を選択してください（式による自動設定も可）')
+        .build();
+      sheet.getRange(5, CONFIG.COLUMNS.METHOD, dataLastRow - 4, 1).setDataValidation(shippingMethodValidation);
+
+      // AE列: 商品状態（新品、中古）
+      var conditionValidation = SpreadsheetApp.newDataValidation()
+        .requireValueInList(['新品', '中古'], true)
+        .setAllowInvalid(false)
+        .setHelpText('商品状態を選択してください')
+        .build();
+      sheet.getRange(5, CONFIG.COLUMNS.CONDITION, dataLastRow - 4, 1).setDataValidation(conditionValidation);
+
+      // AF列: eBayカテゴリー
+      var categoryValidation = SpreadsheetApp.newDataValidation()
+        .requireValueInList(CONFIG.EBAY_CATEGORIES, true)
+        .setAllowInvalid(false)
+        .setHelpText('eBayカテゴリーを選択してください')
+        .build();
+      sheet.getRange(5, CONFIG.COLUMNS.EBAY_CATEGORY, dataLastRow - 4, 1).setDataValidation(categoryValidation);
+    }
+
+    // ========================================
+    // 🆕 設定セル（O1, O2, P2, F1, F2, H2）のドロップダウン設定
+    // ========================================
+
+    // O1: カテゴリー（送料上限カテゴリー）
+    var categories = [
+      '汎用（上限なし）',
+      'Video Games（$20）',
+      'Books（$20）',
+      'Movies & TV（$20）',
+      'Music（$25）',
+      'Game Consoles（$50）'
+    ];
+    var o1Rule = SpreadsheetApp.newDataValidation()
+      .requireValueInList(categories, true)
+      .setAllowInvalid(false)
+      .build();
+    sheet.getRange('O1').setDataValidation(o1Rule);
+    // O1のデフォルト値が空の場合のみ設定
+    if (!sheet.getRange('O1').getValue()) {
+      sheet.getRange('O1').setValue('汎用（上限なし）');
+    }
+
+    // O2: テンプレート名（Policy_Masterから取得）
+    try {
+      var policyMaster = ss.getSheetByName('Policy_Master');
+      if (policyMaster) {
+        var lastRow = policyMaster.getLastRow();
+        var templateNames = [];
+        var data = policyMaster.getRange(1, 1, lastRow, 2).getValues();
+
+        for (var i = 0; i < data.length; i++) {
+          var name = String(data[i][1] || '');
+          // Templates セクションのテンプレート標準名から名前部分を抽出
+          if (name.indexOf('Template_') === 0) {
+            var match = name.match(/^Template_(.+?)_(?:new|used)_(?:eco|xp)$/);
+            if (match && match[1] && templateNames.indexOf(match[1]) === -1) {
+              templateNames.push(match[1]);
+            }
+          }
+        }
+
+        if (templateNames.length > 0) {
+          var o2Rule = SpreadsheetApp.newDataValidation()
+            .requireValueInList(templateNames, true)
+            .setAllowInvalid(false)
+            .build();
+          sheet.getRange('O2').setDataValidation(o2Rule);
+          // O2のデフォルト値が空の場合のみ設定
+          if (!sheet.getRange('O2').getValue()) {
+            sheet.getRange('O2').setValue(templateNames[0]);
+          }
+        }
+      }
+    } catch (ePolicyMaster) {
+      console.log('Policy_Master未作成のため、O2ドロップダウンをスキップ: ' + ePolicyMaster.message);
+    }
+
+    // P2: 商品状態モード
+    var p2Rule = SpreadsheetApp.newDataValidation()
+      .requireValueInList(['新品', '中古', 'AI'], true)
+      .setAllowInvalid(false)
+      .build();
+    sheet.getRange('P2').setDataValidation(p2Rule);
+    // P2のデフォルト値が空の場合のみ設定
+    if (!sheet.getRange('P2').getValue()) {
+      sheet.getRange('P2').setValue('AI');
+    }
+
+    // F1: 手数料率（13%～25%、1%単位）
+    var feeRates = [];
+    for (var i = 13; i <= 25; i++) {
+      feeRates.push(i + '%');
+    }
+    var f1Rule = SpreadsheetApp.newDataValidation()
+      .requireValueInList(feeRates, true)
+      .setAllowInvalid(true)
+      .build();
+    sheet.getRange('F1').setDataValidation(f1Rule);
+    // デフォルト値は設定しない（既存値を保持）
+
+    // F2: 広告比率（0%～15%、1%単位）
+    var adRates = [];
+    for (var j = 0; j <= 15; j++) {
+      adRates.push(j + '%');
+    }
+    var f2Rule = SpreadsheetApp.newDataValidation()
+      .requireValueInList(adRates, true)
+      .setAllowInvalid(true)
+      .build();
+    sheet.getRange('F2').setDataValidation(f2Rule);
+    // デフォルト値は設定しない（既存値を保持）
+
+    // H2: 利益率（0%～45%、1%単位）
+    var profitRates = [];
+    for (var k = 0; k <= 45; k++) {
+      profitRates.push(k + '%');
+    }
+    var h2Rule = SpreadsheetApp.newDataValidation()
+      .requireValueInList(profitRates, true)
+      .setAllowInvalid(true)
+      .build();
+    sheet.getRange('H2').setDataValidation(h2Rule);
+    // デフォルト値は設定しない（既存値を保持）
+
+    // L2, M2: サイズ値（10～60、5刻み）
+    var sizeValues = [];
+    for (var s = 10; s <= 60; s += 5) {
+      sizeValues.push(s);
+    }
+    var sizeRule = SpreadsheetApp.newDataValidation()
+      .requireValueInList(sizeValues, true)
+      .setAllowInvalid(true)
+      .build();
+    sheet.getRange('L2').setDataValidation(sizeRule);
+    sheet.getRange('M2').setDataValidation(sizeRule);
+    // デフォルト値は設定しない（既存値を保持）
+
+    // N2: サイズ値（1, 2, 3, 5, 8, 10～60の5刻み）
+    var heightValues = [1, 2, 3, 5, 8];
+    for (var h = 10; h <= 60; h += 5) {
+      heightValues.push(h);
+    }
+    var heightRule = SpreadsheetApp.newDataValidation()
+      .requireValueInList(heightValues, true)
+      .setAllowInvalid(true)
+      .build();
+    sheet.getRange('N2').setDataValidation(heightRule);
+    // デフォルト値は設定しない（既存値を保持）
+
+    // R1: 送料計算用配送方法
+    var shippingOptions = [
+      '自動選択',
+      'Small Packet',
+      'Cpass-Economy',
+      'Cpass-FedEx',
+      'Cpass-DHL',
+      'eLogistics',
+      'EMS'
+    ];
+    var r1Rule = SpreadsheetApp.newDataValidation()
+      .requireValueInList(shippingOptions, true)
+      .setAllowInvalid(false)
+      .setHelpText('送料計算に使用する配送方法を選択してください')
+      .build();
+    sheet.getRange('R1').setDataValidation(r1Rule);
+    // デフォルト値は設定しない（既存値を保持）
+
+    console.log('設定セル（O1, O2, P2, F1, F2, H2, L2, M2, N2, R1）のドロップダウンを設定しました');
 
     return { success: true };
 
@@ -3046,5 +3449,47 @@ function showCategorySelectionDialog() {
     console.error('カテゴリー選択ダイアログエラー: ' + e.message);
     showAlert('カテゴリー選択ダイアログの表示に失敗: ' + e.message, 'error');
     return null;
+  }
+}
+
+
+/**
+ * 🆕 選択行のR～AG列の計算式を再出力
+ * V～AB列を直接入力して式が消えた場合に使用
+ */
+function reapplyCalculationFormulasToSelectedRows() {
+  try {
+    var settings = getSettings();
+    if (!settings) return;
+
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(settings.sheetName);
+    if (!sheet) {
+      showAlert("作業シート「" + settings.sheetName + "」が見つかりません", "error");
+      return;
+    }
+
+    // AI～AQ列から設定値を読み取る
+    var profitCalcText = sheet.getRange('AL2').getValue(); // "利益率" or "利益額"
+    var profitCalc = (profitCalcText === '利益額') ? 'AMOUNT' : 'RATE';
+
+    var shippingCalcText = sheet.getRange('AJ5').getValue(); // "テーブル計算" or "固定金額"
+    var shippingCalc = (shippingCalcText === '固定金額') ? 'FIXED' : 'TABLE';
+
+    // applyCalculationFormulas関数を呼び出して初期設定と同じ処理を実行
+    var result = applyCalculationFormulas(settings.sheetName, {
+      profitCalc: profitCalc,
+      shippingCalcMethod: shippingCalc
+    });
+
+    if (!result.success) {
+      showAlert("計算式の再出力エラー: " + result.error, "error");
+      return;
+    }
+
+    // 完了ダイアログは表示しない
+
+  } catch (e) {
+    showAlert("計算式の再出力エラー: " + e.message, "error");
   }
 }

@@ -242,15 +242,6 @@ function setPriceDisplayMode(mode, showMessage) {
   価格セルのハイライト設定
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function setPriceCellHighlight(sheet, row) {
-  var mode = getPriceDisplayMode();
-  var normalPriceCell = sheet.getRange(row, CONFIG.COLUMNS.PRICE);
-  var taxIncludedPriceCell = sheet.getRange(row, CONFIG.COLUMNS.TAX_INCLUDED_PRICE);
-
-  if (mode === 'TAX_INCLUDED') {
-    taxIncludedPriceCell.setBackground('#c6efce');
-    normalPriceCell.setBackground('#f2f2f2');
-  } else {
-    normalPriceCell.setBackground('#c6efce');
-    taxIncludedPriceCell.setBackground('#f2f2f2');
-  }
+  // ハイライト機能を無効化
+  return;
 }

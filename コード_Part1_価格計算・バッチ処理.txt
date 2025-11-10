@@ -114,9 +114,8 @@ function initialSetup() {
     
     // 価格表示モード設定
     tmpl.currentPriceDisplayMode = props.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL';
-    
+
     // ===== ✅ 重複チェック設定の規定値を詳細に設定 =====
-    var duplicateSettings = getDuplicateCheckSettings();
     var workSheetName = props.getProperty('SHEET_NAME') || '作業シート';
     
     // 基本設定
@@ -160,7 +159,7 @@ function initialSetup() {
  * 関税率に応じた実効閾値を計算（セル値使用版）
  * @param {number} baseThreshold - 基準閾値（15%想定）
  * @param {Sheet} sheet - 作業シート
- * @param {number} targetRate - 確認したい関税率（省略時はAD2セルの値を使用）
+ * @param {number} targetRate - 確認したい関税率（省略時はAF2セルの値を使用）
  * @return {number} 実効閾値
  */
 function calculateEffectiveThreshold(baseThreshold, sheet, targetRate) {
@@ -203,7 +202,7 @@ function calculateEffectiveThreshold(baseThreshold, sheet, targetRate) {
  * 関税率に応じた実効閾値を計算（セル値使用版）
  * @param {number} baseThreshold - 基準閾値（15%想定）
  * @param {Sheet} sheet - 作業シート
- * @param {number} targetRate - 確認したい関税率（省略時はAD2セルの値を使用）
+ * @param {number} targetRate - 確認したい関税率（省略時はAF2セルの値を使用）
  * @return {number} 実効閾値
  */
 function calculateEffectiveThreshold(baseThreshold, sheet, targetRate) {
@@ -775,15 +774,17 @@ function setFormulas(sheet, row, settings) {
   sheet.getRange("AE1").getValue();  // 通関手数料
   sheet.getRange("C2").getValue();   // 為替レート
   SpreadsheetApp.flush();
-  var feeRate = sheet.getRange("F1").getValue() || 0;  // 変更なし
-  var adRate  = sheet.getRange("F2").getValue() || 0;  // 変更なし
+  var feeRate = sheet.getRange("F1").getValue() || 0;  // 手数料率
+  var adRate  = sheet.getRange("F2").getValue() || 0;  // 広告率
 
-  sheet.getRange(row, CONFIG.COLUMNS.FEE).setValue(feeRate);  // 21→22
+  // V列: 手数料率を値として設定
+  sheet.getRange(row, CONFIG.COLUMNS.FEE).setValue(feeRate);
   
   if (settings.profitCalculationMethod === 'RATE') {
     // 利益率モード
-    var profitRate = sheet.getRange("H2").getValue() || 0;  // 変更なし
-    sheet.getRange(row, CONFIG.COLUMNS.RATE).setValue(profitRate);  // 22→23
+    var profitRate = sheet.getRange("H2").getValue() || 0;  // 利益率
+    // W列: 利益率を値として設定
+    sheet.getRange(row, CONFIG.COLUMNS.RATE).setValue(profitRate);
     
     // ✅ 合算方式に修正
     sheet.getRange(row, CONFIG.COLUMNS.PRICE).setFormula(  // 17→18
@@ -799,12 +800,14 @@ function setFormulas(sheet, row, settings) {
     
   } else {
     // 利益額モード
-    var costYen = sheet.getRange(row, CONFIG.COLUMNS.COST_YEN).getValue();  // 変更なし
-    var profitAmount = sheet.getRange("H1").getValue();  // 変更なし
+    var costYen = sheet.getRange(row, CONFIG.COLUMNS.COST_YEN).getValue();
+    var profitAmount = sheet.getRange("H1").getValue();
     if (!profitAmount || isNaN(profitAmount)) profitAmount = getProfitAmountByCost(costYen);
-    
-    sheet.getRange(row, CONFIG.COLUMNS.RATE).clearContent();  // 22→23
-    sheet.getRange(row, CONFIG.COLUMNS.PROFIT).setValue(profitAmount);  // 20→21
+
+    // W列: 利益率をクリア（利益額モードでは使用しない）
+    sheet.getRange(row, CONFIG.COLUMNS.RATE).clearContent();
+    // U列: 利益額を値として設定
+    sheet.getRange(row, CONFIG.COLUMNS.PROFIT).setValue(profitAmount);
   
     // ✅ 合算方式に修正（利益率は含まない）
     sheet.getRange(row, CONFIG.COLUMNS.PRICE).setFormula(  // 17→18
@@ -1029,17 +1032,18 @@ function applyAIResultToRow_(sheet, row, settings, fields, manualWeight, manualS
     });
   } else {
     // 既存のテーブル計算モード
-    var weight = Number(manualWeight);
-    var sizeStr = String(manualSize || '');
-    if (!weight || !sizeStr) throw new Error('重量/サイズ未設定');
+    // manualWeightとmanualSizeは削除され、個別にシートから読み取る必要がある
+    var weight = Number(sheet.getRange(row, CONFIG.COLUMNS.WEIGHT).getValue());
+    var length = Number(sheet.getRange(row, CONFIG.COLUMNS.LENGTH).getValue());
+    var width = Number(sheet.getRange(row, CONFIG.COLUMNS.WIDTH).getValue());
+    var height = Number(sheet.getRange(row, CONFIG.COLUMNS.HEIGHT).getValue());
 
-    // サイズを "30x25x20" 形式から分解
-    var sizeParts = sizeStr.split('x');
-    var length = sizeParts[0] ? Number(sizeParts[0]) : 0;
-    var width = sizeParts[1] ? Number(sizeParts[1]) : 0;
-    var height = sizeParts[2] ? Number(sizeParts[2]) : 0;
+    if (!weight) throw new Error('重量未設定');
 
-    var volWeight = weight;
+    // 容積重量計算（既存ロジックと同じ）
+    var volWeight = (length && width && height) ? (length * width * height) / 5000 : 0;
+    var sizeStr = (length && width && height) ? length + 'x' + width + 'x' + height : '';
+
     var method = getSelectedShippingMethod(costYen, weight, volWeight, sizeStr);
 
     setCellValues(sheet, row, {
@@ -3374,14 +3378,14 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
     Utilities.sleep(300);
     
     // ========================================
-    // ④ AA列（体積重量）設定
+    // ④ AC列（容積重量）設定
     // ========================================
-    console.log('④ AA列設定中...');
+    console.log('④ AC列設定中...');
     var volumeFormulas = [];
     for (var row = minRow; row <= maxRow; row++) {
       if (batchRowsSet[row]) {
         volumeFormulas.push([
-          '=MAX(ROUND((INDEX(SPLIT(Z' + row + ',"x"),1)*INDEX(SPLIT(Z' + row + ',"x"),2)*INDEX(SPLIT(Z' + row + ',"x"),3))/5),200)'
+          '=MAX(ROUND((Z' + row + '*AA' + row + '*AB' + row + ')/5),200)'
         ]);
       } else {
         volumeFormulas.push(['']);
@@ -3416,7 +3420,7 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
       for (var row = minRow; row <= maxRow; row++) {
         if (batchRowsSet[row]) {
           shippingFormulas.push([
-            '=SHIPPING_COST(I' + row + ',Y' + row + ',AA' + row + ',X' + row + ',Z' + row + ')'
+            '=SHIPPING_COST(I' + row + ',Y' + row + ',AC' + row + ',X' + row + ',AC' + row + ')'
           ]);
         } else {
           shippingFormulas.push(['']);
@@ -3590,13 +3594,13 @@ function saveSelectedRowsAndClear() {
     // 🔹 修正：確認ダイアログを条件付きに変更
     var ok = conditionalConfirmDialog(
       '選択された ' + startRow + ' ～ ' + endRow + ' 行を保存シートへコピーし、元の値をクリアします。\n' +
-      '・O列・P列・AE列の数式は保持\n・ドロップダウン設定は保持\n・元に戻せません\n\n続行しますか？',
+      '・E列・O列・P列以降の数式は保持（AE列は削除）\n・ドロップダウン設定は保持\n・元に戻せません\n\n続行しますか？',
       '選択行の保存とクリア'
     );
-    
-    if (ok !== SpreadsheetApp.getUi().Button.YES) { 
-      conditionalShowAlert('キャンセルしました。', 'info'); 
-      return; 
+
+    if (ok !== SpreadsheetApp.getUi().Button.YES) {
+      conditionalShowAlert('キャンセルしました。', 'info');
+      return;
     }
 
     var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -3609,8 +3613,8 @@ function saveSelectedRowsAndClear() {
       '📁 保存先: 「' + targetSheet.getName() + '」\n' +
       '📊 保存件数: ' + savedCount + '\n' +
       '🗑️ クリア範囲: ' + startRow + '～' + endRow + ' 行\n\n' +
-      '✅ 保持：O列・P列・AE列の数式／全列のドロップダウン\n' +
-      '❌ 削除：入力値／その他の数式／ハイライト';
+      '✅ 保持：E列・O列・P列以降の数式／全列のドロップダウン\n' +
+      '❌ 削除：A,B,C,D,F～N列,AE列の値／ハイライト';
     
     // 🔹 修正：完了通知を条件付きに変更
     conditionalShowAlert(report,"success");
@@ -3640,21 +3644,21 @@ function clearSelectedRowsOnly() {
     // 🔹 修正：確認ダイアログを条件付きに変更
     var ok = conditionalConfirmDialog(
       '選択 ' + startRow + '～' + endRow + ' 行のセル値を削除します。\n' +
-      '・O列・P列・AE列の数式は保持\n・ドロップダウン設定は保持\n・元に戻せません\n\n続行しますか？',
+      '・E列・O列・P列以降の数式は保持（AE列は削除）\n・ドロップダウン設定は保持\n・元に戻せません\n\n続行しますか？',
       '選択行のデータ削除'
     );
-    
-    if (ok !== SpreadsheetApp.getUi().Button.YES) { 
-      conditionalShowAlert('キャンセルしました。', "info"); 
-      return; 
+
+    if (ok !== SpreadsheetApp.getUi().Button.YES) {
+      conditionalShowAlert('キャンセルしました。', "info");
+      return;
     }
 
     clearSelectedRowsValues(sheet, startRow, endRow);
     var count = endRow - startRow + 1;
     var msg = '✅ データ削除完了\n\n' +
       '🗑️ ' + startRow + '～' + endRow + ' 行 (' + count + '行)\n' +
-      '✅ 保持：O列・P列・AE列の数式／全列のドロップダウン\n' +
-      '❌ 削除：入力値／O列・P列・AE列以外の数式／ハイライト';
+      '✅ 保持：E列・O列・P列以降の数式／全列のドロップダウン\n' +
+      '❌ 削除：A,B,C,D,F～N列,AE列の値／ハイライト';
     
     // 🔹 修正：完了通知を条件付きに変更
     conditionalShowAlert(msg, "success");
@@ -3733,7 +3737,16 @@ function saveRowsToSheet(sourceSheet, targetSheet, startRow, endRow) {
     var vals = srcRange.getValues();
     // var forms = srcRange.getFormulas(); ← 削除：数式は取得しない
 
-    var dstRow = Math.max(5, targetSheet.getLastRow() + 1);
+    // 🆕 H列（仕入先コード）が空白の最初の行を探す
+    var dstRow = 5; // デフォルトは5行目から
+    var maxRow = Math.max(1000, targetSheet.getLastRow()); // 最低1000行まで検索
+    for (var searchRow = 5; searchRow <= maxRow; searchRow++) {
+      var hValue = targetSheet.getRange(searchRow, 8).getValue(); // H列 = 8列目
+      if (!hValue || hValue === '') {
+        dstRow = searchRow;
+        break;
+      }
+    }
     for (var i=0;i<rowCount;i++) {
       for (var j=0;j<colCount;j++) {
         var cell = targetSheet.getRange(dstRow+i, 1+j);
@@ -3757,116 +3770,85 @@ function saveRowsToSheet(sourceSheet, targetSheet, startRow, endRow) {
   }
 }
 
-function clearSelectedRowsValues(sheet, startRow, endRow) {   
-  try {     
-    var rowCount = endRow - startRow + 1;     
-    var colCount = sheet.getLastColumn();
-    var fullRange = sheet.getRange(startRow, 1, rowCount, colCount);
-    
-    // ========================================
-    // Step 1: 保持する列番号を定義
-    // ========================================
-    var preserveColumns = {
-      dropdown: [5, 7, 24, 25, 26, 29],     // E, G, X, Y, Z, AC列
-      formula: [16, 17, 32]                  // P, Q, AF列
-    };
-    
-    // ========================================
-    // Step 2: 条件付き書式を保存（シート全体）
-    // ========================================
-    var conditionalFormatRules = sheet.getConditionalFormatRules();
-    
-    // ========================================
-    // Step 3: 保持する情報を退避
-    // ========================================
-    
-    // 3-1. 全範囲の通常書式を保存
-    var numberFormats = fullRange.getNumberFormats();
-    var fontWeights = fullRange.getFontWeights();
-    var fontColors = fullRange.getFontColors();
-    var horizontalAlignments = fullRange.getHorizontalAlignments();
-    var verticalAlignments = fullRange.getVerticalAlignments();
-    var fontFamilies = fullRange.getFontFamilies();
-    var fontSizes = fullRange.getFontSizes();
-    var wraps = fullRange.getWraps();
-    var notes = fullRange.getNotes();
-    
-    // 3-2. 特定列のドロップダウン設定を保存
-    var preservedValidations = {};
-    for (var i = 0; i < preserveColumns.dropdown.length; i++) {
-      var col = preserveColumns.dropdown[i];
-      var colRange = sheet.getRange(startRow, col, rowCount, 1);
-      preservedValidations[col] = colRange.getDataValidations();
-    }
-    
-    // 3-3. 特定列の数式を保存
-    var preservedFormulas = {};
-    for (var j = 0; j < preserveColumns.formula.length; j++) {
-      var col = preserveColumns.formula[j];
-      var colRange = sheet.getRange(startRow, col, rowCount, 1);
-      preservedFormulas[col] = colRange.getFormulas();
-    }
-    
-    // ========================================
-    // Step 4: クリア処理
-    // ========================================
-    fullRange.clearContent();      // 値と数式をクリア
-    fullRange.setBackground(null); // 背景色をクリア
-    
-    // ========================================
-    // Step 5: 復元処理
-    // ========================================
-    
-    // 5-1. 通常書式を復元（全範囲）
-    fullRange.setNumberFormats(numberFormats);
-    fullRange.setFontWeights(fontWeights);
-    fullRange.setFontColors(fontColors);
-    fullRange.setHorizontalAlignments(horizontalAlignments);
-    fullRange.setVerticalAlignments(verticalAlignments);
-    fullRange.setFontFamilies(fontFamilies);
-    fullRange.setFontSizes(fontSizes);
-    fullRange.setWraps(wraps);
-    fullRange.setNotes(notes);
-    
-    // 5-2. ドロップダウン設定を復元（特定列のみ）
-    for (var k = 0; k < preserveColumns.dropdown.length; k++) {
-      var col = preserveColumns.dropdown[k];
-      var colRange = sheet.getRange(startRow, col, rowCount, 1);
-      colRange.setDataValidations(preservedValidations[col]);
-    }
-    
-    // 5-3. 数式を復元（特定列のみ）
-    for (var m = 0; m < preserveColumns.formula.length; m++) {
-      var col = preserveColumns.formula[m];
-      var colRange = sheet.getRange(startRow, col, rowCount, 1);
-      colRange.setFormulas(preservedFormulas[col]);
-    }
-    
-    // 5-4. 条件付き書式を復元（シート全体）
-    sheet.setConditionalFormatRules(conditionalFormatRules);
+/**
+ * 🆕 選択行のA～O列の値のみクリア
+ * P列以降の計算式は完全に保持
+ */
+function clearSelectedRowsValues(sheet, startRow, endRow) {
+  try {
+    var rowCount = endRow - startRow + 1;
 
-    // ========================================
-  // Step 6: 数式設定列の表示形式を強制的に「自動」にする
-  // ========================================
-  var formulaOutputColumns = [
-    CONFIG.COLUMNS.PRICE,              // R列（販売価格DDU）
-    CONFIG.COLUMNS.TAX_INCLUDED_PRICE, // S列（関税込み価格）
-    CONFIG.COLUMNS.SHIPPING,           // T列（送料）
-    CONFIG.COLUMNS.PROFIT,             // U列（利益額）
-    CONFIG.COLUMNS.VOLUME,             // AA列（容積重量）
-    CONFIG.COLUMNS.ESTIMATED_TAX,      // AB列（想定関税）
-    CONFIG.COLUMNS.DDU_ADJUSTED_PRICE  // AE列（DDU調整価格）
-  ];
-  
-  for (var n = 0; n < formulaOutputColumns.length; n++) {
-    var col = formulaOutputColumns[n];
-    var colRange = sheet.getRange(startRow, col, rowCount, 1);
-    colRange.setNumberFormat('0.00');  // 数値形式に強制
+    // 指定された列のみクリア（E列・O列・P列以降は保持、AE列は除外）
+    // clearContent() = 値のみ削除、書式・入力規則は保持
+
+    // A, B, C, D列（1～4列）をクリア
+    sheet.getRange(startRow, 1, rowCount, 4).clearContent();
+
+    // F, G, H, I, J, K, L, M, N列（6～14列）をクリア
+    sheet.getRange(startRow, 6, rowCount, 9).clearContent();
+
+    // AE列（31列目）をクリア
+    sheet.getRange(startRow, CONFIG.COLUMNS.CONDITION, rowCount, 1).clearContent();
+
+  } catch(e) {
+    throw new Error('行クリア中にエラー: ' + e.message);
   }
-    
-  } catch(e) {     
-    throw new Error('行クリア中にエラー: ' + e.message);   
-  } 
+}
+
+/**
+ * 選択行をクリアして式を再設定
+ * clearSelectedRowsValues + applyCalculationFormulas の統合版
+ */
+function clearAndReapplyFormulas() {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getActiveSheet();
+    var range = sheet.getActiveRange();
+
+    if (!range) {
+      showAlert('行を選択してください。', 'error');
+      return;
+    }
+
+    var startRow = range.getRow();
+    var endRow = startRow + range.getNumRows() - 1;
+
+    // 5行目未満は対象外
+    if (startRow < 5) {
+      showAlert('5行目以降を選択してください。', 'error');
+      return;
+    }
+
+    // 設定を取得
+    var settings = getSettings();
+    if (!settings) return;
+
+    // 1. 選択行をクリア
+    clearSelectedRowsValues(sheet, startRow, endRow);
+
+    // 2. 式を再設定（選択行のみ）
+    var profitCalc = settings.profitCalculationMethod;
+    var shippingCalc = settings.shippingCalculationMethod;
+
+    // E列: テンプレートID
+    var templateFormulas = [];
+    for (var row = startRow; row <= endRow; row++) {
+      templateFormulas.push(['=IF(OR(ISBLANK($O$1),ISBLANK($O$2),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_TEMPLATE_ID($O$1,$O$2,AE' + row + ',X' + row + '))']);
+    }
+    sheet.getRange(startRow, 5, templateFormulas.length, 1).setFormulas(templateFormulas);
+
+    // O列: シッピングポリシーID
+    var policyFormulas = [];
+    for (var row = startRow; row <= endRow; row++) {
+      policyFormulas.push(['=IF(OR(ISBLANK($O$1),ISBLANK(R' + row + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_SHIPPING_POLICY_ID($O$1,R' + row + ',AE' + row + ',X' + row + '))']);
+    }
+    sheet.getRange(startRow, CONFIG.COLUMNS.SHIPPING_POLICY, policyFormulas.length, 1).setFormulas(policyFormulas);
+
+    showAlert('選択行（' + startRow + '～' + endRow + '）のクリアと式の再設定が完了しました。', 'success');
+
+  } catch (e) {
+    showAlert('エラー: ' + e.message, 'error');
+  }
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
