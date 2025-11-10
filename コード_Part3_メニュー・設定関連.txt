@@ -66,6 +66,8 @@ function onOpen() {
       .addItem('🔑 APIトークン管理', 'manageApiToken')
       .addItem('📋 現在の設定確認', 'showCurrentSetupStatus')
       .addSeparator()
+      .addItem('🗑️ Policy_Masterキャッシュクリア', 'clearPolicyMasterCache')
+      .addSeparator()
       .addSubMenu(ui.createMenu('📱 簡易版')
         .addItem('🎯 簡易版を開く', 'openSimpleMode')
         .addItem('🔄 簡易版を更新', 'updateSimpleMode'))
@@ -445,24 +447,17 @@ function calcBreakEvenFromSelling(payload) {
   };
 }
 
-function showPriceCalcA() {
-  var html = HtmlService.createHtmlOutputFromFile('PriceCalcA')
-    .setWidth(560).setHeight(780);
-  SpreadsheetApp.getUi().showModalDialog(html, '💲 価格計算A：利益率→販売価格');
-}
-
-function showPriceCalcB() {
-  var html = HtmlService.createHtmlOutputFromFile('PriceCalcB')
-    .setWidth(560).setHeight(780);
-  SpreadsheetApp.getUi().showModalDialog(html, '💲 価格計算B：販売価格→損益分岐');
+function showPriceCalc() {
+  var html = HtmlService.createHtmlOutputFromFile('PriceCalc')
+    .setWidth(1200).setHeight(900);
+  SpreadsheetApp.getUi().showModalDialog(html, '💲 EC価格計算ツール');
 }
 
 function addPriceCalcStandaloneMenu_() {
   try {
     var ui = SpreadsheetApp.getUi();
     ui.createMenu('💲 価格計算')
-      .addItem('価格計算A（利益率→販売価格）', 'showPriceCalcA')
-      .addItem('価格計算B（販売価格→損益分岐）', 'showPriceCalcB')
+      .addItem('価格計算ツール', 'showPriceCalc')
       .addToUi();
   } catch (e) {
     // UI無い環境では無視
@@ -2997,14 +2992,21 @@ function applyCalculationFormulas(sheetName, settings) {
       dataLastRow = Math.min(dataLastRow + 10, 1000);
     }
 
-    // R列: 販売価格（ARRAYFORMULA）
-    var priceFormula = '';
-    if (profitCalc === 'RATE') {
-      priceFormula = '=ARRAYFORMULA(IF(ROW(R4:R)=4,"販売価格",IF(I4:I="","",ROUND(((I4:I+T4:T)/(1-(V4:V+W4:W+$F$2+$Z$2))/$C$2)*100)/100)))';
-    } else {
-      priceFormula = '=ARRAYFORMULA(IF(ROW(R4:R)=4,"販売価格",IF(I4:I="","",ROUND(((I4:I+T4:T+U4:U)/(1-(V4:V+$F$2+$Z$2))/$C$2)*100)/100)))';
+    // R列: 販売価格（個別行の式）
+    sheet.getRange('R4').setValue('販売価格');
+    var priceFormulas = [];
+    for (var row = 5; row <= dataLastRow; row++) {
+      var formula = '';
+      if (profitCalc === 'RATE') {
+        formula = '=IF(I' + row + '="","",ROUND(((I' + row + '+T' + row + ')/(1-(V' + row + '+W' + row + '+$F$2+$Z$2))/$C$2)*100)/100)';
+      } else {
+        formula = '=IF(I' + row + '="","",ROUND(((I' + row + '+T' + row + '+U' + row + ')/(1-(V' + row + '+$F$2+$Z$2))/$C$2)*100)/100)';
+      }
+      priceFormulas.push([formula]);
     }
-    sheet.getRange('R4').setFormula(priceFormula);
+    if (priceFormulas.length > 0) {
+      sheet.getRange(5, CONFIG.COLUMNS.PRICE, priceFormulas.length, 1).setFormulas(priceFormulas);
+    }
 
     // S列: 関税込み価格（ARRAYFORMULA）
     sheet.getRange('S4').setFormula('=ARRAYFORMULA(IF(ROW(S4:S)=4,"関税込み価格",IF(R4:R="","",ROUND(R4:R+AD4:AD,2))))');

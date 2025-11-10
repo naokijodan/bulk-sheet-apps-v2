@@ -452,6 +452,59 @@ function generateTemplateName_(templateName, condition, shippingType) {
 }
 
 /**
+ * Policy_Masterデータをキャッシュから取得（30分間有効）
+ * @private
+ */
+function getPolicyMasterDataCached_() {
+  var cache = CacheService.getScriptCache();
+  var cacheKey = 'POLICY_MASTER_DATA';
+
+  // キャッシュから取得を試みる
+  var cached = cache.get(cacheKey);
+  if (cached) {
+    try {
+      return JSON.parse(cached);
+    } catch (e) {
+      // パースエラーの場合はキャッシュを無視
+    }
+  }
+
+  // キャッシュがない場合はシートから読み込み
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('Policy_Master');
+
+  if (!sheet) {
+    return null;
+  }
+
+  var lastRow = sheet.getLastRow();
+  if (lastRow < 2) {
+    return [];
+  }
+
+  // A列:ID、B列:名称、C列:送料上乗せ を取得
+  var data = sheet.getRange(2, 1, lastRow - 1, 3).getValues();
+
+  // キャッシュに保存（30分 = 1800秒）
+  try {
+    cache.put(cacheKey, JSON.stringify(data), 1800);
+  } catch (e) {
+    // キャッシュ保存エラーは無視（データは返す）
+  }
+
+  return data;
+}
+
+/**
+ * Policy_Masterキャッシュをクリア
+ */
+function clearPolicyMasterCache() {
+  var cache = CacheService.getScriptCache();
+  cache.remove('POLICY_MASTER_DATA');
+  showAlert('Policy_Masterのキャッシュをクリアしました。', 'success');
+}
+
+/**
  * シッピングポリシーIDを取得するカスタム関数
  *
  * @param {string} categoryDisplay - カテゴリー表示名（O1セル）
@@ -491,21 +544,16 @@ function GET_SHIPPING_POLICY_ID(categoryDisplay, priceUSD, condition, shippingMe
     // 価格調整（関税率差を考慮）
     var adjustedPrice = calculateAdjustedPriceForPolicy_(price);
 
-    // Policy_Masterから検索
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheet = ss.getSheetByName('Policy_Master');
+    // Policy_Masterからキャッシュ経由でデータ取得
+    var data = getPolicyMasterDataCached_();
 
-    if (!sheet) {
+    if (!data) {
       return 'エラー';
     }
 
-    var lastRow = sheet.getLastRow();
-    if (lastRow < 2) {
+    if (data.length === 0) {
       return '該当なし';
     }
-
-    // A列:ID、B列:名称、C列:送料上乗せ を取得
-    var data = sheet.getRange(2, 1, lastRow - 1, 3).getValues();
     var candidates = [];
 
     for (var i = 0; i < data.length; i++) {
