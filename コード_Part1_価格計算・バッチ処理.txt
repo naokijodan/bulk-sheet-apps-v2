@@ -3580,21 +3580,22 @@ function saveSelectedRowsAndClear() {
     var sheet = validateAndGetSheet(); if (!sheet) return;
 
     var range = sheet.getActiveRange();
-    if (!range) { 
-      conditionalShowAlert("保存する行を選択してください。","info"); 
-      return; 
+    if (!range) {
+      conditionalShowAlert("保存する行を選択してください。", "info");
+      return;
     }
 
     var startRow = range.getRow(), endRow = range.getLastRow();
-    if (startRow < 5) { 
-      conditionalShowAlert("5行目以降のデータを選択してください。","info"); 
-      return; 
+    if (startRow < 5) {
+      conditionalShowAlert("5行目以降のデータを選択してください。", "info");
+      return;
     }
 
-    // 🔹 修正：確認ダイアログを条件付きに変更
+    // 確認ダイアログを条件付きに表示
     var ok = conditionalConfirmDialog(
-      '選択された ' + startRow + ' ～ ' + endRow + ' 行を保存シートへコピーし、元の値をクリアします。\n' +
-      '・E列・O列・P列以降の数式は保持（AE列は削除）\n・ドロップダウン設定は保持\n・元に戻せません\n\n続行しますか？',
+      '選択された ' + startRow + ' ～ ' + endRow + ' 行を保存シートへコピーし、元の値をクリアして全列の数式を再設定します。\n\n' +
+      '・保存後、全列の数式を再設定\n' +
+      '・元に戻せません\n\n続行しますか？',
       '選択行の保存とクリア'
     );
 
@@ -3603,22 +3604,35 @@ function saveSelectedRowsAndClear() {
       return;
     }
 
+    // 1. 保存処理
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var requiredRows = endRow - startRow + 1;
     var targetSheet = getOrCreateSaveSheet(ss, requiredRows);
     var savedCount = saveRowsToSheet(sheet, targetSheet, startRow, endRow);
+
+    // 2. クリア処理
     clearSelectedRowsValues(sheet, startRow, endRow);
 
-    var report = '✅ 保存・クリア完了\n\n' +
-      '📁 保存先: 「' + targetSheet.getName() + '」\n' +
-      '📊 保存件数: ' + savedCount + '\n' +
-      '🗑️ クリア範囲: ' + startRow + '～' + endRow + ' 行\n\n' +
-      '✅ 保持：E列・O列・P列以降の数式／全列のドロップダウン\n' +
-      '❌ 削除：A,B,C,D,F～N列,AE列の値／ハイライト';
-    
-    // 🔹 修正：完了通知を条件付きに変更
-    conditionalShowAlert(report,"success");
-  
+    // 3. 計算モードの読み取り
+    var profitCalcText = sheet.getRange('AL2').getValue(); // "利益率" or "利益額"
+    var profitCalc = (profitCalcText === '利益額') ? 'AMOUNT' : 'RATE';
+
+    var shippingCalcText = sheet.getRange('AJ5').getValue(); // "テーブル計算" or "固定金額"
+    var shippingCalc = (shippingCalcText === '固定金額') ? 'FIXED' : 'TABLE';
+
+    // 4. applyCalculationFormulas関数を呼び出して全列の式を再設定
+    var result = applyCalculationFormulas(settings.sheetName, {
+      profitCalc: profitCalc,
+      shippingCalcMethod: shippingCalc
+    });
+
+    if (!result.success) {
+      showAlert("計算式の再出力エラー: " + result.error, "error");
+      return;
+    }
+
+    // 完了メッセージは表示しない
+
   } catch (e) {
     // エラーは常に表示
     showAlert('保存・クリア中にエラー: ' + e.message, "error");
@@ -3826,25 +3840,25 @@ function clearAndReapplyFormulas() {
     // 1. 選択行をクリア
     clearSelectedRowsValues(sheet, startRow, endRow);
 
-    // 2. 式を再設定（選択行のみ）
-    var profitCalc = settings.profitCalculationMethod;
-    var shippingCalc = settings.shippingCalculationMethod;
+    // 2. シートから計算モードを読み取る
+    var profitCalcText = sheet.getRange('AL2').getValue(); // "利益率" or "利益額"
+    var profitCalc = (profitCalcText === '利益額') ? 'AMOUNT' : 'RATE';
 
-    // E列: テンプレートID
-    var templateFormulas = [];
-    for (var row = startRow; row <= endRow; row++) {
-      templateFormulas.push(['=IF(OR(ISBLANK($O$1),ISBLANK($O$2),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_TEMPLATE_ID($O$1,$O$2,AE' + row + ',X' + row + '))']);
+    var shippingCalcText = sheet.getRange('AJ5').getValue(); // "テーブル計算" or "固定金額"
+    var shippingCalc = (shippingCalcText === '固定金額') ? 'FIXED' : 'TABLE';
+
+    // 3. applyCalculationFormulas関数を呼び出して全列の式を再設定
+    var result = applyCalculationFormulas(settings.sheetName, {
+      profitCalc: profitCalc,
+      shippingCalcMethod: shippingCalc
+    });
+
+    if (!result.success) {
+      showAlert("計算式の再出力エラー: " + result.error, "error");
+      return;
     }
-    sheet.getRange(startRow, 5, templateFormulas.length, 1).setFormulas(templateFormulas);
 
-    // O列: シッピングポリシーID
-    var policyFormulas = [];
-    for (var row = startRow; row <= endRow; row++) {
-      policyFormulas.push(['=IF(OR(ISBLANK($O$1),ISBLANK(R' + row + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_SHIPPING_POLICY_ID($O$1,R' + row + ',AE' + row + ',X' + row + '))']);
-    }
-    sheet.getRange(startRow, CONFIG.COLUMNS.SHIPPING_POLICY, policyFormulas.length, 1).setFormulas(policyFormulas);
-
-    showAlert('選択行（' + startRow + '～' + endRow + '）のクリアと式の再設定が完了しました。', 'success');
+    showAlert('選択行（' + startRow + '～' + endRow + '）のクリアと全列の式の再設定が完了しました。', 'success');
 
   } catch (e) {
     showAlert('エラー: ' + e.message, 'error');
