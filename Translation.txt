@@ -38,6 +38,17 @@ function runSelectedRowsTranslate() {
       return;
     }
 
+    // 作業シートのAS2セルからプロンプトIDを読み取り（設定値を上書き）
+    try {
+      var sheetPromptId = sheet.getRange('AS2').getValue();
+      if (sheetPromptId && String(sheetPromptId).trim()) {
+        settings.promptId = String(sheetPromptId).trim();
+      }
+    } catch (e) {
+      // AS2セルが存在しない場合は既存のpromptIdを使用
+      console.log('AS2セルからプロンプトIDを読み取れませんでした。既存の設定を使用します: ' + e.message);
+    }
+
     var isContinuing = props.getProperty('isProcessing_translate') === 'true' && props.getProperty('processingMode') === SCRIPT_NAME;
 
     if (!isContinuing) {

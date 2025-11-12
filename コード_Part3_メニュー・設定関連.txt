@@ -2888,8 +2888,16 @@ function writeSettingsToSheet(sheetName, settings) {
     sheet.getRange('AO2:AP4').setBackground('#F3E5F5');
     sheet.getRange('AO2:AO4').setFontWeight('bold');
 
-    // 枠線を設定（AI1からAP5まで）
-    var settingsRange = sheet.getRange('AI1:AP5');
+    // プロンプト設定（黄色系）
+    var promptData = [
+      ['使用プロンプト', settings.promptId || 'EBAY_FULL_LISTING_PROMPT']
+    ];
+    sheet.getRange('AR2:AS2').setValues(promptData);
+    sheet.getRange('AR2:AS2').setBackground('#FFF9C4');
+    sheet.getRange('AR2').setFontWeight('bold');
+
+    // 枠線を設定（AI1からAS5まで）
+    var settingsRange = sheet.getRange('AI1:AS5');
     settingsRange.setBorder(true, true, true, true, true, true, '#000000', SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
 
     // ドロップダウンを設定
@@ -2934,8 +2942,18 @@ function writeSettingsToSheet(sheetName, settings) {
       .build();
     sheet.getRange('AP2').setDataValidation(rule5);
 
+    // AS2: 使用プロンプト（GPT_Promptsシートから取得）
+    var promptIds = getAllPromptIds();
+    if (promptIds && promptIds.length > 0) {
+      var rule6 = SpreadsheetApp.newDataValidation()
+        .requireValueInList(promptIds, true)
+        .setAllowInvalid(false)
+        .build();
+      sheet.getRange('AS2').setDataValidation(rule6);
+    }
+
     // 注釈を追加
-    sheet.getRange('AI6').setValue('※この設定値は計算式から参照されます。値セル（AJ, AL, AN, AP列）は直接編集可能です。ドロップダウンから選択できます。')
+    sheet.getRange('AI6').setValue('※この設定値は計算式から参照されます。値セル（AJ, AL, AN, AP, AS列）は直接編集可能です。ドロップダウンから選択できます。')
       .setFontSize(9)
       .setFontColor('#666666')
       .setWrap(true);
@@ -3011,34 +3029,40 @@ function applyCalculationFormulas(sheetName, settings) {
     // S列: 関税込み価格（ARRAYFORMULA）
     sheet.getRange('S4').setFormula('=ARRAYFORMULA(IF(ROW(S4:S)=4,"関税込み価格",IF(R4:R="","",ROUND(R4:R+AD4:AD,2))))');
 
-    // E列: テンプレートID（カスタム関数を使用）
+    // E列: テンプレートID（Import_TemplatesのC列を使用したINDEX/MATCH）
     try {
       sheet.getRange('E4').setValue('テンプレート');
       var templateFormulas = [];
       for (var row = 5; row <= dataLastRow; row++) {
-        var formula = '=IF(OR(ISBLANK($O$1),ISBLANK($O$2),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_TEMPLATE_ID($O$1,$O$2,AE' + row + ',X' + row + '))';
+        // 標準名を生成: Template_テンプレート名_状態_配送タイプ
+        // 配送タイプ: SP/CE→eco, それ以外→xp
+        // 状態: 新品→new, 中古→used
+        // INDEX/MATCH: C列で標準名を探して、A列のTemplate IDを返す（範囲を50行に限定して高速化）
+        var formula = '=IF(OR(ISBLANK($O$2),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",IFERROR(INDEX(Import_Templates!$A$2:$A$50,MATCH("Template_"&$O$2&"_"&IF(AE' + row + '="新品","new","used")&"_"&IF(X' + row + '="SP","eco",IF(X' + row + '="CE","eco","xp")),Import_Templates!$C$2:$C$50,0)),"該当なし"))';
         templateFormulas.push([formula]);
       }
       if (templateFormulas.length > 0) {
         sheet.getRange(5, 5, templateFormulas.length, 1).setFormulas(templateFormulas);
-        console.log('E列（テンプレートID）設定完了（5～' + dataLastRow + '行）');
+        console.log('E列（テンプレートID）設定完了（5～' + dataLastRow + '行）[INDEX/MATCH版]');
       }
     } catch (eTemplate) {
       console.error('E列（テンプレート）設定エラー: ' + eTemplate.message);
       // エラーが発生してもスキップして続行
     }
 
-    // O列: シッピングポリシーID（カスタム関数を使用）
+    // O列: シッピングポリシーID（初期設定用・Import_Policies参照版）
     try {
       sheet.getRange('O4').setValue('シッピングポリシー');
       var policyFormulas = [];
       for (var row = 5; row <= dataLastRow; row++) {
-        var formula = '=IF(OR(ISBLANK($O$1),ISBLANK(R' + row + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_SHIPPING_POLICY_ID($O$1,R' + row + ',AE' + row + ',X' + row + '))';
+        // GET_SHIPPING_POLICY_FROM_IMPORT関数を使用（Import_PoliciesのD-G列を活用した最適化版）
+        // 引数: カテゴリー表示名（O1）, 価格USD, 商品状態, 配送方法
+        var formula = '=IF(OR(ISBLANK($O$1),ISBLANK(R' + row + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_SHIPPING_POLICY_FROM_IMPORT($O$1,R' + row + ',AE' + row + ',X' + row + '))';
         policyFormulas.push([formula]);
       }
       if (policyFormulas.length > 0) {
         sheet.getRange(5, CONFIG.COLUMNS.SHIPPING_POLICY, policyFormulas.length, 1).setFormulas(policyFormulas);
-        console.log('O列（シッピングポリシーID）設定完了（5～' + dataLastRow + '行）');
+        console.log('O列（シッピングポリシーID）設定完了（5～' + dataLastRow + '行）[Import_Policies参照版]');
       }
     } catch (ePolicy) {
       console.error('O列（シッピングポリシー）設定エラー: ' + ePolicy.message);

@@ -1389,11 +1389,22 @@ function runSelectedRows() {
     }
     
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(settings.sheetName);
-    if (!sheet) { 
-      showAlert('作業シートが見つかりません。','error'); 
-      clearProcessingState(); 
-      clearAllTriggers(); 
-      return; 
+    if (!sheet) {
+      showAlert('作業シートが見つかりません。','error');
+      clearProcessingState();
+      clearAllTriggers();
+      return;
+    }
+
+    // 作業シートのAS2セルからプロンプトIDを読み取り（設定値を上書き）
+    try {
+      var sheetPromptId = sheet.getRange('AS2').getValue();
+      if (sheetPromptId && String(sheetPromptId).trim()) {
+        settings.promptId = String(sheetPromptId).trim();
+      }
+    } catch (e) {
+      // AS2セルが存在しない場合は既存のpromptIdを使用
+      console.log('AS2セルからプロンプトIDを読み取れませんでした。既存の設定を使用します: ' + e.message);
     }
 
     var isContinuing = props.getProperty('isProcessing') === 'true' && props.getProperty('processingMode') === SCRIPT_NAME;
@@ -1952,11 +1963,22 @@ function runSelectedRowsComplete() {
     }
     
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(settings.sheetName);
-    if (!sheet) { 
-      showAlert('作業シートが見つかりません。','error'); 
-      clearProcessingStateComplete_(); 
-      clearAllTriggers(); 
-      return; 
+    if (!sheet) {
+      showAlert('作業シートが見つかりません。','error');
+      clearProcessingStateComplete_();
+      clearAllTriggers();
+      return;
+    }
+
+    // 作業シートのAS2セルからプロンプトIDを読み取り（設定値を上書き）
+    try {
+      var sheetPromptId = sheet.getRange('AS2').getValue();
+      if (sheetPromptId && String(sheetPromptId).trim()) {
+        settings.promptId = String(sheetPromptId).trim();
+      }
+    } catch (e) {
+      // AS2セルが存在しない場合は既存のpromptIdを使用
+      console.log('AS2セルからプロンプトIDを読み取れませんでした。既存の設定を使用します: ' + e.message);
     }
 
     var isContinuing = props.getProperty('isProcessing_complete') === 'true' && props.getProperty('processingMode') === SCRIPT_NAME;

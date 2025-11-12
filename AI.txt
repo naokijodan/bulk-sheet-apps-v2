@@ -6,9 +6,13 @@
  * - 並列・リトライ処理
  ******************************************************/
 
-function createAIPrompt(fullText) {
-  var props = PropertiesService.getScriptProperties();
-  var promptId = props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT';
+function createAIPrompt(fullText, promptId) {
+  // promptIdが指定されていない場合は、スクリプトプロパティから取得（後方互換性）
+  if (!promptId) {
+    var props = PropertiesService.getScriptProperties();
+    promptId = props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT';
+  }
+
   var tmpl = getPromptContent(promptId);
   if (!tmpl) {
     tmpl = [
@@ -140,7 +144,7 @@ function callAIWithRetry(jpTitle, jpDesc, quantity, costYen, settings, retryCoun
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function callAI(jpTitle, jpDesc, quantity, costYen, settings) {
   var fullText = 'Japanese Title: ' + jpTitle + '\nJapanese Description: ' + jpDesc;
-  var prompt = createAIPrompt(fullText);
+  var prompt = createAIPrompt(fullText, settings.promptId);
   if (settings.platform === 'openai') return callOpenAI(prompt, settings);
   if (settings.platform === 'claude') return callClaude(prompt, settings);
   if (settings.platform === 'gemini') return callGemini(prompt, settings);
@@ -357,7 +361,7 @@ function callGemini(prompt, settings) {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function buildRequestForProvider_(settings, item) {
   var fullText = 'Japanese Title: ' + item.jpTitle + '\nJapanese Description: ' + item.jpDesc;
-  var prompt = createAIPrompt(fullText);
+  var prompt = createAIPrompt(fullText, settings.promptId);
 
   var platform = settings.platform;
   var model = settings.model;

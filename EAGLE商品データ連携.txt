@@ -37,26 +37,23 @@ const COLUMN_PRESETS = {
 };
 
 /**
- * APIトークンを平文で保存
+ * APIトークンを平文で保存（無期限）
  */
-function saveApiToken(apiToken, validDays = 7) {
+function saveApiToken(apiToken) {
   try {
     if (!apiToken || typeof apiToken !== 'string' || apiToken.trim() === '') {
       throw new Error('無効なAPIトークンです');
     }
-    
-    const expiry = new Date(Date.now() + validDays * 24 * 60 * 60 * 1000);
-    
+
     const properties = PropertiesService.getScriptProperties();
     properties.setProperties({
       'eagle_api_token': apiToken.trim(),
-      'eagle_expiry': expiry.getTime().toString(),
       'eagle_saved_at': new Date().toISOString()
     });
-    
-    console.log(`✅ APIトークンを保存（有効期限: ${expiry.toLocaleString()}）`);
+
+    console.log(`✅ APIトークンを保存（無期限）`);
     return true;
-    
+
   } catch (error) {
     console.error('❌ APIトークン保存エラー:', error);
     return false;
@@ -97,22 +94,14 @@ function getSelectedColumns() {
 }
 
 /**
- * 保存されたAPIトークンを取得
+ * 保存されたAPIトークンを取得（無期限）
  */
 function getApiToken() {
   try {
     const properties = PropertiesService.getScriptProperties();
-    
-    // 有効期限チェック
-    const expiryTime = properties.getProperty('eagle_expiry');
-    if (!expiryTime || Date.now() > parseInt(expiryTime)) {
-      console.log('⚠️ APIトークンの有効期限が切れています');
-      clearApiToken();
-      return null;
-    }
-    
+
     const apiToken = properties.getProperty('eagle_api_token');
-    
+
     if (!apiToken) {
       console.log('⚠️ 保存されたAPIトークンがありません');
       return null;
@@ -133,42 +122,32 @@ function getApiToken() {
 function clearApiToken() {
   const properties = PropertiesService.getScriptProperties();
   properties.deleteProperty('eagle_api_token');
-  properties.deleteProperty('eagle_expiry');
   properties.deleteProperty('eagle_saved_at');
   console.log('保存されたAPIトークンを削除しました');
 }
 
 /**
- * APIトークンの有効期限を確認
+ * APIトークンの状態を確認（無期限版）
  */
 function checkApiTokenExpiry() {
   const properties = PropertiesService.getScriptProperties();
-  const expiryTime = properties.getProperty('eagle_expiry');
-  
-  if (!expiryTime) {
-    const ui = SpreadsheetApp.getUi();
+  const apiToken = properties.getProperty('eagle_api_token');
+  const savedAt = properties.getProperty('eagle_saved_at');
+
+  const ui = SpreadsheetApp.getUi();
+
+  if (!apiToken) {
     ui.alert("APIトークンなし", "保存されたAPIトークンがありません", ui.ButtonSet.OK);
     return;
   }
-  
-  const expiry = new Date(parseInt(expiryTime));
-  const now = new Date();
-  const remainingTime = expiry.getTime() - now.getTime();
-  
-  if (remainingTime <= 0) {
-    const ui = SpreadsheetApp.getUi();
-    ui.alert("期限切れ", "APIトークンの有効期限が切れています。\n新しいAPIトークンを設定してください。", ui.ButtonSet.OK);
-  } else {
-    const remainingDays = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
-    const remainingHours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    
-    const ui = SpreadsheetApp.getUi();
-    ui.alert(
-      "APIトークンの状態", 
-      `✅ APIトークンは有効です\n\n・有効期限: ${expiry.toLocaleString()}\n・残り時間: ${remainingDays}日 ${remainingHours}時間`, 
-      ui.ButtonSet.OK
-    );
-  }
+
+  const savedDate = savedAt ? new Date(savedAt).toLocaleString() : '不明';
+
+  ui.alert(
+    "APIトークンの状態",
+    `✅ APIトークンは保存されています（無期限）\n\n・保存日時: ${savedDate}`,
+    ui.ButtonSet.OK
+  );
 }
 
 /**
@@ -1489,20 +1468,39 @@ function writeTemplatesAndPoliciesToImportSheets(templates, policies) {
     policySheet.getRange('A1').setValue('Policy ID');
     policySheet.getRange('B1').setValue('ポリシー名');
     policySheet.getRange('C1').setValue('送料（USD）');
-    
+    policySheet.getRange('D1').setValue('配送タイプ');
+    policySheet.getRange('E1').setValue('状態');
+    policySheet.getRange('F1').setValue('価格下限');
+    policySheet.getRange('G1').setValue('価格上限');
+
     // ヘッダー書式
-    policySheet.getRange('A1:C1').setFontWeight('bold')
+    policySheet.getRange('A1:G1').setFontWeight('bold')
       .setBackground('#34a853').setFontColor('white');
-    
+
     // 列幅設定
     policySheet.setColumnWidth(1, 100);
     policySheet.setColumnWidth(2, 350);
     policySheet.setColumnWidth(3, 100);
-    
-    // データ書き込み
+    policySheet.setColumnWidth(4, 100);
+    policySheet.setColumnWidth(5, 80);
+    policySheet.setColumnWidth(6, 80);
+    policySheet.setColumnWidth(7, 80);
+
+    // データ書き込み + ポリシー名を分解
     if (policies && policies.length > 0) {
-      const policyData = policies.map(p => [p.id, p.name, '']);
-      policySheet.getRange(2, 1, policyData.length, 3).setValues(policyData);
+      const policyData = policies.map(p => {
+        // ポリシー名をパース（手動判定用はnullが返る）
+        const parsed = parsePolicyNameForImport(p.name);
+
+        if (parsed) {
+          // 自動判定用: 分解データを入れる
+          return [p.id, p.name, '', parsed.type, parsed.condition, parsed.minPrice, parsed.maxPrice];
+        } else {
+          // 手動判定用: D-G列を空白
+          return [p.id, p.name, '手動用', '', '', '', ''];
+        }
+      });
+      policySheet.getRange(2, 1, policyData.length, 7).setValues(policyData);
     }
     
     console.log('✅ Importシートを作成しました');

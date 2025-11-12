@@ -601,6 +601,303 @@ function GET_SHIPPING_POLICY_ID(categoryDisplay, priceUSD, condition, shippingMe
 }
 
 /**
+ * シッピングポリシーIDを取得するカスタム関数（初期設定用・Import_Policies参照版）
+ *
+ * @param {string} categoryDisplay - カテゴリー表示名（O1セル）
+ * @param {number} priceUSD - 販売価格（R列）
+ * @param {string} condition - 商品状態（AE列: 新品/中古）
+ * @param {string} shippingMethod - 配送方法（X列: CF/CD/EL/SP/CEなど）
+ * @return {number|string} シッピングポリシーID、またはエラーメッセージ
+ * @customfunction
+ */
+function GET_SHIPPING_POLICY_FROM_IMPORT(categoryDisplay, priceUSD, condition, shippingMethod) {
+  try {
+    // 入力チェック
+    if (!categoryDisplay || !priceUSD || !condition || !shippingMethod) {
+      return '';
+    }
+
+    // 価格の検証
+    var price = Number(priceUSD);
+    if (isNaN(price) || price <= 0) {
+      return 'エラー';
+    }
+
+    // 配送方法を配送タイプに変換
+    var shippingType = convertShippingMethodToType_(shippingMethod);
+    if (shippingType === 'エラー') {
+      return 'エラー';
+    }
+
+    // 状態の検証
+    if (condition !== '新品' && condition !== '中古') {
+      return 'エラー';
+    }
+
+    // カテゴリーから送料上限を取得
+    var shippingLimit = getShippingLimitForCategory_(categoryDisplay);
+
+    // 価格調整（関税率差を考慮）
+    var adjustedPrice = calculateAdjustedPriceForPolicy_(price);
+
+    // Import_Policiesからキャッシュ経由でデータ取得（最適化版）
+    var data = getImportPoliciesDataCached_();
+
+    if (!data) {
+      return 'エラー';
+    }
+
+    if (data.length === 0) {
+      return '該当なし';
+    }
+
+    // 状態を英語に変換
+    var conditionEn = (condition === '新品') ? 'new' : 'used';
+
+    // 配送タイプを略称に変換
+    var typeAbbr = (shippingType === 'エコノミー') ? 'eco' : 'xp';
+
+    var candidates = [];
+
+    for (var i = 0; i < data.length; i++) {
+      var id = data[i][0];          // A列: Policy ID
+      var name = data[i][1];        // B列: ポリシー名
+      var shippingFee = data[i][2]; // C列: 送料
+      var type = data[i][3];        // D列: 配送タイプ
+      var cond = data[i][4];        // E列: 状態
+      var minPrice = data[i][5];    // F列: 価格下限
+      var maxPrice = data[i][6];    // G列: 価格上限
+
+      // D列が空白 = 手動用 → スキップ
+      if (!type) continue;
+
+      // 基本条件チェック（数値比較で高速）
+      if (cond !== conditionEn) continue;
+      if (type !== typeAbbr) continue;
+      if (adjustedPrice < minPrice || adjustedPrice > maxPrice) continue;
+
+      // 送料上限チェック
+      if (shippingLimit !== null && typeof shippingFee === 'number' && shippingFee > shippingLimit) {
+        continue;
+      }
+
+      // 条件に合致
+      candidates.push({
+        id: id,
+        shippingFee: shippingFee
+      });
+    }
+
+    if (candidates.length === 0) {
+      // 上限内で見つからない場合、フォールバック検索を実行
+      if (shippingLimit !== null) {
+        var maxAllowedPolicy = null;
+        var maxAllowedFee = 0;
+
+        for (var j = 0; j < data.length; j++) {
+          var fbId = data[j][0];
+          var fbType = data[j][3];
+          var fbCond = data[j][4];
+          var fbFee = data[j][2];
+
+          // D列が空白 = 手動用 → スキップ
+          if (!fbType) continue;
+
+          // 基本条件チェック（価格範囲は無視）
+          if (fbCond !== conditionEn) continue;
+          if (fbType !== typeAbbr) continue;
+
+          // 送料が上限以下かチェック
+          if (typeof fbFee !== 'number') continue;
+          if (fbFee > shippingLimit) continue;
+
+          // 上限内で最大の送料を探す
+          if (fbFee > maxAllowedFee) {
+            maxAllowedFee = fbFee;
+            maxAllowedPolicy = fbId;
+          }
+        }
+
+        if (maxAllowedPolicy !== null) {
+          return typeof maxAllowedPolicy === 'number' ? maxAllowedPolicy : Number(maxAllowedPolicy);
+        }
+      }
+
+      return '該当なし';
+    }
+
+    // 最初に見つかったものを返す
+    var result = candidates[0].id;
+    return typeof result === 'number' ? result : Number(result);
+
+  } catch (e) {
+    return 'エラー';
+  }
+}
+
+/**
+ * ポリシー名をパースして分解データを返す（Import_Policies用）
+ *
+ * @param {string} policyName - ポリシー名（例: "Egl_202510_eco_new_0001_0050"）
+ * @return {Object|null} 分解データ {type, condition, minPrice, maxPrice}、手動判定用はnull
+ *
+ * 除外ルール:
+ * - "Copy"が含まれる
+ * - アンダースコア区切りで6要素未満
+ * - 配送タイプがeco/xp以外
+ * - 状態がnew/used以外
+ * - 価格範囲が数字でない
+ */
+function parsePolicyNameForImport(policyName) {
+  try {
+    // 入力チェック
+    if (!policyName || typeof policyName !== 'string') {
+      return null;
+    }
+
+    // "Copy"が含まれる場合は手動判定用
+    if (policyName.indexOf('Copy') !== -1) {
+      return null;
+    }
+
+    // アンダースコアで分割
+    var parts = policyName.split('_');
+
+    // 6要素未満は不正な形式
+    if (parts.length < 6) {
+      return null;
+    }
+
+    // 配送タイプ（3番目の要素）
+    var shippingType = parts[2].toLowerCase();
+    if (shippingType !== 'eco' && shippingType !== 'xp') {
+      return null;
+    }
+
+    // 状態（4番目の要素）
+    var condition = parts[3].toLowerCase();
+    if (condition !== 'new' && condition !== 'used') {
+      return null;
+    }
+
+    // 価格範囲の最小値（最後から2番目の要素）
+    var minPriceStr = parts[parts.length - 2];
+    var minPrice = parseInt(minPriceStr, 10);
+    if (isNaN(minPrice)) {
+      return null;
+    }
+
+    // 価格範囲の最大値（最後の要素）
+    var maxPriceStr = parts[parts.length - 1];
+    var maxPrice = maxPriceStr ? parseInt(maxPriceStr, 10) : 99999;
+    if (isNaN(maxPrice)) {
+      maxPrice = 99999; // 上限なしの場合
+    }
+
+    // 価格範囲の調整: 連続した範囲を実現
+    // 0001 → 0.01, 0051 → 50.01など、下限を前の範囲の上限+0.01として扱う
+    if (minPrice === 1) {
+      minPrice = 0.01;  // 最初の範囲
+    } else {
+      minPrice = (minPrice - 1) + 0.01;  // 例: 51 → 50.01, 76 → 75.01
+    }
+
+    return {
+      type: shippingType,
+      condition: condition,
+      minPrice: minPrice,
+      maxPrice: maxPrice
+    };
+
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
+ * 価格を価格ブラケットに変換（VLOOKUP用）
+ *
+ * @param {number} price - 価格（USD）
+ * @param {string} shippingMethod - 配送方法（SP/CE/EMS/CF/CD/EL）
+ * @return {number} 価格ブラケットの下限値
+ * @customfunction
+ *
+ * 例:
+ * - GET_PRICE_BRACKET(75, "SP") → 51
+ * - GET_PRICE_BRACKET(275, "EMS") → 251
+ */
+function GET_PRICE_BRACKET(price, shippingMethod) {
+  try {
+    var p = Number(price);
+    if (isNaN(p) || p < 0) return 1;
+
+    var method = String(shippingMethod).toUpperCase();
+
+    // SP/CE はエコノミー、それ以外はEX
+    var isEco = (method === 'SP' || method === 'CE');
+
+    if (isEco) {
+      // エコノミーの価格帯（0-275）
+      if (p <= 50) return 1;
+      if (p <= 75) return 51;
+      if (p <= 100) return 76;
+      if (p <= 125) return 101;
+      if (p <= 150) return 126;
+      if (p <= 175) return 151;
+      if (p <= 200) return 176;
+      if (p <= 225) return 201;
+      if (p <= 250) return 226;
+      if (p <= 275) return 251;
+      return 276;
+    } else {
+      // EX の価格帯（0-1400+）
+      if (p <= 50) return 1;
+      if (p <= 75) return 51;
+      if (p <= 100) return 76;
+      if (p <= 125) return 101;
+      if (p <= 150) return 126;
+      if (p <= 175) return 151;
+      if (p <= 200) return 176;
+      if (p <= 225) return 201;
+      if (p <= 250) return 226;
+      if (p <= 275) return 251;
+      if (p <= 300) return 276;
+      if (p <= 325) return 301;
+      if (p <= 350) return 326;
+      if (p <= 375) return 351;
+      if (p <= 400) return 376;
+      if (p <= 425) return 401;
+      if (p <= 450) return 426;
+      if (p <= 475) return 451;
+      if (p <= 500) return 476;
+      if (p <= 525) return 501;
+      if (p <= 550) return 526;
+      if (p <= 575) return 551;
+      if (p <= 600) return 576;
+      if (p <= 625) return 601;
+      if (p <= 650) return 626;
+      if (p <= 675) return 651;
+      if (p <= 700) return 676;
+      if (p <= 725) return 701;
+      if (p <= 750) return 726;
+      if (p <= 775) return 751;
+      if (p <= 800) return 776;
+      if (p <= 850) return 801;
+      if (p <= 900) return 851;
+      if (p <= 950) return 901;
+      if (p <= 1000) return 951;
+      if (p <= 1100) return 1001;
+      if (p <= 1200) return 1101;
+      if (p <= 1300) return 1201;
+      if (p <= 1400) return 1301;
+      return 1401;
+    }
+  } catch (e) {
+    return 1;
+  }
+}
+
+/**
  * カテゴリーから送料上限を取得（カスタム関数用）
  * @private
  */
@@ -608,8 +905,27 @@ function getShippingLimitForCategory_(categoryDisplay) {
   try {
     var categories = CONFIG.SHIPPING_POLICY_CATEGORIES;
 
-    if (categories[categoryDisplay] && typeof categories[categoryDisplay].limit !== 'undefined') {
-      return categories[categoryDisplay].limit;
+    // O1の形式から変換: 'Video Games（$20）' → 'Video Games'
+    var categoryName = String(categoryDisplay || '').trim();
+
+    // 全角括弧「（」より前の部分を抽出
+    var parenIndex = categoryName.indexOf('（');
+    if (parenIndex !== -1) {
+      categoryName = categoryName.substring(0, parenIndex).trim();
+    }
+
+    // '汎用（上限なし）' → null（上限なし）
+    if (categoryName === '汎用' || categoryName.indexOf('汎用') !== -1) {
+      return null;
+    }
+
+    // 'Game Consoles' → 'Video Game Consoles' に変換
+    if (categoryName === 'Game Consoles') {
+      categoryName = 'Video Game Consoles';
+    }
+
+    if (categories[categoryName] && typeof categories[categoryName].limit !== 'undefined') {
+      return categories[categoryName].limit;
     }
 
     // カテゴリーが見つからない場合は「その他」扱い（上限なし）
@@ -653,6 +969,51 @@ function calculateAdjustedPriceForPolicy_(priceUSD) {
   } catch (e) {
     return priceUSD; // エラー時はそのまま
   }
+}
+
+/**
+ * Import_Policiesデータをキャッシュから取得（30分間有効）
+ * @private
+ */
+function getImportPoliciesDataCached_() {
+  var cache = CacheService.getScriptCache();
+  var cacheKey = 'IMPORT_POLICIES_DATA';
+
+  // キャッシュから取得を試みる
+  var cached = cache.get(cacheKey);
+  if (cached) {
+    try {
+      return JSON.parse(cached);
+    } catch (e) {
+      // パースエラーの場合はキャッシュを無視
+    }
+  }
+
+  // キャッシュにない場合はImport_Policiesから読み込む
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('Import_Policies');
+
+  if (!sheet) {
+    return null;
+  }
+
+  var lastRow = sheet.getLastRow();
+  if (lastRow < 2) {
+    return [];
+  }
+
+  // A-G列を取得（範囲を300行に限定）
+  var maxRow = Math.min(lastRow, 300);
+  var data = sheet.getRange(2, 1, maxRow - 1, 7).getValues();
+
+  // キャッシュに保存（30分間）
+  try {
+    cache.put(cacheKey, JSON.stringify(data), 1800);
+  } catch (e) {
+    // キャッシュ保存失敗は無視（データは返す）
+  }
+
+  return data;
 }
 
 /**
