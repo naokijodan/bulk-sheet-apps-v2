@@ -1427,33 +1427,61 @@ function fetchShippingPoliciesFromEagle(apiToken) {
 function writeTemplatesAndPoliciesToImportSheets(templates, policies) {
   try {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
-    
+
     // Import_Templatesシート作成
     let templateSheet = ss.getSheetByName('Import_Templates');
     if (templateSheet) {
       ss.deleteSheet(templateSheet);
     }
-    
+
     templateSheet = ss.insertSheet('Import_Templates');
-    
+
     // ヘッダー設定
     templateSheet.getRange('A1').setValue('Template ID');
     templateSheet.getRange('B1').setValue('日本語名');
     templateSheet.getRange('C1').setValue('自動生成された標準名（確認用）');
-    
+
     // ヘッダー書式
     templateSheet.getRange('A1:C1').setFontWeight('bold')
       .setBackground('#4285f4').setFontColor('white');
-    
+
     // 列幅設定
     templateSheet.setColumnWidth(1, 100);
     templateSheet.setColumnWidth(2, 300);
     templateSheet.setColumnWidth(3, 350);
-    
+
     // データ書き込み
     if (templates && templates.length > 0) {
       const templateData = templates.map(t => [t.id, t.name, '']);
       templateSheet.getRange(2, 1, templateData.length, 3).setValues(templateData);
+    }
+
+    // 参照データシートにテンプレートIDと名称を書き込み
+    let referenceSheet = ss.getSheetByName('参照データ');
+    if (!referenceSheet) {
+      // 参照データシートが存在しない場合は作成
+      referenceSheet = ss.insertSheet('参照データ');
+      // ヘッダー設定
+      referenceSheet.getRange('A1').setValue('テンプレートID');
+      referenceSheet.getRange('B1').setValue('名称');
+      referenceSheet.getRange('A1:B1').setFontWeight('bold')
+        .setBackground('#ff9900').setFontColor('white');
+    } else {
+      // 既存の場合はA列・B列の2行目以降をクリア
+      const lastRow = referenceSheet.getLastRow();
+      if (lastRow > 1) {
+        referenceSheet.getRange(2, 1, lastRow - 1, 2).clearContent();
+      }
+    }
+
+    // テンプレートデータを参照データシートに書き込み
+    if (templates && templates.length > 0) {
+      const referenceData = templates.map(t => [t.id, t.name]);
+      referenceSheet.getRange(2, 1, referenceData.length, 2).setValues(referenceData);
+
+      // 列幅自動調整
+      referenceSheet.autoResizeColumn(1);
+      referenceSheet.autoResizeColumn(2);
     }
     
     // Import_Policiesシート作成
