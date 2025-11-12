@@ -2869,14 +2869,17 @@ function writeSettingsToSheet(sheetName, settings) {
     sheet.getRange('AM2:AM5').setFontWeight('bold');
 
     // 配送方法略称（非表示列、式で参照用）
-    var methodCodesData = [
-      [settings.lowPriceMethod],   // AQ2: 低価格配送方法略称
-      [settings.highPriceMethod]   // AQ3: 高価格配送方法略称
+    // AJ列の表示名から略称コードを自動抽出する数式を設定
+    var lowPriceFormula = [
+      '=IF(AJ2="Small Packet（重量・サイズ制限あり）","SP",IF(AJ2="Cpass Economy（重量制限なし）","CE",IF(AJ2="なし（高価格配送のみ使用）","NONE","")))'
     ];
-    var methodCodesRange = sheet.getRange('AQ2:AQ3');
-    methodCodesRange.clearDataValidations(); // データ入力規則をクリア
-    methodCodesRange.setValues(methodCodesData);
-    methodCodesRange.setBackground('#E8F0FE').setFontSize(9).setFontColor('#666666');
+    var highPriceFormula = [
+      '=IF(AJ3="Cpass FedEx（燃油・割引・追加料金あり）","CF",IF(AJ3="Cpass DHL（燃油・割引・追加料金あり）","CD",IF(AJ3="eLogistics（追加料金なし）","EL","")))'
+    ];
+
+    sheet.getRange('AQ2').setFormula(lowPriceFormula[0]);
+    sheet.getRange('AQ3').setFormula(highPriceFormula[0]);
+    sheet.getRange('AQ2:AQ3').setBackground('#E8F0FE').setFontSize(9).setFontColor('#666666');
 
     // DDU調整（紫系）
     var dduData = [
