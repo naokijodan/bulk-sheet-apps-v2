@@ -2854,8 +2854,8 @@ function writeSettingsToSheet(sheetName, settings) {
 
     // AK5: AL2に連動するラベル（数式）
     sheet.getRange('AK5').setFormula('=IF(AL2="利益率","利益率","利益額")').setBackground('#FFF3E0').setFontWeight('bold');
-    // AL5: 利益値
-    sheet.getRange('AL5').setValue(profitValue).setBackground('#FFF3E0');
+    // AL5: 利益値（AL2の値に応じてH1またはH2から自動取得）
+    sheet.getRange('AL5').setFormula('=IF(AL2="利益率",H2,H1)').setBackground('#FFF3E0');
 
     // 梱包情報（緑系）
     var packingData = [
