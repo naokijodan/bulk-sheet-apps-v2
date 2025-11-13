@@ -136,6 +136,7 @@
             <option value="20">20%</option>
             <option value="25">25%</option>
             <option value="30">30%</option>
+            <option value="39">39%</option>
           </select>
         </div>
         <div class="form-group">

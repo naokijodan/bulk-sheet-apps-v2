@@ -951,20 +951,35 @@ function calculateAdjustedPriceForPolicy_(priceUSD) {
       return priceUSD; // シートが見つからない場合はそのまま
     }
 
-    // セルから値を取得
-    var BASE_RATE = 0.15;
-    var safetyFactor = Number(sheet.getRange('AG2').getValue()) || 1.35;
-    var actualRate = Number(sheet.getRange('AF2').getValue()) || 0.15;
-
-    // 実効閾値を計算
-    var effectiveThreshold = 800 * (1 + BASE_RATE) / (1 + actualRate);
-
-    // 調整
-    if (priceUSD >= effectiveThreshold) {
-      return priceUSD / safetyFactor;
-    } else {
+    // DDU価格が無効な場合はそのまま返す
+    if (isNaN(priceUSD) || priceUSD <= 0) {
       return priceUSD;
     }
+
+    // 基準関税率（固定）
+    var BASE_RATE = 0.15;
+
+    // セルから値を取得
+    var safetyFactor = Number(sheet.getRange('AG2').getValue()) || 1.35;
+    var customsFee = Number(sheet.getRange('AE1').getValue()) || 10;
+    var currentRate = Number(sheet.getRange('AF2').getValue()) || 0.15;
+
+    // 基準関税（15%想定）
+    var baseEstimatedTax = priceUSD * BASE_RATE * safetyFactor + customsFee;
+
+    // 現在の関税（39%など）
+    var currentEstimatedTax = priceUSD * currentRate * safetyFactor + customsFee;
+
+    // 送料差額（5ドル刻みで切り捨て）
+    var shippingDiff = Math.floor((currentEstimatedTax - baseEstimatedTax) / 5) * 5;
+
+    // 価格帯換算（送料$5 → 価格帯$25の比率）
+    var priceBandAdjustment = shippingDiff * 5;
+
+    // 調整後価格
+    var adjustedPrice = priceUSD + priceBandAdjustment;
+
+    return adjustedPrice;
 
   } catch (e) {
     return priceUSD; // エラー時はそのまま
