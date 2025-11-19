@@ -101,15 +101,15 @@ function initialSetup() {
     tmpl.currentSheetName = props.getProperty('SHEET_NAME') || '作業シート';
     tmpl.currentProfitCalculationMethod = props.getProperty('PROFIT_CALC_METHOD') || 'RATE';
     tmpl.currentPromptId = props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT';
-    tmpl.currentShippingThreshold = props.getProperty('SHIPPING_THRESHOLD') || '20000';
+    tmpl.currentShippingThreshold = props.getProperty('SHIPPING_THRESHOLD') || '5500';
     tmpl.currentShippingCalculationMethod = props.getProperty('SHIPPING_CALC_METHOD') || 'TABLE';
-    tmpl.currentLowPriceMethod = props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'NONE';
+    tmpl.currentLowPriceMethod = props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'SMP';
     tmpl.currentHighPriceMethod = props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF';
     tmpl.currentShowPopups = props.getProperty('SHOW_POPUPS') || 'false';
-    
+
     // DDU価格調整機能の設定変数
     tmpl.currentDduAdjustmentEnabled = props.getProperty('DDU_ADJUSTMENT_ENABLED') || 'false';
-    tmpl.currentDduThreshold = props.getProperty('DDU_THRESHOLD') || '1500';
+    tmpl.currentDduThreshold = props.getProperty('DDU_THRESHOLD') || '310';
     tmpl.currentDduAdjustment = props.getProperty('DDU_ADJUSTMENT_AMOUNT') || '310';
     
     // 価格表示モード設定
@@ -155,140 +155,6 @@ function initialSetup() {
   }
 }
 
-/**
- * 関税率に応じた実効閾値を計算（セル値使用版）
- * @param {number} baseThreshold - 基準閾値（15%想定）
- * @param {Sheet} sheet - 作業シート
- * @param {number} targetRate - 確認したい関税率（省略時はAF2セルの値を使用）
- * @return {number} 実効閾値
- */
-function calculateEffectiveThreshold(baseThreshold, sheet, targetRate) {
-  var BASE_RATE = 0.15;  // 基準関税率（固定）
-  
-  // セルから値を取得
-  var safetyFactor = Number(sheet.getRange('AG2').getValue()) || 1.35;
-  var customsFee = Number(sheet.getRange('AE1').getValue()) || 10;
-
-  // targetRateが省略された場合、AF2セルから取得
-  if (typeof targetRate === 'undefined' || targetRate === null) {
-    targetRate = Number(sheet.getRange('AF2').getValue()) || 0.15;
-  }
-  
-  // 二分探索で解を求める
-  var low = 0;
-  var high = baseThreshold;
-  var epsilon = 0.1;
-  
-  while (high - low > epsilon) {
-    var mid = (low + high) / 2;
-    
-    var baseEstimatedTax = mid * BASE_RATE * safetyFactor + customsFee;
-    var currentEstimatedTax = mid * targetRate * safetyFactor + customsFee;
-    var shippingDiff = Math.floor((currentEstimatedTax - baseEstimatedTax) / 5) * 5;
-    var priceBandAdjustment = shippingDiff * 5;
-    var adjustedPrice = mid + priceBandAdjustment;
-    
-    if (adjustedPrice < baseThreshold) {
-      low = mid;
-    } else {
-      high = mid;
-    }
-  }
-  
-  return Math.round(low);
-}
-
-/**
- * 関税率に応じた実効閾値を計算（セル値使用版）
- * @param {number} baseThreshold - 基準閾値（15%想定）
- * @param {Sheet} sheet - 作業シート
- * @param {number} targetRate - 確認したい関税率（省略時はAF2セルの値を使用）
- * @return {number} 実効閾値
- */
-function calculateEffectiveThreshold(baseThreshold, sheet, targetRate) {
-  var BASE_RATE = 0.15;  // 基準関税率（固定）
-  
-  // セルから値を取得
-  var safetyFactor = Number(sheet.getRange('AG2').getValue()) || 1.35;
-  var customsFee = Number(sheet.getRange('AE1').getValue()) || 10;
-
-  // targetRateが省略された場合、AF2セルから取得
-  if (typeof targetRate === 'undefined' || targetRate === null) {
-    targetRate = Number(sheet.getRange('AF2').getValue()) || 0.15;
-  }
-  
-  // 二分探索で解を求める
-  var low = 0;
-  var high = baseThreshold;
-  var epsilon = 0.1;
-  
-  while (high - low > epsilon) {
-    var mid = (low + high) / 2;
-    
-    var baseEstimatedTax = mid * BASE_RATE * safetyFactor + customsFee;
-    var currentEstimatedTax = mid * targetRate * safetyFactor + customsFee;
-    var shippingDiff = Math.floor((currentEstimatedTax - baseEstimatedTax) / 5) * 5;
-    var priceBandAdjustment = shippingDiff * 5;
-    var adjustedPrice = mid + priceBandAdjustment;
-    
-    if (adjustedPrice < baseThreshold) {
-      low = mid;
-    } else {
-      high = mid;
-    }
-  }
-  
-  return Math.round(low);
-}
-
-/**
- * シミュレーション用（HTMLから呼び出し）
- * @param {number} baseThreshold - 基準閾値（例: 900）
- * @param {number} targetRatePercent - 確認したい関税率（%、例: 39）
- * @return {Object} 実効閾値の情報
- */
-function calculateEffectiveThresholdForSimulation(baseThreshold, targetRatePercent) {
-  try {
-    var settings = getSettings();
-    if (!settings) {
-      return { 
-        success: false, 
-        error: '設定が見つかりません',
-        effectiveThreshold: 0 
-      };
-    }
-    
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(settings.sheetName);
-    if (!sheet) {
-      return { 
-        success: false, 
-        error: '作業シートが見つかりません',
-        effectiveThreshold: 0 
-      };
-    }
-    
-    // パーセントを小数に変換
-    var targetRate = targetRatePercent / 100;
-    
-    var effectiveThreshold = calculateEffectiveThreshold(baseThreshold, sheet, targetRate);
-    var difference = baseThreshold - effectiveThreshold;
-    
-    return {
-      success: true,
-      effectiveThreshold: effectiveThreshold,
-      baseThreshold: baseThreshold,
-      targetRate: targetRatePercent,
-      difference: difference
-    };
-    
-  } catch (e) {
-    return { 
-      success: false, 
-      error: e.message,
-      effectiveThreshold: 0 
-    };
-  }
-}
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   設定読み込み＆検証（不足時は null 返却）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
@@ -707,21 +573,6 @@ function validateAndHighlightCondition(sheet, row, condition) {
   return true;
 }
 
-/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  eBayカテゴリーの検証処理
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-function validateAndSetEbayCategory(sheet, row, ebayCategory) {
-  var categoryCell = sheet.getRange(row, CONFIG.COLUMNS.EBAY_CATEGORY);  // 29→30
-  var validCategories = CONFIG.EBAY_CATEGORIES;
-  
-  if (!ebayCategory || !validCategories.includes(ebayCategory)) {
-    categoryCell.setValue("Other");
-    categoryCell.setNote("カテゴリーが判定できませんでした。Otherに設定しています。");
-  } else {
-    categoryCell.setValue(ebayCategory);
-    categoryCell.setNote("");
-  }
-}
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   シート書き込み・数式・ハイライト
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
@@ -3880,7 +3731,7 @@ function clearAndReapplyFormulas() {
       return;
     }
 
-    showAlert('選択行（' + startRow + '～' + endRow + '）のクリアと全列の式の再設定が完了しました。', 'success');
+    conditionalShowAlert('選択行（' + startRow + '～' + endRow + '）のクリアと全列の式の再設定が完了しました。', 'success');
 
   } catch (e) {
     showAlert('エラー: ' + e.message, 'error');
@@ -4116,11 +3967,6 @@ function setupDropdownValidation() {
         range: sheet.getRange(5, CONFIG.COLUMNS.CONDITION, last-4, 1),  // 31（AE列）
         options: conditionOptions,
         helpText: "商品の状態。AI判定後に手動変更可能です。"
-      },
-      {
-        range: sheet.getRange(5, CONFIG.COLUMNS.EBAY_CATEGORY, last-4, 1),  // 32（AF列）
-        options: categoryOptions,
-        helpText: "eBayのメインカテゴリー。関税計算に使用します。" 
       }
     ];
     

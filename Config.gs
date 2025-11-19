@@ -19,26 +19,51 @@ var CONFIG = {
 
   // 列番号（1-based）
   COLUMNS: {
-    JP_TITLE: 10, JP_DESC: 11, COST_YEN: 9, EN_TITLE: 13, EN_DESC: 14,
-    SHIPPING_POLICY: 15,
-    TITLE_LENGTH: 16,  // P列: タイトルの長さ
-    DESC_LENGTH: 17,   // Q列: 説明文の長さ
-    PRICE: 18,
-    TAX_INCLUDED_PRICE: 19,
-    SHIPPING: 20,
-    PROFIT: 21,
-    FEE: 22,
-    RATE: 23,
-    METHOD: 24,
-    WEIGHT: 25,
+    // A-I列: 基本情報
+    DATE: 1,           // A列: 日付
+    PERSON: 2,         // B列: 担当
+    LABEL: 3,          // C列: label
+    TAG: 4,            // D列: タグ
+    TEMPLATE: 5,       // E列: テンプレ
+    REF_EBAY: 6,       // F列: 参考Ebay
+    SUPPLIER: 7,       // G列: 仕入先
+    SUPPLIER_CODE: 8,  // H列: 仕入先コード
+    COST_YEN: 9,       // I列: 仕入価格
+
+    // J-N列: 商品情報
+    JP_TITLE: 10,      // J列: 日本語タイトル
+    JP_DESC: 11,       // K列: 商品説明
+    SELLER_ID: 12,     // L列: セラーID
+    EN_TITLE: 13,      // M列: Title（英語タイトル）
+    EN_DESC: 14,       // N列: Condition/Description
+
+    // O-W列: 出品情報
+    SHIPPING_POLICY: 15,      // O列: シッピングポリシー
+    TITLE_LENGTH: 16,         // P列: タイトル文字数
+    DESC_LENGTH: 17,          // Q列: 説明文文字数
+    PRICE: 18,                // R列: 販売価格
+    TAX_INCLUDED_PRICE: 19,   // S列: 関税込み価格
+    SHIPPING: 20,             // T列: 送料
+    PROFIT: 21,               // U列: 利益
+    FEE: 22,                  // V列: 手数料率
+    RATE: 23,                 // W列: 利益率
+
+    // X-AC列: 配送情報
+    METHOD: 24,        // X列: 配送方法
+    WEIGHT: 25,        // Y列: 実重量
     LENGTH: 26,        // Z列: 長さ (cm)
     WIDTH: 27,         // AA列: 幅 (cm)
     HEIGHT: 28,        // AB列: 高さ (cm)
     VOLUME: 29,        // AC列: 容積重量
-    ESTIMATED_TAX: 30, // AD列
-    CONDITION: 31,     // AE列
-    EBAY_CATEGORY: 32, // AF列
-    DDU_ADJUSTED_PRICE: 33  // AG列
+
+    // AD-AG列: 関税・状態・送料
+    ESTIMATED_TAX: 30,        // AD列: 想定関税
+    CONDITION: 31,            // AE列: 状態
+    BASE_SHIPPING: 32,        // AF列: 基本送料
+    DDU_ADJUSTED_PRICE: 33,   // AG列: DDU調整後価格
+
+    // AH列: チェック
+    DUPLICATE_CHECK: 34       // AH列: 重複チェック
   },
 
   // 料金・見積
@@ -157,7 +182,7 @@ var CONFIG = {
 
   DDU_PRICE_ADJUSTMENT: {
     DEFAULT_ENABLED: false,
-    DEFAULT_THRESHOLD: 900,
+    DEFAULT_THRESHOLD: 310,
     DEFAULT_ADJUSTMENT: 200,
     HIGHLIGHT_COLOR: '#ffe0b3'
   }
@@ -181,9 +206,9 @@ function getSettings() {
     sheetName: props.getProperty('SHEET_NAME'),
     profitCalculationMethod: props.getProperty('PROFIT_CALC_METHOD'),
     promptId: props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT',
-    shippingThreshold: parseFloat(props.getProperty('SHIPPING_THRESHOLD')) || 20000,
+    shippingThreshold: parseFloat(props.getProperty('SHIPPING_THRESHOLD')) || 5500,
     shippingCalculationMethod: props.getProperty('SHIPPING_CALC_METHOD') || 'TABLE',
-    lowPriceShippingMethod: props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'SP',
+    lowPriceShippingMethod: props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'SMP',
     highPriceShippingMethod: props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF',
 
     dduAdjustmentEnabled: props.getProperty('DDU_ADJUSTMENT_ENABLED') === 'true',

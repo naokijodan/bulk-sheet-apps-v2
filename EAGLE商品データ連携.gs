@@ -584,7 +584,7 @@ function getApiTokenDialog() {
         
         <div class="security-info">
           <h4>💾 保存について</h4>
-          <p>APIトークンと列選択設定は平文で1週間保存されます。</p>
+          <p>APIトークンと列選択設定は平文で無期限に保存されます。</p>
         </div>
         
         <div class="button-group">
@@ -743,7 +743,7 @@ function isFirstTimeSetup() {
  */
 function saveApiTokenAndColumnsFromDialog(apiToken, selectedColumns) {
   try {
-    const tokenSaved = saveApiToken(apiToken, 7); // 1週間保存
+    const tokenSaved = saveApiToken(apiToken); // 無期限保存
     const columnsSaved = saveSelectedColumns(selectedColumns);
     
     if (tokenSaved && columnsSaved) {

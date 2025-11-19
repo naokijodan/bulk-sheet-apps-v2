@@ -345,64 +345,14 @@ function getShippingLimitForCategory(category) {
   }
 }
 /**
- * ポリシー判定用の調整後価格を計算（関税率差を考慮）
- * @param {Sheet} sheet - 作業シート
- * @param {number} dduPrice - DDU価格（R列の値）
- * @return {number} 調整後価格
- */
-function calculateAdjustedPriceForPolicy(sheet, dduPrice) {
-  try {
-    // 基準関税率（固定）
-    var BASE_RATE = 0.15;
-    
-    // セルから値を取得
-    var safetyFactor = Number(sheet.getRange('AG2').getValue()) || 1.35;
-    var customsFee = Number(sheet.getRange('AE1').getValue()) || 10;
-    var currentRate = Number(sheet.getRange('AF2').getValue()) || 0.15;
-    
-    // DDU価格が無効な場合はそのまま返す
-    if (isNaN(dduPrice) || dduPrice <= 0) {
-      console.log('DDU価格が無効: ' + dduPrice);
-      return dduPrice;
-    }
-    
-    // 基準関税（15%）
-    var baseEstimatedTax = dduPrice * BASE_RATE * safetyFactor + customsFee;
-    
-    // 現在の国の関税
-    var currentEstimatedTax = dduPrice * currentRate * safetyFactor + customsFee;
-    
-    // 送料差額（5ドル刻みで切り捨て）
-    var shippingDiff = Math.floor((currentEstimatedTax - baseEstimatedTax) / 5) * 5;
-    
-    // 価格帯換算（送料$5 → 価格帯$25の比率）
-    var priceBandAdjustment = shippingDiff * 5;
-    
-    // 調整後価格
-    var adjustedPrice = dduPrice + priceBandAdjustment;
-    
-    // デバッグログ
-    if (priceBandAdjustment !== 0) {
-      console.log('価格調整: DDU $' + dduPrice + ' → 調整後 $' + adjustedPrice + 
-                  ' (関税率' + (currentRate * 100) + '%, 調整額+$' + priceBandAdjustment + ')');
-    }
-    
-    return adjustedPrice;
-    
-  } catch (e) {
-    console.error('調整後価格計算エラー: ' + e.message);
-    return dduPrice;  // エラー時は元の価格を返す
-  }
-}
-/**
  * 条件に合うシッピングポリシーIDを検索
  * @param {string} category - カテゴリー（例：Video Games）
  * @param {string} condition - 商品状態（新品/中古）
  * @param {string} shippingType - 配送タイプ（エコノミー/EX）
- * @param {number} priceUSD - 販売価格（USD）
+ * @param {number} estimatedTax - 想定関税（USD）
  * @return {number|null} ポリシーID、見つからない場合はnull
  */
-function findShippingPolicyId(category, condition, shippingType, priceUSD) {
+function findShippingPolicyId(category, condition, shippingType, estimatedTax) {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName('Policy_Master');
@@ -442,7 +392,7 @@ function findShippingPolicyId(category, condition, shippingType, priceUSD) {
       // 基本条件チェック
       if (parsed.condition !== condition) continue;
       if (parsed.shippingType !== shippingType) continue;
-      if (priceUSD < parsed.minPrice || priceUSD > parsed.maxPrice) continue;
+      if (estimatedTax < parsed.minPrice || estimatedTax > parsed.maxPrice) continue;
       
       // 送料上限チェック（C列の送料上乗せと比較）
       if (shippingLimit !== null && typeof shippingFee === 'number' && shippingFee > shippingLimit) {
@@ -608,17 +558,13 @@ function applyShippingPolicyWithCategory(selectedCategory) {
 function setShippingPolicyToRow(sheet, row, category) {
   try {
     // 必要なデータを取得
-    // 必要なデータを取得
-var priceUSD = Number(sheet.getRange(row, CONFIG.COLUMNS.PRICE).getValue());
-
-// 【追加】関税率を考慮した調整後価格を計算
-var adjustedPrice = calculateAdjustedPriceForPolicy(sheet, priceUSD);
+    var estimatedTax = Number(sheet.getRange(row, CONFIG.COLUMNS.ESTIMATED_TAX).getValue());
     var condition = String(sheet.getRange(row, CONFIG.COLUMNS.CONDITION).getValue() || '').trim();
     var shippingMethod = String(sheet.getRange(row, CONFIG.COLUMNS.METHOD).getValue() || '').trim();
-    
+
     // バリデーション
-    if (isNaN(priceUSD) || priceUSD <= 0) {
-      console.log('行' + row + ': 価格が無効 (' + priceUSD + ')');
+    if (isNaN(estimatedTax) || estimatedTax <= 0) {
+      console.log('行' + row + ': 想定関税が無効 (' + estimatedTax + ')');
       sheet.getRange(row, CONFIG.COLUMNS.SHIPPING_POLICY).setValue('エラー');
       return false;
     }
@@ -638,7 +584,7 @@ var adjustedPrice = calculateAdjustedPriceForPolicy(sheet, priceUSD);
     }
     
     // ポリシーIDを検索
-    var policyId = findShippingPolicyId(category, condition, shippingType, adjustedPrice);
+    var policyId = findShippingPolicyId(category, condition, shippingType, estimatedTax);
     
     if (policyId !== null) {
       sheet.getRange(row, CONFIG.COLUMNS.SHIPPING_POLICY).setValue(policyId);

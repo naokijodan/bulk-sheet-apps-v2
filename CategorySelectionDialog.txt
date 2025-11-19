@@ -1,328 +1,53 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>カテゴリー選択</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      padding: 20px;
-      margin: 0;
-      background-color: #f9f9f9;
-    }
-    .container {
-      background: white;
-      padding: 24px;
-      border-radius: 12px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-      max-width: 400px;
-      margin: 0 auto;
-    }
-    h3 {
-      color: #1a73e8;
-      margin-bottom: 16px;
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .description {
-      color: #5f6368;
-      font-size: 14px;
-      margin-bottom: 20px;
-      line-height: 1.5;
-    }
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: #2b2f33;
-    }
-    select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #dadce0;
-      border-radius: 8px;
-      font-size: 14px;
-      background: white;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
-    }
-    select:focus {
-      outline: none;
-      border-color: #1a73e8;
-      box-shadow: 0 0 0 3px rgba(26,115,232,0.18);
-    }
-    .info-box {
-      background-color: #e8f0fe;
-      border: 1px solid #dadce0;
-      border-radius: 8px;
-      padding: 12px;
-      margin-top: 16px;
-    }
-    .info-title {
-      font-weight: 700;
-      color: #1a73e8;
-      margin-bottom: 6px;
-      font-size: 13px;
-    }
-    .info-content {
-      font-size: 12px;
-      color: #5f6368;
-      line-height: 1.4;
-    }
-    .error-box {
-      background-color: #ffebee;
-      color: #c62828;
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 16px;
-      border-left: 4px solid #c62828;
-      display: none;
-    }
-    .button-group {
-      display: flex;
-      justify-content: flex-end;
-      gap: 12px;
-      margin-top: 24px;
-    }
-    .btn {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 24px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 500;
-      transition: all 0.15s ease;
-    }
-    .btn-primary {
-      background-color: #1a73e8;
-      color: white;
-      box-shadow: 0 2px 8px rgba(26,115,232,0.3);
-    }
-    .btn-primary:hover {
-      background-color: #1557b0;
-    }
-    .btn-secondary {
-      background-color: #f1f3f4;
-      color: #3c4043;
-    }
-    .btn-secondary:hover {
-      background-color: #e8eaed;
-    }
-    .btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-    .spinner {
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top: 2px solid white;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      display: inline-block;
-      margin-right: 8px;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    .loading .btn-text { display: none; }
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    body {background-color: #f7f7f7}
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Hiragino Sans'; color: #175ae2; -webkit-text-stroke: #175ae2}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px 'Hiragino Sans'; color: #4d5055; -webkit-text-stroke: #4d5055}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Hiragino Sans'; color: #202326; -webkit-text-stroke: #202326; background-color: #ffffff}
+    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px 'Helvetica Neue'; -webkit-text-stroke: #000000; background-color: #ffffff}
+    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px 'Helvetica Neue'; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 17.0px}
+    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Hiragino Sans'; color: #175ae2; -webkit-text-stroke: #175ae2}
+    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Hiragino Sans'; color: #4d5055; -webkit-text-stroke: #4d5055}
+    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Arial; color: #4d5055; -webkit-text-stroke: #4d5055; min-height: 14.0px}
+    p.p9 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 14.0px 'Hiragino Sans'; color: #2e3133; -webkit-text-stroke: #2e3133; background-color: #eef0f1}
+    p.p10 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 14.0px 'Hiragino Sans'; color: #ffffff; -webkit-text-stroke: #ffffff; background-color: #175ae2}
+    span.s1 {font: 18.0px 'Apple Color Emoji'; font-kerning: none; background-color: #ffffff}
+    span.s2 {font: 18.0px Arial; font-kerning: none; background-color: #ffffff}
+    span.s3 {font-kerning: none; background-color: #ffffff}
+    span.s4 {font: 14.0px Arial; font-kerning: none; background-color: #ffffff}
+    span.s5 {font-kerning: none}
+    span.s6 {font: 12.0px Arial; font-kerning: none}
+    span.s7 {font: 14.0px 'Hiragino Mincho ProN'; font-kerning: none}
+    span.s8 {font: 14.0px Times; font-kerning: none}
+    span.s9 {font: 13.0px 'Apple Color Emoji'; font-kerning: none; background-color: #e3ecfe}
+    span.s10 {font: 13.0px Arial; font-kerning: none; background-color: #e3ecfe}
+    span.s11 {font-kerning: none; background-color: #e3ecfe}
+    span.s12 {font: 12.0px Arial; font-kerning: none; background-color: #e3ecfe}
   </style>
 </head>
 <body>
-  <div class="container">
-    <div id="errorBox" class="error-box"></div>
-    
-    <h3>📂 カテゴリー選択</h3>
-    <div class="description">
-      テンプレート更新で使用する商品カテゴリーを選択してください。<br>
-      選択後、各行のQ列（価格）、AB列（商品状態）、W列（配送方法）から自動的に条件を読み取り、4次元検索を実行します。
-    </div>
-    
-    <form id="categoryForm">
-      <label for="categorySelect">商品カテゴリー *</label>
-      <select id="categorySelect" name="categorySelect" required>
-        <option value="">読み込み中...</option>
-      </select>
-      
-      <div class="info-box">
-        <div class="info-title">💡 4次元検索について</div>
-        <div class="info-content">
-          <strong>検索条件：</strong><br>
-          1. カテゴリー（ここで選択）<br>
-          2. 商品状態（AB列から自動取得）<br>
-          3. 配送方法（W列から自動取得）<br>
-          4. 販売価格（Q列から自動取得）<br><br>
-          参照データシートから該当するテンプレートを検索し、E列に設定します。
-        </div>
-      </div>
-
-      <div class="button-group">
-        <button type="button" class="btn btn-secondary" onclick="cancelSelection()">キャンセル</button>
-        <button type="submit" class="btn btn-primary" id="selectBtn">
-          <span class="btn-text">選択して更新開始</span>
-          <span class="spinner" style="display: none;"></span>
-        </button>
-      </div>
-    </form>
-  </div>
-
-  <script>
-    var categories = [];
-    var isProcessing = false;
-    
-    // 初期化
-    window.onload = function() {
-      loadCategories();
-    };
-    
-    function loadCategories() {
-      showMessage('カテゴリー一覧を読み込み中...', 'info');
-      
-      google.script.run
-        .withSuccessHandler(function(categoryList) {
-          categories = categoryList || [];
-          populateCategoryDropdown();
-          hideMessage();
-        })
-        .withFailureHandler(function(error) {
-          console.error('カテゴリー取得エラー:', error);
-          showMessage('カテゴリーの取得に失敗しました: ' + error.message, 'error');
-          
-          // エラー時は手動入力オプションを提供
-          setTimeout(function() {
-            if (confirm('カテゴリー一覧の自動取得に失敗しました。手動でカテゴリー名を入力しますか？')) {
-              var manual = prompt('カテゴリー名を入力してください:', 'その他');
-              if (manual && manual.trim()) {
-                categories = [manual.trim()];
-                populateCategoryDropdown();
-                hideMessage();
-              }
-            }
-          }, 1000);
-        })
-        .getCategoryListFromReferenceData();
-    }
-    
-    function populateCategoryDropdown() {
-      var select = document.getElementById('categorySelect');
-      
-      if (categories.length === 0) {
-        select.innerHTML = '<option value="">利用可能なカテゴリーがありません</option>';
-        document.getElementById('selectBtn').disabled = true;
-        showMessage('参照データシートにカテゴリーが登録されていません。', 'error');
-        return;
-      }
-      
-      select.innerHTML = '<option value="">カテゴリーを選択してください</option>';
-      
-      categories.forEach(function(category) {
-        var option = document.createElement('option');
-        option.value = category;
-        option.textContent = category;
-        select.appendChild(option);
-      });
-      
-      document.getElementById('selectBtn').disabled = false;
-    }
-    
-    function showMessage(message, type) {
-      var errorBox = document.getElementById('errorBox');
-      errorBox.textContent = message;
-      errorBox.style.display = 'block';
-      
-      if (type === 'error') {
-        errorBox.style.backgroundColor = '#ffebee';
-        errorBox.style.color = '#c62828';
-        errorBox.style.borderLeftColor = '#c62828';
-      } else if (type === 'info') {
-        errorBox.style.backgroundColor = '#e3f2fd';
-        errorBox.style.color = '#1565c0';
-        errorBox.style.borderLeftColor = '#2196f3';
-      }
-    }
-    
-    function hideMessage() {
-      document.getElementById('errorBox').style.display = 'none';
-    }
-    
-    // フォーム送信
-    document.getElementById('categoryForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      if (isProcessing) return; // 重複実行防止
-      
-      var selectedCategory = document.getElementById('categorySelect').value;
-      if (!selectedCategory) {
-        showMessage('カテゴリーを選択してください。', 'error');
-        return;
-      }
-      
-      isProcessing = true;
-      setLoading(true);
-      hideMessage();
-      
-      // 選択結果を送信して処理開始
-      google.script.run
-        .withSuccessHandler(function() {
-          // 成功時はダイアログを閉じる
-          // （実際の処理はバックグラウンドで続行される）
-          google.script.host.close();
-        })
-        .withFailureHandler(function(error) {
-          isProcessing = false;
-          setLoading(false);
-          console.error('処理エラー:', error);
-          showMessage('テンプレート更新の開始に失敗しました: ' + error.message, 'error');
-        })
-        .handleCategorySelection(selectedCategory);
-    });
-    
-    function cancelSelection() {
-      if (isProcessing) {
-        if (!confirm('処理を中断しますか？')) {
-          return;
-        }
-      }
-      
-      // キャンセル時の処理
-      google.script.run
-        .withSuccessHandler(function() {
-          google.script.host.close();
-        })
-        .withFailureHandler(function(error) {
-          console.error('キャンセル処理エラー:', error);
-          // エラーでも強制的に閉じる
-          google.script.host.close();
-        })
-        .handleCategorySelection(null);
-    }
-    
-    function setLoading(loading) {
-      var btn = document.getElementById('selectBtn');
-      var btnText = btn.querySelector('.btn-text');
-      var spinner = btn.querySelector('.spinner');
-      
-      if (loading) {
-        btn.disabled = true;
-        btnText.style.display = 'none';
-        spinner.style.display = 'inline-block';
-      } else {
-        btn.disabled = false;
-        btnText.style.display = 'inline';
-        spinner.style.display = 'none';
-      }
-    }
-    
-    // ページを閉じる前の確認（処理中の場合）
-    window.addEventListener('beforeunload', function(e) {
-      if (isProcessing) {
-        e.preventDefault();
-        e.returnValue = 'テンプレート更新処理が実行中です。ページを閉じると処理が中断されます。';
-        return e.returnValue;
-      }
-    });
-  </script>
+<p class="p1"><span class="s1">📂</span><span class="s2"><b> </b></span><span class="s3"><b>カテゴリー選択</b><b></b></span></p>
+<p class="p2"><span class="s3">テンプレート更新で使用する商品カテゴリーを選択してください。</span></p>
+<p class="p2"><span class="s3">選択後、各行の</span><span class="s4">Q</span><span class="s3">列（価格）、</span><span class="s4">AB</span><span class="s3">列（商品状態）、</span><span class="s4">W</span><span class="s3">列（配送方法）から自動的に条件を読み取り、</span><span class="s4">4</span><span class="s3">次元検索を実行します。</span></p>
+<p class="p3"><span class="s5"><b>商品カテゴリー</b></span><span class="s6"><b> *</b><b></b></span></p>
+<p class="p4"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s7">読み込み中</span><span class="s8">...</span></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">      </span></span></p>
+<p class="p6"><span class="s9">💡</span><span class="s10"><b> 4</b></span><span class="s11"><b>次元検索について</b><b></b></span></p>
+<p class="p7"><span class="s11"><b>検索条件：</b><b></b></span></p>
+<p class="p7"><span class="s12">1. </span><span class="s11">カテゴリー（ここで選択）</span></p>
+<p class="p7"><span class="s12">2. </span><span class="s11">商品状態（</span><span class="s12">AB</span><span class="s11">列から自動取得）</span></p>
+<p class="p7"><span class="s12">3. </span><span class="s11">配送方法（</span><span class="s12">W</span><span class="s11">列から自動取得）</span></p>
+<p class="p7"><span class="s12">4. </span><span class="s11">販売価格（</span><span class="s12">Q</span><span class="s11">列から自動取得）</span></p>
+<p class="p8"><span class="s5"></span><br></p>
+<p class="p7"><span class="s11">参照データシートから該当するテンプレートを検索し、</span><span class="s12">E</span><span class="s11">列に設定します。</span></p>
+<p class="p9"><span class="s5">キャンセル</span></p>
+<p class="p10"><span class="s5">選択して更新開始</span></p>
 </body>
 </html>

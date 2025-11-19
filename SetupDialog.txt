@@ -567,18 +567,13 @@
           <div id="dduSettingsGroup">
             <div class="input-row">
               <div class="input-group">
-                <label for="dduThreshold">DDU閾値（ドル）:</label>
-                <input type="number" id="dduThreshold" name="dduThreshold" 
+                <label for="dduThreshold">想定関税閾値（ドル）:</label>
+                <input type="number" id="dduThreshold" name="dduThreshold"
                        value="<?= currentDduThreshold ?>" min="1" step="1">
-              </div>
-              <div class="input-group">
-                <label for="dduAdjustment">調整額（ドル）:</label>
-                <input type="number" id="dduAdjustment" name="dduAdjustment" 
-                       value="<?= currentDduAdjustment ?>" min="1" step="1">
               </div>
             </div>
             <div class="help-text">
-              DDU価格（Q列）が閾値以上の商品で、DDP価格（R列）から調整額を引いた価格を計算します
+              想定関税（AD列）が閾値以上の場合、DDP価格（S列）から想定関税を引いた価格を計算します
             </div>
           </div>
 
@@ -596,35 +591,6 @@
             <div class="content">
               この機能はDDU商品専用です。DDPで出品する場合でも、実際の販売価格はDDU価格を使用し、関税分を送料として別途徴収するビジネスモデル向けです。
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- DDU閾値シミュレーター -->
-      <div class="form-section" style="background: #f8f9fa; padding: 15px; border-radius: 4px; margin-top: 15px;">
-        <h3 style="margin-top: 0; color: #666;">📊 DDU閾値シミュレーション（確認用）</h3>
-        <p style="color: #666; font-size: 13px; margin-bottom: 15px;">
-          関税率による実効閾値を確認できます。<br>
-          ※この値は保存されません。実際の判定はAD2セルの関税率を使用します。
-        </p>
-        
-        <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
-          <label style="min-width: 150px;">確認したい関税率:</label>
-          <input type="number" id="simulateRate" min="0" max="100" step="0.1" 
-                 placeholder="例: 39" style="width: 100px;">
-          <span>%</span>
-          <button type="button" onclick="simulateThreshold()" 
-                  style="padding: 5px 15px; background: #4285f4; color: white; border: none; border-radius: 3px; cursor: pointer;">
-            計算
-          </button>
-        </div>
-        
-        <div id="simulateResult" style="display: none; background: white; padding: 12px; border-radius: 4px; border-left: 4px solid #4285f4;">
-          <strong>シミュレーション結果:</strong><br>
-          <div style="margin-top: 8px; line-height: 1.8;">
-            • 基準（15%）: $<span id="baseThresholdDisplay">1500</span><br>
-            • 入力した関税率（<span id="simRateDisplay"></span>%）: 約$<span id="simThreshold"></span><br>
-            • 差: $<span id="simDiff"></span> <span style="color: #666; font-size: 12px;">(関税率が高いと早く発動)</span>
           </div>
         </div>
       </div>
@@ -1153,7 +1119,6 @@
         priceDisplayMode: document.querySelector('input[name="priceDisplayMode"]:checked').value,
         dduAdjustmentEnabled: document.getElementById('dduAdjustmentEnabled').checked ? 'true' : 'false',
         dduThreshold: document.getElementById('dduThreshold').value,
-        dduAdjustment: document.getElementById('dduAdjustment').value,
         
         // 送料・配送設定
         shippingCalcMethod: document.querySelector('input[name="shippingCalcMethod"]:checked').value,
@@ -1191,40 +1156,6 @@
           alert('エラーが発生しました: ' + (error && error.message ? error.message : error));
         })
         .saveIntegratedSettings(formData);
-    }
-
-    // DDU閾値シミュレーター
-    function simulateThreshold() {
-      var rate = parseFloat(document.getElementById('simulateRate').value);
-      if (isNaN(rate) || rate < 0) {
-        alert('0以上の数値を入力してください');
-        return;
-      }
-      
-      // DDU閾値の入力値を取得（デフォルト1500）
-      var baseThreshold = parseFloat(document.getElementById('dduThreshold').value) || 1500;
-      
-      // 結果表示
-      document.getElementById('simulateResult').style.display = 'block';
-      document.getElementById('simThreshold').textContent = '計算中...';
-      
-      google.script.run
-        .withSuccessHandler(function(result) {
-          if (result.success) {
-            document.getElementById('baseThresholdDisplay').textContent = result.baseThreshold;
-            document.getElementById('simRateDisplay').textContent = result.targetRate.toFixed(1);
-            document.getElementById('simThreshold').textContent = result.effectiveThreshold;
-            document.getElementById('simDiff').textContent = result.difference.toFixed(0);
-          } else {
-            document.getElementById('simThreshold').textContent = 'エラー';
-            alert('計算エラー: ' + (result.error || '不明なエラー'));
-          }
-        })
-        .withFailureHandler(function(error) {
-          document.getElementById('simThreshold').textContent = 'エラー';
-          alert('計算に失敗しました: ' + error.message);
-        })
-        .calculateEffectiveThresholdForSimulation(baseThreshold, rate);
     }
   </script>
 </body>

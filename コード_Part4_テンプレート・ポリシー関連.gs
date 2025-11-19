@@ -384,10 +384,10 @@ function findTemplateIdFromCache_(templateCache, templateName) {
  * @param {string} category カテゴリー
  * @param {string} condition 商品状態
  * @param {string} shippingType 配送タイプ
- * @param {number} priceUSD 価格（USD）
+ * @param {number} estimatedTax 想定関税（USD）
  * @return {number|null} ポリシーID
  */
-function findShippingPolicyIdFromCache_(policyCache, category, condition, shippingType, priceUSD) {
+function findShippingPolicyIdFromCache_(policyCache, category, condition, shippingType, estimatedTax) {
   try {
     var shippingLimit = getShippingLimitForCategory(category);
     var candidates = [];
@@ -401,7 +401,7 @@ function findShippingPolicyIdFromCache_(policyCache, category, condition, shippi
       // 基本条件チェック
       if (parsed.condition !== condition) continue;
       if (parsed.shippingType !== shippingType) continue;
-      if (priceUSD < parsed.minPrice || priceUSD > parsed.maxPrice) continue;
+      if (estimatedTax < parsed.minPrice || estimatedTax > parsed.maxPrice) continue;
 
       // 送料上限チェック
       if (shippingLimit !== null && policy.shippingFee !== null && policy.shippingFee > shippingLimit) {
@@ -682,6 +682,7 @@ function applyUnifiedSettingsBatch_(sheet, batchRows, category, templateName, te
   var priceValues = sheet.getRange(minRow, CONFIG.COLUMNS.PRICE, rowCount, 1).getValues();
   var conditionValues = sheet.getRange(minRow, CONFIG.COLUMNS.CONDITION, rowCount, 1).getValues();
   var methodValues = sheet.getRange(minRow, CONFIG.COLUMNS.METHOD, rowCount, 1).getValues();
+  var estimatedTaxValues = sheet.getRange(minRow, CONFIG.COLUMNS.ESTIMATED_TAX, rowCount, 1).getValues();
 
   var templateData = [];
   var policyData = [];
@@ -704,12 +705,13 @@ function applyUnifiedSettingsBatch_(sheet, batchRows, category, templateName, te
     var priceUSD = Number(priceValues[rowIndex][0]);
     var condition = String(conditionValues[rowIndex][0] || '').trim();
     var shippingMethod = String(methodValues[rowIndex][0] || '').trim();
-    
-    console.log('行' + row + ': 価格=' + priceUSD + ', 状態=' + condition + ', 配送=' + shippingMethod);
-    
+    var estimatedTax = Number(estimatedTaxValues[rowIndex][0]);
+
+    console.log('行' + row + ': 価格=' + priceUSD + ', 想定関税=' + estimatedTax + ', 状態=' + condition + ', 配送=' + shippingMethod);
+
     // バリデーション
-    if (isNaN(priceUSD) || priceUSD <= 0) {
-      console.log('  ❌ 価格が無効');
+    if (isNaN(estimatedTax) || estimatedTax <= 0) {
+      console.log('  ❌ 想定関税が無効');
       templateData.push(['エラー']);
       policyData.push(['エラー']);
       errorCount++;
@@ -732,8 +734,6 @@ function applyUnifiedSettingsBatch_(sheet, batchRows, category, templateName, te
       errorCount++;
       continue;
     }
-    
-    var adjustedPrice = calculateAdjustedPriceForPolicy(sheet, priceUSD);
     
     // テンプレート処理
     if (templateMode === 'auto') {
@@ -768,7 +768,7 @@ function applyUnifiedSettingsBatch_(sheet, batchRows, category, templateName, te
       // 自動判定
       var policyCategory = getCategoryForShippingPolicy(category);
       // 🚀 キャッシュから検索（高速化）
-      policyId = findShippingPolicyIdFromCache_(cache.policies, policyCategory, condition, shippingType, adjustedPrice);
+      policyId = findShippingPolicyIdFromCache_(cache.policies, policyCategory, condition, shippingType, estimatedTax);
       console.log('  自動ポリシーID: ' + policyId);
     }
     
@@ -1256,16 +1256,17 @@ function setupImportPoliciesSheet(ss) {
   
   // サンプル行
   sheet.getRange('A2').setValue('（例）5001');
-  sheet.getRange('B2').setValue('Egl_202510_eco_new_0001_0025');
-  
+  sheet.getRange('B2').setValue('Egl_202510_eco_new_0001_0020');
+
   // 説明
   sheet.getRange('A4').setValue('【入力方法】');
   sheet.getRange('A5').setValue('1. A列にポリシーID（eBayで使っている番号）を入力');
   sheet.getRange('A6').setValue('2. B列にポリシー名（eBayからコピー）を入力');
   sheet.getRange('A7').setValue('3. メニューから「データを検証」を実行するとC列に送料が自動計算されます');
-  sheet.getRange('A8').setValue('4. 送料は価格帯から自動計算：25ドルごとに5ドル追加（基本15ドル）');
-  
-  sheet.getRange('A4:A8').setFontWeight('bold');
+  sheet.getRange('A8').setValue('4. ポリシー名の数字は想定関税の範囲（例: _0001_0020 = 関税$1-20）');
+  sheet.getRange('A9').setValue('5. 想定関税の上限値がそのまま送料になります（例: _0020 = 送料$20）');
+
+  sheet.getRange('A4:A9').setFontWeight('bold');
 }
 
 /**
@@ -1347,44 +1348,43 @@ function generateStandardTemplateName(japaneseName) {
  * ポリシー名から送料を計算（改良版：上限なし対応）
  */
 /**
- * ポリシー名から送料を計算（改良版：上昇額反映）
+ * ポリシー名から送料を計算（想定関税ベース版）
+ * ポリシー名の数字は想定関税の範囲を表し、上限値がそのまま送料となる
  */
 function calculateShippingFeeFromPolicyName(policyName, allPolicies) {
   try {
     var name = String(policyName || '').trim();
     if (!name) return null;
-    
-    // 通常の価格範囲（例: _0026_0050）
+
+    // 通常の関税範囲（例: _0001_0020）
+    // 上限値がそのまま送料
     var normalMatch = name.match(/_(\d{4})$/);
     if (normalMatch) {
-      var maxPrice = parseInt(normalMatch[1], 10);
-      if (isNaN(maxPrice)) return null;
-      var shippingFee = 15 + Math.floor((maxPrice / 25 - 1)) * 5;
-      return Math.max(15, shippingFee);
+      var maxTax = parseInt(normalMatch[1], 10);
+      if (isNaN(maxTax)) return null;
+      return maxTax; // 想定関税の上限値 = 送料
     }
-    
-    // 上限なし（例: _1401_）
+
+    // 上限なし（例: _0301_）
     var openEndMatch = name.match(/_(\d{4})_$/);
     if (openEndMatch) {
-      var minPrice = parseInt(openEndMatch[1], 10);
-      if (isNaN(minPrice)) return null;
-      
+      var minTax = parseInt(openEndMatch[1], 10);
+      if (isNaN(minTax)) return null;
+
       // 同じタイプのポリシーから直前の送料と上昇額を探す
       var prefix = name.replace(/_\d{4}_$/, '');
-      var previousData = findPreviousFeeAndIncrement(prefix, minPrice, allPolicies);
-      
+      var previousData = findPreviousFeeAndIncrement(prefix, minTax, allPolicies);
+
       if (previousData !== null) {
         return previousData.lastFee + previousData.increment;
       } else {
-        // 見つからない場合は標準計算
-        var estimatedMaxPrice = minPrice + 25;
-        var shippingFee = 15 + Math.floor((estimatedMaxPrice / 25 - 1)) * 5;
-        return Math.max(15, shippingFee);
+        // 見つからない場合は最小値+20を返す（デフォルト刻み）
+        return minTax + 20;
       }
     }
-    
+
     return null;
-    
+
   } catch (e) {
     console.error('送料計算エラー: ' + e.message);
     return null;

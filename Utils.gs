@@ -13,20 +13,115 @@
 
 /**
  * 為替レートを更新（GOOGLEFINANCEで取得）
+ * A2から現在の為替レートを読み取り、C2に値として設定
  * エラー時や異常値の場合は145円を設定
  */
 function updateExchangeRate(sheet) {
   try {
+    var currentRateCell = sheet.getRange("A2");
     var exchangeCell = sheet.getRange("C2");
-    exchangeCell.setFormula('=GOOGLEFINANCE("USDJPY")');
-    SpreadsheetApp.flush();
-    Utilities.sleep(1000);
-    var rate = Number(exchangeCell.getValue());
-    if (!rate || rate < 100 || rate > 200) exchangeCell.setValue(145);
-    return rate || 145;
+
+    var rate = Number(currentRateCell.getValue());
+
+    if (!rate || rate < 100 || rate > 200) {
+      exchangeCell.setValue(145);
+      return 145;
+    }
+
+    exchangeCell.setValue(rate);
+    return rate;
   } catch (e) {
     sheet.getRange("C2").setValue(145);
     return 145;
+  }
+}
+
+/**
+ * 1時間ごとに為替レートを自動更新するトリガーを設定
+ * @param {boolean} silent - trueの場合、アラートを表示しない（初期設定から呼ばれる場合）
+ */
+function setupExchangeRateUpdateTrigger(silent) {
+  try {
+    // 既存の為替更新トリガーを削除
+    var triggers = ScriptApp.getProjectTriggers();
+    for (var i = 0; i < triggers.length; i++) {
+      if (triggers[i].getHandlerFunction() === 'updateExchangeRateAutomatically') {
+        ScriptApp.deleteTrigger(triggers[i]);
+      }
+    }
+
+    // 1時間ごとのトリガーを設定
+    ScriptApp.newTrigger('updateExchangeRateAutomatically')
+      .timeBased()
+      .everyHours(1)
+      .create();
+
+    if (!silent) {
+      showAlert('為替レート自動更新トリガーを設定しました（1時間ごと）', 'success');
+    }
+  } catch (e) {
+    if (!silent) {
+      showAlert('トリガー設定に失敗しました: ' + e.message, 'error');
+    }
+  }
+}
+
+/**
+ * トリガーから呼ばれる為替レート更新関数
+ */
+function updateExchangeRateAutomatically() {
+  try {
+    var props = PropertiesService.getScriptProperties();
+    var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(sheetName);
+
+    if (!sheet) {
+      Logger.log('作業シートが見つかりません');
+      return;
+    }
+
+    var rate = updateExchangeRate(sheet);
+    Logger.log('為替レートを更新しました: ' + rate + '円');
+  } catch (e) {
+    Logger.log('為替レート自動更新エラー: ' + e.message);
+  }
+}
+
+/**
+ * 為替レート自動更新トリガーを削除
+ */
+function removeExchangeRateUpdateTrigger() {
+  try {
+    var triggers = ScriptApp.getProjectTriggers();
+    var count = 0;
+    for (var i = 0; i < triggers.length; i++) {
+      if (triggers[i].getHandlerFunction() === 'updateExchangeRateAutomatically') {
+        ScriptApp.deleteTrigger(triggers[i]);
+        count++;
+      }
+    }
+    showAlert('為替レート自動更新トリガーを削除しました（' + count + '個）', 'success');
+  } catch (e) {
+    showAlert('トリガー削除に失敗しました: ' + e.message, 'error');
+  }
+}
+
+/**
+ * 為替レート自動更新トリガーが設定されているかチェック
+ * @return {boolean} トリガーが設定されていればtrue
+ */
+function isExchangeRateUpdateTriggerActive() {
+  try {
+    var triggers = ScriptApp.getProjectTriggers();
+    for (var i = 0; i < triggers.length; i++) {
+      if (triggers[i].getHandlerFunction() === 'updateExchangeRateAutomatically') {
+        return true;
+      }
+    }
+    return false;
+  } catch (e) {
+    return false;
   }
 }
 
@@ -604,23 +699,33 @@ function GET_SHIPPING_POLICY_ID(categoryDisplay, priceUSD, condition, shippingMe
  * シッピングポリシーIDを取得するカスタム関数（初期設定用・Import_Policies参照版）
  *
  * @param {string} categoryDisplay - カテゴリー表示名（O1セル）
- * @param {number} priceUSD - 販売価格（R列）
+ * @param {number} estimatedTax - 想定関税（AD列）
  * @param {string} condition - 商品状態（AE列: 新品/中古）
  * @param {string} shippingMethod - 配送方法（X列: CF/CD/EL/SP/CEなど）
  * @return {number|string} シッピングポリシーID、またはエラーメッセージ
  * @customfunction
  */
-function GET_SHIPPING_POLICY_FROM_IMPORT(categoryDisplay, priceUSD, condition, shippingMethod) {
+function GET_SHIPPING_POLICY_FROM_IMPORT(categoryDisplay, estimatedTax, condition, shippingMethod) {
   try {
     // 入力チェック
-    if (!categoryDisplay || !priceUSD || !condition || !shippingMethod) {
+    if (!categoryDisplay || !estimatedTax || !condition || !shippingMethod) {
       return '';
     }
 
-    // 価格の検証
-    var price = Number(priceUSD);
-    if (isNaN(price) || price <= 0) {
+    // 想定関税の検証
+    var taxValue = Number(estimatedTax);
+    if (isNaN(taxValue) || taxValue <= 0) {
       return 'エラー';
+    }
+
+    // DDU閾値を取得し、想定関税が閾値以上なら閾値を使用
+    var props = PropertiesService.getScriptProperties();
+    var dduEnabled = props.getProperty('DDU_ADJUSTMENT_ENABLED') === 'true';
+    var dduThreshold = parseFloat(props.getProperty('DDU_THRESHOLD')) || 310;
+
+    // DDU調整が有効で、想定関税が閾値以上の場合は閾値を使用
+    if (dduEnabled && taxValue >= dduThreshold) {
+      taxValue = dduThreshold;
     }
 
     // 配送方法を配送タイプに変換
@@ -636,9 +741,6 @@ function GET_SHIPPING_POLICY_FROM_IMPORT(categoryDisplay, priceUSD, condition, s
 
     // カテゴリーから送料上限を取得
     var shippingLimit = getShippingLimitForCategory_(categoryDisplay);
-
-    // 価格調整（関税率差を考慮）
-    var adjustedPrice = calculateAdjustedPriceForPolicy_(price);
 
     // Import_Policiesからキャッシュ経由でデータ取得（最適化版）
     var data = getImportPoliciesDataCached_();
@@ -658,6 +760,8 @@ function GET_SHIPPING_POLICY_FROM_IMPORT(categoryDisplay, priceUSD, condition, s
     var typeAbbr = (shippingType === 'エコノミー') ? 'eco' : 'xp';
 
     var candidates = [];
+    var maxPricePolicy = null;  // 最大maxPriceを持つポリシー（フォールバック用）
+    var maxPriceValue = 0;
 
     for (var i = 0; i < data.length; i++) {
       var id = data[i][0];          // A列: Policy ID
@@ -665,8 +769,8 @@ function GET_SHIPPING_POLICY_FROM_IMPORT(categoryDisplay, priceUSD, condition, s
       var shippingFee = data[i][2]; // C列: 送料
       var type = data[i][3];        // D列: 配送タイプ
       var cond = data[i][4];        // E列: 状態
-      var minPrice = data[i][5];    // F列: 価格下限
-      var maxPrice = data[i][6];    // G列: 価格上限
+      var minPrice = data[i][5];    // F列: 想定関税下限
+      var maxPrice = data[i][6];    // G列: 想定関税上限
 
       // D列が空白 = 手動用 → スキップ
       if (!type) continue;
@@ -674,12 +778,23 @@ function GET_SHIPPING_POLICY_FROM_IMPORT(categoryDisplay, priceUSD, condition, s
       // 基本条件チェック（数値比較で高速）
       if (cond !== conditionEn) continue;
       if (type !== typeAbbr) continue;
-      if (adjustedPrice < minPrice || adjustedPrice > maxPrice) continue;
 
       // 送料上限チェック
       if (shippingLimit !== null && typeof shippingFee === 'number' && shippingFee > shippingLimit) {
         continue;
       }
+
+      // 最大maxPriceを持つポリシーを記録（フォールバック用）
+      if (maxPrice > maxPriceValue) {
+        maxPriceValue = maxPrice;
+        maxPricePolicy = {
+          id: id,
+          shippingFee: shippingFee
+        };
+      }
+
+      // 想定関税が範囲内かチェック
+      if (taxValue < minPrice || taxValue > maxPrice) continue;
 
       // 条件に合致
       candidates.push({
@@ -689,6 +804,12 @@ function GET_SHIPPING_POLICY_FROM_IMPORT(categoryDisplay, priceUSD, condition, s
     }
 
     if (candidates.length === 0) {
+      // 想定関税が最大値を超えている場合、最大のポリシーを返す
+      if (maxPricePolicy !== null && taxValue > maxPriceValue) {
+        var maxResult = maxPricePolicy.id;
+        return typeof maxResult === 'number' ? maxResult : Number(maxResult);
+      }
+
       // 上限内で見つからない場合、フォールバック検索を実行
       if (shippingLimit !== null) {
         var maxAllowedPolicy = null;

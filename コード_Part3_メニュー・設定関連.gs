@@ -73,8 +73,92 @@ function onOpen() {
         .addItem('🔄 簡易版を更新', 'updateSimpleMode'))
       .addToUi();
 
+    // 4. 為替レートメニュー
+    ui.createMenu('💱 為替レート')
+      .addItem('🔄 為替レート自動更新を開始（1時間ごと）', 'setupExchangeRateUpdateTrigger')
+      .addItem('⏸️ 為替レート自動更新を停止', 'removeExchangeRateUpdateTrigger')
+      .addItem('📊 為替レート自動更新の状態確認', 'checkExchangeRateUpdateStatus')
+      .addToUi();
+
+    // 為替レート自動更新の状態を通知（起動時）
+    notifyExchangeRateUpdateStatus_();
+
   } catch (e) {
     // menu失敗時は黙殺
+  }
+}
+
+/**
+ * 為替レート自動更新の状態を画面に表示（起動時）
+ * @private
+ */
+function notifyExchangeRateUpdateStatus_() {
+  try {
+    var props = PropertiesService.getScriptProperties();
+    var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(sheetName);
+
+    if (!sheet) return;
+
+    var isActive = isExchangeRateUpdateTriggerActive();
+    var a2Value = sheet.getRange("A2").getValue();
+    var c2Value = sheet.getRange("C2").getValue();
+
+    // A2とC2のセルに背景色で状態を示す
+    if (isActive) {
+      // 自動更新が有効な場合
+      sheet.getRange("A2").setBackground("#d4edda"); // 薄い緑
+      sheet.getRange("C2").setBackground("#d4edda"); // 薄い緑
+      sheet.getRange("A1").setValue("現在の為替");
+      sheet.getRange("C1").setValue("使用為替");
+    } else {
+      // 自動更新が無効な場合
+      sheet.getRange("A2").setBackground("#fff3cd"); // 薄い黄色
+      sheet.getRange("C2").setBackground("#fff3cd"); // 薄い黄色
+    }
+  } catch (e) {
+    // エラーは無視
+  }
+}
+
+/**
+ * 為替レート自動更新の状態を確認して表示
+ */
+function checkExchangeRateUpdateStatus() {
+  try {
+    var isActive = isExchangeRateUpdateTriggerActive();
+    var props = PropertiesService.getScriptProperties();
+    var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(sheetName);
+
+    if (!sheet) {
+      showAlert('作業シートが見つかりません', 'error');
+      return;
+    }
+
+    var a2Value = Number(sheet.getRange("A2").getValue()) || 0;
+    var c2Value = Number(sheet.getRange("C2").getValue()) || 0;
+
+    var message = '【為替レート自動更新の状態】\n\n';
+
+    if (isActive) {
+      message += '✅ 自動更新: 有効（1時間ごと）\n\n';
+    } else {
+      message += '⚠️ 自動更新: 無効\n\n';
+    }
+
+    message += '現在の為替（A2）: ¥' + a2Value.toFixed(2) + '\n';
+    message += '使用為替（C2）: ¥' + c2Value.toFixed(2) + '\n\n';
+
+    if (!isActive) {
+      message += '※ 自動更新を開始するには、メニューから\n「💱 為替レート」→「🔄 為替レート自動更新を開始」\nを選択してください。';
+    }
+
+    showAlert(message, 'info');
+  } catch (e) {
+    showAlert('状態確認に失敗しました: ' + e.message, 'error');
   }
 }
 
@@ -2788,7 +2872,27 @@ function saveIntegratedSettings(formData) {
     if (showPopups === 'true') {
       ui.alert('設定保存', msg, ui.ButtonSet.OK);
     }
-    
+
+    // 🆕 為替レートを即座に更新（A2→C2）
+    try {
+      var ss = SpreadsheetApp.getActiveSpreadsheet();
+      var sheet = ss.getSheetByName(sheetName);
+      if (sheet) {
+        updateExchangeRate(sheet);
+        Logger.log('為替レートを更新しました');
+      }
+    } catch (e) {
+      Logger.log('為替レート更新に失敗: ' + e.message);
+    }
+
+    // 🆕 為替レート自動更新トリガーを設定（初期設定時に自動で有効化）
+    try {
+      setupExchangeRateUpdateTrigger(true); // silentモードで実行
+      Logger.log('為替レート自動更新トリガーを設定しました（1時間ごと）');
+    } catch (e) {
+      Logger.log('為替レート自動更新トリガーの設定に失敗: ' + e.message);
+    }
+
     return { success: true };
   } catch (e) {
     ui.alert('設定保存エラー', 'エラー: ' + e.message, ui.ButtonSet.OK);
@@ -2882,14 +2986,16 @@ function writeSettingsToSheet(sheetName, settings) {
     sheet.getRange('AQ2:AQ3').setBackground('#E8F0FE').setFontSize(9).setFontColor('#666666');
 
     // DDU調整（紫系）
+    // AP3は想定関税の閾値（想定関税がこれ以上の場合に調整）
     var dduData = [
       ['DDU調整有効', settings.dduAdjustmentEnabled === 'true' ? 'ON' : 'OFF'],
-      ['DDU閾値($)', settings.dduThreshold],
-      ['DDU調整額($)', settings.dduAdjustment]
+      ['想定関税閾値($)', settings.dduThreshold]
     ];
-    sheet.getRange('AO2:AP4').setValues(dduData);
-    sheet.getRange('AO2:AP4').setBackground('#F3E5F5');
-    sheet.getRange('AO2:AO4').setFontWeight('bold');
+    sheet.getRange('AO2:AP3').setValues(dduData);
+    sheet.getRange('AO2:AP3').setBackground('#F3E5F5');
+    sheet.getRange('AO2:AO3').setFontWeight('bold');
+    // AP4は使用しなくなったのでクリア
+    sheet.getRange('AO4:AP4').clearContent();
 
     // プロンプト設定（黄色系）
     var promptData = [
@@ -2999,9 +3105,16 @@ function applyCalculationFormulas(sheetName, settings) {
       // R列(18)からAD列(30)まで = 13列（AE列の直前まで）
       sheet.getRange(5, CONFIG.COLUMNS.PRICE, clearRowCount, 13).clearContent();
       // AF列(32)からAG列(33)まで = 2列（AE列の直後から）
-      sheet.getRange(5, CONFIG.COLUMNS.EBAY_CATEGORY, clearRowCount, 2).clearContent();
+      sheet.getRange(5, CONFIG.COLUMNS.BASE_SHIPPING, clearRowCount, 2).clearContent();
       console.log('E列・O列・R列～AD列・AF列～AG列（5～' + lastRow + '行）をクリアしました（AE列は保持）');
     }
+
+    // 参照先シートを先に読み込んでキャッシュさせる（該当なし問題の対策）
+    SpreadsheetApp.flush();
+    var templateSheet = ss.getSheetByName('Import_Templates');
+    var policySheet = ss.getSheetByName('Import_Policies');
+    if (templateSheet) templateSheet.getDataRange().getValues();
+    if (policySheet) policySheet.getDataRange().getValues();
 
     // 🆕 dataLastRowを先に取得（全ての列で使用）
     // I列（仕入れ価格）に値がある最終行を取得
@@ -3059,8 +3172,9 @@ function applyCalculationFormulas(sheetName, settings) {
       var policyFormulas = [];
       for (var row = 5; row <= dataLastRow; row++) {
         // GET_SHIPPING_POLICY_FROM_IMPORT関数を使用（Import_PoliciesのD-G列を活用した最適化版）
-        // 引数: カテゴリー表示名（O1）, 価格USD, 商品状態, 配送方法
-        var formula = '=IF(OR(ISBLANK($O$1),ISBLANK(R' + row + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_SHIPPING_POLICY_FROM_IMPORT($O$1,R' + row + ',AE' + row + ',X' + row + '))';
+        // 引数: カテゴリー表示名（O1）, 想定関税(AD列、DDU有効時は閾値で制限), 商品状態, 配送方法
+        // DDU調整が有効(AP2=ON)で想定関税が閾値(AP3)以上の場合、閾値を使用
+        var formula = '=IF(OR(ISBLANK($O$1),ISBLANK(AD' + row + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_SHIPPING_POLICY_FROM_IMPORT($O$1,IF(AND($AP$2="ON",AD' + row + '>=$AP$3),$AP$3,AD' + row + '),AE' + row + ',X' + row + '))';
         policyFormulas.push([formula]);
       }
       if (policyFormulas.length > 0) {
@@ -3214,14 +3328,15 @@ function applyCalculationFormulas(sheetName, settings) {
     // AD列: 想定関税（ARRAYFORMULA）
     sheet.getRange('AD4').setFormula('=ARRAYFORMULA(IF(ROW(AD4:AD)=4,"想定関税",IF(R4:R="","",ROUND(R4:R*$AF$2*$AG$2+$AE$1,2))))');
 
-    // AG列: DDU調整後価格（AP2:AP4のセル参照を使用）
+    // AG列: DDU調整後価格（AP2:AP3のセル参照を使用）
+    // AP3は想定関税の閾値、想定関税がAP3以上の場合にDDP価格から想定関税を引く
     sheet.getRange('AG4').setValue('DDU調整後価格');
     if (dataLastRow >= 5) {
-      // AP2=ON/OFF, AP3=閾値, AP4=調整額
-      // 式: IF(AP2="ON", IF(AND(R>=AP3, NOT(ISBLANK(S))), S-AP4, ""), "")
+      // AP2=ON/OFF, AP3=想定関税閾値
+      // 式: IF(AP2="ON", IF(AD>=AP3, S-AD, ""), "")
       var dduFormulas = [];
       for (var row = 5; row <= dataLastRow; row++) {
-        var formula = '=IF($AP$2="ON", IF(AND(R' + row + '>=$AP$3, NOT(ISBLANK(S' + row + '))), S' + row + '-$AP$4, ""), "")';
+        var formula = '=IF($AP$2="ON", IF(AD' + row + '>=$AP$3, S' + row + '-$AP$3, ""), "")';
         dduFormulas.push([formula]);
       }
       sheet.getRange(5, CONFIG.COLUMNS.DDU_ADJUSTED_PRICE, dduFormulas.length, 1).setFormulas(dduFormulas);
@@ -3262,14 +3377,6 @@ function applyCalculationFormulas(sheetName, settings) {
         .setHelpText('商品状態を選択してください')
         .build();
       sheet.getRange(5, CONFIG.COLUMNS.CONDITION, dataLastRow - 4, 1).setDataValidation(conditionValidation);
-
-      // AF列: eBayカテゴリー
-      var categoryValidation = SpreadsheetApp.newDataValidation()
-        .requireValueInList(CONFIG.EBAY_CATEGORIES, true)
-        .setAllowInvalid(false)
-        .setHelpText('eBayカテゴリーを選択してください')
-        .build();
-      sheet.getRange(5, CONFIG.COLUMNS.EBAY_CATEGORY, dataLastRow - 4, 1).setDataValidation(categoryValidation);
     }
 
     // ========================================

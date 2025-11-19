@@ -734,26 +734,26 @@ function detectSheetType_(sheetName) {
     },
     
     // ✅ 推奨シート
-    'キーワード': { 
-      type: 'recommended', 
+    'キーワード': {
+      type: 'recommended',
       description: 'キーワードデータ',
       recommended: 'full_copy',
       protectedRows: 0,
-      isRecommended: true
+      isRecommended: false
     },
-    '参照データ': { 
-      type: 'recommended', 
+    '参照データ': {
+      type: 'recommended',
       description: 'カテゴリー別設定',
       recommended: 'full_copy',
       protectedRows: 0,
-      isRecommended: true
+      isRecommended: false
     },
-    'データ入力依頼シート': { 
-      type: 'recommended', 
+    'データ入力依頼シート': {
+      type: 'recommended',
       description: 'データ入力依頼用',
       recommended: 'full_copy',
       protectedRows: 0,
-      isRecommended: true
+      isRecommended: false
     },
     
     // その他のシート（基本的に不要）
@@ -800,7 +800,7 @@ function detectSheetType_(sheetName) {
       description: '保存済みデータ',
       recommended: 'append_values',
       protectedRows: 4,
-      isRecommended: true
+      isRecommended: false
     };
   }
   
