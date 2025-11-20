@@ -175,16 +175,21 @@ function ensureSurchargeCellsOnWorkSheet() {
     safeSetNote(sh.getRange('AF2'), '関税率（例: 0.2 = 20%）');
   }
 
-  // 安全係数（AD2→AE2→AG2）
+  // 関税処理手数料率（AG2）
   if (!sh.getRange('AG2').getNote()) {
-    safeSetNote(sh.getRange('AG2'), '関税安全係数（例: 1.1 = 10%上乗せ）');
+    safeSetNote(sh.getRange('AG2'), '関税処理手数料率（例: 0.021 = 2.1%）');
   }
 
-  // 通関手数料（AB1→AC1→AE1）
+  // 米国通関処理手数料（AB1→AC1→AE1）
   if (!sh.getRange('AE1').getNote()) {
-    safeSetNote(sh.getRange('AE1'), '通関手数料（USD）（例: 10）');
+    safeSetNote(sh.getRange('AE1'), '米国通関処理手数料（円）（例: 296）');
   }
-  
+
+  // MPF（AH2）
+  if (!sh.getRange('AH2').getNote()) {
+    safeSetNote(sh.getRange('AH2'), 'MPF（$）※Cpass免除（例: 0）');
+  }
+
   // U1→V1, U2→V2
   if (!sh.getRange('V1').getNote()) {
     safeSetNote(sh.getRange('V1'), 'FedEx燃油サーチャージ率（例: 0.2 = 20%）');
@@ -673,10 +678,12 @@ sheet.getRange(row, CONFIG.COLUMNS.TAX_INCLUDED_PRICE).setFormula(  // 18→19�
   // R列（販売価格） + AD列（想定関税+通関手数料）
 );
 
- // 🔹 修正: 想定関税に通関手数料を含める
+ // 🔹 想定関税計算: 関税額 + 関税処理手数料 + (米国通関処理手数料円 ÷ 為替) + MPF$ + (EU送料差額円 ÷ 為替)
+ // 関税額 = 販売価格 × 関税率
+ // 関税処理手数料 = (販売価格 × 関税率 × 関税処理手数料率) + (販売価格 × VAT率 × 関税処理手数料率)
 sheet.getRange(row, CONFIG.COLUMNS.ESTIMATED_TAX).setFormula(  // 27→28→30（AD列）
-  '=ROUND(R' + row + '*$AF$2*$AG$2+$AE$1,2)'
-  // R列 × 関税率(AF2) × 安全係数(AG2) + 通関手数料(AE1)
+  '=ROUND(R' + row + '*$AF$2*(1+$AG$2)+R' + row + '*$AE$2*$AG$2+$AE$1/$C$2+$AH$2+$AC$2/$C$2,2)'
+  // AF2=関税率, AE2=VAT率, AG2=関税処理手数料率, AE1=米国通関処理手数料(円), AH2=MPF($), AC2=EU送料差額(円), C2=為替レート
 );
   
 // DDU価格調整機能

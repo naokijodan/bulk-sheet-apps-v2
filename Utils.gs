@@ -18,26 +18,34 @@
  */
 function updateExchangeRate(sheet) {
   try {
-    var currentRateCell = sheet.getRange("A2");
-    var exchangeCell = sheet.getRange("C2");
+    // exchangerate-api.com から USD/JPY レートを取得
+    var url = 'https://api.exchangerate-api.com/v4/latest/USD';
+    var response = UrlFetchApp.fetch(url);
+    var data = JSON.parse(response.getContentText());
 
-    var rate = Number(currentRateCell.getValue());
+    if (data && data.rates && data.rates.JPY) {
+      var rate = Number(data.rates.JPY);
 
-    if (!rate || rate < 100 || rate > 200) {
-      exchangeCell.setValue(145);
-      return 145;
+      // レートの妥当性チェック（100〜200円の範囲）
+      if (rate >= 100 && rate <= 200) {
+        sheet.getRange("C2").setValue(rate);
+        return rate;
+      }
     }
 
-    exchangeCell.setValue(rate);
-    return rate;
+    // API取得失敗時はデフォルト値
+    sheet.getRange("C2").setValue(145);
+    return 145;
+
   } catch (e) {
+    Logger.log('為替レート取得エラー: ' + e.message);
     sheet.getRange("C2").setValue(145);
     return 145;
   }
 }
 
 /**
- * 1時間ごとに為替レートを自動更新するトリガーを設定
+ * 1日1回為替レートを自動更新するトリガーを設定
  * @param {boolean} silent - trueの場合、アラートを表示しない（初期設定から呼ばれる場合）
  */
 function setupExchangeRateUpdateTrigger(silent) {
@@ -50,14 +58,15 @@ function setupExchangeRateUpdateTrigger(silent) {
       }
     }
 
-    // 1時間ごとのトリガーを設定
+    // 毎日午前9時のトリガーを設定（exchangerate-api.comは1日1回更新）
     ScriptApp.newTrigger('updateExchangeRateAutomatically')
       .timeBased()
-      .everyHours(1)
+      .atHour(9)
+      .everyDays(1)
       .create();
 
     if (!silent) {
-      showAlert('為替レート自動更新トリガーを設定しました（1時間ごと）', 'success');
+      showAlert('為替レート自動更新トリガーを設定しました（毎日午前9時）\n\nデータソース: exchangerate-api.com', 'success');
     }
   } catch (e) {
     if (!silent) {

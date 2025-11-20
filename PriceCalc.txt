@@ -527,7 +527,7 @@
                         <option value="table">テーブル計算</option>
                     </select>
                 </div>
-                <!-- 2段目：関税率、VAT率、通関処理手数料率、MPF、EU送料差額 -->
+                <!-- 2段目：関税率、VAT率、関税処理手数料率、米国通関処理手数料、MPF、EU送料差額 -->
                 <div class="input-group">
                     <label>関税率 (%)</label>
                     <input type="number" id="tariffRate" value="15" step="0.1">
@@ -537,12 +537,16 @@
                     <input type="number" id="vatRate" value="0" step="0.1">
                 </div>
                 <div class="input-group">
-                    <label>通関処理手数料率 (%)</label>
-                    <input type="number" id="processingFeeRate" value="2" step="0.1">
+                    <label>関税処理手数料率 (%)</label>
+                    <input type="number" id="processingFeeRate" value="2.1" step="0.1">
                 </div>
                 <div class="input-group">
-                    <label>MPF (円)</label>
+                    <label>米国通関処理手数料 (円)</label>
                     <input type="number" id="mpf" value="296" step="1">
+                </div>
+                <div class="input-group">
+                    <label>MPF ($) <span style="font-size: 0.85em; color: #6c757d;">※Cpass免除</span></label>
+                    <input type="number" id="mpfUsd" value="0" step="0.01">
                 </div>
                 <div class="input-group">
                     <label>EU送料差額 (円)</label>
@@ -550,66 +554,109 @@
                 </div>
             </div>
 
+            <!-- 自動選択設定（共通） -->
+            <div style="margin-top: 20px; padding: 20px; background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px;">
+                <h3 style="margin-bottom: 15px; color: #856404;">⚙️ 配送方法自動選択設定</h3>
+                <div class="settings-grid">
+                    <div class="input-group">
+                        <label>送料切替基準金額 (円)</label>
+                        <input type="number" id="shippingThreshold" value="5500" step="100">
+                    </div>
+                    <div class="input-group">
+                        <label>低価格商品配送方法</label>
+                        <select id="lowPriceMethod">
+                            <option value="SP">Small Packet</option>
+                            <option value="CE">Cpass-Economy</option>
+                            <option value="NONE">なし</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>高価格商品配送方法</label>
+                        <select id="highPriceMethod">
+                            <option value="CF" selected>Cpass-FedEx</option>
+                            <option value="CD">Cpass-DHL</option>
+                            <option value="EL">eLogistics</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; padding: 10px; background: white; border-radius: 5px; font-size: 0.9em; color: #856404;">
+                    <strong>💡 自動選択ロジック:</strong><br>
+                    • 仕入れ価格 ≥ 切替基準金額 → 高価格商品配送方法<br>
+                    • 仕入れ価格 &lt; 切替基準金額 → 低価格商品配送方法（Small Packetは2000g以下のみ）<br>
+                    • 低価格商品配送方法が「なし」の場合 → 常に高価格商品配送方法
+                </div>
+            </div>
+
             <!-- 送料計算モード別の設定 -->
-            <div id="shippingSettings" style="margin-top: 20px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+            <div id="shippingSettings" style="margin-top: 20px;">
                 <!-- 固定送料モード -->
-                <div id="fixedShippingSettings">
-                    <h3 style="margin-bottom: 15px; color: #495057;">固定送料設定</h3>
+                <div id="fixedShippingSettings" style="padding: 20px; background: #e8f5e9; border: 2px solid #4caf50; border-radius: 8px;">
+                    <h3 style="margin-bottom: 15px; color: #2e7d32;">💰 固定送料設定</h3>
                     <div class="settings-grid">
                         <div class="input-group">
                             <label>送料 (円)</label>
                             <input type="number" id="shippingCost" value="3000" step="100">
                         </div>
-                        <div class="input-group">
-                            <label>送料切替基準金額 (円)</label>
-                            <input type="number" id="shippingThreshold" value="5500" step="100">
-                        </div>
-                        <div class="input-group">
-                            <label>低価格商品配送方法</label>
-                            <select id="lowPriceMethod">
-                                <option value="SP">Small Packet</option>
-                                <option value="CE">Cpass-Economy</option>
-                                <option value="NONE">なし</option>
-                            </select>
-                        </div>
-                        <div class="input-group">
-                            <label>高価格商品配送方法</label>
-                            <select id="highPriceMethod">
-                                <option value="CF" selected>Cpass-FedEx</option>
-                                <option value="CD">Cpass-DHL</option>
-                                <option value="EL">eLogistics</option>
-                            </select>
-                        </div>
                     </div>
                 </div>
 
                 <!-- テーブル計算モード -->
-                <div id="tableShippingSettings" class="hidden">
-                    <h3 style="margin-bottom: 15px; color: #495057;">テーブル計算設定</h3>
-                    <div class="settings-grid">
-                        <div class="input-group">
-                            <label>実重量 (g)</label>
-                            <input type="number" id="actualWeight" value="500" step="10">
+                <div id="tableShippingSettings" class="hidden" style="padding: 20px; background: #e3f2fd; border: 2px solid #2196f3; border-radius: 8px;">
+                    <h3 style="margin-bottom: 15px; color: #1565c0;">📦 テーブル計算設定</h3>
+
+                    <!-- 重量・サイズ設定 -->
+                    <div style="padding: 15px; background: white; border-radius: 5px; margin-bottom: 15px;">
+                        <h4 style="margin: 0 0 15px 0; color: #1565c0; font-size: 1em;">重量・サイズ</h4>
+                        <div class="settings-grid">
+                            <div class="input-group">
+                                <label>実重量 (g)</label>
+                                <input type="number" id="actualWeight" value="500" step="10" oninput="calculateEstimatedShipping()">
+                            </div>
+                            <div class="input-group">
+                                <label>長さ (cm)</label>
+                                <input type="number" id="packageLength" value="20" step="1" oninput="calculateVolumetricWeight()">
+                            </div>
+                            <div class="input-group">
+                                <label>幅 (cm)</label>
+                                <input type="number" id="packageWidth" value="20" step="1" oninput="calculateVolumetricWeight()">
+                            </div>
+                            <div class="input-group">
+                                <label>高さ (cm)</label>
+                                <input type="number" id="packageHeight" value="20" step="1" oninput="calculateVolumetricWeight()">
+                            </div>
+                            <div class="input-group">
+                                <label>容積重量 (g) <span style="font-size: 0.85em; color: #6c757d;">※自動計算</span></label>
+                                <input type="number" id="volumetricWeight" value="0" step="10" readonly style="background-color: #e9ecef;">
+                            </div>
                         </div>
-                        <div class="input-group">
-                            <label>容積重量 (g)</label>
-                            <input type="number" id="volumetricWeight" value="0" step="10">
+                    </div>
+
+                    <!-- 配送方法選択 -->
+                    <div style="padding: 15px; background: white; border-radius: 5px; margin-bottom: 15px;">
+                        <h4 style="margin: 0 0 15px 0; color: #1565c0; font-size: 1em;">配送方法選択</h4>
+                        <div class="settings-grid">
+                            <div class="input-group">
+                                <label>配送方法</label>
+                                <select id="shippingMethod" onchange="calculateEstimatedShipping()">
+                                    <option value="自動選択">自動選択</option>
+                                    <option value="SP">Small Packet</option>
+                                    <option value="CF">Cpass-FedEx</option>
+                                    <option value="CD">Cpass-DHL</option>
+                                    <option value="EL">eLogistics</option>
+                                    <option value="CE">Cpass-Economy</option>
+                                    <option value="EMS">EMS</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="input-group">
-                            <label>サイズ (cm)</label>
-                            <input type="text" id="packageSize" placeholder="例: 20x15x10">
-                        </div>
-                        <div class="input-group">
-                            <label>配送方法</label>
-                            <select id="shippingMethod">
-                                <option value="自動選択">自動選択</option>
-                                <option value="SP">Small Packet</option>
-                                <option value="CF">Cpass-FedEx</option>
-                                <option value="CD">Cpass-DHL</option>
-                                <option value="EL">eLogistics</option>
-                                <option value="CE">Cpass-Economy</option>
-                                <option value="EMS">EMS</option>
-                            </select>
+                    </div>
+
+                    <!-- 送料試算結果 -->
+                    <div id="shippingEstimate" style="padding: 15px; background: #fff9c4; border: 2px solid #fbc02d; border-radius: 5px; display: none;">
+                        <h4 style="margin: 0 0 10px 0; color: #f57f17;">💡 送料試算</h4>
+                        <div style="font-size: 1.1em;">
+                            <strong>配送方法:</strong> <span id="estimatedMethod">-</span><br>
+                            <strong>課金重量:</strong> <span id="estimatedWeight">-</span> g<br>
+                            <strong>送料:</strong> <span id="estimatedCost" style="font-size: 1.3em; color: #f57f17; font-weight: bold;">-</span> 円
                         </div>
                     </div>
                 </div>
@@ -951,32 +998,130 @@
     </div>
 
     <script>
-        // 送料テーブルデータ
+        // 送料テーブルデータ（実際のShipping_Ratesシートから取得）
         const SHIPPING_RATE_TABLE = {
-            smallPacket: [
-                { max: 100, yen: 1290 }, { max: 200, yen: 1500 }, { max: 300, yen: 1710 }, { max: 400, yen: 1920 },
-                { max: 500, yen: 2130 }, { max: 600, yen: 2550 }, { max: 700, yen: 2760 }, { max: 800, yen: 2970 },
-                { max: 900, yen: 3180 }, { max: 1000, yen: 3390 }, { max: 1100, yen: 3600 }, { max: 1200, yen: 3810 },
-                { max: 1300, yen: 4020 }, { max: 1400, yen: 4230 }, { max: 1500, yen: 4440 }, { max: 1600, yen: 4650 },
-                { max: 1700, yen: 4860 }, { max: 1800, yen: 5070 }, { max: 1900, yen: 5280 }, { max: 2000, yen: 5490 }
+            SP: [ // Small Packet
+                { min: 1, max: 100, yen: 1290 }, { min: 101, max: 200, yen: 1500 }, { min: 201, max: 300, yen: 1710 },
+                { min: 301, max: 400, yen: 1920 }, { min: 401, max: 500, yen: 1920 }, { min: 501, max: 600, yen: 2130 },
+                { min: 601, max: 700, yen: 2550 }, { min: 701, max: 800, yen: 2760 }, { min: 801, max: 900, yen: 2970 },
+                { min: 901, max: 1000, yen: 3180 }, { min: 1001, max: 1100, yen: 3390 }, { min: 1101, max: 1200, yen: 3600 },
+                { min: 1201, max: 1250, yen: 3810 }, { min: 1251, max: 1300, yen: 3810 }, { min: 1301, max: 1400, yen: 4020 },
+                { min: 1401, max: 1500, yen: 4230 }, { min: 1501, max: 1600, yen: 4440 }, { min: 1601, max: 1700, yen: 4650 },
+                { min: 1701, max: 1750, yen: 4860 }, { min: 1751, max: 1800, yen: 4860 }, { min: 1801, max: 1900, yen: 5070 },
+                { min: 1901, max: 2000, yen: 5280 }
             ],
-            cpassFedex: [
-                { max: 500, yen: 2222 }, { max: 1000, yen: 2493 }, { max: 1500, yen: 2683 }, { max: 2000, yen: 2697 },
-                { max: 2500, yen: 3005 }, { max: 3000, yen: 3538 }, { max: 3500, yen: 3541 }, { max: 4000, yen: 4004 },
-                { max: 4500, yen: 4468 }, { max: 5000, yen: 4931 }, { max: 5500, yen: 6033 }, { max: 6000, yen: 6182 },
-                { max: 6500, yen: 6331 }, { max: 7000, yen: 6480 }, { max: 7500, yen: 6629 }, { max: 8000, yen: 6778 },
-                { max: 8500, yen: 6927 }, { max: 9000, yen: 7076 }, { max: 9500, yen: 8992 }, { max: 10000, yen: 9177 },
-                { max: 10500, yen: 9348 }, { max: 11000, yen: 9520 }, { max: 11500, yen: 9691 }, { max: 12000, yen: 9862 },
-                { max: 12500, yen: 11654 }, { max: 13000, yen: 11853 }, { max: 13500, yen: 12052 }, { max: 14000, yen: 12251 },
-                { max: 14500, yen: 12450 }, { max: 15000, yen: 12649 }, { max: 15500, yen: 12848 }, { max: 16000, yen: 14995 },
-                { max: 16500, yen: 15224 }, { max: 17000, yen: 15452 }, { max: 17500, yen: 15681 }, { max: 18000, yen: 15910 },
-                { max: 18500, yen: 16138 }, { max: 19000, yen: 16367 }, { max: 19500, yen: 16596 }, { max: 20000, yen: 16824 }
+            CE: [ // Cpass-Economy
+                { min: 1, max: 100, yen: 1227 }, { min: 101, max: 200, yen: 1367 }, { min: 201, max: 300, yen: 1581 },
+                { min: 301, max: 400, yen: 1778 }, { min: 401, max: 500, yen: 2060 }, { min: 501, max: 600, yen: 2222 },
+                { min: 601, max: 700, yen: 2321 }, { min: 701, max: 800, yen: 2703 }, { min: 801, max: 900, yen: 2820 },
+                { min: 901, max: 1000, yen: 3020 }, { min: 1001, max: 1100, yen: 3136 }, { min: 1101, max: 1200, yen: 3250 },
+                { min: 1201, max: 1250, yen: 3366 }, { min: 1251, max: 1300, yen: 3366 }, { min: 1301, max: 1400, yen: 3704 },
+                { min: 1401, max: 1500, yen: 3816 }, { min: 1501, max: 1600, yen: 3935 }, { min: 1601, max: 1700, yen: 4046 },
+                { min: 1701, max: 1750, yen: 4165 }, { min: 1751, max: 1800, yen: 4165 }, { min: 1801, max: 1900, yen: 5056 },
+                { min: 1901, max: 2000, yen: 5245 }, { min: 2001, max: 2500, yen: 5582 }, { min: 2501, max: 3000, yen: 6333 },
+                { min: 3001, max: 3500, yen: 6958 }, { min: 3501, max: 4000, yen: 7704 }, { min: 4001, max: 4500, yen: 9135 },
+                { min: 4501, max: 5000, yen: 11733 }, { min: 5001, max: 5500, yen: 12500 }, { min: 5501, max: 6000, yen: 13335 },
+                { min: 6001, max: 6500, yen: 14160 }, { min: 6501, max: 7000, yen: 15209 }, { min: 7001, max: 7500, yen: 16058 },
+                { min: 7501, max: 8000, yen: 16893 }, { min: 8001, max: 8500, yen: 17562 }, { min: 8501, max: 9000, yen: 18152 },
+                { min: 9001, max: 9500, yen: 19106 }, { min: 9501, max: 10000, yen: 19639 }, { min: 10001, max: 10500, yen: 20276 },
+                { min: 10501, max: 11000, yen: 20864 }, { min: 11001, max: 11500, yen: 21565 }, { min: 11501, max: 12000, yen: 22199 },
+                { min: 12001, max: 12500, yen: 22887 }, { min: 12501, max: 13000, yen: 23466 }, { min: 13001, max: 13500, yen: 24054 },
+                { min: 13501, max: 14000, yen: 24869 }, { min: 14001, max: 14500, yen: 25200 }, { min: 14501, max: 15000, yen: 25988 },
+                { min: 15001, max: 15500, yen: 26656 }, { min: 15501, max: 16000, yen: 28149 }, { min: 16001, max: 16500, yen: 28775 },
+                { min: 16501, max: 17000, yen: 29495 }, { min: 17001, max: 17500, yen: 30196 }, { min: 17501, max: 18000, yen: 30902 },
+                { min: 18001, max: 18500, yen: 31478 }, { min: 18501, max: 19000, yen: 32204 }, { min: 19001, max: 19500, yen: 32936 },
+                { min: 19501, max: 20000, yen: 33947 }, { min: 20001, max: 20500, yen: 34655 }, { min: 20501, max: 21000, yen: 35426 },
+                { min: 21001, max: 21500, yen: 36145 }, { min: 21501, max: 22000, yen: 36859 }, { min: 22001, max: 22500, yen: 37602 },
+                { min: 22501, max: 23000, yen: 38516 }, { min: 23001, max: 23500, yen: 39084 }, { min: 23501, max: 24000, yen: 39678 },
+                { min: 24001, max: 24500, yen: 40374 }, { min: 24501, max: 25000, yen: 40955 }, { min: 25001, max: 26000, yen: null },
+                { min: 26001, max: 27000, yen: null }, { min: 27001, max: 28000, yen: null }, { min: 28001, max: 29000, yen: null },
+                { min: 29001, max: 30000, yen: null }
+            ],
+            EMS: [ // EMS
+                { min: 1, max: 100, yen: 3900 }, { min: 101, max: 500, yen: 3900 }, { min: 501, max: 600, yen: 4180 },
+                { min: 601, max: 700, yen: 4460 }, { min: 701, max: 800, yen: 4740 }, { min: 801, max: 900, yen: 5020 },
+                { min: 901, max: 1000, yen: 5300 }, { min: 1001, max: 1250, yen: 5990 }, { min: 1251, max: 1300, yen: 6600 },
+                { min: 1301, max: 1500, yen: 6600 }, { min: 1501, max: 1750, yen: 7290 }, { min: 1751, max: 1800, yen: 7900 },
+                { min: 1801, max: 2000, yen: 7900 }, { min: 2001, max: 2500, yen: 9100 }, { min: 2501, max: 3000, yen: 10300 },
+                { min: 3001, max: 3500, yen: 11500 }, { min: 3501, max: 4000, yen: 12700 }, { min: 4001, max: 4500, yen: 13900 },
+                { min: 4501, max: 5000, yen: 15100 }, { min: 5001, max: 5500, yen: 16300 }, { min: 5501, max: 6500, yen: 17500 },
+                { min: 6501, max: 7500, yen: 19900 }, { min: 7501, max: 8500, yen: 22300 }, { min: 8501, max: 9500, yen: 24700 },
+                { min: 9501, max: 10500, yen: 27100 }, { min: 10501, max: 11500, yen: 29500 }, { min: 11501, max: 12500, yen: 31900 },
+                { min: 12501, max: 13500, yen: 34300 }, { min: 13501, max: 14500, yen: 36700 }, { min: 14501, max: 15500, yen: 39100 },
+                { min: 15501, max: 16500, yen: 41500 }, { min: 16501, max: 17500, yen: 43900 }, { min: 17501, max: 18500, yen: 46300 },
+                { min: 18501, max: 19500, yen: 48700 }, { min: 19501, max: 20500, yen: 51100 }, { min: 20501, max: 21500, yen: 53500 },
+                { min: 21501, max: 22500, yen: 55900 }, { min: 22501, max: 23500, yen: 58300 }, { min: 23501, max: 24500, yen: 60700 },
+                { min: 24501, max: 25000, yen: 63100 }, { min: 25001, max: 26000, yen: 65500 }, { min: 26001, max: 27000, yen: 67900 },
+                { min: 27001, max: 28000, yen: 70300 }, { min: 28001, max: 29000, yen: 72700 }, { min: 29001, max: 30000, yen: 75100 }
+            ],
+            CF: [ // Cpass-FedEx
+                { min: 1, max: 1000, yen: 1984 }, { min: 1001, max: 1500, yen: 2439 }, { min: 1501, max: 2000, yen: 2666 },
+                { min: 2001, max: 2500, yen: 2918 }, { min: 2501, max: 3000, yen: 3173 }, { min: 3001, max: 3500, yen: 3329 },
+                { min: 3501, max: 4000, yen: 3382 }, { min: 4001, max: 4500, yen: 3786 }, { min: 4501, max: 5000, yen: 4188 },
+                { min: 5001, max: 5500, yen: 4495 }, { min: 5501, max: 6000, yen: 4805 }, { min: 6001, max: 6500, yen: 5114 },
+                { min: 6501, max: 7000, yen: 5465 }, { min: 7001, max: 7500, yen: 5893 }, { min: 7501, max: 8000, yen: 6267 },
+                { min: 8001, max: 8500, yen: 6444 }, { min: 8501, max: 9000, yen: 6621 }, { min: 9001, max: 9500, yen: 6797 },
+                { min: 9501, max: 10000, yen: 8327 }, { min: 10001, max: 10500, yen: 8539 }, { min: 10501, max: 11000, yen: 8765 },
+                { min: 11001, max: 11500, yen: 8991 }, { min: 11501, max: 12000, yen: 9217 }, { min: 12001, max: 12500, yen: 9444 },
+                { min: 12501, max: 13000, yen: 10790 }, { min: 13001, max: 13500, yen: 11043 }, { min: 13501, max: 14000, yen: 11295 },
+                { min: 14001, max: 14500, yen: 11548 }, { min: 14501, max: 15000, yen: 11800 }, { min: 15001, max: 15500, yen: 12052 },
+                { min: 15501, max: 16000, yen: 12305 }, { min: 16001, max: 16500, yen: 13855 }, { min: 16501, max: 17000, yen: 14133 },
+                { min: 17001, max: 17500, yen: 14411 }, { min: 17501, max: 18000, yen: 14690 }, { min: 18001, max: 18500, yen: 14969 },
+                { min: 18501, max: 19000, yen: 15246 }, { min: 19001, max: 19500, yen: 15525 }, { min: 19501, max: 20000, yen: 15804 },
+                { min: 20001, max: 20500, yen: 16082 }, { min: 20501, max: 21000, yen: 18179 }, { min: 21001, max: 21500, yen: 19099 },
+                { min: 21501, max: 22000, yen: 20020 }, { min: 22001, max: 22500, yen: 20940 }, { min: 22501, max: 23000, yen: 21860 },
+                { min: 23001, max: 23500, yen: 22780 }, { min: 23501, max: 24000, yen: 23700 }, { min: 24001, max: 24500, yen: 24621 },
+                { min: 24501, max: 25000, yen: 25541 }, { min: 25001, max: 26000, yen: 26461 }, { min: 26001, max: 27000, yen: 27381 },
+                { min: 27001, max: 28000, yen: 28301 }, { min: 28001, max: 29000, yen: 30096 }, { min: 29001, max: 30000, yen: 31008 },
+                { min: 30001, max: Infinity, yen: 31920 }
+            ],
+            CD: [ // Cpass-DHL
+                { min: 1, max: 1000, yen: 2191 }, { min: 1001, max: 1500, yen: 2482 }, { min: 1501, max: 2000, yen: 2588 },
+                { min: 2001, max: 2500, yen: 2719 }, { min: 2501, max: 3000, yen: 3040 }, { min: 3001, max: 3500, yen: 3358 },
+                { min: 3501, max: 4000, yen: 3753 }, { min: 4001, max: 4500, yen: 4079 }, { min: 4501, max: 5000, yen: 4406 },
+                { min: 5001, max: 5500, yen: 4732 }, { min: 5501, max: 6000, yen: 5058 }, { min: 6001, max: 6500, yen: 5383 },
+                { min: 6501, max: 7000, yen: 5753 }, { min: 7001, max: 7500, yen: 6203 }, { min: 7501, max: 8000, yen: 6652 },
+                { min: 8001, max: 8500, yen: 7102 }, { min: 8501, max: 9000, yen: 7550 }, { min: 9001, max: 9500, yen: 7999 },
+                { min: 9501, max: 10000, yen: 8449 }, { min: 10001, max: 10500, yen: 8898 }, { min: 10501, max: 11000, yen: 9347 },
+                { min: 11001, max: 11500, yen: 9796 }, { min: 11501, max: 12000, yen: 10246 }, { min: 12001, max: 12500, yen: 10695 },
+                { min: 12501, max: 13000, yen: 11144 }, { min: 13001, max: 13500, yen: 11594 }, { min: 13501, max: 14000, yen: 12042 },
+                { min: 14001, max: 14500, yen: 12492 }, { min: 14501, max: 15000, yen: 12941 }, { min: 15001, max: 15500, yen: 13391 },
+                { min: 15501, max: 16000, yen: 13840 }, { min: 16001, max: 16500, yen: 14290 }, { min: 16501, max: 17000, yen: 14739 },
+                { min: 17001, max: 17500, yen: 15188 }, { min: 17501, max: 18000, yen: 15638 }, { min: 18001, max: 18500, yen: 16087 },
+                { min: 18501, max: 19000, yen: 16537 }, { min: 19001, max: 19500, yen: 16986 }, { min: 19501, max: 20000, yen: 17436 },
+                { min: 20001, max: 20500, yen: 17885 }, { min: 20501, max: 21000, yen: 18784 }, { min: 21001, max: 21500, yen: 19683 },
+                { min: 21501, max: 22000, yen: 20582 }, { min: 22001, max: 22500, yen: 21481 }, { min: 22501, max: 23000, yen: 22380 },
+                { min: 23001, max: 23500, yen: 23279 }, { min: 23501, max: 24000, yen: 24177 }, { min: 24001, max: 24500, yen: 25076 },
+                { min: 24501, max: 25000, yen: 25966 }, { min: 25001, max: 26000, yen: 26865 }, { min: 26001, max: 27000, yen: 27761 },
+                { min: 27001, max: 28000, yen: 28657 }, { min: 28001, max: 29000, yen: 29552 }, { min: 29001, max: 30000, yen: 30448 },
+                { min: 30001, max: Infinity, yen: 31343 }
+            ],
+            EL: [ // eLogistics
+                { min: 1, max: 1000, yen: 3700 }, { min: 1001, max: 1500, yen: 3900 }, { min: 1501, max: 2000, yen: 4100 },
+                { min: 2001, max: 2500, yen: 4300 }, { min: 2501, max: 3000, yen: 5600 }, { min: 3001, max: 3500, yen: 5900 },
+                { min: 3501, max: 4000, yen: 6300 }, { min: 4001, max: 4500, yen: 6600 }, { min: 4501, max: 5000, yen: 7200 },
+                { min: 5001, max: 5500, yen: 7900 }, { min: 5501, max: 6000, yen: 8700 }, { min: 6001, max: 6500, yen: 10300 },
+                { min: 6501, max: 7000, yen: 12200 }, { min: 7001, max: 7500, yen: 14100 }, { min: 7501, max: 8000, yen: 16000 },
+                { min: 8001, max: 8500, yen: 17900 }, { min: 8501, max: 9000, yen: 19800 }, { min: 9001, max: 9500, yen: 21800 },
+                { min: 9501, max: 10000, yen: 23700 }, { min: 10001, max: 10500, yen: 25600 }, { min: 10501, max: 11000, yen: 25800 },
+                { min: 11001, max: 11500, yen: 26100 }, { min: 11501, max: 12000, yen: 26600 }, { min: 12001, max: 12500, yen: 27100 },
+                { min: 12501, max: 13000, yen: 27500 }, { min: 13001, max: 13500, yen: 28000 }, { min: 13501, max: 14000, yen: 28500 },
+                { min: 14001, max: 14500, yen: 28900 }, { min: 14501, max: 15000, yen: 29400 }, { min: 15001, max: 15500, yen: 29900 },
+                { min: 15501, max: 16000, yen: 30400 }, { min: 16001, max: 16500, yen: 30800 }, { min: 16501, max: 17000, yen: 31300 },
+                { min: 17001, max: 17500, yen: 31800 }, { min: 17501, max: 18000, yen: 32300 }, { min: 18001, max: 18500, yen: 32700 },
+                { min: 18501, max: 19000, yen: 33200 }, { min: 19001, max: 19500, yen: 33700 }, { min: 19501, max: 20000, yen: 34200 },
+                { min: 20001, max: 20500, yen: 34600 }, { min: 20501, max: 21000, yen: 35300 }, { min: 21001, max: 21500, yen: 35900 },
+                { min: 21501, max: 22000, yen: 36500 }, { min: 22001, max: 22500, yen: 37100 }, { min: 22501, max: 23000, yen: 37800 },
+                { min: 23001, max: 23500, yen: 38400 }, { min: 23501, max: 24000, yen: 39000 }, { min: 24001, max: 24500, yen: 39700 },
+                { min: 24501, max: 25000, yen: 40300 }, { min: 25001, max: 26000, yen: 40900 }, { min: 26001, max: 27000, yen: 42200 },
+                { min: 27001, max: 28000, yen: 43400 }, { min: 28001, max: 29000, yen: 44700 }, { min: 29001, max: 30000, yen: 45900 },
+                { min: 30001, max: Infinity, yen: 47200 }
             ]
         };
 
         const SHIPPING_CONFIG = {
-            fedexFuel: 0.305,
-            dhlFuel: 0.289,
+            fedexFuel: 0.2975,
+            dhlFuel: 0.3,
             cpassDiscount: 0.03,
             fedexExtraPer500g: 115,
             dhlExtraPer500g: 96
@@ -994,17 +1139,110 @@
             } else {
                 fixedSettings.classList.add('hidden');
                 tableSettings.classList.remove('hidden');
+                calculateVolumetricWeight();
             }
+        }
+
+        // 容積重量を自動計算
+        function calculateVolumetricWeight() {
+            const length = parseFloat(document.getElementById('packageLength').value) || 0;
+            const width = parseFloat(document.getElementById('packageWidth').value) || 0;
+            const height = parseFloat(document.getElementById('packageHeight').value) || 0;
+
+            // 容積重量 = 長さ × 幅 × 高さ ÷ 6000
+            const volumetricWeight = Math.round((length * width * height) / 6);
+            document.getElementById('volumetricWeight').value = volumetricWeight;
+
+            // 送料試算も更新
+            calculateEstimatedShipping();
+        }
+
+        // 送料試算を計算・表示
+        function calculateEstimatedShipping() {
+            const actualWeight = parseFloat(document.getElementById('actualWeight').value) || 0;
+            const volumetricWeight = parseFloat(document.getElementById('volumetricWeight').value) || 0;
+            const method = document.getElementById('shippingMethod').value;
+
+            // 課金重量の計算（Small Packetの場合は実重量のみ、それ以外はmax）
+            let chargeableWeight;
+            if (method === 'SP') {
+                chargeableWeight = actualWeight;
+            } else {
+                chargeableWeight = Math.max(actualWeight, volumetricWeight);
+            }
+
+            if (chargeableWeight === 0) {
+                document.getElementById('shippingEstimate').style.display = 'none';
+                return;
+            }
+
+            let shippingCost = 0;
+            let actualMethod = method;
+
+            // 配送方法が「自動選択」の場合
+            if (method === '自動選択') {
+                const settings = getSettings();
+                const lowMethod = settings.lowPriceMethod || 'SP';
+                const highMethod = settings.highPriceMethod || 'CF';
+
+                // 仮の仕入れ価格を0として判定（実際の計算では動的に変わる）
+                if (lowMethod === 'SP' && actualWeight <= 2000) {
+                    shippingCost = getSmallPacketRate(actualWeight);
+                    actualMethod = 'Small Packet';
+                    chargeableWeight = actualWeight; // Small Packetは実重量のみ
+                } else {
+                    chargeableWeight = Math.max(actualWeight, volumetricWeight);
+                    shippingCost = calculateSpecificMethodRate(highMethod, actualWeight, chargeableWeight);
+                    actualMethod = getMethodName(highMethod);
+                }
+            } else {
+                shippingCost = calculateSpecificMethodRate(method, actualWeight, chargeableWeight);
+                actualMethod = getMethodName(method);
+            }
+
+            // nullチェック（Small Packetで2000g超過の場合）
+            if (shippingCost === null || shippingCost === undefined) {
+                document.getElementById('estimatedMethod').textContent = actualMethod;
+                document.getElementById('estimatedWeight').textContent = chargeableWeight.toFixed(0);
+                document.getElementById('estimatedCost').textContent = '上限超過';
+                document.getElementById('estimatedCost').style.color = '#dc3545';
+                document.getElementById('shippingEstimate').style.display = 'block';
+                return;
+            }
+
+            // 結果を表示
+            document.getElementById('estimatedMethod').textContent = actualMethod;
+            document.getElementById('estimatedWeight').textContent = chargeableWeight.toFixed(0);
+            document.getElementById('estimatedCost').textContent = `¥${shippingCost.toFixed(0)}`;
+            document.getElementById('estimatedCost').style.color = '#007bff';
+            document.getElementById('shippingEstimate').style.display = 'block';
+        }
+
+        // 配送方法コードを日本語名に変換
+        function getMethodName(code) {
+            const methodNames = {
+                'SP': 'Small Packet',
+                'CF': 'Cpass-FedEx',
+                'CD': 'Cpass-DHL',
+                'EL': 'eLogistics',
+                'CE': 'Cpass-Economy',
+                'EMS': 'EMS'
+            };
+            return methodNames[code] || code;
         }
 
         // Small Packet 料金取得
         function getSmallPacketRate(weight) {
-            for (let i = 0; i < SHIPPING_RATE_TABLE.smallPacket.length; i++) {
-                if (weight <= SHIPPING_RATE_TABLE.smallPacket[i].max) {
-                    return SHIPPING_RATE_TABLE.smallPacket[i].yen;
+            // 2000gを超える場合はnullを返す
+            if (weight > 2000) {
+                return null;
+            }
+            for (let i = 0; i < SHIPPING_RATE_TABLE.SP.length; i++) {
+                if (weight >= SHIPPING_RATE_TABLE.SP[i].min && weight <= SHIPPING_RATE_TABLE.SP[i].max) {
+                    return SHIPPING_RATE_TABLE.SP[i].yen;
                 }
             }
-            return 999999;
+            return null;
         }
 
         // Cpass-FedEx 料金計算
@@ -1012,9 +1250,9 @@
             const rounded = Math.ceil(weight / 500) * 500;
             let base = null;
 
-            for (let i = 0; i < SHIPPING_RATE_TABLE.cpassFedex.length; i++) {
-                if (SHIPPING_RATE_TABLE.cpassFedex[i].max >= rounded) {
-                    base = SHIPPING_RATE_TABLE.cpassFedex[i].yen;
+            for (let i = 0; i < SHIPPING_RATE_TABLE.CF.length; i++) {
+                if (weight >= SHIPPING_RATE_TABLE.CF[i].min && weight <= SHIPPING_RATE_TABLE.CF[i].max) {
+                    base = SHIPPING_RATE_TABLE.CF[i].yen;
                     break;
                 }
             }
@@ -1029,14 +1267,14 @@
             return Math.round(subTotal + fuel + discount);
         }
 
-        // Cpass-DHL 料金計算（簡易版：FedExと同じテーブルを使用）
+        // Cpass-DHL 料金計算
         function getCpassDHLRate(weight) {
             const rounded = Math.ceil(weight / 500) * 500;
             let base = null;
 
-            for (let i = 0; i < SHIPPING_RATE_TABLE.cpassFedex.length; i++) {
-                if (SHIPPING_RATE_TABLE.cpassFedex[i].max >= rounded) {
-                    base = SHIPPING_RATE_TABLE.cpassFedex[i].yen;
+            for (let i = 0; i < SHIPPING_RATE_TABLE.CD.length; i++) {
+                if (weight >= SHIPPING_RATE_TABLE.CD[i].min && weight <= SHIPPING_RATE_TABLE.CD[i].max) {
+                    base = SHIPPING_RATE_TABLE.CD[i].yen;
                     break;
                 }
             }
@@ -1051,16 +1289,34 @@
             return Math.round(subTotal + fuel + discount);
         }
 
-        // eLogistics 料金計算（簡易版：FedExと同じテーブルを使用、追加料金なし）
+        // eLogistics 料金計算
         function getElogiRate(weight) {
-            const rounded = Math.ceil(weight / 500) * 500;
-
-            for (let i = 0; i < SHIPPING_RATE_TABLE.cpassFedex.length; i++) {
-                if (SHIPPING_RATE_TABLE.cpassFedex[i].max >= rounded) {
-                    return Math.round(SHIPPING_RATE_TABLE.cpassFedex[i].yen);
+            for (let i = 0; i < SHIPPING_RATE_TABLE.EL.length; i++) {
+                if (weight >= SHIPPING_RATE_TABLE.EL[i].min && weight <= SHIPPING_RATE_TABLE.EL[i].max) {
+                    return SHIPPING_RATE_TABLE.EL[i].yen;
                 }
             }
+            return 999999;
+        }
 
+        // Cpass-Economy 料金取得
+        function getCpassEconomyRate(weight) {
+            for (let i = 0; i < SHIPPING_RATE_TABLE.CE.length; i++) {
+                if (weight >= SHIPPING_RATE_TABLE.CE[i].min && weight <= SHIPPING_RATE_TABLE.CE[i].max) {
+                    const rate = SHIPPING_RATE_TABLE.CE[i].yen;
+                    return rate !== null ? rate : 999999;
+                }
+            }
+            return 999999;
+        }
+
+        // EMS 料金取得
+        function getEMSRate(weight) {
+            for (let i = 0; i < SHIPPING_RATE_TABLE.EMS.length; i++) {
+                if (weight >= SHIPPING_RATE_TABLE.EMS[i].min && weight <= SHIPPING_RATE_TABLE.EMS[i].max) {
+                    return SHIPPING_RATE_TABLE.EMS[i].yen;
+                }
+            }
             return 999999;
         }
 
@@ -1094,7 +1350,8 @@
         function calculateSpecificMethodRate(method, actualWeight, chargeableWeight) {
             switch(method) {
                 case 'SP':
-                    return actualWeight <= 2000 ? getSmallPacketRate(actualWeight) : getCpassDHLRate(chargeableWeight);
+                    // Small Packetは実重量のみ使用、2000g超過時はnullを返す
+                    return getSmallPacketRate(actualWeight);
                 case 'CF':
                     return getCpassFedexRate(chargeableWeight);
                 case 'CD':
@@ -1102,9 +1359,9 @@
                 case 'EL':
                     return getElogiRate(chargeableWeight);
                 case 'CE':
-                    return getCpassFedexRate(chargeableWeight); // 簡易版
+                    return getCpassEconomyRate(chargeableWeight);
                 case 'EMS':
-                    return getCpassDHLRate(chargeableWeight); // 簡易版
+                    return getEMSRate(chargeableWeight);
                 default:
                     return getCpassDHLRate(chargeableWeight);
             }
@@ -1118,6 +1375,7 @@
                 vatRate: parseFloat(document.getElementById('vatRate').value) / 100,
                 processingFeeRate: parseFloat(document.getElementById('processingFeeRate').value) / 100,
                 mpf: parseFloat(document.getElementById('mpf').value),
+                mpfUsd: parseFloat(document.getElementById('mpfUsd').value),
                 euShippingDiff: parseFloat(document.getElementById('euShippingDiff').value),
                 adRate: parseFloat(document.getElementById('adRate').value) / 100,
                 feeRate: parseFloat(document.getElementById('feeRate').value) / 100,
@@ -1129,7 +1387,9 @@
                 highPriceMethod: document.getElementById('highPriceMethod').value,
                 actualWeight: parseFloat(document.getElementById('actualWeight').value) || 0,
                 volumetricWeight: parseFloat(document.getElementById('volumetricWeight').value) || 0,
-                packageSize: document.getElementById('packageSize').value,
+                packageLength: parseFloat(document.getElementById('packageLength').value) || 0,
+                packageWidth: parseFloat(document.getElementById('packageWidth').value) || 0,
+                packageHeight: parseFloat(document.getElementById('packageHeight').value) || 0,
                 shippingMethod: document.getElementById('shippingMethod').value
             };
         }
@@ -1157,6 +1417,9 @@
                 if (settings.mpf !== undefined) {
                     document.getElementById('mpf').value = settings.mpf;
                 }
+                if (settings.mpfUsd !== undefined) {
+                    document.getElementById('mpfUsd').value = settings.mpfUsd;
+                }
                 if (settings.euShippingDiff !== undefined) {
                     document.getElementById('euShippingDiff').value = settings.euShippingDiff;
                 }
@@ -1182,15 +1445,20 @@
                 if (settings.actualWeight !== undefined) {
                     document.getElementById('actualWeight').value = settings.actualWeight;
                 }
-                if (settings.volumetricWeight !== undefined) {
-                    document.getElementById('volumetricWeight').value = settings.volumetricWeight;
+                if (settings.packageLength !== undefined) {
+                    document.getElementById('packageLength').value = settings.packageLength;
                 }
-                if (settings.packageSize !== undefined) {
-                    document.getElementById('packageSize').value = settings.packageSize;
+                if (settings.packageWidth !== undefined) {
+                    document.getElementById('packageWidth').value = settings.packageWidth;
+                }
+                if (settings.packageHeight !== undefined) {
+                    document.getElementById('packageHeight').value = settings.packageHeight;
                 }
                 if (settings.shippingMethod !== undefined) {
                     document.getElementById('shippingMethod').value = settings.shippingMethod;
                 }
+                // 容積重量を計算
+                calculateVolumetricWeight();
             }
         }
 
@@ -1217,9 +1485,13 @@
             const netRate = 1 - settings.feeRate - settings.adRate - settings.payoneerRate;
             let sellingPriceUSD = totalCostJPY / settings.exchangeRate / netRate;
 
-            // 想定関税 = 販売価格 × (関税率 + VAT率) × (1 + 通関処理手数料率) + (MPF円 ÷ 為替) + (EU送料差額円 ÷ 為替)
-            let tariffUSD = sellingPriceUSD * (settings.tariffRate + settings.vatRate) * (1 + settings.processingFeeRate)
+            // 想定関税 = 関税額 + 関税処理手数料 + (米国通関処理手数料円 ÷ 為替) + MPF$ + (EU送料差額円 ÷ 為替)
+            // 関税額 = 販売価格 × 関税率
+            // 関税処理手数料 = (販売価格 × 関税率 × 関税処理手数料率) + (販売価格 × VAT率 × 関税処理手数料率)
+            let tariffUSD = sellingPriceUSD * settings.tariffRate * (1 + settings.processingFeeRate)
+                          + sellingPriceUSD * settings.vatRate * settings.processingFeeRate
                           + (settings.mpf / settings.exchangeRate)
+                          + settings.mpfUsd
                           + (settings.euShippingDiff / settings.exchangeRate);
 
             // DDP価格 = 販売価格 + 想定関税
@@ -1261,9 +1533,13 @@
             const netRate = 1 - profitRate - settings.feeRate - settings.adRate - settings.payoneerRate;
             let sellingPriceUSD = baseCost / settings.exchangeRate / netRate;
 
-            // 想定関税 = 販売価格 × (関税率 + VAT率) × (1 + 通関処理手数料率) + (MPF円 ÷ 為替) + (EU送料差額円 ÷ 為替)
-            let tariffUSD = sellingPriceUSD * (settings.tariffRate + settings.vatRate) * (1 + settings.processingFeeRate)
+            // 想定関税 = 関税額 + 関税処理手数料 + (米国通関処理手数料円 ÷ 為替) + MPF$ + (EU送料差額円 ÷ 為替)
+            // 関税額 = 販売価格 × 関税率
+            // 関税処理手数料 = (販売価格 × 関税率 × 関税処理手数料率) + (販売価格 × VAT率 × 関税処理手数料率)
+            let tariffUSD = sellingPriceUSD * settings.tariffRate * (1 + settings.processingFeeRate)
+                          + sellingPriceUSD * settings.vatRate * settings.processingFeeRate
                           + (settings.mpf / settings.exchangeRate)
+                          + settings.mpfUsd
                           + (settings.euShippingDiff / settings.exchangeRate);
 
             // DDP価格 = 販売価格 + 想定関税
@@ -1307,8 +1583,10 @@
             const costDDU = netRevenueDDU - shippingCostDDU - profitJPY;
 
             // 想定関税
-            const tariffDDU = sellingPriceDDU * (settings.tariffRate + settings.vatRate) * (1 + settings.processingFeeRate)
+            const tariffDDU = sellingPriceDDU * settings.tariffRate * (1 + settings.processingFeeRate)
+                            + sellingPriceDDU * settings.vatRate * settings.processingFeeRate
                             + (settings.mpf / settings.exchangeRate)
+                            + settings.mpfUsd
                             + (settings.euShippingDiff / settings.exchangeRate);
 
             const feesDDU = revenueDDU * (settings.feeRate + settings.adRate + settings.payoneerRate);
@@ -1378,8 +1656,10 @@
             const costDDU = revenueDDU * netRate - shippingCostDDU;
 
             // 想定関税
-            const tariffDDU = sellingPriceDDU * (settings.tariffRate + settings.vatRate) * (1 + settings.processingFeeRate)
+            const tariffDDU = sellingPriceDDU * settings.tariffRate * (1 + settings.processingFeeRate)
+                            + sellingPriceDDU * settings.vatRate * settings.processingFeeRate
                             + (settings.mpf / settings.exchangeRate)
+                            + settings.mpfUsd
                             + (settings.euShippingDiff / settings.exchangeRate);
 
             const feesDDU = revenueDDU * (settings.feeRate + settings.adRate + settings.payoneerRate);

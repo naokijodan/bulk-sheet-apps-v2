@@ -75,7 +75,7 @@ function onOpen() {
 
     // 4. 為替レートメニュー
     ui.createMenu('💱 為替レート')
-      .addItem('🔄 為替レート自動更新を開始（1時間ごと）', 'setupExchangeRateUpdateTrigger')
+      .addItem('🔄 為替レート自動更新を開始（毎日午前9時）', 'setupExchangeRateUpdateTrigger')
       .addItem('⏸️ 為替レート自動更新を停止', 'removeExchangeRateUpdateTrigger')
       .addItem('📊 為替レート自動更新の状態確認', 'checkExchangeRateUpdateStatus')
       .addToUi();
@@ -108,14 +108,16 @@ function notifyExchangeRateUpdateStatus_() {
     // A2とC2のセルに背景色で状態を示す
     if (isActive) {
       // 自動更新が有効な場合
-      sheet.getRange("A2").setBackground("#d4edda"); // 薄い緑
-      sheet.getRange("C2").setBackground("#d4edda"); // 薄い緑
-      sheet.getRange("A1").setValue("現在の為替");
-      sheet.getRange("C1").setValue("使用為替");
+      sheet.getRange("A2").setBackground("#e3f2fd"); // 薄い青（参考値）
+      sheet.getRange("C2").setBackground("#d4edda"); // 薄い緑（使用値）
+      sheet.getRange("A1").setValue("参考為替(GF)");
+      sheet.getRange("C1").setValue("使用為替(API)");
     } else {
       // 自動更新が無効な場合
-      sheet.getRange("A2").setBackground("#fff3cd"); // 薄い黄色
-      sheet.getRange("C2").setBackground("#fff3cd"); // 薄い黄色
+      sheet.getRange("A2").setBackground("#e3f2fd"); // 薄い青
+      sheet.getRange("C2").setBackground("#fff3cd"); // 薄い黄色（警告）
+      sheet.getRange("A1").setValue("参考為替(GF)");
+      sheet.getRange("C1").setValue("使用為替");
     }
   } catch (e) {
     // エラーは無視
@@ -144,13 +146,14 @@ function checkExchangeRateUpdateStatus() {
     var message = '【為替レート自動更新の状態】\n\n';
 
     if (isActive) {
-      message += '✅ 自動更新: 有効（1時間ごと）\n\n';
+      message += '✅ 自動更新: 有効（毎日午前9時）\n';
+      message += 'データソース: exchangerate-api.com\n\n';
     } else {
       message += '⚠️ 自動更新: 無効\n\n';
     }
 
-    message += '現在の為替（A2）: ¥' + a2Value.toFixed(2) + '\n';
-    message += '使用為替（C2）: ¥' + c2Value.toFixed(2) + '\n\n';
+    message += 'A2（GOOGLEFINANCE）: ¥' + a2Value.toFixed(2) + '\n';
+    message += 'C2（使用為替）: ¥' + c2Value.toFixed(2) + '\n\n';
 
     if (!isActive) {
       message += '※ 自動更新を開始するには、メニューから\n「💱 為替レート」→「🔄 為替レート自動更新を開始」\nを選択してください。';
@@ -3326,9 +3329,12 @@ function applyCalculationFormulas(sheetName, settings) {
     sheet.getRange('AC4').setFormula('=ARRAYFORMULA(IF(ROW(AC4:AC)=4,"容積重量",IF(Z4:Z="","",IF(ROUND((Z4:Z*AA4:AA*AB4:AB)/5)>200,ROUND((Z4:Z*AA4:AA*AB4:AB)/5),200))))');
 
     // AD列: 想定関税（ARRAYFORMULA）
-    // 計算式: 販売価格 × (関税率 + VAT率) × (1 + 通関処理手数料率) + (MPF円 ÷ 為替) + (EU送料差額円 ÷ 為替)
-    // AF2=関税率, AE2=VAT率, AG2=通関処理手数料率, AE1=MPF(円), AC2=EU送料差額(円), C2=為替レート
-    sheet.getRange('AD4').setFormula('=ARRAYFORMULA(IF(ROW(AD4:AD)=4,"想定関税",IF(R4:R="","",ROUND(R4:R*($AF$2+$AE$2)*(1+$AG$2)+$AE$1/$C$2+$AC$2/$C$2,2))))');
+    // 計算式: 関税額 + 関税処理手数料 + (米国通関処理手数料円 ÷ 為替) + MPF$ + (EU送料差額円 ÷ 為替)
+    // 関税額 = 販売価格 × 関税率
+    // 関税処理手数料 = (販売価格 × 関税率 × 関税処理手数料率) + (販売価格 × VAT率 × 関税処理手数料率)
+    // つまり: 販売価格 × 関税率 × (1 + 関税処理手数料率) + 販売価格 × VAT率 × 関税処理手数料率 + その他
+    // AF2=関税率, AE2=VAT率, AG2=関税処理手数料率, AE1=米国通関処理手数料(円), AH2=MPF($), AC2=EU送料差額(円), C2=為替レート
+    sheet.getRange('AD4').setFormula('=ARRAYFORMULA(IF(ROW(AD4:AD)=4,"想定関税",IF(R4:R="","",ROUND(R4:R*$AF$2*(1+$AG$2)+R4:R*$AE$2*$AG$2+$AE$1/$C$2+$AH$2+$AC$2/$C$2,2))))');
 
     // AG列: DDU調整後価格（AP2:AP3のセル参照を使用）
     // AP3は想定関税の閾値、想定関税がAP3以上の場合にDDP価格から想定関税を引く
