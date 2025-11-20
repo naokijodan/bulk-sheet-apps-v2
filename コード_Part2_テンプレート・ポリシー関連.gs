@@ -295,20 +295,42 @@ function parseShippingPolicyName(policyName) {
       return null;
     }
     
-    // 価格範囲（最後の2要素）
-    var minPriceStr = parts[parts.length - 2];
-    var maxPriceStr = parts[parts.length - 1];
-    
-    var minPrice = parseInt(minPriceStr, 10);
-    var maxPrice = maxPriceStr ? parseInt(maxPriceStr, 10) : 999999;
-    
-    if (isNaN(minPrice)) {
+    // 価格範囲の判定
+    var minPrice, maxPrice, adjustedMin;
+
+    // 新形式: 上限値のみ（5要素）
+    // 例: Egl_202510_eco_new_0010 → ['Egl', '202510', 'eco', 'new', '0010']
+    if (parts.length === 5) {
+      maxPrice = parseInt(parts[4], 10);
+      if (isNaN(maxPrice)) {
+        return null;
+      }
+
+      // 下限は0.01（Policy_Master内の前のポリシーの上限+0.01が実際の下限）
+      // ここでは暫定的に0.01を設定し、判定ロジック側でソート済みデータから下限を決定
+      adjustedMin = 0.01;
+
+    } else if (parts.length >= 6) {
+      // 旧形式: min_max形式（互換性維持）
+      // 例: Egl_202510_eco_new_0001_0050 → ['Egl', '202510', 'eco', 'new', '0001', '0050']
+      var minPriceStr = parts[parts.length - 2];
+      var maxPriceStr = parts[parts.length - 1];
+
+      minPrice = parseInt(minPriceStr, 10);
+      maxPrice = maxPriceStr ? parseInt(maxPriceStr, 10) : 999999;
+
+      if (isNaN(minPrice)) {
+        return null;
+      }
+
+      // _0001_0050 → 1～50（50.00以下）
+      // _0051_0075 → 51～75（50.01以上、つまり51.00未満は次の範囲の開始minPriceから0.01引く）
+      adjustedMin = minPrice === 1 ? minPrice : minPrice - 0.99;
+
+    } else {
+      // 要素数が不足している場合はパース失敗
       return null;
     }
-    
-    // _0001_0050 → 1～50（50.00以下）
-    // _0051_0075 → 51～75（50.01以上、つまり51.00未満は次の範囲の開始minPriceから0.01引く）
-    var adjustedMin = minPrice === 1 ? minPrice : minPrice - 0.99;
     
     return {
       shippingType: shippingType,
@@ -373,39 +395,63 @@ function findShippingPolicyId(category, condition, shippingType, estimatedTax) {
     
     // 全データを取得（A列:ID、B列:名称、C列:送料上乗せ）
     var data = sheet.getRange(2, 1, lastRow - 1, 3).getValues();
-    
-    var candidates = [];
-    
-    // 条件に合うポリシーを検索
+
+    // 条件に合うポリシーをパースして配列に格納
+    var matchingPolicies = [];
+
     for (var i = 0; i < data.length; i++) {
       var id = data[i][0];
       var name = data[i][1];
       var shippingFee = data[i][2]; // C列：送料上乗せ価格
-      
+
       if (!name) continue;
-      
+
       // 名称をパース
       var parsed = parseShippingPolicyName(String(name));
-      
+
       if (!parsed) continue;
-      
-      // 基本条件チェック
+
+      // 基本条件チェック（想定関税の範囲チェックは後で行う）
       if (parsed.condition !== condition) continue;
       if (parsed.shippingType !== shippingType) continue;
-      if (estimatedTax < parsed.minPrice || estimatedTax > parsed.maxPrice) continue;
-      
+
+      matchingPolicies.push({
+        id: id,
+        name: name,
+        shippingFee: shippingFee,
+        parsed: parsed,
+        maxPrice: parsed.maxPrice
+      });
+    }
+
+    // 上限値でソート（昇順）
+    matchingPolicies.sort(function(a, b) {
+      return a.maxPrice - b.maxPrice;
+    });
+
+    // 下限を計算して範囲チェック
+    var candidates = [];
+
+    for (var i = 0; i < matchingPolicies.length; i++) {
+      var policy = matchingPolicies[i];
+      var actualMin = (i === 0) ? 0.01 : matchingPolicies[i - 1].maxPrice + 0.01;
+      var actualMax = policy.maxPrice;
+
+      // 想定関税が範囲内かチェック
+      if (estimatedTax < actualMin || estimatedTax > actualMax) continue;
+
       // 送料上限チェック（C列の送料上乗せと比較）
-      if (shippingLimit !== null && typeof shippingFee === 'number' && shippingFee > shippingLimit) {
-        console.log('ポリシーID ' + id + ' は送料$' + shippingFee + ' > 上限$' + shippingLimit + ' でスキップ');
+      if (shippingLimit !== null && typeof policy.shippingFee === 'number' && policy.shippingFee > shippingLimit) {
+        console.log('ポリシーID ' + policy.id + ' は送料$' + policy.shippingFee + ' > 上限$' + shippingLimit + ' でスキップ');
         continue;
       }
       
       // 条件に合致
       candidates.push({
-        id: id,
-        name: name,
-        shippingFee: shippingFee,
-        parsed: parsed
+        id: policy.id,
+        name: policy.name,
+        shippingFee: policy.shippingFee,
+        parsed: policy.parsed
       });
     }
     
