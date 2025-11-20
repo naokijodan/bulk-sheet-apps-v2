@@ -521,8 +521,11 @@
                     <input type="number" id="payoneerRate" value="2" step="0.1">
                 </div>
                 <div class="input-group">
-                    <label>送料 (円)</label>
-                    <input type="number" id="shippingCost" value="3000" step="100">
+                    <label>送料計算モード</label>
+                    <select id="shippingMode" onchange="toggleShippingMode()">
+                        <option value="fixed">固定送料</option>
+                        <option value="table">テーブル計算</option>
+                    </select>
                 </div>
                 <!-- 2段目：関税率、VAT率、通関処理手数料率、MPF、EU送料差額 -->
                 <div class="input-group">
@@ -546,7 +549,73 @@
                     <input type="number" id="euShippingDiff" value="0" step="10">
                 </div>
             </div>
-            <button class="save-settings-btn" onclick="saveSettings()">設定を保存</button>
+
+            <!-- 送料計算モード別の設定 -->
+            <div id="shippingSettings" style="margin-top: 20px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                <!-- 固定送料モード -->
+                <div id="fixedShippingSettings">
+                    <h3 style="margin-bottom: 15px; color: #495057;">固定送料設定</h3>
+                    <div class="settings-grid">
+                        <div class="input-group">
+                            <label>送料 (円)</label>
+                            <input type="number" id="shippingCost" value="3000" step="100">
+                        </div>
+                        <div class="input-group">
+                            <label>送料切替基準金額 (円)</label>
+                            <input type="number" id="shippingThreshold" value="5500" step="100">
+                        </div>
+                        <div class="input-group">
+                            <label>低価格商品配送方法</label>
+                            <select id="lowPriceMethod">
+                                <option value="SP">Small Packet</option>
+                                <option value="CE">Cpass-Economy</option>
+                                <option value="NONE">なし</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>高価格商品配送方法</label>
+                            <select id="highPriceMethod">
+                                <option value="CF" selected>Cpass-FedEx</option>
+                                <option value="CD">Cpass-DHL</option>
+                                <option value="EL">eLogistics</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- テーブル計算モード -->
+                <div id="tableShippingSettings" class="hidden">
+                    <h3 style="margin-bottom: 15px; color: #495057;">テーブル計算設定</h3>
+                    <div class="settings-grid">
+                        <div class="input-group">
+                            <label>実重量 (g)</label>
+                            <input type="number" id="actualWeight" value="500" step="10">
+                        </div>
+                        <div class="input-group">
+                            <label>容積重量 (g)</label>
+                            <input type="number" id="volumetricWeight" value="0" step="10">
+                        </div>
+                        <div class="input-group">
+                            <label>サイズ (cm)</label>
+                            <input type="text" id="packageSize" placeholder="例: 20x15x10">
+                        </div>
+                        <div class="input-group">
+                            <label>配送方法</label>
+                            <select id="shippingMethod">
+                                <option value="自動選択">自動選択</option>
+                                <option value="SP">Small Packet</option>
+                                <option value="CF">Cpass-FedEx</option>
+                                <option value="CD">Cpass-DHL</option>
+                                <option value="EL">eLogistics</option>
+                                <option value="CE">Cpass-Economy</option>
+                                <option value="EMS">EMS</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="save-settings-btn" onclick="saveSettings()" style="margin-top: 20px;">設定を保存</button>
         </div>
 
         <div class="main-content">
@@ -583,6 +652,10 @@
                         <div class="result-item highlight">
                             <label>DDP価格（ドル）</label>
                             <div class="value" id="ddpPrice1">-</div>
+                        </div>
+                        <div class="result-item">
+                            <label>参考送料（円）</label>
+                            <div class="value" id="shipping1">-</div>
                         </div>
                         <div class="result-item">
                             <label>参考利益（円）</label>
@@ -626,6 +699,10 @@
                         <div class="result-item highlight">
                             <label>DDP価格（ドル）</label>
                             <div class="value" id="ddpPrice2">-</div>
+                        </div>
+                        <div class="result-item">
+                            <label>参考送料（円）</label>
+                            <div class="value" id="shipping2">-</div>
                         </div>
                         <div class="result-item">
                             <label>参考利益（円）</label>
@@ -676,6 +753,10 @@
                             <div class="value" id="tariffDDU3">-</div>
                         </div>
                         <div class="result-item">
+                            <label>参考送料（円）</label>
+                            <div class="value" id="shippingDDU3">-</div>
+                        </div>
+                        <div class="result-item">
                             <label>参考利益（円）</label>
                             <div class="value" id="refProfitDDU3">-</div>
                         </div>
@@ -700,6 +781,10 @@
                         <div class="result-item highlight">
                             <label>仕入れ価格（円）</label>
                             <div class="value" id="costPriceDDP3">-</div>
+                        </div>
+                        <div class="result-item">
+                            <label>参考送料（円）</label>
+                            <div class="value" id="shippingDDP3">-</div>
                         </div>
                         <div class="result-item">
                             <label>参考利益（円）</label>
@@ -743,6 +828,10 @@
                             <div class="value" id="tariffDDU4">-</div>
                         </div>
                         <div class="result-item">
+                            <label>参考送料（円）</label>
+                            <div class="value" id="shippingDDU4">-</div>
+                        </div>
+                        <div class="result-item">
                             <label>参考利益（円）</label>
                             <div class="value" id="refProfitDDU4">-</div>
                         </div>
@@ -767,6 +856,10 @@
                         <div class="result-item highlight">
                             <label>仕入れ価格（円）</label>
                             <div class="value" id="costPriceDDP4">-</div>
+                        </div>
+                        <div class="result-item">
+                            <label>参考送料（円）</label>
+                            <div class="value" id="shippingDDP4">-</div>
                         </div>
                         <div class="result-item">
                             <label>参考利益（円）</label>
@@ -858,6 +951,164 @@
     </div>
 
     <script>
+        // 送料テーブルデータ
+        const SHIPPING_RATE_TABLE = {
+            smallPacket: [
+                { max: 100, yen: 1290 }, { max: 200, yen: 1500 }, { max: 300, yen: 1710 }, { max: 400, yen: 1920 },
+                { max: 500, yen: 2130 }, { max: 600, yen: 2550 }, { max: 700, yen: 2760 }, { max: 800, yen: 2970 },
+                { max: 900, yen: 3180 }, { max: 1000, yen: 3390 }, { max: 1100, yen: 3600 }, { max: 1200, yen: 3810 },
+                { max: 1300, yen: 4020 }, { max: 1400, yen: 4230 }, { max: 1500, yen: 4440 }, { max: 1600, yen: 4650 },
+                { max: 1700, yen: 4860 }, { max: 1800, yen: 5070 }, { max: 1900, yen: 5280 }, { max: 2000, yen: 5490 }
+            ],
+            cpassFedex: [
+                { max: 500, yen: 2222 }, { max: 1000, yen: 2493 }, { max: 1500, yen: 2683 }, { max: 2000, yen: 2697 },
+                { max: 2500, yen: 3005 }, { max: 3000, yen: 3538 }, { max: 3500, yen: 3541 }, { max: 4000, yen: 4004 },
+                { max: 4500, yen: 4468 }, { max: 5000, yen: 4931 }, { max: 5500, yen: 6033 }, { max: 6000, yen: 6182 },
+                { max: 6500, yen: 6331 }, { max: 7000, yen: 6480 }, { max: 7500, yen: 6629 }, { max: 8000, yen: 6778 },
+                { max: 8500, yen: 6927 }, { max: 9000, yen: 7076 }, { max: 9500, yen: 8992 }, { max: 10000, yen: 9177 },
+                { max: 10500, yen: 9348 }, { max: 11000, yen: 9520 }, { max: 11500, yen: 9691 }, { max: 12000, yen: 9862 },
+                { max: 12500, yen: 11654 }, { max: 13000, yen: 11853 }, { max: 13500, yen: 12052 }, { max: 14000, yen: 12251 },
+                { max: 14500, yen: 12450 }, { max: 15000, yen: 12649 }, { max: 15500, yen: 12848 }, { max: 16000, yen: 14995 },
+                { max: 16500, yen: 15224 }, { max: 17000, yen: 15452 }, { max: 17500, yen: 15681 }, { max: 18000, yen: 15910 },
+                { max: 18500, yen: 16138 }, { max: 19000, yen: 16367 }, { max: 19500, yen: 16596 }, { max: 20000, yen: 16824 }
+            ]
+        };
+
+        const SHIPPING_CONFIG = {
+            fedexFuel: 0.305,
+            dhlFuel: 0.289,
+            cpassDiscount: 0.03,
+            fedexExtraPer500g: 115,
+            dhlExtraPer500g: 96
+        };
+
+        // モード切替
+        function toggleShippingMode() {
+            const mode = document.getElementById('shippingMode').value;
+            const fixedSettings = document.getElementById('fixedShippingSettings');
+            const tableSettings = document.getElementById('tableShippingSettings');
+
+            if (mode === 'fixed') {
+                fixedSettings.classList.remove('hidden');
+                tableSettings.classList.add('hidden');
+            } else {
+                fixedSettings.classList.add('hidden');
+                tableSettings.classList.remove('hidden');
+            }
+        }
+
+        // Small Packet 料金取得
+        function getSmallPacketRate(weight) {
+            for (let i = 0; i < SHIPPING_RATE_TABLE.smallPacket.length; i++) {
+                if (weight <= SHIPPING_RATE_TABLE.smallPacket[i].max) {
+                    return SHIPPING_RATE_TABLE.smallPacket[i].yen;
+                }
+            }
+            return 999999;
+        }
+
+        // Cpass-FedEx 料金計算
+        function getCpassFedexRate(weight) {
+            const rounded = Math.ceil(weight / 500) * 500;
+            let base = null;
+
+            for (let i = 0; i < SHIPPING_RATE_TABLE.cpassFedex.length; i++) {
+                if (SHIPPING_RATE_TABLE.cpassFedex[i].max >= rounded) {
+                    base = SHIPPING_RATE_TABLE.cpassFedex[i].yen;
+                    break;
+                }
+            }
+
+            if (!base) return 999999;
+
+            const overUnits = Math.max(0, (rounded - 500) / 500);
+            const extra = overUnits * SHIPPING_CONFIG.fedexExtraPer500g;
+            const subTotal = base + extra;
+            const fuel = subTotal * SHIPPING_CONFIG.fedexFuel;
+            const discount = -(subTotal + fuel) * SHIPPING_CONFIG.cpassDiscount;
+            return Math.round(subTotal + fuel + discount);
+        }
+
+        // Cpass-DHL 料金計算（簡易版：FedExと同じテーブルを使用）
+        function getCpassDHLRate(weight) {
+            const rounded = Math.ceil(weight / 500) * 500;
+            let base = null;
+
+            for (let i = 0; i < SHIPPING_RATE_TABLE.cpassFedex.length; i++) {
+                if (SHIPPING_RATE_TABLE.cpassFedex[i].max >= rounded) {
+                    base = SHIPPING_RATE_TABLE.cpassFedex[i].yen;
+                    break;
+                }
+            }
+
+            if (!base) return 999999;
+
+            const overUnits = Math.max(0, (rounded - 500) / 500);
+            const extra = overUnits * SHIPPING_CONFIG.dhlExtraPer500g;
+            const subTotal = base + extra;
+            const fuel = subTotal * SHIPPING_CONFIG.dhlFuel;
+            const discount = -(subTotal + fuel) * SHIPPING_CONFIG.cpassDiscount;
+            return Math.round(subTotal + fuel + discount);
+        }
+
+        // eLogistics 料金計算（簡易版：FedExと同じテーブルを使用、追加料金なし）
+        function getElogiRate(weight) {
+            const rounded = Math.ceil(weight / 500) * 500;
+
+            for (let i = 0; i < SHIPPING_RATE_TABLE.cpassFedex.length; i++) {
+                if (SHIPPING_RATE_TABLE.cpassFedex[i].max >= rounded) {
+                    return Math.round(SHIPPING_RATE_TABLE.cpassFedex[i].yen);
+                }
+            }
+
+            return 999999;
+        }
+
+        // 送料計算メイン関数
+        function calculateShippingCost(costYen, actualWeight, volWeight, method, threshold, lowMethod, highMethod) {
+            const chargeableWeight = Math.max(actualWeight || 0, volWeight || 0);
+
+            // 固定モード判定
+            if (!actualWeight && !volWeight) {
+                return parseFloat(document.getElementById('shippingCost').value) || 3000;
+            }
+
+            // テーブルモード
+            if (method && method !== '自動選択') {
+                return calculateSpecificMethodRate(method, actualWeight, chargeableWeight);
+            }
+
+            // 自動選択
+            if (lowMethod === 'NONE' || costYen >= threshold) {
+                return calculateSpecificMethodRate(highMethod, actualWeight, chargeableWeight);
+            } else {
+                if (lowMethod === 'SP' && actualWeight <= 2000) {
+                    return getSmallPacketRate(actualWeight);
+                } else {
+                    return calculateSpecificMethodRate(highMethod, actualWeight, chargeableWeight);
+                }
+            }
+        }
+
+        // 配送方法別の料金計算
+        function calculateSpecificMethodRate(method, actualWeight, chargeableWeight) {
+            switch(method) {
+                case 'SP':
+                    return actualWeight <= 2000 ? getSmallPacketRate(actualWeight) : getCpassDHLRate(chargeableWeight);
+                case 'CF':
+                    return getCpassFedexRate(chargeableWeight);
+                case 'CD':
+                    return getCpassDHLRate(chargeableWeight);
+                case 'EL':
+                    return getElogiRate(chargeableWeight);
+                case 'CE':
+                    return getCpassFedexRate(chargeableWeight); // 簡易版
+                case 'EMS':
+                    return getCpassDHLRate(chargeableWeight); // 簡易版
+                default:
+                    return getCpassDHLRate(chargeableWeight);
+            }
+        }
 
         // 設定を取得
         function getSettings() {
@@ -871,7 +1122,15 @@
                 adRate: parseFloat(document.getElementById('adRate').value) / 100,
                 feeRate: parseFloat(document.getElementById('feeRate').value) / 100,
                 payoneerRate: parseFloat(document.getElementById('payoneerRate').value) / 100,
-                shippingCost: parseFloat(document.getElementById('shippingCost').value)
+                shippingMode: document.getElementById('shippingMode').value,
+                shippingCost: parseFloat(document.getElementById('shippingCost').value),
+                shippingThreshold: parseFloat(document.getElementById('shippingThreshold').value),
+                lowPriceMethod: document.getElementById('lowPriceMethod').value,
+                highPriceMethod: document.getElementById('highPriceMethod').value,
+                actualWeight: parseFloat(document.getElementById('actualWeight').value) || 0,
+                volumetricWeight: parseFloat(document.getElementById('volumetricWeight').value) || 0,
+                packageSize: document.getElementById('packageSize').value,
+                shippingMethod: document.getElementById('shippingMethod').value
             };
         }
 
@@ -905,6 +1164,33 @@
                 document.getElementById('feeRate').value = settings.feeRate * 100;
                 document.getElementById('payoneerRate').value = settings.payoneerRate * 100;
                 document.getElementById('shippingCost').value = settings.shippingCost;
+
+                // 送料関連設定
+                if (settings.shippingMode !== undefined) {
+                    document.getElementById('shippingMode').value = settings.shippingMode;
+                    toggleShippingMode();
+                }
+                if (settings.shippingThreshold !== undefined) {
+                    document.getElementById('shippingThreshold').value = settings.shippingThreshold;
+                }
+                if (settings.lowPriceMethod !== undefined) {
+                    document.getElementById('lowPriceMethod').value = settings.lowPriceMethod;
+                }
+                if (settings.highPriceMethod !== undefined) {
+                    document.getElementById('highPriceMethod').value = settings.highPriceMethod;
+                }
+                if (settings.actualWeight !== undefined) {
+                    document.getElementById('actualWeight').value = settings.actualWeight;
+                }
+                if (settings.volumetricWeight !== undefined) {
+                    document.getElementById('volumetricWeight').value = settings.volumetricWeight;
+                }
+                if (settings.packageSize !== undefined) {
+                    document.getElementById('packageSize').value = settings.packageSize;
+                }
+                if (settings.shippingMethod !== undefined) {
+                    document.getElementById('shippingMethod').value = settings.shippingMethod;
+                }
             }
         }
 
@@ -914,9 +1200,20 @@
             const costJPY = parseFloat(document.getElementById('cost1').value);
             const profitJPY = parseFloat(document.getElementById('profit1').value);
 
+            // 送料計算
+            const shippingCostJPY = calculateShippingCost(
+                costJPY,
+                settings.actualWeight,
+                settings.volumetricWeight,
+                settings.shippingMethod,
+                settings.shippingThreshold,
+                settings.lowPriceMethod,
+                settings.highPriceMethod
+            );
+
             // 計算ロジック
             // 販売価格 = (仕入れ + 送料 + 利益) / 為替 / (1 - 手数料率 - 広告費率 - ペイオニア率)
-            const totalCostJPY = costJPY + settings.shippingCost + profitJPY;
+            const totalCostJPY = costJPY + shippingCostJPY + profitJPY;
             const netRate = 1 - settings.feeRate - settings.adRate - settings.payoneerRate;
             let sellingPriceUSD = totalCostJPY / settings.exchangeRate / netRate;
 
@@ -931,7 +1228,7 @@
             // 参考利益（再計算）
             const revenue = sellingPriceUSD * settings.exchangeRate;
             const fees = revenue * (settings.feeRate + settings.adRate + settings.payoneerRate);
-            const refProfit = revenue - fees - costJPY - settings.shippingCost;
+            const refProfit = revenue - fees - costJPY - shippingCostJPY;
 
             // 結果表示
             document.getElementById('result1').classList.remove('hidden');
@@ -939,6 +1236,7 @@
             document.getElementById('tariff1').textContent = `$${tariffUSD.toFixed(2)}`;
             document.getElementById('ddpPrice1').textContent = `$${ddpPrice.toFixed(2)}`;
             document.getElementById('refProfit1').textContent = `¥${refProfit.toFixed(0)}`;
+            document.getElementById('shipping1').textContent = `¥${shippingCostJPY.toFixed(0)}`;
         }
 
         // 計算2: 利益率で仕入れ→販売価格
@@ -947,8 +1245,19 @@
             const costJPY = parseFloat(document.getElementById('cost2').value);
             const profitRate = parseFloat(document.getElementById('profitRate2').value) / 100;
 
+            // 送料計算
+            const shippingCostJPY = calculateShippingCost(
+                costJPY,
+                settings.actualWeight,
+                settings.volumetricWeight,
+                settings.shippingMethod,
+                settings.shippingThreshold,
+                settings.lowPriceMethod,
+                settings.highPriceMethod
+            );
+
             // スプレッドシートの式: B16 = (仕入れ + 送料) / (1 - (利益率 + 広告費率 + 手数料率 + ペイオニア率)) / 為替
-            const baseCost = costJPY + settings.shippingCost;
+            const baseCost = costJPY + shippingCostJPY;
             const netRate = 1 - profitRate - settings.feeRate - settings.adRate - settings.payoneerRate;
             let sellingPriceUSD = baseCost / settings.exchangeRate / netRate;
 
@@ -962,13 +1271,14 @@
 
             const revenue = sellingPriceUSD * settings.exchangeRate;
             const fees = revenue * (settings.feeRate + settings.adRate + settings.payoneerRate);
-            const refProfit = revenue - fees - costJPY - settings.shippingCost;
+            const refProfit = revenue - fees - costJPY - shippingCostJPY;
 
             document.getElementById('result2').classList.remove('hidden');
             document.getElementById('sellingPrice2').textContent = `$${sellingPriceUSD.toFixed(2)}`;
             document.getElementById('tariff2').textContent = `$${tariffUSD.toFixed(2)}`;
             document.getElementById('ddpPrice2').textContent = `$${ddpPrice.toFixed(2)}`;
             document.getElementById('refProfit2').textContent = `¥${refProfit.toFixed(0)}`;
+            document.getElementById('shipping2').textContent = `¥${shippingCostJPY.toFixed(0)}`;
         }
 
         // 計算3: 利益額で販売価格→仕入れ
@@ -981,7 +1291,20 @@
             const sellingPriceDDU = parseFloat(document.getElementById('sellingPriceDDU3').value);
             const revenueDDU = sellingPriceDDU * settings.exchangeRate;
             const netRevenueDDU = revenueDDU * netRate;
-            const costDDU = netRevenueDDU - settings.shippingCost - profitJPY;
+
+            // 送料計算（仮の仕入れ価格で計算）
+            const tempCostDDU = netRevenueDDU - profitJPY;
+            const shippingCostDDU = calculateShippingCost(
+                tempCostDDU,
+                settings.actualWeight,
+                settings.volumetricWeight,
+                settings.shippingMethod,
+                settings.shippingThreshold,
+                settings.lowPriceMethod,
+                settings.highPriceMethod
+            );
+
+            const costDDU = netRevenueDDU - shippingCostDDU - profitJPY;
 
             // 想定関税
             const tariffDDU = sellingPriceDDU * (settings.tariffRate + settings.vatRate) * (1 + settings.processingFeeRate)
@@ -1012,11 +1335,22 @@
             document.getElementById('costPriceDDU3').textContent = `¥${costDDU.toFixed(0)}`;
             document.getElementById('tariffDDU3').textContent = `$${tariffDDU.toFixed(2)}`;
             document.getElementById('refProfitDDU3').textContent = `¥${refProfitDDU.toFixed(0)}`;
+            document.getElementById('shippingDDU3').textContent = `¥${shippingCostDDU.toFixed(0)}`;
 
             // DDP結果表示
+            const shippingCostDDP = calculateShippingCost(
+                costDDP,
+                settings.actualWeight,
+                settings.volumetricWeight,
+                settings.shippingMethod,
+                settings.shippingThreshold,
+                settings.lowPriceMethod,
+                settings.highPriceMethod
+            );
             document.getElementById('result3-ddp').classList.remove('hidden');
             document.getElementById('costPriceDDP3').textContent = `¥${costDDP.toFixed(0)}`;
             document.getElementById('refProfitDDP3').textContent = `¥${refProfitDDP.toFixed(0)}`;
+            document.getElementById('shippingDDP3').textContent = `¥${shippingCostDDP.toFixed(0)}`;
         }
 
         // 計算4: 利益率で販売価格→仕入れ
@@ -1028,7 +1362,20 @@
             // DDU価格からの計算
             const sellingPriceDDU = parseFloat(document.getElementById('sellingPriceDDU4').value);
             const revenueDDU = sellingPriceDDU * settings.exchangeRate;
-            const costDDU = revenueDDU * netRate - settings.shippingCost;
+
+            // 送料計算（仮の仕入れ価格で計算）
+            const tempCostDDU = revenueDDU * netRate;
+            const shippingCostDDU = calculateShippingCost(
+                tempCostDDU,
+                settings.actualWeight,
+                settings.volumetricWeight,
+                settings.shippingMethod,
+                settings.shippingThreshold,
+                settings.lowPriceMethod,
+                settings.highPriceMethod
+            );
+
+            const costDDU = revenueDDU * netRate - shippingCostDDU;
 
             // 想定関税
             const tariffDDU = sellingPriceDDU * (settings.tariffRate + settings.vatRate) * (1 + settings.processingFeeRate)
@@ -1057,11 +1404,22 @@
             document.getElementById('costPriceDDU4').textContent = `¥${costDDU.toFixed(0)}`;
             document.getElementById('tariffDDU4').textContent = `$${tariffDDU.toFixed(2)}`;
             document.getElementById('refProfitDDU4').textContent = `¥${refProfitDDU.toFixed(0)}`;
+            document.getElementById('shippingDDU4').textContent = `¥${shippingCostDDU.toFixed(0)}`;
 
             // DDP結果表示
+            const shippingCostDDP = calculateShippingCost(
+                costDDP,
+                settings.actualWeight,
+                settings.volumetricWeight,
+                settings.shippingMethod,
+                settings.shippingThreshold,
+                settings.lowPriceMethod,
+                settings.highPriceMethod
+            );
             document.getElementById('result4-ddp').classList.remove('hidden');
             document.getElementById('costPriceDDP4').textContent = `¥${costDDP.toFixed(0)}`;
             document.getElementById('refProfitDDP4').textContent = `¥${refProfitDDP.toFixed(0)}`;
+            document.getElementById('shippingDDP4').textContent = `¥${shippingCostDDP.toFixed(0)}`;
         }
 
         // 為替レートを自動取得
