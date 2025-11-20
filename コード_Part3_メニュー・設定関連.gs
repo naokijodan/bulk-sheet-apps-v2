@@ -3326,7 +3326,9 @@ function applyCalculationFormulas(sheetName, settings) {
     sheet.getRange('AC4').setFormula('=ARRAYFORMULA(IF(ROW(AC4:AC)=4,"容積重量",IF(Z4:Z="","",IF(ROUND((Z4:Z*AA4:AA*AB4:AB)/5)>200,ROUND((Z4:Z*AA4:AA*AB4:AB)/5),200))))');
 
     // AD列: 想定関税（ARRAYFORMULA）
-    sheet.getRange('AD4').setFormula('=ARRAYFORMULA(IF(ROW(AD4:AD)=4,"想定関税",IF(R4:R="","",ROUND(R4:R*$AF$2*$AG$2+$AE$1,2))))');
+    // 計算式: 販売価格 × (関税率 + VAT率) × (1 + 通関処理手数料率) + (MPF円 ÷ 為替) + (EU送料差額円 ÷ 為替)
+    // AF2=関税率, AE2=VAT率, AG2=通関処理手数料率, AE1=MPF(円), AC2=EU送料差額(円), C2=為替レート
+    sheet.getRange('AD4').setFormula('=ARRAYFORMULA(IF(ROW(AD4:AD)=4,"想定関税",IF(R4:R="","",ROUND(R4:R*($AF$2+$AE$2)*(1+$AG$2)+$AE$1/$C$2+$AC$2/$C$2,2))))');
 
     // AG列: DDU調整後価格（AP2:AP3のセル参照を使用）
     // AP3は想定関税の閾値、想定関税がAP3以上の場合にDDP価格から想定関税を引く
