@@ -565,7 +565,7 @@
                     <div class="input-group">
                         <label>低価格商品配送方法</label>
                         <select id="lowPriceMethod">
-                            <option value="EP">eパケット</option>
+                            <option value="EP" selected>eパケット</option>
                             <option value="CE">Cpass-Economy</option>
                             <option value="NONE">なし</option>
                         </select>
