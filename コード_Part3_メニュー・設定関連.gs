@@ -3157,7 +3157,7 @@ function applyCalculationFormulas(sheetName, settings) {
         // 配送タイプ: SP/CE→eco, それ以外→xp
         // 状態: 新品→new, 中古→used
         // INDEX/MATCH: C列で標準名を探して、A列のTemplate IDを返す（範囲を50行に限定して高速化）
-        var formula = '=IF(OR(ISBLANK($O$2),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",IFERROR(INDEX(Import_Templates!$A$2:$A$50,MATCH("Template_"&$O$2&"_"&IF(AE' + row + '="新品","new","used")&"_"&IF(X' + row + '="SP","eco",IF(X' + row + '="CE","eco","xp")),Import_Templates!$C$2:$C$50,0)),"該当なし"))';
+        var formula = '=IF(OR(ISBLANK($O$2),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",IFERROR(INDEX(Import_Templates!$A$2:$A$50,MATCH("Template_"&$O$2&"_"&IF(AE' + row + '="新品","new","used")&"_"&IF(X' + row + '="EP","eco",IF(X' + row + '="CE","eco","xp")),Import_Templates!$C$2:$C$50,0)),"該当なし"))';
         templateFormulas.push([formula]);
       }
       if (templateFormulas.length > 0) {
