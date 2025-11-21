@@ -2977,8 +2977,9 @@ function writeSettingsToSheet(sheetName, settings) {
 
     // 配送方法略称（非表示列、式で参照用）
     // AJ列の表示名から略称コードを自動抽出する数式を設定
+    // 後方互換性: 旧名称「Small Packet」も「EP」に変換
     var lowPriceFormula = [
-      '=IF(AJ2="eパケット（重量・サイズ制限あり）","EP",IF(AJ2="Cpass Economy（重量制限なし）","CE",IF(AJ2="なし（高価格配送のみ使用）","NONE","")))'
+      '=IF(OR(AJ2="eパケット（重量・サイズ制限あり）",AJ2="Small Packet（重量・サイズ制限あり）"),"EP",IF(AJ2="Cpass Economy（重量制限なし）","CE",IF(AJ2="なし（高価格配送のみ使用）","NONE","")))'
     ];
     var highPriceFormula = [
       '=IF(AJ3="Cpass FedEx（燃油・割引・追加料金あり）","CF",IF(AJ3="Cpass DHL（燃油・割引・追加料金あり）","CD",IF(AJ3="eLogistics（追加料金なし）","EL","")))'
