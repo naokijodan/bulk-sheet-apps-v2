@@ -2823,7 +2823,7 @@ function saveIntegratedSettings(formData) {
     setupStopControlCell();
 
     // 設定値を作業シートのAI列以降に書き出し
-    writeSettingsToSheet(sheetName, {
+    var writeResult = writeSettingsToSheet(sheetName, {
       platform: platform,
       model: model,
       promptId: promptId,
@@ -2838,6 +2838,18 @@ function saveIntegratedSettings(formData) {
       duplicateCheckEnabled: duplicateCheckEnabled,
       duplicateSettings: duplicateSettings
     });
+
+    if (!writeResult.success) {
+      throw new Error('設定値のシートへの書き込みに失敗しました: ' + writeResult.error);
+    }
+
+    // 📝 デバッグ: 書き込みが実際に反映されたか確認
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(sheetName);
+    if (sheet) {
+      var actualAJ2 = sheet.getRange('AJ2').getValue();
+      Logger.log('初期設定後のAJ2の実際の値: ' + actualAJ2);
+    }
 
     // 🆕 計算式ARRAYFORMULAを作業シートに適用
     var formulaResult = applyCalculationFormulas(sheetName, {
@@ -2858,6 +2870,19 @@ function saveIntegratedSettings(formData) {
     var priceText = (priceDisplayMode === 'TAX_INCLUDED') ? '関税込み価格（DDP）' : '販売価格（DDU）';
     var duplicateText = duplicateCheckEnabled ? 'ON' : 'OFF';
     
+    // 📝 デバッグ: シートに実際に書き込まれた値を確認
+    var debugInfo = '';
+    try {
+      var debugSheet = sheet;  // 既に取得済みのsheetを使用
+      if (debugSheet) {
+        var debugAJ2 = debugSheet.getRange('AJ2').getValue();
+        var debugAJ3 = debugSheet.getRange('AJ3').getValue();
+        debugInfo = '\n\n[デバッグ情報]\nシートAJ2: ' + debugAJ2 + '\nシートAJ3: ' + debugAJ3;
+      }
+    } catch (e) {
+      debugInfo = '\n\n[デバッグ情報取得エラー: ' + e.message + ']';
+    }
+
     var msg = '設定を保存しました！\n\n' +
       'AIプラットフォーム: ' + platformNames[platform] + '\n' +
       'AIモデル: ' + model + '\n' +
@@ -2870,7 +2895,8 @@ function saveIntegratedSettings(formData) {
       '高価格配送: ' + highPriceName + '\n' +
       'ポップアップ: ' + popupText + '\n' +
       'DDU調整機能: ' + dduText + '\n' +
-      '重複チェック: ' + duplicateText;
+      '重複チェック: ' + duplicateText +
+      debugInfo;
       
     if (showPopups === 'true') {
       ui.alert('設定保存', msg, ui.ButtonSet.OK);
@@ -2878,8 +2904,6 @@ function saveIntegratedSettings(formData) {
 
     // 🆕 為替レートを即座に更新（A2→C2）
     try {
-      var ss = SpreadsheetApp.getActiveSpreadsheet();
-      var sheet = ss.getSheetByName(sheetName);
       if (sheet) {
         updateExchangeRate(sheet);
         Logger.log('為替レートを更新しました');
@@ -2909,18 +2933,37 @@ function saveIntegratedSettings(formData) {
  */
 function writeSettingsToSheet(sheetName, settings) {
   try {
+    console.log('[writeSettingsToSheet] 開始 - シート名:', sheetName);
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName(sheetName);
 
     if (!sheet) {
+      console.error('[writeSettingsToSheet] シートが見つかりません:', sheetName);
       throw new Error('シート「' + sheetName + '」が見つかりません');
     }
 
-    // 配送方法の表示名を取得
+    console.log('[writeSettingsToSheet] シートを取得しました:', sheet.getName());
+
+    // 配送方法の表示名を取得（バリデーション付き）
     console.log('[writeSettingsToSheet] lowPriceMethod受信値:', settings.lowPriceMethod);
+    console.log('[writeSettingsToSheet] highPriceMethod受信値:', settings.highPriceMethod);
+
+    // 低価格配送方法のバリデーション
+    if (!settings.lowPriceMethod || !CONFIG.SHIPPING_METHOD_OPTIONS.lowPrice[settings.lowPriceMethod]) {
+      throw new Error('低価格配送方法が不正です: ' + settings.lowPriceMethod +
+                      '\n有効な値: ' + Object.keys(CONFIG.SHIPPING_METHOD_OPTIONS.lowPrice).join(', '));
+    }
+
+    // 高価格配送方法のバリデーション
+    if (!settings.highPriceMethod || !CONFIG.SHIPPING_METHOD_OPTIONS.highPrice[settings.highPriceMethod]) {
+      throw new Error('高価格配送方法が不正です: ' + settings.highPriceMethod +
+                      '\n有効な値: ' + Object.keys(CONFIG.SHIPPING_METHOD_OPTIONS.highPrice).join(', '));
+    }
+
     var lowPriceName = CONFIG.SHIPPING_METHOD_OPTIONS.lowPrice[settings.lowPriceMethod].displayName;
     var highPriceName = CONFIG.SHIPPING_METHOD_OPTIONS.highPrice[settings.highPriceMethod].displayName;
     console.log('[writeSettingsToSheet] AJ2に書き込む値:', lowPriceName);
+    console.log('[writeSettingsToSheet] AJ3に書き込む値:', highPriceName);
 
     // 梱包情報を取得
     var weight = sheet.getRange('J2').getValue() || '';
@@ -2948,7 +2991,22 @@ function writeSettingsToSheet(sheetName, settings) {
       ['送料計算方法', settings.shippingCalcMethod === 'TABLE' ? 'テーブル計算' : '固定金額']
     ];
     console.log('[writeSettingsToSheet] shippingDataの内容:', JSON.stringify(shippingData));
+
+    // 書き込み前に現在の値を確認
+    var currentAJ2 = sheet.getRange('AJ2').getValue();
+    console.log('[writeSettingsToSheet] 書き込み前のAJ2の値:', currentAJ2);
+
+    // 🔧 既存のデータ検証をクリア（古いルールが残っていると新しい値を拒否されるため）
+    sheet.getRange('AJ2:AJ5').clearDataValidations();
+    sheet.getRange('AL2').clearDataValidations();
+    sheet.getRange('AP2').clearDataValidations();
+    sheet.getRange('AS2').clearDataValidations();
+
     sheet.getRange('AI2:AJ5').setValues(shippingData);
+
+    // 書き込み後に値を確認
+    var newAJ2 = sheet.getRange('AJ2').getValue();
+    console.log('[writeSettingsToSheet] 書き込み後のAJ2の値:', newAJ2);
     console.log('[writeSettingsToSheet] AI2:AJ5への書き込み完了');
     sheet.getRange('AI2:AJ5').setBackground('#E8F0FE');
     sheet.getRange('AI2:AI5').setFontWeight('bold');
@@ -3075,9 +3133,14 @@ function writeSettingsToSheet(sheetName, settings) {
       .setFontColor('#666666')
       .setWrap(true);
 
+    // 全ての書き込みをコミット
+    SpreadsheetApp.flush();
+    console.log('[writeSettingsToSheet] 書き込みをflushしました');
+
     return { success: true };
 
   } catch (e) {
+    console.error('[writeSettingsToSheet] エラー発生:', e.message);
     return { success: false, error: e.message };
   }
 }
