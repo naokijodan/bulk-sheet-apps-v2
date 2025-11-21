@@ -420,7 +420,7 @@ function findMatchingSheets(pattern) {
  * @param {string} categoryDisplay - カテゴリー表示名（O1セル）
  * @param {string} templateName - テンプレート名（O2セル）
  * @param {string} condition - 商品状態（AE列: 新品/中古）
- * @param {string} shippingMethod - 配送方法（X列: CF/CD/EL/SP/CEなど）
+ * @param {string} shippingMethod - 配送方法（X列: CF/CD/EL/EP/CEなど）
  * @return {number|string} テンプレートID、またはエラーメッセージ
  * @customfunction
  */
@@ -503,7 +503,7 @@ function convertShippingMethodToType_(shippingMethod) {
     }
 
     // エコノミー系
-    var economyMethods = ['CE', 'SP', 'Cpass-Economy', 'Small Packet'];
+    var economyMethods = ['CE', 'EP', 'Cpass-Economy', 'ePacket'];
     for (var i = 0; i < economyMethods.length; i++) {
       if (method === economyMethods[i]) {
         return 'エコノミー';
@@ -614,7 +614,7 @@ function clearPolicyMasterCache() {
  * @param {string} categoryDisplay - カテゴリー表示名（O1セル）
  * @param {number} priceUSD - 販売価格（R列）
  * @param {string} condition - 商品状態（AE列: 新品/中古）
- * @param {string} shippingMethod - 配送方法（X列: CF/CD/EL/SP/CEなど）
+ * @param {string} shippingMethod - 配送方法（X列: CF/CD/EL/EP/CEなど）
  * @return {number|string} シッピングポリシーID、またはエラーメッセージ
  * @customfunction
  */
@@ -710,7 +710,7 @@ function GET_SHIPPING_POLICY_ID(categoryDisplay, priceUSD, condition, shippingMe
  * @param {string} categoryDisplay - カテゴリー表示名（O1セル）
  * @param {number} estimatedTax - 想定関税（AD列）
  * @param {string} condition - 商品状態（AE列: 新品/中古）
- * @param {string} shippingMethod - 配送方法（X列: CF/CD/EL/SP/CEなど）
+ * @param {string} shippingMethod - 配送方法（X列: CF/CD/EL/EP/CEなど）
  * @return {number|string} シッピングポリシーID、またはエラーメッセージ
  * @customfunction
  */
@@ -893,51 +893,84 @@ function parsePolicyNameForImport(policyName) {
     // アンダースコアで分割
     var parts = policyName.split('_');
 
-    // 6要素未満は不正な形式
-    if (parts.length < 6) {
-      return null;
+    // 新形式（5要素）: ['Egl', '2511-0000-0007', 'eco', 'new', '0003']
+    if (parts.length === 5) {
+      // 配送タイプ（3番目の要素）
+      var shippingType = parts[2].toLowerCase();
+
+      if (shippingType !== 'eco' && shippingType !== 'xp') {
+        return null;
+      }
+
+      // 状態（4番目の要素）
+      var condition = parts[3].toLowerCase();
+
+      if (condition !== 'new' && condition !== 'used') {
+        return null;
+      }
+
+      // 価格上限（最後の要素）
+      var maxPrice = parseInt(parts[4], 10);
+
+      if (isNaN(maxPrice)) {
+        return null;
+      }
+
+      return {
+        type: shippingType,    // 'eco' or 'xp'
+        condition: condition,  // 'new' or 'used'
+        minPrice: 0,          // 下限は並べ替え後に計算
+        maxPrice: maxPrice
+      };
     }
 
-    // 配送タイプ（3番目の要素）
-    var shippingType = parts[2].toLowerCase();
-    if (shippingType !== 'eco' && shippingType !== 'xp') {
-      return null;
+    // 旧形式（6要素以上）: ['Egl', '202510', 'eco', 'new', '0001', '0050']
+    if (parts.length >= 6) {
+      // 配送タイプ（3番目の要素）
+      var shippingType = parts[2].toLowerCase();
+
+      if (shippingType !== 'eco' && shippingType !== 'xp') {
+        return null;
+      }
+
+      // 状態（4番目の要素）
+      var condition = parts[3].toLowerCase();
+
+      if (condition !== 'new' && condition !== 'used') {
+        return null;
+      }
+
+      // 価格範囲の最小値（最後から2番目の要素）
+      var minPriceStr = parts[parts.length - 2];
+      var minPrice = parseInt(minPriceStr, 10);
+      if (isNaN(minPrice)) {
+        return null;
+      }
+
+      // 価格範囲の最大値（最後の要素）
+      var maxPriceStr = parts[parts.length - 1];
+      var maxPrice = maxPriceStr ? parseInt(maxPriceStr, 10) : 99999;
+      if (isNaN(maxPrice)) {
+        maxPrice = 99999; // 上限なしの場合
+      }
+
+      // 価格範囲の調整: 連続した範囲を実現
+      if (minPrice === 1) {
+        minPrice = 0.01;  // 最初の範囲
+      } else {
+        minPrice = (minPrice - 1) + 0.01;
+      }
+
+      return {
+        type: shippingType,    // 'eco' or 'xp'
+        condition: condition,  // 'new' or 'used'
+        minPrice: minPrice,
+        maxPrice: maxPrice
+      };
     }
 
-    // 状態（4番目の要素）
-    var condition = parts[3].toLowerCase();
-    if (condition !== 'new' && condition !== 'used') {
-      return null;
-    }
-
-    // 価格範囲の最小値（最後から2番目の要素）
-    var minPriceStr = parts[parts.length - 2];
-    var minPrice = parseInt(minPriceStr, 10);
-    if (isNaN(minPrice)) {
-      return null;
-    }
-
-    // 価格範囲の最大値（最後の要素）
-    var maxPriceStr = parts[parts.length - 1];
-    var maxPrice = maxPriceStr ? parseInt(maxPriceStr, 10) : 99999;
-    if (isNaN(maxPrice)) {
-      maxPrice = 99999; // 上限なしの場合
-    }
-
-    // 価格範囲の調整: 連続した範囲を実現
-    // 0001 → 0.01, 0051 → 50.01など、下限を前の範囲の上限+0.01として扱う
-    if (minPrice === 1) {
-      minPrice = 0.01;  // 最初の範囲
-    } else {
-      minPrice = (minPrice - 1) + 0.01;  // 例: 51 → 50.01, 76 → 75.01
-    }
-
-    return {
-      type: shippingType,
-      condition: condition,
-      minPrice: minPrice,
-      maxPrice: maxPrice
-    };
+    // その他の形式は対応しない
+    return null;
 
   } catch (e) {
     return null;
@@ -963,8 +996,8 @@ function GET_PRICE_BRACKET(price, shippingMethod) {
 
     var method = String(shippingMethod).toUpperCase();
 
-    // SP/CE はエコノミー、それ以外はEX
-    var isEco = (method === 'SP' || method === 'CE');
+    // EP/CE はエコノミー、それ以外はEX
+    var isEco = (method === 'EP' || method === 'CE');
 
     if (isEco) {
       // エコノミーの価格帯（0-275）

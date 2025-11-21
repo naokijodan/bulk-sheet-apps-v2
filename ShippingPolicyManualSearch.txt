@@ -190,7 +190,7 @@
     <label for="shippingTypeSelect">配送方法：</label>
     <select id="shippingTypeSelect">
       <option value="">-- 選択してください --</option>
-      <option value="エコノミー">エコノミー（Small Packet / Cpass-Economy）</option>
+      <option value="エコノミー">エコノミー（eパケット / Cpass-Economy）</option>
       <option value="EX">EX（Cpass-FedEx / Cpass-DHL / eLogistics）</option>
     </select>
   </div>

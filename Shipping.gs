@@ -82,7 +82,7 @@ function normalizeMethodName(name) {
   if (s.indexOf('fedex') !== -1 || s.indexOf('fedx') !== -1 || s === 'cf') return 'Cpass-FedEx';
   if (s.indexOf('dhl') !== -1 || s === 'cd') return 'Cpass-DHL';
   if (s.indexOf('economy') !== -1 || s === 'ce') return 'Cpass-Economy';
-  if (s.indexOf('small') !== -1 || s.indexOf('packet') !== -1 || s === 'sp') return 'Small Packet';
+  if (s.indexOf('epacket') !== -1 || s.indexOf('packet') !== -1 || s === 'ep') return 'ePacket';
   if (s.indexOf('ems') !== -1) return 'EMS';
   if (s.indexOf('auto') !== -1 || s === '') return '自動選択';
   return name;
@@ -135,15 +135,15 @@ function getShippingRateFromTable(methodId, chargeableWeight) {
   } catch (e) { return null; }
 }
 
-/** 小型包装物（US宛け用の既存テーブルを維持） */
-function getSmallPacketRate(weight) {
+/** eパケット（US宛て用） */
+function getEpacketRate(weight) {
   try {
     var rates = [
-      { max: 100, yen: 1290 }, { max: 200, yen: 1500 }, { max: 300, yen: 1710 }, { max: 400, yen: 1920 },
-      { max: 500, yen: 2130 }, { max: 600, yen: 2550 }, { max: 700, yen: 2760 }, { max: 800, yen: 2970 },
-      { max: 900, yen: 3180 }, { max: 1000, yen: 3390 }, { max: 1100, yen: 3600 }, { max: 1200, yen: 3810 },
-      { max: 1300, yen: 4020 }, { max: 1400, yen: 4230 }, { max: 1500, yen: 4440 }, { max: 1600, yen: 4650 },
-      { max: 1700, yen: 4860 }, { max: 1800, yen: 5070 }, { max: 1900, yen: 5280 }, { max: 2000, yen: 5490 }
+      { max: 100, yen: 1200 }, { max: 200, yen: 1410 }, { max: 300, yen: 1620 }, { max: 400, yen: 1830 },
+      { max: 500, yen: 2040 }, { max: 600, yen: 2250 }, { max: 700, yen: 2460 }, { max: 800, yen: 2670 },
+      { max: 900, yen: 2880 }, { max: 1000, yen: 3090 }, { max: 1100, yen: 3300 }, { max: 1200, yen: 3510 },
+      { max: 1300, yen: 3720 }, { max: 1400, yen: 3930 }, { max: 1500, yen: 4140 }, { max: 1600, yen: 4350 },
+      { max: 1700, yen: 4560 }, { max: 1800, yen: 4770 }, { max: 1900, yen: 4980 }, { max: 2000, yen: 5190 }
     ];
     for (var i = 0; i < rates.length; i++) if (weight <= rates[i].max) return rates[i].yen;
     return 999999;
@@ -359,8 +359,8 @@ function calculateSpecificMethodRate(shippingMethod, actualWeight, volWeight) {
   var m = normalizeMethodName(shippingMethod);
   var c = Math.max(actualWeight, volWeight);
 
-  // Small Packet が 2000g超なら Cpass-DHL にフォールバック
-  if (m === 'Small Packet') return actualWeight <= 2000 ? getSmallPacketRate(actualWeight) : getCpassDHLFinal(c);
+  // ePacket が 2000g超なら Cpass-FedEx にフォールバック
+  if (m === 'ePacket') return actualWeight <= 2000 ? getEpacketRate(actualWeight) : getCpassFedexRate(c);
 
   if (m === 'Cpass-FedEx')  return getCpassFedexRate(c);
   if (m === 'Cpass-DHL')    return getCpassDHLFinal(c);
@@ -369,16 +369,16 @@ function calculateSpecificMethodRate(shippingMethod, actualWeight, volWeight) {
   // Airmail は将来削除予定だが、ここでは参照されない想定
   if (m === 'Airmail')      return getAirmailRate(actualWeight);
 
-  // Economy のテーブルが無ければ Cpass-DHL にフォールバック（既存のまま）
+  // Economy のテーブルが無ければ Cpass-FedEx にフォールバック
   if (m === 'Cpass-Economy') {
     var ce = getShippingRateFromTable('CE', c);
-    return ce ? applyShippingCalculations('CE', ce, c) : getCpassDHLFinal(c);
+    return ce ? applyShippingCalculations('CE', ce, c) : getCpassFedexRate(c);
   }
 
-  // EMS のテーブルが無ければ Cpass-DHL にフォールバック（既存のまま）
+  // EMS のテーブルが無ければ Cpass-FedEx にフォールバック
   if (m === 'EMS') {
     var ems = getShippingRateFromTable('EMS', actualWeight);
-    return ems ? ems : getCpassDHLFinal(c);
+    return ems ? ems : getCpassFedexRate(c);
   }
 
   // 既定も Cpass-DHL のまま（既存動作を保持）

@@ -104,7 +104,7 @@ var CONFIG = {
   },
 
   SHIPPING_METHODS: {
-    SP:  { name: 'Small Packet',   group: 'Economy', weightLimit: 2000, sizeLimit: 90,   calcType: 'actual'     },
+    EP:  { name: 'ePacket',        group: 'Economy', weightLimit: 2000, sizeLimit: 90,   calcType: 'actual'     },
     CE:  { name: 'Cpass-Economy',  group: 'Economy', weightLimit: 68000, sizeLimit: 0,   calcType: 'volumetric' },
     EMS: { name: 'EMS',            group: 'Express', weightLimit: 30000, sizeLimit: 1500, calcType: 'actual'     },
     CF:  { name: 'Cpass-FedEx',    group: 'Express', weightLimit: 68000, sizeLimit: 0,   calcType: 'volumetric' },
@@ -115,9 +115,9 @@ var CONFIG = {
 
   SHIPPING_METHOD_OPTIONS: {
     lowPrice: {
-      'SP': {
-        name: 'Small Packet',
-        displayName: 'Small Packet（重量・サイズ制限あり）',
+      'EP': {
+        name: 'ePacket',
+        displayName: 'eパケット（重量・サイズ制限あり）',
         weightLimit: 2000,
         sizeLimit: 90
       },
@@ -154,7 +154,7 @@ var CONFIG = {
   },
 
   SHIPPING_RATE_COLUMNS: {
-    SP: 3, CE: 4, EMS: 5, CF: 6, CD: 7, EL: 8
+    EP: 3, CE: 4, EMS: 5, CF: 6, CD: 7, EL: 8
   },
 
   CONDITION_OPTIONS: ["新品", "中古", "エラー"],

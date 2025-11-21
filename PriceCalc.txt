@@ -565,7 +565,7 @@
                     <div class="input-group">
                         <label>低価格商品配送方法</label>
                         <select id="lowPriceMethod">
-                            <option value="SP">Small Packet</option>
+                            <option value="EP">eパケット</option>
                             <option value="CE">Cpass-Economy</option>
                             <option value="NONE">なし</option>
                         </select>
@@ -582,7 +582,7 @@
                 <div style="margin-top: 10px; padding: 10px; background: white; border-radius: 5px; font-size: 0.9em; color: #856404;">
                     <strong>💡 自動選択ロジック:</strong><br>
                     • 仕入れ価格 ≥ 切替基準金額 → 高価格商品配送方法<br>
-                    • 仕入れ価格 &lt; 切替基準金額 → 低価格商品配送方法（Small Packetは2000g以下のみ）<br>
+                    • 仕入れ価格 &lt; 切替基準金額 → 低価格商品配送方法（eパケットは2000g以下のみ）<br>
                     • 低価格商品配送方法が「なし」の場合 → 常に高価格商品配送方法
                 </div>
             </div>
@@ -639,7 +639,7 @@
                                 <label>配送方法</label>
                                 <select id="shippingMethod" onchange="calculateEstimatedShipping()">
                                     <option value="自動選択">自動選択</option>
-                                    <option value="SP">Small Packet</option>
+                                    <option value="EP">eパケット</option>
                                     <option value="CF">Cpass-FedEx</option>
                                     <option value="CD">Cpass-DHL</option>
                                     <option value="EL">eLogistics</option>
@@ -1000,15 +1000,14 @@
     <script>
         // 送料テーブルデータ（実際のShipping_Ratesシートから取得）
         const SHIPPING_RATE_TABLE = {
-            SP: [ // Small Packet
-                { min: 1, max: 100, yen: 1290 }, { min: 101, max: 200, yen: 1500 }, { min: 201, max: 300, yen: 1710 },
-                { min: 301, max: 400, yen: 1920 }, { min: 401, max: 500, yen: 1920 }, { min: 501, max: 600, yen: 2130 },
-                { min: 601, max: 700, yen: 2550 }, { min: 701, max: 800, yen: 2760 }, { min: 801, max: 900, yen: 2970 },
-                { min: 901, max: 1000, yen: 3180 }, { min: 1001, max: 1100, yen: 3390 }, { min: 1101, max: 1200, yen: 3600 },
-                { min: 1201, max: 1250, yen: 3810 }, { min: 1251, max: 1300, yen: 3810 }, { min: 1301, max: 1400, yen: 4020 },
-                { min: 1401, max: 1500, yen: 4230 }, { min: 1501, max: 1600, yen: 4440 }, { min: 1601, max: 1700, yen: 4650 },
-                { min: 1701, max: 1750, yen: 4860 }, { min: 1751, max: 1800, yen: 4860 }, { min: 1801, max: 1900, yen: 5070 },
-                { min: 1901, max: 2000, yen: 5280 }
+            EP: [ // eパケット
+                { min: 1, max: 100, yen: 1200 }, { min: 101, max: 200, yen: 1410 }, { min: 201, max: 300, yen: 1620 },
+                { min: 301, max: 400, yen: 1830 }, { min: 401, max: 500, yen: 2040 }, { min: 501, max: 600, yen: 2250 },
+                { min: 601, max: 700, yen: 2460 }, { min: 701, max: 800, yen: 2670 }, { min: 801, max: 900, yen: 2880 },
+                { min: 901, max: 1000, yen: 3090 }, { min: 1001, max: 1100, yen: 3300 }, { min: 1101, max: 1200, yen: 3510 },
+                { min: 1201, max: 1300, yen: 3720 }, { min: 1301, max: 1400, yen: 3930 }, { min: 1401, max: 1500, yen: 4140 },
+                { min: 1501, max: 1600, yen: 4350 }, { min: 1601, max: 1700, yen: 4560 }, { min: 1701, max: 1800, yen: 4770 },
+                { min: 1801, max: 1900, yen: 4980 }, { min: 1901, max: 2000, yen: 5190 }
             ],
             CE: [ // Cpass-Economy
                 { min: 1, max: 100, yen: 1227 }, { min: 101, max: 200, yen: 1367 }, { min: 201, max: 300, yen: 1581 },
@@ -1163,9 +1162,9 @@
             const volumetricWeight = parseFloat(document.getElementById('volumetricWeight').value) || 0;
             const method = document.getElementById('shippingMethod').value;
 
-            // 課金重量の計算（Small Packetの場合は実重量のみ、それ以外はmax）
+            // 課金重量の計算（eパケットの場合は実重量のみ、それ以外はmax）
             let chargeableWeight;
-            if (method === 'SP') {
+            if (method === 'EP') {
                 chargeableWeight = actualWeight;
             } else {
                 chargeableWeight = Math.max(actualWeight, volumetricWeight);
@@ -1182,14 +1181,14 @@
             // 配送方法が「自動選択」の場合
             if (method === '自動選択') {
                 const settings = getSettings();
-                const lowMethod = settings.lowPriceMethod || 'SP';
+                const lowMethod = settings.lowPriceMethod || 'EP';
                 const highMethod = settings.highPriceMethod || 'CF';
 
                 // 仮の仕入れ価格を0として判定（実際の計算では動的に変わる）
-                if (lowMethod === 'SP' && actualWeight <= 2000) {
-                    shippingCost = getSmallPacketRate(actualWeight);
-                    actualMethod = 'Small Packet';
-                    chargeableWeight = actualWeight; // Small Packetは実重量のみ
+                if (lowMethod === 'EP' && actualWeight <= 2000) {
+                    shippingCost = getEpacketRate(actualWeight);
+                    actualMethod = 'eパケット';
+                    chargeableWeight = actualWeight; // eパケットは実重量のみ
                 } else {
                     chargeableWeight = Math.max(actualWeight, volumetricWeight);
                     shippingCost = calculateSpecificMethodRate(highMethod, actualWeight, chargeableWeight);
@@ -1200,7 +1199,7 @@
                 actualMethod = getMethodName(method);
             }
 
-            // nullチェック（Small Packetで2000g超過の場合）
+            // nullチェック（eパケットで2000g超過の場合）
             if (shippingCost === null || shippingCost === undefined) {
                 document.getElementById('estimatedMethod').textContent = actualMethod;
                 document.getElementById('estimatedWeight').textContent = chargeableWeight.toFixed(0);
@@ -1221,7 +1220,7 @@
         // 配送方法コードを日本語名に変換
         function getMethodName(code) {
             const methodNames = {
-                'SP': 'Small Packet',
+                'EP': 'eパケット',
                 'CF': 'Cpass-FedEx',
                 'CD': 'Cpass-DHL',
                 'EL': 'eLogistics',
@@ -1231,15 +1230,15 @@
             return methodNames[code] || code;
         }
 
-        // Small Packet 料金取得
-        function getSmallPacketRate(weight) {
+        // eパケット 料金取得
+        function getEpacketRate(weight) {
             // 2000gを超える場合はnullを返す
             if (weight > 2000) {
                 return null;
             }
-            for (let i = 0; i < SHIPPING_RATE_TABLE.SP.length; i++) {
-                if (weight >= SHIPPING_RATE_TABLE.SP[i].min && weight <= SHIPPING_RATE_TABLE.SP[i].max) {
-                    return SHIPPING_RATE_TABLE.SP[i].yen;
+            for (let i = 0; i < SHIPPING_RATE_TABLE.EP.length; i++) {
+                if (weight >= SHIPPING_RATE_TABLE.EP[i].min && weight <= SHIPPING_RATE_TABLE.EP[i].max) {
+                    return SHIPPING_RATE_TABLE.EP[i].yen;
                 }
             }
             return null;
@@ -1338,8 +1337,8 @@
             if (lowMethod === 'NONE' || costYen >= threshold) {
                 return calculateSpecificMethodRate(highMethod, actualWeight, chargeableWeight);
             } else {
-                if (lowMethod === 'SP' && actualWeight <= 2000) {
-                    return getSmallPacketRate(actualWeight);
+                if (lowMethod === 'EP' && actualWeight <= 2000) {
+                    return getEpacketRate(actualWeight);
                 } else {
                     return calculateSpecificMethodRate(highMethod, actualWeight, chargeableWeight);
                 }
@@ -1349,9 +1348,9 @@
         // 配送方法別の料金計算
         function calculateSpecificMethodRate(method, actualWeight, chargeableWeight) {
             switch(method) {
-                case 'SP':
-                    // Small Packetは実重量のみ使用、2000g超過時はnullを返す
-                    return getSmallPacketRate(actualWeight);
+                case 'EP':
+                    // eパケットは実重量のみ使用、2000g超過時はnullを返す
+                    return getEpacketRate(actualWeight);
                 case 'CF':
                     return getCpassFedexRate(chargeableWeight);
                 case 'CD':

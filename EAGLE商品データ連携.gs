@@ -1514,20 +1514,83 @@ function writeTemplatesAndPoliciesToImportSheets(templates, policies) {
     policySheet.setColumnWidth(6, 80);
     policySheet.setColumnWidth(7, 80);
 
-    // データ書き込み + ポリシー名を分解
+    // データ書き込み + ポリシー名を分解 + 並べ替え
     if (policies && policies.length > 0) {
-      const policyData = policies.map(p => {
-        // ポリシー名をパース（手動判定用はnullが返る）
+      // まずパースしてデータを作成
+      const parsedPolicies = policies.map(p => {
         const parsed = parsePolicyNameForImport(p.name);
-
-        if (parsed) {
-          // 自動判定用: 分解データを入れる
-          return [p.id, p.name, '', parsed.type, parsed.condition, parsed.minPrice, parsed.maxPrice];
-        } else {
-          // 手動判定用: D-G列を空白
-          return [p.id, p.name, '手動用', '', '', '', ''];
-        }
+        return {
+          id: p.id,
+          name: p.name,
+          parsed: parsed
+        };
       });
+
+      // 自動判定用と手動判定用に分離
+      const autoPolicies = parsedPolicies.filter(p => p.parsed !== null);
+      const manualPolicies = parsedPolicies.filter(p => p.parsed === null);
+
+      // 自動判定用をソート: 配送タイプ → 状態 → 価格上限
+      autoPolicies.sort((a, b) => {
+        // 配送タイプでソート（eco < xp）
+        if (a.parsed.type !== b.parsed.type) {
+          return a.parsed.type === 'eco' ? -1 : 1;
+        }
+        // 状態でソート（new < used）
+        if (a.parsed.condition !== b.parsed.condition) {
+          return a.parsed.condition === 'new' ? -1 : 1;
+        }
+        // 価格上限でソート（昇順）
+        return a.parsed.maxPrice - b.parsed.maxPrice;
+      });
+
+      // 下限を計算（同じ配送タイプ・状態内で前のポリシーの上限+0.01）
+      for (let i = 0; i < autoPolicies.length; i++) {
+        if (i === 0) {
+          autoPolicies[i].parsed.minPrice = 0.01;
+        } else {
+          const prev = autoPolicies[i - 1];
+          const curr = autoPolicies[i];
+
+          // 配送タイプと状態が同じなら、前の上限+0.01を下限にする
+          if (prev.parsed.type === curr.parsed.type &&
+              prev.parsed.condition === curr.parsed.condition) {
+            curr.parsed.minPrice = prev.parsed.maxPrice + 0.01;
+          } else {
+            curr.parsed.minPrice = 0.01;
+          }
+        }
+      }
+
+      // データ配列を作成（自動判定用 + 手動判定用）
+      const policyData = [];
+
+      // 自動判定用
+      autoPolicies.forEach(p => {
+        policyData.push([
+          p.id,
+          p.name,
+          p.parsed.maxPrice,  // C列: 送料（USD）= 価格上限
+          p.parsed.type,
+          p.parsed.condition,
+          p.parsed.minPrice,
+          p.parsed.maxPrice
+        ]);
+      });
+
+      // 手動判定用
+      manualPolicies.forEach(p => {
+        policyData.push([
+          p.id,
+          p.name,
+          '手動用',
+          '',
+          '',
+          '',
+          ''
+        ]);
+      });
+
       policySheet.getRange(2, 1, policyData.length, 7).setValues(policyData);
     }
     

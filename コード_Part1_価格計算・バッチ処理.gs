@@ -794,7 +794,7 @@ function formatShippingCellIfError(sheet, row) {
   }
 }
 
-/** フォールバック（サイズ/重量制限でSmall Packet不可 → FedExへ）を赤背景で表示 */
+/** フォールバック（サイズ/重量制限でePacket不可 → FedExへ）を赤背景で表示 */
 function markMethodFallbackIfNeeded(sheet, row, originalMethod, reason) {
   var cell = sheet.getRange(row, CONFIG.COLUMNS.METHOD);  // 23→24
   var note = 'フォールバック理由: ' + reason;
@@ -3850,7 +3850,7 @@ function createOrUpdateShippingRatesSheet_(ss) {
   
   setIfBlank_("A1","Weight_From");
   setIfBlank_("B1","Weight_To");
-  setIfBlank_("C1","SP");
+  setIfBlank_("C1","EP");
   setIfBlank_("D1","CE");
   setIfBlank_("E1","EMS");
   setIfBlank_("F1","CF");
@@ -3858,7 +3858,7 @@ function createOrUpdateShippingRatesSheet_(ss) {
   setIfBlank_("H1","EL"); // ← eLogistics追加
   setIfBlank_("A2","(g)");
   setIfBlank_("B2","(g)");
-  setIfBlank_("C2","小型包装物");
+  setIfBlank_("C2","eパケット");
   setIfBlank_("D2","Cpass-Economy");
   setIfBlank_("E2","EMS");
   setIfBlank_("F2","Cpass-FedEx");
@@ -3954,7 +3954,7 @@ function setupDropdownValidation() {
 
     var weight = generateWeightOptions();
     var size   = generateSizeOptions();
-    var shippingOptions = ["自動選択","Small Packet","Cpass-FedEx","Cpass-Economy","Cpass-DHL","EMS"];
+    var shippingOptions = ["自動選択","eパケット","Cpass-FedEx","Cpass-Economy","Cpass-DHL","EMS"];
 
     var conditionOptions = CONFIG.CONDITION_OPTIONS;
     var categoryOptions = CONFIG.EBAY_CATEGORIES;
@@ -3968,7 +3968,7 @@ function setupDropdownValidation() {
       {
         range: sheet.getRange(5, CONFIG.COLUMNS.METHOD, last-4, 1),  // 24（X列）
         options: shippingOptions,
-        helpText: "配送方法。「自動選択」= Small Packet or Cpass-DHL を自動判定"
+        helpText: "配送方法。「自動選択」= eパケット or Cpass-FedEx を自動判定"
       },
       {
         range: sheet.getRange(5, CONFIG.COLUMNS.CONDITION, last-4, 1),  // 31（AE列）
