@@ -1324,7 +1324,7 @@ function testElogisticsSaveSettings() {
       promptId: 'EBAY_FULL_LISTING_PROMPT',
       shippingThreshold: '20000',
       shippingCalcMethod: 'TABLE',
-      lowPriceMethod: 'SP',
+      lowPriceMethod: 'EP',
       highPriceMethod: 'EL' // ← eLogisticsをテスト
     };
 

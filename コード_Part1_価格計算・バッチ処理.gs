@@ -4017,8 +4017,8 @@ function checkCurrentValidation() {
     var promptId = props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT';
     var shippingThreshold = props.getProperty('SHIPPING_THRESHOLD') || '20000';
     var shippingCalc = props.getProperty('SHIPPING_CALC_METHOD') || 'TABLE';
-    
-    var lowPriceMethod = props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'SP';
+
+    var lowPriceMethod = props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'EP';
     var highPriceMethod = props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CD';
     
     // eLogistics対応の表示名取得
@@ -4071,7 +4071,7 @@ function checkCurrentValidation() {
       } else {
         report += '• ' + shippingThreshold + '円以上: ' + highPriceName + '\n';
         report += '• ' + shippingThreshold + '円未満: ' + lowPriceName;
-        if (lowPriceMethod === 'SP') {
+        if (lowPriceMethod === 'EP') {
           report += ' (制限超過時は' + highPriceName + 'にフォールバック)';
         }
         report += '\n';
