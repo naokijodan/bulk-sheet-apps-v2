@@ -2917,8 +2917,10 @@ function writeSettingsToSheet(sheetName, settings) {
     }
 
     // 配送方法の表示名を取得
+    console.log('[writeSettingsToSheet] lowPriceMethod受信値:', settings.lowPriceMethod);
     var lowPriceName = CONFIG.SHIPPING_METHOD_OPTIONS.lowPrice[settings.lowPriceMethod].displayName;
     var highPriceName = CONFIG.SHIPPING_METHOD_OPTIONS.highPrice[settings.highPriceMethod].displayName;
+    console.log('[writeSettingsToSheet] AJ2に書き込む値:', lowPriceName);
 
     // 梱包情報を取得
     var weight = sheet.getRange('J2').getValue() || '';
@@ -2945,7 +2947,9 @@ function writeSettingsToSheet(sheetName, settings) {
       ['送料切替基準(円)', settings.shippingThreshold],
       ['送料計算方法', settings.shippingCalcMethod === 'TABLE' ? 'テーブル計算' : '固定金額']
     ];
+    console.log('[writeSettingsToSheet] shippingDataの内容:', JSON.stringify(shippingData));
     sheet.getRange('AI2:AJ5').setValues(shippingData);
+    console.log('[writeSettingsToSheet] AI2:AJ5への書き込み完了');
     sheet.getRange('AI2:AJ5').setBackground('#E8F0FE');
     sheet.getRange('AI2:AI5').setFontWeight('bold');
 
