@@ -293,7 +293,7 @@ function getSelectedShippingMethod(costYen, actualWeight, volWeight, sizeString)
 
     // 基準金額未満 → 低価格配送方法を試行（制限チェックあり）
     if (lowPriceMethod === 'EP') {
-      if (isMethodAvailable('EP', chargeable, sizeString)) {
+      if (isMethodAvailable('EP', actualWeight, sizeString)) {
         return 'EP';
       } else {
         return highPriceMethodName; // 制限超過時はフォールバック
@@ -335,7 +335,7 @@ function selectCheapestShippingRateWithConstraints(costYen, actualWeight, volWei
     return getCpassDHLFinal(chargeable); // CD
   } else {
     // 基準金額未満 → 低価格配送方法を試行
-    if (lowPriceMethod === 'EP' && isMethodAvailable('EP', chargeable, sizeString)) {
+    if (lowPriceMethod === 'EP' && isMethodAvailable('EP', actualWeight, sizeString)) {
       return getEpacketRate(actualWeight);
     } else if (lowPriceMethod === 'CE') {
       var ce = getShippingRateFromTable('CE', chargeable);
