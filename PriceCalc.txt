@@ -1436,10 +1436,20 @@
                     document.getElementById('shippingThreshold').value = settings.shippingThreshold;
                 }
                 if (settings.lowPriceMethod !== undefined) {
-                    document.getElementById('lowPriceMethod').value = settings.lowPriceMethod;
+                    const lowPriceSelect = document.getElementById('lowPriceMethod');
+                    lowPriceSelect.value = settings.lowPriceMethod;
+                    // 無効な値の場合はデフォルト値に戻す
+                    if (!lowPriceSelect.value) {
+                        lowPriceSelect.value = 'EP';
+                    }
                 }
                 if (settings.highPriceMethod !== undefined) {
-                    document.getElementById('highPriceMethod').value = settings.highPriceMethod;
+                    const highPriceSelect = document.getElementById('highPriceMethod');
+                    highPriceSelect.value = settings.highPriceMethod;
+                    // 無効な値の場合はデフォルト値に戻す
+                    if (!highPriceSelect.value) {
+                        highPriceSelect.value = 'CF';
+                    }
                 }
                 if (settings.actualWeight !== undefined) {
                     document.getElementById('actualWeight').value = settings.actualWeight;
