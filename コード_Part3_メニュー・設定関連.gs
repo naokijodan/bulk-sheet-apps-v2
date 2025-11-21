@@ -3192,8 +3192,8 @@ function applyCalculationFormulas(sheetName, settings) {
 
     // AF列: 基本送料（VLOOKUPでShipping_Ratesから取得、テーブル計算モードのみ）
     if (shippingCalc === 'TABLE') {
-      // SPは実重量(Y列)、他は容積重量(AC列)で検索
-      var baseCostFormula = '=ARRAYFORMULA(IF(ROW(AF4:AF)=4,"基本送料",IF(AC4:AC="","",IF(ISNUMBER(AC4:AC),IF(X4:X="SP",VLOOKUP(CEILING(Y4:Y/500)*500,Shipping_Rates!$A$3:$H,3,TRUE),IF(X4:X="CE",VLOOKUP(CEILING(AC4:AC/500)*500,Shipping_Rates!$A$3:$H,4,TRUE),IF(X4:X="EMS",VLOOKUP(CEILING(AC4:AC/500)*500,Shipping_Rates!$A$3:$H,5,TRUE),IF(X4:X="CF",VLOOKUP(CEILING(AC4:AC/500)*500,Shipping_Rates!$A$3:$H,6,TRUE),IF(X4:X="CD",VLOOKUP(CEILING(AC4:AC/500)*500,Shipping_Rates!$A$3:$H,7,TRUE),IF(X4:X="EL",VLOOKUP(CEILING(AC4:AC/500)*500,Shipping_Rates!$A$3:$H,8,TRUE),"")))))),""))))';
+      // EPは実重量(Y列)、他は容積重量(AC列)で検索
+      var baseCostFormula = '=ARRAYFORMULA(IF(ROW(AF4:AF)=4,"基本送料",IF(AC4:AC="","",IF(ISNUMBER(AC4:AC),IF(X4:X="EP",VLOOKUP(CEILING(Y4:Y/500)*500,Shipping_Rates!$A$3:$H,3,TRUE),IF(X4:X="CE",VLOOKUP(CEILING(AC4:AC/500)*500,Shipping_Rates!$A$3:$H,4,TRUE),IF(X4:X="EMS",VLOOKUP(CEILING(AC4:AC/500)*500,Shipping_Rates!$A$3:$H,5,TRUE),IF(X4:X="CF",VLOOKUP(CEILING(AC4:AC/500)*500,Shipping_Rates!$A$3:$H,6,TRUE),IF(X4:X="CD",VLOOKUP(CEILING(AC4:AC/500)*500,Shipping_Rates!$A$3:$H,7,TRUE),IF(X4:X="EL",VLOOKUP(CEILING(AC4:AC/500)*500,Shipping_Rates!$A$3:$H,8,TRUE),"")))))),""))))';
       sheet.getRange('AF4').setFormula(baseCostFormula);
     } else {
       sheet.getRange('AF4').clearContent();
