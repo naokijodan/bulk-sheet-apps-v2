@@ -213,7 +213,7 @@ function createOrUpdateReadme_() {
     '1) 作業シートの J列（日本語タイトル）/K列（日本語説明）/I列（仕入れ値）を入力。',
     '2) J2: 梱包重量、L2/M2/N2: 梱包サイズを入力。',
     '3) 「一括実行」または「選択行を実行」を押すと、英語タイトル/説明（M/N列）、配送方法（V列）、送料（R列）、販売価格（Q列）などが埋まります。',
-    '4) Small Packet 不可や料金表未整備の場合は FedEx へフォールバックし、セルに注記や色で警告します。',
+    '4) eパケット不可や料金表未整備の場合は FedEx へフォールバックし、セルに注記や色で警告します。',
     '5) O2=1 の場合は Airmail を強制選択します（US宛のみ運用想定）。'
   ].join('\n'));
   row += 2;
@@ -243,7 +243,7 @@ function createOrUpdateReadme_() {
   var tips = [
     ['API_TIMEOUT 超過','APIの待ち時間が合計で制限を超過。BATCH_SIZEを下げる/説明文を短くする/再実行してください。'],
     ['送料セルが赤文字（999999）','Shipping_Rates 未入力 or 範囲外。テーブル入力や Q1/Q2/R2/T1/T2 を見直し。'],
-    ['Small Packet 不可','サイズ三辺合計 or 重量が制限超過。FedExへ自動フォールバック（V列が薄赤&注記）。'],
+    ['eパケット不可','サイズ三辺合計 or 重量が制限超過。FedExへ自動フォールバック（V列が薄赤&注記）。'],
     ['為替が異常値','GOOGLEFINANCE 失敗時は既定145円を自動セット。C2を手入力でもOK。'],
     ['Airmail 帯が効かない','Shipping_Rates の I/J 列に (Max, 料金) の行を設定しているか確認。上から小さい順に。']
   ];
@@ -491,7 +491,7 @@ function calcBreakEvenFromSelling(payload) {
     length: payload.length,
     width:  payload.width,
     height: payload.height,
-    method: payload.method || 'Small Packet'
+    method: payload.method || 'ePacket'
   });
 
   // 目標販売価格から商品本体価格を逆算
@@ -1446,8 +1446,8 @@ function setupShippingCalculatorCells() {
 function setupShippingMethodDropdown(sheet) {
   var shippingOptions = [
     '自動選択',
-    'Small Packet',
-    'Cpass-Economy', 
+    'ePacket',
+    'Cpass-Economy',
     'Cpass-FedEx',
     'Cpass-DHL',
     'eLogistics',
@@ -1548,8 +1548,8 @@ function testShippingCalculator() {
     sheet.getRange('L2').setValue(30);
     sheet.getRange('M2').setValue(25);
     sheet.getRange('N2').setValue(20);
-    
-    var methods = ['自動選択', 'Small Packet', 'Cpass-FedEx', 'Cpass-DHL', 'eLogistics'];
+
+    var methods = ['自動選択', 'ePacket', 'Cpass-FedEx', 'Cpass-DHL', 'eLogistics'];
     var results = [];
     
     for (var i = 0; i < methods.length; i++) {
@@ -2096,9 +2096,9 @@ function convertShippingMethodToType(shippingMethod) {
     // エコノミー系の判定（新形式の略称と旧形式の両方に対応）
     var economyMethods = [
       'CE',              // Cpass-Economy (新形式)
-      'SP',              // Small Packet (新形式)
+      'EP',              // ePacket (新形式)
       'Cpass-Economy',   // 旧形式（互換性のため）
-      'Small Packet'     // 旧形式（互換性のため）
+      'ePacket'          // 旧形式（互換性のため）
     ];
     for (var i = 0; i < economyMethods.length; i++) {
       if (method === economyMethods[i]) {
@@ -2138,7 +2138,7 @@ function testConvertShippingMethod() {
   try {
     var testMethods = [
       'Cpass-Economy',
-      'Small Packet', 
+      'ePacket',
       'Cpass-FedEx',
       'Cpass-DHL',
       'eLogistics',
@@ -2978,7 +2978,7 @@ function writeSettingsToSheet(sheetName, settings) {
     // 配送方法略称（非表示列、式で参照用）
     // AJ列の表示名から略称コードを自動抽出する数式を設定
     var lowPriceFormula = [
-      '=IF(AJ2="Small Packet（重量・サイズ制限あり）","SP",IF(AJ2="Cpass Economy（重量制限なし）","CE",IF(AJ2="なし（高価格配送のみ使用）","NONE","")))'
+      '=IF(AJ2="eパケット（重量・サイズ制限あり）","EP",IF(AJ2="Cpass Economy（重量制限なし）","CE",IF(AJ2="なし（高価格配送のみ使用）","NONE","")))'
     ];
     var highPriceFormula = [
       '=IF(AJ3="Cpass FedEx（燃油・割引・追加料金あり）","CF",IF(AJ3="Cpass DHL（燃油・割引・追加料金あり）","CD",IF(AJ3="eLogistics（追加料金なし）","EL","")))'
@@ -3370,9 +3370,9 @@ function applyCalculationFormulas(sheetName, settings) {
         .build();
       sheet.getRange(5, 7, dataLastRow - 4, 1).setDataValidation(supplierValidation);
 
-      // X列: 配送方法（SP, CE, CF, CD, EL, AM）
+      // X列: 配送方法（EP, CE, CF, CD, EL, AM）
       var shippingMethodValidation = SpreadsheetApp.newDataValidation()
-        .requireValueInList(['SP', 'CE', 'CF', 'CD', 'EL', 'AM'], true)
+        .requireValueInList(['EP', 'CE', 'CF', 'CD', 'EL', 'AM'], true)
         .setAllowInvalid(true)
         .setHelpText('配送方法を選択してください（式による自動設定も可）')
         .build();
@@ -3520,7 +3520,7 @@ function applyCalculationFormulas(sheetName, settings) {
     // R1: 送料計算用配送方法
     var shippingOptions = [
       '自動選択',
-      'Small Packet',
+      'ePacket',
       'Cpass-Economy',
       'Cpass-FedEx',
       'Cpass-DHL',

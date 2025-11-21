@@ -3988,7 +3988,7 @@ function setupDropdownValidation() {
     showAlert("✅ ドロップダウン設定が完了しました。\n\n" +
   "💡 自動選択ロジック：\n" +
   "・設定金額以上 → Cpass-DHL\n" +
-  "・設定金額未満 & Small Packet可 → Small Packet\n" +
+  "・設定金額未満 & eパケット可 → eパケット\n" +
   "・上記以外 → Cpass-DHL\n" +
   "・O2=1 →（Airmail 機能は無効化済み）\n\n" +
   "💡 新機能追加:\n" +
