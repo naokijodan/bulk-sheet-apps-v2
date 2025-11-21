@@ -103,7 +103,7 @@ function initialSetup() {
     tmpl.currentPromptId = props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT';
     tmpl.currentShippingThreshold = props.getProperty('SHIPPING_THRESHOLD') || '5500';
     tmpl.currentShippingCalculationMethod = props.getProperty('SHIPPING_CALC_METHOD') || 'TABLE';
-    tmpl.currentLowPriceMethod = props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'SMP';
+    tmpl.currentLowPriceMethod = props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'EP';
     tmpl.currentHighPriceMethod = props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF';
     tmpl.currentShowPopups = props.getProperty('SHOW_POPUPS') || 'false';
 
