@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プロンプト編集機能 - 超初心者向けガイド</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.2em;
+            margin-bottom: 0;
+            font-weight: 700;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section h2 {
+            color: #1a73e8;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #e8f0fe;
+        }
+
+        .section h3 {
+            color: #333;
+            font-size: 1.4em;
+            margin: 30px 0 15px 0;
+            padding-left: 15px;
+            border-left: 4px solid #1a73e8;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+
+        .highlight-box {
+            background: #e8f0fe;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .highlight-box strong {
+            color: #1a73e8;
+            font-size: 1.15em;
+        }
+
+        .example-box {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .example-box .label {
+            background: #6c757d;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table th {
+            background: #1a73e8;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .comparison-table tr:hover {
+            background: #e8f0fe;
+        }
+
+        .icon-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .icon-list li {
+            padding: 12px 0;
+            padding-left: 35px;
+            position: relative;
+            font-size: 1.05em;
+        }
+
+        .icon-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .warning-box h4 {
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 5px solid #17a2b8;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .info-box h4 {
+            color: #0c5460;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        footer {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            color: #6c757d;
+            border-top: 1px solid #dee2e6;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            header h1 {
+                font-size: 1.6em;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .section h2 {
+                font-size: 1.4em;
+            }
+
+            .comparison-table {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 プロンプト編集機能ガイド</h1>
+        </header>
+
+        <div class="content">
+            <!-- セクション1: プロンプトとは？ -->
+            <section class="section">
+                <h2>📖 そもそも「プロンプト」って何？</h2>
+
+                <div class="highlight-box">
+                    <strong>プロンプトとは...</strong>
+                    <p>AIに対して「こういうことをしてほしい」とお願いする<strong>指示文</strong>のことです。</p>
+                </div>
+
+                <h3>🔍 具体例で理解しよう</h3>
+
+                <p>たとえば、あなたがAIに「商品のタイトルを英語で作って」とお願いするとします。</p>
+
+                <div class="example-box">
+                    <div class="label">シンプルなプロンプト</div>
+                    <p>この商品のタイトルを英語にしてください。</p>
+                </div>
+
+                <p>でも、これだとAIは「どんな風に」作ればいいか分かりません。そこで...</p>
+
+                <div class="example-box">
+                    <div class="label">詳しいプロンプト</div>
+                    <p>
+                        あなたはeBayの出品専門家です。<br>
+                        以下の商品情報から、魅力的な英語タイトルを作成してください。<br>
+                        - 80文字以内<br>
+                        - 検索されやすいキーワードを含める<br>
+                        - ブランド名を最初に入れる<br><br>
+                        商品情報：ソニー ワイヤレスヘッドホン WH-1000XM5 新品未開封
+                    </p>
+                </div>
+
+                <div class="info-box">
+                    <h4>💡 プロンプトを詳しくすると...</h4>
+                    <ul class="icon-list">
+                        <li>AIの回答が具体的になる</li>
+                        <li>毎回同じ品質の回答がもらえる</li>
+                        <li>余計な情報が含まれなくなる</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- セクション2: ChatGPTとAPIの違い -->
+            <section class="section">
+                <h2>🤔 ChatGPTのGPTsとAPI接続って何が違うの？</h2>
+
+                <h3>1️⃣ ChatGPTのGPTs（ジーピーティーズ）</h3>
+
+                <div class="highlight-box">
+                    <strong>GPTsとは...</strong>
+                    <p>ChatGPTのウェブサイト上で、<strong>あらかじめプロンプトを設定しておける機能</strong>です。</p>
+                </div>
+
+                <p><strong>イメージ：</strong> レストランで「いつものやつください」と言えば、毎回同じメニューが出てくる感じ。</p>
+
+                <ul class="icon-list">
+                    <li><strong>使い方：</strong> ChatGPTのサイトで会話する</li>
+                    <li><strong>メリット：</strong> 簡単で初心者向け</li>
+                    <li><strong>記憶機能：</strong> 会話を重ねると、あなたの好みや特徴を学習してくれる</li>
+                    <li><strong>デメリット：</strong> 手作業で一つずつ処理する必要がある</li>
+                </ul>
+
+                <div class="info-box">
+                    <h4>💡 GPTsの記憶機能って？</h4>
+                    <p>
+                        GPTsは会話の履歴を覚えているので、使えば使うほど<strong>あなた専用にカスタマイズ</strong>されます。
+                    </p>
+                    <p><strong>例えば：</strong></p>
+                    <ul class="icon-list">
+                        <li>「いつも丁寧な言葉遣いで」→ 次回から自動で丁寧語に</li>
+                        <li>「ブランド名は必ず最初に」→ それが標準スタイルになる</li>
+                        <li>過去のやり取りから、あなたの好みを学んでいく</li>
+                    </ul>
+                </div>
+
+                <h3>2️⃣ API接続（エーピーアイせつぞく）</h3>
+
+                <div class="highlight-box">
+                    <strong>APIとは...</strong>
+                    <p>プログラムが<strong>自動的にAIを呼び出して、大量の処理をまとめて実行できる仕組み</strong>です。</p>
+                </div>
+
+                <p><strong>イメージ：</strong> 工場の機械が自動でお弁当を100個作ってくれる感じ。</p>
+
+                <ul class="icon-list">
+                    <li><strong>使い方：</strong> Googleスプレッドシートなどのプログラムから自動実行</li>
+                    <li><strong>メリット：</strong> 大量の商品データを一気に処理できる</li>
+                    <li><strong>記憶機能：</strong> なし（毎回独立して処理される）</li>
+                    <li><strong>デメリット：</strong> 最初の設定がちょっと難しい</li>
+                </ul>
+
+                <div class="warning-box">
+                    <h4>⚠️ でも大丈夫！プロンプト編集で同じ効果が得られます</h4>
+                    <p>
+                        APIには記憶機能がありませんが、<strong>プロンプトをしっかり調整する</strong>ことで、GPTsの記憶機能と同じような効果を実現できます！
+                    </p>
+                    <p><strong>具体的には：</strong></p>
+                    <ul class="icon-list">
+                        <li><strong>プロンプトに好みを書き込む</strong><br>「必ず丁寧語で」「ブランド名は最初に」などをプロンプトに明記</li>
+                        <li><strong>カテゴリーごとにプロンプトを使い分ける</strong><br>ファッション用、電化製品用など、商品に合わせた専用プロンプトを作成</li>
+                        <li><strong>一度設定すれば、何千件でも同じ品質で処理</strong><br>GPTsのように「育てる」必要がなく、最初から完璧な状態で大量処理できる</li>
+                    </ul>
+                    <p>
+                        <strong>つまり：</strong> GPTsは「会話で少しずつ育てる」、APIは「最初に完璧に設定して大量生産」というイメージです。
+                    </p>
+                </div>
+
+                <h3>📊 比較表で見てみよう</h3>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>項目</th>
+                            <th>ChatGPT（GPTs）</th>
+                            <th>API接続</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>使う場所</strong></td>
+                            <td>ChatGPTのウェブサイト</td>
+                            <td>Googleスプレッドシートなど</td>
+                        </tr>
+                        <tr>
+                            <td><strong>処理方法</strong></td>
+                            <td>手作業で一つずつ</td>
+                            <td>自動で一括処理</td>
+                        </tr>
+                        <tr>
+                            <td><strong>向いている作業</strong></td>
+                            <td>1〜10件程度の少量処理</td>
+                            <td>100件、1000件の大量処理</td>
+                        </tr>
+                        <tr>
+                            <td><strong>記憶機能</strong></td>
+                            <td>◎ 会話で学習していく</td>
+                            <td>△ プロンプト調整で同等の効果</td>
+                        </tr>
+                        <tr>
+                            <td><strong>カスタマイズ</strong></td>
+                            <td>会話で少しずつ育てる</td>
+                            <td>最初に完璧に設定して大量生産</td>
+                        </tr>
+                        <tr>
+                            <td><strong>初心者向け</strong></td>
+                            <td>◎ とても簡単</td>
+                            <td>△ 最初は難しいけど慣れれば楽</td>
+                        </tr>
+                        <tr>
+                            <td><strong>費用</strong></td>
+                            <td>月額20ドル（固定）</td>
+                            <td>使った分だけ課金（通常は安い）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>スピード</strong></td>
+                            <td>遅い（手作業）</td>
+                            <td>速い（自動処理）</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="warning-box">
+                    <h4>⚠️ 注意点</h4>
+                    <p>
+                        <strong>今回のeBay一括出品シートでは「API接続」を使っています。</strong><br>
+                        そのため、プロンプトをGoogleスプレッドシート内で編集する必要があります。<br>
+                        ChatGPTのサイトで変更しても反映されませんので、ご注意ください！
+                    </p>
+                </div>
+            </section>
+
+            <!-- セクション3: なぜプロンプト編集が必要？ -->
+            <section class="section">
+                <h2>🎯 なぜプロンプトを編集する必要があるの？</h2>
+
+                <h3>理由1: 商品に合わせた説明文を作りたい</h3>
+                <p>
+                    扱う商品によって、アピールポイントは違います。<br>
+                    例えば、<strong>ファッション商品</strong>なら「サイズ感」や「素材」を強調したいですが、<br>
+                    <strong>電化製品</strong>なら「機能」や「保証」を強調したいですよね。
+                </p>
+
+                <h3>理由2: 自分の出品スタイルに合わせたい</h3>
+                <p>
+                    ビジネスの方針は人それぞれ。<br>
+                    「シンプルな説明が好き」な人もいれば、「とことん詳しく書きたい」人もいます。
+                </p>
+
+                <h3>理由3: AIの回答品質を上げたい</h3>
+                <p>
+                    AIは「指示が具体的であればあるほど」良い回答を返します。<br>
+                    プロンプトを改善することで、タイトルや説明文の品質がグッと上がります。
+                </p>
+
+                <div class="info-box">
+                    <h4>💡 実際の改善例</h4>
+                    <p><strong>改善前：</strong> タイトルが長すぎてeBayの制限を超えてしまう...</p>
+                    <p><strong>改善後：</strong> プロンプトに「80文字以内で」と追加 → 完璧！</p>
+                </div>
+            </section>
+
+            <!-- セクション4: どんな人がプロンプト編集を使うべき？ -->
+            <section class="section">
+                <h2>👤 どんな人がプロンプト編集を使うべき？</h2>
+
+                <div class="highlight-box">
+                    <p>以下のどれかに当てはまる方は、プロンプト編集機能を活用すると効果的です！</p>
+                </div>
+
+                <ul class="icon-list">
+                    <li><strong>特定のジャンルに特化している方</strong><br>（例：時計専門、カメラ専門、アニメグッズ専門など）</li>
+                    <li><strong>出品文の「言い回し」にこだわりがある方</strong><br>（例：丁寧な敬語、フレンドリーな口調など）</li>
+                    <li><strong>eBayのポリシーに合わせて細かく調整したい方</strong><br>（例：禁止ワードを避ける、特定の表現を使うなど）</li>
+                    <li><strong>複数の商品カテゴリで異なる戦略を使いたい方</strong><br>（例：新品と中古で異なるプロンプトを使い分ける）</li>
+                </ul>
+
+                <div class="warning-box">
+                    <h4>⚠️ 逆に、こんな方は編集不要かも</h4>
+                    <p>
+                        「デフォルトの設定で十分！」という方は、無理に編集する必要はありません。<br>
+                        初期設定のプロンプトでも、基本的な商品情報は十分に生成できます。
+                    </p>
+                </div>
+            </section>
+
+            <!-- セクション5: まとめ -->
+            <section class="section">
+                <h2>✅ この章のまとめ</h2>
+
+                <div class="highlight-box">
+                    <ol style="padding-left: 20px; line-height: 2;">
+                        <li><strong>プロンプト</strong> = AIへの指示文</li>
+                        <li><strong>GPTs</strong> = ChatGPTサイトで使う機能（手作業向け）</li>
+                        <li><strong>API接続</strong> = プログラムから自動実行（大量処理向け）</li>
+                        <li>今回使うのは「<strong>API接続</strong>」なので、スプレッドシート内で編集する</li>
+                        <li>プロンプト編集は、商品や戦略に合わせて<strong>カスタマイズ</strong>するため</li>
+                    </ol>
+                </div>
+
+                <div class="info-box">
+                    <h4>🎓 次のステップ</h4>
+                    <p>
+                        次は、<strong>実際にプロンプトを編集する手順</strong>を、<br>
+                        動画で分かりやすく解説します！
+                    </p>
+                </div>
+            </section>
+
+            <!-- セクション6: 実践編の4ステップ -->
+            <section class="section">
+                <h2>🎬 実践！プロンプト編集の4ステップ</h2>
+
+                <p style="font-size: 1.1em; margin-bottom: 30px;">
+                    ここからは、実際にプロンプトを編集していく手順を<strong>動画付き</strong>で解説します。<br>
+                    初めての方でも迷わず進められるよう、4つのステップに分けて説明していきます。
+                </p>
+
+                <!-- ステップ1 -->
+                <div class="highlight-box" style="margin-bottom: 40px;">
+                    <h3 style="color: #1a73e8; margin-top: 0;">📍 ステップ1: プロンプトの場所を確認しよう</h3>
+                    <p>
+                        まずは、<strong>一括出品シートのどこにプロンプトが設定されているか</strong>を確認します。<br>
+                        このシートでは「GPT_Prompts」という専用シートでプロンプトを管理しています。
+                    </p>
+
+                    <div style="margin: 20px 0; padding: 15px; background: #fff; border-radius: 8px; border: 2px solid #1a73e8;">
+                        <p style="margin: 0 0 15px 0; text-align: center; color: #666;">
+                            📹 <strong>動画：プロンプトの場所を確認する</strong>
+                        </p>
+                        <!-- 動画埋め込み -->
+                        <div style="padding:64.95% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1139177605?h=6b4e362696&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="プロンプトの場所 2025-11-21 13.18.19"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>💡 このステップで分かること</h4>
+                        <ul class="icon-list">
+                            <li>「GPT_Prompts」シートの開き方</li>
+                            <li>プロンプトIDと内容の見方</li>
+                            <li>どのプロンプトが現在使われているか</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- ステップ2 -->
+                <div class="highlight-box" style="margin-bottom: 40px;">
+                    <h3 style="color: #1a73e8; margin-top: 0;">✏️ ステップ2: プロンプトを編集してみよう</h3>
+                    <p>
+                        プロンプトの場所が分かったら、次は<strong>実際に編集する方法</strong>を学びます。<br>
+                        サイドバーから簡単に編集できる仕組みになっています。
+                    </p>
+
+                    <div style="margin: 20px 0; padding: 15px; background: #fff; border-radius: 8px; border: 2px solid #1a73e8;">
+                        <p style="margin: 0 0 15px 0; text-align: center; color: #666;">
+                            📹 <strong>動画：プロンプトを編集する手順</strong>
+                        </p>
+                        <!-- 動画埋め込み -->
+                        <div style="padding:64.95% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1139263421?h=94a2e566fd&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="プロンプト編集手順2025-11-21 19.54.04"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>💡 このステップで分かること</h4>
+                        <ul class="icon-list">
+                            <li>プロンプト編集サイドバーの開き方</li>
+                            <li>プロンプトIDの選択方法</li>
+                            <li>内容の編集と保存の仕方</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- ステップ3 -->
+                <div class="highlight-box" style="margin-bottom: 40px;">
+                    <h3 style="color: #1a73e8; margin-top: 0;">🤖 ステップ3: ChatGPTを使ってプロンプトを作ろう</h3>
+                    <p>
+                        「どんなプロンプトを書けばいいか分からない...」という方も安心！<br>
+                        <strong>ChatGPTなどのチャットボット</strong>を使えば、プロンプトを簡単に作成できます。
+                    </p>
+
+                    <div style="margin: 20px 0; padding: 15px; background: #fff; border-radius: 8px; border: 2px solid #1a73e8;">
+                        <p style="margin: 0 0 15px 0; text-align: center; color: #666;">
+                            📹 <strong>動画：ChatGPTでプロンプトを作成する</strong>
+                        </p>
+                        <!-- 動画埋め込み -->
+                        <div style="padding:64.95% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1139268517?h=bac9803706&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="ChatGPTを使ってプロンプトを作成 2025-11-21 20.05.29"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>💡 このステップで分かること</h4>
+                        <ul class="icon-list">
+                            <li>ChatGPTへの効果的な質問の仕方</li>
+                            <li>商品カテゴリに合わせたプロンプトの作成</li>
+                            <li>作成したプロンプトのシートへの貼り付け方</li>
+                        </ul>
+                    </div>
+
+                    <div class="example-box">
+                        <div class="label">ChatGPTへの質問例</div>
+                        <p>
+                            「eBayで時計を出品するためのAIプロンプトを作ってください。<br>
+                            ・タイトルは80文字以内<br>
+                            ・ブランド名を最初に入れる<br>
+                            ・状態（新品/中古）を明記<br>
+                            ・型番を含める<br>
+                            上記の条件でお願いします。」
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ステップ4 -->
+                <div class="highlight-box" style="margin-bottom: 40px;">
+                    <h3 style="color: #1a73e8; margin-top: 0;">✅ ステップ4: プロンプトをチューニングして完成させよう</h3>
+
+                    <p style="font-size: 1.1em; line-height: 1.9;">
+                        プロンプトは<strong>一度作って終わりではありません</strong>。<br>
+                        より良いものに仕上げるため、ご自身でチューニングしてあげてください。
+                    </p>
+
+                    <div class="info-box">
+                        <h4>🔧 継続的な改善のポイント</h4>
+                        <ul class="icon-list">
+                            <li><strong>状況の変化に合わせて見直す</strong><br>商品ラインナップや販売戦略が変わったら、プロンプトも更新しましょう</li>
+                            <li><strong>ChatGPTのGPTsと比較してみる</strong><br>「もっとこうしたい」という要望が出てきたら、それを実現できるプロンプトをAIに投げかけてください</li>
+                            <li><strong>定期的にチューニングする</strong><br>たまには見直して、より満足度の高い結果が得られるよう調整しましょう</li>
+                        </ul>
+                    </div>
+
+                    <div class="warning-box">
+                        <h4>⚠️ 基本的なチェックポイント</h4>
+                        <p><strong>プロンプトを試した後、以下を確認しましょう：</strong></p>
+                        <ul class="icon-list">
+                            <li>タイトルが80文字以内に収まっているか</li>
+                            <li>必要な情報（ブランド名、状態、型番など）が含まれているか</li>
+                            <li>不自然な日本語や英語が混ざっていないか</li>
+                            <li>eBayのポリシーに違反する表現がないか</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: linear-gradient(135deg, #e8f0fe 0%, #f0e8fe 100%); padding: 25px; border-radius: 10px; margin-top: 20px;">
+                        <p style="font-size: 1.15em; font-weight: bold; color: #1a73e8; margin-bottom: 10px;">💡 最後に</p>
+                        <p style="line-height: 1.9; color: #333;">
+                            このように<strong>プロンプトを継続的に改善</strong>していくことで、<br>
+                            あなたのビジネスに最適な、<strong>満足度の高いプロンプト</strong>が完成します。<br>
+                            ぜひ、試行錯誤を楽しみながら、理想のプロンプトを作り上げてください！
+                        </p>
+                    </div>
+                </div>
+
+                <!-- プロンプト反映と検証の重要性 -->
+                <div class="info-box" style="margin-bottom: 40px;">
+                    <h4>🔄 プロンプトの反映と検証について</h4>
+                    <p style="line-height: 1.9;">
+                        最終的に作成したプロンプトをシートの<strong>AS2セル</strong>に反映させるには、<strong>初期設定を再度実行</strong>してください。<br>
+                        また、生成されたタイトルや説明文がチャットボットと比べて<strong>どのように異なるか</strong>を検証してください。<br>
+                        一度の検証では十分な答えが得られないため、<strong>同じ商品を2～3回試すこと</strong>を推奨します。
+                    </p>
+                </div>
+
+                <!-- まとめ -->
+                <div class="highlight-box">
+                    <h3 style="color: #1a73e8; margin-top: 0;">🎯 4ステップのまとめ</h3>
+                    <ol style="padding-left: 20px; line-height: 2; font-size: 1.05em;">
+                        <li><strong>ステップ1：</strong> プロンプトの場所を確認（GPT_Promptsシート）</li>
+                        <li><strong>ステップ2：</strong> サイドバーで編集する方法を習得</li>
+                        <li><strong>ステップ3：</strong> ChatGPTを活用してプロンプトを作成</li>
+                        <li><strong>ステップ4：</strong> 試用して確認、必要に応じて改善</li>
+                    </ol>
+                    <p style="margin-top: 20px;">
+                        この4ステップを繰り返すことで、<strong>あなたのビジネスに最適なプロンプト</strong>が完成します！
+                    </p>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <p><strong>eBay一括出品シート - プロンプト編集ガイド</strong></p>
+            <p>最終更新日: 2025年11月21日</p>
+            <p>バージョン: 1.1</p>
+        </footer>
+    </div>
+</body>
+</html>
