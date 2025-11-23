@@ -1740,7 +1740,7 @@
 
         // チュートリアルを開く
         function openTutorial() {
-            document.getElementById('tutorialModal').classList.add('show');
+            window.open('https://naokijodan.github.io/price-calc-guide/', '_blank');
         }
 
         // チュートリアルを閉じる

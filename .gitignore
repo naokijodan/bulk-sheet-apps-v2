@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+
+# HTML files (guides)
+*.html
+
+# Zip files
+*.zip
+
+# Backup files
+*_backup.*
