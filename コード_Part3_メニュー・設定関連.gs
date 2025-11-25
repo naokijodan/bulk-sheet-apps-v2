@@ -3409,8 +3409,9 @@ function applyCalculationFormulas(sheetName, settings) {
     // 関税額 = 販売価格 × 関税率
     // 関税処理手数料 = (販売価格 × 関税率 × 関税処理手数料率) + (販売価格 × VAT率 × 関税処理手数料率)
     // つまり: 販売価格 × 関税率 × (1 + 関税処理手数料率) + 販売価格 × VAT率 × 関税処理手数料率 + その他
-    // AF2=関税率, AE2=VAT率, AG2=関税処理手数料率, AE1=米国通関処理手数料(円), AH2=MPF($), AC2=EU送料差額(円), C2=為替レート
-    sheet.getRange('AD4').setFormula('=ARRAYFORMULA(IF(ROW(AD4:AD)=4,"想定関税",IF(R4:R="","",ROUND(R4:R*$AF$2*(1+$AG$2)+R4:R*$AE$2*$AG$2+$AE$1/$C$2+$AH$2+$AC$2/$C$2,2))))');
+    // AF2=関税率, AE2=VAT率, AG2=関税処理手数料率, AE1=米国通関処理手数料(円)※将来用, AB2=CE用通関手数料(円), AH2=MPF($), AC2=EU送料差額(円), C2=為替レート
+    // CE（Cpass-Economy）の場合のみAB2の通関手数料を適用、それ以外のクーリエは0
+    sheet.getRange('AD4').setFormula('=ARRAYFORMULA(IF(ROW(AD4:AD)=4,"想定関税",IF(R4:R="","",ROUND(R4:R*$AF$2*(1+$AG$2)+R4:R*$AE$2*$AG$2+IF(X4:X="CE",$AB$2/$C$2,0)+$AH$2+$AC$2/$C$2,2))))');
 
     // AG列: DDU調整後価格（AP2:AP3のセル参照を使用）
     // AP3は想定関税の閾値、想定関税がAP3以上の場合にDDP価格から想定関税を引く
