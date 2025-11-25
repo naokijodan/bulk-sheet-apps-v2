@@ -1426,6 +1426,20 @@
             }
         }
 
+        // 配送方法の表示名を取得
+        function getShippingMethodDisplayName(method) {
+            const names = {
+                'EP': 'eパケット',
+                'CE': 'Cpass-Economy',
+                'CF': 'Cpass-FedEx',
+                'CD': 'Cpass-DHL',
+                'EL': 'eLogi',
+                'EMS': 'EMS',
+                '自動選択': '自動選択'
+            };
+            return names[method] || method;
+        }
+
         // 実際に使用される配送方法を判定（通関手数料判定用）
         function getEffectiveShippingMethod(costYen, actualWeight, method, threshold, lowMethod, highMethod) {
             // 配送方法が明示的に指定されている場合
@@ -1645,7 +1659,7 @@
             document.getElementById('tariff1').textContent = `$${tariffUSD.toFixed(2)}`;
             document.getElementById('ddpPrice1').textContent = `$${ddpPrice.toFixed(2)}`;
             document.getElementById('refProfit1').textContent = `¥${refProfit.toFixed(0)}`;
-            document.getElementById('shipping1').textContent = `¥${shippingCostJPY.toFixed(0)}`;
+            document.getElementById('shipping1').textContent = `¥${shippingCostJPY.toFixed(0)} (${getShippingMethodDisplayName(effectiveMethod1)})`;
         }
 
         // 計算2: 利益率で仕入れ→販売価格
@@ -1700,7 +1714,7 @@
             document.getElementById('tariff2').textContent = `$${tariffUSD.toFixed(2)}`;
             document.getElementById('ddpPrice2').textContent = `$${ddpPrice.toFixed(2)}`;
             document.getElementById('refProfit2').textContent = `¥${refProfit.toFixed(0)}`;
-            document.getElementById('shipping2').textContent = `¥${shippingCostJPY.toFixed(0)}`;
+            document.getElementById('shipping2').textContent = `¥${shippingCostJPY.toFixed(0)} (${getShippingMethodDisplayName(effectiveMethod2)})`;
         }
 
         // 計算3: 利益額で販売価格→仕入れ
@@ -1815,7 +1829,7 @@
             document.getElementById('costPriceDDU3').textContent = `¥${costDDU.toFixed(0)}`;
             document.getElementById('tariffDDU3').textContent = `$${tariffDDU.toFixed(2)}`;
             document.getElementById('refProfitDDU3').textContent = `¥${refProfitDDU.toFixed(0)}`;
-            document.getElementById('shippingDDU3').textContent = `¥${shippingCostDDU.toFixed(0)}`;
+            document.getElementById('shippingDDU3').textContent = `¥${shippingCostDDU.toFixed(0)} (${getShippingMethodDisplayName(effectiveMethod3DDU)})`;
 
             // DDP結果表示
             document.getElementById('result3-ddp').classList.remove('hidden');
@@ -1823,7 +1837,7 @@
             document.getElementById('sellingPriceDDU_from_DDP3').textContent = `$${sellingPriceDDU_fromDDP.toFixed(2)}`;
             document.getElementById('tariffDDP3').textContent = `$${tariffDDP.toFixed(2)}`;
             document.getElementById('refProfitDDP3').textContent = `¥${refProfitDDP.toFixed(0)}`;
-            document.getElementById('shippingDDP3').textContent = `¥${shippingCostDDP.toFixed(0)}`;
+            document.getElementById('shippingDDP3').textContent = `¥${shippingCostDDP.toFixed(0)} (${getShippingMethodDisplayName(effectiveMethod3DDP)})`;
         }
 
         // 計算4: 利益率で販売価格→仕入れ
@@ -1937,7 +1951,7 @@
             document.getElementById('costPriceDDU4').textContent = `¥${costDDU.toFixed(0)}`;
             document.getElementById('tariffDDU4').textContent = `$${tariffDDU.toFixed(2)}`;
             document.getElementById('refProfitDDU4').textContent = `¥${refProfitDDU.toFixed(0)}`;
-            document.getElementById('shippingDDU4').textContent = `¥${shippingCostDDU.toFixed(0)}`;
+            document.getElementById('shippingDDU4').textContent = `¥${shippingCostDDU.toFixed(0)} (${getShippingMethodDisplayName(effectiveMethod4DDU)})`;
 
             // DDP結果表示
             document.getElementById('result4-ddp').classList.remove('hidden');
@@ -1945,7 +1959,7 @@
             document.getElementById('sellingPriceDDU_from_DDP4').textContent = `$${sellingPriceDDU_fromDDP.toFixed(2)}`;
             document.getElementById('tariffDDP4').textContent = `$${tariffDDP.toFixed(2)}`;
             document.getElementById('refProfitDDP4').textContent = `¥${refProfitDDP.toFixed(0)}`;
-            document.getElementById('shippingDDP4').textContent = `¥${shippingCostDDP.toFixed(0)}`;
+            document.getElementById('shippingDDP4').textContent = `¥${shippingCostDDP.toFixed(0)} (${getShippingMethodDisplayName(effectiveMethod4DDP)})`;
         }
 
         // 為替レートを自動取得
