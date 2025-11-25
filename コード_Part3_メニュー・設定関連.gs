@@ -2816,7 +2816,10 @@ function saveIntegratedSettings(formData) {
     
     // 価格表示モードの保存
     setPriceDisplayMode(priceDisplayMode);
-    
+
+    // 出品用シートの価格式を更新（価格表示モードに応じてH2のARRAYFORMULAを変更）
+    updateListingSheetPriceFormula(sheetName, priceDisplayMode);
+
     // 重複チェック設定の保存
     if (duplicateCheckEnabled && duplicateSettings) {
       saveIntegratedDuplicateCheckSettings(duplicateSettings);

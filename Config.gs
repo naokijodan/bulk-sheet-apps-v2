@@ -263,6 +263,38 @@ function setPriceDisplayMode(mode, showMessage) {
   }
 }
 
+/**
+ * 出品用シートの価格式を価格表示モードに応じて更新
+ * @param {string} workSheetName - 作業シート名
+ * @param {string} priceDisplayMode - 価格表示モード ('NORMAL' or 'TAX_INCLUDED')
+ */
+function updateListingSheetPriceFormula(workSheetName, priceDisplayMode) {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var listingSheet = ss.getSheetByName('出品用シート');
+
+    if (!listingSheet) {
+      console.log('出品用シートが見つかりません。価格式の更新をスキップします。');
+      return;
+    }
+
+    var formula;
+    if (priceDisplayMode === 'TAX_INCLUDED') {
+      // DDP（関税込み）モード → S列を参照
+      formula = '={"出品価格";ARRAYFORMULA(IF(\'' + workSheetName + '\'!R5:R="","", \'' + workSheetName + '\'!S5:S))}';
+    } else {
+      // DDU（通常）モード → AG優先、なければR列
+      formula = '={"出品価格";ARRAYFORMULA(IF((NOT(ISBLANK(\'' + workSheetName + '\'!AG5:AG)))*(ISNUMBER(\'' + workSheetName + '\'!AG5:AG)), \'' + workSheetName + '\'!AG5:AG, \'' + workSheetName + '\'!R5:R))}';
+    }
+
+    listingSheet.getRange('H2').setFormula(formula);
+    console.log('出品用シートの価格式を更新しました: ' + (priceDisplayMode === 'TAX_INCLUDED' ? 'DDP' : 'DDU') + 'モード');
+
+  } catch (e) {
+    console.error('出品用シート価格式更新エラー: ' + e.message);
+  }
+}
+
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   価格セルのハイライト設定
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
