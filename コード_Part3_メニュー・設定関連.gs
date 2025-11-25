@@ -3281,9 +3281,8 @@ function applyCalculationFormulas(sheetName, settings) {
       for (var row = 5; row <= dataLastRow; row++) {
         // CF: base + extra + fuel - discount
         // CD: base + extra + fuel - discount
-        // CE: base + fuel - discount
-        // SP/EL: base のみ
-        var formula = '=IF(AF' + row + '="","",IF(X' + row + '="CF",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$1,subtotal,base+extra,fuel,subtotal*$V$1,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),IF(X' + row + '="CD",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$2,subtotal,base+extra,fuel,subtotal*$V$2,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),IF(X' + row + '="CE",ROUND(LET(base,AF' + row + ',fuel,base*$V$1,discount,-(base+fuel)*$W$2,base+fuel+discount)),ROUND(AF' + row + ')))))';
+        // CE/EL/EP: base のみ（テーブルに既にサーチャージが含まれている）
+        var formula = '=IF(AF' + row + '="","",IF(X' + row + '="CF",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$1,subtotal,base+extra,fuel,subtotal*$V$1,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),IF(X' + row + '="CD",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$2,subtotal,base+extra,fuel,subtotal*$V$2,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),ROUND(AF' + row + '))))';
         shippingFormulas.push([formula]);
       }
       if (shippingFormulas.length > 0) {
