@@ -1513,10 +1513,17 @@ function SHIPPING_COST_FOR_CALCULATOR(weight, length, width, height, method, cos
     if (isNaN(w) || isNaN(l) || isNaN(wi) || isNaN(h) || w <= 0 || l <= 0 || wi <= 0 || h <= 0) {
       return "入力値エラー";
     }
-    
-    var volumetricWeight = Math.max(200, Math.round((l * wi * h) / 5));
-    var sizeString = l + 'x' + wi + 'x' + h;
+
+    // 配送方法に応じて容積重量の計算式を変更
+    // Cpass-Economy: 体積 ÷ 8、それ以外: 体積 ÷ 5、最小値200g
     var selectedMethod = String(method || '自動選択');
+    var volumetricWeight;
+    if (selectedMethod === 'Cpass-Economy') {
+      volumetricWeight = Math.max(200, Math.round((l * wi * h) / 8));
+    } else {
+      volumetricWeight = Math.max(200, Math.round((l * wi * h) / 5));
+    }
+    var sizeString = l + 'x' + wi + 'x' + h;
     
     if (selectedMethod === '自動選択' || selectedMethod === '') {
       return selectCheapestShippingRateWithConstraints(cost, w, volumetricWeight, sizeString);
@@ -3394,7 +3401,8 @@ function applyCalculationFormulas(sheetName, settings) {
     }
 
     // AC列: 容積重量（ARRAYFORMULA）
-    sheet.getRange('AC4').setFormula('=ARRAYFORMULA(IF(ROW(AC4:AC)=4,"容積重量",IF(Z4:Z="","",IF(ROUND((Z4:Z*AA4:AA*AB4:AB)/5)>200,ROUND((Z4:Z*AA4:AA*AB4:AB)/5),200))))');
+    // CE（Cpass-Economy）の場合は÷8、それ以外は÷5で計算、最小値200g
+    sheet.getRange('AC4').setFormula('=ARRAYFORMULA(IF(ROW(AC4:AC)=4,"容積重量",IF(Z4:Z="","",IF(X4:X="CE",IF(ROUND((Z4:Z*AA4:AA*AB4:AB)/8)>200,ROUND((Z4:Z*AA4:AA*AB4:AB)/8),200),IF(ROUND((Z4:Z*AA4:AA*AB4:AB)/5)>200,ROUND((Z4:Z*AA4:AA*AB4:AB)/5),200)))))');
 
     // AD列: 想定関税（ARRAYFORMULA）
     // 計算式: 関税額 + 関税処理手数料 + (米国通関処理手数料円 ÷ 為替) + MPF$ + (EU送料差額円 ÷ 為替)

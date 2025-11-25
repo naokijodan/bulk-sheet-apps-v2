@@ -72,12 +72,21 @@
             gap: 8px;
         }
 
-        .input-group input {
+        .input-group input,
+        .input-group select {
             padding: 12px;
             border: 2px solid #dee2e6;
             border-radius: 8px;
             font-size: 1em;
             transition: all 0.3s;
+        }
+
+        /* 重要な選択項目を強調 */
+        #shippingMode,
+        #lowPriceMethod,
+        #highPriceMethod,
+        #shippingMethod {
+            background-color: #e3f2fd;
         }
 
         .refresh-rate-btn {
@@ -637,7 +646,7 @@
                         <div class="settings-grid">
                             <div class="input-group">
                                 <label>配送方法</label>
-                                <select id="shippingMethod" onchange="calculateEstimatedShipping()">
+                                <select id="shippingMethod" onchange="calculateVolumetricWeight()">
                                     <option value="自動選択">自動選択</option>
                                     <option value="EP">eパケット</option>
                                     <option value="CF">Cpass-FedEx</option>
@@ -712,7 +721,7 @@
                     <div class="formula">
                         <strong>計算式:</strong><br>
                         販売価格 = (仕入れ価格 + 送料 + 利益額) ÷ 為替レート ÷ (1 - 手数料率 - 広告費率 - ペイオニア率)<br>
-                        想定関税 = 販売価格 × (関税率 + VAT率) × (1 + 通関処理手数料率) + (MPF円 ÷ 為替) + (EU送料差額円 ÷ 為替)<br>
+                        想定関税 = 販売価格 × 関税率 × (1 + 通関処理手数料率) + 販売価格 × VAT率 × 通関処理手数料率 + (MPF円 ÷ 為替) + (EU送料差額円 ÷ 為替)<br>
                         DDP価格 = 販売価格 + 想定関税
                     </div>
                 </div>
@@ -759,7 +768,7 @@
                     <div class="formula">
                         <strong>計算式:</strong><br>
                         販売価格 = (仕入れ価格 + 送料) ÷ 為替レート ÷ (1 - 利益率 - 手数料率 - 広告費率 - ペイオニア率)<br>
-                        想定関税 = 販売価格 × (関税率 + VAT率) × (1 + 通関処理手数料率) + (MPF円 ÷ 為替) + (EU送料差額円 ÷ 為替)<br>
+                        想定関税 = 販売価格 × 関税率 × (1 + 通関処理手数料率) + 販売価格 × VAT率 × 通関処理手数料率 + (MPF円 ÷ 為替) + (EU送料差額円 ÷ 為替)<br>
                         DDP価格 = 販売価格 + 想定関税
                     </div>
                 </div>
@@ -811,7 +820,7 @@
                     <div class="formula">
                         <strong>計算式:</strong><br>
                         仕入れ価格 = (DDU販売価格 × 為替レート × (1 - 手数料率 - 広告費率 - ペイオニア率)) - 送料 - 利益額<br>
-                        想定関税 = 販売価格 × (関税率 + VAT率) × (1 + 通関処理手数料率) + (MPF円 ÷ 為替) + (EU送料差額円 ÷ 為替)
+                        想定関税 = 販売価格 × 関税率 × (1 + 通関処理手数料率) + 販売価格 × VAT率 × 通関処理手数料率 + (MPF円 ÷ 為替) + (EU送料差額円 ÷ 為替)
                     </div>
                 </div>
 
@@ -830,6 +839,14 @@
                             <div class="value" id="costPriceDDP3">-</div>
                         </div>
                         <div class="result-item">
+                            <label>参考DDU販売価格（ドル）</label>
+                            <div class="value" id="sellingPriceDDU_from_DDP3">-</div>
+                        </div>
+                        <div class="result-item">
+                            <label>参考関税（ドル）</label>
+                            <div class="value" id="tariffDDP3">-</div>
+                        </div>
+                        <div class="result-item">
                             <label>参考送料（円）</label>
                             <div class="value" id="shippingDDP3">-</div>
                         </div>
@@ -840,7 +857,8 @@
                     </div>
                     <div class="formula">
                         <strong>計算式:</strong><br>
-                        仕入れ価格 = (DDP価格 × 為替 × netRate - 利益 - 送料 - MPF - EU送料差額) ÷ (1 + (関税率 + VAT率) × (1 + 通関処理手数料率))
+                        ① DDU販売価格 = DDP価格 - 想定関税（反復計算で求める）<br>
+                        ② 仕入れ価格 = (DDU販売価格 × 為替レート × (1 - 手数料率 - 広告費率 - ペイオニア率)) - 送料 - 利益
                     </div>
                 </div>
             </div>
@@ -886,7 +904,7 @@
                     <div class="formula">
                         <strong>計算式:</strong><br>
                         仕入れ価格 = (DDU販売価格 × 為替レート × (1 - 利益率 - 手数料率 - 広告費率 - ペイオニア率)) - 送料<br>
-                        想定関税 = 販売価格 × (関税率 + VAT率) × (1 + 通関処理手数料率) + (MPF円 ÷ 為替) + (EU送料差額円 ÷ 為替)
+                        想定関税 = 販売価格 × 関税率 × (1 + 通関処理手数料率) + 販売価格 × VAT率 × 通関処理手数料率 + (MPF円 ÷ 為替) + (EU送料差額円 ÷ 為替)
                     </div>
                 </div>
 
@@ -905,6 +923,14 @@
                             <div class="value" id="costPriceDDP4">-</div>
                         </div>
                         <div class="result-item">
+                            <label>参考DDU販売価格（ドル）</label>
+                            <div class="value" id="sellingPriceDDU_from_DDP4">-</div>
+                        </div>
+                        <div class="result-item">
+                            <label>参考関税（ドル）</label>
+                            <div class="value" id="tariffDDP4">-</div>
+                        </div>
+                        <div class="result-item">
                             <label>参考送料（円）</label>
                             <div class="value" id="shippingDDP4">-</div>
                         </div>
@@ -915,7 +941,8 @@
                     </div>
                     <div class="formula">
                         <strong>計算式:</strong><br>
-                        仕入れ価格 = (DDP価格 × 為替 × netRate - 送料 - MPF - EU送料差額) ÷ (1 + (関税率 + VAT率) × (1 + 通関処理手数料率))
+                        ① DDU販売価格 = DDP価格 - 想定関税（反復計算で求める）<br>
+                        ② 仕入れ価格 = (DDU販売価格 × 為替レート × (1 - 手数料率 - 広告費率 - ペイオニア率)) - 送料
                     </div>
                 </div>
             </div>
@@ -948,7 +975,7 @@
             <h3>想定関税の計算式</h3>
             <div class="step">
                 想定関税は以下の式で計算されます：<br>
-                <code>想定関税 = 販売価格 × (関税率 + VAT率) × (1 + 通関処理手数料率) + (MPF円 ÷ 為替) + (EU送料差額円 ÷ 為替)</code>
+                <code>想定関税 = 販売価格 × 関税率 × (1 + 通関処理手数料率) + 販売価格 × VAT率 × 通関処理手数料率 + (MPF円 ÷ 為替) + (EU送料差額円 ÷ 為替)</code>
             </div>
 
             <h3>4つの計算モード</h3>
@@ -1147,9 +1174,39 @@
             const length = parseFloat(document.getElementById('packageLength').value) || 0;
             const width = parseFloat(document.getElementById('packageWidth').value) || 0;
             const height = parseFloat(document.getElementById('packageHeight').value) || 0;
+            const shippingMethod = document.getElementById('shippingMethod').value;
+            const actualWeight = parseFloat(document.getElementById('actualWeight').value) || 0;
 
-            // 容積重量 = 長さ × 幅 × 高さ ÷ 6000
-            const volumetricWeight = Math.round((length * width * height) / 6);
+            // 配送方法によって容積重量の計算式を変更
+            // Cpass-Economy（CE）: 体積 ÷ 8、それ以外: 体積 ÷ 5
+            const volume = length * width * height;
+            let volumetricWeight;
+            let actualMethod = shippingMethod;
+
+            // 自動選択の場合、実際に使われる配送方法を判定
+            if (shippingMethod === '自動選択') {
+                const settings = getSettings();
+                const lowMethod = settings.lowPriceMethod || 'EP';
+                const highMethod = settings.highPriceMethod || 'CF';
+
+                // 基本的には低価格配送方法を使用
+                actualMethod = lowMethod;
+                // ただし、eパケットで重量オーバーの場合は高価格配送方法
+                if (lowMethod === 'EP' && actualWeight > 2000) {
+                    actualMethod = highMethod;
+                }
+            }
+
+            // 実際に使われる配送方法に基づいて容積重量を計算
+            if (actualMethod === 'CE') {
+                volumetricWeight = Math.round(volume / 8);
+            } else {
+                volumetricWeight = Math.round(volume / 5);
+            }
+
+            // 最小値200gを適用
+            volumetricWeight = Math.max(volumetricWeight, 200);
+
             document.getElementById('volumetricWeight').value = volumetricWeight;
 
             // 送料試算も更新
@@ -1185,14 +1242,21 @@
                 const highMethod = settings.highPriceMethod || 'CF';
 
                 // 仮の仕入れ価格を0として判定（実際の計算では動的に変わる）
-                if (lowMethod === 'EP' && actualWeight <= 2000) {
+                // 基本的には低価格配送方法を使用
+                let selectedMethod = lowMethod;
+                // ただし、eパケットで重量オーバーの場合は高価格配送方法
+                if (lowMethod === 'EP' && actualWeight > 2000) {
+                    selectedMethod = highMethod;
+                }
+
+                if (selectedMethod === 'EP') {
                     shippingCost = getEpacketRate(actualWeight);
                     actualMethod = 'eパケット';
                     chargeableWeight = actualWeight; // eパケットは実重量のみ
                 } else {
                     chargeableWeight = Math.max(actualWeight, volumetricWeight);
-                    shippingCost = calculateSpecificMethodRate(highMethod, actualWeight, chargeableWeight);
-                    actualMethod = getMethodName(highMethod);
+                    shippingCost = calculateSpecificMethodRate(selectedMethod, actualWeight, chargeableWeight);
+                    actualMethod = getMethodName(selectedMethod);
                 }
             } else {
                 shippingCost = calculateSpecificMethodRate(method, actualWeight, chargeableWeight);
@@ -1320,29 +1384,55 @@
         }
 
         // 送料計算メイン関数
-        function calculateShippingCost(costYen, actualWeight, volWeight, method, threshold, lowMethod, highMethod) {
-            const chargeableWeight = Math.max(actualWeight || 0, volWeight || 0);
-
+        function calculateShippingCost(costYen, actualWeight, volWeight, method, threshold, lowMethod, highMethod, volume, shippingMode) {
             // 固定モード判定
-            if (!actualWeight && !volWeight) {
+            if (shippingMode === 'fixed') {
                 return parseFloat(document.getElementById('shippingCost').value) || 3000;
             }
 
             // テーブルモード
             if (method && method !== '自動選択') {
+                // 配送方法に応じて容積重量を再計算
+                const recalcVolWeight = calculateVolWeightByMethod(method, volume);
+                const chargeableWeight = Math.max(actualWeight || 0, recalcVolWeight || 0);
                 return calculateSpecificMethodRate(method, actualWeight, chargeableWeight);
             }
 
-            // 自動選択
+            // 自動選択：実際に使用される配送方法を判定
+            let actualMethod;
             if (lowMethod === 'NONE' || costYen >= threshold) {
-                return calculateSpecificMethodRate(highMethod, actualWeight, chargeableWeight);
+                actualMethod = highMethod;
             } else {
-                if (lowMethod === 'EP' && actualWeight <= 2000) {
-                    return getEpacketRate(actualWeight);
-                } else {
-                    return calculateSpecificMethodRate(highMethod, actualWeight, chargeableWeight);
+                // 低価格配送方法を使用
+                actualMethod = lowMethod;
+                // ただし、eパケットで重量オーバーの場合は高価格配送方法
+                if (lowMethod === 'EP' && actualWeight > 2000) {
+                    actualMethod = highMethod;
                 }
             }
+
+            // 判定された配送方法に応じて容積重量を再計算
+            const recalcVolWeight = calculateVolWeightByMethod(actualMethod, volume);
+            const chargeableWeight = Math.max(actualWeight || 0, recalcVolWeight || 0);
+
+            if (actualMethod === 'EP') {
+                return getEpacketRate(actualWeight);
+            } else {
+                return calculateSpecificMethodRate(actualMethod, actualWeight, chargeableWeight);
+            }
+        }
+
+        // 配送方法に応じた容積重量計算
+        function calculateVolWeightByMethod(method, volume) {
+            if (!volume) return 0;
+
+            let volumetricWeight;
+            if (method === 'CE') {
+                volumetricWeight = Math.round(volume / 8);
+            } else {
+                volumetricWeight = Math.round(volume / 5);
+            }
+            return Math.max(volumetricWeight, 200);
         }
 
         // 配送方法別の料金計算
@@ -1478,6 +1568,7 @@
             const profitJPY = parseFloat(document.getElementById('profit1').value);
 
             // 送料計算
+            const volume = settings.packageLength * settings.packageWidth * settings.packageHeight;
             const shippingCostJPY = calculateShippingCost(
                 costJPY,
                 settings.actualWeight,
@@ -1485,7 +1576,9 @@
                 settings.shippingMethod,
                 settings.shippingThreshold,
                 settings.lowPriceMethod,
-                settings.highPriceMethod
+                settings.highPriceMethod,
+                volume,
+                settings.shippingMode
             );
 
             // 計算ロジック
@@ -1527,6 +1620,7 @@
             const profitRate = parseFloat(document.getElementById('profitRate2').value) / 100;
 
             // 送料計算
+            const volume = settings.packageLength * settings.packageWidth * settings.packageHeight;
             const shippingCostJPY = calculateShippingCost(
                 costJPY,
                 settings.actualWeight,
@@ -1534,7 +1628,9 @@
                 settings.shippingMethod,
                 settings.shippingThreshold,
                 settings.lowPriceMethod,
-                settings.highPriceMethod
+                settings.highPriceMethod,
+                volume,
+                settings.shippingMode
             );
 
             // スプレッドシートの式: B16 = (仕入れ + 送料) / (1 - (利益率 + 広告費率 + 手数料率 + ペイオニア率)) / 為替
@@ -1572,24 +1668,34 @@
             const profitJPY = parseFloat(document.getElementById('profit3').value);
             const netRate = 1 - settings.feeRate - settings.adRate - settings.payoneerRate;
 
-            // DDU価格からの計算
+            // DDU価格からの計算（反復計算で仕入れ価格と送料を収束させる）
             const sellingPriceDDU = parseFloat(document.getElementById('sellingPriceDDU3').value);
             const revenueDDU = sellingPriceDDU * settings.exchangeRate;
             const netRevenueDDU = revenueDDU * netRate;
 
-            // 送料計算（仮の仕入れ価格で計算）
-            const tempCostDDU = netRevenueDDU - profitJPY;
-            const shippingCostDDU = calculateShippingCost(
-                tempCostDDU,
-                settings.actualWeight,
-                settings.volumetricWeight,
-                settings.shippingMethod,
-                settings.shippingThreshold,
-                settings.lowPriceMethod,
-                settings.highPriceMethod
-            );
+            // 反復計算
+            let costDDU = netRevenueDDU - profitJPY;
+            let shippingCostDDU = 0;
+            let prevCostDDU = 0;
 
-            const costDDU = netRevenueDDU - shippingCostDDU - profitJPY;
+            for (let i = 0; i < 10; i++) {
+                const volume = settings.packageLength * settings.packageWidth * settings.packageHeight;
+                shippingCostDDU = calculateShippingCost(
+                    costDDU,
+                    settings.actualWeight,
+                    settings.volumetricWeight,
+                    settings.shippingMethod,
+                    settings.shippingThreshold,
+                    settings.lowPriceMethod,
+                    settings.highPriceMethod,
+                    volume,
+                    settings.shippingMode
+                );
+                prevCostDDU = costDDU;
+                costDDU = netRevenueDDU - shippingCostDDU - profitJPY;
+
+                if (Math.abs(costDDU - prevCostDDU) < 1) break;
+            }
 
             // 想定関税
             const tariffDDU = sellingPriceDDU * settings.tariffRate * (1 + settings.processingFeeRate)
@@ -1599,23 +1705,57 @@
                             + (settings.euShippingDiff / settings.exchangeRate);
 
             const feesDDU = revenueDDU * (settings.feeRate + settings.adRate + settings.payoneerRate);
-            const refProfitDDU = revenueDDU - feesDDU - costDDU - settings.shippingCost;
+            const refProfitDDU = revenueDDU - feesDDU - costDDU - shippingCostDDU;
 
-            // DDP価格からの計算
-            // DDP価格 = 販売価格 + 想定関税 なので、販売価格を逆算する必要がある
-            // しかし、想定関税は販売価格に依存するため、反復計算が必要
-            // 簡易的には DDP価格を直接使用して仕入れ価格を算出
-            const sellingPriceDDP = parseFloat(document.getElementById('sellingPriceDDP3').value);
-            const revenueDDP = sellingPriceDDP * settings.exchangeRate;
+            // DDP価格からの計算（反復計算でDDU販売価格を逆算）
+            const ddpPriceInput = parseFloat(document.getElementById('sellingPriceDDP3').value);
+
+            // DDU販売価格を反復計算で求める
+            let sellingPriceDDU_fromDDP = ddpPriceInput * 0.85; // 初期値（関税を約15%と仮定）
+            let tariffDDP = 0;
+
+            for (let i = 0; i < 10; i++) {
+                tariffDDP = sellingPriceDDU_fromDDP * settings.tariffRate * (1 + settings.processingFeeRate)
+                          + sellingPriceDDU_fromDDP * settings.vatRate * settings.processingFeeRate
+                          + (settings.mpf / settings.exchangeRate)
+                          + settings.mpfUsd
+                          + (settings.euShippingDiff / settings.exchangeRate);
+
+                const newSellingPrice = ddpPriceInput - tariffDDP;
+                if (Math.abs(newSellingPrice - sellingPriceDDU_fromDDP) < 0.01) break;
+                sellingPriceDDU_fromDDP = newSellingPrice;
+            }
+
+            // 仕入れ価格を反復計算で求める
+            const revenueDDP = sellingPriceDDU_fromDDP * settings.exchangeRate;
             const netRevenueDDP = revenueDDP * netRate;
 
-            // 仕入れ価格を逆算（想定関税の計算が複雑なため、簡易計算）
-            // 仕入れ価格 = (DDP価格 × 為替 × netRate - 利益 - 送料 - MPF - EU送料差額) / (1 + (関税率 + VAT率) × (1 + 通関処理手数料率))
-            const costDDP = (netRevenueDDP - profitJPY - settings.shippingCost - settings.mpf - settings.euShippingDiff)
-                          / (1 + (settings.tariffRate + settings.vatRate) * (1 + settings.processingFeeRate));
+            let costDDP = netRevenueDDP - profitJPY;
+            let shippingCostDDP = 0;
+            let prevCostDDP = 0;
 
-            // 参考利益 = 設定した利益額（profitJPY）そのもの
-            const refProfitDDP = profitJPY;
+            for (let i = 0; i < 10; i++) {
+                const volume = settings.packageLength * settings.packageWidth * settings.packageHeight;
+                shippingCostDDP = calculateShippingCost(
+                    costDDP,
+                    settings.actualWeight,
+                    settings.volumetricWeight,
+                    settings.shippingMethod,
+                    settings.shippingThreshold,
+                    settings.lowPriceMethod,
+                    settings.highPriceMethod,
+                    volume,
+                    settings.shippingMode
+                );
+                prevCostDDP = costDDP;
+                costDDP = netRevenueDDP - shippingCostDDP - profitJPY;
+
+                if (Math.abs(costDDP - prevCostDDP) < 1) break;
+            }
+
+            // 参考利益
+            const feesDDP = revenueDDP * (settings.feeRate + settings.adRate + settings.payoneerRate);
+            const refProfitDDP = revenueDDP - feesDDP - costDDP - shippingCostDDP;
 
             // DDU結果表示
             document.getElementById('result3-ddu').classList.remove('hidden');
@@ -1625,17 +1765,10 @@
             document.getElementById('shippingDDU3').textContent = `¥${shippingCostDDU.toFixed(0)}`;
 
             // DDP結果表示
-            const shippingCostDDP = calculateShippingCost(
-                costDDP,
-                settings.actualWeight,
-                settings.volumetricWeight,
-                settings.shippingMethod,
-                settings.shippingThreshold,
-                settings.lowPriceMethod,
-                settings.highPriceMethod
-            );
             document.getElementById('result3-ddp').classList.remove('hidden');
             document.getElementById('costPriceDDP3').textContent = `¥${costDDP.toFixed(0)}`;
+            document.getElementById('sellingPriceDDU_from_DDP3').textContent = `$${sellingPriceDDU_fromDDP.toFixed(2)}`;
+            document.getElementById('tariffDDP3').textContent = `$${tariffDDP.toFixed(2)}`;
             document.getElementById('refProfitDDP3').textContent = `¥${refProfitDDP.toFixed(0)}`;
             document.getElementById('shippingDDP3').textContent = `¥${shippingCostDDP.toFixed(0)}`;
         }
@@ -1646,23 +1779,33 @@
             const profitRate = parseFloat(document.getElementById('profitRate4').value) / 100;
             const netRate = 1 - profitRate - settings.feeRate - settings.adRate - settings.payoneerRate;
 
-            // DDU価格からの計算
+            // DDU価格からの計算（反復計算で仕入れ価格と送料を収束させる）
             const sellingPriceDDU = parseFloat(document.getElementById('sellingPriceDDU4').value);
             const revenueDDU = sellingPriceDDU * settings.exchangeRate;
 
-            // 送料計算（仮の仕入れ価格で計算）
-            const tempCostDDU = revenueDDU * netRate;
-            const shippingCostDDU = calculateShippingCost(
-                tempCostDDU,
-                settings.actualWeight,
-                settings.volumetricWeight,
-                settings.shippingMethod,
-                settings.shippingThreshold,
-                settings.lowPriceMethod,
-                settings.highPriceMethod
-            );
+            // 反復計算
+            let costDDU = revenueDDU * netRate;
+            let shippingCostDDU = 0;
+            let prevCostDDU = 0;
 
-            const costDDU = revenueDDU * netRate - shippingCostDDU;
+            for (let i = 0; i < 10; i++) {
+                const volume = settings.packageLength * settings.packageWidth * settings.packageHeight;
+                shippingCostDDU = calculateShippingCost(
+                    costDDU,
+                    settings.actualWeight,
+                    settings.volumetricWeight,
+                    settings.shippingMethod,
+                    settings.shippingThreshold,
+                    settings.lowPriceMethod,
+                    settings.highPriceMethod,
+                    volume,
+                    settings.shippingMode
+                );
+                prevCostDDU = costDDU;
+                costDDU = revenueDDU * netRate - shippingCostDDU;
+
+                if (Math.abs(costDDU - prevCostDDU) < 1) break;
+            }
 
             // 想定関税
             const tariffDDU = sellingPriceDDU * settings.tariffRate * (1 + settings.processingFeeRate)
@@ -1672,21 +1815,57 @@
                             + (settings.euShippingDiff / settings.exchangeRate);
 
             const feesDDU = revenueDDU * (settings.feeRate + settings.adRate + settings.payoneerRate);
-            const refProfitDDU = revenueDDU - feesDDU - costDDU - settings.shippingCost;
+            const refProfitDDU = revenueDDU - feesDDU - costDDU - shippingCostDDU;
 
-            // DDP価格からの計算
-            const sellingPriceDDP = parseFloat(document.getElementById('sellingPriceDDP4').value);
-            const revenueDDP = sellingPriceDDP * settings.exchangeRate;
+            // DDP価格からの計算（反復計算でDDU販売価格を逆算）
+            const ddpPriceInput = parseFloat(document.getElementById('sellingPriceDDP4').value);
+
+            // DDU販売価格を反復計算で求める
+            let sellingPriceDDU_fromDDP = ddpPriceInput * 0.85; // 初期値（関税を約15%と仮定）
+            let tariffDDP = 0;
+
+            for (let i = 0; i < 10; i++) {
+                tariffDDP = sellingPriceDDU_fromDDP * settings.tariffRate * (1 + settings.processingFeeRate)
+                          + sellingPriceDDU_fromDDP * settings.vatRate * settings.processingFeeRate
+                          + (settings.mpf / settings.exchangeRate)
+                          + settings.mpfUsd
+                          + (settings.euShippingDiff / settings.exchangeRate);
+
+                const newSellingPrice = ddpPriceInput - tariffDDP;
+                if (Math.abs(newSellingPrice - sellingPriceDDU_fromDDP) < 0.01) break;
+                sellingPriceDDU_fromDDP = newSellingPrice;
+            }
+
+            // 仕入れ価格を反復計算で求める
+            const revenueDDP = sellingPriceDDU_fromDDP * settings.exchangeRate;
             const netRevenueDDP = revenueDDP * netRate;
-            const costDDP = (netRevenueDDP - settings.shippingCost - settings.mpf - settings.euShippingDiff)
-                          / (1 + (settings.tariffRate + settings.vatRate) * (1 + settings.processingFeeRate));
 
-            // 参考利益 = 収入 × 利益率（手数料引く前の収入に対する利益率）
+            let costDDP = netRevenueDDP;
+            let shippingCostDDP = 0;
+            let prevCostDDP = 0;
+
+            for (let i = 0; i < 10; i++) {
+                const volume = settings.packageLength * settings.packageWidth * settings.packageHeight;
+                shippingCostDDP = calculateShippingCost(
+                    costDDP,
+                    settings.actualWeight,
+                    settings.volumetricWeight,
+                    settings.shippingMethod,
+                    settings.shippingThreshold,
+                    settings.lowPriceMethod,
+                    settings.highPriceMethod,
+                    volume,
+                    settings.shippingMode
+                );
+                prevCostDDP = costDDP;
+                costDDP = netRevenueDDP - shippingCostDDP;
+
+                if (Math.abs(costDDP - prevCostDDP) < 1) break;
+            }
+
+            // 参考利益
             const feesDDP = revenueDDP * (settings.feeRate + settings.adRate + settings.payoneerRate);
-            const tariffDDP = (costDDP / settings.exchangeRate) * (settings.tariffRate + settings.vatRate) * (1 + settings.processingFeeRate)
-                            + (settings.mpf / settings.exchangeRate)
-                            + (settings.euShippingDiff / settings.exchangeRate);
-            const refProfitDDP = revenueDDP - feesDDP - costDDP - settings.shippingCost - (tariffDDP * settings.exchangeRate);
+            const refProfitDDP = revenueDDP - feesDDP - costDDP - shippingCostDDP;
 
             // DDU結果表示
             document.getElementById('result4-ddu').classList.remove('hidden');
@@ -1696,17 +1875,10 @@
             document.getElementById('shippingDDU4').textContent = `¥${shippingCostDDU.toFixed(0)}`;
 
             // DDP結果表示
-            const shippingCostDDP = calculateShippingCost(
-                costDDP,
-                settings.actualWeight,
-                settings.volumetricWeight,
-                settings.shippingMethod,
-                settings.shippingThreshold,
-                settings.lowPriceMethod,
-                settings.highPriceMethod
-            );
             document.getElementById('result4-ddp').classList.remove('hidden');
             document.getElementById('costPriceDDP4').textContent = `¥${costDDP.toFixed(0)}`;
+            document.getElementById('sellingPriceDDU_from_DDP4').textContent = `$${sellingPriceDDU_fromDDP.toFixed(2)}`;
+            document.getElementById('tariffDDP4').textContent = `$${tariffDDP.toFixed(2)}`;
             document.getElementById('refProfitDDP4').textContent = `¥${refProfitDDP.toFixed(0)}`;
             document.getElementById('shippingDDP4').textContent = `¥${shippingCostDDP.toFixed(0)}`;
         }

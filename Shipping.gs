@@ -233,18 +233,18 @@ function getElogiRate(weight) {
   }
 }
 
-/** Economy：テーブルに燃油/割引を反映（追加500gは0扱い） */
+/** 配送方法別の料金計算を適用 */
 function applyShippingCalculations(methodId, baseRate, chargeableWeight) {
   if (!baseRate || baseRate <= 0) return 999999;
-  var p = getSurchargeParamsFromWorkSheet();
+
+  // FedExとDHLは追加計算が必要
   if (methodId === 'CF') return getCpassFedexRate(chargeableWeight);
   if (methodId === 'CD') return getCpassDHLFinal(chargeableWeight);
-  if (methodId === 'CE') {
-    var sub = baseRate;
-    var fuel = sub * p.fedexFuel;
-    var disc = -(sub + fuel) * p.cpassDiscount;
-    return Math.round(sub + fuel + disc);
-  }
+
+  // Cpass-Economyはテーブルに既にサーチャージが含まれているため、そのまま返す
+  if (methodId === 'CE') return Math.round(baseRate);
+
+  // その他（eLogistics、ePacket等）もテーブルの値をそのまま返す
   return baseRate;
 }
 
