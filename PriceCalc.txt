@@ -550,8 +550,8 @@
                     <input type="number" id="processingFeeRate" value="2.1" step="0.1">
                 </div>
                 <div class="input-group">
-                    <label>米国通関処理手数料 (円) <span style="font-size: 0.75em; color: #6c757d;">※将来用</span></label>
-                    <input type="number" id="mpf" value="296" step="1" style="background-color: #f8f9fa;">
+                    <label>CF用通関手数料 (円) <span style="font-size: 0.7em; color: #6c757d;">※将来用/直契約は別途</span></label>
+                    <input type="number" id="mpf" value="0" step="1" style="background-color: #f8f9fa;" title="Cpass-FedEx用。現在は0で運用。直契約の場合は別途設定が必要。">
                 </div>
                 <div class="input-group">
                     <label>CE用通関手数料 (円) <span style="font-size: 0.75em; color: #28a745;">※CE時のみ適用</span></label>
