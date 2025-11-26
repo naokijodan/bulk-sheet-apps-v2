@@ -2083,6 +2083,8 @@
             loadSettings();
             // ページ読み込み時に自動で為替レートを取得
             fetchExchangeRate();
+            // 送料試算を初期表示
+            calculateEstimatedShipping();
         };
     </script>
 </body>
