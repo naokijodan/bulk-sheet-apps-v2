@@ -109,8 +109,8 @@ function initialSetup() {
 
     // DDU価格調整機能の設定変数
     tmpl.currentDduAdjustmentEnabled = props.getProperty('DDU_ADJUSTMENT_ENABLED') || 'false';
-    tmpl.currentDduThreshold = props.getProperty('DDU_THRESHOLD') || '310';
-    tmpl.currentDduAdjustment = props.getProperty('DDU_ADJUSTMENT_AMOUNT') || '310';
+    tmpl.currentDduThreshold = props.getProperty('DDU_THRESHOLD') || '390';
+    tmpl.currentDduAdjustment = props.getProperty('DDU_ADJUSTMENT_AMOUNT') || '390';
     
     // 価格表示モード設定
     tmpl.currentPriceDisplayMode = props.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL';
