@@ -496,6 +496,51 @@
         .step strong {
             color: #667eea;
         }
+
+        /* 送料試算表スタイル */
+        .shipping-estimate-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .shipping-estimate-table th,
+        .shipping-estimate-table td {
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .shipping-estimate-table th {
+            font-weight: 600;
+            color: #6c757d;
+            font-size: 0.85em;
+        }
+        .shipping-estimate-table td {
+            font-size: 0.95em;
+        }
+        .shipping-estimate-table .cost-cell {
+            text-align: right;
+            font-weight: 500;
+        }
+        .shipping-estimate-table .weight-cell {
+            text-align: right;
+            color: #6c757d;
+            font-size: 0.85em;
+        }
+        .shipping-estimate-table tr.selected {
+            background: linear-gradient(90deg, #fff3e0, #ffe0b2);
+            border-left: 4px solid #ff9800;
+        }
+        .shipping-estimate-table tr.selected td {
+            font-weight: 700;
+            color: #e65100;
+        }
+        .shipping-estimate-table tr.unavailable td {
+            color: #adb5bd;
+            text-decoration: line-through;
+        }
+        .shipping-estimate-table tr:hover:not(.selected) {
+            background-color: #f8f9fa;
+        }
     </style>
 </head>
 <body>
@@ -664,12 +709,22 @@
                     </div>
 
                     <!-- 送料試算結果 -->
-                    <div id="shippingEstimate" style="padding: 15px; background: #fff9c4; border: 2px solid #fbc02d; border-radius: 5px; display: none;">
-                        <h4 style="margin: 0 0 10px 0; color: #f57f17;">💡 送料試算</h4>
-                        <div style="font-size: 1.1em;">
-                            <strong>配送方法:</strong> <span id="estimatedMethod">-</span><br>
-                            <strong>課金重量:</strong> <span id="estimatedWeight">-</span> g<br>
-                            <strong>送料:</strong> <span id="estimatedCost" style="font-size: 1.3em; color: #f57f17; font-weight: bold;">-</span> 円
+                    <div id="shippingEstimate" style="padding: 15px; background: #f8f9fa; border: 2px solid #dee2e6; border-radius: 8px; display: none;">
+                        <h4 style="margin: 0 0 10px 0; color: #495057;">📦 送料試算（全配送方法）</h4>
+                        <table class="shipping-estimate-table">
+                            <thead>
+                                <tr>
+                                    <th>配送方法</th>
+                                    <th style="text-align: right;">課金重量</th>
+                                    <th style="text-align: right;">送料</th>
+                                </tr>
+                            </thead>
+                            <tbody id="shippingEstimateBody">
+                                <!-- 動的に生成 -->
+                            </tbody>
+                        </table>
+                        <div id="autoSelectNote" style="margin-top: 10px; padding: 8px; background: #fff3e0; border-radius: 4px; font-size: 0.85em; color: #e65100; display: none;">
+                            ※ オレンジ色の行が現在の設定で使用される配送方法です
                         </div>
                     </div>
                 </div>
@@ -1224,71 +1279,80 @@
             calculateEstimatedShipping();
         }
 
-        // 送料試算を計算・表示
+        // 送料試算を計算・表示（全配送方法）
         function calculateEstimatedShipping() {
             const actualWeight = parseFloat(document.getElementById('actualWeight').value) || 0;
             const volumetricWeight = parseFloat(document.getElementById('volumetricWeight').value) || 0;
-            const method = document.getElementById('shippingMethod').value;
+            const volume = parseFloat(document.getElementById('volumeSize').value) || 0;
+            const selectedMethod = document.getElementById('shippingMethod').value;
 
-            // 課金重量の計算（eパケットの場合は実重量のみ、それ以外はmax）
-            let chargeableWeight;
-            if (method === 'EP') {
-                chargeableWeight = actualWeight;
-            } else {
-                chargeableWeight = Math.max(actualWeight, volumetricWeight);
-            }
-
-            if (chargeableWeight === 0) {
+            if (actualWeight === 0) {
                 document.getElementById('shippingEstimate').style.display = 'none';
                 return;
             }
 
-            let shippingCost = 0;
-            let actualMethod = method;
+            // 全配送方法のリスト
+            const allMethods = [
+                { code: 'EP', name: 'eパケット', volDivisor: null }, // 実重量のみ
+                { code: 'CE', name: 'Cpass-Economy', volDivisor: 8 },
+                { code: 'CF', name: 'Cpass-FedEx', volDivisor: 5 },
+                { code: 'CD', name: 'Cpass-DHL', volDivisor: 5 },
+                { code: 'EL', name: 'eLogistics', volDivisor: 5 },
+                { code: 'EMS', name: 'EMS', volDivisor: 5 }
+            ];
 
-            // 配送方法が「自動選択」の場合
-            if (method === '自動選択') {
+            // 自動選択の場合、実際に使われる配送方法を判定
+            let autoSelectedCode = null;
+            if (selectedMethod === '自動選択') {
                 const settings = getSettings();
                 const lowMethod = settings.lowPriceMethod || 'EP';
                 const highMethod = settings.highPriceMethod || 'CF';
+                // 基本は低価格配送方法、eパケットで2000g超過は高価格配送方法
+                autoSelectedCode = (lowMethod === 'EP' && actualWeight > 2000) ? highMethod : lowMethod;
+            }
 
-                // 仮の仕入れ価格を0として判定（実際の計算では動的に変わる）
-                // 基本的には低価格配送方法を使用
-                let selectedMethod = lowMethod;
-                // ただし、eパケットで重量オーバーの場合は高価格配送方法
-                if (lowMethod === 'EP' && actualWeight > 2000) {
-                    selectedMethod = highMethod;
-                }
-
-                if (selectedMethod === 'EP') {
-                    shippingCost = getEpacketRate(actualWeight);
-                    actualMethod = 'eパケット';
+            // 各配送方法の送料を計算
+            let tableHtml = '';
+            allMethods.forEach(m => {
+                // 課金重量の計算
+                let chargeableWeight;
+                if (m.code === 'EP') {
                     chargeableWeight = actualWeight; // eパケットは実重量のみ
                 } else {
-                    chargeableWeight = Math.max(actualWeight, volumetricWeight);
-                    shippingCost = calculateSpecificMethodRate(selectedMethod, actualWeight, chargeableWeight);
-                    actualMethod = getMethodName(selectedMethod);
+                    // 容積重量を配送方法ごとの除数で計算
+                    const methodVolWeight = volume > 0 ? Math.max(Math.round(volume / m.volDivisor), 200) : volumetricWeight;
+                    chargeableWeight = Math.max(actualWeight, methodVolWeight);
                 }
-            } else {
-                shippingCost = calculateSpecificMethodRate(method, actualWeight, chargeableWeight);
-                actualMethod = getMethodName(method);
-            }
 
-            // nullチェック（eパケットで2000g超過の場合）
-            if (shippingCost === null || shippingCost === undefined) {
-                document.getElementById('estimatedMethod').textContent = actualMethod;
-                document.getElementById('estimatedWeight').textContent = chargeableWeight.toFixed(0);
-                document.getElementById('estimatedCost').textContent = '上限超過';
-                document.getElementById('estimatedCost').style.color = '#dc3545';
-                document.getElementById('shippingEstimate').style.display = 'block';
-                return;
-            }
+                // 送料計算
+                const cost = calculateSpecificMethodRate(m.code, actualWeight, chargeableWeight);
+                const isUnavailable = (cost === null || cost === undefined || cost === 999999);
 
-            // 結果を表示
-            document.getElementById('estimatedMethod').textContent = actualMethod;
-            document.getElementById('estimatedWeight').textContent = chargeableWeight.toFixed(0);
-            document.getElementById('estimatedCost').textContent = `¥${shippingCost.toFixed(0)}`;
-            document.getElementById('estimatedCost').style.color = '#007bff';
+                // 選択中かどうか判定
+                let isSelected = false;
+                if (selectedMethod === '自動選択') {
+                    isSelected = (m.code === autoSelectedCode);
+                } else {
+                    isSelected = (m.code === selectedMethod);
+                }
+
+                // 行クラス
+                let rowClass = '';
+                if (isSelected) rowClass = 'selected';
+                else if (isUnavailable) rowClass = 'unavailable';
+
+                // 送料表示
+                let costDisplay = isUnavailable ? '対応不可' : `¥${cost.toLocaleString()}`;
+
+                tableHtml += `<tr class="${rowClass}">
+                    <td>${m.name}</td>
+                    <td class="weight-cell">${chargeableWeight.toLocaleString()} g</td>
+                    <td class="cost-cell">${costDisplay}</td>
+                </tr>`;
+            });
+
+            document.getElementById('shippingEstimateBody').innerHTML = tableHtml;
+            document.getElementById('autoSelectNote').style.display = (selectedMethod === '自動選択') ? 'block' : 'none';
             document.getElementById('shippingEstimate').style.display = 'block';
         }
 
