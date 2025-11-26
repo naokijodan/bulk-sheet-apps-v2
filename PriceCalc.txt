@@ -668,7 +668,7 @@
                         <div class="settings-grid">
                             <div class="input-group">
                                 <label>実重量 (g)</label>
-                                <input type="number" id="actualWeight" value="500" step="10" oninput="calculateEstimatedShipping()">
+                                <input type="number" id="actualWeight" value="500" step="10" oninput="calculateVolumetricWeight()">
                             </div>
                             <div class="input-group">
                                 <label>長さ (cm)</label>
@@ -682,9 +682,15 @@
                                 <label>高さ (cm)</label>
                                 <input type="number" id="packageHeight" value="20" step="1" oninput="calculateVolumetricWeight()">
                             </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
                             <div class="input-group">
-                                <label>容積重量 (g) <span style="font-size: 0.85em; color: #6c757d;">※自動計算</span></label>
-                                <input type="number" id="volumetricWeight" value="0" step="10" readonly style="background-color: #e9ecef;">
+                                <label>容積重量 (g) <span style="font-size: 0.8em; color: #1976d2;">CF/CD/EL/EMS用 ÷5</span></label>
+                                <input type="number" id="volumetricWeight" value="0" step="10" readonly style="background-color: #e3f2fd; border-color: #1976d2;">
+                            </div>
+                            <div class="input-group">
+                                <label>容積重量 (g) <span style="font-size: 0.8em; color: #7b1fa2;">CE用 ÷8</span></label>
+                                <input type="number" id="volumetricWeightCE" value="0" step="10" readonly style="background-color: #f3e5f5; border-color: #7b1fa2;">
                             </div>
                         </div>
                     </div>
@@ -709,8 +715,8 @@
                     </div>
 
                     <!-- 送料試算結果 -->
-                    <div id="shippingEstimate" style="padding: 15px; background: #f8f9fa; border: 2px solid #dee2e6; border-radius: 8px; display: none;">
-                        <h4 style="margin: 0 0 10px 0; color: #495057;">📦 送料試算（全配送方法）</h4>
+                    <div id="shippingEstimate" style="padding: 15px; background: #fff9c4; border: 2px solid #fbc02d; border-radius: 5px;">
+                        <h4 style="margin: 0 0 10px 0; color: #f57f17;">💡 送料試算（全配送方法）</h4>
                         <table class="shipping-estimate-table">
                             <thead>
                                 <tr>
@@ -1235,45 +1241,21 @@
             }
         }
 
-        // 容積重量を自動計算
+        // 容積重量を自動計算（2種類）
         function calculateVolumetricWeight() {
             const length = parseFloat(document.getElementById('packageLength').value) || 0;
             const width = parseFloat(document.getElementById('packageWidth').value) || 0;
             const height = parseFloat(document.getElementById('packageHeight').value) || 0;
-            const shippingMethod = document.getElementById('shippingMethod').value;
-            const actualWeight = parseFloat(document.getElementById('actualWeight').value) || 0;
 
-            // 配送方法によって容積重量の計算式を変更
-            // Cpass-Economy（CE）: 体積 ÷ 8、それ以外: 体積 ÷ 5
             const volume = length * width * height;
-            let volumetricWeight;
-            let actualMethod = shippingMethod;
 
-            // 自動選択の場合、実際に使われる配送方法を判定
-            if (shippingMethod === '自動選択') {
-                const settings = getSettings();
-                const lowMethod = settings.lowPriceMethod || 'EP';
-                const highMethod = settings.highPriceMethod || 'CF';
+            // CF/CD/EL/EMS用（÷5）
+            const volWeight5 = Math.max(Math.round(volume / 5), 200);
+            // CE用（÷8）
+            const volWeight8 = Math.max(Math.round(volume / 8), 200);
 
-                // 基本的には低価格配送方法を使用
-                actualMethod = lowMethod;
-                // ただし、eパケットで重量オーバーの場合は高価格配送方法
-                if (lowMethod === 'EP' && actualWeight > 2000) {
-                    actualMethod = highMethod;
-                }
-            }
-
-            // 実際に使われる配送方法に基づいて容積重量を計算
-            if (actualMethod === 'CE') {
-                volumetricWeight = Math.round(volume / 8);
-            } else {
-                volumetricWeight = Math.round(volume / 5);
-            }
-
-            // 最小値200gを適用
-            volumetricWeight = Math.max(volumetricWeight, 200);
-
-            document.getElementById('volumetricWeight').value = volumetricWeight;
+            document.getElementById('volumetricWeight').value = volWeight5;
+            document.getElementById('volumetricWeightCE').value = volWeight8;
 
             // 送料試算も更新
             calculateEstimatedShipping();
@@ -1282,23 +1264,18 @@
         // 送料試算を計算・表示（全配送方法）
         function calculateEstimatedShipping() {
             const actualWeight = parseFloat(document.getElementById('actualWeight').value) || 0;
-            const volumetricWeight = parseFloat(document.getElementById('volumetricWeight').value) || 0;
-            const volume = parseFloat(document.getElementById('volumeSize').value) || 0;
+            const volWeight5 = parseFloat(document.getElementById('volumetricWeight').value) || 0;
+            const volWeight8 = parseFloat(document.getElementById('volumetricWeightCE').value) || 0;
             const selectedMethod = document.getElementById('shippingMethod').value;
-
-            if (actualWeight === 0) {
-                document.getElementById('shippingEstimate').style.display = 'none';
-                return;
-            }
 
             // 全配送方法のリスト
             const allMethods = [
-                { code: 'EP', name: 'eパケット', volDivisor: null }, // 実重量のみ
-                { code: 'CE', name: 'Cpass-Economy', volDivisor: 8 },
-                { code: 'CF', name: 'Cpass-FedEx', volDivisor: 5 },
-                { code: 'CD', name: 'Cpass-DHL', volDivisor: 5 },
-                { code: 'EL', name: 'eLogistics', volDivisor: 5 },
-                { code: 'EMS', name: 'EMS', volDivisor: 5 }
+                { code: 'EP', name: 'eパケット', volWeight: 0 }, // 実重量のみ
+                { code: 'CE', name: 'Cpass-Economy', volWeight: volWeight8 },
+                { code: 'CF', name: 'Cpass-FedEx', volWeight: volWeight5 },
+                { code: 'CD', name: 'Cpass-DHL', volWeight: volWeight5 },
+                { code: 'EL', name: 'eLogistics', volWeight: volWeight5 },
+                { code: 'EMS', name: 'EMS', volWeight: volWeight5 }
             ];
 
             // 自動選択の場合、実際に使われる配送方法を判定
@@ -1319,9 +1296,7 @@
                 if (m.code === 'EP') {
                     chargeableWeight = actualWeight; // eパケットは実重量のみ
                 } else {
-                    // 容積重量を配送方法ごとの除数で計算
-                    const methodVolWeight = volume > 0 ? Math.max(Math.round(volume / m.volDivisor), 200) : volumetricWeight;
-                    chargeableWeight = Math.max(actualWeight, methodVolWeight);
+                    chargeableWeight = Math.max(actualWeight, m.volWeight);
                 }
 
                 // 送料計算
@@ -1353,7 +1328,6 @@
 
             document.getElementById('shippingEstimateBody').innerHTML = tableHtml;
             document.getElementById('autoSelectNote').style.display = (selectedMethod === '自動選択') ? 'block' : 'none';
-            document.getElementById('shippingEstimate').style.display = 'block';
         }
 
         // 配送方法コードを日本語名に変換
