@@ -1356,6 +1356,13 @@ function calculateShippingFeeFromPolicyName(policyName, allPolicies) {
     var name = String(policyName || '').trim();
     if (!name) return null;
 
+    // 旧形式（販売価格ベース）を除外
+    // 2番目の部分がハイフンを含まない = 旧形式 → 手動判定用
+    var parts = name.split('_');
+    if (parts.length >= 2 && parts[1].indexOf('-') === -1) {
+      return null;
+    }
+
     // 通常の関税範囲（例: _0001_0020）
     // 上限値がそのまま送料
     var normalMatch = name.match(/_(\d{4})$/);
