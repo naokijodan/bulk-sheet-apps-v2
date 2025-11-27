@@ -926,6 +926,12 @@ function parsePolicyNameForImport(policyName) {
 
     // 旧形式（6要素以上）: ['Egl', '202510', 'eco', 'new', '0001', '0050']
     if (parts.length >= 6) {
+      // 旧形式（販売価格ベース）を判定して除外
+      // parts[1]がハイフンを含まない = 旧形式 → 手動判定用として除外
+      if (parts[1].indexOf('-') === -1) {
+        return null;  // 手動判定用として扱う
+      }
+
       // 配送タイプ（3番目の要素）
       var shippingType = parts[2].toLowerCase();
 
