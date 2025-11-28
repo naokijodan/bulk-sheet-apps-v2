@@ -955,7 +955,7 @@ function getOrCreateConfigSheet() {
 function updateConfigSheet(recordCount, selectedColumns = null) {
   const configSheet = getOrCreateConfigSheet();
   const now = new Date();
-  const user = Session.getActiveUser().getEmail();
+  const user = Session.getEffectiveUser().getEmail();
   
   if (!selectedColumns) {
     selectedColumns = getSelectedColumns();
