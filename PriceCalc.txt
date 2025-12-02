@@ -1276,7 +1276,7 @@
                 { code: 'CF', name: 'Cpass-FedEx', volWeight: volWeight5 },
                 { code: 'CD', name: 'Cpass-DHL', volWeight: volWeight5 },
                 { code: 'EL', name: 'eLogistics', volWeight: volWeight5 },
-                { code: 'EMS', name: 'EMS', volWeight: volWeight5 }
+                { code: 'EMS', name: 'EMS', volWeight: 0 } // 実重量のみ
             ];
 
             // 自動選択の場合、実際に使われる配送方法を判定
@@ -1294,8 +1294,8 @@
             allMethods.forEach(m => {
                 // 課金重量の計算
                 let chargeableWeight;
-                if (m.code === 'EP') {
-                    chargeableWeight = actualWeight; // eパケットは実重量のみ
+                if (m.code === 'EP' || m.code === 'EMS') {
+                    chargeableWeight = actualWeight; // eパケット・EMSは実重量のみ
                 } else {
                     chargeableWeight = Math.max(actualWeight, m.volWeight);
                 }
@@ -1535,7 +1535,8 @@
                 case 'CE':
                     return getCpassEconomyRate(chargeableWeight);
                 case 'EMS':
-                    return getEMSRate(chargeableWeight);
+                    // EMSは実重量のみ使用
+                    return getEMSRate(actualWeight);
                 default:
                     return getCpassDHLRate(chargeableWeight);
             }
