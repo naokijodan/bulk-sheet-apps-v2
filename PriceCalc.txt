@@ -549,6 +549,7 @@
             <h1>EC価格計算ツール</h1>
             <p>仕入れ価格と販売価格を簡単に計算</p>
             <button class="tutorial-btn" onclick="openTutorial()">使い方ガイド</button>
+            <a href="https://naokijodan.github.io/ec-price-calculator/tariff-table.html" target="_blank" class="tutorial-btn" style="text-decoration: none; margin-left: 10px; background: #ff9800;">関税対応表</a>
         </div>
 
         <div class="settings-section">
