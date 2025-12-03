@@ -3198,13 +3198,10 @@ function applyCalculationFormulas(sheetName, settings) {
     if (policySheet) policySheet.getDataRange().getValues();
 
     // 🆕 dataLastRowを先に取得（全ての列で使用）
-    // I列（仕入れ価格）に値がある最終行を取得
-    var dataLastRow = sheet.getLastRow();
+    // シートに存在する全ての行に式を適用
+    var dataLastRow = sheet.getMaxRows();
     if (dataLastRow < 5) {
-      dataLastRow = 50; // データがない場合は50行まで設定（軽量化）
-    } else {
-      // 実際のデータ行数+余裕として10行追加
-      dataLastRow = Math.min(dataLastRow + 10, 1000);
+      dataLastRow = 50; // 最低50行は確保
     }
 
     // R列: 販売価格（個別行の式）
