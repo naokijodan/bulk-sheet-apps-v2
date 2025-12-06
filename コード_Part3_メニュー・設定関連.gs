@@ -3074,10 +3074,8 @@ function writeSettingsToSheet(sheetName, settings) {
     sheet.getRange('AO4:AP4').clearContent();
 
     // プロンプト設定（黄色系）
-    var promptData = [
-      ['使用プロンプト', settings.promptId || 'EBAY_FULL_LISTING_PROMPT']
-    ];
-    sheet.getRange('AR2:AS2').setValues(promptData);
+    // AR2にラベルのみ設定（AS2の値はドロップダウン設定時に設定）
+    sheet.getRange('AR2').setValue('使用プロンプト');
     sheet.getRange('AR2:AS2').setBackground('#FFF9C4');
     sheet.getRange('AR2').setFontWeight('bold');
 
@@ -3128,13 +3126,40 @@ function writeSettingsToSheet(sheetName, settings) {
     sheet.getRange('AP2').setDataValidation(rule5);
 
     // AS2: 使用プロンプト（GPT_Promptsシートから取得）
-    var promptIds = getAllPromptIds();
-    if (promptIds && promptIds.length > 0) {
+    // 既存のデータ検証と値をクリア
+    sheet.getRange('AS2').clearContent();
+    sheet.getRange('AS2').clearDataValidations();
+    SpreadsheetApp.flush();
+
+    // GPT_Promptsシートから直接取得（モーダルダイアログ対策）
+    var promptSheet = ss.getSheetByName('GPT_Prompts');
+    var promptIds = [];
+    if (promptSheet) {
+      var lastRow = promptSheet.getLastRow();
+      if (lastRow >= 2) {
+        var vals = promptSheet.getRange(2, 1, lastRow - 1, 1).getValues();
+        promptIds = vals.map(function(r){ return (r[0] || '').toString().trim(); })
+                        .filter(function(v){ return v; });
+      }
+    }
+    if (promptIds.length === 0) {
+      promptIds = ['EBAY_FULL_LISTING_PROMPT'];
+    }
+
+    if (promptIds.length > 0) {
       var rule6 = SpreadsheetApp.newDataValidation()
         .requireValueInList(promptIds, true)
         .setAllowInvalid(false)
         .build();
       sheet.getRange('AS2').setDataValidation(rule6);
+
+      // 設定値がリストに含まれていれば設定、なければ最初の値を設定
+      var targetValue = settings.promptId || '';
+      if (targetValue && promptIds.indexOf(targetValue) >= 0) {
+        sheet.getRange('AS2').setValue(targetValue);
+      } else {
+        sheet.getRange('AS2').setValue(promptIds[0]);
+      }
     }
 
     // 注釈を追加
