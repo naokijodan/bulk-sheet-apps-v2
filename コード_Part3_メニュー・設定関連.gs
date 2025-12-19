@@ -3306,7 +3306,8 @@ function applyCalculationFormulas(sheetName, settings) {
     sheet.getRange('U4').setValue('利益');
     if (profitCalc === 'RATE') {
       // 利益率モード：ARRAYFORMULA（計算式なので個別変更は想定しない）
-      var profitFormula = '=ARRAYFORMULA(IF(ROW(U4:U)=4,"利益",IF(R4:R="","",ROUND(R4:R*$C$2*(1-(V4:V+$F$2+$Z$2))-I4:I-T4:T,0))))';
+      // DDP価格ベースで手数料・広告費を計算: R*為替*(1-Payoneer) - S*為替*(手数料+広告) - 仕入れ - 送料
+      var profitFormula = '=ARRAYFORMULA(IF(ROW(U4:U)=4,"利益",IF(R4:R="","",ROUND(R4:R*$C$2*(1-$Z$2)-S4:S*$C$2*(V4:V+$F$2)-I4:I-T4:T,0))))';
       sheet.getRange('U4').setFormula(profitFormula);
     } else {
       // 利益額モード：個別行の式を設定（手動変更可能にする）

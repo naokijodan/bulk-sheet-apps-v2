@@ -3342,11 +3342,12 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
     // ========================================
     if (settings.profitCalculationMethod === 'RATE') {
       console.log('⑦ U列（利益額）設定中...');
+      // DDP価格ベースで手数料・広告費を計算: R*為替*(1-Payoneer) - S*為替*(手数料+広告) - 仕入れ - 送料
       var profitFormulas = [];
       for (var row = minRow; row <= maxRow; row++) {
         if (batchRowsSet[row]) {
           profitFormulas.push([
-            '=ROUND(R' + row + '*$C$2*(1-(V' + row + '+$F$2+$Z$2)) - I' + row + ' - T' + row + ', 0)'
+            '=ROUND(R' + row + '*$C$2*(1-$Z$2) - S' + row + '*$C$2*(V' + row + '+$F$2) - I' + row + ' - T' + row + ', 0)'
           ]);
         } else {
           profitFormulas.push(['']);
