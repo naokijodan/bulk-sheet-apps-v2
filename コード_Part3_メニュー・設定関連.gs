@@ -376,7 +376,7 @@ function getTariffRateForPopup() {
 
 function _volWeightFromDims_(length, width, height, actualWeight) {
   var L = Number(length)||0, W = Number(width)||0, H = Number(height)||0;
-  if (L>0 && W>0 && H>0) return Math.max(200, Math.round((L*W*H)/5));
+  if (L>0 && W>0 && H>0) return Math.max(100, Math.round((L*W*H)/5));
   return Number(actualWeight)||0;
 }
 
@@ -670,9 +670,9 @@ function setFormulasSimple_(sheet, row, profitAmount, fixedShipping) {
   sheet.getRange(row, CONFIG.COLUMNS.SHIPPING).setValue(fixedShipping);
   sheet.getRange(row, CONFIG.COLUMNS.FEE).setValue(feeRate);
 
-  // ✅ 合算方式に修正
+  // ✅ DDP手数料対応: 分母に関税率補正を追加
   sheet.getRange(row, CONFIG.COLUMNS.PRICE).setFormula(
-    '=ROUND(((I' + row + '+T' + row + '+U' + row + ')/(1-(V' + row + '+$F$2+$Z$2))/$C$2)*100)/100'
+    '=ROUND(((I' + row + '+T' + row + '+U' + row + ')/((1-$Z$2)-(1+$AF$2*(1+$AG$2))*(V' + row + '+$F$2))/$C$2)*100)/100'
   );
 
   // ★★★ ここを修正 ★★★
@@ -1271,21 +1271,20 @@ function fixPriceFormula() {
     
     var currentFormula = sheet.getRange(testRow, CONFIG.COLUMNS.PRICE).getFormula();  // 17→18
     
-    // ✅ 合算方式に修正
-    var newFormula = '=ROUND(((I' + testRow + '+T' + testRow + ')/(1-(V' + testRow + '+W' + testRow + '+$F$2+$Z$2))/$C$2)*100)/100';
-    // I列: 変更なし
-    // S→T（送料）
-    // U→V（手数料率）
-    // V→W（利益率）
-    // Y2→Z2（Payoneer率）
-    
+    // ✅ DDP手数料対応: 分母に関税率補正を追加
+    var newFormula = '=ROUND(((I' + testRow + '+T' + testRow + ')/((1-$Z$2)-(1+$AF$2*(1+$AG$2))*(V' + testRow + '+$F$2)-W' + testRow + ')/$C$2)*100)/100';
+    // I列: 仕入れ値
+    // T列: 送料
+    // V列: 手数料率
+    // W列: 利益率
+    // F2: 広告率、Z2: Payoneer率、AF2: 関税率、AG2: 関税処理手数料率
+
     var report = '価格計算式の比較:\n\n' +
       '【現在の式】\n' + currentFormula + '\n\n' +
-      '【修正案（合算方式）】\n' + newFormula + '\n\n' +
+      '【修正案（DDP手数料対応）】\n' + newFormula + '\n\n' +
       '修正点:\n' +
-      '- 順次控除方式 → 合算方式に変更\n' +
-      '- すべての率を販売額に対する率として計算\n' +
-      '- 計算式: (原価+送料) ÷ (1-(手数料率+利益率+広告率+Payoneer率))\n\n' +
+      '- DDP価格ベースで手数料・広告費を計算\n' +
+      '- 計算式: (原価+送料) ÷ ((1-Payoneer)-(1+関税率×(1+関税処理手数料率))×(手数料+広告)-利益率)\n\n' +
       '修正版を適用しますか？';
     
     var ui = SpreadsheetApp.getUi();
@@ -1515,13 +1514,13 @@ function SHIPPING_COST_FOR_CALCULATOR(weight, length, width, height, method, cos
     }
 
     // 配送方法に応じて容積重量の計算式を変更
-    // Cpass-Economy: 体積 ÷ 8、それ以外: 体積 ÷ 5、最小値200g
+    // Cpass-Economy: 体積 ÷ 8、それ以外: 体積 ÷ 5、最小値100g
     var selectedMethod = String(method || '自動選択');
     var volumetricWeight;
     if (selectedMethod === 'Cpass-Economy') {
-      volumetricWeight = Math.max(200, Math.round((l * wi * h) / 8));
+      volumetricWeight = Math.max(100, Math.round((l * wi * h) / 8));
     } else {
-      volumetricWeight = Math.max(200, Math.round((l * wi * h) / 5));
+      volumetricWeight = Math.max(100, Math.round((l * wi * h) / 5));
     }
     var sizeString = l + 'x' + wi + 'x' + h;
     
@@ -3204,15 +3203,17 @@ function applyCalculationFormulas(sheetName, settings) {
       dataLastRow = 50; // 最低50行は確保
     }
 
-    // R列: 販売価格（個別行の式）
+    // R列: 販売価格（個別行の式）- DDP手数料対応
     sheet.getRange('R4').setValue('販売価格');
     var priceFormulas = [];
     for (var row = 5; row <= dataLastRow; row++) {
       var formula = '';
       if (profitCalc === 'RATE') {
-        formula = '=IF(I' + row + '="","",ROUND(((I' + row + '+T' + row + ')/(1-(V' + row + '+W' + row + '+$F$2+$Z$2))/$C$2)*100)/100)';
+        // 利益率モード: 分母 = (1-Payoneer) - (1+関税率×(1+関税処理手数料率))×(手数料+広告) - 利益率
+        formula = '=IF(I' + row + '="","",ROUND(((I' + row + '+T' + row + ')/((1-$Z$2)-(1+$AF$2*(1+$AG$2))*(V' + row + '+$F$2)-W' + row + ')/$C$2)*100)/100)';
       } else {
-        formula = '=IF(I' + row + '="","",ROUND(((I' + row + '+T' + row + '+U' + row + ')/(1-(V' + row + '+$F$2+$Z$2))/$C$2)*100)/100)';
+        // 利益額モード: 分母 = (1-Payoneer) - (1+関税率×(1+関税処理手数料率))×(手数料+広告)
+        formula = '=IF(I' + row + '="","",ROUND(((I' + row + '+T' + row + '+U' + row + ')/((1-$Z$2)-(1+$AF$2*(1+$AG$2))*(V' + row + '+$F$2))/$C$2)*100)/100)';
       }
       priceFormulas.push([formula]);
     }
@@ -3401,8 +3402,8 @@ function applyCalculationFormulas(sheetName, settings) {
     }
 
     // AC列: 容積重量（ARRAYFORMULA）
-    // CE（Cpass-Economy）の場合は÷8、それ以外は÷5で計算、最小値200g
-    sheet.getRange('AC4').setFormula('=ARRAYFORMULA(IF(ROW(AC4:AC)=4,"容積重量",IF(Z4:Z="","",IF(X4:X="CE",IF(ROUND((Z4:Z*AA4:AA*AB4:AB)/8)>200,ROUND((Z4:Z*AA4:AA*AB4:AB)/8),200),IF(ROUND((Z4:Z*AA4:AA*AB4:AB)/5)>200,ROUND((Z4:Z*AA4:AA*AB4:AB)/5),200)))))');
+    // CE（Cpass-Economy）の場合は÷8、それ以外は÷5で計算、最小値100g
+    sheet.getRange('AC4').setFormula('=ARRAYFORMULA(IF(ROW(AC4:AC)=4,"容積重量",IF(Z4:Z="","",IF(X4:X="CE",IF(ROUND((Z4:Z*AA4:AA*AB4:AB)/8)>100,ROUND((Z4:Z*AA4:AA*AB4:AB)/8),100),IF(ROUND((Z4:Z*AA4:AA*AB4:AB)/5)>100,ROUND((Z4:Z*AA4:AA*AB4:AB)/5),100)))))');
 
     // AD列: 想定関税（ARRAYFORMULA）
     // 計算式: 関税額 + 関税処理手数料 + (米国通関処理手数料円 ÷ 為替) + MPF$ + (EU送料差額円 ÷ 為替)
