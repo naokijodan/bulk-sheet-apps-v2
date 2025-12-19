@@ -642,10 +642,10 @@ function setFormulas(sheet, row, settings) {
     // W列: 利益率を値として設定
     sheet.getRange(row, CONFIG.COLUMNS.RATE).setValue(profitRate);
     
-    // ✅ 合算方式に修正
+    // ✅ DDP手数料対応: 分母に関税率補正を追加
     sheet.getRange(row, CONFIG.COLUMNS.PRICE).setFormula(  // 17→18
-     '=ROUND(((I' + row + '+T' + row + ')/(1-(V' + row + '+W' + row + '+$F$2+$Z$2))/$C$2)*100)/100'
-     // (仕入れ値+送料) ÷ (1-(手数料率+利益率+広告率+Payoneer率)) ÷ 為替レート
+     '=ROUND(((I' + row + '+T' + row + ')/((1-$Z$2)-(1+$AF$2*(1+$AG$2))*(V' + row + '+$F$2)-W' + row + ')/$C$2)*100)/100'
+     // (仕入れ値+送料) ÷ ((1-Payoneer率)-(1+関税率×(1+関税処理手数料率))×(手数料率+広告率)-利益率) ÷ 為替レート
     );
     
     // ✅ 利益計算式も合算方式に修正
@@ -665,10 +665,10 @@ function setFormulas(sheet, row, settings) {
     // U列: 利益額を値として設定
     sheet.getRange(row, CONFIG.COLUMNS.PROFIT).setValue(profitAmount);
   
-    // ✅ 合算方式に修正（利益率は含まない）
+    // ✅ DDP手数料対応: 分母に関税率補正を追加
     sheet.getRange(row, CONFIG.COLUMNS.PRICE).setFormula(  // 17→18
-      '=ROUND(((I' + row + '+T' + row + '+U' + row + ')/(1-(V' + row + '+$F$2+$Z$2))/$C$2)*100)/100'
-      // (仕入れ値+送料+利益額) ÷ (1-(手数料率+広告率+Payoneer率)) ÷ 為替レート
+      '=ROUND(((I' + row + '+T' + row + '+U' + row + ')/((1-$Z$2)-(1+$AF$2*(1+$AG$2))*(V' + row + '+$F$2))/$C$2)*100)/100'
+      // (仕入れ値+送料+利益額) ÷ ((1-Payoneer率)-(1+関税率×(1+関税処理手数料率))×(手数料率+広告率)) ÷ 為替レート
     );
   }
   
@@ -735,7 +735,7 @@ sheet.getRange(row, CONFIG.COLUMNS.ESTIMATED_TAX).setFormula(  // 27→28→30�
   }
   
   sheet.getRange(row, CONFIG.COLUMNS.VOLUME)  // 26→27→29
-    .setFormula('=MAX(ROUND((Z' + row + '*AA' + row + '*AB' + row + ')/5),200)');
+    .setFormula('=MAX(ROUND((Z' + row + '*AA' + row + '*AB' + row + ')/5),100)');
     // Z列: 長さ、AA列: 幅、AB列: 高さ
 
   setPriceCellHighlight(sheet, row);
@@ -3266,7 +3266,7 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
     for (var row = minRow; row <= maxRow; row++) {
       if (batchRowsSet[row]) {
         volumeFormulas.push([
-          '=MAX(ROUND((Z' + row + '*AA' + row + '*AB' + row + ')/5),200)'
+          '=MAX(ROUND((Z' + row + '*AA' + row + '*AB' + row + ')/5),100)'
         ]);
       } else {
         volumeFormulas.push(['']);
