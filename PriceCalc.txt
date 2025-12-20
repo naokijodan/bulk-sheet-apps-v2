@@ -807,7 +807,7 @@
                     </div>
                     <!-- シッピングポリシー判定 -->
                     <div class="shipping-policy-box" id="policyBox1" style="margin-top: 15px; padding: 15px; background: #e3f2fd; border: 2px solid #2196f3; border-radius: 8px; display: none;">
-                        <h4 style="color: #1565c0; margin-bottom: 10px;">シッピングポリシー判定（V3対応）</h4>
+                        <h4 style="color: #1565c0; margin-bottom: 10px;">シッピングポリシー判定 <span style="font-size: 0.75em; color: #666; font-weight: normal;">※CE/CX選択時のみ表示</span></h4>
                         <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
                             <span id="policyBadge1" style="display: inline-block; padding: 5px 12px; border-radius: 15px; font-weight: bold; font-size: 0.85em;"></span>
                             <code id="policyName1" style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 0.9em; flex-grow: 1; word-break: break-all;"></code>
@@ -887,7 +887,7 @@
                     </div>
                     <!-- シッピングポリシー判定 -->
                     <div class="shipping-policy-box" id="policyBox2" style="margin-top: 15px; padding: 15px; background: #e3f2fd; border: 2px solid #2196f3; border-radius: 8px; display: none;">
-                        <h4 style="color: #1565c0; margin-bottom: 10px;">シッピングポリシー判定（V3対応）</h4>
+                        <h4 style="color: #1565c0; margin-bottom: 10px;">シッピングポリシー判定 <span style="font-size: 0.75em; color: #666; font-weight: normal;">※CE/CX選択時のみ表示</span></h4>
                         <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
                             <span id="policyBadge2" style="display: inline-block; padding: 5px 12px; border-radius: 15px; font-weight: bold; font-size: 0.85em;"></span>
                             <code id="policyName2" style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 0.9em; flex-grow: 1; word-break: break-all;"></code>
