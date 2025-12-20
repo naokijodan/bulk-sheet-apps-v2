@@ -376,7 +376,7 @@ function getTariffRateForPopup() {
 
 function _volWeightFromDims_(length, width, height, actualWeight) {
   var L = Number(length)||0, W = Number(width)||0, H = Number(height)||0;
-  if (L>0 && W>0 && H>0) return Math.max(100, Math.round((L*W*H)/5));
+  if (L>0 && W>0 && H>0) return Math.max(200, Math.round((L*W*H)/5));
   return Number(actualWeight)||0;
 }
 
@@ -670,9 +670,9 @@ function setFormulasSimple_(sheet, row, profitAmount, fixedShipping) {
   sheet.getRange(row, CONFIG.COLUMNS.SHIPPING).setValue(fixedShipping);
   sheet.getRange(row, CONFIG.COLUMNS.FEE).setValue(feeRate);
 
-  // ✅ DDP手数料対応: 分母に関税率補正を追加
+  // ✅ 合算方式に修正
   sheet.getRange(row, CONFIG.COLUMNS.PRICE).setFormula(
-    '=ROUND(((I' + row + '+T' + row + '+U' + row + ')/((1-$Z$2)-(1+$AF$2*(1+$AG$2))*(V' + row + '+$F$2))/$C$2)*100)/100'
+    '=ROUND(((I' + row + '+T' + row + '+U' + row + ')/(1-(V' + row + '+$F$2+$Z$2))/$C$2)*100)/100'
   );
 
   // ★★★ ここを修正 ★★★
@@ -1271,20 +1271,21 @@ function fixPriceFormula() {
     
     var currentFormula = sheet.getRange(testRow, CONFIG.COLUMNS.PRICE).getFormula();  // 17→18
     
-    // ✅ DDP手数料対応: 分母に関税率補正を追加
-    var newFormula = '=ROUND(((I' + testRow + '+T' + testRow + ')/((1-$Z$2)-(1+$AF$2*(1+$AG$2))*(V' + testRow + '+$F$2)-W' + testRow + ')/$C$2)*100)/100';
-    // I列: 仕入れ値
-    // T列: 送料
-    // V列: 手数料率
-    // W列: 利益率
-    // F2: 広告率、Z2: Payoneer率、AF2: 関税率、AG2: 関税処理手数料率
-
+    // ✅ 合算方式に修正
+    var newFormula = '=ROUND(((I' + testRow + '+T' + testRow + ')/(1-(V' + testRow + '+W' + testRow + '+$F$2+$Z$2))/$C$2)*100)/100';
+    // I列: 変更なし
+    // S→T（送料）
+    // U→V（手数料率）
+    // V→W（利益率）
+    // Y2→Z2（Payoneer率）
+    
     var report = '価格計算式の比較:\n\n' +
       '【現在の式】\n' + currentFormula + '\n\n' +
-      '【修正案（DDP手数料対応）】\n' + newFormula + '\n\n' +
+      '【修正案（合算方式）】\n' + newFormula + '\n\n' +
       '修正点:\n' +
-      '- DDP価格ベースで手数料・広告費を計算\n' +
-      '- 計算式: (原価+送料) ÷ ((1-Payoneer)-(1+関税率×(1+関税処理手数料率))×(手数料+広告)-利益率)\n\n' +
+      '- 順次控除方式 → 合算方式に変更\n' +
+      '- すべての率を販売額に対する率として計算\n' +
+      '- 計算式: (原価+送料) ÷ (1-(手数料率+利益率+広告率+Payoneer率))\n\n' +
       '修正版を適用しますか？';
     
     var ui = SpreadsheetApp.getUi();
@@ -1514,13 +1515,13 @@ function SHIPPING_COST_FOR_CALCULATOR(weight, length, width, height, method, cos
     }
 
     // 配送方法に応じて容積重量の計算式を変更
-    // Cpass-Economy: 体積 ÷ 8、それ以外: 体積 ÷ 5、最小値100g
+    // Cpass-Economy: 体積 ÷ 8、それ以外: 体積 ÷ 5、最小値200g
     var selectedMethod = String(method || '自動選択');
     var volumetricWeight;
     if (selectedMethod === 'Cpass-Economy') {
-      volumetricWeight = Math.max(100, Math.round((l * wi * h) / 8));
+      volumetricWeight = Math.max(200, Math.round((l * wi * h) / 8));
     } else {
-      volumetricWeight = Math.max(100, Math.round((l * wi * h) / 5));
+      volumetricWeight = Math.max(200, Math.round((l * wi * h) / 5));
     }
     var sizeString = l + 'x' + wi + 'x' + h;
     
@@ -1754,7 +1755,7 @@ function convertToArrayFormula(formula, column, startRow) {
     var dataStartRow = startRow + 1; // データ開始行（見出しの次の行）
 
     // 元の式: =IF(AND(NOT(ISBLANK(H1)), OR(COUNTIF('保存データ_'!H:H,H1)>0,...)), "重複", "")
-    // 目標: =ARRAYFORMULA(IF(ROW(AH4:AH)=4,"重複チェック",IF((H5:H<>"")*((COUNTIF('保存データ_'!H:H,H5:H)>0)+...)>0,"重複","")))
+    // 目標: =ARRAYFORMULA(IF(ROW(AT4:AT)=4,"重複チェック",IF((H5:H<>"")*((COUNTIF('保存データ_'!H:H,H5:H)>0)+...)>0,"重複","")))
 
     // 式から条件部分を抽出
     var match = formula.match(/=IF\(AND\(NOT\(ISBLANK\(([A-Z]+)1\)\),\s*OR\((.*)\)\),\s*"重複",\s*""\)/);
@@ -1778,8 +1779,8 @@ function convertToArrayFormula(formula, column, startRow) {
 
     // ORを加算に変換
     // 各COUNTIF条件（...>0）を抽出して括弧で囲む
-    // 例: COUNTIF('保存データ_'!H:H,AH5:AH)>0,COUNTIF('EAGLE商品一覧'!A:A,AH5:AH)>0
-    // → (COUNTIF('保存データ_'!H:H,AH5:AH)>0)+(COUNTIF('EAGLE商品一覧'!A:A,AH5:AH)>0)
+    // 例: COUNTIF('保存データ_'!H:H,AT5:AT)>0,COUNTIF('EAGLE商品一覧'!A:A,AT5:AT)>0
+    // → (COUNTIF('保存データ_'!H:H,AT5:AT)>0)+(COUNTIF('EAGLE商品一覧'!A:A,AT5:AT)>0)
     var conditionParts = arrayConditions.split(')>0');
     var formattedConditions = [];
     for (var i = 0; i < conditionParts.length; i++) {
@@ -1797,7 +1798,7 @@ function convertToArrayFormula(formula, column, startRow) {
 
     // 最終的なARRAYFORMULA（1行で生成）
     // 見出し行とデータ行を正しく対応させる
-    // 例: =ARRAYFORMULA(IF(ROW(AH4:AH)=4,"重複チェック",IF(H4:H<>"",IF((COUNTIF('保存データ_'!H:H,H4:H)>0)+(COUNTIF('EAGLE商品一覧'!A:A,H4:H)>0)>0,"重複",""),"")))
+    // 例: =ARRAYFORMULA(IF(ROW(AT4:AT)=4,"重複チェック",IF(H4:H<>"",IF((COUNTIF('保存データ_'!H:H,H4:H)>0)+(COUNTIF('EAGLE商品一覧'!A:A,H4:H)>0)>0,"重複",""),"")))
     var arrayFormula = '=ARRAYFORMULA(IF(ROW(' + outputColRange + ')=' + startRow + ',"重複チェック",IF(' + sourceColRange + '<>"",IF(' + sumConditions + '>0,"重複",""),"")))';
 
     return arrayFormula;
@@ -3203,17 +3204,15 @@ function applyCalculationFormulas(sheetName, settings) {
       dataLastRow = 50; // 最低50行は確保
     }
 
-    // R列: 販売価格（個別行の式）- DDP手数料対応
+    // R列: 販売価格（個別行の式）
     sheet.getRange('R4').setValue('販売価格');
     var priceFormulas = [];
     for (var row = 5; row <= dataLastRow; row++) {
       var formula = '';
       if (profitCalc === 'RATE') {
-        // 利益率モード: 分母 = (1-Payoneer) - (1+関税率×(1+関税処理手数料率))×(手数料+広告) - 利益率
-        formula = '=IF(I' + row + '="","",ROUND(((I' + row + '+T' + row + ')/((1-$Z$2)-(1+$AF$2*(1+$AG$2))*(V' + row + '+$F$2)-W' + row + ')/$C$2)*100)/100)';
+        formula = '=IF(I' + row + '="","",ROUND(((I' + row + '+T' + row + ')/(1-(V' + row + '+W' + row + '+$F$2+$Z$2))/$C$2)*100)/100)';
       } else {
-        // 利益額モード: 分母 = (1-Payoneer) - (1+関税率×(1+関税処理手数料率))×(手数料+広告)
-        formula = '=IF(I' + row + '="","",ROUND(((I' + row + '+T' + row + '+U' + row + ')/((1-$Z$2)-(1+$AF$2*(1+$AG$2))*(V' + row + '+$F$2))/$C$2)*100)/100)';
+        formula = '=IF(I' + row + '="","",ROUND(((I' + row + '+T' + row + '+U' + row + ')/(1-(V' + row + '+$F$2+$Z$2))/$C$2)*100)/100)';
       }
       priceFormulas.push([formula]);
     }
@@ -3306,8 +3305,7 @@ function applyCalculationFormulas(sheetName, settings) {
     sheet.getRange('U4').setValue('利益');
     if (profitCalc === 'RATE') {
       // 利益率モード：ARRAYFORMULA（計算式なので個別変更は想定しない）
-      // DDP価格ベースで手数料・広告費を計算: R*為替*(1-Payoneer) - S*為替*(手数料+広告) - 仕入れ - 送料
-      var profitFormula = '=ARRAYFORMULA(IF(ROW(U4:U)=4,"利益",IF(R4:R="","",ROUND(R4:R*$C$2*(1-$Z$2)-S4:S*$C$2*(V4:V+$F$2)-I4:I-T4:T,0))))';
+      var profitFormula = '=ARRAYFORMULA(IF(ROW(U4:U)=4,"利益",IF(R4:R="","",ROUND(R4:R*$C$2*(1-(V4:V+$F$2+$Z$2))-I4:I-T4:T,0))))';
       sheet.getRange('U4').setFormula(profitFormula);
     } else {
       // 利益額モード：個別行の式を設定（手動変更可能にする）
@@ -3403,17 +3401,35 @@ function applyCalculationFormulas(sheetName, settings) {
     }
 
     // AC列: 容積重量（ARRAYFORMULA）
-    // CE（Cpass-Economy）の場合は÷8、それ以外は÷5で計算、最小値100g
-    sheet.getRange('AC4').setFormula('=ARRAYFORMULA(IF(ROW(AC4:AC)=4,"容積重量",IF(Z4:Z="","",IF(X4:X="CE",IF(ROUND((Z4:Z*AA4:AA*AB4:AB)/8)>100,ROUND((Z4:Z*AA4:AA*AB4:AB)/8),100),IF(ROUND((Z4:Z*AA4:AA*AB4:AB)/5)>100,ROUND((Z4:Z*AA4:AA*AB4:AB)/5),100)))))');
+    // CE（Cpass-Economy）の場合は÷8、それ以外は÷5で計算、最小値200g
+    sheet.getRange('AC4').setFormula('=ARRAYFORMULA(IF(ROW(AC4:AC)=4,"容積重量",IF(Z4:Z="","",IF(X4:X="CE",IF(ROUND((Z4:Z*AA4:AA*AB4:AB)/8)>200,ROUND((Z4:Z*AA4:AA*AB4:AB)/8),200),IF(ROUND((Z4:Z*AA4:AA*AB4:AB)/5)>200,ROUND((Z4:Z*AA4:AA*AB4:AB)/5),200)))))');
+
+    // AA2: 実際の関税率（ユーザー入力）
+    // 空の場合のみデフォルト値を設定（既存の値を上書きしない）
+    var aa2Value = sheet.getRange('AA2').getValue();
+    if (aa2Value === '' || aa2Value === null || aa2Value === undefined) {
+      sheet.getRange('AA2').setValue(0.15); // デフォルト15%
+    }
+
+    // AF2: 調整後の関税率（式）
+    // AA2=実際の関税率, F1=手数料率, F2=広告費率
+    // DDP価格に対してeBay手数料・広告費が課されるため、関税率を調整
+    // 調整式: 実際の関税率 ÷ (1 - 手数料率 - 広告費率) × 1.03（3%安全係数）
+    sheet.getRange('AF2').setFormula('=$AA$2/(1-$F$1-$F$2)*1.03');
 
     // AD列: 想定関税（ARRAYFORMULA）
     // 計算式: 関税額 + 関税処理手数料 + (米国通関処理手数料円 ÷ 為替) + MPF$ + (EU送料差額円 ÷ 為替)
     // 関税額 = 販売価格 × 関税率
     // 関税処理手数料 = (販売価格 × 関税率 × 関税処理手数料率) + (販売価格 × VAT率 × 関税処理手数料率)
     // つまり: 販売価格 × 関税率 × (1 + 関税処理手数料率) + 販売価格 × VAT率 × 関税処理手数料率 + その他
-    // AF2=関税率, AE2=VAT率, AG2=関税処理手数料率, AE1=米国通関処理手数料(円)※将来用, AB2=CE用通関手数料(円), AH2=MPF($), AC2=EU送料差額(円), C2=為替レート
+    // AF2=調整後関税率, AE2=VAT率, AG2=関税処理手数料率, AE1=米国通関処理手数料(円)※将来用, AB2=CE用通関手数料(円), AH2=MPF($), AC2=EU送料差額(円), C2=為替レート
     // CE（Cpass-Economy）の場合のみAB2の通関手数料を適用、それ以外のクーリエは0
     sheet.getRange('AD4').setFormula('=ARRAYFORMULA(IF(ROW(AD4:AD)=4,"想定関税",IF(R4:R="","",ROUND(R4:R*$AF$2*(1+$AG$2)+R4:R*$AE$2*$AG$2+IF(X4:X="CE",$AB$2/$C$2,0)+$AH$2+$AC$2/$C$2,2))))');
+
+    // AH列: 実際の関税額（ARRAYFORMULA）
+    // AD列（想定関税）と同じ計算式だが、AF2（調整関税率）ではなくAA2（実際の関税率）を使用
+    // これにより実際に支払う関税額がわかり、正確な利益計算ができる
+    sheet.getRange('AH4').setFormula('=ARRAYFORMULA(IF(ROW(AH4:AH)=4,"実際の関税額",IF(R4:R="","",ROUND(R4:R*$AA$2*(1+$AG$2)+R4:R*$AE$2*$AG$2+IF(X4:X="CE",$AB$2/$C$2,0)+$AH$2+$AC$2/$C$2,2))))');
 
     // AG列: DDU調整後価格（AP2:AP3のセル参照を使用）
     // AP3は想定関税の閾値、想定関税がAP3以上の場合にDDP価格から想定関税を引く

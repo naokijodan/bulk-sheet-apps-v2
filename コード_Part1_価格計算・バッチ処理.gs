@@ -170,9 +170,14 @@ function ensureSurchargeCellsOnWorkSheet() {
     }
   }
   
-  // 関税率（AC2→AD2→AF2）
+  // AA2: 実際の関税率（ユーザー入力）
+  if (!sh.getRange('AA2').getNote()) {
+    safeSetNote(sh.getRange('AA2'), '実際の関税率（例: 0.15 = 15%）');
+  }
+
+  // AF2: 調整後関税率（式で自動計算）
   if (!sh.getRange('AF2').getNote()) {
-    safeSetNote(sh.getRange('AF2'), '関税率（例: 0.2 = 20%）');
+    safeSetNote(sh.getRange('AF2'), '調整後関税率（式: =AA2/(1-F1-F2)）\n※DDP課金対策で自動調整');
   }
 
   // 関税処理手数料率（AG2）
@@ -642,10 +647,10 @@ function setFormulas(sheet, row, settings) {
     // W列: 利益率を値として設定
     sheet.getRange(row, CONFIG.COLUMNS.RATE).setValue(profitRate);
     
-    // ✅ DDP手数料対応: 分母に関税率補正を追加
+    // ✅ 合算方式に修正
     sheet.getRange(row, CONFIG.COLUMNS.PRICE).setFormula(  // 17→18
-     '=ROUND(((I' + row + '+T' + row + ')/((1-$Z$2)-(1+$AF$2*(1+$AG$2))*(V' + row + '+$F$2)-W' + row + ')/$C$2)*100)/100'
-     // (仕入れ値+送料) ÷ ((1-Payoneer率)-(1+関税率×(1+関税処理手数料率))×(手数料率+広告率)-利益率) ÷ 為替レート
+     '=ROUND(((I' + row + '+T' + row + ')/(1-(V' + row + '+W' + row + '+$F$2+$Z$2))/$C$2)*100)/100'
+     // (仕入れ値+送料) ÷ (1-(手数料率+利益率+広告率+Payoneer率)) ÷ 為替レート
     );
     
     // ✅ 利益計算式も合算方式に修正
@@ -665,10 +670,10 @@ function setFormulas(sheet, row, settings) {
     // U列: 利益額を値として設定
     sheet.getRange(row, CONFIG.COLUMNS.PROFIT).setValue(profitAmount);
   
-    // ✅ DDP手数料対応: 分母に関税率補正を追加
+    // ✅ 合算方式に修正（利益率は含まない）
     sheet.getRange(row, CONFIG.COLUMNS.PRICE).setFormula(  // 17→18
-      '=ROUND(((I' + row + '+T' + row + '+U' + row + ')/((1-$Z$2)-(1+$AF$2*(1+$AG$2))*(V' + row + '+$F$2))/$C$2)*100)/100'
-      // (仕入れ値+送料+利益額) ÷ ((1-Payoneer率)-(1+関税率×(1+関税処理手数料率))×(手数料率+広告率)) ÷ 為替レート
+      '=ROUND(((I' + row + '+T' + row + '+U' + row + ')/(1-(V' + row + '+$F$2+$Z$2))/$C$2)*100)/100'
+      // (仕入れ値+送料+利益額) ÷ (1-(手数料率+広告率+Payoneer率)) ÷ 為替レート
     );
   }
   
@@ -735,7 +740,7 @@ sheet.getRange(row, CONFIG.COLUMNS.ESTIMATED_TAX).setFormula(  // 27→28→30�
   }
   
   sheet.getRange(row, CONFIG.COLUMNS.VOLUME)  // 26→27→29
-    .setFormula('=MAX(ROUND((Z' + row + '*AA' + row + '*AB' + row + ')/5),100)');
+    .setFormula('=MAX(ROUND((Z' + row + '*AA' + row + '*AB' + row + ')/5),200)');
     // Z列: 長さ、AA列: 幅、AB列: 高さ
 
   setPriceCellHighlight(sheet, row);
@@ -3266,7 +3271,7 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
     for (var row = minRow; row <= maxRow; row++) {
       if (batchRowsSet[row]) {
         volumeFormulas.push([
-          '=MAX(ROUND((Z' + row + '*AA' + row + '*AB' + row + ')/5),100)'
+          '=MAX(ROUND((Z' + row + '*AA' + row + '*AB' + row + ')/5),200)'
         ]);
       } else {
         volumeFormulas.push(['']);
@@ -3342,12 +3347,11 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
     // ========================================
     if (settings.profitCalculationMethod === 'RATE') {
       console.log('⑦ U列（利益額）設定中...');
-      // DDP価格ベースで手数料・広告費を計算: R*為替*(1-Payoneer) - S*為替*(手数料+広告) - 仕入れ - 送料
       var profitFormulas = [];
       for (var row = minRow; row <= maxRow; row++) {
         if (batchRowsSet[row]) {
           profitFormulas.push([
-            '=ROUND(R' + row + '*$C$2*(1-$Z$2) - S' + row + '*$C$2*(V' + row + '+$F$2) - I' + row + ' - T' + row + ', 0)'
+            '=ROUND(R' + row + '*$C$2*(1-(V' + row + '+$F$2+$Z$2)) - I' + row + ' - T' + row + ', 0)'
           ]);
         } else {
           profitFormulas.push(['']);

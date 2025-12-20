@@ -62,8 +62,10 @@ var CONFIG = {
     BASE_SHIPPING: 32,        // AF列: 基本送料
     DDU_ADJUSTED_PRICE: 33,   // AG列: DDU調整後価格
 
-    // AH列: チェック
-    DUPLICATE_CHECK: 34       // AH列: 重複チェック
+    ACTUAL_TAX: 34,           // AH列: 実際の関税額
+
+    // AT列: チェック
+    DUPLICATE_CHECK: 46       // AT列: 重複チェック
   },
 
   // 料金・見積
