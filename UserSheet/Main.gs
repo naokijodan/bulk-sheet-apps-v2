@@ -240,7 +240,7 @@ function copyToWorkSheet() { LIB.copyToWorkSheet(); }
   カスタム関数（スプレッドシート用）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function SHIPPING_COST(method, weight, volume) { return LIB.SHIPPING_COST(method, weight, volume); }
-function SHIPPING_COST_FOR_CALCULATOR(method, weight, volume) { return LIB.SHIPPING_COST_FOR_CALCULATOR(method, weight, volume); }
+function SHIPPING_COST_FOR_CALCULATOR(weight, length, width, height, method, costYen) { return LIB.SHIPPING_COST_FOR_CALCULATOR(weight, length, width, height, method, costYen); }
 function GET_SHIPPING_POLICY_ID(name) { return LIB.GET_SHIPPING_POLICY_ID ? LIB.GET_SHIPPING_POLICY_ID(name) : LIB.findShippingPolicyId(name); }
 function GET_TEMPLATE_ID(name) { return LIB.GET_TEMPLATE_ID ? LIB.GET_TEMPLATE_ID(name) : LIB.findTemplateId(name); }
 function GET_PRICE_BRACKET(price) { return LIB.GET_PRICE_BRACKET(price); }
