@@ -237,6 +237,12 @@ function clearSelectedRowsSafely() { LIB.clearSelectedRowsSafely(); }
 function copyToWorkSheet() { LIB.copyToWorkSheet(); }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  HTMLテンプレート関連
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+function createHtmlFromTemplate(templateName) { return LIB.createHtmlFromTemplate(templateName); }
+function getHtmlTemplate(templateName) { return LIB.getHtmlTemplate(templateName); }
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   カスタム関数（スプレッドシート用）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function SHIPPING_COST(method, weight, volume) { return LIB.SHIPPING_COST(method, weight, volume); }
