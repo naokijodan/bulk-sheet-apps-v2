@@ -194,19 +194,25 @@ var CONFIG = {
   APIキー移行処理（ScriptProperties → UserProperties）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 /**
- * セキュリティ対策: ScriptPropertiesからAPIキーを削除
+ * セキュリティ対策: ScriptPropertiesからAPIキー・トークンを削除
  * シートコピー時に他人のAPIキーが引き継がれるのを防ぐ
  */
 function migrateApiKeysToUserProperties_() {
   var props = PropertiesService.getScriptProperties();
-  var keyNames = ['OPENAI_API_KEY', 'CLAUDE_API_KEY', 'GEMINI_API_KEY'];
+  var keyNames = [
+    'OPENAI_API_KEY',
+    'CLAUDE_API_KEY',
+    'GEMINI_API_KEY',
+    'eagle_api_token',    // EAGLEトークン（シートごとに異なるeBayアカウント用）
+    'eagle_saved_at'      // EAGLEトークン保存日時
+  ];
 
   for (var i = 0; i < keyNames.length; i++) {
     var keyName = keyNames[i];
     // ScriptPropertiesにAPIキーがあれば削除（移行はしない）
     if (props.getProperty(keyName)) {
       props.deleteProperty(keyName);
-      console.log('ScriptPropertiesからAPIキーを削除しました: ' + keyName);
+      console.log('ScriptPropertiesからAPIキー/トークンを削除しました: ' + keyName);
     }
   }
 }
