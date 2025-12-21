@@ -2728,6 +2728,7 @@ function conditionalInfoDialog(message, title) {
 function saveIntegratedSettings(formData) {
   var ui = SpreadsheetApp.getUi();
   var props = PropertiesService.getScriptProperties();
+  var userProps = PropertiesService.getUserProperties();
   try {
     // 基本設定のバリデーション
     var platform = formData.platform;
@@ -2787,9 +2788,10 @@ function saveIntegratedSettings(formData) {
     // 基本設定の保存
     props.setProperty('AI_PLATFORM', platform);
     props.setProperty('AI_MODEL', model);
-    if (platform === 'openai') props.setProperty('OPENAI_API_KEY', apiKey);
-    if (platform === 'claude') props.setProperty('CLAUDE_API_KEY', apiKey);
-    if (platform === 'gemini') props.setProperty('GEMINI_API_KEY', apiKey);
+    // APIキーはUserPropertiesに保存（ユーザー固有、シートコピー時に引き継がれない）
+    if (platform === 'openai') userProps.setProperty('OPENAI_API_KEY', apiKey);
+    if (platform === 'claude') userProps.setProperty('CLAUDE_API_KEY', apiKey);
+    if (platform === 'gemini') userProps.setProperty('GEMINI_API_KEY', apiKey);
 
     props.setProperty('SHEET_NAME', sheetName);
     props.setProperty('PROFIT_CALC_METHOD', profitCalc);

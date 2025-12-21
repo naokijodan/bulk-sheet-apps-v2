@@ -191,15 +191,50 @@ var CONFIG = {
 };
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  APIキー移行処理（ScriptProperties → UserProperties）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/**
+ * 既存ユーザー向け: ScriptPropertiesにあるAPIキーをUserPropertiesに移行
+ * 移行後、ScriptPropertiesからAPIキーを削除（セキュリティ対策）
+ */
+function migrateApiKeysToUserProperties_() {
+  var props = PropertiesService.getScriptProperties();
+  var userProps = PropertiesService.getUserProperties();
+  var keyNames = ['OPENAI_API_KEY', 'CLAUDE_API_KEY', 'GEMINI_API_KEY'];
+
+  for (var i = 0; i < keyNames.length; i++) {
+    var keyName = keyNames[i];
+    var scriptValue = props.getProperty(keyName);
+    var userValue = userProps.getProperty(keyName);
+
+    // ScriptPropertiesにあり、UserPropertiesにない場合は移行
+    if (scriptValue && !userValue) {
+      userProps.setProperty(keyName, scriptValue);
+      props.deleteProperty(keyName);  // 移行後は削除
+      console.log('APIキーを移行しました: ' + keyName);
+    } else if (scriptValue && userValue) {
+      // 両方にある場合はScriptPropertiesから削除（UserPropertiesを優先）
+      props.deleteProperty(keyName);
+    }
+  }
+}
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   設定の取得
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function getSettings() {
   var props = PropertiesService.getScriptProperties();
+  var userProps = PropertiesService.getUserProperties();
   var platform = props.getProperty('AI_PLATFORM') || 'openai';
   var model = props.getProperty('AI_MODEL') || 'gpt-5-nano';
-  var apiKey = (platform==='openai') ? props.getProperty('OPENAI_API_KEY') :
-               (platform==='claude') ? props.getProperty('CLAUDE_API_KEY') :
-               (platform==='gemini') ? props.getProperty('GEMINI_API_KEY') : '';
+
+  // APIキーはUserPropertiesから取得（ユーザー固有、シートコピー時に引き継がれない）
+  // 既存ユーザー向け: ScriptPropertiesにAPIキーがある場合はUserPropertiesに移行
+  migrateApiKeysToUserProperties_();
+
+  var apiKey = (platform==='openai') ? userProps.getProperty('OPENAI_API_KEY') :
+               (platform==='claude') ? userProps.getProperty('CLAUDE_API_KEY') :
+               (platform==='gemini') ? userProps.getProperty('GEMINI_API_KEY') : '';
 
   var settings = {
     platform: platform,
