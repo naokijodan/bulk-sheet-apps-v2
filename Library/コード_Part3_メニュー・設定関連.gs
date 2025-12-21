@@ -11,8 +11,11 @@
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function onOpen() {
   try {
+    // APIキーをScriptPropertiesからUserPropertiesに移行（既存ユーザー向け・シートコピー時の対策）
+    migrateApiKeysToUserProperties_();
+
     var ui = SpreadsheetApp.getUi();
-    
+
     // 1. 実行メニュー（毎回使う機能）
     ui.createMenu("🔁 実行メニュー")  
       .addItem("✅　選択行を実行(翻訳・計算)", "runSelectedRows")
