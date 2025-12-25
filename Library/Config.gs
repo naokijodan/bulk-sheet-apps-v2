@@ -209,24 +209,28 @@ function isSheetCopied_() {
 }
 
 /**
- * コピーされたシートの場合、共有APIキーを削除
- * オーナーのAPIキーが他人に持っていかれるのを防ぐ
+ * コピーされたシートの場合、共有APIキーとEAGLEトークンを削除
+ * オーナーのAPIキー/トークンが他人に持っていかれるのを防ぐ
  */
 function clearSharedApiKeyIfCopied_() {
   if (isSheetCopied_()) {
     var props = PropertiesService.getScriptProperties();
     var sharedKeyNames = [
+      // 共有AIのAPIキー
       'SHARED_OPENAI_API_KEY',
       'SHARED_CLAUDE_API_KEY',
       'SHARED_GEMINI_API_KEY',
       'ORIGINAL_SHEET_ID',
-      'API_SHARING_ENABLED'
+      'API_SHARING_ENABLED',
+      // EAGLEトークン（シート単位で保存されるため、コピー時は削除）
+      'eagle_api_token',
+      'eagle_saved_at'
     ];
 
     for (var i = 0; i < sharedKeyNames.length; i++) {
       props.deleteProperty(sharedKeyNames[i]);
     }
-    console.log('コピーされたシートのため、共有APIキーを削除しました');
+    console.log('コピーされたシートのため、共有APIキー・EAGLEトークンを削除しました');
   }
 }
 
@@ -310,12 +314,12 @@ function isApiKeySharingEnabled_() {
  */
 function migrateApiKeysToUserProperties_() {
   var props = PropertiesService.getScriptProperties();
+  // EAGLEトークンはシート単位で必要なのでScriptPropertiesに残す
+  // コピー時の削除はclearSharedApiKeyIfCopied_で処理
   var keyNames = [
     'OPENAI_API_KEY',
     'CLAUDE_API_KEY',
-    'GEMINI_API_KEY',
-    'eagle_api_token',    // EAGLEトークン（シートごとに異なるeBayアカウント用）
-    'eagle_saved_at'      // EAGLEトークン保存日時
+    'GEMINI_API_KEY'
   ];
 
   for (var i = 0; i < keyNames.length; i++) {
