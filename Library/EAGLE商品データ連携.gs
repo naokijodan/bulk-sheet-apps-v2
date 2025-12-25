@@ -38,6 +38,7 @@ const COLUMN_PRESETS = {
 
 /**
  * APIトークンを平文で保存（無期限）
+ * シートIDも保存してコピー時の判別に使用
  */
 function saveApiToken(apiToken) {
   try {
@@ -46,9 +47,12 @@ function saveApiToken(apiToken) {
     }
 
     const properties = PropertiesService.getScriptProperties();
+    const currentSheetId = SpreadsheetApp.getActive().getId();
+
     properties.setProperties({
       'eagle_api_token': apiToken.trim(),
-      'eagle_saved_at': new Date().toISOString()
+      'eagle_saved_at': new Date().toISOString(),
+      'ORIGINAL_SHEET_ID': currentSheetId  // コピー判別用
     });
 
     console.log(`✅ APIトークンを保存（無期限）`);
