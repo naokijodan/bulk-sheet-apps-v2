@@ -11,7 +11,10 @@
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function onOpen() {
   try {
-    // APIキーをScriptPropertiesからUserPropertiesに移行（既存ユーザー向け・シートコピー時の対策）
+    // コピーされたシートの場合、共有APIキー・EAGLEトークンを削除
+    clearSharedApiKeyIfCopied_();
+
+    // APIキーをScriptPropertiesからUserPropertiesに移行（既存ユーザー向け）
     migrateApiKeysToUserProperties_();
 
     var ui = SpreadsheetApp.getUi();
