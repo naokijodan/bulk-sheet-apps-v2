@@ -85,12 +85,17 @@ function initialSetup() {
 
     // テンプレート変数のデータを準備
     // APIキーはUserPropertiesから取得（ユーザー固有、シートコピー時に引き継がれない）
+    // 共有APIキーがある場合はそちらを表示
+    var currentPlatform = props.getProperty('AI_PLATFORM') || 'openai';
     var templateData = {
+      currentPlatform: currentPlatform,
       currentApiKeys: {
         openai: userProps.getProperty('OPENAI_API_KEY') || '',
         claude: userProps.getProperty('CLAUDE_API_KEY') || '',
         gemini: userProps.getProperty('GEMINI_API_KEY') || ''
       },
+      // APIキー共有設定
+      currentShareApiKey: props.getProperty('API_SHARING_ENABLED') || 'false',
       currentModel: props.getProperty('AI_MODEL') || 'gpt-5-nano',
       currentSheetName: workSheetName,
       currentProfitCalculationMethod: props.getProperty('PROFIT_CALC_METHOD') || 'RATE',

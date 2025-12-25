@@ -2791,10 +2791,22 @@ function saveIntegratedSettings(formData) {
     // 基本設定の保存
     props.setProperty('AI_PLATFORM', platform);
     props.setProperty('AI_MODEL', model);
+
+    // APIキー共有設定の処理
+    var shareApiKey = formData.shareApiKey === true || formData.shareApiKey === 'true';
+
     // APIキーはUserPropertiesに保存（ユーザー固有、シートコピー時に引き継がれない）
     if (platform === 'openai') userProps.setProperty('OPENAI_API_KEY', apiKey);
     if (platform === 'claude') userProps.setProperty('CLAUDE_API_KEY', apiKey);
     if (platform === 'gemini') userProps.setProperty('GEMINI_API_KEY', apiKey);
+
+    // 共有設定が有効な場合、ScriptPropertiesにも保存（シートにアクセスできる全員が使用可能）
+    if (shareApiKey) {
+      saveSharedApiKey_(platform, apiKey);
+    } else {
+      // 共有を無効化
+      disableApiKeySharing_();
+    }
 
     props.setProperty('SHEET_NAME', sheetName);
     props.setProperty('PROFIT_CALC_METHOD', profitCalc);
