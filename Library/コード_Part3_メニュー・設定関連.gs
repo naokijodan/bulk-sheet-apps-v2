@@ -11,11 +11,8 @@
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function onOpen() {
   try {
-    // コピーされたシートの場合、共有APIキー・EAGLEトークンを削除
-    clearSharedApiKeyIfCopied_();
-
-    // APIキーをScriptPropertiesからUserPropertiesに移行（既存ユーザー向け）
-    migrateApiKeysToUserProperties_();
+    // コピーされたシートの場合、APIキー・EAGLEトークンを削除
+    clearApiKeysIfCopied_();
 
     var ui = SpreadsheetApp.getUi();
 
@@ -2734,7 +2731,6 @@ function conditionalInfoDialog(message, title) {
 function saveIntegratedSettings(formData) {
   var ui = SpreadsheetApp.getUi();
   var props = PropertiesService.getScriptProperties();
-  var userProps = PropertiesService.getUserProperties();
   try {
     // 基本設定のバリデーション
     var platform = formData.platform;
@@ -2795,21 +2791,14 @@ function saveIntegratedSettings(formData) {
     props.setProperty('AI_PLATFORM', platform);
     props.setProperty('AI_MODEL', model);
 
-    // APIキー共有設定の処理
-    var shareApiKey = formData.shareApiKey === true || formData.shareApiKey === 'true';
+    // APIキーはScriptPropertiesに保存（シート単位で共有可能）
+    // コピー時は clearApiKeysIfCopied_() で削除される
+    var currentSheetId = SpreadsheetApp.getActive().getId();
+    props.setProperty('ORIGINAL_SHEET_ID', currentSheetId);  // コピー判別用
 
-    // APIキーはUserPropertiesに保存（ユーザー固有、シートコピー時に引き継がれない）
-    if (platform === 'openai') userProps.setProperty('OPENAI_API_KEY', apiKey);
-    if (platform === 'claude') userProps.setProperty('CLAUDE_API_KEY', apiKey);
-    if (platform === 'gemini') userProps.setProperty('GEMINI_API_KEY', apiKey);
-
-    // 共有設定が有効な場合、ScriptPropertiesにも保存（シートにアクセスできる全員が使用可能）
-    if (shareApiKey) {
-      saveSharedApiKey_(platform, apiKey);
-    } else {
-      // 共有を無効化
-      disableApiKeySharing_();
-    }
+    if (platform === 'openai') props.setProperty('OPENAI_API_KEY', apiKey);
+    if (platform === 'claude') props.setProperty('CLAUDE_API_KEY', apiKey);
+    if (platform === 'gemini') props.setProperty('GEMINI_API_KEY', apiKey);
 
     props.setProperty('SHEET_NAME', sheetName);
     props.setProperty('PROFIT_CALC_METHOD', profitCalc);

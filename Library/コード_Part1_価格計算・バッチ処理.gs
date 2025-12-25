@@ -79,23 +79,19 @@ function savePromptContent(promptId, newContent) {
 function initialSetup() {
   var ui = SpreadsheetApp.getUi();
   var props = PropertiesService.getScriptProperties();
-  var userProps = PropertiesService.getUserProperties();
   try {
     var workSheetName = props.getProperty('SHEET_NAME') || '作業シート';
 
     // テンプレート変数のデータを準備
-    // APIキーはUserPropertiesから取得（ユーザー固有、シートコピー時に引き継がれない）
-    // 共有APIキーがある場合はそちらを表示
+    // APIキーはScriptPropertiesから取得（シート単位で保存、コピー時は削除される）
     var currentPlatform = props.getProperty('AI_PLATFORM') || 'openai';
     var templateData = {
       currentPlatform: currentPlatform,
       currentApiKeys: {
-        openai: userProps.getProperty('OPENAI_API_KEY') || '',
-        claude: userProps.getProperty('CLAUDE_API_KEY') || '',
-        gemini: userProps.getProperty('GEMINI_API_KEY') || ''
+        openai: props.getProperty('OPENAI_API_KEY') || '',
+        claude: props.getProperty('CLAUDE_API_KEY') || '',
+        gemini: props.getProperty('GEMINI_API_KEY') || ''
       },
-      // APIキー共有設定
-      currentShareApiKey: props.getProperty('API_SHARING_ENABLED') || 'false',
       currentModel: props.getProperty('AI_MODEL') || 'gpt-5-nano',
       currentSheetName: workSheetName,
       currentProfitCalculationMethod: props.getProperty('PROFIT_CALC_METHOD') || 'RATE',

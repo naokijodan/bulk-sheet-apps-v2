@@ -209,154 +209,47 @@ function isSheetCopied_() {
 }
 
 /**
- * コピーされたシートの場合、共有APIキーとEAGLEトークンを削除
+ * コピーされたシートの場合、APIキーとEAGLEトークンを削除
  * オーナーのAPIキー/トークンが他人に持っていかれるのを防ぐ
  */
-function clearSharedApiKeyIfCopied_() {
+function clearApiKeysIfCopied_() {
   if (isSheetCopied_()) {
     var props = PropertiesService.getScriptProperties();
-    var sharedKeyNames = [
-      // 共有AIのAPIキー
-      'SHARED_OPENAI_API_KEY',
-      'SHARED_CLAUDE_API_KEY',
-      'SHARED_GEMINI_API_KEY',
+    var keyNames = [
+      // AIのAPIキー（ScriptPropertiesに保存）
+      'OPENAI_API_KEY',
+      'CLAUDE_API_KEY',
+      'GEMINI_API_KEY',
+      // コピー判別用
       'ORIGINAL_SHEET_ID',
-      'API_SHARING_ENABLED',
       // EAGLEトークン（シート単位で保存されるため、コピー時は削除）
       'eagle_api_token',
       'eagle_saved_at'
     ];
 
-    for (var i = 0; i < sharedKeyNames.length; i++) {
-      props.deleteProperty(sharedKeyNames[i]);
+    for (var i = 0; i < keyNames.length; i++) {
+      props.deleteProperty(keyNames[i]);
     }
-    console.log('コピーされたシートのため、共有APIキー・EAGLEトークンを削除しました');
+    console.log('コピーされたシートのため、APIキー・EAGLEトークンを削除しました');
   }
 }
 
-/**
- * 共有用APIキーを保存（オーナーが設定）
- * @param {string} platform - AIプラットフォーム（openai/claude/gemini）
- * @param {string} apiKey - APIキー
- */
-function saveSharedApiKey_(platform, apiKey) {
-  var props = PropertiesService.getScriptProperties();
-  var currentSheetId = SpreadsheetApp.getActive().getId();
-
-  // オリジナルシートIDを保存（コピー判別用）
-  props.setProperty('ORIGINAL_SHEET_ID', currentSheetId);
-  props.setProperty('API_SHARING_ENABLED', 'true');
-
-  // プラットフォームに応じた共有キーを保存
-  if (platform === 'openai') {
-    props.setProperty('SHARED_OPENAI_API_KEY', apiKey);
-  } else if (platform === 'claude') {
-    props.setProperty('SHARED_CLAUDE_API_KEY', apiKey);
-  } else if (platform === 'gemini') {
-    props.setProperty('SHARED_GEMINI_API_KEY', apiKey);
-  }
-
-  console.log('共有APIキーを保存しました: ' + platform);
-}
-
-/**
- * 共有用APIキーを取得
- * @param {string} platform - AIプラットフォーム
- * @return {string} 共有APIキー（なければ空文字）
- */
-function getSharedApiKey_(platform) {
-  var props = PropertiesService.getScriptProperties();
-
-  // 共有が有効かチェック
-  if (props.getProperty('API_SHARING_ENABLED') !== 'true') {
-    return '';
-  }
-
-  if (platform === 'openai') {
-    return props.getProperty('SHARED_OPENAI_API_KEY') || '';
-  } else if (platform === 'claude') {
-    return props.getProperty('SHARED_CLAUDE_API_KEY') || '';
-  } else if (platform === 'gemini') {
-    return props.getProperty('SHARED_GEMINI_API_KEY') || '';
-  }
-  return '';
-}
-
-/**
- * APIキー共有を無効化
- */
-function disableApiKeySharing_() {
-  var props = PropertiesService.getScriptProperties();
-  props.deleteProperty('SHARED_OPENAI_API_KEY');
-  props.deleteProperty('SHARED_CLAUDE_API_KEY');
-  props.deleteProperty('SHARED_GEMINI_API_KEY');
-  props.deleteProperty('API_SHARING_ENABLED');
-  // ORIGINAL_SHEET_IDは残す（コピー判別に使用）
-  console.log('APIキー共有を無効化しました');
-}
-
-/**
- * APIキー共有が有効かどうか
- * @return {boolean}
- */
-function isApiKeySharingEnabled_() {
-  var props = PropertiesService.getScriptProperties();
-  return props.getProperty('API_SHARING_ENABLED') === 'true';
-}
-
-/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  APIキー移行処理（ScriptProperties → UserProperties）
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/**
- * セキュリティ対策: ScriptPropertiesからAPIキー・トークンを削除
- * シートコピー時に他人のAPIキーが引き継がれるのを防ぐ
- * ※ 共有APIキー（SHARED_*）はclearSharedApiKeyIfCopied_で別途処理
- */
-function migrateApiKeysToUserProperties_() {
-  var props = PropertiesService.getScriptProperties();
-  // EAGLEトークンはシート単位で必要なのでScriptPropertiesに残す
-  // コピー時の削除はclearSharedApiKeyIfCopied_で処理
-  var keyNames = [
-    'OPENAI_API_KEY',
-    'CLAUDE_API_KEY',
-    'GEMINI_API_KEY'
-  ];
-
-  for (var i = 0; i < keyNames.length; i++) {
-    var keyName = keyNames[i];
-    // ScriptPropertiesにAPIキーがあれば削除（移行はしない）
-    if (props.getProperty(keyName)) {
-      props.deleteProperty(keyName);
-      console.log('ScriptPropertiesからAPIキー/トークンを削除しました: ' + keyName);
-    }
-  }
-}
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   設定の取得
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function getSettings() {
   var props = PropertiesService.getScriptProperties();
-  var userProps = PropertiesService.getUserProperties();
   var platform = props.getProperty('AI_PLATFORM') || 'openai';
   var model = props.getProperty('AI_MODEL') || 'gpt-5-nano';
 
-  // コピーされたシートの場合、共有APIキーを削除
-  clearSharedApiKeyIfCopied_();
+  // コピーされたシートの場合、APIキーを削除
+  clearApiKeysIfCopied_();
 
-  // 既存ユーザー向け: ScriptPropertiesにAPIキーがある場合は削除
-  migrateApiKeysToUserProperties_();
-
-  // APIキーの取得優先順位:
-  // 1. 共有APIキー（オーナーが設定、シートにアクセスできる全員が使用可能）
-  // 2. ユーザー固有のAPIキー（UserProperties）
-  var sharedApiKey = getSharedApiKey_(platform);
-  var userApiKey = (platform==='openai') ? userProps.getProperty('OPENAI_API_KEY') :
-                   (platform==='claude') ? userProps.getProperty('CLAUDE_API_KEY') :
-                   (platform==='gemini') ? userProps.getProperty('GEMINI_API_KEY') : '';
-
-  // 共有APIキーがあればそちらを優先
-  var apiKey = sharedApiKey || userApiKey;
+  // APIキーはScriptPropertiesから取得（シート単位で保存、コピー時は削除される）
+  var apiKey = (platform==='openai') ? props.getProperty('OPENAI_API_KEY') :
+               (platform==='claude') ? props.getProperty('CLAUDE_API_KEY') :
+               (platform==='gemini') ? props.getProperty('GEMINI_API_KEY') : '';
 
   var settings = {
     platform: platform,
