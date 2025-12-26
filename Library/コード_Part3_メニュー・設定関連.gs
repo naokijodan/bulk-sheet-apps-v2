@@ -2791,11 +2791,10 @@ function saveIntegratedSettings(formData) {
     props.setProperty('AI_PLATFORM', platform);
     props.setProperty('AI_MODEL', model);
 
-    // APIキーはDocumentPropertiesに保存（スプレッドシートごとに独立、コピー時は引き継がれない）
-    var docProps = PropertiesService.getDocumentProperties();
-    if (platform === 'openai') docProps.setProperty('OPENAI_API_KEY', apiKey);
-    if (platform === 'claude') docProps.setProperty('CLAUDE_API_KEY', apiKey);
-    if (platform === 'gemini') docProps.setProperty('GEMINI_API_KEY', apiKey);
+    // APIキーは暗号化して保存（スプレッドシートごとに独立、コピー時は引き継がれない）
+    if (platform === 'openai') saveEncryptedApiKey('OPENAI_API_KEY', apiKey);
+    if (platform === 'claude') saveEncryptedApiKey('CLAUDE_API_KEY', apiKey);
+    if (platform === 'gemini') saveEncryptedApiKey('GEMINI_API_KEY', apiKey);
 
     props.setProperty('SHEET_NAME', sheetName);
     props.setProperty('PROFIT_CALC_METHOD', profitCalc);

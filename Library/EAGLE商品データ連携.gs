@@ -1,5 +1,5 @@
 // EAGLE APIトークン連携システム - シンプル版（8列限定・新仕様対応）
-// 暗号化なし、平文保存で確実動作
+// 暗号化保存対応版
 
 // 固定設定
 const API_URL = "https://e-agle.net/api/ebay_items/list";
@@ -37,8 +37,8 @@ const COLUMN_PRESETS = {
 };
 
 /**
- * APIトークンを平文で保存（無期限）
- * シートIDも保存してコピー時の判別に使用
+ * APIトークンを暗号化して保存（無期限）
+ * DocumentPropertiesを使用（スプレッドシートごとに独立）
  */
 function saveApiToken(apiToken) {
   try {
@@ -49,12 +49,15 @@ function saveApiToken(apiToken) {
     // DocumentPropertiesを使用（スプレッドシートごとに独立、コピー時は引き継がれない）
     const docProps = PropertiesService.getDocumentProperties();
 
+    // 暗号化して保存（Config.gsの暗号化関数を使用）
+    const encryptedToken = encryptApiKey_(apiToken.trim());
+
     docProps.setProperties({
-      'eagle_api_token': apiToken.trim(),
+      'eagle_api_token': encryptedToken,
       'eagle_saved_at': new Date().toISOString()
     });
 
-    console.log(`✅ APIトークンを保存（無期限）`);
+    console.log(`✅ APIトークンを暗号化して保存（無期限）`);
     return true;
 
   } catch (error) {
@@ -97,16 +100,24 @@ function getSelectedColumns() {
 }
 
 /**
- * 保存されたAPIトークンを取得（無期限）
+ * 保存されたAPIトークンを復号して取得（無期限）
  */
 function getApiToken() {
   try {
     const docProps = PropertiesService.getDocumentProperties();
 
-    const apiToken = docProps.getProperty('eagle_api_token');
+    const encryptedToken = docProps.getProperty('eagle_api_token');
+
+    if (!encryptedToken) {
+      console.log('⚠️ 保存されたAPIトークンがありません');
+      return null;
+    }
+
+    // 復号して返す（Config.gsの復号関数を使用）
+    const apiToken = decryptApiKey_(encryptedToken);
 
     if (!apiToken) {
-      console.log('⚠️ 保存されたAPIトークンがありません');
+      console.log('⚠️ APIトークンの復号に失敗しました');
       return null;
     }
 

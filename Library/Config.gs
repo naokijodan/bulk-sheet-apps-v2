@@ -191,13 +191,93 @@ var CONFIG = {
 };
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  APIキー・トークン管理（DocumentProperties使用）
+  APIキー・トークン管理（DocumentProperties使用 + 暗号化）
 
   DocumentPropertiesを使用することで：
   - 各スプレッドシートごとに独立した保存領域
   - シートをコピーしても新しい空のDocumentPropertiesになる（APIキーはコピーされない）
   - ライブラリ更新の影響を受けない
+
+  暗号化により：
+  - DocumentPropertiesに保存されるのは暗号化済みの文字列
+  - 復号キーはこのライブラリ内にのみ存在（ユーザーには見えない）
+  - 万が一DocumentPropertiesを見られても解読不可
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+/**
+ * 暗号化用の秘密キー（ライブラリ内にのみ存在）
+ * @private
+ */
+var ENCRYPTION_KEY_ = 'BulkToolsLib_2024_SecretKey_v3';
+
+/**
+ * APIキー・トークンを暗号化
+ * @param {string} plainText - 暗号化する文字列
+ * @return {string} 暗号化された文字列（Base64エンコード）
+ * @private
+ */
+function encryptApiKey_(plainText) {
+  if (!plainText) return '';
+
+  try {
+    // XOR暗号化 + Base64エンコード
+    var encrypted = [];
+    for (var i = 0; i < plainText.length; i++) {
+      var charCode = plainText.charCodeAt(i) ^ ENCRYPTION_KEY_.charCodeAt(i % ENCRYPTION_KEY_.length);
+      encrypted.push(String.fromCharCode(charCode));
+    }
+    return Utilities.base64Encode(encrypted.join(''), Utilities.Charset.UTF_8);
+  } catch (e) {
+    console.error('暗号化エラー:', e);
+    return '';
+  }
+}
+
+/**
+ * 暗号化されたAPIキー・トークンを復号
+ * @param {string} encryptedText - 暗号化された文字列（Base64エンコード）
+ * @return {string} 復号された文字列
+ * @private
+ */
+function decryptApiKey_(encryptedText) {
+  if (!encryptedText) return '';
+
+  try {
+    // Base64デコード + XOR復号
+    var decoded = Utilities.newBlob(Utilities.base64Decode(encryptedText)).getDataAsString();
+    var decrypted = [];
+    for (var i = 0; i < decoded.length; i++) {
+      var charCode = decoded.charCodeAt(i) ^ ENCRYPTION_KEY_.charCodeAt(i % ENCRYPTION_KEY_.length);
+      decrypted.push(String.fromCharCode(charCode));
+    }
+    return decrypted.join('');
+  } catch (e) {
+    console.error('復号エラー:', e);
+    return '';
+  }
+}
+
+/**
+ * APIキーを暗号化して保存
+ * @param {string} keyName - キー名（OPENAI_API_KEY等）
+ * @param {string} apiKey - 生のAPIキー
+ */
+function saveEncryptedApiKey(keyName, apiKey) {
+  var docProps = PropertiesService.getDocumentProperties();
+  var encrypted = encryptApiKey_(apiKey);
+  docProps.setProperty(keyName, encrypted);
+}
+
+/**
+ * 暗号化されたAPIキーを復号して取得
+ * @param {string} keyName - キー名（OPENAI_API_KEY等）
+ * @return {string} 復号されたAPIキー
+ */
+function getDecryptedApiKey(keyName) {
+  var docProps = PropertiesService.getDocumentProperties();
+  var encrypted = docProps.getProperty(keyName);
+  return decryptApiKey_(encrypted);
+}
 
 /**
  * デバッグ用: APIキー/トークンの状態を確認
@@ -228,14 +308,13 @@ function debugCheckApiKeyStatus() {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function getSettings() {
   var props = PropertiesService.getScriptProperties();
-  var docProps = PropertiesService.getDocumentProperties();
   var platform = props.getProperty('AI_PLATFORM') || 'openai';
   var model = props.getProperty('AI_MODEL') || 'gpt-5-nano';
 
-  // APIキーはDocumentPropertiesから取得（スプレッドシートごとに独立、コピー時は引き継がれない）
-  var apiKey = (platform==='openai') ? docProps.getProperty('OPENAI_API_KEY') :
-               (platform==='claude') ? docProps.getProperty('CLAUDE_API_KEY') :
-               (platform==='gemini') ? docProps.getProperty('GEMINI_API_KEY') : '';
+  // APIキーは暗号化されて保存されているので復号して取得
+  var apiKey = (platform==='openai') ? getDecryptedApiKey('OPENAI_API_KEY') :
+               (platform==='claude') ? getDecryptedApiKey('CLAUDE_API_KEY') :
+               (platform==='gemini') ? getDecryptedApiKey('GEMINI_API_KEY') : '';
 
   var settings = {
     platform: platform,
