@@ -79,18 +79,19 @@ function savePromptContent(promptId, newContent) {
 function initialSetup() {
   var ui = SpreadsheetApp.getUi();
   var props = PropertiesService.getScriptProperties();
+  var docProps = PropertiesService.getDocumentProperties();
   try {
     var workSheetName = props.getProperty('SHEET_NAME') || '作業シート';
 
     // テンプレート変数のデータを準備
-    // APIキーはScriptPropertiesから取得（シート単位で保存、コピー時は削除される）
+    // APIキーはDocumentPropertiesから取得（スプレッドシートごとに独立、コピー時は引き継がれない）
     var currentPlatform = props.getProperty('AI_PLATFORM') || 'openai';
     var templateData = {
       currentPlatform: currentPlatform,
       currentApiKeys: {
-        openai: props.getProperty('OPENAI_API_KEY') || '',
-        claude: props.getProperty('CLAUDE_API_KEY') || '',
-        gemini: props.getProperty('GEMINI_API_KEY') || ''
+        openai: docProps.getProperty('OPENAI_API_KEY') || '',
+        claude: docProps.getProperty('CLAUDE_API_KEY') || '',
+        gemini: docProps.getProperty('GEMINI_API_KEY') || ''
       },
       currentModel: props.getProperty('AI_MODEL') || 'gpt-5-nano',
       currentSheetName: workSheetName,
@@ -4001,14 +4002,13 @@ function checkCurrentValidation() {
   try {
     var ui = SpreadsheetApp.getUi();
     var props = PropertiesService.getScriptProperties();
-    var userProps = PropertiesService.getUserProperties();
+    var docProps = PropertiesService.getDocumentProperties();
     var platform = props.getProperty('AI_PLATFORM') || 'openai';
     var model = props.getProperty('AI_MODEL') || 'gpt-5-nano';
-    // APIキーはUserPropertiesから確認
     var apiKeyStatus = '';
-    if (platform==='openai') apiKeyStatus = userProps.getProperty('OPENAI_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
-    if (platform==='claude') apiKeyStatus = userProps.getProperty('CLAUDE_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
-    if (platform==='gemini') apiKeyStatus = userProps.getProperty('GEMINI_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
+    if (platform==='openai') apiKeyStatus = docProps.getProperty('OPENAI_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
+    if (platform==='claude') apiKeyStatus = docProps.getProperty('CLAUDE_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
+    if (platform==='gemini') apiKeyStatus = docProps.getProperty('GEMINI_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
 
     var sheetName = props.getProperty('SHEET_NAME') || '未設定';
     var profitCalc = props.getProperty('PROFIT_CALC_METHOD') || '未設定';

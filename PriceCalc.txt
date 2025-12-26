@@ -806,13 +806,14 @@
                         </div>
                     </div>
                     <!-- シッピングポリシー判定 -->
-                    <div class="shipping-policy-box" id="policyBox1" style="margin-top: 15px; padding: 15px; background: #e3f2fd; border: 2px solid #2196f3; border-radius: 8px; display: none;">
-                        <h4 style="color: #1565c0; margin-bottom: 10px;">シッピングポリシー判定 <span style="font-size: 0.75em; color: #666; font-weight: normal;">※CE/CX選択時のみ表示</span></h4>
-                        <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                    <div class="shipping-policy-box" id="policyBox1" style="margin-top: 15px; padding: 15px; background: #e3f2fd; border: 2px solid #2196f3; border-radius: 8px;">
+                        <h4 style="color: #1565c0; margin-bottom: 10px;">シッピングポリシー判定</h4>
+                        <div id="policyContent1" style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
                             <span id="policyBadge1" style="display: inline-block; padding: 5px 12px; border-radius: 15px; font-weight: bold; font-size: 0.85em;"></span>
                             <code id="policyName1" style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 0.9em; flex-grow: 1; word-break: break-all;"></code>
                             <button onclick="copyPolicyName('policyName1', this)" style="background: #2196f3; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 0.85em;">コピー</button>
                         </div>
+                        <div id="policyNotice1" style="display: none; color: #666; font-size: 0.9em;">※ CE（Cpass-Economy）またはCX（Cpass-FedEx）選択時のみ判定されます</div>
                     </div>
                     <!-- 利益計算の詳細 -->
                     <div class="profit-calc-box" style="margin-top: 15px; padding: 15px; background: #e8f5e9; border: 2px solid #4caf50; border-radius: 8px;">
@@ -886,13 +887,14 @@
                         </div>
                     </div>
                     <!-- シッピングポリシー判定 -->
-                    <div class="shipping-policy-box" id="policyBox2" style="margin-top: 15px; padding: 15px; background: #e3f2fd; border: 2px solid #2196f3; border-radius: 8px; display: none;">
-                        <h4 style="color: #1565c0; margin-bottom: 10px;">シッピングポリシー判定 <span style="font-size: 0.75em; color: #666; font-weight: normal;">※CE/CX選択時のみ表示</span></h4>
-                        <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                    <div class="shipping-policy-box" id="policyBox2" style="margin-top: 15px; padding: 15px; background: #e3f2fd; border: 2px solid #2196f3; border-radius: 8px;">
+                        <h4 style="color: #1565c0; margin-bottom: 10px;">シッピングポリシー判定</h4>
+                        <div id="policyContent2" style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
                             <span id="policyBadge2" style="display: inline-block; padding: 5px 12px; border-radius: 15px; font-weight: bold; font-size: 0.85em;"></span>
                             <code id="policyName2" style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 0.9em; flex-grow: 1; word-break: break-all;"></code>
                             <button onclick="copyPolicyName('policyName2', this)" style="background: #2196f3; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 0.85em;">コピー</button>
                         </div>
+                        <div id="policyNotice2" style="display: none; color: #666; font-size: 0.9em;">※ CE（Cpass-Economy）またはCX（Cpass-FedEx）選択時のみ判定されます</div>
                     </div>
                     <!-- 利益計算の詳細 -->
                     <div class="profit-calc-box" style="margin-top: 15px; padding: 15px; background: #e8f5e9; border: 2px solid #4caf50; border-radius: 8px;">
@@ -2108,14 +2110,20 @@
             const box = document.getElementById(boxId);
             const badge = document.getElementById(badgeId);
             const name = document.getElementById(nameId);
+            const contentId = boxId.replace('policyBox', 'policyContent');
+            const noticeId = boxId.replace('policyBox', 'policyNotice');
+            const content = document.getElementById(contentId);
+            const notice = document.getElementById(noticeId);
 
-            // CE or CX のみ表示
+            // CE or CX 以外は注釈を表示
             if (method !== 'CE' && method !== 'CX') {
-                box.style.display = 'none';
+                content.style.display = 'none';
+                notice.style.display = 'block';
                 return;
             }
 
-            box.style.display = 'block';
+            content.style.display = 'flex';
+            notice.style.display = 'none';
             name.textContent = policy.name;
 
             // バッジスタイル

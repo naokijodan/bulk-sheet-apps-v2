@@ -560,7 +560,7 @@ function generateTemplateName_(templateName, condition, shippingType) {
  * @private
  */
 function getPolicyMasterDataCached_() {
-  var cache = CacheService.getScriptCache();
+  var cache = CacheService.getDocumentCache();
   var cacheKey = 'POLICY_MASTER_DATA';
 
   // キャッシュから取得を試みる
@@ -603,7 +603,7 @@ function getPolicyMasterDataCached_() {
  * Policy_Masterキャッシュをクリア
  */
 function clearPolicyMasterCache() {
-  var cache = CacheService.getScriptCache();
+  var cache = CacheService.getDocumentCache();
   cache.remove('POLICY_MASTER_DATA');
   showAlert('Policy_Masterのキャッシュをクリアしました。', 'success');
 }
@@ -1160,7 +1160,7 @@ function calculateAdjustedPriceForPolicy_(priceUSD) {
  * @private
  */
 function getImportPoliciesDataCached_() {
-  var cache = CacheService.getScriptCache();
+  var cache = CacheService.getDocumentCache();
   var cacheKey = 'IMPORT_POLICIES_DATA';
 
   // キャッシュから取得を試みる

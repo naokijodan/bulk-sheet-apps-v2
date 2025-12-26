@@ -11,8 +11,8 @@
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function onOpen() {
   try {
-    // コピーされたシートの場合、APIキー・EAGLEトークンを削除
-    clearApiKeysIfCopied_();
+    // DocumentPropertiesを使用するため、コピー検出は不要
+    // （コピー時に自動的に新しい空のDocumentPropertiesになる）
 
     var ui = SpreadsheetApp.getUi();
 
@@ -2791,14 +2791,11 @@ function saveIntegratedSettings(formData) {
     props.setProperty('AI_PLATFORM', platform);
     props.setProperty('AI_MODEL', model);
 
-    // APIキーはScriptPropertiesに保存（シート単位で共有可能）
-    // コピー時は clearApiKeysIfCopied_() で削除される
-    var currentSheetId = SpreadsheetApp.getActive().getId();
-    props.setProperty('ORIGINAL_SHEET_ID', currentSheetId);  // コピー判別用
-
-    if (platform === 'openai') props.setProperty('OPENAI_API_KEY', apiKey);
-    if (platform === 'claude') props.setProperty('CLAUDE_API_KEY', apiKey);
-    if (platform === 'gemini') props.setProperty('GEMINI_API_KEY', apiKey);
+    // APIキーはDocumentPropertiesに保存（スプレッドシートごとに独立、コピー時は引き継がれない）
+    var docProps = PropertiesService.getDocumentProperties();
+    if (platform === 'openai') docProps.setProperty('OPENAI_API_KEY', apiKey);
+    if (platform === 'claude') docProps.setProperty('CLAUDE_API_KEY', apiKey);
+    if (platform === 'gemini') docProps.setProperty('GEMINI_API_KEY', apiKey);
 
     props.setProperty('SHEET_NAME', sheetName);
     props.setProperty('PROFIT_CALC_METHOD', profitCalc);

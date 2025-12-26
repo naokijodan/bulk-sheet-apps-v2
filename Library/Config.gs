@@ -191,78 +191,32 @@ var CONFIG = {
 };
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  APIキー共有機能
+  APIキー・トークン管理（DocumentProperties使用）
+
+  DocumentPropertiesを使用することで：
+  - 各スプレッドシートごとに独立した保存領域
+  - シートをコピーしても新しい空のDocumentPropertiesになる（APIキーはコピーされない）
+  - ライブラリ更新の影響を受けない
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
 /**
- * シートがコピーされたものかどうかを判定
- * オリジナルのシートIDと現在のシートIDを比較
- * @return {boolean} コピーされたシートの場合はtrue
- */
-function isSheetCopied_() {
-  var props = PropertiesService.getScriptProperties();
-  var originalSheetId = props.getProperty('ORIGINAL_SHEET_ID');
-  var currentSheetId = SpreadsheetApp.getActive().getId();
-
-  // オリジナルIDが設定されていて、現在のIDと異なる場合はコピー
-  return originalSheetId && originalSheetId !== currentSheetId;
-}
-
-/**
- * コピーされたシートの場合、APIキーとEAGLEトークンを削除
- * オーナーのAPIキー/トークンが他人に持っていかれるのを防ぐ
- *
- * 重要: 削除後にORIGINAL_SHEET_IDを現在のシートIDに更新することで、
- * 次回以降は削除されないようにする（1回限りの削除）
- */
-function clearApiKeysIfCopied_() {
-  if (isSheetCopied_()) {
-    var props = PropertiesService.getScriptProperties();
-    var currentSheetId = SpreadsheetApp.getActive().getId();
-
-    var keyNames = [
-      // AIのAPIキー（ScriptPropertiesに保存）
-      'OPENAI_API_KEY',
-      'CLAUDE_API_KEY',
-      'GEMINI_API_KEY',
-      // EAGLEトークン（シート単位で保存されるため、コピー時は削除）
-      'eagle_api_token',
-      'eagle_saved_at'
-    ];
-
-    for (var i = 0; i < keyNames.length; i++) {
-      props.deleteProperty(keyNames[i]);
-    }
-
-    // ORIGINAL_SHEET_IDを現在のシートIDに更新（次回以降は削除されない）
-    props.setProperty('ORIGINAL_SHEET_ID', currentSheetId);
-
-    console.log('コピーされたシートのため、APIキー・EAGLEトークンを削除しました。ORIGINAL_SHEET_IDを更新: ' + currentSheetId);
-  }
-}
-
-/**
- * デバッグ用: シートIDとAPIキー/トークンの状態を確認
+ * デバッグ用: APIキー/トークンの状態を確認
  * メニューから実行して状態を確認できる
  */
 function debugCheckApiKeyStatus() {
-  var props = PropertiesService.getScriptProperties();
+  var docProps = PropertiesService.getDocumentProperties();
   var currentSheetId = SpreadsheetApp.getActive().getId();
-  var originalSheetId = props.getProperty('ORIGINAL_SHEET_ID');
-  var eagleToken = props.getProperty('eagle_api_token');
-  var openaiKey = props.getProperty('OPENAI_API_KEY');
+  var eagleToken = docProps.getProperty('eagle_api_token');
+  var openaiKey = docProps.getProperty('OPENAI_API_KEY');
 
   var message = [
     '=== APIキー・トークン状態 ===',
     '現在のシートID: ' + currentSheetId,
-    '保存されたORIGINAL_SHEET_ID: ' + (originalSheetId || '(未設定)'),
-    'ID一致: ' + (currentSheetId === originalSheetId ? 'はい' : 'いいえ'),
-    'isSheetCopied_()結果: ' + isSheetCopied_(),
     '',
     'EAGLEトークン: ' + (eagleToken ? '設定済み (' + eagleToken.substring(0, 10) + '...)' : '(未設定)'),
     'OpenAI APIキー: ' + (openaiKey ? '設定済み' : '(未設定)'),
-    'Claude APIキー: ' + (props.getProperty('CLAUDE_API_KEY') ? '設定済み' : '(未設定)'),
-    'Gemini APIキー: ' + (props.getProperty('GEMINI_API_KEY') ? '設定済み' : '(未設定)')
+    'Claude APIキー: ' + (docProps.getProperty('CLAUDE_API_KEY') ? '設定済み' : '(未設定)'),
+    'Gemini APIキー: ' + (docProps.getProperty('GEMINI_API_KEY') ? '設定済み' : '(未設定)')
   ].join('\n');
 
   console.log(message);
@@ -274,16 +228,14 @@ function debugCheckApiKeyStatus() {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function getSettings() {
   var props = PropertiesService.getScriptProperties();
+  var docProps = PropertiesService.getDocumentProperties();
   var platform = props.getProperty('AI_PLATFORM') || 'openai';
   var model = props.getProperty('AI_MODEL') || 'gpt-5-nano';
 
-  // コピーされたシートの場合、APIキーを削除
-  clearApiKeysIfCopied_();
-
-  // APIキーはScriptPropertiesから取得（シート単位で保存、コピー時は削除される）
-  var apiKey = (platform==='openai') ? props.getProperty('OPENAI_API_KEY') :
-               (platform==='claude') ? props.getProperty('CLAUDE_API_KEY') :
-               (platform==='gemini') ? props.getProperty('GEMINI_API_KEY') : '';
+  // APIキーはDocumentPropertiesから取得（スプレッドシートごとに独立、コピー時は引き継がれない）
+  var apiKey = (platform==='openai') ? docProps.getProperty('OPENAI_API_KEY') :
+               (platform==='claude') ? docProps.getProperty('CLAUDE_API_KEY') :
+               (platform==='gemini') ? docProps.getProperty('GEMINI_API_KEY') : '';
 
   var settings = {
     platform: platform,

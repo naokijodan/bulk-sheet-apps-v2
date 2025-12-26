@@ -46,13 +46,12 @@ function saveApiToken(apiToken) {
       throw new Error('無効なAPIトークンです');
     }
 
-    const properties = PropertiesService.getScriptProperties();
-    const currentSheetId = SpreadsheetApp.getActive().getId();
+    // DocumentPropertiesを使用（スプレッドシートごとに独立、コピー時は引き継がれない）
+    const docProps = PropertiesService.getDocumentProperties();
 
-    properties.setProperties({
+    docProps.setProperties({
       'eagle_api_token': apiToken.trim(),
-      'eagle_saved_at': new Date().toISOString(),
-      'ORIGINAL_SHEET_ID': currentSheetId  // コピー判別用
+      'eagle_saved_at': new Date().toISOString()
     });
 
     console.log(`✅ APIトークンを保存（無期限）`);
@@ -102,17 +101,17 @@ function getSelectedColumns() {
  */
 function getApiToken() {
   try {
-    const properties = PropertiesService.getScriptProperties();
+    const docProps = PropertiesService.getDocumentProperties();
 
-    const apiToken = properties.getProperty('eagle_api_token');
+    const apiToken = docProps.getProperty('eagle_api_token');
 
     if (!apiToken) {
       console.log('⚠️ 保存されたAPIトークンがありません');
       return null;
     }
-    
+
     return apiToken;
-    
+
   } catch (error) {
     console.error('❌ APIトークン取得エラー:', error);
     clearApiToken();
@@ -124,9 +123,9 @@ function getApiToken() {
  * 保存されたAPIトークンをクリア
  */
 function clearApiToken() {
-  const properties = PropertiesService.getScriptProperties();
-  properties.deleteProperty('eagle_api_token');
-  properties.deleteProperty('eagle_saved_at');
+  const docProps = PropertiesService.getDocumentProperties();
+  docProps.deleteProperty('eagle_api_token');
+  docProps.deleteProperty('eagle_saved_at');
   console.log('保存されたAPIトークンを削除しました');
 }
 
@@ -134,9 +133,9 @@ function clearApiToken() {
  * APIトークンの状態を確認（無期限版）
  */
 function checkApiTokenExpiry() {
-  const properties = PropertiesService.getScriptProperties();
-  const apiToken = properties.getProperty('eagle_api_token');
-  const savedAt = properties.getProperty('eagle_saved_at');
+  const docProps = PropertiesService.getDocumentProperties();
+  const apiToken = docProps.getProperty('eagle_api_token');
+  const savedAt = docProps.getProperty('eagle_saved_at');
 
   const ui = SpreadsheetApp.getUi();
 
@@ -1203,14 +1202,14 @@ function manageApiToken() {
  */
 function debugApiToken() {
   console.log("=== APIトークンデバッグ（シンプル版） ===");
-  
-  const properties = PropertiesService.getScriptProperties();
-  const apiToken = properties.getProperty('eagle_api_token');
-  const expiryTime = properties.getProperty('eagle_expiry');
+
+  const docProps = PropertiesService.getDocumentProperties();
+  const apiToken = docProps.getProperty('eagle_api_token');
+  const savedAt = docProps.getProperty('eagle_saved_at');
   const selectedColumns = getSelectedColumns();
   
   console.log("APIトークン:", apiToken ? "保存済み" : "未保存");
-  console.log("有効期限:", expiryTime ? new Date(parseInt(expiryTime)).toLocaleString() : "未設定");
+  console.log("保存日時:", savedAt ? new Date(savedAt).toLocaleString() : "未設定");
   console.log("選択列:", selectedColumns);
   console.log("利用可能列数:", AVAILABLE_COLUMNS.length);
   console.log("送信形式:", "配列（新仕様）");
