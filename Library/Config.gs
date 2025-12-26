@@ -211,17 +211,20 @@ function isSheetCopied_() {
 /**
  * コピーされたシートの場合、APIキーとEAGLEトークンを削除
  * オーナーのAPIキー/トークンが他人に持っていかれるのを防ぐ
+ *
+ * 重要: 削除後にORIGINAL_SHEET_IDを現在のシートIDに更新することで、
+ * 次回以降は削除されないようにする（1回限りの削除）
  */
 function clearApiKeysIfCopied_() {
   if (isSheetCopied_()) {
     var props = PropertiesService.getScriptProperties();
+    var currentSheetId = SpreadsheetApp.getActive().getId();
+
     var keyNames = [
       // AIのAPIキー（ScriptPropertiesに保存）
       'OPENAI_API_KEY',
       'CLAUDE_API_KEY',
       'GEMINI_API_KEY',
-      // コピー判別用
-      'ORIGINAL_SHEET_ID',
       // EAGLEトークン（シート単位で保存されるため、コピー時は削除）
       'eagle_api_token',
       'eagle_saved_at'
@@ -230,10 +233,41 @@ function clearApiKeysIfCopied_() {
     for (var i = 0; i < keyNames.length; i++) {
       props.deleteProperty(keyNames[i]);
     }
-    console.log('コピーされたシートのため、APIキー・EAGLEトークンを削除しました');
+
+    // ORIGINAL_SHEET_IDを現在のシートIDに更新（次回以降は削除されない）
+    props.setProperty('ORIGINAL_SHEET_ID', currentSheetId);
+
+    console.log('コピーされたシートのため、APIキー・EAGLEトークンを削除しました。ORIGINAL_SHEET_IDを更新: ' + currentSheetId);
   }
 }
 
+/**
+ * デバッグ用: シートIDとAPIキー/トークンの状態を確認
+ * メニューから実行して状態を確認できる
+ */
+function debugCheckApiKeyStatus() {
+  var props = PropertiesService.getScriptProperties();
+  var currentSheetId = SpreadsheetApp.getActive().getId();
+  var originalSheetId = props.getProperty('ORIGINAL_SHEET_ID');
+  var eagleToken = props.getProperty('eagle_api_token');
+  var openaiKey = props.getProperty('OPENAI_API_KEY');
+
+  var message = [
+    '=== APIキー・トークン状態 ===',
+    '現在のシートID: ' + currentSheetId,
+    '保存されたORIGINAL_SHEET_ID: ' + (originalSheetId || '(未設定)'),
+    'ID一致: ' + (currentSheetId === originalSheetId ? 'はい' : 'いいえ'),
+    'isSheetCopied_()結果: ' + isSheetCopied_(),
+    '',
+    'EAGLEトークン: ' + (eagleToken ? '設定済み (' + eagleToken.substring(0, 10) + '...)' : '(未設定)'),
+    'OpenAI APIキー: ' + (openaiKey ? '設定済み' : '(未設定)'),
+    'Claude APIキー: ' + (props.getProperty('CLAUDE_API_KEY') ? '設定済み' : '(未設定)'),
+    'Gemini APIキー: ' + (props.getProperty('GEMINI_API_KEY') ? '設定済み' : '(未設定)')
+  ].join('\n');
+
+  console.log(message);
+  SpreadsheetApp.getUi().alert('APIキー状態確認', message, SpreadsheetApp.getUi().ButtonSet.OK);
+}
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   設定の取得
