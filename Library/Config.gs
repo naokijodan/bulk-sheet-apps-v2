@@ -117,6 +117,12 @@ var CONFIG = {
 
   SHIPPING_METHOD_OPTIONS: {
     lowPrice: {
+      'NONE': {
+        name: 'なし',
+        displayName: 'なし（高価格配送のみ使用）',
+        weightLimit: null,
+        sizeLimit: null
+      },
       'EP': {
         name: 'ePacket',
         displayName: 'eパケット（重量・サイズ制限あり）',
@@ -126,12 +132,6 @@ var CONFIG = {
       'CE': {
         name: 'Cpass-Economy',
         displayName: 'Cpass Economy（重量制限なし）',
-        weightLimit: null,
-        sizeLimit: null
-      },
-      'NONE': {
-        name: 'なし',
-        displayName: 'なし（高価格配送のみ使用）',
         weightLimit: null,
         sizeLimit: null
       }
@@ -321,11 +321,11 @@ function getSettings() {
     model: model,
     apiKey: apiKey,
     sheetName: props.getProperty('SHEET_NAME'),
-    profitCalculationMethod: props.getProperty('PROFIT_CALC_METHOD'),
+    profitCalculationMethod: props.getProperty('PROFIT_CALC_METHOD') || 'RATE',
     promptId: props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT',
     shippingThreshold: parseFloat(props.getProperty('SHIPPING_THRESHOLD')) || 5500,
     shippingCalculationMethod: props.getProperty('SHIPPING_CALC_METHOD') || 'TABLE',
-    lowPriceShippingMethod: props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'EP',
+    lowPriceShippingMethod: props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'NONE',
     highPriceShippingMethod: props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF',
 
     dduAdjustmentEnabled: props.getProperty('DDU_ADJUSTMENT_ENABLED') === 'true',

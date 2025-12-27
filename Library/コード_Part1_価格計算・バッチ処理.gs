@@ -99,7 +99,7 @@ function initialSetup() {
       currentPromptId: props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT',
       currentShippingThreshold: props.getProperty('SHIPPING_THRESHOLD') || '5500',
       currentShippingCalculationMethod: props.getProperty('SHIPPING_CALC_METHOD') || 'TABLE',
-      currentLowPriceMethod: props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'EP',
+      currentLowPriceMethod: props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'NONE',
       currentHighPriceMethod: props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF',
       currentShowPopups: props.getProperty('SHOW_POPUPS') || 'false',
 

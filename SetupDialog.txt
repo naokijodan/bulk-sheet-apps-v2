@@ -545,7 +545,7 @@
         <div class="section-content" id="content-price-calc">
           <label>利益計算方法 *</label>
           <div class="radio-group">
-            <label><input type="radio" name="profitMethod" value="RATE" <?= currentProfitCalculationMethod === 'RATE' ? 'checked' : '' ?>> 利益率で計算</label>
+            <label><input type="radio" name="profitMethod" value="RATE" <?= (currentProfitCalculationMethod === 'RATE' || !currentProfitCalculationMethod) ? 'checked' : '' ?>> 利益率で計算</label>
             <label><input type="radio" name="profitMethod" value="AMOUNT" <?= currentProfitCalculationMethod === 'AMOUNT' ? 'checked' : '' ?>> 利益額で計算</label>
           </div>
 
@@ -569,7 +569,7 @@
               <div class="input-group">
                 <label for="dduThreshold">想定関税閾値（ドル）:</label>
                 <input type="number" id="dduThreshold" name="dduThreshold"
-                       value="<?= currentDduThreshold ?>" min="1" step="1">
+                       value="<?= currentDduThreshold || '390' ?>" min="1" step="1">
               </div>
             </div>
             <div class="help-text">
@@ -616,12 +616,12 @@
         <div class="section-content" id="content-shipping">
           <label>送料計算方法 *</label>
           <div class="radio-group">
-            <label><input type="radio" name="shippingCalcMethod" value="TABLE" <?= currentShippingCalculationMethod === 'TABLE' ? 'checked' : '' ?>> テーブル計算</label>
+            <label><input type="radio" name="shippingCalcMethod" value="TABLE" <?= (currentShippingCalculationMethod === 'TABLE' || !currentShippingCalculationMethod) ? 'checked' : '' ?>> テーブル計算</label>
             <label><input type="radio" name="shippingCalcMethod" value="FIXED" <?= currentShippingCalculationMethod === 'FIXED' ? 'checked' : '' ?>> 固定金額</label>
           </div>
 
           <label for="shippingThreshold">送料計算切替基準金額（円） *</label>
-          <input type="number" id="shippingThreshold" name="shippingThreshold" value="<?= currentShippingThreshold ?>" min="1" step="1" required>
+          <input type="number" id="shippingThreshold" name="shippingThreshold" value="<?= currentShippingThreshold || '5500' ?>" min="1" step="1" required>
           <div class="help-text">この金額以上は高価格配送、未満の場合は低価格配送を使用</div>
 
           <label for="lowPriceMethod">低価格商品配送方法 *</label>
