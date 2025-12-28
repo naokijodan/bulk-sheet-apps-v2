@@ -3018,12 +3018,16 @@ function writeSettingsToSheet(sheetName, settings) {
     sheet.getRange('AI2:AI5').setFontWeight('bold');
 
     // 利益設定（オレンジ系）
-    var profitData = [
-      ['利益計算方法', settings.profitCalc === 'RATE' ? '利益率' : '利益額'],
-      ['手数料率', feeRate],
-      ['広告費率', adRate]
+    // AK2:AL2は値として設定（利益計算方法のラベルと値）
+    var profitLabelData = [
+      ['利益計算方法', settings.profitCalc === 'RATE' ? '利益率' : '利益額']
     ];
-    sheet.getRange('AK2:AL4').setValues(profitData);
+    sheet.getRange('AK2:AL2').setValues(profitLabelData);
+    // AL3, AL4は式として設定（F1, F2を参照）
+    sheet.getRange('AK3').setValue('手数料率');
+    sheet.getRange('AK4').setValue('広告費率');
+    sheet.getRange('AL3').setFormula('=F1');
+    sheet.getRange('AL4').setFormula('=F2');
     sheet.getRange('AK2:AL4').setBackground('#FFF3E0');
     sheet.getRange('AK2:AK4').setFontWeight('bold');
 
@@ -3033,13 +3037,15 @@ function writeSettingsToSheet(sheetName, settings) {
     sheet.getRange('AL5').setFormula('=IF(AL2="利益率",H2,H1)').setBackground('#FFF3E0');
 
     // 梱包情報（緑系）
-    var packingData = [
-      ['重量(g)', weight],
-      ['長さ(cm)', length],
-      ['幅(cm)', width],
-      ['高さ(cm)', height]
-    ];
-    sheet.getRange('AM2:AN5').setValues(packingData);
+    // AM列はラベル、AN列は式として設定（J2, L2, M2, N2を参照）
+    sheet.getRange('AM2').setValue('重量(g)');
+    sheet.getRange('AM3').setValue('長さ(cm)');
+    sheet.getRange('AM4').setValue('幅(cm)');
+    sheet.getRange('AM5').setValue('高さ(cm)');
+    sheet.getRange('AN2').setFormula('=J2');
+    sheet.getRange('AN3').setFormula('=L2');
+    sheet.getRange('AN4').setFormula('=M2');
+    sheet.getRange('AN5').setFormula('=N2');
     sheet.getRange('AM2:AN5').setBackground('#E8F5E9');
     sheet.getRange('AM2:AM5').setFontWeight('bold');
 
