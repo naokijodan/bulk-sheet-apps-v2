@@ -116,7 +116,7 @@ function initialSetup() {
       currentPromptId: props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT',
       currentShippingThreshold: props.getProperty('SHIPPING_THRESHOLD') || '5500',
       currentShippingCalculationMethod: props.getProperty('SHIPPING_CALC_METHOD') || 'TABLE',
-      currentLowPriceMethod: props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'EP',
+      currentLowPriceMethod: props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'NONE',
       currentHighPriceMethod: props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF',
       currentShowPopups: props.getProperty('SHOW_POPUPS') || 'false',
 
@@ -4022,8 +4022,8 @@ function checkCurrentValidation() {
     var shippingThreshold = props.getProperty('SHIPPING_THRESHOLD') || '20000';
     var shippingCalc = props.getProperty('SHIPPING_CALC_METHOD') || 'TABLE';
 
-    var lowPriceMethod = props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'EP';
-    var highPriceMethod = props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CD';
+    var lowPriceMethod = props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'NONE';
+    var highPriceMethod = props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF';
     
     // eLogistics対応の表示名取得
     var lowPriceName = CONFIG.SHIPPING_METHOD_OPTIONS.lowPrice[lowPriceMethod] ? 

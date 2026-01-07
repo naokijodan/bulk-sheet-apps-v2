@@ -255,14 +255,14 @@ function getSelectedShippingMethod(costYen, actualWeight, volWeight, sizeString)
   try {
     var props = PropertiesService.getScriptProperties();
     var threshold = parseFloat(props.getProperty('SHIPPING_THRESHOLD')) || 20000;
-    var lowPriceMethod = props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'EP';
+    var lowPriceMethod = props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'NONE';
     var highPriceMethod = props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF';
 
     // 高価格配送方法名を取得（短縮形式）
     var highPriceMethodName = highPriceMethod || 'CF';
 
     // 低価格配送方法名を取得（短縮形式）
-    var lowPriceMethodName = lowPriceMethod || 'EP';
+    var lowPriceMethodName = lowPriceMethod || 'NONE';
 
     // 低価格配送方法が「なし」の場合、金額に関わらず常に高価格配送
     if (lowPriceMethod === 'NONE') {
@@ -316,8 +316,8 @@ function getSelectedShippingMethod(costYen, actualWeight, volWeight, sizeString)
 function selectCheapestShippingRateWithConstraints(costYen, actualWeight, volWeight, sizeString) {
   var props = PropertiesService.getScriptProperties();
   var threshold = parseFloat(props.getProperty('SHIPPING_THRESHOLD')) || 20000;
-  var lowPriceMethod = props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'EP';
-  var highPriceMethod = props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CD';
+  var lowPriceMethod = props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'NONE';
+  var highPriceMethod = props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF';
 
   var chargeable = Math.max(actualWeight, volWeight);
 

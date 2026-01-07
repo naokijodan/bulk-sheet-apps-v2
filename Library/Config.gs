@@ -211,7 +211,7 @@ function getSettings() {
     promptId: props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT',
     shippingThreshold: parseFloat(props.getProperty('SHIPPING_THRESHOLD')) || 5500,
     shippingCalculationMethod: props.getProperty('SHIPPING_CALC_METHOD') || 'TABLE',
-    lowPriceShippingMethod: props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'EP',
+    lowPriceShippingMethod: props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'NONE',
     highPriceShippingMethod: props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF',
 
     // DDU設定はDocumentPropertiesから取得（スプレッドシートに紐づく）
