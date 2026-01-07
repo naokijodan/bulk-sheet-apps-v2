@@ -434,7 +434,7 @@
 
               <label for="openaiModel">モデル選択 *</label>
               <select id="openaiModel" name="openaiModel">
-                <option value="gpt-5-nano" <?= (currentModel === 'gpt-5-nano' || !currentModel) ? 'selected' : '' ?>>GPT-5-nano（最安・推奨）</option>
+                <option value="gpt-5-nano" <?= currentModel === 'gpt-5-nano' ? 'selected' : '' ?>>GPT-5-nano（最安・推奨）</option>
                 <option value="gpt-4o-mini" <?= currentModel === 'gpt-4o-mini' ? 'selected' : '' ?>>GPT-4o-mini（互換・低コスト）</option>
                 <option value="gpt-5-mini" <?= currentModel === 'gpt-5-mini' ? 'selected' : '' ?>>GPT-5-mini（やや高品質）</option>
               </select>
@@ -551,7 +551,7 @@
 
           <label>価格表示モード *</label>
           <div class="radio-group">
-            <label><input type="radio" name="priceDisplayMode" value="NORMAL" <?= (currentPriceDisplayMode === 'NORMAL' || !currentPriceDisplayMode) ? 'checked' : '' ?>> 販売価格（DDU）</label>
+            <label><input type="radio" name="priceDisplayMode" value="NORMAL" <?= currentPriceDisplayMode === 'NORMAL' ? 'checked' : '' ?>> 販売価格（DDU）</label>
             <label><input type="radio" name="priceDisplayMode" value="TAX_INCLUDED" <?= currentPriceDisplayMode === 'TAX_INCLUDED' ? 'checked' : '' ?>> 関税込み価格（DDP）</label>
           </div>
 
@@ -616,7 +616,7 @@
         <div class="section-content" id="content-shipping">
           <label>送料計算方法 *</label>
           <div class="radio-group">
-            <label><input type="radio" name="shippingCalcMethod" value="TABLE" <?= (currentShippingCalculationMethod === 'TABLE' || !currentShippingCalculationMethod) ? 'checked' : '' ?>> テーブル計算</label>
+            <label><input type="radio" name="shippingCalcMethod" value="TABLE" <?= currentShippingCalculationMethod === 'TABLE' ? 'checked' : '' ?>> テーブル計算</label>
             <label><input type="radio" name="shippingCalcMethod" value="FIXED" <?= currentShippingCalculationMethod === 'FIXED' ? 'checked' : '' ?>> 固定金額</label>
           </div>
 
@@ -797,7 +797,7 @@
           <label>ポップアップ表示設定 *</label>
           <div class="radio-group">
             <label><input type="radio" name="showPopups" value="true" <?= currentShowPopups === 'true' ? 'checked' : '' ?>> ON（表示する）</label>
-            <label><input type="radio" name="showPopups" value="false" <?= (currentShowPopups === 'false' || !currentShowPopups) ? 'checked' : '' ?>> OFF（表示しない）</label>
+            <label><input type="radio" name="showPopups" value="false" <?= currentShowPopups === 'false' ? 'checked' : '' ?>> OFF（表示しない）</label>
           </div>
           <div class="help-text">作業開始・完了時の確認ダイアログ表示を制御（エラーは常に表示）</div>
 
