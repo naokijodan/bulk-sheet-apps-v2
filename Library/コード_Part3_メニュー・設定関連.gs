@@ -11,11 +11,8 @@
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function onOpen() {
   try {
-    // DocumentPropertiesを使用するため、コピー検出は不要
-    // （コピー時に自動的に新しい空のDocumentPropertiesになる）
-
     var ui = SpreadsheetApp.getUi();
-
+    
     // 1. 実行メニュー（毎回使う機能）
     ui.createMenu("🔁 実行メニュー")  
       .addItem("✅　選択行を実行(翻訳・計算)", "runSelectedRows")
@@ -538,7 +535,7 @@ function calcBreakEvenFromSelling(payload) {
 }
 
 function showPriceCalc() {
-  var html = createHtmlFromTemplate('PriceCalc')
+  var html = HtmlService.createHtmlOutputFromFile('PriceCalc')
     .setWidth(1200).setHeight(900);
   SpreadsheetApp.getUi().showModalDialog(html, '💲 EC価格計算ツール');
 }
@@ -791,18 +788,27 @@ function simpleClearSelectedRowsOnly()    { clearSelectedRowsOnly(); }
 
 function openSimpleSetup() {
   try {
-    // SimpleSetupはテンプレート変数不要なのでそのまま表示
-    var html = createHtmlFromTemplate('SimpleSetup').setWidth(420).setHeight(260);
+    var tmpl;
+    try {
+      tmpl = HtmlService.createTemplateFromFile('SimpleSetup');
+    } catch (_) {
+      tmpl = null;
+    }
+    if (!tmpl) {
+      var ui = SpreadsheetApp.getUi();
+      var resp = ui.prompt('簡易版 初期設定', 'OpenAI APIキーを入力してください（保存はユーザーごと）', ui.ButtonSet.OK_CANCEL);
+      if (resp.getSelectedButton() !== ui.Button.OK) return;
+      var key = (resp.getResponseText() || '').trim();
+      if (!key) { showAlert('APIキーが空です。', 'error'); return; }
+      saveSimpleApiKey_(key);
+      showAlert('✅ 簡易版APIキーを保存しました。', 'success');
+      return;
+    }
+    tmpl.currentApiKey = getSimpleApiKey_() || '';
+    var html = tmpl.evaluate().setWidth(420).setHeight(260);
     SpreadsheetApp.getUi().showModalDialog(html, '🔑 簡易版 初期設定（APIキーのみ）');
   } catch (e) {
-    // フォールバック: プロンプトで入力
-    var ui = SpreadsheetApp.getUi();
-    var resp = ui.prompt('簡易版 初期設定', 'OpenAI APIキーを入力してください（保存はユーザーごと）', ui.ButtonSet.OK_CANCEL);
-    if (resp.getSelectedButton() !== ui.Button.OK) return;
-    var key = (resp.getResponseText() || '').trim();
-    if (!key) { showAlert('APIキーが空です。', 'error'); return; }
-    saveSimpleApiKey_(key);
-    showAlert('✅ 簡易版APIキーを保存しました。', 'success');
+    showAlert('簡易版 初期設定の表示に失敗: ' + e.message, 'error');
   }
 }
 
@@ -1615,7 +1621,7 @@ function refreshShippingCalculation() {
  */
 function showDuplicateCheckSettings() {
   try {
-    var html = createHtmlFromTemplate('DuplicateCheckSettings')
+    var html = HtmlService.createHtmlOutputFromFile('DuplicateCheckSettings')
       .setWidth(700).setHeight(600);
     SpreadsheetApp.getUi().showModalDialog(html, '🔍 重複チェック設定');
   } catch (e) {
@@ -2448,7 +2454,7 @@ function debugDetailedSearch() {
  */
 function showTemplateManualSearchDialog() {
   try {
-    var html = createHtmlFromTemplate('TemplateManualSearch')
+    var html = HtmlService.createHtmlOutputFromFile('TemplateManualSearch')
       .setWidth(600).setHeight(650);
     SpreadsheetApp.getUi().showModalDialog(html, '🔍 テンプレート手動検索');
   } catch (e) {
@@ -2731,6 +2737,7 @@ function conditionalInfoDialog(message, title) {
 function saveIntegratedSettings(formData) {
   var ui = SpreadsheetApp.getUi();
   var props = PropertiesService.getScriptProperties();
+  var docProps = PropertiesService.getDocumentProperties();
   try {
     // 基本設定のバリデーション
     var platform = formData.platform;
@@ -2790,11 +2797,9 @@ function saveIntegratedSettings(formData) {
     // 基本設定の保存
     props.setProperty('AI_PLATFORM', platform);
     props.setProperty('AI_MODEL', model);
-
-    // APIキーは暗号化して保存（スプレッドシートごとに独立、コピー時は引き継がれない）
-    if (platform === 'openai') saveEncryptedApiKey('OPENAI_API_KEY', apiKey);
-    if (platform === 'claude') saveEncryptedApiKey('CLAUDE_API_KEY', apiKey);
-    if (platform === 'gemini') saveEncryptedApiKey('GEMINI_API_KEY', apiKey);
+    if (platform === 'openai') props.setProperty('OPENAI_API_KEY', apiKey);
+    if (platform === 'claude') props.setProperty('CLAUDE_API_KEY', apiKey);
+    if (platform === 'gemini') props.setProperty('GEMINI_API_KEY', apiKey);
 
     props.setProperty('SHEET_NAME', sheetName);
     props.setProperty('PROFIT_CALC_METHOD', profitCalc);
@@ -2805,10 +2810,10 @@ function saveIntegratedSettings(formData) {
     props.setProperty('HIGH_PRICE_SHIPPING_METHOD', highPriceMethod);
     props.setProperty('SHOW_POPUPS', showPopups);
     
-    // DDU価格調整機能の保存
-    props.setProperty('DDU_ADJUSTMENT_ENABLED', dduAdjustmentEnabled);
-    props.setProperty('DDU_THRESHOLD', String(dduThreshold));
-    props.setProperty('DDU_ADJUSTMENT_AMOUNT', String(dduAdjustment));
+    // DDU価格調整機能の保存（DocumentPropertiesに保存 - スプレッドシートに紐づく）
+    docProps.setProperty('DDU_ADJUSTMENT_ENABLED', dduAdjustmentEnabled);
+    docProps.setProperty('DDU_THRESHOLD', String(dduThreshold));
+    docProps.setProperty('DDU_ADJUSTMENT_AMOUNT', String(dduAdjustment));
     
     // 価格表示モードの保存
     setPriceDisplayMode(priceDisplayMode);
@@ -2904,6 +2909,24 @@ function saveIntegratedSettings(formData) {
       '重複チェック: ' + duplicateText +
       debugInfo;
       
+    // 送料レート更新処理（チェックボックスがOnの場合のみ）
+    var shippingRatesUpdateResult = null;
+    if (formData.updateShippingRates === true) {
+      try {
+        shippingRatesUpdateResult = updateShippingRatesToLatest();
+        if (shippingRatesUpdateResult.success) {
+          msg += '\n\n【送料レート更新】\n' + shippingRatesUpdateResult.message + '\n更新行数: ' + shippingRatesUpdateResult.updatedRows + '行';
+          Logger.log('送料レートを2026年版に更新しました: ' + shippingRatesUpdateResult.updatedRows + '行');
+        } else {
+          msg += '\n\n【送料レート更新エラー】\n' + shippingRatesUpdateResult.message;
+          Logger.log('送料レート更新エラー: ' + shippingRatesUpdateResult.message);
+        }
+      } catch (e) {
+        msg += '\n\n【送料レート更新エラー】\n' + e.message;
+        Logger.log('送料レート更新で例外発生: ' + e.message);
+      }
+    }
+
     if (showPopups === 'true') {
       ui.alert('設定保存', msg, ui.ButtonSet.OK);
     }
@@ -3285,8 +3308,7 @@ function applyCalculationFormulas(sheetName, settings) {
         // CF: base + extra + fuel - discount
         // CD: base + extra + fuel - discount
         // CE/EL/EP: base のみ（テーブルに既にサーチャージが含まれている）
-        // MAX(Y列,AC列) で実重量と容積重量の大きい方を使用
-        var formula = '=IF(AF' + row + '="","",IF(X' + row + '="CF",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(MAX(Y' + row + ',AC' + row + ')/500)*500-500)/500)*$Y$1,subtotal,base+extra,fuel,subtotal*$V$1,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),IF(X' + row + '="CD",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(MAX(Y' + row + ',AC' + row + ')/500)*500-500)/500)*$Y$2,subtotal,base+extra,fuel,subtotal*$V$2,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),ROUND(AF' + row + '))))';
+        var formula = '=IF(AF' + row + '="","",IF(X' + row + '="CF",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$1,subtotal,base+extra,fuel,subtotal*$V$1,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),IF(X' + row + '="CD",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$2,subtotal,base+extra,fuel,subtotal*$V$2,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),ROUND(AF' + row + '))))';
         shippingFormulas.push([formula]);
       }
       if (shippingFormulas.length > 0) {
@@ -3680,7 +3702,7 @@ function saveIntegratedDuplicateCheckSettings(duplicateData) {
  */
 function showCategorySelectionDialog() {
   try {
-    var html = createHtmlFromTemplate('CategorySelectionDialog')
+    var html = HtmlService.createHtmlOutputFromFile('CategorySelectionDialog')
       .setWidth(480).setHeight(400);
     SpreadsheetApp.getUi().showModalDialog(html, 'カテゴリー選択');
     

@@ -79,6 +79,7 @@ function savePromptContent(promptId, newContent) {
 function initialSetup() {
   var ui = SpreadsheetApp.getUi();
   var props = PropertiesService.getScriptProperties();
+  var docProps = PropertiesService.getDocumentProperties();
   try {
     var tmpl;
     try {
@@ -107,10 +108,10 @@ function initialSetup() {
     tmpl.currentHighPriceMethod = props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF';
     tmpl.currentShowPopups = props.getProperty('SHOW_POPUPS') || 'false';
 
-    // DDU価格調整機能の設定変数
-    tmpl.currentDduAdjustmentEnabled = props.getProperty('DDU_ADJUSTMENT_ENABLED') || 'false';
-    tmpl.currentDduThreshold = props.getProperty('DDU_THRESHOLD') || '390';
-    tmpl.currentDduAdjustment = props.getProperty('DDU_ADJUSTMENT_AMOUNT') || '390';
+    // DDU価格調整機能の設定変数（DocumentPropertiesから取得 - スプレッドシートに紐づく）
+    tmpl.currentDduAdjustmentEnabled = docProps.getProperty('DDU_ADJUSTMENT_ENABLED') || 'false';
+    tmpl.currentDduThreshold = docProps.getProperty('DDU_THRESHOLD') || '390';
+    tmpl.currentDduAdjustment = docProps.getProperty('DDU_ADJUSTMENT_AMOUNT') || '390';
     
     // 価格表示モード設定
     tmpl.currentPriceDisplayMode = props.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL';
@@ -490,20 +491,20 @@ function checkDduAdjustmentSettings() {
   try {
     var settings = getSettings();
     if (!settings) return;
-    
-    var props = PropertiesService.getScriptProperties();
-    
+
+    var docProps = PropertiesService.getDocumentProperties();
+
     var report = 'DDU価格調整機能 設定状況:\n\n';
-    
+
     report += '【基本設定】\n';
     report += '機能有効: ' + (settings.dduAdjustmentEnabled ? 'ON' : 'OFF') + '\n';
     report += 'DDU閾値: $' + settings.dduThreshold + '\n';
     report += '調整額: $' + settings.dduAdjustmentAmount + '\n\n';
-    
-    report += '【保存されているプロパティ】\n';
-    report += 'DDU_ADJUSTMENT_ENABLED: ' + (props.getProperty('DDU_ADJUSTMENT_ENABLED') || '未設定') + '\n';
-    report += 'DDU_THRESHOLD: ' + (props.getProperty('DDU_THRESHOLD') || '未設定') + '\n';
-    report += 'DDU_ADJUSTMENT_AMOUNT: ' + (props.getProperty('DDU_ADJUSTMENT_AMOUNT') || '未設定') + '\n\n';
+
+    report += '【保存されているプロパティ（DocumentProperties）】\n';
+    report += 'DDU_ADJUSTMENT_ENABLED: ' + (docProps.getProperty('DDU_ADJUSTMENT_ENABLED') || '未設定') + '\n';
+    report += 'DDU_THRESHOLD: ' + (docProps.getProperty('DDU_THRESHOLD') || '未設定') + '\n';
+    report += 'DDU_ADJUSTMENT_AMOUNT: ' + (docProps.getProperty('DDU_ADJUSTMENT_AMOUNT') || '未設定') + '\n\n';
     
     report += '【CONFIG設定】\n';
     report += 'DDU_ADJUSTED_PRICE列: ' + CONFIG.COLUMNS.DDU_ADJUSTED_PRICE + '列目（AE列）\n';  // AD→AE

@@ -2737,6 +2737,7 @@ function conditionalInfoDialog(message, title) {
 function saveIntegratedSettings(formData) {
   var ui = SpreadsheetApp.getUi();
   var props = PropertiesService.getScriptProperties();
+  var docProps = PropertiesService.getDocumentProperties();
   try {
     // 基本設定のバリデーション
     var platform = formData.platform;
@@ -2809,10 +2810,10 @@ function saveIntegratedSettings(formData) {
     props.setProperty('HIGH_PRICE_SHIPPING_METHOD', highPriceMethod);
     props.setProperty('SHOW_POPUPS', showPopups);
     
-    // DDU価格調整機能の保存
-    props.setProperty('DDU_ADJUSTMENT_ENABLED', dduAdjustmentEnabled);
-    props.setProperty('DDU_THRESHOLD', String(dduThreshold));
-    props.setProperty('DDU_ADJUSTMENT_AMOUNT', String(dduAdjustment));
+    // DDU価格調整機能の保存（DocumentPropertiesに保存 - スプレッドシートに紐づく）
+    docProps.setProperty('DDU_ADJUSTMENT_ENABLED', dduAdjustmentEnabled);
+    docProps.setProperty('DDU_THRESHOLD', String(dduThreshold));
+    docProps.setProperty('DDU_ADJUSTMENT_AMOUNT', String(dduAdjustment));
     
     // 価格表示モードの保存
     setPriceDisplayMode(priceDisplayMode);

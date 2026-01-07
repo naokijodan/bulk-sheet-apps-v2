@@ -117,12 +117,6 @@ var CONFIG = {
 
   SHIPPING_METHOD_OPTIONS: {
     lowPrice: {
-      'NONE': {
-        name: 'なし',
-        displayName: 'なし（高価格配送のみ使用）',
-        weightLimit: null,
-        sizeLimit: null
-      },
       'EP': {
         name: 'ePacket',
         displayName: 'eパケット（重量・サイズ制限あり）',
@@ -132,6 +126,12 @@ var CONFIG = {
       'CE': {
         name: 'Cpass-Economy',
         displayName: 'Cpass Economy（重量制限なし）',
+        weightLimit: null,
+        sizeLimit: null
+      },
+      'NONE': {
+        name: 'なし',
+        displayName: 'なし（高価格配送のみ使用）',
         weightLimit: null,
         sizeLimit: null
       }
@@ -191,146 +191,33 @@ var CONFIG = {
 };
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  APIキー・トークン管理（DocumentProperties使用 + 暗号化）
-
-  DocumentPropertiesを使用することで：
-  - 各スプレッドシートごとに独立した保存領域
-  - シートをコピーしても新しい空のDocumentPropertiesになる（APIキーはコピーされない）
-  - ライブラリ更新の影響を受けない
-
-  暗号化により：
-  - DocumentPropertiesに保存されるのは暗号化済みの文字列
-  - 復号キーはこのライブラリ内にのみ存在（ユーザーには見えない）
-  - 万が一DocumentPropertiesを見られても解読不可
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-
-/**
- * 暗号化用の秘密キー（ライブラリ内にのみ存在）
- * @private
- */
-var ENCRYPTION_KEY_ = 'BulkToolsLib_2024_SecretKey_v3';
-
-/**
- * APIキー・トークンを暗号化
- * @param {string} plainText - 暗号化する文字列
- * @return {string} 暗号化された文字列（Base64エンコード）
- * @private
- */
-function encryptApiKey_(plainText) {
-  if (!plainText) return '';
-
-  try {
-    // XOR暗号化 + Base64エンコード
-    var encrypted = [];
-    for (var i = 0; i < plainText.length; i++) {
-      var charCode = plainText.charCodeAt(i) ^ ENCRYPTION_KEY_.charCodeAt(i % ENCRYPTION_KEY_.length);
-      encrypted.push(String.fromCharCode(charCode));
-    }
-    return Utilities.base64Encode(encrypted.join(''), Utilities.Charset.UTF_8);
-  } catch (e) {
-    console.error('暗号化エラー:', e);
-    return '';
-  }
-}
-
-/**
- * 暗号化されたAPIキー・トークンを復号
- * @param {string} encryptedText - 暗号化された文字列（Base64エンコード）
- * @return {string} 復号された文字列
- * @private
- */
-function decryptApiKey_(encryptedText) {
-  if (!encryptedText) return '';
-
-  try {
-    // Base64デコード + XOR復号
-    var decoded = Utilities.newBlob(Utilities.base64Decode(encryptedText)).getDataAsString();
-    var decrypted = [];
-    for (var i = 0; i < decoded.length; i++) {
-      var charCode = decoded.charCodeAt(i) ^ ENCRYPTION_KEY_.charCodeAt(i % ENCRYPTION_KEY_.length);
-      decrypted.push(String.fromCharCode(charCode));
-    }
-    return decrypted.join('');
-  } catch (e) {
-    console.error('復号エラー:', e);
-    return '';
-  }
-}
-
-/**
- * APIキーを暗号化して保存
- * @param {string} keyName - キー名（OPENAI_API_KEY等）
- * @param {string} apiKey - 生のAPIキー
- */
-function saveEncryptedApiKey(keyName, apiKey) {
-  var docProps = PropertiesService.getDocumentProperties();
-  var encrypted = encryptApiKey_(apiKey);
-  docProps.setProperty(keyName, encrypted);
-}
-
-/**
- * 暗号化されたAPIキーを復号して取得
- * @param {string} keyName - キー名（OPENAI_API_KEY等）
- * @return {string} 復号されたAPIキー
- */
-function getDecryptedApiKey(keyName) {
-  var docProps = PropertiesService.getDocumentProperties();
-  var encrypted = docProps.getProperty(keyName);
-  return decryptApiKey_(encrypted);
-}
-
-/**
- * デバッグ用: APIキー/トークンの状態を確認
- * メニューから実行して状態を確認できる
- */
-function debugCheckApiKeyStatus() {
-  var docProps = PropertiesService.getDocumentProperties();
-  var currentSheetId = SpreadsheetApp.getActive().getId();
-  var eagleToken = docProps.getProperty('eagle_api_token');
-  var openaiKey = docProps.getProperty('OPENAI_API_KEY');
-
-  var message = [
-    '=== APIキー・トークン状態 ===',
-    '現在のシートID: ' + currentSheetId,
-    '',
-    'EAGLEトークン: ' + (eagleToken ? '設定済み (' + eagleToken.substring(0, 10) + '...)' : '(未設定)'),
-    'OpenAI APIキー: ' + (openaiKey ? '設定済み' : '(未設定)'),
-    'Claude APIキー: ' + (docProps.getProperty('CLAUDE_API_KEY') ? '設定済み' : '(未設定)'),
-    'Gemini APIキー: ' + (docProps.getProperty('GEMINI_API_KEY') ? '設定済み' : '(未設定)')
-  ].join('\n');
-
-  console.log(message);
-  SpreadsheetApp.getUi().alert('APIキー状態確認', message, SpreadsheetApp.getUi().ButtonSet.OK);
-}
-
-/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   設定の取得
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function getSettings() {
   var props = PropertiesService.getScriptProperties();
+  var docProps = PropertiesService.getDocumentProperties();
   var platform = props.getProperty('AI_PLATFORM') || 'openai';
   var model = props.getProperty('AI_MODEL') || 'gpt-5-nano';
-
-  // APIキーは暗号化されて保存されているので復号して取得
-  var apiKey = (platform==='openai') ? getDecryptedApiKey('OPENAI_API_KEY') :
-               (platform==='claude') ? getDecryptedApiKey('CLAUDE_API_KEY') :
-               (platform==='gemini') ? getDecryptedApiKey('GEMINI_API_KEY') : '';
+  var apiKey = (platform==='openai') ? props.getProperty('OPENAI_API_KEY') :
+               (platform==='claude') ? props.getProperty('CLAUDE_API_KEY') :
+               (platform==='gemini') ? props.getProperty('GEMINI_API_KEY') : '';
 
   var settings = {
     platform: platform,
     model: model,
     apiKey: apiKey,
     sheetName: props.getProperty('SHEET_NAME'),
-    profitCalculationMethod: props.getProperty('PROFIT_CALC_METHOD') || 'RATE',
+    profitCalculationMethod: props.getProperty('PROFIT_CALC_METHOD'),
     promptId: props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT',
     shippingThreshold: parseFloat(props.getProperty('SHIPPING_THRESHOLD')) || 5500,
     shippingCalculationMethod: props.getProperty('SHIPPING_CALC_METHOD') || 'TABLE',
-    lowPriceShippingMethod: props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'NONE',
+    lowPriceShippingMethod: props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'EP',
     highPriceShippingMethod: props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF',
 
-    dduAdjustmentEnabled: props.getProperty('DDU_ADJUSTMENT_ENABLED') === 'true',
-    dduThreshold: parseFloat(props.getProperty('DDU_THRESHOLD')) || CONFIG.DDU_PRICE_ADJUSTMENT.DEFAULT_THRESHOLD,
-    dduAdjustmentAmount: parseFloat(props.getProperty('DDU_ADJUSTMENT_AMOUNT')) || CONFIG.DDU_PRICE_ADJUSTMENT.DEFAULT_ADJUSTMENT,
+    // DDU設定はDocumentPropertiesから取得（スプレッドシートに紐づく）
+    dduAdjustmentEnabled: docProps.getProperty('DDU_ADJUSTMENT_ENABLED') === 'true',
+    dduThreshold: parseFloat(docProps.getProperty('DDU_THRESHOLD')) || CONFIG.DDU_PRICE_ADJUSTMENT.DEFAULT_THRESHOLD,
+    dduAdjustmentAmount: parseFloat(docProps.getProperty('DDU_ADJUSTMENT_AMOUNT')) || CONFIG.DDU_PRICE_ADJUSTMENT.DEFAULT_ADJUSTMENT,
 
     priceDisplayMode: props.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL',
 

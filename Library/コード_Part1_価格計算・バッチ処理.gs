@@ -50,10 +50,10 @@ function getPromptContent(promptId) {
 /* サイドバー：プロンプト編集 */
 function showPromptEditorSidebar() {
   try {
-    var html = createHtmlFromTemplate('PromptEditor').setTitle('プロンプト編集').setWidth(400);
+    var html = HtmlService.createHtmlOutputFromFile('PromptEditor').setTitle('プロンプト編集').setWidth(400);
     SpreadsheetApp.getUi().showSidebar(html);
   } catch (e) {
-    showAlert('プロンプト編集画面の表示に失敗しました: ' + e.message, 'error');
+    showAlert('「PromptEditor.html」が見つかりません。', 'error');
   }
 }
 
@@ -81,65 +81,75 @@ function initialSetup() {
   var props = PropertiesService.getScriptProperties();
   var docProps = PropertiesService.getDocumentProperties();
   try {
-    var workSheetName = props.getProperty('SHEET_NAME') || '作業シート';
-
-    // テンプレート変数のデータを準備
-    // APIキーはDocumentPropertiesから取得（スプレッドシートごとに独立、コピー時は引き継がれない）
-    var currentPlatform = props.getProperty('AI_PLATFORM') || 'openai';
-    var templateData = {
-      currentPlatform: currentPlatform,
-      currentApiKeys: {
-        openai: docProps.getProperty('OPENAI_API_KEY') || '',
-        claude: docProps.getProperty('CLAUDE_API_KEY') || '',
-        gemini: docProps.getProperty('GEMINI_API_KEY') || ''
-      },
-      currentModel: props.getProperty('AI_MODEL') || 'gpt-5-nano',
-      currentSheetName: workSheetName,
-      currentProfitCalculationMethod: props.getProperty('PROFIT_CALC_METHOD') || 'RATE',
-      currentPromptId: props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT',
-      currentShippingThreshold: props.getProperty('SHIPPING_THRESHOLD') || '5500',
-      currentShippingCalculationMethod: props.getProperty('SHIPPING_CALC_METHOD') || 'TABLE',
-      currentLowPriceMethod: props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'NONE',
-      currentHighPriceMethod: props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF',
-      currentShowPopups: props.getProperty('SHOW_POPUPS') || 'false',
-
-      // DDU価格調整機能
-      currentDduAdjustmentEnabled: props.getProperty('DDU_ADJUSTMENT_ENABLED') || 'false',
-      currentDduThreshold: props.getProperty('DDU_THRESHOLD') || '390',
-      currentDduAdjustment: props.getProperty('DDU_ADJUSTMENT_AMOUNT') || '390',
-
-      // 価格表示モード
-      currentPriceDisplayMode: props.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL',
-
-      // 重複チェック設定
-      currentDuplicateCheckEnabled: props.getProperty('DUPLICATE_CHECK_ENABLED') || 'false',
-      currentDuplicateSourceSheet: props.getProperty('DUPLICATE_SOURCE_SHEET') || workSheetName,
-      currentDuplicateSourceColumn: props.getProperty('DUPLICATE_SOURCE_COLUMN') || 'H',
-      currentDuplicateApplyToSheet: props.getProperty('DUPLICATE_APPLY_TO_SHEET') || 'true',
-      currentDuplicateOutputSheet: props.getProperty('DUPLICATE_OUTPUT_SHEET') || workSheetName,
-      currentDuplicateOutputColumn: props.getProperty('DUPLICATE_OUTPUT_COLUMN') || 'AF',
-      currentDuplicateOutputStartRow: props.getProperty('DUPLICATE_OUTPUT_START_ROW') || '5',
-      currentDuplicateOutputRange: props.getProperty('DUPLICATE_OUTPUT_RANGE') || 'DATA',
-
-      // 選択肢
-      lowPriceOptions: CONFIG.SHIPPING_METHOD_OPTIONS.lowPrice,
-      highPriceOptions: CONFIG.SHIPPING_METHOD_OPTIONS.highPrice,
-      promptIds: getAllPromptIds()
+    var tmpl;
+    try {
+      tmpl = HtmlService.createTemplateFromFile('SetupDialog');
+    } catch (_) {
+      tmpl = null;
+    }
+    if (!tmpl) {
+      ui.alert('初期設定', 'SetupDialog.html が無いので簡易案内を表示します。', ui.ButtonSet.OK);
+      return;
+    }
+    
+    // 既存の設定変数
+    tmpl.currentApiKeys = {
+      openai: props.getProperty('OPENAI_API_KEY') || '',
+      claude: props.getProperty('CLAUDE_API_KEY') || '',
+      gemini: props.getProperty('GEMINI_API_KEY') || ''
     };
+    tmpl.currentModel = props.getProperty('AI_MODEL') || 'gpt-5-nano';
+    tmpl.currentSheetName = props.getProperty('SHEET_NAME') || '作業シート';
+    tmpl.currentProfitCalculationMethod = props.getProperty('PROFIT_CALC_METHOD') || 'RATE';
+    tmpl.currentPromptId = props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT';
+    tmpl.currentShippingThreshold = props.getProperty('SHIPPING_THRESHOLD') || '5500';
+    tmpl.currentShippingCalculationMethod = props.getProperty('SHIPPING_CALC_METHOD') || 'TABLE';
+    tmpl.currentLowPriceMethod = props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'EP';
+    tmpl.currentHighPriceMethod = props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF';
+    tmpl.currentShowPopups = props.getProperty('SHOW_POPUPS') || 'false';
 
-    // 対象シート
+    // DDU価格調整機能の設定変数（DocumentPropertiesから取得 - スプレッドシートに紐づく）
+    tmpl.currentDduAdjustmentEnabled = docProps.getProperty('DDU_ADJUSTMENT_ENABLED') || 'false';
+    tmpl.currentDduThreshold = docProps.getProperty('DDU_THRESHOLD') || '390';
+    tmpl.currentDduAdjustment = docProps.getProperty('DDU_ADJUSTMENT_AMOUNT') || '390';
+    
+    // 価格表示モード設定
+    tmpl.currentPriceDisplayMode = props.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL';
+
+    // ===== ✅ 重複チェック設定の規定値を詳細に設定 =====
+    var workSheetName = props.getProperty('SHEET_NAME') || '作業シート';
+    
+    // 基本設定
+    tmpl.currentDuplicateCheckEnabled = props.getProperty('DUPLICATE_CHECK_ENABLED') || 'false';
+    tmpl.currentDuplicateSourceSheet = props.getProperty('DUPLICATE_SOURCE_SHEET') || workSheetName;
+    tmpl.currentDuplicateSourceColumn = props.getProperty('DUPLICATE_SOURCE_COLUMN') || 'H';
+    
+    // 対象シート（デフォルト2つ）
     var savedTargets = props.getProperty('DUPLICATE_TARGET_SHEETS');
     if (savedTargets) {
-      templateData.currentDuplicateTargetSheets = savedTargets;
+      tmpl.currentDuplicateTargetSheets = savedTargets;
     } else {
+      // 初回は規定値を設定
       var defaultTargets = [
         { sheet: '保存データ_*', column: 'H' },
         { sheet: 'EAFGLE商品一覧', column: 'A' }
       ];
-      templateData.currentDuplicateTargetSheets = JSON.stringify(defaultTargets);
+      tmpl.currentDuplicateTargetSheets = JSON.stringify(defaultTargets);
     }
-
-    var html = evaluateTemplate('SetupDialog', templateData).setWidth(800).setHeight(900);
+    
+    // シート適用設定
+    tmpl.currentDuplicateApplyToSheet = props.getProperty('DUPLICATE_APPLY_TO_SHEET') || 'true';  // デフォルトでチェック
+    tmpl.currentDuplicateOutputSheet = props.getProperty('DUPLICATE_OUTPUT_SHEET') || workSheetName;
+    tmpl.currentDuplicateOutputColumn = props.getProperty('DUPLICATE_OUTPUT_COLUMN') || 'AF';
+    tmpl.currentDuplicateOutputStartRow = props.getProperty('DUPLICATE_OUTPUT_START_ROW') || '5';
+    tmpl.currentDuplicateOutputRange = props.getProperty('DUPLICATE_OUTPUT_RANGE') || 'DATA';
+    
+    // 既存の選択肢
+    tmpl.lowPriceOptions = CONFIG.SHIPPING_METHOD_OPTIONS.lowPrice;
+    tmpl.highPriceOptions = CONFIG.SHIPPING_METHOD_OPTIONS.highPrice;
+    tmpl.promptIds = getAllPromptIds();
+    
+    var html = tmpl.evaluate().setWidth(800).setHeight(900);
     ui.showModalDialog(html, '初期設定（統合版）');
   } catch (e) {
     showAlert('初期設定ダイアログの表示に失敗: ' + e.message, 'error');
@@ -481,20 +491,20 @@ function checkDduAdjustmentSettings() {
   try {
     var settings = getSettings();
     if (!settings) return;
-    
-    var props = PropertiesService.getScriptProperties();
-    
+
+    var docProps = PropertiesService.getDocumentProperties();
+
     var report = 'DDU価格調整機能 設定状況:\n\n';
-    
+
     report += '【基本設定】\n';
     report += '機能有効: ' + (settings.dduAdjustmentEnabled ? 'ON' : 'OFF') + '\n';
     report += 'DDU閾値: $' + settings.dduThreshold + '\n';
     report += '調整額: $' + settings.dduAdjustmentAmount + '\n\n';
-    
-    report += '【保存されているプロパティ】\n';
-    report += 'DDU_ADJUSTMENT_ENABLED: ' + (props.getProperty('DDU_ADJUSTMENT_ENABLED') || '未設定') + '\n';
-    report += 'DDU_THRESHOLD: ' + (props.getProperty('DDU_THRESHOLD') || '未設定') + '\n';
-    report += 'DDU_ADJUSTMENT_AMOUNT: ' + (props.getProperty('DDU_ADJUSTMENT_AMOUNT') || '未設定') + '\n\n';
+
+    report += '【保存されているプロパティ（DocumentProperties）】\n';
+    report += 'DDU_ADJUSTMENT_ENABLED: ' + (docProps.getProperty('DDU_ADJUSTMENT_ENABLED') || '未設定') + '\n';
+    report += 'DDU_THRESHOLD: ' + (docProps.getProperty('DDU_THRESHOLD') || '未設定') + '\n';
+    report += 'DDU_ADJUSTMENT_AMOUNT: ' + (docProps.getProperty('DDU_ADJUSTMENT_AMOUNT') || '未設定') + '\n\n';
     
     report += '【CONFIG設定】\n';
     report += 'DDU_ADJUSTED_PRICE列: ' + CONFIG.COLUMNS.DDU_ADJUSTED_PRICE + '列目（AE列）\n';  // AD→AE
@@ -4002,13 +4012,12 @@ function checkCurrentValidation() {
   try {
     var ui = SpreadsheetApp.getUi();
     var props = PropertiesService.getScriptProperties();
-    var docProps = PropertiesService.getDocumentProperties();
     var platform = props.getProperty('AI_PLATFORM') || 'openai';
     var model = props.getProperty('AI_MODEL') || 'gpt-5-nano';
     var apiKeyStatus = '';
-    if (platform==='openai') apiKeyStatus = docProps.getProperty('OPENAI_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
-    if (platform==='claude') apiKeyStatus = docProps.getProperty('CLAUDE_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
-    if (platform==='gemini') apiKeyStatus = docProps.getProperty('GEMINI_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
+    if (platform==='openai') apiKeyStatus = props.getProperty('OPENAI_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
+    if (platform==='claude') apiKeyStatus = props.getProperty('CLAUDE_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
+    if (platform==='gemini') apiKeyStatus = props.getProperty('GEMINI_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
 
     var sheetName = props.getProperty('SHEET_NAME') || '未設定';
     var profitCalc = props.getProperty('PROFIT_CALC_METHOD') || '未設定';

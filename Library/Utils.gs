@@ -727,10 +727,10 @@ function GET_SHIPPING_POLICY_FROM_IMPORT(categoryDisplay, estimatedTax, conditio
       return 'エラー';
     }
 
-    // DDU閾値を取得し、想定関税が閾値以上なら閾値を使用
-    var props = PropertiesService.getScriptProperties();
-    var dduEnabled = props.getProperty('DDU_ADJUSTMENT_ENABLED') === 'true';
-    var dduThreshold = parseFloat(props.getProperty('DDU_THRESHOLD')) || CONFIG.DDU_PRICE_ADJUSTMENT.DEFAULT_THRESHOLD;
+    // DDU閾値を取得し、想定関税が閾値以上なら閾値を使用（DocumentPropertiesから取得）
+    var docProps = PropertiesService.getDocumentProperties();
+    var dduEnabled = docProps.getProperty('DDU_ADJUSTMENT_ENABLED') === 'true';
+    var dduThreshold = parseFloat(docProps.getProperty('DDU_THRESHOLD')) || CONFIG.DDU_PRICE_ADJUSTMENT.DEFAULT_THRESHOLD;
 
     // DDU調整が有効で、想定関税が閾値以上の場合は閾値を使用
     if (dduEnabled && taxValue >= dduThreshold) {

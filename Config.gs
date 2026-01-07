@@ -195,6 +195,7 @@ var CONFIG = {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function getSettings() {
   var props = PropertiesService.getScriptProperties();
+  var docProps = PropertiesService.getDocumentProperties();
   var platform = props.getProperty('AI_PLATFORM') || 'openai';
   var model = props.getProperty('AI_MODEL') || 'gpt-5-nano';
   var apiKey = (platform==='openai') ? props.getProperty('OPENAI_API_KEY') :
@@ -213,9 +214,10 @@ function getSettings() {
     lowPriceShippingMethod: props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'EP',
     highPriceShippingMethod: props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF',
 
-    dduAdjustmentEnabled: props.getProperty('DDU_ADJUSTMENT_ENABLED') === 'true',
-    dduThreshold: parseFloat(props.getProperty('DDU_THRESHOLD')) || CONFIG.DDU_PRICE_ADJUSTMENT.DEFAULT_THRESHOLD,
-    dduAdjustmentAmount: parseFloat(props.getProperty('DDU_ADJUSTMENT_AMOUNT')) || CONFIG.DDU_PRICE_ADJUSTMENT.DEFAULT_ADJUSTMENT,
+    // DDU設定はDocumentPropertiesから取得（スプレッドシートに紐づく）
+    dduAdjustmentEnabled: docProps.getProperty('DDU_ADJUSTMENT_ENABLED') === 'true',
+    dduThreshold: parseFloat(docProps.getProperty('DDU_THRESHOLD')) || CONFIG.DDU_PRICE_ADJUSTMENT.DEFAULT_THRESHOLD,
+    dduAdjustmentAmount: parseFloat(docProps.getProperty('DDU_ADJUSTMENT_AMOUNT')) || CONFIG.DDU_PRICE_ADJUSTMENT.DEFAULT_ADJUSTMENT,
 
     priceDisplayMode: props.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL',
 
