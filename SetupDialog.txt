@@ -545,7 +545,7 @@
         <div class="section-content" id="content-price-calc">
           <label>利益計算方法 *</label>
           <div class="radio-group">
-            <label><input type="radio" name="profitMethod" value="RATE" <?= (currentProfitCalculationMethod === 'RATE' || !currentProfitCalculationMethod) ? 'checked' : '' ?>> 利益率で計算</label>
+            <label><input type="radio" name="profitMethod" value="RATE" <?= currentProfitCalculationMethod === 'RATE' ? 'checked' : '' ?>> 利益率で計算</label>
             <label><input type="radio" name="profitMethod" value="AMOUNT" <?= currentProfitCalculationMethod === 'AMOUNT' ? 'checked' : '' ?>> 利益額で計算</label>
           </div>
 
