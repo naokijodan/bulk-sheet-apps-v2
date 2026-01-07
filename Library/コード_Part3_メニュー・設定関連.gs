@@ -2778,7 +2778,8 @@ function saveIntegratedSettings(formData) {
     if (!platform || !['openai','claude','gemini'].includes(platform)) {
       throw new Error('有効なAIプラットフォームを選択してください。');
     }
-    if (!apiKey || !apiKey.trim()) {
+    // '__KEEP_EXISTING__'は既存キー維持のための特別値
+    if (!apiKey || (!apiKey.trim() && apiKey !== '__KEEP_EXISTING__')) {
       throw new Error('APIキーは必須です。');
     }
     if (!model || !model.trim()) {
@@ -2798,9 +2799,12 @@ function saveIntegratedSettings(formData) {
     props.setProperty('AI_PLATFORM', platform);
     props.setProperty('AI_MODEL', model);
     // APIキーはDocumentPropertiesに保存（スプレッドシートに紐づく、ライブラリ更新で消えない）
-    if (platform === 'openai') docProps.setProperty('OPENAI_API_KEY', apiKey);
-    if (platform === 'claude') docProps.setProperty('CLAUDE_API_KEY', apiKey);
-    if (platform === 'gemini') docProps.setProperty('GEMINI_API_KEY', apiKey);
+    // '__KEEP_EXISTING__'の場合は既存キーを維持
+    if (apiKey !== '__KEEP_EXISTING__') {
+      if (platform === 'openai') docProps.setProperty('OPENAI_API_KEY', apiKey);
+      if (platform === 'claude') docProps.setProperty('CLAUDE_API_KEY', apiKey);
+      if (platform === 'gemini') docProps.setProperty('GEMINI_API_KEY', apiKey);
+    }
 
     props.setProperty('SHEET_NAME', sheetName);
     props.setProperty('PROFIT_CALC_METHOD', profitCalc);

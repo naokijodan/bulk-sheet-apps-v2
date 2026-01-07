@@ -103,13 +103,17 @@ function initialSetup() {
       currentDuplicateTargetSheets = JSON.stringify(defaultTargets);
     }
 
+    // APIキーの存在チェック（値は渡さない、存在フラグのみ）
+    var openaiKey = docProps.getProperty('OPENAI_API_KEY') || '';
+    var claudeKey = docProps.getProperty('CLAUDE_API_KEY') || '';
+    var geminiKey = docProps.getProperty('GEMINI_API_KEY') || '';
+
     var templateData = {
-      // 既存の設定変数
-      // APIキーはDocumentPropertiesから取得（スプレッドシートに紐づく、ライブラリ更新で消えない）
-      currentApiKeys: {
-        openai: docProps.getProperty('OPENAI_API_KEY') || '',
-        claude: docProps.getProperty('CLAUDE_API_KEY') || '',
-        gemini: docProps.getProperty('GEMINI_API_KEY') || ''
+      // APIキーの存在フラグ（マスク表示用）
+      hasApiKey: {
+        openai: openaiKey.length > 0,
+        claude: claudeKey.length > 0,
+        gemini: geminiKey.length > 0
       },
       currentModel: props.getProperty('AI_MODEL') || 'gpt-5-nano',
       currentSheetName: workSheetName,

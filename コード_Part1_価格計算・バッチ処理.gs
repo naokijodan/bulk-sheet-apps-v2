@@ -95,10 +95,14 @@ function initialSetup() {
     // 既存の設定変数
     // APIキーはDocumentPropertiesから取得（スプレッドシートに紐づく、ライブラリ更新で消えない）
     var docProps = PropertiesService.getDocumentProperties();
-    tmpl.currentApiKeys = {
-      openai: docProps.getProperty('OPENAI_API_KEY') || '',
-      claude: docProps.getProperty('CLAUDE_API_KEY') || '',
-      gemini: docProps.getProperty('GEMINI_API_KEY') || ''
+    var openaiKey = docProps.getProperty('OPENAI_API_KEY') || '';
+    var claudeKey = docProps.getProperty('CLAUDE_API_KEY') || '';
+    var geminiKey = docProps.getProperty('GEMINI_API_KEY') || '';
+    // APIキーの存在フラグのみ渡す（値は渡さない）
+    tmpl.hasApiKey = {
+      openai: openaiKey.length > 0,
+      claude: claudeKey.length > 0,
+      gemini: geminiKey.length > 0
     };
     tmpl.currentModel = props.getProperty('AI_MODEL') || 'gpt-5-nano';
     tmpl.currentSheetName = props.getProperty('SHEET_NAME') || '作業シート';

@@ -237,6 +237,73 @@
     .platform-content { display: none; }
     .platform-content.active { display: block; }
 
+    /* APIキー表示/入力切り替え */
+    .api-key-wrapper {
+      margin-top: 5px;
+    }
+    .api-key-display {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      background: #f0f4f9;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+    }
+    .api-key-display.hidden {
+      display: none;
+    }
+    .masked-key {
+      font-family: monospace;
+      font-size: 14px;
+      color: #5f6368;
+      letter-spacing: 2px;
+    }
+    .key-status {
+      font-size: 13px;
+      color: #16a34a;
+      font-weight: 500;
+    }
+    .btn-change-key {
+      margin-left: auto;
+      padding: 6px 14px;
+      background: #fff;
+      border: 1px solid #dadce0;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background .15s ease;
+    }
+    .btn-change-key:hover {
+      background: #f1f3f4;
+    }
+    .api-key-input {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .api-key-input.hidden {
+      display: none;
+    }
+    .api-key-input input {
+      flex: 1;
+    }
+    .btn-cancel-key {
+      padding: 10px 14px;
+      background: #f1f3f4;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background .15s ease;
+    }
+    .btn-cancel-key:hover {
+      background: #e0e0e0;
+    }
+    .btn-cancel-key.hidden {
+      display: none;
+    }
+
     /* 重複チェック設定 */
     .target-sheets-container {
       border: 1px solid #ddd;
@@ -429,7 +496,17 @@
 
             <div class="platform-content" id="openai-content">
               <label for="openaiApiKey">OpenAI APIキー *</label>
-              <input type="text" id="openaiApiKey" name="openaiApiKey" value="<?= currentApiKeys.openai || '' ?>" placeholder="sk-...">
+              <div class="api-key-wrapper">
+                <div class="api-key-display <?= hasApiKey.openai ? '' : 'hidden' ?>" id="openaiApiKeyDisplay">
+                  <span class="masked-key">••••••••••••••••</span>
+                  <span class="key-status">✅ 設定済み</span>
+                  <button type="button" class="btn-change-key" onclick="showApiKeyInput('openai')">変更</button>
+                </div>
+                <div class="api-key-input <?= hasApiKey.openai ? 'hidden' : '' ?>" id="openaiApiKeyInput">
+                  <input type="text" id="openaiApiKey" name="openaiApiKey" value="" placeholder="sk-...">
+                  <button type="button" class="btn-cancel-key <?= hasApiKey.openai ? '' : 'hidden' ?>" onclick="cancelApiKeyChange('openai')">キャンセル</button>
+                </div>
+              </div>
               <div class="help-text">OpenAIのAPIキーを入力してください</div>
 
               <label for="openaiModel">モデル選択 *</label>
@@ -443,7 +520,17 @@
 
             <div class="platform-content" id="claude-content">
               <label for="claudeApiKey">Claude APIキー *</label>
-              <input type="text" id="claudeApiKey" name="claudeApiKey" value="<?= currentApiKeys.claude || '' ?>" placeholder="sk-ant-...">
+              <div class="api-key-wrapper">
+                <div class="api-key-display <?= hasApiKey.claude ? '' : 'hidden' ?>" id="claudeApiKeyDisplay">
+                  <span class="masked-key">••••••••••••••••</span>
+                  <span class="key-status">✅ 設定済み</span>
+                  <button type="button" class="btn-change-key" onclick="showApiKeyInput('claude')">変更</button>
+                </div>
+                <div class="api-key-input <?= hasApiKey.claude ? 'hidden' : '' ?>" id="claudeApiKeyInput">
+                  <input type="text" id="claudeApiKey" name="claudeApiKey" value="" placeholder="sk-ant-...">
+                  <button type="button" class="btn-cancel-key <?= hasApiKey.claude ? '' : 'hidden' ?>" onclick="cancelApiKeyChange('claude')">キャンセル</button>
+                </div>
+              </div>
               <div class="help-text">AnthropicのAPIキーを入力してください</div>
 
               <label for="claudeModel">モデル選択 *</label>
@@ -457,7 +544,17 @@
 
             <div class="platform-content" id="gemini-content">
               <label for="geminiApiKey">Gemini APIキー *</label>
-              <input type="text" id="geminiApiKey" name="geminiApiKey" value="<?= currentApiKeys.gemini || '' ?>" placeholder="AIza...">
+              <div class="api-key-wrapper">
+                <div class="api-key-display <?= hasApiKey.gemini ? '' : 'hidden' ?>" id="geminiApiKeyDisplay">
+                  <span class="masked-key">••••••••••••••••</span>
+                  <span class="key-status">✅ 設定済み</span>
+                  <button type="button" class="btn-change-key" onclick="showApiKeyInput('gemini')">変更</button>
+                </div>
+                <div class="api-key-input <?= hasApiKey.gemini ? 'hidden' : '' ?>" id="geminiApiKeyInput">
+                  <input type="text" id="geminiApiKey" name="geminiApiKey" value="" placeholder="AIza...">
+                  <button type="button" class="btn-cancel-key <?= hasApiKey.gemini ? '' : 'hidden' ?>" onclick="cancelApiKeyChange('gemini')">キャンセル</button>
+                </div>
+              </div>
               <div class="help-text">Google AI StudioのAPIキーを入力してください</div>
 
               <label for="geminiModel">モデル選択 *</label>
@@ -864,7 +961,7 @@
           const sectionId = this.name.replace('edit-', '');
           const content = document.getElementById('content-' + sectionId);
           const isEdit = this.value === 'edit';
-          
+
           if (isEdit) {
             content.classList.remove('disabled-overlay');
           } else {
@@ -872,6 +969,19 @@
           }
         });
       });
+    }
+
+    // APIキー表示/入力切り替え
+    function showApiKeyInput(platform) {
+      document.getElementById(platform + 'ApiKeyDisplay').classList.add('hidden');
+      document.getElementById(platform + 'ApiKeyInput').classList.remove('hidden');
+      document.getElementById(platform + 'ApiKey').focus();
+    }
+
+    function cancelApiKeyChange(platform) {
+      document.getElementById(platform + 'ApiKeyInput').classList.add('hidden');
+      document.getElementById(platform + 'ApiKeyDisplay').classList.remove('hidden');
+      document.getElementById(platform + 'ApiKey').value = '';
     }
 
     // プラットフォームタブ
@@ -1100,21 +1210,29 @@
       const activePlatform = activeTab ? activeTab.getAttribute('data-platform') : 'openai';
 
       let apiKey = '', model = '';
+      let hasExistingKey = false;
       if (activePlatform === 'openai') {
         apiKey = document.getElementById('openaiApiKey').value.trim();
         model = document.getElementById('openaiModel').value || DEFAULT_OPENAI_MODEL;
+        hasExistingKey = !document.getElementById('openaiApiKeyDisplay').classList.contains('hidden');
       } else if (activePlatform === 'claude') {
         apiKey = document.getElementById('claudeApiKey').value.trim();
         model = document.getElementById('claudeModel').value;
+        hasExistingKey = !document.getElementById('claudeApiKeyDisplay').classList.contains('hidden');
       } else if (activePlatform === 'gemini') {
         apiKey = document.getElementById('geminiApiKey').value.trim();
         model = document.getElementById('geminiModel').value;
+        hasExistingKey = !document.getElementById('geminiApiKeyDisplay').classList.contains('hidden');
       }
 
-      if (!apiKey) {
+      // APIキーが空で既存キーもない場合はエラー
+      if (!apiKey && !hasExistingKey) {
         alert('選択したプラットフォームのAPIキーを入力してください。');
         return;
       }
+
+      // APIキーが空の場合は特別な値を送信（サーバー側で既存キーを維持）
+      const apiKeyToSend = apiKey || '__KEEP_EXISTING__';
 
       // 重複チェックの対象シート収集
       const targetSheets = [];
@@ -1134,7 +1252,7 @@
       const formData = {
         // 基本設定
         platform: activePlatform,
-        apiKey: apiKey,
+        apiKey: apiKeyToSend,
         model: model,
         sheetName: document.getElementById('sheetName').value,
         
