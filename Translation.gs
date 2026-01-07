@@ -648,7 +648,7 @@ function validateTranslationResult_(sheet, row, fields) {
  */
 function showProgressSidebar_() {
   try {
-    var html = HtmlService.createHtmlOutputFromFile('ProgressSidebar')
+    var html = createHtmlFromTemplate('ProgressSidebar')
       .setTitle('翻訳処理の進捗')
       .setWidth(320);
     SpreadsheetApp.getUi().showSidebar(html);
