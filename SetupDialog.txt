@@ -652,6 +652,27 @@
               • 仕入れ値別: Profit_Amounts!D列に各金額帯の送料
             </div>
           </div>
+
+          <div style="margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--line);">
+            <label>送料レート更新（2026年版）</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="updateShippingRates" name="updateShippingRates">
+                FedEx・DHLの送料レートを最新（2026年）に更新する
+              </label>
+            </div>
+            <div class="help-text">
+              Shipping_RatesシートのCF（FedEx）列とCD（DHL）列のみ更新されます。<br>
+              他の列（CE、EL等）やサーチャージ設定（V1、V2、W2、Y1、Y2）は変更されません。
+            </div>
+            <div class="warning-box" id="shippingUpdateWarning" style="display: none; margin-top: 10px;">
+              <div class="title">確認</div>
+              <div class="content">
+                保存時にShipping_RatesシートのF列（CF）とG列（CD）の値が2026年版に更新されます。<br>
+                この操作は元に戻せません。更新前にシートのバックアップを取ることをお勧めします。
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -967,10 +988,20 @@
       // 出力設定表示制御
       const applyCheckbox = document.getElementById('applyToSheet');
       const outputSettings = document.getElementById('outputSettings');
-      
+
       if (applyCheckbox) {
         applyCheckbox.addEventListener('change', function() {
           outputSettings.style.display = this.checked ? 'block' : 'none';
+        });
+      }
+
+      // 送料レート更新チェックボックス
+      const shippingUpdateCheckbox = document.getElementById('updateShippingRates');
+      const shippingUpdateWarning = document.getElementById('shippingUpdateWarning');
+
+      if (shippingUpdateCheckbox) {
+        shippingUpdateCheckbox.addEventListener('change', function() {
+          shippingUpdateWarning.style.display = this.checked ? 'block' : 'none';
         });
       }
 
@@ -1125,6 +1156,7 @@
         shippingThreshold: document.getElementById('shippingThreshold').value,
         lowPriceMethod: document.getElementById('lowPriceMethod').value,
         highPriceMethod: document.getElementById('highPriceMethod').value,
+        updateShippingRates: document.getElementById('updateShippingRates').checked,
         
         // 重複チェック設定
         duplicateCheckEnabled: document.getElementById('duplicateCheckEnabled').checked,

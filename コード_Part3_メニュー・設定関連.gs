@@ -2908,6 +2908,24 @@ function saveIntegratedSettings(formData) {
       '重複チェック: ' + duplicateText +
       debugInfo;
       
+    // 送料レート更新処理（チェックボックスがOnの場合のみ）
+    var shippingRatesUpdateResult = null;
+    if (formData.updateShippingRates === true) {
+      try {
+        shippingRatesUpdateResult = updateShippingRatesToLatest();
+        if (shippingRatesUpdateResult.success) {
+          msg += '\n\n【送料レート更新】\n' + shippingRatesUpdateResult.message + '\n更新行数: ' + shippingRatesUpdateResult.updatedRows + '行';
+          Logger.log('送料レートを2026年版に更新しました: ' + shippingRatesUpdateResult.updatedRows + '行');
+        } else {
+          msg += '\n\n【送料レート更新エラー】\n' + shippingRatesUpdateResult.message;
+          Logger.log('送料レート更新エラー: ' + shippingRatesUpdateResult.message);
+        }
+      } catch (e) {
+        msg += '\n\n【送料レート更新エラー】\n' + e.message;
+        Logger.log('送料レート更新で例外発生: ' + e.message);
+      }
+    }
+
     if (showPopups === 'true') {
       ui.alert('設定保存', msg, ui.ButtonSet.OK);
     }
