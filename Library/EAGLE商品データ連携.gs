@@ -37,8 +37,9 @@ const COLUMN_PRESETS = {
 };
 
 /**
- * APIトークンを暗号化して保存（無期限）
+ * APIトークンを保存（無期限）
  * DocumentPropertiesを使用（スプレッドシートごとに独立）
+ * 注意: 暗号化は別途実装予定
  */
 function saveApiToken(apiToken) {
   try {
@@ -49,15 +50,13 @@ function saveApiToken(apiToken) {
     // DocumentPropertiesを使用（スプレッドシートごとに独立、コピー時は引き継がれない）
     const docProps = PropertiesService.getDocumentProperties();
 
-    // 暗号化して保存（Config.gsの暗号化関数を使用）
-    const encryptedToken = encryptApiKey_(apiToken.trim());
-
+    // 一時的に平文で保存（暗号化は別途実装予定）
     docProps.setProperties({
-      'eagle_api_token': encryptedToken,
+      'eagle_api_token': apiToken.trim(),
       'eagle_saved_at': new Date().toISOString()
     });
 
-    console.log(`✅ APIトークンを暗号化して保存（無期限）`);
+    console.log(`✅ APIトークンを保存（無期限）`);
     return true;
 
   } catch (error) {
@@ -100,27 +99,21 @@ function getSelectedColumns() {
 }
 
 /**
- * 保存されたAPIトークンを復号して取得（無期限）
+ * 保存されたAPIトークンを取得（無期限）
+ * 注意: 暗号化は別途実装予定
  */
 function getApiToken() {
   try {
     const docProps = PropertiesService.getDocumentProperties();
 
-    const encryptedToken = docProps.getProperty('eagle_api_token');
+    const apiToken = docProps.getProperty('eagle_api_token');
 
-    if (!encryptedToken) {
+    if (!apiToken) {
       console.log('⚠️ 保存されたAPIトークンがありません');
       return null;
     }
 
-    // 復号して返す（Config.gsの復号関数を使用）
-    const apiToken = decryptApiKey_(encryptedToken);
-
-    if (!apiToken) {
-      console.log('⚠️ APIトークンの復号に失敗しました');
-      return null;
-    }
-
+    // 一時的に平文で取得（暗号化は別途実装予定）
     return apiToken;
 
   } catch (error) {

@@ -2797,9 +2797,10 @@ function saveIntegratedSettings(formData) {
     // 基本設定の保存
     props.setProperty('AI_PLATFORM', platform);
     props.setProperty('AI_MODEL', model);
-    if (platform === 'openai') props.setProperty('OPENAI_API_KEY', apiKey);
-    if (platform === 'claude') props.setProperty('CLAUDE_API_KEY', apiKey);
-    if (platform === 'gemini') props.setProperty('GEMINI_API_KEY', apiKey);
+    // APIキーはDocumentPropertiesに保存（スプレッドシートに紐づく、ライブラリ更新で消えない）
+    if (platform === 'openai') docProps.setProperty('OPENAI_API_KEY', apiKey);
+    if (platform === 'claude') docProps.setProperty('CLAUDE_API_KEY', apiKey);
+    if (platform === 'gemini') docProps.setProperty('GEMINI_API_KEY', apiKey);
 
     props.setProperty('SHEET_NAME', sheetName);
     props.setProperty('PROFIT_CALC_METHOD', profitCalc);

@@ -93,10 +93,12 @@ function initialSetup() {
     }
     
     // 既存の設定変数
+    // APIキーはDocumentPropertiesから取得（スプレッドシートに紐づく、ライブラリ更新で消えない）
+    var docProps = PropertiesService.getDocumentProperties();
     tmpl.currentApiKeys = {
-      openai: props.getProperty('OPENAI_API_KEY') || '',
-      claude: props.getProperty('CLAUDE_API_KEY') || '',
-      gemini: props.getProperty('GEMINI_API_KEY') || ''
+      openai: docProps.getProperty('OPENAI_API_KEY') || '',
+      claude: docProps.getProperty('CLAUDE_API_KEY') || '',
+      gemini: docProps.getProperty('GEMINI_API_KEY') || ''
     };
     tmpl.currentModel = props.getProperty('AI_MODEL') || 'gpt-5-nano';
     tmpl.currentSheetName = props.getProperty('SHEET_NAME') || '作業シート';
@@ -4012,12 +4014,14 @@ function checkCurrentValidation() {
   try {
     var ui = SpreadsheetApp.getUi();
     var props = PropertiesService.getScriptProperties();
+    var docProps = PropertiesService.getDocumentProperties();
     var platform = props.getProperty('AI_PLATFORM') || 'openai';
     var model = props.getProperty('AI_MODEL') || 'gpt-5-nano';
+    // APIキーはDocumentPropertiesからチェック
     var apiKeyStatus = '';
-    if (platform==='openai') apiKeyStatus = props.getProperty('OPENAI_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
-    if (platform==='claude') apiKeyStatus = props.getProperty('CLAUDE_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
-    if (platform==='gemini') apiKeyStatus = props.getProperty('GEMINI_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
+    if (platform==='openai') apiKeyStatus = docProps.getProperty('OPENAI_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
+    if (platform==='claude') apiKeyStatus = docProps.getProperty('CLAUDE_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
+    if (platform==='gemini') apiKeyStatus = docProps.getProperty('GEMINI_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
 
     var sheetName = props.getProperty('SHEET_NAME') || '未設定';
     var profitCalc = props.getProperty('PROFIT_CALC_METHOD') || '未設定';

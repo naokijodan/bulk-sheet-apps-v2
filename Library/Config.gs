@@ -198,9 +198,10 @@ function getSettings() {
   var docProps = PropertiesService.getDocumentProperties();
   var platform = props.getProperty('AI_PLATFORM') || 'openai';
   var model = props.getProperty('AI_MODEL') || 'gpt-5-nano';
-  var apiKey = (platform==='openai') ? props.getProperty('OPENAI_API_KEY') :
-               (platform==='claude') ? props.getProperty('CLAUDE_API_KEY') :
-               (platform==='gemini') ? props.getProperty('GEMINI_API_KEY') : '';
+  // APIキーはDocumentPropertiesから取得（スプレッドシートに紐づく、ライブラリ更新で消えない）
+  var apiKey = (platform==='openai') ? docProps.getProperty('OPENAI_API_KEY') :
+               (platform==='claude') ? docProps.getProperty('CLAUDE_API_KEY') :
+               (platform==='gemini') ? docProps.getProperty('GEMINI_API_KEY') : '';
 
   var settings = {
     platform: platform,
