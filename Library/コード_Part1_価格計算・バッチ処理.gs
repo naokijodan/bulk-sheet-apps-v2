@@ -81,75 +81,72 @@ function initialSetup() {
   var props = PropertiesService.getScriptProperties();
   var docProps = PropertiesService.getDocumentProperties();
   try {
-    var tmpl;
-    try {
-      tmpl = HtmlService.createTemplateFromFile('SetupDialog');
-    } catch (_) {
-      tmpl = null;
-    }
-    if (!tmpl) {
-      ui.alert('初期設定', 'SetupDialog.html が無いので簡易案内を表示します。', ui.ButtonSet.OK);
+    // テンプレートが存在するか確認
+    if (!HTML_TEMPLATES || !HTML_TEMPLATES['SetupDialog']) {
+      ui.alert('初期設定', 'SetupDialogテンプレートが見つかりません。', ui.ButtonSet.OK);
       return;
     }
-    
-    // 既存の設定変数
-    tmpl.currentApiKeys = {
-      openai: props.getProperty('OPENAI_API_KEY') || '',
-      claude: props.getProperty('CLAUDE_API_KEY') || '',
-      gemini: props.getProperty('GEMINI_API_KEY') || ''
-    };
-    tmpl.currentModel = props.getProperty('AI_MODEL') || 'gpt-5-nano';
-    tmpl.currentSheetName = props.getProperty('SHEET_NAME') || '作業シート';
-    tmpl.currentProfitCalculationMethod = props.getProperty('PROFIT_CALC_METHOD') || 'RATE';
-    tmpl.currentPromptId = props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT';
-    tmpl.currentShippingThreshold = props.getProperty('SHIPPING_THRESHOLD') || '5500';
-    tmpl.currentShippingCalculationMethod = props.getProperty('SHIPPING_CALC_METHOD') || 'TABLE';
-    tmpl.currentLowPriceMethod = props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'EP';
-    tmpl.currentHighPriceMethod = props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF';
-    tmpl.currentShowPopups = props.getProperty('SHOW_POPUPS') || 'false';
 
-    // DDU価格調整機能の設定変数（DocumentPropertiesから取得 - スプレッドシートに紐づく）
-    tmpl.currentDduAdjustmentEnabled = docProps.getProperty('DDU_ADJUSTMENT_ENABLED') || 'false';
-    tmpl.currentDduThreshold = docProps.getProperty('DDU_THRESHOLD') || '390';
-    tmpl.currentDduAdjustment = docProps.getProperty('DDU_ADJUSTMENT_AMOUNT') || '390';
-    
-    // 価格表示モード設定
-    tmpl.currentPriceDisplayMode = props.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL';
-
-    // ===== ✅ 重複チェック設定の規定値を詳細に設定 =====
+    // テンプレート変数を準備
     var workSheetName = props.getProperty('SHEET_NAME') || '作業シート';
-    
-    // 基本設定
-    tmpl.currentDuplicateCheckEnabled = props.getProperty('DUPLICATE_CHECK_ENABLED') || 'false';
-    tmpl.currentDuplicateSourceSheet = props.getProperty('DUPLICATE_SOURCE_SHEET') || workSheetName;
-    tmpl.currentDuplicateSourceColumn = props.getProperty('DUPLICATE_SOURCE_COLUMN') || 'H';
-    
-    // 対象シート（デフォルト2つ）
+
+    // 対象シートのデフォルト値を準備
     var savedTargets = props.getProperty('DUPLICATE_TARGET_SHEETS');
+    var currentDuplicateTargetSheets;
     if (savedTargets) {
-      tmpl.currentDuplicateTargetSheets = savedTargets;
+      currentDuplicateTargetSheets = savedTargets;
     } else {
-      // 初回は規定値を設定
       var defaultTargets = [
         { sheet: '保存データ_*', column: 'H' },
         { sheet: 'EAFGLE商品一覧', column: 'A' }
       ];
-      tmpl.currentDuplicateTargetSheets = JSON.stringify(defaultTargets);
+      currentDuplicateTargetSheets = JSON.stringify(defaultTargets);
     }
-    
-    // シート適用設定
-    tmpl.currentDuplicateApplyToSheet = props.getProperty('DUPLICATE_APPLY_TO_SHEET') || 'true';  // デフォルトでチェック
-    tmpl.currentDuplicateOutputSheet = props.getProperty('DUPLICATE_OUTPUT_SHEET') || workSheetName;
-    tmpl.currentDuplicateOutputColumn = props.getProperty('DUPLICATE_OUTPUT_COLUMN') || 'AF';
-    tmpl.currentDuplicateOutputStartRow = props.getProperty('DUPLICATE_OUTPUT_START_ROW') || '5';
-    tmpl.currentDuplicateOutputRange = props.getProperty('DUPLICATE_OUTPUT_RANGE') || 'DATA';
-    
-    // 既存の選択肢
-    tmpl.lowPriceOptions = CONFIG.SHIPPING_METHOD_OPTIONS.lowPrice;
-    tmpl.highPriceOptions = CONFIG.SHIPPING_METHOD_OPTIONS.highPrice;
-    tmpl.promptIds = getAllPromptIds();
-    
-    var html = tmpl.evaluate().setWidth(800).setHeight(900);
+
+    var templateData = {
+      // 既存の設定変数
+      currentApiKeys: {
+        openai: props.getProperty('OPENAI_API_KEY') || '',
+        claude: props.getProperty('CLAUDE_API_KEY') || '',
+        gemini: props.getProperty('GEMINI_API_KEY') || ''
+      },
+      currentModel: props.getProperty('AI_MODEL') || 'gpt-5-nano',
+      currentSheetName: workSheetName,
+      currentProfitCalculationMethod: props.getProperty('PROFIT_CALC_METHOD') || 'RATE',
+      currentPromptId: props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT',
+      currentShippingThreshold: props.getProperty('SHIPPING_THRESHOLD') || '5500',
+      currentShippingCalculationMethod: props.getProperty('SHIPPING_CALC_METHOD') || 'TABLE',
+      currentLowPriceMethod: props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'EP',
+      currentHighPriceMethod: props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF',
+      currentShowPopups: props.getProperty('SHOW_POPUPS') || 'false',
+
+      // DDU価格調整機能の設定変数（DocumentPropertiesから取得 - スプレッドシートに紐づく）
+      currentDduAdjustmentEnabled: docProps.getProperty('DDU_ADJUSTMENT_ENABLED') || 'false',
+      currentDduThreshold: docProps.getProperty('DDU_THRESHOLD') || '390',
+      currentDduAdjustment: docProps.getProperty('DDU_ADJUSTMENT_AMOUNT') || '390',
+
+      // 価格表示モード設定
+      currentPriceDisplayMode: props.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL',
+
+      // 重複チェック設定
+      currentDuplicateCheckEnabled: props.getProperty('DUPLICATE_CHECK_ENABLED') || 'false',
+      currentDuplicateSourceSheet: props.getProperty('DUPLICATE_SOURCE_SHEET') || workSheetName,
+      currentDuplicateSourceColumn: props.getProperty('DUPLICATE_SOURCE_COLUMN') || 'H',
+      currentDuplicateTargetSheets: currentDuplicateTargetSheets,
+      currentDuplicateApplyToSheet: props.getProperty('DUPLICATE_APPLY_TO_SHEET') || 'true',
+      currentDuplicateOutputSheet: props.getProperty('DUPLICATE_OUTPUT_SHEET') || workSheetName,
+      currentDuplicateOutputColumn: props.getProperty('DUPLICATE_OUTPUT_COLUMN') || 'AF',
+      currentDuplicateOutputStartRow: props.getProperty('DUPLICATE_OUTPUT_START_ROW') || '5',
+      currentDuplicateOutputRange: props.getProperty('DUPLICATE_OUTPUT_RANGE') || 'DATA',
+
+      // 選択肢
+      lowPriceOptions: CONFIG.SHIPPING_METHOD_OPTIONS.lowPrice,
+      highPriceOptions: CONFIG.SHIPPING_METHOD_OPTIONS.highPrice,
+      promptIds: getAllPromptIds()
+    };
+
+    // TemplateEngineを使用してHTMLを生成
+    var html = evaluateTemplate('SetupDialog', templateData).setWidth(800).setHeight(900);
     ui.showModalDialog(html, '初期設定（統合版）');
   } catch (e) {
     showAlert('初期設定ダイアログの表示に失敗: ' + e.message, 'error');
