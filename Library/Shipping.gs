@@ -433,3 +433,321 @@ function SHIPPING_COST(costYen, actualWeight, volWeight, shippingMethod, sizeStr
     return 999999;
   }
 }
+
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  2026年送料レート更新機能
+  - 初期設定ダイアログから呼び出し
+  - Shipping_RatesシートのF列(CF)とG列(CD)のみ更新
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+/**
+ * 2026年FedEx（CF）送料レートデータを取得
+ * PDFのUSW列の料金（円）
+ * @returns {Object[]} {maxWeight: グラム, rate: 円}
+ */
+function get2026FedExRates() {
+  // 2026年 FedEx FICP USW列（F列）の料金
+  return [
+    // 0.5kg刻み（PDFの0.5kg〜20kgまで）
+    { maxWeight: 500, rate: 2115 },
+    { maxWeight: 1000, rate: 2599 },
+    { maxWeight: 1500, rate: 2840 },
+    { maxWeight: 2000, rate: 3108 },
+    { maxWeight: 2500, rate: 3383 },
+    { maxWeight: 3000, rate: 3540 },
+    { maxWeight: 3500, rate: 3593 },
+    { maxWeight: 4000, rate: 4022 },
+    { maxWeight: 4500, rate: 4451 },
+    { maxWeight: 5000, rate: 4718 },
+    { maxWeight: 5500, rate: 5043 },
+    { maxWeight: 6000, rate: 5366 },
+    { maxWeight: 6500, rate: 5735 },
+    { maxWeight: 7000, rate: 6184 },
+    { maxWeight: 7500, rate: 6683 },
+    { maxWeight: 8000, rate: 6871 },
+    { maxWeight: 8500, rate: 7060 },
+    { maxWeight: 9000, rate: 7249 },
+    { maxWeight: 9500, rate: 8865 },
+    { maxWeight: 10000, rate: 9089 },
+    { maxWeight: 10500, rate: 9346 },
+    { maxWeight: 11000, rate: 9602 },
+    { maxWeight: 11500, rate: 9861 },
+    { maxWeight: 12000, rate: 10116 },
+    { maxWeight: 12500, rate: 11439 },
+    { maxWeight: 13000, rate: 11723 },
+    { maxWeight: 13500, rate: 12006 },
+    { maxWeight: 14000, rate: 12289 },
+    { maxWeight: 14500, rate: 12573 },
+    { maxWeight: 15000, rate: 12857 },
+    { maxWeight: 15500, rate: 13140 },
+    { maxWeight: 16000, rate: 14631 },
+    { maxWeight: 16500, rate: 14940 },
+    { maxWeight: 17000, rate: 15249 },
+    { maxWeight: 17500, rate: 15559 },
+    { maxWeight: 18000, rate: 15867 },
+    { maxWeight: 18500, rate: 16177 },
+    { maxWeight: 19000, rate: 16485 },
+    { maxWeight: 19500, rate: 16794 },
+    { maxWeight: 20000, rate: 17104 },
+    // 21kg以降は1kg刻み
+    { maxWeight: 21000, rate: 20625 },
+    { maxWeight: 22000, rate: 21657 },
+    { maxWeight: 23000, rate: 22689 },
+    { maxWeight: 24000, rate: 23721 },
+    { maxWeight: 25000, rate: 24754 },
+    { maxWeight: 26000, rate: 25787 },
+    { maxWeight: 27000, rate: 26819 },
+    { maxWeight: 28000, rate: 27852 },
+    { maxWeight: 29000, rate: 28885 },
+    { maxWeight: 30000, rate: 29916 },
+    { maxWeight: 31000, rate: 30950 },
+    { maxWeight: 32000, rate: 31983 },
+    { maxWeight: 33000, rate: 34201 },
+    { maxWeight: 34000, rate: 35237 },
+    { maxWeight: 35000, rate: 36274 },
+    { maxWeight: 36000, rate: 37310 },
+    { maxWeight: 37000, rate: 38346 },
+    { maxWeight: 38000, rate: 39383 },
+    { maxWeight: 39000, rate: 40419 },
+    { maxWeight: 40000, rate: 41455 },
+    { maxWeight: 41000, rate: 42492 },
+    { maxWeight: 42000, rate: 43528 },
+    { maxWeight: 43000, rate: 44565 },
+    { maxWeight: 44000, rate: 45601 },
+    { maxWeight: 45000, rate: 45624 },
+    { maxWeight: 46000, rate: 45624 },
+    { maxWeight: 47000, rate: 45624 },
+    { maxWeight: 48000, rate: 45792 },
+    { maxWeight: 49000, rate: 46746 },
+    { maxWeight: 50000, rate: 47700 },
+    { maxWeight: 51000, rate: 48654 },
+    { maxWeight: 52000, rate: 49608 },
+    { maxWeight: 53000, rate: 50562 },
+    { maxWeight: 54000, rate: 51516 },
+    { maxWeight: 55000, rate: 52470 },
+    { maxWeight: 56000, rate: 53424 },
+    { maxWeight: 57000, rate: 54378 },
+    { maxWeight: 58000, rate: 55332 },
+    { maxWeight: 59000, rate: 56286 },
+    { maxWeight: 60000, rate: 57240 },
+    { maxWeight: 61000, rate: 58194 },
+    { maxWeight: 62000, rate: 59148 },
+    { maxWeight: 63000, rate: 60102 },
+    { maxWeight: 64000, rate: 61056 },
+    { maxWeight: 65000, rate: 62010 },
+    { maxWeight: 66000, rate: 62964 },
+    { maxWeight: 67000, rate: 63918 },
+    { maxWeight: 68000, rate: 64872 }
+  ];
+}
+
+/**
+ * 2026年DHL（CD）送料レートデータを取得
+ * PDFのZone10(US)列の料金（円）
+ * @returns {Object[]} {maxWeight: グラム, rate: 円}
+ */
+function get2026DHLRates() {
+  return [
+    // 0.5kg刻み
+    { maxWeight: 500, rate: 2454 },
+    { maxWeight: 1000, rate: 2780 },
+    { maxWeight: 1500, rate: 3106 },
+    { maxWeight: 2000, rate: 3432 },
+    { maxWeight: 2500, rate: 3758 },
+    { maxWeight: 3000, rate: 4084 },
+    { maxWeight: 3500, rate: 4410 },
+    { maxWeight: 4000, rate: 4736 },
+    { maxWeight: 4500, rate: 5062 },
+    { maxWeight: 5000, rate: 5388 },
+    { maxWeight: 5500, rate: 5714 },
+    { maxWeight: 6000, rate: 6040 },
+    { maxWeight: 6500, rate: 6366 },
+    { maxWeight: 7000, rate: 6692 },
+    { maxWeight: 7500, rate: 7018 },
+    { maxWeight: 8000, rate: 7344 },
+    { maxWeight: 8500, rate: 7670 },
+    { maxWeight: 9000, rate: 7996 },
+    { maxWeight: 9500, rate: 8322 },
+    { maxWeight: 10000, rate: 8648 },
+    { maxWeight: 10500, rate: 8974 },
+    { maxWeight: 11000, rate: 9300 },
+    { maxWeight: 11500, rate: 9626 },
+    { maxWeight: 12000, rate: 9952 },
+    { maxWeight: 12500, rate: 10278 },
+    { maxWeight: 13000, rate: 10604 },
+    { maxWeight: 13500, rate: 10930 },
+    { maxWeight: 14000, rate: 11256 },
+    { maxWeight: 14500, rate: 11582 },
+    { maxWeight: 15000, rate: 11908 },
+    { maxWeight: 15500, rate: 12234 },
+    { maxWeight: 16000, rate: 12560 },
+    { maxWeight: 16500, rate: 12886 },
+    { maxWeight: 17000, rate: 13212 },
+    { maxWeight: 17500, rate: 13538 },
+    { maxWeight: 18000, rate: 13864 },
+    { maxWeight: 18500, rate: 14190 },
+    { maxWeight: 19000, rate: 14516 },
+    { maxWeight: 19500, rate: 14842 },
+    { maxWeight: 20000, rate: 15168 },
+    // 21kg以降は1kg刻み
+    { maxWeight: 21000, rate: 15820 },
+    { maxWeight: 22000, rate: 16472 },
+    { maxWeight: 23000, rate: 17124 },
+    { maxWeight: 24000, rate: 17776 },
+    { maxWeight: 25000, rate: 18428 },
+    { maxWeight: 26000, rate: 19080 },
+    { maxWeight: 27000, rate: 19732 },
+    { maxWeight: 28000, rate: 20384 },
+    { maxWeight: 29000, rate: 21036 },
+    { maxWeight: 30000, rate: 21688 },
+    { maxWeight: 31000, rate: 22340 },
+    { maxWeight: 32000, rate: 22992 },
+    { maxWeight: 33000, rate: 23644 },
+    { maxWeight: 34000, rate: 24296 },
+    { maxWeight: 35000, rate: 24948 },
+    { maxWeight: 36000, rate: 25600 },
+    { maxWeight: 37000, rate: 26252 },
+    { maxWeight: 38000, rate: 26904 },
+    { maxWeight: 39000, rate: 27556 },
+    { maxWeight: 40000, rate: 28208 },
+    { maxWeight: 41000, rate: 28860 },
+    { maxWeight: 42000, rate: 29512 },
+    { maxWeight: 43000, rate: 30164 },
+    { maxWeight: 44000, rate: 30816 },
+    { maxWeight: 45000, rate: 31468 },
+    { maxWeight: 46000, rate: 32120 },
+    { maxWeight: 47000, rate: 32772 },
+    { maxWeight: 48000, rate: 33424 },
+    { maxWeight: 49000, rate: 34076 },
+    { maxWeight: 50000, rate: 34728 },
+    { maxWeight: 51000, rate: 35380 },
+    { maxWeight: 52000, rate: 36032 },
+    { maxWeight: 53000, rate: 36684 },
+    { maxWeight: 54000, rate: 37336 },
+    { maxWeight: 55000, rate: 37988 },
+    { maxWeight: 56000, rate: 38640 },
+    { maxWeight: 57000, rate: 39292 },
+    { maxWeight: 58000, rate: 39944 },
+    { maxWeight: 59000, rate: 40596 },
+    { maxWeight: 60000, rate: 41248 },
+    { maxWeight: 61000, rate: 41900 },
+    { maxWeight: 62000, rate: 42552 },
+    { maxWeight: 63000, rate: 43204 },
+    { maxWeight: 64000, rate: 43856 },
+    { maxWeight: 65000, rate: 44508 },
+    { maxWeight: 66000, rate: 45160 },
+    { maxWeight: 67000, rate: 45812 },
+    { maxWeight: 68000, rate: 46464 }
+  ];
+}
+
+/**
+ * シートのWeight_Toに基づいて対応するレートを取得
+ * @param {number} weightTo シートのWeight_To値（グラム）
+ * @param {Object[]} rateTable レートテーブル
+ * @returns {number|null} 料金（円）、見つからない場合はnull
+ */
+function findRateForWeightBand(weightTo, rateTable) {
+  // weightToに対応するレートを探す
+  for (var i = 0; i < rateTable.length; i++) {
+    if (rateTable[i].maxWeight >= weightTo) {
+      return rateTable[i].rate;
+    }
+  }
+  // 68kg超の場合は最後のレートを使用
+  return rateTable[rateTable.length - 1].rate;
+}
+
+/**
+ * Shipping_RatesシートのCF(F列)とCD(G列)を2026年レートで更新
+ * 【安全設計】
+ * - F列とG列のみを更新（他の列は触らない）
+ * - 更新前にバリデーション実施
+ * - エラー時はロールバック
+ * @returns {Object} {success: boolean, message: string, updatedRows: number}
+ */
+function updateShippingRatesToLatest() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ratesSheet = ss.getSheetByName('Shipping_Rates');
+
+  if (!ratesSheet) {
+    return { success: false, message: 'Shipping_Ratesシートが見つかりません。', updatedRows: 0 };
+  }
+
+  try {
+    var lastRow = ratesSheet.getLastRow();
+    if (lastRow < 3) {
+      return { success: false, message: 'Shipping_Ratesシートにデータがありません。', updatedRows: 0 };
+    }
+
+    // 2026年レートデータ取得
+    var fedexRates = get2026FedExRates();
+    var dhlRates = get2026DHLRates();
+
+    // シートのA列(Weight_From)とB列(Weight_To)を読み取り
+    var weightRange = ratesSheet.getRange(3, 1, lastRow - 2, 2);
+    var weightData = weightRange.getValues();
+
+    // 現在のF列とG列を読み取り（バックアップ用）
+    var currentFGRange = ratesSheet.getRange(3, 6, lastRow - 2, 2);
+    var currentFGData = currentFGRange.getValues();
+
+    // 新しいレートを計算
+    var newFGData = [];
+    var updatedCount = 0;
+
+    for (var i = 0; i < weightData.length; i++) {
+      var weightTo = weightData[i][1]; // B列（Weight_To）
+
+      // Weight_Toが空または無効な場合はスキップ
+      if (weightTo === '' || weightTo === null || typeof weightTo !== 'number' || weightTo <= 0) {
+        // 空行の場合は現在の値を維持
+        newFGData.push([currentFGData[i][0], currentFGData[i][1]]);
+        continue;
+      }
+
+      // 新しいレートを取得
+      var newFedexRate = findRateForWeightBand(weightTo, fedexRates);
+      var newDHLRate = findRateForWeightBand(weightTo, dhlRates);
+
+      // レートが見つからない場合は現在の値を維持
+      if (newFedexRate === null) newFedexRate = currentFGData[i][0];
+      if (newDHLRate === null) newDHLRate = currentFGData[i][1];
+
+      newFGData.push([newFedexRate, newDHLRate]);
+      updatedCount++;
+    }
+
+    // バリデーション: 新しいデータが妥当か確認
+    for (var j = 0; j < newFGData.length; j++) {
+      var fedexVal = newFGData[j][0];
+      var dhlVal = newFGData[j][1];
+
+      // 数値以外が含まれていないか確認
+      if (fedexVal !== '' && fedexVal !== null && typeof fedexVal !== 'number') {
+        return { success: false, message: '行' + (j + 3) + 'のFedExレートが無効です。', updatedRows: 0 };
+      }
+      if (dhlVal !== '' && dhlVal !== null && typeof dhlVal !== 'number') {
+        return { success: false, message: '行' + (j + 3) + 'のDHLレートが無効です。', updatedRows: 0 };
+      }
+    }
+
+    // F列(6列目)とG列(7列目)のみ更新
+    var updateRange = ratesSheet.getRange(3, 6, newFGData.length, 2);
+    updateRange.setValues(newFGData);
+
+    return {
+      success: true,
+      message: '送料レートを2026年版に更新しました。',
+      updatedRows: updatedCount
+    };
+
+  } catch (e) {
+    return {
+      success: false,
+      message: '更新中にエラーが発生しました: ' + e.message,
+      updatedRows: 0
+    };
+  }
+}
