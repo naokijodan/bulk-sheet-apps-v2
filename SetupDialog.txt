@@ -626,20 +626,16 @@
 
           <label for="lowPriceMethod">低価格商品配送方法 *</label>
           <select id="lowPriceMethod" name="lowPriceMethod" required>
-            <? Object.keys(lowPriceOptions).forEach(function(key) { ?>
-              <option value="<?= key ?>" <?= currentLowPriceMethod === key ? 'selected' : '' ?>>
-                <?= lowPriceOptions[key].displayName ?>
-              </option>
-            <? }); ?>
+            <option value="NONE" <?= currentLowPriceMethod === 'NONE' ? 'selected' : '' ?>>なし（高価格配送のみ使用）</option>
+            <option value="EP" <?= currentLowPriceMethod === 'EP' ? 'selected' : '' ?>>eパケット（重量・サイズ制限あり）</option>
+            <option value="CE" <?= currentLowPriceMethod === 'CE' ? 'selected' : '' ?>>Cpass Economy（重量制限なし）</option>
           </select>
 
           <label for="highPriceMethod">高価格商品配送方法 *</label>
           <select id="highPriceMethod" name="highPriceMethod" required>
-            <? Object.keys(highPriceOptions).forEach(function(key) { ?>
-              <option value="<?= key ?>" <?= currentHighPriceMethod === key ? 'selected' : '' ?>>
-                <?= highPriceOptions[key].displayName ?>
-              </option>
-            <? }); ?>
+            <option value="CF" <?= currentHighPriceMethod === 'CF' ? 'selected' : '' ?>>Cpass FedEx（燃油・割引・追加料金あり）</option>
+            <option value="CD" <?= currentHighPriceMethod === 'CD' ? 'selected' : '' ?>>Cpass DHL（燃油・割引・追加料金あり）</option>
+            <option value="EL" <?= currentHighPriceMethod === 'EL' ? 'selected' : '' ?>>eLogistics（追加料金なし）</option>
           </select>
 
           <div class="info-box">
