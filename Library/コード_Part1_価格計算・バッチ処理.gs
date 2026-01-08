@@ -49,11 +49,18 @@ function getPromptContent(promptId) {
 
 /* サイドバー：プロンプト編集 */
 function showPromptEditorSidebar() {
+  console.log('showPromptEditorSidebar: 開始');
   try {
-    var html = createHtmlFromTemplate('PromptEditor').setTitle('プロンプト編集').setWidth(400);
+    console.log('showPromptEditorSidebar: テンプレート取得中');
+    var html = createHtmlFromTemplate('PromptEditor');
+    console.log('showPromptEditorSidebar: テンプレート取得完了');
+    html.setTitle('プロンプト編集').setWidth(400);
+    console.log('showPromptEditorSidebar: サイドバー表示中');
     SpreadsheetApp.getUi().showSidebar(html);
+    console.log('showPromptEditorSidebar: 完了');
   } catch (e) {
-    showAlert('「PromptEditor.html」が見つかりません。', 'error');
+    console.error('showPromptEditorSidebar error:', e);
+    SpreadsheetApp.getUi().alert('プロンプト編集エラー: ' + e.message);
   }
 }
 
