@@ -50,7 +50,7 @@ function getPromptContent(promptId) {
 /* サイドバー：プロンプト編集 */
 function showPromptEditorSidebar() {
   try {
-    var html = HtmlService.createHtmlOutputFromFile('PromptEditor').setTitle('プロンプト編集').setWidth(400);
+    var html = createHtmlFromTemplate('PromptEditor').setTitle('プロンプト編集').setWidth(400);
     SpreadsheetApp.getUi().showSidebar(html);
   } catch (e) {
     showAlert('「PromptEditor.html」が見つかりません。', 'error');
