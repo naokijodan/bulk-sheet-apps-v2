@@ -59,8 +59,12 @@ function showPromptEditorSidebar() {
     SpreadsheetApp.getUi().showSidebar(html);
     console.log('showPromptEditorSidebar: 完了');
   } catch (e) {
-    console.error('showPromptEditorSidebar error:', e);
-    SpreadsheetApp.getUi().alert('プロンプト編集エラー: ' + e.message);
+    console.error('showPromptEditorSidebar error:', e.stack);
+    SpreadsheetApp.getUi().alert(
+      'プロンプト編集エラー',
+      'サイドバーを表示できませんでした。もう一度実行してください。\n詳細: ' + e.message,
+      SpreadsheetApp.getUi().ButtonSet.OK
+    );
   }
 }
 
@@ -88,8 +92,9 @@ function initialSetup() {
   // すべての永続設定はDocumentPropertiesから取得（スプレッドシートに紐づく、ライブラリ更新で消えない）
   var docProps = PropertiesService.getDocumentProperties();
   try {
-    // テンプレートが存在するか確認
-    if (!HTML_TEMPLATES || !HTML_TEMPLATES['SetupDialog']) {
+    // テンプレートが存在するか確認（遅延初期化対応）
+    var templateHtml = getHtmlTemplate('SetupDialog');
+    if (!templateHtml) {
       ui.alert('初期設定', 'SetupDialogテンプレートが見つかりません。', ui.ButtonSet.OK);
       return;
     }

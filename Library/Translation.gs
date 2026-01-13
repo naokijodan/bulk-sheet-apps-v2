@@ -653,7 +653,12 @@ function showProgressSidebar_() {
       .setWidth(320);
     SpreadsheetApp.getUi().showSidebar(html);
   } catch (e) {
-    console.error('サイドバー表示エラー: ' + e.message);
+    console.error('サイドバー表示エラー: ' + e.stack);
+    SpreadsheetApp.getUi().alert(
+      'サイドバー表示エラー',
+      '進捗画面を表示できませんでした。もう一度実行してください。\n詳細: ' + e.message,
+      SpreadsheetApp.getUi().ButtonSet.OK
+    );
   }
 }
 
