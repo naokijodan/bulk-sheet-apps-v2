@@ -7,10 +7,10 @@
  ******************************************************/
 
 function createAIPrompt(fullText, promptId) {
-  // promptIdが指定されていない場合は、スクリプトプロパティから取得（後方互換性）
+  // promptIdが指定されていない場合は、DocumentPropertiesから取得（後方互換性）
   if (!promptId) {
-    var props = PropertiesService.getScriptProperties();
-    promptId = props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT';
+    var docProps = PropertiesService.getDocumentProperties();
+    promptId = docProps.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT';
   }
 
   var tmpl = getPromptContent(promptId);

@@ -85,7 +85,7 @@ function savePromptContent(promptId, newContent) {
 
 function initialSetup() {
   var ui = SpreadsheetApp.getUi();
-  var props = PropertiesService.getScriptProperties();
+  // すべての永続設定はDocumentPropertiesから取得（スプレッドシートに紐づく、ライブラリ更新で消えない）
   var docProps = PropertiesService.getDocumentProperties();
   try {
     // テンプレートが存在するか確認
@@ -95,10 +95,10 @@ function initialSetup() {
     }
 
     // テンプレート変数を準備
-    var workSheetName = props.getProperty('SHEET_NAME') || '作業シート';
+    var workSheetName = docProps.getProperty('SHEET_NAME') || '作業シート';
 
     // 対象シートのデフォルト値を準備
-    var savedTargets = props.getProperty('DUPLICATE_TARGET_SHEETS');
+    var savedTargets = docProps.getProperty('DUPLICATE_TARGET_SHEETS');
     var currentDuplicateTargetSheets;
     if (savedTargets) {
       currentDuplicateTargetSheets = savedTargets;
@@ -122,34 +122,34 @@ function initialSetup() {
         claude: claudeKey.length > 0,
         gemini: geminiKey.length > 0
       },
-      currentModel: props.getProperty('AI_MODEL') || 'gpt-5-nano',
+      currentModel: docProps.getProperty('AI_MODEL') || 'gpt-5-nano',
       currentSheetName: workSheetName,
-      currentProfitCalculationMethod: props.getProperty('PROFIT_CALC_METHOD') || 'RATE',
-      currentPromptId: props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT',
-      currentShippingThreshold: props.getProperty('SHIPPING_THRESHOLD') || '5500',
-      currentShippingCalculationMethod: props.getProperty('SHIPPING_CALC_METHOD') || 'TABLE',
-      currentLowPriceMethod: props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'NONE',
-      currentHighPriceMethod: props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF',
-      currentShowPopups: props.getProperty('SHOW_POPUPS') || 'false',
+      currentProfitCalculationMethod: docProps.getProperty('PROFIT_CALC_METHOD') || 'RATE',
+      currentPromptId: docProps.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT',
+      currentShippingThreshold: docProps.getProperty('SHIPPING_THRESHOLD') || '5500',
+      currentShippingCalculationMethod: docProps.getProperty('SHIPPING_CALC_METHOD') || 'TABLE',
+      currentLowPriceMethod: docProps.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'NONE',
+      currentHighPriceMethod: docProps.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF',
+      currentShowPopups: docProps.getProperty('SHOW_POPUPS') || 'false',
 
-      // DDU価格調整機能の設定変数（DocumentPropertiesから取得 - スプレッドシートに紐づく）
+      // DDU価格調整機能の設定変数
       currentDduAdjustmentEnabled: docProps.getProperty('DDU_ADJUSTMENT_ENABLED') || 'false',
       currentDduThreshold: docProps.getProperty('DDU_THRESHOLD') || '390',
       currentDduAdjustment: docProps.getProperty('DDU_ADJUSTMENT_AMOUNT') || '390',
 
       // 価格表示モード設定
-      currentPriceDisplayMode: props.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL',
+      currentPriceDisplayMode: docProps.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL',
 
       // 重複チェック設定
-      currentDuplicateCheckEnabled: props.getProperty('DUPLICATE_CHECK_ENABLED') || 'false',
-      currentDuplicateSourceSheet: props.getProperty('DUPLICATE_SOURCE_SHEET') || workSheetName,
-      currentDuplicateSourceColumn: props.getProperty('DUPLICATE_SOURCE_COLUMN') || 'H',
+      currentDuplicateCheckEnabled: docProps.getProperty('DUPLICATE_CHECK_ENABLED') || 'false',
+      currentDuplicateSourceSheet: docProps.getProperty('DUPLICATE_SOURCE_SHEET') || workSheetName,
+      currentDuplicateSourceColumn: docProps.getProperty('DUPLICATE_SOURCE_COLUMN') || 'H',
       currentDuplicateTargetSheets: currentDuplicateTargetSheets,
-      currentDuplicateApplyToSheet: props.getProperty('DUPLICATE_APPLY_TO_SHEET') || 'true',
-      currentDuplicateOutputSheet: props.getProperty('DUPLICATE_OUTPUT_SHEET') || workSheetName,
-      currentDuplicateOutputColumn: props.getProperty('DUPLICATE_OUTPUT_COLUMN') || 'AF',
-      currentDuplicateOutputStartRow: props.getProperty('DUPLICATE_OUTPUT_START_ROW') || '5',
-      currentDuplicateOutputRange: props.getProperty('DUPLICATE_OUTPUT_RANGE') || 'DATA',
+      currentDuplicateApplyToSheet: docProps.getProperty('DUPLICATE_APPLY_TO_SHEET') || 'true',
+      currentDuplicateOutputSheet: docProps.getProperty('DUPLICATE_OUTPUT_SHEET') || workSheetName,
+      currentDuplicateOutputColumn: docProps.getProperty('DUPLICATE_OUTPUT_COLUMN') || 'AF',
+      currentDuplicateOutputStartRow: docProps.getProperty('DUPLICATE_OUTPUT_START_ROW') || '5',
+      currentDuplicateOutputRange: docProps.getProperty('DUPLICATE_OUTPUT_RANGE') || 'DATA',
 
       // 選択肢
       lowPriceOptions: CONFIG.SHIPPING_METHOD_OPTIONS.lowPrice,
@@ -169,8 +169,8 @@ function initialSetup() {
   設定読み込み＆検証（不足時は null 返却）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function ensureSurchargeCellsOnWorkSheet() {
-  var props = PropertiesService.getScriptProperties();
-  var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
+  var docProps = PropertiesService.getDocumentProperties();
+  var sheetName = docProps.getProperty('SHEET_NAME') || '作業シート';
   var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
   if (!sh) return;
   
@@ -4020,24 +4020,24 @@ function setupDropdownValidation() {
 function checkCurrentValidation() {
   try {
     var ui = SpreadsheetApp.getUi();
-    var props = PropertiesService.getScriptProperties();
+    // すべての永続設定はDocumentPropertiesから取得
     var docProps = PropertiesService.getDocumentProperties();
-    var platform = props.getProperty('AI_PLATFORM') || 'openai';
-    var model = props.getProperty('AI_MODEL') || 'gpt-5-nano';
-    // APIキーはDocumentPropertiesからチェック
+    var platform = docProps.getProperty('AI_PLATFORM') || 'openai';
+    var model = docProps.getProperty('AI_MODEL') || 'gpt-5-nano';
+    // APIキーのチェック
     var apiKeyStatus = '';
     if (platform==='openai') apiKeyStatus = docProps.getProperty('OPENAI_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
     if (platform==='claude') apiKeyStatus = docProps.getProperty('CLAUDE_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
     if (platform==='gemini') apiKeyStatus = docProps.getProperty('GEMINI_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
 
-    var sheetName = props.getProperty('SHEET_NAME') || '未設定';
-    var profitCalc = props.getProperty('PROFIT_CALC_METHOD') || '未設定';
-    var promptId = props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT';
-    var shippingThreshold = props.getProperty('SHIPPING_THRESHOLD') || '20000';
-    var shippingCalc = props.getProperty('SHIPPING_CALC_METHOD') || 'TABLE';
+    var sheetName = docProps.getProperty('SHEET_NAME') || '未設定';
+    var profitCalc = docProps.getProperty('PROFIT_CALC_METHOD') || '未設定';
+    var promptId = docProps.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT';
+    var shippingThreshold = docProps.getProperty('SHIPPING_THRESHOLD') || '20000';
+    var shippingCalc = docProps.getProperty('SHIPPING_CALC_METHOD') || 'TABLE';
 
-    var lowPriceMethod = props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'NONE';
-    var highPriceMethod = props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF';
+    var lowPriceMethod = docProps.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'NONE';
+    var highPriceMethod = docProps.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF';
     
     // eLogistics対応の表示名取得
     var lowPriceName = CONFIG.SHIPPING_METHOD_OPTIONS.lowPrice[lowPriceMethod] ? 
