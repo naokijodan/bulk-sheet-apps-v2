@@ -1401,6 +1401,10 @@ function runSelectedRows() {
       manualSize = props.getProperty('manualSize');
       startTime = new Date(parseInt(props.getProperty('startTime')));
       skippedCount = parseInt(props.getProperty('skippedCount') || '0');
+
+      // 継続処理でもサイドバーを表示
+      showProgressSidebar_();
+
       conditionalShowAlert('処理を再開します。残り ' + (selectedRows.length - startRowIndex) + '件。', "info");
     }
 
@@ -2006,7 +2010,10 @@ function runSelectedRowsComplete() {
       templateName = props.getProperty('templateName_complete');
       startTime = new Date(parseInt(props.getProperty('startTime_complete')));
       skippedCount = parseInt(props.getProperty('skippedCount_complete') || '0');
-      
+
+      // 継続処理でもサイドバーを表示
+      showProgressSidebar_();
+
       if (phase === 'PHASE1') {
         conditionalShowAlert('PHASE1（翻訳・計算）を再開します。残り ' + (selectedRows.length - startRowIndex) + '件。', "info");
       } else {
