@@ -651,11 +651,15 @@ function validateTranslationResult_(sheet, row, fields) {
  * 進捗サイドバーを表示
  */
 function showProgressSidebar_() {
+  console.log('showProgressSidebar_: 開始');
   try {
+    console.log('showProgressSidebar_: テンプレート取得中');
     var html = createHtmlFromTemplate('ProgressSidebar')
       .setTitle('翻訳処理の進捗')
       .setWidth(320);
+    console.log('showProgressSidebar_: テンプレート取得完了、サイドバー表示中');
     SpreadsheetApp.getUi().showSidebar(html);
+    console.log('showProgressSidebar_: showSidebar完了');
   } catch (e) {
     console.error('サイドバー表示エラー: ' + e.stack);
     SpreadsheetApp.getUi().alert(
