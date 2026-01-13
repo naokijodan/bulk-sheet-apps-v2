@@ -11,7 +11,7 @@
  * @return {HtmlOutput}
  */
 function evaluateTemplate(templateName, data) {
-  var html = HTML_TEMPLATES[templateName];
+  var html = getHtmlTemplate(templateName);
   if (!html) {
     throw new Error('Template not found: ' + templateName);
   }
