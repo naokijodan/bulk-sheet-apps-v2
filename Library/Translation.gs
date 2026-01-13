@@ -144,6 +144,10 @@ function runSelectedRowsTranslate() {
       selectedRows = JSON.parse(props.getProperty('targetRows_translate'));
       startTime = new Date(parseInt(props.getProperty('startTime_translate')));
       skippedCount = parseInt(props.getProperty('skippedCount_translate') || '0');
+
+      // 継続処理でもサイドバーを表示
+      showProgressSidebar_();
+
       conditionalShowAlert('翻訳処理を再開します。残り ' + (selectedRows.length - startRowIndex) + '件。', "info");
     }
 
