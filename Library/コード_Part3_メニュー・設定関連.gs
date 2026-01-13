@@ -535,18 +535,9 @@ function calcBreakEvenFromSelling(payload) {
 }
 
 function showPriceCalc() {
-  try {
-    var html = createHtmlFromTemplate('PriceCalc')
-      .setWidth(1200).setHeight(900);
-    SpreadsheetApp.getUi().showModalDialog(html, '💲 EC価格計算ツール');
-  } catch (e) {
-    console.error('showPriceCalc error:', e.stack);
-    SpreadsheetApp.getUi().alert(
-      '価格計算ツールエラー',
-      'ダイアログを表示できませんでした。もう一度実行してください。\n詳細: ' + e.message,
-      SpreadsheetApp.getUi().ButtonSet.OK
-    );
-  }
+  var html = HtmlService.createHtmlOutput(HTML_TEMPLATES['PriceCalc'])
+    .setWidth(1200).setHeight(900);
+  SpreadsheetApp.getUi().showModalDialog(html, '💲 EC価格計算ツール');
 }
 
 function addPriceCalcStandaloneMenu_() {

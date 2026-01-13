@@ -144,11 +144,10 @@ function runSelectedRowsTranslate() {
       selectedRows = JSON.parse(props.getProperty('targetRows_translate'));
       startTime = new Date(parseInt(props.getProperty('startTime_translate')));
       skippedCount = parseInt(props.getProperty('skippedCount_translate') || '0');
+      conditionalShowAlert('翻訳処理を再開します。残り ' + (selectedRows.length - startRowIndex) + '件。', "info");
 
       // 継続処理でもサイドバーを表示
       showProgressSidebar_();
-
-      conditionalShowAlert('翻訳処理を再開します。残り ' + (selectedRows.length - startRowIndex) + '件。', "info");
     }
 
     // P2セルの商品状態モードを1回だけ読み取る
@@ -651,22 +650,13 @@ function validateTranslationResult_(sheet, row, fields) {
  * 進捗サイドバーを表示
  */
 function showProgressSidebar_() {
-  console.log('showProgressSidebar_: 開始');
   try {
-    console.log('showProgressSidebar_: テンプレート取得中');
     var html = createHtmlFromTemplate('ProgressSidebar')
       .setTitle('翻訳処理の進捗')
       .setWidth(320);
-    console.log('showProgressSidebar_: テンプレート取得完了、サイドバー表示中');
     SpreadsheetApp.getUi().showSidebar(html);
-    console.log('showProgressSidebar_: showSidebar完了');
   } catch (e) {
-    console.error('サイドバー表示エラー: ' + e.stack);
-    SpreadsheetApp.getUi().alert(
-      'サイドバー表示エラー',
-      '進捗画面を表示できませんでした。もう一度実行してください。\n詳細: ' + e.message,
-      SpreadsheetApp.getUi().ButtonSet.OK
-    );
+    console.error('サイドバー表示エラー: ' + e.message);
   }
 }
 

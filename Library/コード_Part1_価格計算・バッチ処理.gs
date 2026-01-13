@@ -59,12 +59,8 @@ function showPromptEditorSidebar() {
     SpreadsheetApp.getUi().showSidebar(html);
     console.log('showPromptEditorSidebar: 完了');
   } catch (e) {
-    console.error('showPromptEditorSidebar error:', e.stack);
-    SpreadsheetApp.getUi().alert(
-      'プロンプト編集エラー',
-      'サイドバーを表示できませんでした。もう一度実行してください。\n詳細: ' + e.message,
-      SpreadsheetApp.getUi().ButtonSet.OK
-    );
+    console.error('showPromptEditorSidebar error:', e);
+    SpreadsheetApp.getUi().alert('プロンプト編集エラー: ' + e.message);
   }
 }
 
@@ -92,9 +88,8 @@ function initialSetup() {
   // すべての永続設定はDocumentPropertiesから取得（スプレッドシートに紐づく、ライブラリ更新で消えない）
   var docProps = PropertiesService.getDocumentProperties();
   try {
-    // テンプレートが存在するか確認（遅延初期化対応）
-    var templateHtml = getHtmlTemplate('SetupDialog');
-    if (!templateHtml) {
+    // テンプレートが存在するか確認
+    if (!HTML_TEMPLATES || !HTML_TEMPLATES['SetupDialog']) {
       ui.alert('初期設定', 'SetupDialogテンプレートが見つかりません。', ui.ButtonSet.OK);
       return;
     }
@@ -1401,11 +1396,10 @@ function runSelectedRows() {
       manualSize = props.getProperty('manualSize');
       startTime = new Date(parseInt(props.getProperty('startTime')));
       skippedCount = parseInt(props.getProperty('skippedCount') || '0');
+      conditionalShowAlert('処理を再開します。残り ' + (selectedRows.length - startRowIndex) + '件。', "info");
 
       // 継続処理でもサイドバーを表示
       showProgressSidebar_();
-
-      conditionalShowAlert('処理を再開します。残り ' + (selectedRows.length - startRowIndex) + '件。', "info");
     }
 
     // 🔹 P2セルの商品状態モードを1回だけ読み取る
@@ -2010,15 +2004,15 @@ function runSelectedRowsComplete() {
       templateName = props.getProperty('templateName_complete');
       startTime = new Date(parseInt(props.getProperty('startTime_complete')));
       skippedCount = parseInt(props.getProperty('skippedCount_complete') || '0');
-
-      // 継続処理でもサイドバーを表示
-      showProgressSidebar_();
-
+      
       if (phase === 'PHASE1') {
         conditionalShowAlert('PHASE1（翻訳・計算）を再開します。残り ' + (selectedRows.length - startRowIndex) + '件。', "info");
       } else {
         conditionalShowAlert('PHASE2（テンプレ・ポリシー出力）を再開します。残り ' + (selectedRows.length - startRowIndex) + '件。', "info");
       }
+
+      // 継続処理でもサイドバーを表示
+      showProgressSidebar_();
     }
 
     // ============================================
