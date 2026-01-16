@@ -58,6 +58,17 @@ function showPromptEditorSidebar() {
 }
 
 function savePromptContent(promptId, newContent) {
+  // アシスタント機能へのディスパッチ
+  if (promptId === '__ASSISTANT__') {
+    try {
+      var request = JSON.parse(newContent);
+      return assistantDispatch_(request);
+    } catch (e) {
+      return { success: false, error: 'Invalid request format: ' + e.message };
+    }
+  }
+
+  // 既存のプロンプト保存処理
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sh = ss.getSheetByName("GPT_Prompts");
   if (!sh) throw new Error('GPT_Prompts シートが見つかりません。');
