@@ -3,51 +3,120 @@
 <head>
   <base target="_top">
   <style>
-    body { font-family: sans-serif; margin: 10px; background-color: #f8f9fa; }
-    h3 { color: #1a73e8; margin-bottom: 15px; }
-    label { display: block; margin-bottom: 5px; font-weight: bold; color: #3c4043; }
-    textarea { 
-      width: calc(100% - 20px); /* 左右のパディングを考慮 */
-      height: 250px; /* 編集エリアの高さを確保 */
-      margin-bottom: 15px; 
-      padding: 10px; 
-      font-size: 14px; 
-      border: 1px solid #dadce0; 
-      border-radius: 4px;
-      box-sizing: border-box; /* パディングとボーダーを幅に含める */
-      resize: vertical; /* 縦方向のみリサイズ可能にする */
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+      font-size: 13px;
     }
-    select { 
-      width: calc(100% - 20px); 
-      margin-bottom: 15px; 
-      padding: 8px; 
-      font-size: 14px; 
-      border: 1px solid #dadce0; 
+
+    /* タブナビゲーション */
+    .tab-nav {
+      display: flex;
+      background: #fff;
+      border-bottom: 1px solid #dadce0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 12px 8px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: #5f6368;
+      transition: all 0.2s;
+      border-bottom: 2px solid transparent;
+    }
+    .tab-btn:hover {
+      background: #f1f3f4;
+    }
+    .tab-btn.active {
+      color: #1a73e8;
+      border-bottom-color: #1a73e8;
+    }
+
+    /* タブコンテンツ */
+    .tab-content {
+      display: none;
+      padding: 12px;
+    }
+    .tab-content.active {
+      display: block;
+    }
+
+    /* 共通スタイル */
+    h3 {
+      color: #1a73e8;
+      margin: 0 0 12px 0;
+      font-size: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 500;
+      color: #3c4043;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 12px;
+      padding: 10px;
+      font-size: 13px;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      resize: vertical;
+    }
+    select {
+      width: 100%;
+      margin-bottom: 12px;
+      padding: 8px;
+      font-size: 13px;
+      border: 1px solid #dadce0;
       border-radius: 4px;
       background-color: #fff;
     }
-    button { 
-      padding: 10px 20px; 
-      font-size: 14px; 
-      border: none; 
-      border-radius: 4px; 
-      cursor: pointer; 
-      margin-right: 10px;
+    button {
+      padding: 8px 16px;
+      font-size: 13px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      transition: all 0.2s;
     }
-    button.primary { 
-      background-color: #1a73e8; 
-      color: white; 
+    button.primary {
+      background-color: #1a73e8;
+      color: white;
     }
-    button.secondary { 
-      background-color: #e8eaed; 
-      color: #3c4043; 
+    button.primary:hover {
+      background-color: #1557b0;
     }
+    button.secondary {
+      background-color: #e8eaed;
+      color: #3c4043;
+    }
+    button.secondary:hover {
+      background-color: #dadce0;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* メッセージボックス */
     .message {
-      margin-top: 15px;
+      margin-top: 12px;
       padding: 10px;
       border-radius: 4px;
-      font-weight: bold;
-      display: none; /* 初期状態では非表示 */
+      font-weight: 500;
+      display: none;
     }
     .message.success {
       background-color: #e6ffe6;
@@ -59,34 +128,261 @@
       color: #d93025;
       border: 1px solid #d93025;
     }
+    .message.info {
+      background-color: #e8f0fe;
+      color: #1a73e8;
+      border: 1px solid #1a73e8;
+    }
+
+    /* アシスタント: セル情報カード */
+    .cell-info-card {
+      background: #fff;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .cell-info-card h4 {
+      margin: 0 0 8px 0;
+      font-size: 13px;
+      color: #5f6368;
+    }
+    .cell-info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      border-bottom: 1px solid #f1f3f4;
+    }
+    .cell-info-row:last-child {
+      border-bottom: none;
+    }
+    .cell-info-label {
+      color: #5f6368;
+    }
+    .cell-info-value {
+      font-weight: 500;
+      color: #202124;
+      max-width: 60%;
+      word-break: break-all;
+    }
+    .cell-info-value.error {
+      color: #d93025;
+    }
+
+    /* アシスタント: アクションボタン */
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .action-btn {
+      flex: 1;
+      min-width: 100px;
+      padding: 10px;
+      background: #fff;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .action-btn:hover {
+      background: #f1f3f4;
+      border-color: #1a73e8;
+    }
+    .action-btn-icon {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+    .action-btn-label {
+      font-size: 12px;
+      color: #3c4043;
+    }
+
+    /* アシスタント: 結果表示 */
+    .result-box {
+      background: #fff;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+      white-space: pre-wrap;
+      line-height: 1.5;
+    }
+    .result-box.loading {
+      color: #5f6368;
+      text-align: center;
+    }
+
+    /* アシスタント: FAQ */
+    .faq-item {
+      background: #fff;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+    .faq-question {
+      padding: 10px 12px;
+      cursor: pointer;
+      font-weight: 500;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-question:hover {
+      background: #f1f3f4;
+    }
+    .faq-answer {
+      padding: 0 12px;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.2s;
+      border-top: 1px solid #dadce0;
+      background: #f8f9fa;
+    }
+    .faq-answer.open {
+      padding: 10px 12px;
+      max-height: 200px;
+    }
+
+    /* アシスタント: フィードバック */
+    .feedback-form {
+      background: #fff;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .feedback-type {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .feedback-type-btn {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .feedback-type-btn.selected {
+      border-color: #1a73e8;
+      background: #e8f0fe;
+      color: #1a73e8;
+    }
+    .feedback-textarea {
+      height: 100px;
+    }
   </style>
 </head>
 <body>
-  <h3>プロンプト編集</h3>
-  <label for="promptSelect">プロンプトID:</label>
-  <select id="promptSelect" onchange="loadPrompt()">
-    </select>
-  <br>
-  <label for="promptContent">プロンプト内容:</label>
-  <textarea id="promptContent"></textarea>
-  <button class="primary" onclick="savePrompt()">保存</button>
-  <button class="secondary" onclick="google.script.host.close()">閉じる</button>
 
-  <div id="messageBox" class="message"></div>
+  <!-- タブナビゲーション -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('prompt')">プロンプト</button>
+    <button class="tab-btn" onclick="switchTab('assistant')">アシスタント</button>
+  </div>
+
+  <!-- プロンプトタブ -->
+  <div id="tab-prompt" class="tab-content active">
+    <h3>プロンプト編集</h3>
+    <label for="promptSelect">プロンプトID:</label>
+    <select id="promptSelect" onchange="loadPrompt()">
+    </select>
+    <label for="promptContent">プロンプト内容:</label>
+    <textarea id="promptContent"></textarea>
+    <button class="primary" onclick="savePrompt()">保存</button>
+    <button class="secondary" onclick="google.script.host.close()">閉じる</button>
+    <div id="promptMessageBox" class="message"></div>
+  </div>
+
+  <!-- アシスタントタブ -->
+  <div id="tab-assistant" class="tab-content">
+    <h3>アシスタント</h3>
+
+    <!-- セル情報カード -->
+    <div class="cell-info-card" id="cellInfoCard">
+      <h4>選択中のセル</h4>
+      <div id="cellInfoContent">
+        <p style="color: #5f6368; text-align: center;">セルを選択して「更新」を押してください</p>
+      </div>
+      <button class="secondary" onclick="refreshCellInfo()" style="width: 100%; margin-top: 8px;">
+        セル情報を更新
+      </button>
+    </div>
+
+    <!-- アクションボタン -->
+    <div class="action-buttons">
+      <div class="action-btn" onclick="analyzeCell()">
+        <div class="action-btn-icon">🔍</div>
+        <div class="action-btn-label">診断する</div>
+      </div>
+      <div class="action-btn" onclick="getColumnInfo()">
+        <div class="action-btn-icon">📖</div>
+        <div class="action-btn-label">列の説明</div>
+      </div>
+    </div>
+
+    <!-- 結果表示 -->
+    <div class="result-box" id="resultBox" style="display: none;"></div>
+
+    <!-- FAQ -->
+    <h4 style="margin: 16px 0 8px 0; color: #5f6368;">よくある質問</h4>
+    <div id="faqList"></div>
+
+    <!-- フィードバック -->
+    <h4 style="margin: 16px 0 8px 0; color: #5f6368;">フィードバック</h4>
+    <div class="feedback-form">
+      <div class="feedback-type">
+        <button class="feedback-type-btn selected" onclick="selectFeedbackType(this, 'bug')">バグ報告</button>
+        <button class="feedback-type-btn" onclick="selectFeedbackType(this, 'request')">機能要望</button>
+        <button class="feedback-type-btn" onclick="selectFeedbackType(this, 'question')">質問</button>
+      </div>
+      <textarea id="feedbackMessage" class="feedback-textarea" placeholder="内容を入力してください..."></textarea>
+      <button class="primary" onclick="submitFeedback()">送信</button>
+    </div>
+    <div id="assistantMessageBox" class="message"></div>
+  </div>
 
   <script>
-    // メッセージ表示関数
-    function showMessage(msg, type) {
-      const msgBox = document.getElementById('messageBox');
-      msgBox.textContent = msg;
-      msgBox.className = 'message ' + type; // クラスを更新
-      msgBox.style.display = 'block';
-      setTimeout(() => {
-        msgBox.style.display = 'none'; // 3秒後にメッセージを非表示
-      }, 3000);
+    // 現在のタブ
+    let currentTab = 'prompt';
+    // フィードバックタイプ
+    let feedbackType = 'bug';
+    // 現在のセル情報
+    let currentCellInfo = null;
+
+    // ========== タブ切り替え ==========
+    function switchTab(tabName) {
+      currentTab = tabName;
+
+      // ボタンのアクティブ状態を更新
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      // コンテンツの表示を切り替え
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      document.getElementById('tab-' + tabName).classList.add('active');
+
+      // アシスタントタブに切り替えた時、セル情報を取得
+      if (tabName === 'assistant' && !currentCellInfo) {
+        refreshCellInfo();
+        loadFaqList();
+      }
     }
 
-    // GASからプロンプトIDのリストを受け取り、ドロップダウンに表示
+    // ========== プロンプト編集機能 ==========
+    function showPromptMessage(msg, type) {
+      const msgBox = document.getElementById('promptMessageBox');
+      msgBox.textContent = msg;
+      msgBox.className = 'message ' + type;
+      msgBox.style.display = 'block';
+      setTimeout(() => { msgBox.style.display = 'none'; }, 3000);
+    }
+
     function populatePromptSelect(promptIds) {
       const select = document.getElementById('promptSelect');
       select.innerHTML = '<option value="">--選択してください--</option>';
@@ -98,42 +394,190 @@
       });
     }
 
-    // 選択されたプロンプトの内容をGASから読み込む
     function loadPrompt() {
       const promptId = document.getElementById('promptSelect').value;
       if (promptId) {
-        google.script.run.withSuccessHandler(function(content) {
-          document.getElementById('promptContent').value = content;
-        }).withFailureHandler(function(error) {
-          showMessage('プロンプトの読み込みに失敗しました: ' + error.message, 'error');
-          document.getElementById('promptContent').value = '';
-        }).getPromptContent(promptId); // GASのgetPromptContentを呼び出す
+        google.script.run
+          .withSuccessHandler(function(content) {
+            document.getElementById('promptContent').value = content;
+          })
+          .withFailureHandler(function(error) {
+            showPromptMessage('プロンプトの読み込みに失敗しました: ' + error.message, 'error');
+            document.getElementById('promptContent').value = '';
+          })
+          .getPromptContent(promptId);
       } else {
         document.getElementById('promptContent').value = '';
       }
     }
 
-    // 編集したプロンプトの内容をGASに渡して保存する
     function savePrompt() {
       const promptId = document.getElementById('promptSelect').value;
       const promptContent = document.getElementById('promptContent').value;
       if (!promptId) {
-        showMessage('プロンプトIDを選択してください。', 'error');
+        showPromptMessage('プロンプトIDを選択してください。', 'error');
         return;
       }
       if (!promptContent.trim()) {
-        showMessage('プロンプト内容を入力してください。', 'error');
+        showPromptMessage('プロンプト内容を入力してください。', 'error');
         return;
       }
-      
-      google.script.run.withSuccessHandler(function() {
-        showMessage('プロンプトを保存しました！', 'success');
-      }).withFailureHandler(function(error) {
-        showMessage('プロンプトの保存に失敗しました: ' + error.message, 'error');
-      }).savePromptContent(promptId, promptContent); // GASのsavePromptContentを呼び出す
+
+      google.script.run
+        .withSuccessHandler(function() {
+          showPromptMessage('プロンプトを保存しました！', 'success');
+        })
+        .withFailureHandler(function(error) {
+          showPromptMessage('プロンプトの保存に失敗しました: ' + error.message, 'error');
+        })
+        .savePromptContent(promptId, promptContent);
     }
 
-    // 初期ロード時にプロンプトIDリストを取得してドロップダウンを生成
+    // ========== アシスタント機能 ==========
+    function showAssistantMessage(msg, type) {
+      const msgBox = document.getElementById('assistantMessageBox');
+      msgBox.textContent = msg;
+      msgBox.className = 'message ' + type;
+      msgBox.style.display = 'block';
+      setTimeout(() => { msgBox.style.display = 'none'; }, 3000);
+    }
+
+    function callAssistant(action, data, callback) {
+      const request = JSON.stringify({ action: action, data: data || {} });
+      google.script.run
+        .withSuccessHandler(function(response) {
+          if (typeof response === 'string') {
+            try { response = JSON.parse(response); } catch (e) {}
+          }
+          callback(response);
+        })
+        .withFailureHandler(function(error) {
+          callback({ success: false, error: error.message });
+        })
+        .savePromptContent('__ASSISTANT__', request);
+    }
+
+    function refreshCellInfo() {
+      const contentDiv = document.getElementById('cellInfoContent');
+      contentDiv.innerHTML = '<p style="color: #5f6368; text-align: center;">読み込み中...</p>';
+
+      callAssistant('GET_SELECTED_CELL_INFO', {}, function(response) {
+        if (response.success) {
+          currentCellInfo = response.data;
+          renderCellInfo(response.data);
+        } else {
+          contentDiv.innerHTML = '<p style="color: #d93025;">エラー: ' + response.error + '</p>';
+        }
+      });
+    }
+
+    function renderCellInfo(info) {
+      const contentDiv = document.getElementById('cellInfoContent');
+      let html = '';
+      html += '<div class="cell-info-row"><span class="cell-info-label">位置</span><span class="cell-info-value">' + info.colLetter + info.row + '</span></div>';
+      html += '<div class="cell-info-row"><span class="cell-info-label">シート</span><span class="cell-info-value">' + info.sheetName + '</span></div>';
+      html += '<div class="cell-info-row"><span class="cell-info-label">列名</span><span class="cell-info-value">' + (info.headerName || '(なし)') + '</span></div>';
+      html += '<div class="cell-info-row"><span class="cell-info-label">値</span><span class="cell-info-value">' + (info.displayValue || '(空)') + '</span></div>';
+      if (info.hasError) {
+        html += '<div class="cell-info-row"><span class="cell-info-label">エラー</span><span class="cell-info-value error">' + info.errorType + '</span></div>';
+      }
+      contentDiv.innerHTML = html;
+    }
+
+    function analyzeCell() {
+      const resultBox = document.getElementById('resultBox');
+      resultBox.style.display = 'block';
+      resultBox.className = 'result-box loading';
+      resultBox.textContent = '診断中...';
+
+      callAssistant('ANALYZE_CELL', {}, function(response) {
+        resultBox.className = 'result-box';
+        if (response.success) {
+          resultBox.textContent = response.data.diagnosis;
+        } else {
+          resultBox.textContent = 'エラー: ' + response.error;
+        }
+      });
+    }
+
+    function getColumnInfo() {
+      const resultBox = document.getElementById('resultBox');
+      resultBox.style.display = 'block';
+      resultBox.className = 'result-box loading';
+      resultBox.textContent = '取得中...';
+
+      callAssistant('GET_COLUMN_INFO', {}, function(response) {
+        resultBox.className = 'result-box';
+        if (response.success) {
+          const data = response.data;
+          let text = '【' + data.headerName + '】\n\n' + data.description;
+          resultBox.textContent = text;
+        } else {
+          resultBox.textContent = 'エラー: ' + response.error;
+        }
+      });
+    }
+
+    function loadFaqList() {
+      callAssistant('GET_FAQ_LIST', {}, function(response) {
+        if (response.success) {
+          renderFaqList(response.data);
+        }
+      });
+    }
+
+    function renderFaqList(faqList) {
+      const container = document.getElementById('faqList');
+      let html = '';
+      faqList.forEach((faq, index) => {
+        html += '<div class="faq-item">';
+        html += '<div class="faq-question" onclick="toggleFaq(' + index + ')">' + faq.question + ' <span id="faq-icon-' + index + '">+</span></div>';
+        html += '<div class="faq-answer" id="faq-answer-' + index + '">' + faq.answer + '</div>';
+        html += '</div>';
+      });
+      container.innerHTML = html;
+    }
+
+    function toggleFaq(index) {
+      const answer = document.getElementById('faq-answer-' + index);
+      const icon = document.getElementById('faq-icon-' + index);
+      if (answer.classList.contains('open')) {
+        answer.classList.remove('open');
+        icon.textContent = '+';
+      } else {
+        answer.classList.add('open');
+        icon.textContent = '-';
+      }
+    }
+
+    function selectFeedbackType(btn, type) {
+      feedbackType = type;
+      document.querySelectorAll('.feedback-type-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    }
+
+    function submitFeedback() {
+      const message = document.getElementById('feedbackMessage').value;
+      if (!message.trim()) {
+        showAssistantMessage('内容を入力してください', 'error');
+        return;
+      }
+
+      callAssistant('SUBMIT_FEEDBACK', {
+        type: feedbackType,
+        message: message,
+        cellInfo: currentCellInfo
+      }, function(response) {
+        if (response.success) {
+          showAssistantMessage(response.message, 'success');
+          document.getElementById('feedbackMessage').value = '';
+        } else {
+          showAssistantMessage('送信に失敗しました: ' + response.error, 'error');
+        }
+      });
+    }
+
+    // ========== 初期化 ==========
     google.script.run.withSuccessHandler(populatePromptSelect).getAllPromptIds();
   </script>
 </body>
