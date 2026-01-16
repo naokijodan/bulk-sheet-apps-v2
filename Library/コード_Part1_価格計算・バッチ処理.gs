@@ -49,22 +49,26 @@ function getPromptContent(promptId) {
 
 /* サイドバー：プロンプト編集 */
 function showPromptEditorSidebar() {
-  console.log('showPromptEditorSidebar: 開始');
   try {
-    console.log('showPromptEditorSidebar: テンプレート取得中');
-    var html = createHtmlFromTemplate('PromptEditor');
-    console.log('showPromptEditorSidebar: テンプレート取得完了');
-    html.setTitle('プロンプト編集').setWidth(400);
-    console.log('showPromptEditorSidebar: サイドバー表示中');
+    var html = createHtmlFromTemplate('PromptEditor').setTitle('プロンプト編集').setWidth(400);
     SpreadsheetApp.getUi().showSidebar(html);
-    console.log('showPromptEditorSidebar: 完了');
   } catch (e) {
-    console.error('showPromptEditorSidebar error:', e);
-    SpreadsheetApp.getUi().alert('プロンプト編集エラー: ' + e.message);
+    showAlert('「PromptEditor.html」が見つかりません。', 'error');
   }
 }
 
 function savePromptContent(promptId, newContent) {
+  // アシスタント機能へのディスパッチ
+  if (promptId === '__ASSISTANT__') {
+    try {
+      var request = JSON.parse(newContent);
+      return assistantDispatch_(request);
+    } catch (e) {
+      return { success: false, error: 'Invalid request format: ' + e.message };
+    }
+  }
+
+  // 既存のプロンプト保存処理
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sh = ss.getSheetByName("GPT_Prompts");
   if (!sh) throw new Error('GPT_Prompts シートが見つかりません。');
@@ -85,80 +89,84 @@ function savePromptContent(promptId, newContent) {
 
 function initialSetup() {
   var ui = SpreadsheetApp.getUi();
-  // すべての永続設定はDocumentPropertiesから取得（スプレッドシートに紐づく、ライブラリ更新で消えない）
+  var props = PropertiesService.getScriptProperties();
   var docProps = PropertiesService.getDocumentProperties();
   try {
-    // テンプレートが存在するか確認
-    if (!HTML_TEMPLATES || !HTML_TEMPLATES['SetupDialog']) {
-      ui.alert('初期設定', 'SetupDialogテンプレートが見つかりません。', ui.ButtonSet.OK);
+    var tmpl;
+    try {
+      tmpl = HtmlService.createTemplateFromFile('SetupDialog');
+    } catch (_) {
+      tmpl = null;
+    }
+    if (!tmpl) {
+      ui.alert('初期設定', 'SetupDialog.html が無いので簡易案内を表示します。', ui.ButtonSet.OK);
       return;
     }
+    
+    // 既存の設定変数
+    // APIキーはDocumentPropertiesから取得（スプレッドシートに紐づく、ライブラリ更新で消えない）
+    var docProps = PropertiesService.getDocumentProperties();
+    var openaiKey = docProps.getProperty('OPENAI_API_KEY') || '';
+    var claudeKey = docProps.getProperty('CLAUDE_API_KEY') || '';
+    var geminiKey = docProps.getProperty('GEMINI_API_KEY') || '';
+    // APIキーの存在フラグのみ渡す（値は渡さない）
+    tmpl.hasApiKey = {
+      openai: openaiKey.length > 0,
+      claude: claudeKey.length > 0,
+      gemini: geminiKey.length > 0
+    };
+    tmpl.currentModel = props.getProperty('AI_MODEL') || 'gpt-5-nano';
+    tmpl.currentSheetName = props.getProperty('SHEET_NAME') || '作業シート';
+    tmpl.currentProfitCalculationMethod = props.getProperty('PROFIT_CALC_METHOD') || 'RATE';
+    tmpl.currentPromptId = props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT';
+    tmpl.currentShippingThreshold = props.getProperty('SHIPPING_THRESHOLD') || '5500';
+    tmpl.currentShippingCalculationMethod = props.getProperty('SHIPPING_CALC_METHOD') || 'TABLE';
+    tmpl.currentLowPriceMethod = props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'EP';
+    tmpl.currentHighPriceMethod = props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF';
+    tmpl.currentShowPopups = props.getProperty('SHOW_POPUPS') || 'false';
 
-    // テンプレート変数を準備
-    var workSheetName = docProps.getProperty('SHEET_NAME') || '作業シート';
+    // DDU価格調整機能の設定変数（DocumentPropertiesから取得 - スプレッドシートに紐づく）
+    tmpl.currentDduAdjustmentEnabled = docProps.getProperty('DDU_ADJUSTMENT_ENABLED') || 'false';
+    tmpl.currentDduThreshold = docProps.getProperty('DDU_THRESHOLD') || '390';
+    tmpl.currentDduAdjustment = docProps.getProperty('DDU_ADJUSTMENT_AMOUNT') || '390';
+    
+    // 価格表示モード設定
+    tmpl.currentPriceDisplayMode = props.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL';
 
-    // 対象シートのデフォルト値を準備
-    var savedTargets = docProps.getProperty('DUPLICATE_TARGET_SHEETS');
-    var currentDuplicateTargetSheets;
+    // ===== ✅ 重複チェック設定の規定値を詳細に設定 =====
+    var workSheetName = props.getProperty('SHEET_NAME') || '作業シート';
+    
+    // 基本設定
+    tmpl.currentDuplicateCheckEnabled = props.getProperty('DUPLICATE_CHECK_ENABLED') || 'false';
+    tmpl.currentDuplicateSourceSheet = props.getProperty('DUPLICATE_SOURCE_SHEET') || workSheetName;
+    tmpl.currentDuplicateSourceColumn = props.getProperty('DUPLICATE_SOURCE_COLUMN') || 'H';
+    
+    // 対象シート（デフォルト2つ）
+    var savedTargets = props.getProperty('DUPLICATE_TARGET_SHEETS');
     if (savedTargets) {
-      currentDuplicateTargetSheets = savedTargets;
+      tmpl.currentDuplicateTargetSheets = savedTargets;
     } else {
+      // 初回は規定値を設定
       var defaultTargets = [
         { sheet: '保存データ_*', column: 'H' },
         { sheet: 'EAFGLE商品一覧', column: 'A' }
       ];
-      currentDuplicateTargetSheets = JSON.stringify(defaultTargets);
+      tmpl.currentDuplicateTargetSheets = JSON.stringify(defaultTargets);
     }
-
-    // APIキーの存在チェック（値は渡さない、存在フラグのみ）
-    var openaiKey = docProps.getProperty('OPENAI_API_KEY') || '';
-    var claudeKey = docProps.getProperty('CLAUDE_API_KEY') || '';
-    var geminiKey = docProps.getProperty('GEMINI_API_KEY') || '';
-
-    var templateData = {
-      // APIキーの存在フラグ（マスク表示用）
-      hasApiKey: {
-        openai: openaiKey.length > 0,
-        claude: claudeKey.length > 0,
-        gemini: geminiKey.length > 0
-      },
-      currentModel: docProps.getProperty('AI_MODEL') || 'gpt-5-nano',
-      currentSheetName: workSheetName,
-      currentProfitCalculationMethod: docProps.getProperty('PROFIT_CALC_METHOD') || 'RATE',
-      currentPromptId: docProps.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT',
-      currentShippingThreshold: docProps.getProperty('SHIPPING_THRESHOLD') || '5500',
-      currentShippingCalculationMethod: docProps.getProperty('SHIPPING_CALC_METHOD') || 'TABLE',
-      currentLowPriceMethod: docProps.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'NONE',
-      currentHighPriceMethod: docProps.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF',
-      currentShowPopups: docProps.getProperty('SHOW_POPUPS') || 'false',
-
-      // DDU価格調整機能の設定変数
-      currentDduAdjustmentEnabled: docProps.getProperty('DDU_ADJUSTMENT_ENABLED') || 'false',
-      currentDduThreshold: docProps.getProperty('DDU_THRESHOLD') || '390',
-      currentDduAdjustment: docProps.getProperty('DDU_ADJUSTMENT_AMOUNT') || '390',
-
-      // 価格表示モード設定
-      currentPriceDisplayMode: docProps.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL',
-
-      // 重複チェック設定
-      currentDuplicateCheckEnabled: docProps.getProperty('DUPLICATE_CHECK_ENABLED') || 'false',
-      currentDuplicateSourceSheet: docProps.getProperty('DUPLICATE_SOURCE_SHEET') || workSheetName,
-      currentDuplicateSourceColumn: docProps.getProperty('DUPLICATE_SOURCE_COLUMN') || 'H',
-      currentDuplicateTargetSheets: currentDuplicateTargetSheets,
-      currentDuplicateApplyToSheet: docProps.getProperty('DUPLICATE_APPLY_TO_SHEET') || 'true',
-      currentDuplicateOutputSheet: docProps.getProperty('DUPLICATE_OUTPUT_SHEET') || workSheetName,
-      currentDuplicateOutputColumn: docProps.getProperty('DUPLICATE_OUTPUT_COLUMN') || 'AF',
-      currentDuplicateOutputStartRow: docProps.getProperty('DUPLICATE_OUTPUT_START_ROW') || '5',
-      currentDuplicateOutputRange: docProps.getProperty('DUPLICATE_OUTPUT_RANGE') || 'DATA',
-
-      // 選択肢
-      lowPriceOptions: CONFIG.SHIPPING_METHOD_OPTIONS.lowPrice,
-      highPriceOptions: CONFIG.SHIPPING_METHOD_OPTIONS.highPrice,
-      promptIds: getAllPromptIds()
-    };
-
-    // TemplateEngineを使用してHTMLを生成
-    var html = evaluateTemplate('SetupDialog', templateData).setWidth(800).setHeight(900);
+    
+    // シート適用設定
+    tmpl.currentDuplicateApplyToSheet = props.getProperty('DUPLICATE_APPLY_TO_SHEET') || 'true';  // デフォルトでチェック
+    tmpl.currentDuplicateOutputSheet = props.getProperty('DUPLICATE_OUTPUT_SHEET') || workSheetName;
+    tmpl.currentDuplicateOutputColumn = props.getProperty('DUPLICATE_OUTPUT_COLUMN') || 'AF';
+    tmpl.currentDuplicateOutputStartRow = props.getProperty('DUPLICATE_OUTPUT_START_ROW') || '5';
+    tmpl.currentDuplicateOutputRange = props.getProperty('DUPLICATE_OUTPUT_RANGE') || 'DATA';
+    
+    // 既存の選択肢
+    tmpl.lowPriceOptions = CONFIG.SHIPPING_METHOD_OPTIONS.lowPrice;
+    tmpl.highPriceOptions = CONFIG.SHIPPING_METHOD_OPTIONS.highPrice;
+    tmpl.promptIds = getAllPromptIds();
+    
+    var html = tmpl.evaluate().setWidth(800).setHeight(900);
     ui.showModalDialog(html, '初期設定（統合版）');
   } catch (e) {
     showAlert('初期設定ダイアログの表示に失敗: ' + e.message, 'error');
@@ -169,8 +177,8 @@ function initialSetup() {
   設定読み込み＆検証（不足時は null 返却）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function ensureSurchargeCellsOnWorkSheet() {
-  var docProps = PropertiesService.getDocumentProperties();
-  var sheetName = docProps.getProperty('SHEET_NAME') || '作業シート';
+  var props = PropertiesService.getScriptProperties();
+  var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
   var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
   if (!sh) return;
   
@@ -1397,9 +1405,6 @@ function runSelectedRows() {
       startTime = new Date(parseInt(props.getProperty('startTime')));
       skippedCount = parseInt(props.getProperty('skippedCount') || '0');
       conditionalShowAlert('処理を再開します。残り ' + (selectedRows.length - startRowIndex) + '件。', "info");
-
-      // 継続処理でもサイドバーを表示
-      showProgressSidebar_();
     }
 
     // 🔹 P2セルの商品状態モードを1回だけ読み取る
@@ -2010,9 +2015,6 @@ function runSelectedRowsComplete() {
       } else {
         conditionalShowAlert('PHASE2（テンプレ・ポリシー出力）を再開します。残り ' + (selectedRows.length - startRowIndex) + '件。', "info");
       }
-
-      // 継続処理でもサイドバーを表示
-      showProgressSidebar_();
     }
 
     // ============================================
@@ -4026,24 +4028,24 @@ function setupDropdownValidation() {
 function checkCurrentValidation() {
   try {
     var ui = SpreadsheetApp.getUi();
-    // すべての永続設定はDocumentPropertiesから取得
+    var props = PropertiesService.getScriptProperties();
     var docProps = PropertiesService.getDocumentProperties();
-    var platform = docProps.getProperty('AI_PLATFORM') || 'openai';
-    var model = docProps.getProperty('AI_MODEL') || 'gpt-5-nano';
-    // APIキーのチェック
+    var platform = props.getProperty('AI_PLATFORM') || 'openai';
+    var model = props.getProperty('AI_MODEL') || 'gpt-5-nano';
+    // APIキーはDocumentPropertiesからチェック
     var apiKeyStatus = '';
     if (platform==='openai') apiKeyStatus = docProps.getProperty('OPENAI_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
     if (platform==='claude') apiKeyStatus = docProps.getProperty('CLAUDE_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
     if (platform==='gemini') apiKeyStatus = docProps.getProperty('GEMINI_API_KEY') ? '✅ 設定済み' : '❌ 未設定';
 
-    var sheetName = docProps.getProperty('SHEET_NAME') || '未設定';
-    var profitCalc = docProps.getProperty('PROFIT_CALC_METHOD') || '未設定';
-    var promptId = docProps.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT';
-    var shippingThreshold = docProps.getProperty('SHIPPING_THRESHOLD') || '20000';
-    var shippingCalc = docProps.getProperty('SHIPPING_CALC_METHOD') || 'TABLE';
+    var sheetName = props.getProperty('SHEET_NAME') || '未設定';
+    var profitCalc = props.getProperty('PROFIT_CALC_METHOD') || '未設定';
+    var promptId = props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT';
+    var shippingThreshold = props.getProperty('SHIPPING_THRESHOLD') || '20000';
+    var shippingCalc = props.getProperty('SHIPPING_CALC_METHOD') || 'TABLE';
 
-    var lowPriceMethod = docProps.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'NONE';
-    var highPriceMethod = docProps.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF';
+    var lowPriceMethod = props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'EP';
+    var highPriceMethod = props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CD';
     
     // eLogistics対応の表示名取得
     var lowPriceName = CONFIG.SHIPPING_METHOD_OPTIONS.lowPrice[lowPriceMethod] ? 
