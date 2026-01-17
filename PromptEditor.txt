@@ -215,13 +215,66 @@
       text-align: center;
     }
 
-    /* アシスタント: FAQ */
+    /* アシスタント: FAQ カテゴリヘッダー */
+    .faq-category {
+      margin-bottom: 12px;
+    }
+    .faq-category-header {
+      background: linear-gradient(135deg, #1a73e8, #4285f4);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .faq-category-header:hover {
+      background: linear-gradient(135deg, #1557b0, #1a73e8);
+    }
+    .faq-category-header .category-icon {
+      font-size: 16px;
+      margin-right: 8px;
+    }
+    .faq-category-header .category-toggle {
+      font-size: 18px;
+      font-weight: 300;
+      transition: transform 0.2s;
+    }
+    .faq-category-header.open .category-toggle {
+      transform: rotate(45deg);
+    }
+    .faq-category-items {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+    .faq-category-items.open {
+      max-height: 2000px;
+    }
+
+    /* アシスタント: FAQ アイテム */
     .faq-item {
       background: #fff;
       border: 1px solid #dadce0;
-      border-radius: 8px;
-      margin-bottom: 8px;
+      border-top: none;
+      margin: 0;
       overflow: hidden;
+    }
+    .faq-item:first-child {
+      border-top: 1px solid #dadce0;
+      margin-top: 4px;
+      border-radius: 8px 8px 0 0;
+    }
+    .faq-item:last-child {
+      border-radius: 0 0 8px 8px;
+    }
+    .faq-item:only-child {
+      border-radius: 8px;
     }
     .faq-question {
       padding: 10px 12px;
@@ -230,21 +283,39 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      font-size: 12px;
     }
     .faq-question:hover {
       background: #f1f3f4;
+    }
+    .faq-question .q-icon {
+      color: #1a73e8;
+      font-weight: 600;
+      margin-right: 6px;
+    }
+    .faq-question .toggle-icon {
+      color: #5f6368;
+      font-size: 14px;
+      transition: transform 0.2s;
+    }
+    .faq-question.open .toggle-icon {
+      transform: rotate(90deg);
     }
     .faq-answer {
       padding: 0 12px;
       max-height: 0;
       overflow: hidden;
       transition: all 0.2s;
-      border-top: 1px solid #dadce0;
+      border-top: 1px solid #e8eaed;
       background: #f8f9fa;
+      font-size: 12px;
+      line-height: 1.6;
+      white-space: pre-wrap;
     }
     .faq-answer.open {
-      padding: 10px 12px;
-      max-height: 200px;
+      padding: 12px;
+      max-height: 500px;
+      overflow-y: auto;
     }
 
     /* アシスタント: フィードバック */
@@ -520,6 +591,15 @@
       });
     }
 
+    // カテゴリアイコンのマッピング
+    const categoryIcons = {
+      '翻訳・AI': '🤖',
+      'UI・表示': '🖥️',
+      '価格計算': '💰',
+      'EAGLE連携': '🦅',
+      'データ・式': '📊'
+    };
+
     function loadFaqList() {
       callAssistant('GET_FAQ_LIST', {}, function(response) {
         if (response.success) {
@@ -530,25 +610,73 @@
 
     function renderFaqList(faqList) {
       const container = document.getElementById('faqList');
-      let html = '';
+
+      // カテゴリごとにグループ化
+      const categories = {};
       faqList.forEach((faq, index) => {
-        html += '<div class="faq-item">';
-        html += '<div class="faq-question" onclick="toggleFaq(' + index + ')">' + faq.question + ' <span id="faq-icon-' + index + '">+</span></div>';
-        html += '<div class="faq-answer" id="faq-answer-' + index + '">' + faq.answer + '</div>';
-        html += '</div>';
+        const cat = faq.category || 'その他';
+        if (!categories[cat]) {
+          categories[cat] = [];
+        }
+        categories[cat].push({ ...faq, originalIndex: index });
       });
+
+      let html = '';
+      let catIndex = 0;
+
+      for (const catName in categories) {
+        const items = categories[catName];
+        const icon = categoryIcons[catName] || '❓';
+
+        html += '<div class="faq-category">';
+        html += '<div class="faq-category-header" onclick="toggleCategory(' + catIndex + ')">';
+        html += '<span><span class="category-icon">' + icon + '</span>' + catName + ' (' + items.length + ')</span>';
+        html += '<span class="category-toggle">+</span>';
+        html += '</div>';
+        html += '<div class="faq-category-items" id="faq-category-' + catIndex + '">';
+
+        items.forEach((faq, itemIndex) => {
+          const uniqueId = catIndex + '-' + itemIndex;
+          html += '<div class="faq-item">';
+          html += '<div class="faq-question" id="faq-q-' + uniqueId + '" onclick="toggleFaq(\'' + uniqueId + '\')">';
+          html += '<span><span class="q-icon">Q.</span>' + faq.question + '</span>';
+          html += '<span class="toggle-icon">▶</span>';
+          html += '</div>';
+          html += '<div class="faq-answer" id="faq-answer-' + uniqueId + '">' + faq.answer + '</div>';
+          html += '</div>';
+        });
+
+        html += '</div>';
+        html += '</div>';
+        catIndex++;
+      }
+
       container.innerHTML = html;
     }
 
-    function toggleFaq(index) {
-      const answer = document.getElementById('faq-answer-' + index);
-      const icon = document.getElementById('faq-icon-' + index);
+    function toggleCategory(catIndex) {
+      const items = document.getElementById('faq-category-' + catIndex);
+      const header = items.previousElementSibling;
+
+      if (items.classList.contains('open')) {
+        items.classList.remove('open');
+        header.classList.remove('open');
+      } else {
+        items.classList.add('open');
+        header.classList.add('open');
+      }
+    }
+
+    function toggleFaq(uniqueId) {
+      const answer = document.getElementById('faq-answer-' + uniqueId);
+      const question = document.getElementById('faq-q-' + uniqueId);
+
       if (answer.classList.contains('open')) {
         answer.classList.remove('open');
-        icon.textContent = '+';
+        question.classList.remove('open');
       } else {
         answer.classList.add('open');
-        icon.textContent = '-';
+        question.classList.add('open');
       }
     }
 
