@@ -237,6 +237,7 @@ function performLocalDiagnosis_(info) {
 
 /**
  * 列情報を取得
+ * 固定セル（1-2行目）の場合はセル説明を、データ行（3行目以降）の場合は列説明を返す
  */
 function assistantGetColumnInfo_(data) {
   try {
@@ -246,16 +247,33 @@ function assistantGetColumnInfo_(data) {
     }
 
     var info = cellInfo.data;
+    var cellAddress = info.colLetter + info.row;
+    var description = '';
+    var infoType = '';
 
-    // 列の説明を生成
-    var description = getColumnDescription_(info.headerName);
+    // 固定セル（1-2行目）の場合はセル説明を優先
+    if (info.row <= 2) {
+      var cellDesc = getCellDescription_(cellAddress);
+      if (cellDesc) {
+        description = cellDesc;
+        infoType = 'cell';
+      }
+    }
+
+    // セル説明がなければ列説明を使用
+    if (!description) {
+      description = getColumnDescription_(info.headerName);
+      infoType = 'column';
+    }
 
     return {
       success: true,
       data: {
         headerName: info.headerName,
         subHeaderName: info.subHeaderName,
-        description: description
+        cellAddress: cellAddress,
+        description: description,
+        infoType: infoType
       }
     };
   } catch (e) {
@@ -389,6 +407,72 @@ function getColumnDescription_(headerName) {
   }
 
   return 'この列の詳細説明は登録されていません。';
+}
+
+/**
+ * セル番地から説明を取得
+ * 作業シートの固定セル専用
+ */
+function getCellDescription_(cellAddress) {
+  // 作業シートの固定セル説明
+  var cellDescriptions = {
+    'A2': '現在のリアルタイムの為替レート。',
+    'C2': '実効為替レート。この値が計算に使われる。1日1回の更新。',
+    'F1': '手数料率。ドロップダウンで選択可能。半角で入力必須。',
+    'F2': '広告費率。ドロップダウンで選択可能。半角で入力必須。',
+    'H1': '利益額。利益額設定の時にこの値を利用。空白で利益額設定の場合はProfit_Amountsシートから算出。',
+    'H2': '利益率。ドロップダウンで選択可能。半角で入力必須。',
+    'J1': '送料。送料固定計算の時にこの値を利用。空白で送料固定計算設定の場合はProfit_Amountsシートから算出。',
+    'J2': '商品の梱包重量。',
+    'K1': '価格計算ツールのリンク。',
+    'L2': '梱包した商品の長さ。',
+    'M2': '梱包した商品の幅。',
+    'N2': '梱包した商品の高さ。',
+    'O1': '商品の送料上限カテゴリー選択。ドロップダウンで設定。特定ジャンル（ゲーム、本など）は送料上限があるため必ず設定が必要。',
+    'O2': '各テンプレートの名称を設定。ここで設定したものを元にテンプレートが判別される。ゲームやカードなど出品時は必ず切り替え。EAGLEに必要なテンプレートがないと正確に判別されない。',
+    'P2': '商品の状態を選択。ドロップダウンで新品・中古・AIから選択。翻訳時に適用される。AI選択時は自動判定されるが精度は保証できず、出力されないことも多いため、手動で新品・中古を選択して翻訳することを推奨。',
+    'R1': '配送方法（参考用）。ここで選択する配送方法はR2で計算する参考送料を算出するためのもので、実際の価格計算には影響しない。',
+    'R2': '参考送料。シートの計算には影響しないが、参考の送料を算出できる。',
+    'S2': '容積重量。商品サイズから算出。クーリエとCpassエコノミーで算出式が異なる。郵便では使用しない。',
+    'V1': 'FedExの燃油サーチャージ。',
+    'V2': 'DHLの燃油サーチャージ。',
+    'W2': 'Cpass割。',
+    'Y1': 'FedExの割増料金。',
+    'Y2': 'DHLの割増料金。',
+    'Z2': 'ペイオニアの手数料率。',
+    'AA2': '実際の関税率。',
+    'AB2': 'Cpassエコノミーの通関手数料。',
+    'AC2': 'EU送料差額。最安値などを取りたい時に利用。詳しくはスクールに確認。',
+    'AE1': '米国通関処理手数料。',
+    'AE2': '米国VAT率。',
+    'AF2': '調整関税率。実際の関税率にeBayが徴収する関税に関する手数料を掛け合わせたもの。',
+    'AG2': '関税処理手数料。',
+    'AH2': 'MPF。',
+    'AJ2': '低価格配送方法。初期設定で設定すると反映されるが、ここで変更すればシートに反映。変更後は式の再出力ボタンを押す。',
+    'AJ3': '高価格配送方法。初期設定で設定すると反映されるが、ここで変更すればシートに反映。変更後は式の再出力ボタンを押す。',
+    'AJ4': '送料切り替え基準（円）。仕入れ価格をベースに配送方法を選択する基準価格。初期設定を反映するが、ここで変更した値がその場でシートに反映。',
+    'AJ5': '送料計算方法。テーブル計算か送料固定かを選択。初期設定で反映されるが、ここで変更後、式の再出力ボタンを押すことで式が入れ替わる。',
+    'AL2': '利益計算方法。利益の計算方法を選択。初期設定で反映されるが、ここで変更後、式の再出力ボタンを押すことで式が入れ替わる。',
+    'AL3': '手数料率。',
+    'AL4': '広告費率。',
+    'AL5': '利益率。',
+    'AN2': '重量。',
+    'AN3': '長さ。',
+    'AN4': '幅。',
+    'AN5': '高さ。',
+    'AP2': 'DDU調整の有効・無効の切り替え。常にONを推奨。',
+    'AP3': '想定関税閾値。通常は390に設定。ゲームなど送料上限があるものは必ず切り替え（例：ゲームの場合は20）。',
+    'AS2': '使用プロンプト選択。ドロップダウンで設定。デフォルトで各カテゴリごとのプロンプトがいくつか入っている。'
+  };
+
+  // 大文字に統一して検索
+  var upperAddress = cellAddress.toUpperCase();
+
+  if (cellDescriptions[upperAddress]) {
+    return cellDescriptions[upperAddress];
+  }
+
+  return null;
 }
 
 /**
