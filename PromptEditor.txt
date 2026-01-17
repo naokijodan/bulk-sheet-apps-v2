@@ -484,19 +484,24 @@
           const data = response.data;
           let sections = [];
 
-          // 1. セル説明（1-2行目で説明がある場合のみ表示）
-          if (data.cellDescription) {
-            sections.push('📍 セル「' + data.cellAddress + '」\n' + data.cellDescription);
+          // 1. 固定セル説明（1行目：説明がある場合のみ表示）
+          if (data.cell1Description) {
+            sections.push('📍 セル「' + data.cell1Address + '」\n' + data.cell1Description);
           }
 
-          // 2. 列説明（常に表示）
+          // 2. 固定セル説明（2行目：説明がある場合のみ表示）
+          if (data.cell2Description) {
+            sections.push('📍 セル「' + data.cell2Address + '」\n' + data.cell2Description);
+          }
+
+          // 3. 列説明（常に表示）
           if (data.columnDescription) {
-            sections.push('📊 列「' + (data.headerName || '名称未設定') + '」\n' + data.columnDescription);
+            sections.push('📊 列「' + (data.headerName || '名称未設定') + '」（' + data.colLetter + '列）\n' + data.columnDescription);
           } else {
-            sections.push('📊 列「' + (data.headerName || '名称未設定') + '」\n説明が登録されていません。');
+            sections.push('📊 列「' + (data.headerName || '名称未設定') + '」（' + data.colLetter + '列）\n説明が登録されていません。');
           }
 
-          // 3. シート説明（説明がある場合のみ表示）
+          // 4. シート説明（説明がある場合のみ表示）
           if (data.sheetDescription) {
             sections.push('📋 シート「' + data.sheetName + '」\n' + data.sheetDescription);
           }
