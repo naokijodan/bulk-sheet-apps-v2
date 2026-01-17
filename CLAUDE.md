@@ -39,6 +39,55 @@ HTMLテンプレート（`.txt`ファイル）を変更した場合：
 2. `Library/HtmlTemplates.gs` の該当箇所を更新
 3. または `convert_html_to_gs.py` スクリプトを実行
 
+### ⚠️ 重要：HTMLテンプレート読み込みの違い
+
+**ルートフォルダとLibraryフォルダでHTML読み込み方法が異なる！単純コピーは禁止！**
+
+| フォルダ | `.html`ファイル | 読み込み方法 |
+|---------|----------------|-------------|
+| ルート | 存在する | `HtmlService.createTemplateFromFile()` でOK |
+| Library | 存在しない | `HtmlTemplates.gs` から取得が必要 |
+
+**Libraryフォルダの.gsファイルでは、必ず以下のフォールバックパターンを使用すること：**
+
+```javascript
+// createTemplateFromFile の代替パターン
+var tmpl;
+try {
+  tmpl = HtmlService.createTemplateFromFile('Name');
+} catch (_) {
+  var htmlContent = getHtmlTemplate('Name');
+  if (htmlContent) {
+    tmpl = HtmlService.createTemplate(htmlContent);
+  }
+}
+if (!tmpl) {
+  showAlert('Name.html が見つかりません', 'error');
+  return;
+}
+
+// createHtmlOutputFromFile の代替パターン
+var html;
+try {
+  html = HtmlService.createHtmlOutputFromFile('Name');
+} catch (_) {
+  html = createHtmlFromTemplate('Name');
+}
+if (!html) {
+  showAlert('Name.html が見つかりません', 'error');
+  return;
+}
+```
+
+**やってはいけないこと：**
+- ルートの `.gs` ファイルをそのまま `Library/` にコピーする
+- `HtmlService.createTemplateFromFile()` を単独で使う（Libraryでは動かない）
+
+**正しい手順：**
+1. ルートフォルダで機能を開発
+2. Libraryにコピーする際、HTML読み込み部分をフォールバックパターンに書き換える
+3. または、最初からフォールバックパターンで書く（両方で動作する）
+
 ### 新規ファイル作成時
 
 新しい `.gs` ファイルを作成した場合：
