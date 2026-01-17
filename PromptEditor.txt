@@ -300,7 +300,7 @@
       </div>
       <div class="action-btn" onclick="getColumnInfo()">
         <div class="action-btn-icon">📖</div>
-        <div class="action-btn-label">列の説明</div>
+        <div class="action-btn-label">詳細を表示</div>
       </div>
     </div>
 
@@ -482,29 +482,27 @@
         resultBox.className = 'result-box';
         if (response.success) {
           const data = response.data;
+          let sections = [];
 
-          // 1. ヘッダー（見出し）の決定
-          let title = '';
-          if (data.infoType === 'cell') {
-            // セル説明の場合: 「A2」などのセル番地を表示
-            title = '【セル ' + data.cellAddress + '】';
+          // 1. セル説明（1-2行目で説明がある場合のみ表示）
+          if (data.cellDescription) {
+            sections.push('📍 セル「' + data.cellAddress + '」\n' + data.cellDescription);
+          }
+
+          // 2. 列説明（常に表示）
+          if (data.columnDescription) {
+            sections.push('📊 列「' + (data.headerName || '名称未設定') + '」\n' + data.columnDescription);
           } else {
-            // 列説明の場合: 列名を表示（なければ「名称未設定」）
-            title = '【列「' + (data.headerName || '名称未設定') + '」】';
+            sections.push('📊 列「' + (data.headerName || '名称未設定') + '」\n説明が登録されていません。');
           }
 
-          // 2. メイン説明文
-          const description = data.description || '説明が登録されていません。';
-
-          // 3. フッター（シート説明）
-          // シート説明がある場合のみ区切り線を入れて表示
-          let sheetInfo = '';
+          // 3. シート説明（説明がある場合のみ表示）
           if (data.sheetDescription) {
-            sheetInfo = '\n\n----------------\n📋 シート「' + data.sheetName + '」\n' + data.sheetDescription;
+            sections.push('📋 シート「' + data.sheetName + '」\n' + data.sheetDescription);
           }
 
-          // 結合して表示
-          resultBox.textContent = title + '\n' + description + sheetInfo;
+          // 区切り線で結合して表示
+          resultBox.textContent = sections.join('\n\n----------------\n');
 
         } else {
           resultBox.textContent = 'エラー: ' + response.error;

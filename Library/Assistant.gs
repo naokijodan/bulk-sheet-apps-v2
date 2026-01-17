@@ -236,9 +236,8 @@ function performLocalDiagnosis_(info) {
 }
 
 /**
- * 列情報を取得
- * 固定セル（1-2行目）の場合はセル説明を、データ行（3行目以降）の場合は列説明を返す
- * シート説明も併せて返す
+ * 詳細情報を取得
+ * セル説明・列説明・シート説明を全て返す（情報の統合表示）
  */
 function assistantGetColumnInfo_(data) {
   try {
@@ -249,37 +248,33 @@ function assistantGetColumnInfo_(data) {
 
     var info = cellInfo.data;
     var cellAddress = info.colLetter + info.row;
-    var description = '';
-    var infoType = '';
 
-    // 固定セル（1-2行目）の場合はセル説明を優先
+    // セル説明を取得（1-2行目の固定セルのみ）
+    var cellDescription = null;
     if (info.row <= 2) {
-      var cellDesc = getCellDescription_(cellAddress);
-      if (cellDesc) {
-        description = cellDesc;
-        infoType = 'cell';
-      }
+      cellDescription = getCellDescription_(cellAddress);
     }
 
-    // セル説明がなければ列説明を使用
-    if (!description) {
-      description = getColumnDescription_(info.headerName);
-      infoType = 'column';
-    }
+    // 列説明を取得（常に取得）
+    var columnDescription = getColumnDescription_(info.headerName);
 
-    // シート説明を取得
-    var sheetDescription = getSheetDescription_(info.sheetName) || '';
+    // シート説明を取得（常に取得）
+    var sheetDescription = getSheetDescription_(info.sheetName) || null;
 
     return {
       success: true,
       data: {
-        headerName: info.headerName,
-        subHeaderName: info.subHeaderName,
+        // セル情報
         cellAddress: cellAddress,
-        description: description,
-        infoType: infoType,
+        cellDescription: cellDescription,
+        // 列情報
+        headerName: info.headerName,
+        columnDescription: columnDescription,
+        // シート情報
         sheetName: info.sheetName,
-        sheetDescription: sheetDescription
+        sheetDescription: sheetDescription,
+        // 行番号（UIでの優先表示判定用）
+        row: info.row
       }
     };
   } catch (e) {
