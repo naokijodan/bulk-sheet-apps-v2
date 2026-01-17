@@ -494,14 +494,19 @@
             sections.push('📍 セル「' + data.cell2Address + '」\n' + data.cell2Description);
           }
 
-          // 3. 列説明（常に表示）
+          // 3. 固定セル説明（3行目：説明がある場合のみ表示）
+          if (data.cell3Description) {
+            sections.push('📍 セル「' + data.cell3Address + '」\n' + data.cell3Description);
+          }
+
+          // 4. 列説明（常に表示）
           if (data.columnDescription) {
             sections.push('📊 列「' + (data.headerName || '名称未設定') + '」（' + data.colLetter + '列）\n' + data.columnDescription);
           } else {
             sections.push('📊 列「' + (data.headerName || '名称未設定') + '」（' + data.colLetter + '列）\n説明が登録されていません。');
           }
 
-          // 4. シート説明（説明がある場合のみ表示）
+          // 5. シート説明（説明がある場合のみ表示）
           if (data.sheetDescription) {
             sections.push('📋 シート「' + data.sheetName + '」\n' + data.sheetDescription);
           }

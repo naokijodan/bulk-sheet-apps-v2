@@ -77,19 +77,13 @@ function assistantGetSelectedCellInfo_() {
     var value = cell.getValue();
     var formula = cell.getFormula();
 
-    // ヘッダー行（1行目）から列名を取得
-    // 1行目を選択している場合はそのセルの値をヘッダー名として使用
+    // ヘッダー行（4行目）から列名を取得
+    // 作業シートのヘッダーは4行目にある
     var headerValue = '';
-    if (row === 1) {
+    if (row === 4) {
       headerValue = value || '';
     } else {
-      headerValue = sheet.getRange(1, col).getValue() || '';
-    }
-
-    // 2行目（サブヘッダー）があれば取得
-    var subHeaderValue = '';
-    if (row > 2) {
-      subHeaderValue = sheet.getRange(2, col).getValue() || '';
+      headerValue = sheet.getRange(4, col).getValue() || '';
     }
 
     // エラーチェック
@@ -252,12 +246,14 @@ function assistantGetColumnInfo_(data) {
     var info = cellInfo.data;
     var colLetter = info.colLetter;
 
-    // 固定セル説明を取得（1行目と2行目の両方）
-    // どの行を選択していても、その列の1行目と2行目の説明を取得する
+    // 固定セル説明を取得（1行目、2行目、3行目）
+    // 作業シートの設定エリアは1〜3行目にある
     var cell1Address = colLetter + '1';
     var cell2Address = colLetter + '2';
+    var cell3Address = colLetter + '3';
     var cell1Description = getCellDescription_(cell1Address);
     var cell2Description = getCellDescription_(cell2Address);
+    var cell3Description = getCellDescription_(cell3Address);
 
     // 列説明を取得（常に取得）
     var columnDescription = getColumnDescription_(info.headerName);
@@ -272,11 +268,13 @@ function assistantGetColumnInfo_(data) {
         colLetter: colLetter,
         headerName: info.headerName,
         columnDescription: columnDescription,
-        // 固定セル情報（1行目と2行目）
+        // 固定セル情報（1行目、2行目、3行目）
         cell1Address: cell1Address,
         cell1Description: cell1Description,
         cell2Address: cell2Address,
         cell2Description: cell2Description,
+        cell3Address: cell3Address,
+        cell3Description: cell3Description,
         // シート情報
         sheetName: info.sheetName,
         sheetDescription: sheetDescription,
