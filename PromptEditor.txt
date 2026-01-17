@@ -254,28 +254,6 @@
       border-radius: 8px;
       padding: 12px;
     }
-    .feedback-type {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-    .feedback-type-btn {
-      flex: 1;
-      padding: 8px;
-      border: 1px solid #dadce0;
-      border-radius: 4px;
-      background: #fff;
-      cursor: pointer;
-      font-size: 12px;
-    }
-    .feedback-type-btn.selected {
-      border-color: #1a73e8;
-      background: #e8f0fe;
-      color: #1a73e8;
-    }
-    .feedback-textarea {
-      height: 100px;
-    }
   </style>
 </head>
 <body>
@@ -335,14 +313,10 @@
 
     <!-- フィードバック -->
     <h4 style="margin: 16px 0 8px 0; color: #5f6368;">フィードバック</h4>
-    <div class="feedback-form">
-      <div class="feedback-type">
-        <button class="feedback-type-btn selected" onclick="selectFeedbackType(this, 'bug')">バグ報告</button>
-        <button class="feedback-type-btn" onclick="selectFeedbackType(this, 'request')">機能要望</button>
-        <button class="feedback-type-btn" onclick="selectFeedbackType(this, 'question')">質問</button>
-      </div>
-      <textarea id="feedbackMessage" class="feedback-textarea" placeholder="内容を入力してください..."></textarea>
-      <button class="primary" onclick="submitFeedback()">送信</button>
+    <div class="feedback-form" style="text-align: center;">
+      <p style="color: #5f6368; margin-bottom: 12px;">バグ報告・機能要望・ご質問はこちらから</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdhsa_rx3HXRSkSgkp0IVLpcVSqjCa1ksYy2_TT_B6tuJMO2A/viewform" target="_blank" class="primary" style="display: inline-block; text-decoration: none; padding: 10px 20px;">フィードバックを送る</a>
+      <p style="color: #9aa0a6; font-size: 11px; margin-top: 8px;">※「一括シートV3」を選択してください</p>
     </div>
     <div id="assistantMessageBox" class="message"></div>
   </div>
@@ -350,8 +324,6 @@
   <script>
     // 現在のタブ
     let currentTab = 'prompt';
-    // フィードバックタイプ
-    let feedbackType = 'bug';
     // 現在のセル情報
     let currentCellInfo = null;
 
@@ -548,33 +520,6 @@
         answer.classList.add('open');
         icon.textContent = '-';
       }
-    }
-
-    function selectFeedbackType(btn, type) {
-      feedbackType = type;
-      document.querySelectorAll('.feedback-type-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-    }
-
-    function submitFeedback() {
-      const message = document.getElementById('feedbackMessage').value;
-      if (!message.trim()) {
-        showAssistantMessage('内容を入力してください', 'error');
-        return;
-      }
-
-      callAssistant('SUBMIT_FEEDBACK', {
-        type: feedbackType,
-        message: message,
-        cellInfo: currentCellInfo
-      }, function(response) {
-        if (response.success) {
-          showAssistantMessage(response.message, 'success');
-          document.getElementById('feedbackMessage').value = '';
-        } else {
-          showAssistantMessage('送信に失敗しました: ' + response.error, 'error');
-        }
-      });
     }
 
     // ========== 初期化 ==========
