@@ -94,8 +94,8 @@ function onOpen() {
  */
 function notifyExchangeRateUpdateStatus_() {
   try {
-    var props = PropertiesService.getScriptProperties();
-    var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
+    var docProps = PropertiesService.getDocumentProperties();
+    var sheetName = docProps.getProperty('SHEET_NAME') || '作業シート';
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName(sheetName);
 
@@ -130,8 +130,8 @@ function notifyExchangeRateUpdateStatus_() {
 function checkExchangeRateUpdateStatus() {
   try {
     var isActive = isExchangeRateUpdateTriggerActive();
-    var props = PropertiesService.getScriptProperties();
-    var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
+    var docProps = PropertiesService.getDocumentProperties();
+    var sheetName = docProps.getProperty('SHEET_NAME') || '作業シート';
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName(sheetName);
 
@@ -346,8 +346,8 @@ function insertAsciiFlowToReadme_(sh, startRow){
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function _getWorkSheetName_() {
   try {
-    var props = PropertiesService.getScriptProperties();
-    return props.getProperty('SHEET_NAME') || '作業シート';
+    var docProps = PropertiesService.getDocumentProperties();
+    return docProps.getProperty('SHEET_NAME') || '作業シート';
   } catch (e) {
     return '作業シート';
   }
@@ -535,7 +535,7 @@ function calcBreakEvenFromSelling(payload) {
 }
 
 function showPriceCalc() {
-  var html = HtmlService.createHtmlOutputFromFile('PriceCalc')
+  var html = HtmlService.createHtmlOutput(HTML_TEMPLATES['PriceCalc'])
     .setWidth(1200).setHeight(900);
   SpreadsheetApp.getUi().showModalDialog(html, '💲 EC価格計算ツール');
 }
@@ -570,7 +570,7 @@ function addSimpleModeMenu_() {
 function getSimpleExecSettings_() {
   var apiKey = getSimpleApiKey_();
   if (!apiKey) throw new Error('簡易版APIキーが未設定です。「⚡ 簡易版→簡易版 初期設定」で保存してください。');
-  var sheetName = (PropertiesService.getScriptProperties().getProperty('SHEET_NAME')) || '作業シート';
+  var sheetName = (PropertiesService.getDocumentProperties().getProperty('SHEET_NAME')) || '作業シート';
   return {
     platform: 'openai',
     model: 'gpt-5-nano',
@@ -790,9 +790,18 @@ function openSimpleSetup() {
   try {
     var tmpl;
     try {
+      // まず .html ファイルを探す（ユーザーシート用）
       tmpl = HtmlService.createTemplateFromFile('SimpleSetup');
     } catch (_) {
-      tmpl = null;
+      // なければ HtmlTemplates.gs から取得（ライブラリ用）
+      try {
+        var htmlContent = getHtmlTemplate('SimpleSetup');
+        if (htmlContent) {
+          tmpl = HtmlService.createTemplate(htmlContent);
+        }
+      } catch (_) {
+        tmpl = null;
+      }
     }
     if (!tmpl) {
       var ui = SpreadsheetApp.getUi();
@@ -813,13 +822,13 @@ function openSimpleSetup() {
 }
 
 function saveSimpleApiKey_(apiKey) {
-  var up = PropertiesService.getUserProperties();
+  var docProps = PropertiesService.getDocumentProperties();
   if (!apiKey || !apiKey.trim()) throw new Error('APIキーが空です。');
-  up.setProperty('SIMPLE_OPENAI_API_KEY', apiKey.trim());
+  docProps.setProperty('SIMPLE_OPENAI_API_KEY', apiKey.trim());
 }
 
 function getSimpleApiKey_() {
-  return PropertiesService.getUserProperties().getProperty('SIMPLE_OPENAI_API_KEY') || '';
+  return PropertiesService.getDocumentProperties().getProperty('SIMPLE_OPENAI_API_KEY') || '';
 }
 
 function saveSimpleSettings(apiKey) {
@@ -1308,10 +1317,10 @@ function fixPriceFormula() {
 function testElogisticsSaveSettings() {
   try {
     // 現在の設定を保存
-    var props = PropertiesService.getScriptProperties();
+    var docProps = PropertiesService.getDocumentProperties();
     var backup = {
-      highPrice: props.getProperty('HIGH_PRICE_SHIPPING_METHOD'),
-      threshold: props.getProperty('SHIPPING_THRESHOLD')
+      highPrice: docProps.getProperty('HIGH_PRICE_SHIPPING_METHOD'),
+      threshold: docProps.getProperty('SHIPPING_THRESHOLD')
     };
 
     // テスト用のformDataを作成
@@ -1332,8 +1341,8 @@ function testElogisticsSaveSettings() {
     var result = saveSettings(testFormData);
 
     // 結果確認
-    var savedHighPrice = props.getProperty('HIGH_PRICE_SHIPPING_METHOD');
-    
+    var savedHighPrice = docProps.getProperty('HIGH_PRICE_SHIPPING_METHOD');
+
     var report = 'saveSettings テスト結果:\n\n' +
       '実行結果: ' + (result.success ? '✅ 成功' : '❌ 失敗') + '\n' +
       '保存された高価格配送方法: ' + savedHighPrice + '\n';
@@ -1349,12 +1358,12 @@ function testElogisticsSaveSettings() {
 
     // 元の設定に復元
     if (backup.highPrice) {
-      props.setProperty('HIGH_PRICE_SHIPPING_METHOD', backup.highPrice);
+      docProps.setProperty('HIGH_PRICE_SHIPPING_METHOD', backup.highPrice);
     } else {
-      props.deleteProperty('HIGH_PRICE_SHIPPING_METHOD');
+      docProps.deleteProperty('HIGH_PRICE_SHIPPING_METHOD');
     }
     if (backup.threshold) {
-      props.setProperty('SHIPPING_THRESHOLD', backup.threshold);
+      docProps.setProperty('SHIPPING_THRESHOLD', backup.threshold);
     }
 
     showAlert(report, result.success ? 'success' : 'error');
@@ -1621,8 +1630,19 @@ function refreshShippingCalculation() {
  */
 function showDuplicateCheckSettings() {
   try {
-    var html = HtmlService.createHtmlOutputFromFile('DuplicateCheckSettings')
-      .setWidth(700).setHeight(600);
+    var html;
+    try {
+      // まず .html ファイルを探す（ユーザーシート用）
+      html = HtmlService.createHtmlOutputFromFile('DuplicateCheckSettings');
+    } catch (_) {
+      // なければ HtmlTemplates.gs から取得（ライブラリ用）
+      html = createHtmlFromTemplate('DuplicateCheckSettings');
+    }
+    if (!html) {
+      showAlert('DuplicateCheckSettings.html が見つかりません', 'error');
+      return;
+    }
+    html.setWidth(700).setHeight(600);
     SpreadsheetApp.getUi().showModalDialog(html, '🔍 重複チェック設定');
   } catch (e) {
     showAlert('設定ダイアログの表示に失敗: ' + e.message, 'error');
@@ -1980,15 +2000,15 @@ function applyDuplicateCheckConditionalFormatting(settings) {
  */
 function getDuplicateCheckSettings() {
   try {
-    var props = PropertiesService.getScriptProperties();
-    
+    var docProps = PropertiesService.getDocumentProperties();
+
     var settings = {
-      sourceSheet: props.getProperty('DUPLICATE_CHECK_SOURCE_SHEET') || '',
-      sourceColumn: props.getProperty('DUPLICATE_CHECK_SOURCE_COLUMN') || '',
-      targetSheets: JSON.parse(props.getProperty('DUPLICATE_CHECK_TARGET_SHEETS') || '[]'),
-      enabled: props.getProperty('DUPLICATE_CHECK_ENABLED') === 'true'
+      sourceSheet: docProps.getProperty('DUPLICATE_CHECK_SOURCE_SHEET') || '',
+      sourceColumn: docProps.getProperty('DUPLICATE_CHECK_SOURCE_COLUMN') || '',
+      targetSheets: JSON.parse(docProps.getProperty('DUPLICATE_CHECK_TARGET_SHEETS') || '[]'),
+      enabled: docProps.getProperty('DUPLICATE_CHECK_ENABLED') === 'true'
     };
-    
+
     return settings;
   } catch (e) {
     return {
@@ -2454,8 +2474,19 @@ function debugDetailedSearch() {
  */
 function showTemplateManualSearchDialog() {
   try {
-    var html = HtmlService.createHtmlOutputFromFile('TemplateManualSearch')
-      .setWidth(600).setHeight(650);
+    var html;
+    try {
+      // まず .html ファイルを探す（ユーザーシート用）
+      html = HtmlService.createHtmlOutputFromFile('TemplateManualSearch');
+    } catch (_) {
+      // なければ HtmlTemplates.gs から取得（ライブラリ用）
+      html = createHtmlFromTemplate('TemplateManualSearch');
+    }
+    if (!html) {
+      showAlert('TemplateManualSearch.html が見つかりません', 'error');
+      return;
+    }
+    html.setWidth(600).setHeight(650);
     SpreadsheetApp.getUi().showModalDialog(html, '🔍 テンプレート手動検索');
   } catch (e) {
     showAlert('手動検索ダイアログの表示に失敗: ' + e.message, 'error');
@@ -2736,7 +2767,7 @@ function conditionalInfoDialog(message, title) {
 
 function saveIntegratedSettings(formData) {
   var ui = SpreadsheetApp.getUi();
-  var props = PropertiesService.getScriptProperties();
+  // すべての永続設定はDocumentPropertiesに保存（スプレッドシートに紐づく、ライブラリ更新で消えない）
   var docProps = PropertiesService.getDocumentProperties();
   try {
     // 基本設定のバリデーション
@@ -2795,10 +2826,9 @@ function saveIntegratedSettings(formData) {
       throw new Error('価格表示モードを選択してください。');
     }
 
-    // 基本設定の保存
-    props.setProperty('AI_PLATFORM', platform);
-    props.setProperty('AI_MODEL', model);
-    // APIキーはDocumentPropertiesに保存（スプレッドシートに紐づく、ライブラリ更新で消えない）
+    // すべての永続設定をDocumentPropertiesに保存（スプレッドシートに紐づく、ライブラリ更新で消えない）
+    docProps.setProperty('AI_PLATFORM', platform);
+    docProps.setProperty('AI_MODEL', model);
     // '__KEEP_EXISTING__'の場合は既存キーを維持
     if (apiKey !== '__KEEP_EXISTING__') {
       if (platform === 'openai') docProps.setProperty('OPENAI_API_KEY', apiKey);
@@ -2806,16 +2836,16 @@ function saveIntegratedSettings(formData) {
       if (platform === 'gemini') docProps.setProperty('GEMINI_API_KEY', apiKey);
     }
 
-    props.setProperty('SHEET_NAME', sheetName);
-    props.setProperty('PROFIT_CALC_METHOD', profitCalc);
-    props.setProperty('PROMPT_ID', promptId);
-    props.setProperty('SHIPPING_THRESHOLD', String(shippingThreshold));
-    props.setProperty('SHIPPING_CALC_METHOD', shippingCalcMethod);
-    props.setProperty('LOW_PRICE_SHIPPING_METHOD', lowPriceMethod);
-    props.setProperty('HIGH_PRICE_SHIPPING_METHOD', highPriceMethod);
-    props.setProperty('SHOW_POPUPS', showPopups);
-    
-    // DDU価格調整機能の保存（DocumentPropertiesに保存 - スプレッドシートに紐づく）
+    docProps.setProperty('SHEET_NAME', sheetName);
+    docProps.setProperty('PROFIT_CALC_METHOD', profitCalc);
+    docProps.setProperty('PROMPT_ID', promptId);
+    docProps.setProperty('SHIPPING_THRESHOLD', String(shippingThreshold));
+    docProps.setProperty('SHIPPING_CALC_METHOD', shippingCalcMethod);
+    docProps.setProperty('LOW_PRICE_SHIPPING_METHOD', lowPriceMethod);
+    docProps.setProperty('HIGH_PRICE_SHIPPING_METHOD', highPriceMethod);
+    docProps.setProperty('SHOW_POPUPS', showPopups);
+
+    // DDU価格調整機能の保存
     docProps.setProperty('DDU_ADJUSTMENT_ENABLED', dduAdjustmentEnabled);
     docProps.setProperty('DDU_THRESHOLD', String(dduThreshold));
     docProps.setProperty('DDU_ADJUSTMENT_AMOUNT', String(dduAdjustment));
@@ -2831,7 +2861,7 @@ function saveIntegratedSettings(formData) {
       saveIntegratedDuplicateCheckSettings(duplicateSettings);
     } else {
       // 無効化
-      props.setProperty('DUPLICATE_CHECK_ENABLED', 'false');
+      docProps.setProperty('DUPLICATE_CHECK_ENABLED', 'false');
     }
 
     // システム設定
@@ -3671,13 +3701,13 @@ function applyCalculationFormulas(sheetName, settings) {
 
 function saveIntegratedDuplicateCheckSettings(duplicateData) {
   try {
-    var props = PropertiesService.getScriptProperties();
-    
-    // 基本設定の保存
-    props.setProperty('DUPLICATE_CHECK_ENABLED', 'true');
-    props.setProperty('DUPLICATE_CHECK_SOURCE_SHEET', duplicateData.sourceSheet);
-    props.setProperty('DUPLICATE_CHECK_SOURCE_COLUMN', duplicateData.sourceColumn);
-    props.setProperty('DUPLICATE_CHECK_TARGET_SHEETS', JSON.stringify(duplicateData.targetSheets));
+    var docProps = PropertiesService.getDocumentProperties();
+
+    // 基本設定の保存（DocumentPropertiesに保存）
+    docProps.setProperty('DUPLICATE_CHECK_ENABLED', 'true');
+    docProps.setProperty('DUPLICATE_CHECK_SOURCE_SHEET', duplicateData.sourceSheet);
+    docProps.setProperty('DUPLICATE_CHECK_SOURCE_COLUMN', duplicateData.sourceColumn);
+    docProps.setProperty('DUPLICATE_CHECK_TARGET_SHEETS', JSON.stringify(duplicateData.targetSheets));
     
     // 出力設定（オプション）
     if (duplicateData.applyToSheet) {
@@ -3707,13 +3737,24 @@ function saveIntegratedDuplicateCheckSettings(duplicateData) {
  */
 function showCategorySelectionDialog() {
   try {
-    var html = HtmlService.createHtmlOutputFromFile('CategorySelectionDialog')
-      .setWidth(480).setHeight(400);
+    var html;
+    try {
+      // まず .html ファイルを探す（ユーザーシート用）
+      html = HtmlService.createHtmlOutputFromFile('CategorySelectionDialog');
+    } catch (_) {
+      // なければ HtmlTemplates.gs から取得（ライブラリ用）
+      html = createHtmlFromTemplate('CategorySelectionDialog');
+    }
+    if (!html) {
+      showAlert('CategorySelectionDialog.html が見つかりません', 'error');
+      return null;
+    }
+    html.setWidth(480).setHeight(400);
     SpreadsheetApp.getUi().showModalDialog(html, 'カテゴリー選択');
-    
+
     // ダイアログ結果を待つ（非同期処理のため、別の仕組みが必要）
     return null; // この戻り値は使用されない
-    
+
   } catch (e) {
     console.error('カテゴリー選択ダイアログエラー: ' + e.message);
     showAlert('カテゴリー選択ダイアログの表示に失敗: ' + e.message, 'error');

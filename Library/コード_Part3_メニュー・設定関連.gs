@@ -790,9 +790,18 @@ function openSimpleSetup() {
   try {
     var tmpl;
     try {
+      // まず .html ファイルを探す（ユーザーシート用）
       tmpl = HtmlService.createTemplateFromFile('SimpleSetup');
     } catch (_) {
-      tmpl = null;
+      // なければ HtmlTemplates.gs から取得（ライブラリ用）
+      try {
+        var htmlContent = getHtmlTemplate('SimpleSetup');
+        if (htmlContent) {
+          tmpl = HtmlService.createTemplate(htmlContent);
+        }
+      } catch (_) {
+        tmpl = null;
+      }
     }
     if (!tmpl) {
       var ui = SpreadsheetApp.getUi();
@@ -1621,8 +1630,19 @@ function refreshShippingCalculation() {
  */
 function showDuplicateCheckSettings() {
   try {
-    var html = HtmlService.createHtmlOutputFromFile('DuplicateCheckSettings')
-      .setWidth(700).setHeight(600);
+    var html;
+    try {
+      // まず .html ファイルを探す（ユーザーシート用）
+      html = HtmlService.createHtmlOutputFromFile('DuplicateCheckSettings');
+    } catch (_) {
+      // なければ HtmlTemplates.gs から取得（ライブラリ用）
+      html = createHtmlFromTemplate('DuplicateCheckSettings');
+    }
+    if (!html) {
+      showAlert('DuplicateCheckSettings.html が見つかりません', 'error');
+      return;
+    }
+    html.setWidth(700).setHeight(600);
     SpreadsheetApp.getUi().showModalDialog(html, '🔍 重複チェック設定');
   } catch (e) {
     showAlert('設定ダイアログの表示に失敗: ' + e.message, 'error');
@@ -2454,8 +2474,19 @@ function debugDetailedSearch() {
  */
 function showTemplateManualSearchDialog() {
   try {
-    var html = HtmlService.createHtmlOutputFromFile('TemplateManualSearch')
-      .setWidth(600).setHeight(650);
+    var html;
+    try {
+      // まず .html ファイルを探す（ユーザーシート用）
+      html = HtmlService.createHtmlOutputFromFile('TemplateManualSearch');
+    } catch (_) {
+      // なければ HtmlTemplates.gs から取得（ライブラリ用）
+      html = createHtmlFromTemplate('TemplateManualSearch');
+    }
+    if (!html) {
+      showAlert('TemplateManualSearch.html が見つかりません', 'error');
+      return;
+    }
+    html.setWidth(600).setHeight(650);
     SpreadsheetApp.getUi().showModalDialog(html, '🔍 テンプレート手動検索');
   } catch (e) {
     showAlert('手動検索ダイアログの表示に失敗: ' + e.message, 'error');
@@ -3706,13 +3737,24 @@ function saveIntegratedDuplicateCheckSettings(duplicateData) {
  */
 function showCategorySelectionDialog() {
   try {
-    var html = HtmlService.createHtmlOutputFromFile('CategorySelectionDialog')
-      .setWidth(480).setHeight(400);
+    var html;
+    try {
+      // まず .html ファイルを探す（ユーザーシート用）
+      html = HtmlService.createHtmlOutputFromFile('CategorySelectionDialog');
+    } catch (_) {
+      // なければ HtmlTemplates.gs から取得（ライブラリ用）
+      html = createHtmlFromTemplate('CategorySelectionDialog');
+    }
+    if (!html) {
+      showAlert('CategorySelectionDialog.html が見つかりません', 'error');
+      return null;
+    }
+    html.setWidth(480).setHeight(400);
     SpreadsheetApp.getUi().showModalDialog(html, 'カテゴリー選択');
-    
+
     // ダイアログ結果を待つ（非同期処理のため、別の仕組みが必要）
     return null; // この戻り値は使用されない
-    
+
   } catch (e) {
     console.error('カテゴリー選択ダイアログエラー: ' + e.message);
     showAlert('カテゴリー選択ダイアログの表示に失敗: ' + e.message, 'error');

@@ -94,9 +94,18 @@ function initialSetup() {
   try {
     var tmpl;
     try {
+      // まず .html ファイルを探す（ユーザーシート用）
       tmpl = HtmlService.createTemplateFromFile('SetupDialog');
     } catch (_) {
-      tmpl = null;
+      // なければ HtmlTemplates.gs から取得（ライブラリ用）
+      try {
+        var htmlContent = getHtmlTemplate('SetupDialog');
+        if (htmlContent) {
+          tmpl = HtmlService.createTemplate(htmlContent);
+        }
+      } catch (_) {
+        tmpl = null;
+      }
     }
     if (!tmpl) {
       ui.alert('初期設定', 'SetupDialog.html が無いので簡易案内を表示します。', ui.ButtonSet.OK);
