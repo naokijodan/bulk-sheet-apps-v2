@@ -244,21 +244,25 @@ function assistantGetColumnInfo_(data) {
 
     var info = cellInfo.data;
     var colLetter = info.colLetter;
+    var sheetName = info.sheetName;
 
-    // 固定セル説明を取得（1行目、2行目、3行目）
+    // 作業シートかどうかを判定
+    var isWorkSheet = (sheetName === '作業シート');
+
+    // 固定セル説明を取得（作業シートの場合のみ）
     // 作業シートの設定エリアは1〜3行目にある
     var cell1Address = colLetter + '1';
     var cell2Address = colLetter + '2';
     var cell3Address = colLetter + '3';
-    var cell1Description = getCellDescription_(cell1Address);
-    var cell2Description = getCellDescription_(cell2Address);
-    var cell3Description = getCellDescription_(cell3Address);
+    var cell1Description = isWorkSheet ? getCellDescription_(cell1Address) : null;
+    var cell2Description = isWorkSheet ? getCellDescription_(cell2Address) : null;
+    var cell3Description = isWorkSheet ? getCellDescription_(cell3Address) : null;
 
-    // 列説明を取得（常に取得）
-    var columnDescription = getColumnDescription_(info.headerName);
+    // 列説明を取得（作業シートの場合のみ）
+    var columnDescription = isWorkSheet ? getColumnDescription_(info.headerName) : null;
 
-    // シート説明を取得（常に取得）
-    var sheetDescription = getSheetDescription_(info.sheetName) || null;
+    // シート説明を取得（全シート共通）
+    var sheetDescription = getSheetDescription_(sheetName) || null;
 
     return {
       success: true,
@@ -399,19 +403,13 @@ function getColumnDescription_(headerName) {
     '実際の関税額': '実際の関税率から算出される関税額および関税手数料。この値がCpassから徴収されます。'
   };
 
-  // 完全一致
+  // 完全一致のみ
   if (workSheetDescriptions[headerName]) {
     return workSheetDescriptions[headerName];
   }
 
-  // 部分一致（列名が少し異なる場合に対応）
-  for (var key in workSheetDescriptions) {
-    if (headerName.indexOf(key) !== -1 || key.indexOf(headerName) !== -1) {
-      return workSheetDescriptions[key];
-    }
-  }
-
-  return 'この列の詳細説明は登録されていません。';
+  // 説明が登録されていない場合はnullを返す
+  return null;
 }
 
 /**
