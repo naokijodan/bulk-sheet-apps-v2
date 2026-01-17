@@ -482,8 +482,30 @@
         resultBox.className = 'result-box';
         if (response.success) {
           const data = response.data;
-          let text = '【' + data.headerName + '】\n\n' + data.description;
-          resultBox.textContent = text;
+
+          // 1. ヘッダー（見出し）の決定
+          let title = '';
+          if (data.infoType === 'cell') {
+            // セル説明の場合: 「A2」などのセル番地を表示
+            title = '【セル ' + data.cellAddress + '】';
+          } else {
+            // 列説明の場合: 列名を表示（なければ「名称未設定」）
+            title = '【列「' + (data.headerName || '名称未設定') + '」】';
+          }
+
+          // 2. メイン説明文
+          const description = data.description || '説明が登録されていません。';
+
+          // 3. フッター（シート説明）
+          // シート説明がある場合のみ区切り線を入れて表示
+          let sheetInfo = '';
+          if (data.sheetDescription) {
+            sheetInfo = '\n\n----------------\n📋 シート「' + data.sheetName + '」\n' + data.sheetDescription;
+          }
+
+          // 結合して表示
+          resultBox.textContent = title + '\n' + description + sheetInfo;
+
         } else {
           resultBox.textContent = 'エラー: ' + response.error;
         }
