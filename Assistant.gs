@@ -115,7 +115,6 @@ function assistantGetSelectedCellInfo_() {
         displayValue: cell.getDisplayValue(),
         formula: formula,
         headerName: headerValue.toString(),
-        subHeaderName: subHeaderValue.toString(),
         hasError: hasError,
         errorType: errorType,
         dataType: typeof value
