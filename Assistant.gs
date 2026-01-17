@@ -238,6 +238,7 @@ function performLocalDiagnosis_(info) {
 /**
  * 列情報を取得
  * 固定セル（1-2行目）の場合はセル説明を、データ行（3行目以降）の場合は列説明を返す
+ * シート説明も併せて返す
  */
 function assistantGetColumnInfo_(data) {
   try {
@@ -266,6 +267,9 @@ function assistantGetColumnInfo_(data) {
       infoType = 'column';
     }
 
+    // シート説明を取得
+    var sheetDescription = getSheetDescription_(info.sheetName) || '';
+
     return {
       success: true,
       data: {
@@ -273,7 +277,9 @@ function assistantGetColumnInfo_(data) {
         subHeaderName: info.subHeaderName,
         cellAddress: cellAddress,
         description: description,
-        infoType: infoType
+        infoType: infoType,
+        sheetName: info.sheetName,
+        sheetDescription: sheetDescription
       }
     };
   } catch (e) {
@@ -470,6 +476,44 @@ function getCellDescription_(cellAddress) {
 
   if (cellDescriptions[upperAddress]) {
     return cellDescriptions[upperAddress];
+  }
+
+  return null;
+}
+
+/**
+ * シート名から説明を取得
+ */
+function getSheetDescription_(sheetName) {
+  var sheetDescriptions = {
+    'インポート用': '拡張機能から直接データをインポートするシート。拡張機能で取得したデータや写真を確認できる。',
+    '内容確認専用シート': 'インポート用シートにインポートされたデータを並べ替えたもの。商品の評価や状態などがチェックしやすい。',
+    '作業シート': '実際に商品の計算や翻訳を行うシート。',
+    '出品用シート': 'EAGLEに登録する情報をまとめて、一括でコピーするためのシート。',
+    'Import_Templates': 'EAGLEからテンプレートをインポートして判定するシート。作業シートで利用するために標準名を自動生成する。',
+    'Import_Policies': 'EAGLEからシッピングポリシーをインポートして判定用に細分化するシート。',
+    'Policy_Master': 'テンプレートとシッピングポリシーを判定用にまとめたもの。',
+    'キーワード': '発見したキーワードを管理するシート。ユーザーが自由に設計。',
+    'キーワード管理': '取得したキーワードの更新日や出品数、参考IDの管理をするシート。更新日のアラートを設定（K1の値）することで、更新から時間が経ったものを優先的に出品するという管理もできる。',
+    '参照データ': 'EAGLEに登録されているテンプレートや仕入れ先名称をダウンロード。ここのデータが作業シートのテンプレートと仕入れ先名のドロップダウンに反映される。また、各セルのアラートの色の設定も参考として記載。',
+    '保存データ': '作業終了したデータの保存に活用。外注さんの作業記録などにも利用。',
+    'データ入力依頼シート': '外注さんに作業を依頼するのに活用。',
+    'EAGLE商品一覧': 'EAGLEに登録されている商品の仕入れ先コードの管理に利用。重複管理用。',
+    'Profit_Amounts': '利益額と送料の設定に利用。利益額計算や送料固定の設定の場合、ここで管理。',
+    'GPT_Prompts': 'プロンプトの管理用シート。ここで直接編集もできるが、設定メニューから編集の方が使いやすい。新しいプロンプトを追加するときはA列にプロンプト名、B列に内容を入れる。作成後は初期設定を行うことで作業シートで使えるようになる（AS2の選択肢として反映）。',
+    'Shipping_Methods': '配送方法の管理シート。',
+    'Shipping_Rates': '送料テーブル表。各配送方法の送料テーブル。'
+  };
+
+  if (sheetDescriptions[sheetName]) {
+    return sheetDescriptions[sheetName];
+  }
+
+  // 部分一致
+  for (var key in sheetDescriptions) {
+    if (sheetName.indexOf(key) !== -1 || key.indexOf(sheetName) !== -1) {
+      return sheetDescriptions[key];
+    }
   }
 
   return null;
