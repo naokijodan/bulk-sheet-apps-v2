@@ -650,6 +650,36 @@
                 </div>
             </div>
 
+            <!-- 燃油サーチャージ・割引設定 -->
+            <div style="margin-top: 20px; padding: 20px; background: #e8f5e9; border: 2px solid #4caf50; border-radius: 8px;">
+                <h3 style="margin-bottom: 15px; color: #2e7d32;">⛽ 燃油サーチャージ・割引設定</h3>
+                <div class="settings-grid">
+                    <div class="input-group">
+                        <label>FedEx燃油サーチャージ (%)</label>
+                        <input type="number" id="fedexFuelRate" value="29.75" step="0.25" oninput="calculateEstimatedShipping()">
+                    </div>
+                    <div class="input-group">
+                        <label>DHL燃油サーチャージ (%)</label>
+                        <input type="number" id="dhlFuelRate" value="30" step="0.25" oninput="calculateEstimatedShipping()">
+                    </div>
+                    <div class="input-group">
+                        <label>Cpass割引 (%)</label>
+                        <input type="number" id="cpassDiscountRate" value="3" step="0.1" oninput="calculateEstimatedShipping()">
+                    </div>
+                    <div class="input-group">
+                        <label>FedEx超過料金 (円/500g)</label>
+                        <input type="number" id="fedexExtraPer500g" value="115" step="1" oninput="calculateEstimatedShipping()">
+                    </div>
+                    <div class="input-group">
+                        <label>DHL超過料金 (円/500g)</label>
+                        <input type="number" id="dhlExtraPer500g" value="96" step="1" oninput="calculateEstimatedShipping()">
+                    </div>
+                </div>
+                <div style="margin-top: 10px; padding: 10px; background: white; border-radius: 5px; font-size: 0.9em; color: #2e7d32;">
+                    <strong>💡 送料計算式:</strong> 基本料金 + 超過料金 → 小計 × (1 + 燃油率) × (1 - Cpass割引率)
+                </div>
+            </div>
+
             <!-- 送料計算モード別の設定 -->
             <div id="shippingSettings" style="margin-top: 20px;">
                 <!-- 固定送料モード -->
@@ -1427,47 +1457,69 @@
                 { min: 24501, max: 25000, yen: 63100 }, { min: 25001, max: 26000, yen: 65500 }, { min: 26001, max: 27000, yen: 67900 },
                 { min: 27001, max: 28000, yen: 70300 }, { min: 28001, max: 29000, yen: 72700 }, { min: 29001, max: 30000, yen: 75100 }
             ],
-            CF: [ // Cpass-FedEx
-                { min: 1, max: 1000, yen: 1984 }, { min: 1001, max: 1500, yen: 2439 }, { min: 1501, max: 2000, yen: 2666 },
-                { min: 2001, max: 2500, yen: 2918 }, { min: 2501, max: 3000, yen: 3173 }, { min: 3001, max: 3500, yen: 3329 },
-                { min: 3501, max: 4000, yen: 3382 }, { min: 4001, max: 4500, yen: 3786 }, { min: 4501, max: 5000, yen: 4188 },
-                { min: 5001, max: 5500, yen: 4495 }, { min: 5501, max: 6000, yen: 4805 }, { min: 6001, max: 6500, yen: 5114 },
-                { min: 6501, max: 7000, yen: 5465 }, { min: 7001, max: 7500, yen: 5893 }, { min: 7501, max: 8000, yen: 6267 },
-                { min: 8001, max: 8500, yen: 6444 }, { min: 8501, max: 9000, yen: 6621 }, { min: 9001, max: 9500, yen: 6797 },
-                { min: 9501, max: 10000, yen: 8327 }, { min: 10001, max: 10500, yen: 8539 }, { min: 10501, max: 11000, yen: 8765 },
-                { min: 11001, max: 11500, yen: 8991 }, { min: 11501, max: 12000, yen: 9217 }, { min: 12001, max: 12500, yen: 9444 },
-                { min: 12501, max: 13000, yen: 10790 }, { min: 13001, max: 13500, yen: 11043 }, { min: 13501, max: 14000, yen: 11295 },
-                { min: 14001, max: 14500, yen: 11548 }, { min: 14501, max: 15000, yen: 11800 }, { min: 15001, max: 15500, yen: 12052 },
-                { min: 15501, max: 16000, yen: 12305 }, { min: 16001, max: 16500, yen: 13855 }, { min: 16501, max: 17000, yen: 14133 },
-                { min: 17001, max: 17500, yen: 14411 }, { min: 17501, max: 18000, yen: 14690 }, { min: 18001, max: 18500, yen: 14969 },
-                { min: 18501, max: 19000, yen: 15246 }, { min: 19001, max: 19500, yen: 15525 }, { min: 19501, max: 20000, yen: 15804 },
-                { min: 20001, max: 20500, yen: 16082 }, { min: 20501, max: 21000, yen: 18179 }, { min: 21001, max: 21500, yen: 19099 },
-                { min: 21501, max: 22000, yen: 20020 }, { min: 22001, max: 22500, yen: 20940 }, { min: 22501, max: 23000, yen: 21860 },
-                { min: 23001, max: 23500, yen: 22780 }, { min: 23501, max: 24000, yen: 23700 }, { min: 24001, max: 24500, yen: 24621 },
-                { min: 24501, max: 25000, yen: 25541 }, { min: 25001, max: 26000, yen: 26461 }, { min: 26001, max: 27000, yen: 27381 },
-                { min: 27001, max: 28000, yen: 28301 }, { min: 28001, max: 29000, yen: 30096 }, { min: 29001, max: 30000, yen: 31008 },
-                { min: 30001, max: Infinity, yen: 31920 }
+            CF: [ // Cpass-FedEx 2026年 FICP USW列
+                { min: 1, max: 500, yen: 2115 }, { min: 501, max: 1000, yen: 2599 }, { min: 1001, max: 1500, yen: 2840 },
+                { min: 1501, max: 2000, yen: 3108 }, { min: 2001, max: 2500, yen: 3383 }, { min: 2501, max: 3000, yen: 3540 },
+                { min: 3001, max: 3500, yen: 3593 }, { min: 3501, max: 4000, yen: 4022 }, { min: 4001, max: 4500, yen: 4451 },
+                { min: 4501, max: 5000, yen: 4718 }, { min: 5001, max: 5500, yen: 5043 }, { min: 5501, max: 6000, yen: 5366 },
+                { min: 6001, max: 6500, yen: 5735 }, { min: 6501, max: 7000, yen: 6184 }, { min: 7001, max: 7500, yen: 6683 },
+                { min: 7501, max: 8000, yen: 6871 }, { min: 8001, max: 8500, yen: 7060 }, { min: 8501, max: 9000, yen: 7249 },
+                { min: 9001, max: 9500, yen: 8865 }, { min: 9501, max: 10000, yen: 9089 }, { min: 10001, max: 10500, yen: 9346 },
+                { min: 10501, max: 11000, yen: 9602 }, { min: 11001, max: 11500, yen: 9861 }, { min: 11501, max: 12000, yen: 10116 },
+                { min: 12001, max: 12500, yen: 11439 }, { min: 12501, max: 13000, yen: 11723 }, { min: 13001, max: 13500, yen: 12006 },
+                { min: 13501, max: 14000, yen: 12289 }, { min: 14001, max: 14500, yen: 12573 }, { min: 14501, max: 15000, yen: 12857 },
+                { min: 15001, max: 15500, yen: 13140 }, { min: 15501, max: 16000, yen: 14631 }, { min: 16001, max: 16500, yen: 14940 },
+                { min: 16501, max: 17000, yen: 15249 }, { min: 17001, max: 17500, yen: 15559 }, { min: 17501, max: 18000, yen: 15867 },
+                { min: 18001, max: 18500, yen: 16177 }, { min: 18501, max: 19000, yen: 16485 }, { min: 19001, max: 19500, yen: 16794 },
+                { min: 19501, max: 20000, yen: 17104 }, { min: 20001, max: 21000, yen: 20625 }, { min: 21001, max: 22000, yen: 21657 },
+                { min: 22001, max: 23000, yen: 22689 }, { min: 23001, max: 24000, yen: 23721 }, { min: 24001, max: 25000, yen: 24754 },
+                { min: 25001, max: 26000, yen: 25787 }, { min: 26001, max: 27000, yen: 26819 }, { min: 27001, max: 28000, yen: 27852 },
+                { min: 28001, max: 29000, yen: 28885 }, { min: 29001, max: 30000, yen: 29916 }, { min: 30001, max: 31000, yen: 30950 },
+                { min: 31001, max: 32000, yen: 31983 }, { min: 32001, max: 33000, yen: 34201 }, { min: 33001, max: 34000, yen: 35237 },
+                { min: 34001, max: 35000, yen: 36274 }, { min: 35001, max: 36000, yen: 37310 }, { min: 36001, max: 37000, yen: 38346 },
+                { min: 37001, max: 38000, yen: 39383 }, { min: 38001, max: 39000, yen: 40419 }, { min: 39001, max: 40000, yen: 41455 },
+                { min: 40001, max: 41000, yen: 42492 }, { min: 41001, max: 42000, yen: 43528 }, { min: 42001, max: 43000, yen: 44565 },
+                { min: 43001, max: 44000, yen: 45601 }, { min: 44001, max: 45000, yen: 45624 }, { min: 45001, max: 46000, yen: 45624 },
+                { min: 46001, max: 47000, yen: 45624 }, { min: 47001, max: 48000, yen: 45792 }, { min: 48001, max: 49000, yen: 46746 },
+                { min: 49001, max: 50000, yen: 47700 }, { min: 50001, max: 51000, yen: 48654 }, { min: 51001, max: 52000, yen: 49608 },
+                { min: 52001, max: 53000, yen: 50562 }, { min: 53001, max: 54000, yen: 51516 }, { min: 54001, max: 55000, yen: 52470 },
+                { min: 55001, max: 56000, yen: 53424 }, { min: 56001, max: 57000, yen: 54378 }, { min: 57001, max: 58000, yen: 55332 },
+                { min: 58001, max: 59000, yen: 56286 }, { min: 59001, max: 60000, yen: 57240 }, { min: 60001, max: 61000, yen: 58194 },
+                { min: 61001, max: 62000, yen: 59148 }, { min: 62001, max: 63000, yen: 60102 }, { min: 63001, max: 64000, yen: 61056 },
+                { min: 64001, max: 65000, yen: 62010 }, { min: 65001, max: 66000, yen: 62964 }, { min: 66001, max: 67000, yen: 63918 },
+                { min: 67001, max: 68000, yen: 64872 }
             ],
-            CD: [ // Cpass-DHL
-                { min: 1, max: 1000, yen: 2191 }, { min: 1001, max: 1500, yen: 2482 }, { min: 1501, max: 2000, yen: 2588 },
-                { min: 2001, max: 2500, yen: 2719 }, { min: 2501, max: 3000, yen: 3040 }, { min: 3001, max: 3500, yen: 3358 },
-                { min: 3501, max: 4000, yen: 3753 }, { min: 4001, max: 4500, yen: 4079 }, { min: 4501, max: 5000, yen: 4406 },
-                { min: 5001, max: 5500, yen: 4732 }, { min: 5501, max: 6000, yen: 5058 }, { min: 6001, max: 6500, yen: 5383 },
-                { min: 6501, max: 7000, yen: 5753 }, { min: 7001, max: 7500, yen: 6203 }, { min: 7501, max: 8000, yen: 6652 },
-                { min: 8001, max: 8500, yen: 7102 }, { min: 8501, max: 9000, yen: 7550 }, { min: 9001, max: 9500, yen: 7999 },
-                { min: 9501, max: 10000, yen: 8449 }, { min: 10001, max: 10500, yen: 8898 }, { min: 10501, max: 11000, yen: 9347 },
-                { min: 11001, max: 11500, yen: 9796 }, { min: 11501, max: 12000, yen: 10246 }, { min: 12001, max: 12500, yen: 10695 },
-                { min: 12501, max: 13000, yen: 11144 }, { min: 13001, max: 13500, yen: 11594 }, { min: 13501, max: 14000, yen: 12042 },
-                { min: 14001, max: 14500, yen: 12492 }, { min: 14501, max: 15000, yen: 12941 }, { min: 15001, max: 15500, yen: 13391 },
-                { min: 15501, max: 16000, yen: 13840 }, { min: 16001, max: 16500, yen: 14290 }, { min: 16501, max: 17000, yen: 14739 },
-                { min: 17001, max: 17500, yen: 15188 }, { min: 17501, max: 18000, yen: 15638 }, { min: 18001, max: 18500, yen: 16087 },
-                { min: 18501, max: 19000, yen: 16537 }, { min: 19001, max: 19500, yen: 16986 }, { min: 19501, max: 20000, yen: 17436 },
-                { min: 20001, max: 20500, yen: 17885 }, { min: 20501, max: 21000, yen: 18784 }, { min: 21001, max: 21500, yen: 19683 },
-                { min: 21501, max: 22000, yen: 20582 }, { min: 22001, max: 22500, yen: 21481 }, { min: 22501, max: 23000, yen: 22380 },
-                { min: 23001, max: 23500, yen: 23279 }, { min: 23501, max: 24000, yen: 24177 }, { min: 24001, max: 24500, yen: 25076 },
-                { min: 24501, max: 25000, yen: 25966 }, { min: 25001, max: 26000, yen: 26865 }, { min: 26001, max: 27000, yen: 27761 },
-                { min: 27001, max: 28000, yen: 28657 }, { min: 28001, max: 29000, yen: 29552 }, { min: 29001, max: 30000, yen: 30448 },
-                { min: 30001, max: Infinity, yen: 31343 }
+            CD: [ // Cpass-DHL 2026年 Zone10(US)列
+                { min: 1, max: 500, yen: 2454 }, { min: 501, max: 1000, yen: 2780 }, { min: 1001, max: 1500, yen: 2898 },
+                { min: 1501, max: 2000, yen: 3045 }, { min: 2001, max: 2500, yen: 3404 }, { min: 2501, max: 3000, yen: 3761 },
+                { min: 3001, max: 3500, yen: 4203 }, { min: 3501, max: 4000, yen: 4568 }, { min: 4001, max: 4500, yen: 4934 },
+                { min: 4501, max: 5000, yen: 5300 }, { min: 5001, max: 5500, yen: 5665 }, { min: 5501, max: 6000, yen: 6029 },
+                { min: 6001, max: 6500, yen: 6444 }, { min: 6501, max: 7000, yen: 6948 }, { min: 7001, max: 7500, yen: 7450 },
+                { min: 7501, max: 8000, yen: 7954 }, { min: 8001, max: 8500, yen: 8456 }, { min: 8501, max: 9000, yen: 8958 },
+                { min: 9001, max: 9500, yen: 9463 }, { min: 9501, max: 10000, yen: 9966 }, { min: 10001, max: 10500, yen: 10469 },
+                { min: 10501, max: 11000, yen: 10972 }, { min: 11001, max: 11500, yen: 11475 }, { min: 11501, max: 12000, yen: 11978 },
+                { min: 12001, max: 12500, yen: 12481 }, { min: 12501, max: 13000, yen: 12986 }, { min: 13001, max: 13500, yen: 13487 },
+                { min: 13501, max: 14000, yen: 13991 }, { min: 14001, max: 14500, yen: 14494 }, { min: 14501, max: 15000, yen: 14998 },
+                { min: 15001, max: 15500, yen: 15500 }, { min: 15501, max: 16000, yen: 16004 }, { min: 16001, max: 16500, yen: 16508 },
+                { min: 16501, max: 17000, yen: 17011 }, { min: 17001, max: 17500, yen: 17515 }, { min: 17501, max: 18000, yen: 18018 },
+                { min: 18001, max: 18500, yen: 18521 }, { min: 18501, max: 19000, yen: 19024 }, { min: 19001, max: 19500, yen: 19528 },
+                { min: 19501, max: 20000, yen: 20031 }, { min: 20001, max: 21000, yen: 21039 }, { min: 21001, max: 22000, yen: 22045 },
+                { min: 22001, max: 23000, yen: 23052 }, { min: 23001, max: 24000, yen: 24059 }, { min: 24001, max: 25000, yen: 25065 },
+                { min: 25001, max: 26000, yen: 26073 }, { min: 26001, max: 27000, yen: 27078 }, { min: 27001, max: 28000, yen: 28085 },
+                { min: 28001, max: 29000, yen: 29082 }, { min: 29001, max: 30000, yen: 30089 }, { min: 30001, max: 31000, yen: 31093 },
+                { min: 31001, max: 32000, yen: 32096 }, { min: 32001, max: 33000, yen: 33099 }, { min: 33001, max: 34000, yen: 34102 },
+                { min: 34001, max: 35000, yen: 35104 }, { min: 35001, max: 36000, yen: 36108 }, { min: 36001, max: 37000, yen: 37111 },
+                { min: 37001, max: 38000, yen: 38114 }, { min: 38001, max: 39000, yen: 39117 }, { min: 39001, max: 40000, yen: 40120 },
+                { min: 40001, max: 41000, yen: 41123 }, { min: 41001, max: 42000, yen: 42127 }, { min: 42001, max: 43000, yen: 43129 },
+                { min: 43001, max: 44000, yen: 44133 }, { min: 44001, max: 45000, yen: 45135 }, { min: 45001, max: 46000, yen: 46139 },
+                { min: 46001, max: 47000, yen: 47142 }, { min: 47001, max: 48000, yen: 48145 }, { min: 48001, max: 49000, yen: 49148 },
+                { min: 49001, max: 50000, yen: 50151 }, { min: 50001, max: 51000, yen: 51154 }, { min: 51001, max: 52000, yen: 52158 },
+                { min: 52001, max: 53000, yen: 53160 }, { min: 53001, max: 54000, yen: 54163 }, { min: 54001, max: 55000, yen: 55166 },
+                { min: 55001, max: 56000, yen: 56169 }, { min: 56001, max: 57000, yen: 57173 }, { min: 57001, max: 58000, yen: 58175 },
+                { min: 58001, max: 59000, yen: 59179 }, { min: 59001, max: 60000, yen: 60181 }, { min: 60001, max: 61000, yen: 61185 },
+                { min: 61001, max: 62000, yen: 62188 }, { min: 62001, max: 63000, yen: 63191 }, { min: 63001, max: 64000, yen: 64194 },
+                { min: 64001, max: 65000, yen: 65197 }, { min: 65001, max: 66000, yen: 66200 }, { min: 66001, max: 67000, yen: 67204 },
+                { min: 67001, max: 68000, yen: 68206 }
             ],
             EL: [ // eLogistics
                 { min: 1, max: 1000, yen: 3700 }, { min: 1001, max: 1500, yen: 3900 }, { min: 1501, max: 2000, yen: 4100 },
@@ -1492,13 +1544,20 @@
             ]
         };
 
-        const SHIPPING_CONFIG = {
-            fedexFuel: 0.2975,
-            dhlFuel: 0.3,
-            cpassDiscount: 0.03,
-            fedexExtraPer500g: 115,
-            dhlExtraPer500g: 96
-        };
+        // UIから燃油サーチャージ・割引設定を取得
+        function getShippingConfig() {
+            const getVal = (id, defaultVal) => {
+                const val = parseFloat(document.getElementById(id).value);
+                return isNaN(val) ? defaultVal : val;
+            };
+            return {
+                fedexFuel: getVal('fedexFuelRate', 29.75) / 100,
+                dhlFuel: getVal('dhlFuelRate', 30) / 100,
+                cpassDiscount: getVal('cpassDiscountRate', 3) / 100,
+                fedexExtraPer500g: getVal('fedexExtraPer500g', 115),
+                dhlExtraPer500g: getVal('dhlExtraPer500g', 96)
+            };
+        }
 
         // モード切替
         function toggleShippingMode() {
@@ -1634,6 +1693,7 @@
 
         // Cpass-FedEx 料金計算
         function getCpassFedexRate(weight) {
+            const config = getShippingConfig();
             const rounded = Math.ceil(weight / 500) * 500;
             let base = null;
 
@@ -1647,15 +1707,16 @@
             if (!base) return 999999;
 
             const overUnits = Math.max(0, (rounded - 500) / 500);
-            const extra = overUnits * SHIPPING_CONFIG.fedexExtraPer500g;
+            const extra = overUnits * config.fedexExtraPer500g;
             const subTotal = base + extra;
-            const fuel = subTotal * SHIPPING_CONFIG.fedexFuel;
-            const discount = -(subTotal + fuel) * SHIPPING_CONFIG.cpassDiscount;
+            const fuel = subTotal * config.fedexFuel;
+            const discount = -(subTotal + fuel) * config.cpassDiscount;
             return Math.round(subTotal + fuel + discount);
         }
 
         // Cpass-DHL 料金計算
         function getCpassDHLRate(weight) {
+            const config = getShippingConfig();
             const rounded = Math.ceil(weight / 500) * 500;
             let base = null;
 
@@ -1669,10 +1730,10 @@
             if (!base) return 999999;
 
             const overUnits = Math.max(0, (rounded - 500) / 500);
-            const extra = overUnits * SHIPPING_CONFIG.dhlExtraPer500g;
+            const extra = overUnits * config.dhlExtraPer500g;
             const subTotal = base + extra;
-            const fuel = subTotal * SHIPPING_CONFIG.dhlFuel;
-            const discount = -(subTotal + fuel) * SHIPPING_CONFIG.cpassDiscount;
+            const fuel = subTotal * config.dhlFuel;
+            const discount = -(subTotal + fuel) * config.cpassDiscount;
             return Math.round(subTotal + fuel + discount);
         }
 
@@ -2184,39 +2245,8 @@
                 settings.shippingThreshold, settings.lowPriceMethod, settings.highPriceMethod
             );
 
-            // 反復計算で販売価格を求める（目標利益率が得られる販売価格を探す）
-            // 初期値：大まかな見積もり
-            let sellingPriceUSD = (costJPY + shippingCostJPY) / settings.exchangeRate / (0.7 - targetProfitRate);
-
-            for (let i = 0; i < 20; i++) {
-                // 現在の販売価格での関税計算
-                const tariffAmounts = calculateTariffAmounts(sellingPriceUSD, settings, effectiveMethod2);
-
-                // DDP価格 = 販売価格 + 調整後関税額
-                const ddpPrice = sellingPriceUSD + tariffAmounts.adjustedTariff;
-
-                // 正しい資金フローで利益を計算
-                const ddpPriceJPY = ddpPrice * settings.exchangeRate;
-                const ebayFeeJPY = ddpPriceJPY * settings.feeRate;
-                const adFeeJPY = ddpPriceJPY * settings.adRate;
-                const afterEbayFees = ddpPriceJPY - ebayFeeJPY - adFeeJPY;
-                const payoneerFeeJPY = afterEbayFees * settings.payoneerRate;
-                const afterPayoneer = afterEbayFees - payoneerFeeJPY;
-                const actualTariffJPY = tariffAmounts.actualTariff * settings.exchangeRate;
-                const calculatedProfit = afterPayoneer - actualTariffJPY - costJPY - shippingCostJPY;
-
-                // 現在の利益率を計算（DDP価格ベース）
-                const currentProfitRate = calculatedProfit / ddpPriceJPY;
-
-                // 目標利益率との差分
-                const rateDiff = targetProfitRate - currentProfitRate;
-
-                // 収束判定
-                if (Math.abs(rateDiff) < 0.0001) break;
-
-                // 販売価格を調整
-                sellingPriceUSD *= (1 + rateDiff);
-            }
+            // V3と同じ計算式: DDU販売価格 = (仕入れ + 送料) ÷ (1 - 手数料率 - 利益率 - 広告率 - Payoneer率) ÷ 為替
+            const sellingPriceUSD = (costJPY + shippingCostJPY) / (1 - settings.feeRate - targetProfitRate - settings.adRate - settings.payoneerRate) / settings.exchangeRate;
 
             // 最終的な関税計算
             const tariffAmounts = calculateTariffAmounts(sellingPriceUSD, settings, effectiveMethod2);
@@ -2224,23 +2254,9 @@
             // DDP価格 = 販売価格 + 調整後関税額
             const ddpPrice = sellingPriceUSD + tariffAmounts.adjustedTariff;
 
-            // 参考利益（実際の資金フローに基づく計算）
-            // 1. DDP価格（eBayで受け取る金額）
-            const ddpPriceJPY = ddpPrice * settings.exchangeRate;
-            // 2. eBay手数料を引く
-            const ebayFeeJPY = ddpPriceJPY * settings.feeRate;
-            // 3. 広告費を引く
-            const adFeeJPY = ddpPriceJPY * settings.adRate;
-            // 4. ペイオニアで受け取る金額
-            const afterEbayFees = ddpPriceJPY - ebayFeeJPY - adFeeJPY;
-            // 5. ペイオニア手数料を引く
-            const payoneerFeeJPY = afterEbayFees * settings.payoneerRate;
-            const afterPayoneer = afterEbayFees - payoneerFeeJPY;
-            // 6. 実際の関税額を引く（調整後ではなく実際に支払う関税）
-            const actualTariffJPY = tariffAmounts.actualTariff * settings.exchangeRate;
-            const afterTariff = afterPayoneer - actualTariffJPY;
-            // 7. 仕入れ・送料を引く
-            const refProfit = afterTariff - costJPY - shippingCostJPY;
+            // V3と同じ参考利益計算: DDU販売価格(円) × 利益率
+            const sellingPriceJPY = sellingPriceUSD * settings.exchangeRate;
+            const refProfit = sellingPriceJPY * targetProfitRate;
 
             document.getElementById('result2').classList.remove('hidden');
             document.getElementById('sellingPrice2').textContent = `$${sellingPriceUSD.toFixed(2)}`;
