@@ -11,7 +11,7 @@ function getSurchargeParamsFromWorkSheet() {
   var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
   var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
   if (!sh) {
-    return { fedexFuel:0.305, dhlFuel:0.289, cpassDiscount:0.03, fedexExtraPer500g:115, dhlExtraPer500g:96 };
+    return { fedexFuel:0.2975, dhlFuel:0.30, cpassDiscount:0.03, fedexExtraPer500g:115, dhlExtraPer500g:96 };
   }
 
   var getValue = function(cellAddress, defaultValue) {
@@ -24,8 +24,8 @@ function getSurchargeParamsFromWorkSheet() {
 
   return {
     // U1→V1, U2→V2
-    fedexFuel: getValue('V1', 0.305),
-    dhlFuel: getValue('V2', 0.289),
+    fedexFuel: getValue('V1', 0.2975),
+    dhlFuel: getValue('V2', 0.30),
     // V2→W2
     cpassDiscount: getValue('W2', 0.03),
     // X1→Y1, X2→Y2
