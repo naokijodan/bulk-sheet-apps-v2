@@ -353,8 +353,8 @@
     }
 
     .warning-box {
-      background-color: #fff3cd;
-      border: 1px solid #ffeaa7;
+      background-color: #fee2e2;
+      border: 2px solid #dc2626;
     }
 
     .info-box .title, .warning-box .title {
@@ -367,7 +367,8 @@
     }
 
     .warning-box .title {
-      color: #856404;
+      color: #dc2626;
+      font-size: 16px;
     }
 
     .info-box .content, .warning-box .content {
@@ -380,7 +381,9 @@
     }
 
     .warning-box .content {
-      color: #856404;
+      color: #b91c1c;
+      font-size: 14px;
+      font-weight: 600;
     }
 
     .help-text {
@@ -803,10 +806,9 @@
             </div>
 
             <div class="warning-box" style="margin-top: 10px;">
-              <div class="title">重要</div>
+              <div class="title">⚠ 重要</div>
               <div class="content">
-                プリセット適用後は、必ずO2セルに専用テンプレートを設定してください。<br>
-                テンプレート未設定では出品できません。
+                ゲームやカードなどの特定のジャンルは、O2セルに専用テンプレートの設定が必要です。
               </div>
             </div>
           </div>
