@@ -2962,6 +2962,24 @@ function saveIntegratedSettings(formData) {
       }
     }
 
+    // ゲーム・トレカ プリセット適用（指定なし以外の場合のみ）
+    if (formData.presetGenre && formData.presetGenre !== 'none') {
+      try {
+        var presetResult = applyGenrePresetInternal_(sheet, formData.presetGenre, formData.presetWeight);
+        if (presetResult.success) {
+          var genreName = formData.presetGenre === 'game' ? 'ゲームソフト' : 'トレーディングカード';
+          msg += '\n\n【プリセット適用】\n' + genreName + '（' + formData.presetWeight + 'g）を適用しました。\n\n※重要: O2セルに専用テンプレートを設定してください。';
+          Logger.log('プリセット適用完了: ' + genreName + ' / ' + formData.presetWeight + 'g');
+        } else {
+          msg += '\n\n【プリセット適用エラー】\n' + presetResult.error;
+          Logger.log('プリセット適用エラー: ' + presetResult.error);
+        }
+      } catch (e) {
+        msg += '\n\n【プリセット適用エラー】\n' + e.message;
+        Logger.log('プリセット適用で例外発生: ' + e.message);
+      }
+    }
+
     if (showPopups === 'true') {
       ui.alert('設定保存', msg, ui.ButtonSet.OK);
     }
@@ -2992,24 +3010,20 @@ function saveIntegratedSettings(formData) {
 }
 
 /**
- * ゲーム・トレカ プリセット適用
- * SetupDialogから呼び出され、作業シートに直接プリセット値を書き込む
+ * ゲーム・トレカ プリセット適用（内部関数）
+ * saveIntegratedSettingsから呼び出され、作業シートにプリセット値を書き込む
+ * @param {Sheet} sheet - 作業シート
  * @param {string} genre - 'game' または 'card'
  * @param {string} weight - '100', '200', '300'
  * @return {Object} { success: boolean, error?: string }
  */
-function applyGenrePreset(genre, weight) {
+function applyGenrePresetInternal_(sheet, genre, weight) {
   try {
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var docProps = PropertiesService.getDocumentProperties();
-    var sheetName = docProps.getProperty('WORK_SHEET_NAME') || '作業';
-    var sheet = ss.getSheetByName(sheetName);
-
     if (!sheet) {
-      return { success: false, error: 'シート「' + sheetName + '」が見つかりません' };
+      return { success: false, error: 'シートが指定されていません' };
     }
 
-    Logger.log('[applyGenrePreset] ジャンル: ' + genre + ', 重量: ' + weight + 'g');
+    Logger.log('[applyGenrePresetInternal_] ジャンル: ' + genre + ', 重量: ' + weight + 'g');
 
     // プリセット値の定義
     var presets = {
@@ -3040,33 +3054,33 @@ function applyGenrePreset(genre, weight) {
     // 各セルに値を書き込み
     // O1: カテゴリ
     sheet.getRange('O1').setValue(preset.o1);
-    Logger.log('[applyGenrePreset] O1 = ' + preset.o1);
+    Logger.log('[applyGenrePresetInternal_] O1 = ' + preset.o1);
 
     // AJ5: 送料計算方法 = 固定金額
     sheet.getRange('AJ5').setValue('固定金額');
-    Logger.log('[applyGenrePreset] AJ5 = 固定金額');
+    Logger.log('[applyGenrePresetInternal_] AJ5 = 固定金額');
 
     // AJ2: 低価格配送 = Cpass Economy
     sheet.getRange('AJ2').setValue('Cpass Economy');
-    Logger.log('[applyGenrePreset] AJ2 = Cpass Economy');
+    Logger.log('[applyGenrePresetInternal_] AJ2 = Cpass Economy');
 
     // AP3: 関税閾値
     sheet.getRange('AP3').setValue(preset.ap3);
-    Logger.log('[applyGenrePreset] AP3 = ' + preset.ap3);
+    Logger.log('[applyGenrePresetInternal_] AP3 = ' + preset.ap3);
 
     // J1: eパケット送料
     sheet.getRange('J1').setValue(shipping.j1);
-    Logger.log('[applyGenrePreset] J1 = ' + shipping.j1);
+    Logger.log('[applyGenrePresetInternal_] J1 = ' + shipping.j1);
 
     // AC2: EU送料差額
     sheet.getRange('AC2').setValue(shipping.ac2);
-    Logger.log('[applyGenrePreset] AC2 = ' + shipping.ac2);
+    Logger.log('[applyGenrePresetInternal_] AC2 = ' + shipping.ac2);
 
-    Logger.log('[applyGenrePreset] プリセット適用完了');
+    Logger.log('[applyGenrePresetInternal_] プリセット適用完了');
     return { success: true };
 
   } catch (e) {
-    Logger.log('[applyGenrePreset] エラー: ' + e.message);
+    Logger.log('[applyGenrePresetInternal_] エラー: ' + e.message);
     return { success: false, error: e.message };
   }
 }

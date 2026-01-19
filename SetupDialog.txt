@@ -777,12 +777,13 @@
               <div style="flex: 1; min-width: 200px;">
                 <label style="margin-top: 0; font-size: 13px;">ジャンル選択</label>
                 <div class="radio-group">
+                  <label><input type="radio" name="presetGenre" value="none" checked> 指定なし</label>
                   <label><input type="radio" name="presetGenre" value="game"> ゲームソフト</label>
                   <label><input type="radio" name="presetGenre" value="card"> トレーディングカード</label>
                 </div>
               </div>
 
-              <div style="flex: 1; min-width: 150px;">
+              <div style="flex: 1; min-width: 150px;" id="presetWeightGroup">
                 <label style="margin-top: 0; font-size: 13px;">想定重量</label>
                 <select id="presetWeight" name="presetWeight" style="width: 100%;">
                   <option value="100">100g</option>
@@ -790,20 +791,22 @@
                   <option value="300">300g</option>
                 </select>
               </div>
-
-              <div style="flex: 0 0 auto; align-self: flex-end;">
-                <button type="button" class="btn secondary" id="applyPresetBtn" onclick="applyGenrePreset()">
-                  プリセット適用
-                </button>
-              </div>
             </div>
 
             <div class="info-box" style="margin-top: 12px;">
-              <div class="title">プリセットで設定される項目</div>
+              <div class="title">プリセットで設定される項目（保存時に適用）</div>
               <div class="content">
                 <strong>ゲームソフト:</strong> O1=Video Games（$20）/ 関税閾値$20 / 送料計算=固定金額<br>
                 <strong>トレカ:</strong> O1=汎用（上限なし）/ 関税閾値$390 / 送料計算=固定金額<br>
                 <strong>共通:</strong> 低価格配送=Cpass Economy / 送料・EU差額は重量で自動設定
+              </div>
+            </div>
+
+            <div class="warning-box" style="margin-top: 10px;">
+              <div class="title">重要</div>
+              <div class="content">
+                プリセット適用後は、必ずO2セルに専用テンプレートを設定してください。<br>
+                テンプレート未設定では出品できません。
               </div>
             </div>
           </div>
@@ -1312,7 +1315,11 @@
         lowPriceMethod: document.getElementById('lowPriceMethod').value,
         highPriceMethod: document.getElementById('highPriceMethod').value,
         updateShippingRates: document.getElementById('updateShippingRates').checked,
-        
+
+        // プリセット設定
+        presetGenre: document.querySelector('input[name="presetGenre"]:checked').value,
+        presetWeight: document.getElementById('presetWeight').value,
+
         // 重複チェック設定
         duplicateCheckEnabled: document.getElementById('duplicateCheckEnabled').checked,
         duplicateSourceSheet: document.getElementById('duplicateSourceSheet').value,
@@ -1343,82 +1350,6 @@
           alert('エラーが発生しました: ' + (error && error.message ? error.message : error));
         })
         .saveIntegratedSettings(formData);
-    }
-
-    // ゲーム・トレカ プリセット適用
-    function applyGenrePreset() {
-      const genreRadio = document.querySelector('input[name="presetGenre"]:checked');
-      if (!genreRadio) {
-        alert('ジャンルを選択してください。');
-        return;
-      }
-
-      const genre = genreRadio.value;
-      const weight = document.getElementById('presetWeight').value;
-
-      // ジャンル名と設定内容の表示
-      const genreName = genre === 'game' ? 'ゲームソフト' : 'トレーディングカード';
-      const o1Value = genre === 'game' ? 'Video Games（$20）' : '汎用（上限なし）';
-      const ap3Value = genre === 'game' ? '20' : '390';
-
-      // 重量別送料設定
-      const shippingByWeight = {
-        '100': { j1: 880, ac2: 347 },
-        '200': { j1: 1060, ac2: 307 },
-        '300': { j1: 1240, ac2: 341 }
-      };
-      const shipping = shippingByWeight[weight];
-
-      // 確認ダイアログ
-      const confirmMsg =
-        '以下のプリセットを適用しますか？\n\n' +
-        '【ジャンル】' + genreName + '\n' +
-        '【想定重量】' + weight + 'g\n\n' +
-        '【設定内容】\n' +
-        '・O1（カテゴリ）: ' + o1Value + '\n' +
-        '・AJ5（送料計算方法）: 固定金額\n' +
-        '・AJ2（低価格配送）: Cpass Economy\n' +
-        '・AP3（関税閾値）: $' + ap3Value + '\n' +
-        '・J1（eパケット送料）: ' + shipping.j1 + '円\n' +
-        '・AC2（EU送料差額）: ' + shipping.ac2 + '円\n\n' +
-        '【重要】プリセット適用後、必ずO2セルに\n' +
-        '専用のテンプレートを設定してください。\n' +
-        '（テンプレート未設定では出品できません）';
-
-      if (!confirm(confirmMsg)) {
-        return;
-      }
-
-      // プリセット適用ボタンを無効化
-      const btn = document.getElementById('applyPresetBtn');
-      const originalText = btn.textContent;
-      btn.disabled = true;
-      btn.textContent = '適用中...';
-
-      // サーバー側でプリセット適用
-      google.script.run
-        .withSuccessHandler(function(result) {
-          btn.disabled = false;
-          btn.textContent = originalText;
-          if (result.success) {
-            alert(
-              '【プリセット適用完了】\n\n' +
-              genreName + 'プリセット（' + weight + 'g）を適用しました。\n\n' +
-              '【重要】次の作業を行ってください：\n' +
-              '1. O2セルに専用のテンプレートを設定\n' +
-              '   （ゲーム用 / トレカ用）\n\n' +
-              'テンプレートを設定しないと出品できません。'
-            );
-          } else {
-            alert('プリセット適用に失敗しました: ' + result.error);
-          }
-        })
-        .withFailureHandler(function(error) {
-          btn.disabled = false;
-          btn.textContent = originalText;
-          alert('エラーが発生しました: ' + (error && error.message ? error.message : error));
-        })
-        .applyGenrePreset(genre, weight);
     }
   </script>
 </body>
