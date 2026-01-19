@@ -89,23 +89,33 @@ function savePromptContent(promptId, newContent) {
 
 function initialSetup() {
   var ui = SpreadsheetApp.getUi();
-  var props = PropertiesService.getScriptProperties();
+  // ライブラリではDocumentPropertiesを使用（スプレッドシートに紐づく）
+  // ScriptPropertiesはライブラリ自身のプロパティを参照するため使用不可
   var docProps = PropertiesService.getDocumentProperties();
+  var props = docProps; // 後方互換のためpropsもdocPropsを参照
   try {
     var tmpl;
     try {
+      // まず .html ファイルを探す（ユーザーシート用）
       tmpl = HtmlService.createTemplateFromFile('SetupDialog');
     } catch (_) {
-      tmpl = null;
+      // なければ HtmlTemplates.gs から取得（ライブラリ用）
+      try {
+        var htmlContent = getHtmlTemplate('SetupDialog');
+        if (htmlContent) {
+          tmpl = HtmlService.createTemplate(htmlContent);
+        }
+      } catch (_) {
+        tmpl = null;
+      }
     }
     if (!tmpl) {
       ui.alert('初期設定', 'SetupDialog.html が無いので簡易案内を表示します。', ui.ButtonSet.OK);
       return;
     }
-    
+
     // 既存の設定変数
     // APIキーはDocumentPropertiesから取得（スプレッドシートに紐づく、ライブラリ更新で消えない）
-    var docProps = PropertiesService.getDocumentProperties();
     var openaiKey = docProps.getProperty('OPENAI_API_KEY') || '';
     var claudeKey = docProps.getProperty('CLAUDE_API_KEY') || '';
     var geminiKey = docProps.getProperty('GEMINI_API_KEY') || '';

@@ -89,8 +89,10 @@ function savePromptContent(promptId, newContent) {
 
 function initialSetup() {
   var ui = SpreadsheetApp.getUi();
-  var props = PropertiesService.getScriptProperties();
+  // ライブラリではDocumentPropertiesを使用（スプレッドシートに紐づく）
+  // ScriptPropertiesはライブラリ自身のプロパティを参照するため使用不可
   var docProps = PropertiesService.getDocumentProperties();
+  var props = docProps; // 後方互換のためpropsもdocPropsを参照
   try {
     var tmpl;
     try {
