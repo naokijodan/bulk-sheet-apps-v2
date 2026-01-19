@@ -64,11 +64,7 @@ function checkLibraryUpdate() {
         note = note.substring(0, 47) + '...';
       }
       var message = 'v' + latest.version + ' (' + latest.date + ')\n' + note;
-      SpreadsheetApp.getActiveSpreadsheet().toast(
-        message,
-        '📢 ライブラリ更新あり',
-        20
-      );
+      SpreadsheetApp.getUi().alert('📢 ライブラリ更新あり', message, SpreadsheetApp.getUi().ButtonSet.OK);
     }
 
   } catch (e) {
