@@ -194,11 +194,10 @@ var CONFIG = {
   設定の取得
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function getSettings() {
-  var props = PropertiesService.getDocumentProperties();
+  // すべての永続設定はDocumentPropertiesから取得（スプレッドシートに紐づく、ライブラリ更新で消えない）
   var docProps = PropertiesService.getDocumentProperties();
-  var platform = props.getProperty('AI_PLATFORM') || 'openai';
-  var model = props.getProperty('AI_MODEL') || 'gpt-5-nano';
-  // APIキーはDocumentPropertiesから取得（スプレッドシートに紐づく、ライブラリ更新で消えない）
+  var platform = docProps.getProperty('AI_PLATFORM') || 'openai';
+  var model = docProps.getProperty('AI_MODEL') || 'gpt-5-nano';
   var apiKey = (platform==='openai') ? docProps.getProperty('OPENAI_API_KEY') :
                (platform==='claude') ? docProps.getProperty('CLAUDE_API_KEY') :
                (platform==='gemini') ? docProps.getProperty('GEMINI_API_KEY') : '';
@@ -207,22 +206,22 @@ function getSettings() {
     platform: platform,
     model: model,
     apiKey: apiKey,
-    sheetName: props.getProperty('SHEET_NAME'),
-    profitCalculationMethod: props.getProperty('PROFIT_CALC_METHOD'),
-    promptId: props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT',
-    shippingThreshold: parseFloat(props.getProperty('SHIPPING_THRESHOLD')) || 5500,
-    shippingCalculationMethod: props.getProperty('SHIPPING_CALC_METHOD') || 'TABLE',
-    lowPriceShippingMethod: props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'EP',
-    highPriceShippingMethod: props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF',
+    sheetName: docProps.getProperty('SHEET_NAME'),
+    profitCalculationMethod: docProps.getProperty('PROFIT_CALC_METHOD'),
+    promptId: docProps.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT',
+    shippingThreshold: parseFloat(docProps.getProperty('SHIPPING_THRESHOLD')) || 5500,
+    shippingCalculationMethod: docProps.getProperty('SHIPPING_CALC_METHOD') || 'TABLE',
+    lowPriceShippingMethod: docProps.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'NONE',
+    highPriceShippingMethod: docProps.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF',
 
-    // DDU設定はDocumentPropertiesから取得（スプレッドシートに紐づく）
+    // DDU設定
     dduAdjustmentEnabled: docProps.getProperty('DDU_ADJUSTMENT_ENABLED') === 'true',
     dduThreshold: parseFloat(docProps.getProperty('DDU_THRESHOLD')) || CONFIG.DDU_PRICE_ADJUSTMENT.DEFAULT_THRESHOLD,
     dduAdjustmentAmount: parseFloat(docProps.getProperty('DDU_ADJUSTMENT_AMOUNT')) || CONFIG.DDU_PRICE_ADJUSTMENT.DEFAULT_ADJUSTMENT,
 
-    priceDisplayMode: props.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL',
+    priceDisplayMode: docProps.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL',
 
-    duplicateCheckEnabled: props.getProperty('DUPLICATE_CHECK_ENABLED') === 'true'
+    duplicateCheckEnabled: docProps.getProperty('DUPLICATE_CHECK_ENABLED') === 'true'
   };
 
   var missing = [];

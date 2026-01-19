@@ -113,9 +113,10 @@ function initialSetup() {
       ui.alert('初期設定', 'SetupDialog.html が無いので簡易案内を表示します。', ui.ButtonSet.OK);
       return;
     }
-
+    
     // 既存の設定変数
     // APIキーはDocumentPropertiesから取得（スプレッドシートに紐づく、ライブラリ更新で消えない）
+    var docProps = PropertiesService.getDocumentProperties();
     var openaiKey = docProps.getProperty('OPENAI_API_KEY') || '';
     var claudeKey = docProps.getProperty('CLAUDE_API_KEY') || '';
     var geminiKey = docProps.getProperty('GEMINI_API_KEY') || '';

@@ -1,5 +1,5 @@
 // EAGLE APIトークン連携システム - シンプル版（8列限定・新仕様対応）
-// 暗号化なし、平文保存で確実動作
+// 暗号化保存対応版
 
 // 固定設定
 const API_URL = "https://e-agle.net/api/ebay_items/list";
@@ -37,7 +37,9 @@ const COLUMN_PRESETS = {
 };
 
 /**
- * APIトークンを平文で保存（無期限）
+ * APIトークンを保存（無期限）
+ * DocumentPropertiesを使用（スプレッドシートごとに独立）
+ * 注意: 暗号化は別途実装予定
  */
 function saveApiToken(apiToken) {
   try {
@@ -45,8 +47,11 @@ function saveApiToken(apiToken) {
       throw new Error('無効なAPIトークンです');
     }
 
-    const properties = PropertiesService.getDocumentProperties();
-    properties.setProperties({
+    // DocumentPropertiesを使用（スプレッドシートごとに独立、コピー時は引き継がれない）
+    const docProps = PropertiesService.getDocumentProperties();
+
+    // 一時的に平文で保存（暗号化は別途実装予定）
+    docProps.setProperties({
       'eagle_api_token': apiToken.trim(),
       'eagle_saved_at': new Date().toISOString()
     });
@@ -65,8 +70,8 @@ function saveApiToken(apiToken) {
  */
 function saveSelectedColumns(selectedColumns) {
   try {
-    const properties = PropertiesService.getDocumentProperties();
-    properties.setProperty('eagle_selected_columns', JSON.stringify(selectedColumns));
+    const docProps = PropertiesService.getDocumentProperties();
+    docProps.setProperty('eagle_selected_columns', JSON.stringify(selectedColumns));
     console.log('✅ 選択列設定を保存:', selectedColumns);
     return true;
   } catch (error) {
@@ -80,8 +85,8 @@ function saveSelectedColumns(selectedColumns) {
  */
 function getSelectedColumns() {
   try {
-    const properties = PropertiesService.getDocumentProperties();
-    const saved = properties.getProperty('eagle_selected_columns');
+    const docProps = PropertiesService.getDocumentProperties();
+    const saved = docProps.getProperty('eagle_selected_columns');
     if (saved) {
       return JSON.parse(saved);
     }
@@ -95,20 +100,22 @@ function getSelectedColumns() {
 
 /**
  * 保存されたAPIトークンを取得（無期限）
+ * 注意: 暗号化は別途実装予定
  */
 function getApiToken() {
   try {
-    const properties = PropertiesService.getDocumentProperties();
+    const docProps = PropertiesService.getDocumentProperties();
 
-    const apiToken = properties.getProperty('eagle_api_token');
+    const apiToken = docProps.getProperty('eagle_api_token');
 
     if (!apiToken) {
       console.log('⚠️ 保存されたAPIトークンがありません');
       return null;
     }
-    
+
+    // 一時的に平文で取得（暗号化は別途実装予定）
     return apiToken;
-    
+
   } catch (error) {
     console.error('❌ APIトークン取得エラー:', error);
     clearApiToken();
@@ -117,12 +124,38 @@ function getApiToken() {
 }
 
 /**
+ * APIトークンが設定済みかどうかを確認（マスク表示用）
+ * @return {Object} {hasToken: boolean, maskedToken: string}
+ */
+function getApiTokenStatus() {
+  try {
+    const docProps = PropertiesService.getDocumentProperties();
+    const apiToken = docProps.getProperty('eagle_api_token');
+
+    if (apiToken && apiToken.length > 0) {
+      // 末尾4文字を表示、残りをマスク
+      const visibleLength = Math.min(4, apiToken.length);
+      const maskedPart = '••••••••';
+      const visiblePart = apiToken.slice(-visibleLength);
+      return {
+        hasToken: true,
+        maskedToken: maskedPart + visiblePart
+      };
+    }
+    return { hasToken: false, maskedToken: '' };
+  } catch (error) {
+    console.error('❌ APIトークン状態確認エラー:', error);
+    return { hasToken: false, maskedToken: '' };
+  }
+}
+
+/**
  * 保存されたAPIトークンをクリア
  */
 function clearApiToken() {
-  const properties = PropertiesService.getDocumentProperties();
-  properties.deleteProperty('eagle_api_token');
-  properties.deleteProperty('eagle_saved_at');
+  const docProps = PropertiesService.getDocumentProperties();
+  docProps.deleteProperty('eagle_api_token');
+  docProps.deleteProperty('eagle_saved_at');
   console.log('保存されたAPIトークンを削除しました');
 }
 
@@ -130,9 +163,9 @@ function clearApiToken() {
  * APIトークンの状態を確認（無期限版）
  */
 function checkApiTokenExpiry() {
-  const properties = PropertiesService.getDocumentProperties();
-  const apiToken = properties.getProperty('eagle_api_token');
-  const savedAt = properties.getProperty('eagle_saved_at');
+  const docProps = PropertiesService.getDocumentProperties();
+  const apiToken = docProps.getProperty('eagle_api_token');
+  const savedAt = docProps.getProperty('eagle_saved_at');
 
   const ui = SpreadsheetApp.getUi();
 
@@ -239,7 +272,8 @@ function confirmCurrentSettings() {
 function getApiTokenDialog() {
   const savedColumns = getSelectedColumns();
   const isFirstTime = isFirstTimeSetup(); // 初回判定
-  
+  const tokenStatus = getApiTokenStatus(); // APIトークンの状態を取得
+
   // 列選択のチェックボックス生成（8列のみ）
   const columnCheckboxes = AVAILABLE_COLUMNS.map(col => {
     const checked = savedColumns.includes(col.key) ? 'checked' : '';
@@ -519,6 +553,41 @@ function getApiTokenDialog() {
           margin-left: 10px;
           font-weight: normal;
         }
+        .existing-token-info {
+          background: #d4edda;
+          border: 1px solid #c3e6cb;
+          padding: 12px;
+          border-radius: 5px;
+          margin-bottom: 15px;
+        }
+        .token-status {
+          font-weight: bold;
+          color: #155724;
+          margin-bottom: 5px;
+        }
+        .token-masked {
+          font-family: monospace;
+          font-size: 16px;
+          color: #666;
+          letter-spacing: 2px;
+        }
+        .keep-token-label {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          font-weight: normal !important;
+          color: #333;
+        }
+        .keep-token-label input[type="checkbox"] {
+          margin-right: 10px;
+          width: 18px;
+          height: 18px;
+        }
+        .token-input-group {
+          margin-top: 15px;
+          padding-top: 15px;
+          border-top: 1px dashed #ddd;
+        }
       </style>
     </head>
     <body>
@@ -537,11 +606,29 @@ function getApiTokenDialog() {
         
         <div class="section">
           <h3>🔑 APIトークン</h3>
+          ${tokenStatus.hasToken ? `
+          <div class="existing-token-info">
+            <div class="token-status">✅ APIトークンは設定済みです</div>
+            <div class="token-masked">${tokenStatus.maskedToken}</div>
+          </div>
+          <div class="form-group">
+            <label class="checkbox-label keep-token-label">
+              <input type="checkbox" id="keepExistingToken" checked onchange="toggleTokenInput()">
+              <span>既存のトークンを維持する</span>
+            </label>
+          </div>
+          <div class="form-group token-input-group" id="tokenInputGroup" style="display: none;">
+            <label for="apiToken">新しいAPIトークン</label>
+            <input type="text" id="apiToken" placeholder="新しいAPIトークンを貼り付けてください">
+            <div class="note">変更する場合のみ入力してください</div>
+          </div>
+          ` : `
           <div class="form-group">
             <label for="apiToken">APIトークン</label>
             <input type="text" id="apiToken" required placeholder="APIトークンを貼り付けてください">
             <div class="note">EAGLEの設定画面からコピーしたAPIトークンを入力</div>
           </div>
+          `}
         </div>
         
         <div class="template-policy-option">
@@ -597,9 +684,19 @@ function getApiTokenDialog() {
         // プリセット設定
         const presets = ${JSON.stringify(COLUMN_PRESETS)};
         const isFirstTime = ${isFirstTime};
-        
+        const hasExistingToken = ${tokenStatus.hasToken};
+
         // 初期化
         updateSelectedInfo();
+
+        // トークン入力欄の表示切り替え
+        function toggleTokenInput() {
+          const keepExisting = document.getElementById('keepExistingToken');
+          const tokenInputGroup = document.getElementById('tokenInputGroup');
+          if (keepExisting && tokenInputGroup) {
+            tokenInputGroup.style.display = keepExisting.checked ? 'none' : 'block';
+          }
+        }
         
         // プリセット適用
         function applyPreset(presetKey) {
@@ -663,43 +760,55 @@ function getApiTokenDialog() {
         
         // 設定保存
         function saveSettings() {
-          const apiToken = document.getElementById('apiToken').value.trim();
+          const keepExistingTokenCheckbox = document.getElementById('keepExistingToken');
+          const keepExistingToken = keepExistingTokenCheckbox ? keepExistingTokenCheckbox.checked : false;
+          const apiTokenInput = document.getElementById('apiToken');
+          const apiToken = apiTokenInput ? apiTokenInput.value.trim() : '';
           const selectedColumns = Array.from(document.querySelectorAll('input[name="columns"]:checked'))
             .map(cb => cb.value);
           const fetchTemplatePolicy = document.getElementById('fetchTemplatePolicy').checked;
-          
+
           // バリデーション
-          if (!apiToken) {
+          if (!hasExistingToken && !apiToken) {
             alert('APIトークンを入力してください');
             return;
           }
-          
-          if (apiToken.length < 10) {
+
+          if (!keepExistingToken && apiToken && apiToken.length < 10) {
             alert('APIトークンが短すぎます。正しいトークンを入力してください。');
             return;
           }
-          
+
+          if (!keepExistingToken && !apiToken) {
+            alert('新しいAPIトークンを入力してください');
+            return;
+          }
+
           if (selectedColumns.length === 0) {
             alert('少なくとも1つの列を選択してください');
             return;
           }
-          
+
           // 確認ダイアログ
-          let confirmMsg = 
-            '設定を確認してください:\\n\\n' +
-            'APIトークン: ' + apiToken.substring(0, 10) + '...' + apiToken.substring(apiToken.length - 4) + '\\n' +
-            '選択列数: ' + selectedColumns.length + '列\\n';
-          
+          let confirmMsg = '設定を確認してください:\\n\\n';
+          if (keepExistingToken) {
+            confirmMsg += 'APIトークン: 既存のトークンを維持\\n';
+          } else {
+            confirmMsg += 'APIトークン: ' + apiToken.substring(0, 10) + '...' + apiToken.substring(apiToken.length - 4) + '\\n';
+          }
+          confirmMsg += '選択列数: ' + selectedColumns.length + '列\\n';
+
           if (fetchTemplatePolicy) {
             confirmMsg += 'テンプレート・ポリシー: 取得する\\n';
           } else {
             confirmMsg += 'テンプレート・ポリシー: 取得しない\\n';
           }
-          
+
           confirmMsg += '\\n設定を保存して処理を開始しますか？';
-          
+
           if (confirm(confirmMsg)) {
-            // サーバー側関数を呼び出し
+            // サーバー側関数を呼び出し（keepExistingTokenの場合はnullを送る）
+            const tokenToSave = keepExistingToken ? null : apiToken;
             google.script.run
               .withSuccessHandler(function(result) {
                 if (result.success) {
@@ -712,7 +821,7 @@ function getApiTokenDialog() {
               .withFailureHandler(function(error) {
                 alert('❌ 保存に失敗しました: ' + error.toString());
               })
-              .saveAndExecuteSetup(apiToken, selectedColumns, fetchTemplatePolicy);
+              .saveAndExecuteSetup(tokenToSave, selectedColumns, fetchTemplatePolicy);
           }
         }
       </script>
@@ -1023,7 +1132,7 @@ function updateEagleData() {
       
       showProgressNotification('📊 商品データ取得中...');
       
-      const data = fetchEagleData(apiToken, selectedColumns);
+      const data = fetchEagleData(effectiveToken, selectedColumns);
       
       if (!data) {
         throw new Error('データ取得に失敗しました');
@@ -1199,14 +1308,14 @@ function manageApiToken() {
  */
 function debugApiToken() {
   console.log("=== APIトークンデバッグ（シンプル版） ===");
-  
-  const properties = PropertiesService.getDocumentProperties();
-  const apiToken = properties.getProperty('eagle_api_token');
-  const expiryTime = properties.getProperty('eagle_expiry');
+
+  const docProps = PropertiesService.getDocumentProperties();
+  const apiToken = docProps.getProperty('eagle_api_token');
+  const savedAt = docProps.getProperty('eagle_saved_at');
   const selectedColumns = getSelectedColumns();
   
   console.log("APIトークン:", apiToken ? "保存済み" : "未保存");
-  console.log("有効期限:", expiryTime ? new Date(parseInt(expiryTime)).toLocaleString() : "未設定");
+  console.log("保存日時:", savedAt ? new Date(savedAt).toLocaleString() : "未設定");
   console.log("選択列:", selectedColumns);
   console.log("利用可能列数:", AVAILABLE_COLUMNS.length);
   console.log("送信形式:", "配列（新仕様）");
@@ -1614,18 +1723,38 @@ function saveAndExecuteSetup(apiToken, selectedColumns, fetchTemplatePolicy) {
     console.log('=== セットアップ開始 ===');
     console.log('テンプレート・ポリシー取得:', fetchTemplatePolicy);
     console.log('選択列数:', selectedColumns.length);
-    
+    console.log('APIトークン:', apiToken ? '新規設定' : '既存維持');
+
     // ステップ1: APIトークンと列選択を保存
-    const tokenSaved = saveApiToken(apiToken, 7);
+    // apiTokenがnullの場合は既存トークンを維持（保存をスキップ）
+    let tokenSaved = true;
+    let effectiveToken = apiToken;
+
+    if (apiToken === null) {
+      // 既存トークンを使用
+      effectiveToken = getApiToken();
+      if (!effectiveToken) {
+        return {
+          success: false,
+          error: '既存のAPIトークンが見つかりません。新しいトークンを入力してください。'
+        };
+      }
+      console.log('✅ 既存APIトークンを維持');
+    } else {
+      // 新しいトークンを保存
+      tokenSaved = saveApiToken(apiToken);
+      effectiveToken = apiToken;
+    }
+
     const columnsSaved = saveSelectedColumns(selectedColumns);
-    
+
     if (!tokenSaved || !columnsSaved) {
-      return { 
-        success: false, 
-        error: '設定の保存に失敗しました' 
+      return {
+        success: false,
+        error: '設定の保存に失敗しました'
       };
     }
-    
+
     console.log('✅ ステップ1: 設定保存完了');
     
     // ステップ2: テンプレート・ポリシー取得（チェックされている場合のみ）
@@ -1634,7 +1763,7 @@ function saveAndExecuteSetup(apiToken, selectedColumns, fetchTemplatePolicy) {
         // 開始通知
         showProgressNotification('📥 テンプレート取得中...');
         
-        const templates = fetchTemplatesFromEagle(apiToken);
+        const templates = fetchTemplatesFromEagle(effectiveToken);
         
         showProgressNotification(
           `✅ テンプレート取得完了\n\n${templates.length}件のテンプレートを取得しました`
@@ -1643,7 +1772,7 @@ function saveAndExecuteSetup(apiToken, selectedColumns, fetchTemplatePolicy) {
         // ポリシー取得
         showProgressNotification('📥 ポリシー取得中...');
         
-        const policies = fetchShippingPoliciesFromEagle(apiToken);
+        const policies = fetchShippingPoliciesFromEagle(effectiveToken);
         
         showProgressNotification(
           `✅ ポリシー取得完了\n\n${policies.length}件のポリシーを取得しました`
@@ -1720,7 +1849,7 @@ function saveAndExecuteSetup(apiToken, selectedColumns, fetchTemplatePolicy) {
     // ステップ3: 商品データ取得
     showProgressNotification('📊 商品データ取得中...');
     
-    const data = fetchEagleData(apiToken, selectedColumns);
+    const data = fetchEagleData(effectiveToken, selectedColumns);
     
     if (!data) {
       return {

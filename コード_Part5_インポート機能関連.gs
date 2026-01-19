@@ -274,9 +274,9 @@ function addReadmeMenu_() {
 
 // 前回の設定を取得
 function getPreviousSettings() {
-  var userProperties = PropertiesService.getUserProperties();
-  var settingsJson = userProperties.getProperty('templatePolicySettings');
-  
+  var docProps = PropertiesService.getDocumentProperties();
+  var settingsJson = docProps.getProperty('templatePolicySettings');
+
   if (settingsJson) {
     return JSON.parse(settingsJson);
   }
@@ -286,9 +286,9 @@ function getPreviousSettings() {
 // 設定を適用して保存
 function applyUnifiedSettingsWithSave(category, templateName, templateMode, policyMode, manualPolicyId, settings) {
   // 設定を保存
-  var userProperties = PropertiesService.getUserProperties();
-  userProperties.setProperty('templatePolicySettings', JSON.stringify(settings));
-  
+  var docProps = PropertiesService.getDocumentProperties();
+  docProps.setProperty('templatePolicySettings', JSON.stringify(settings));
+
   // 既存の適用処理を実行
   return applyUnifiedSettings(category, templateName, templateMode, policyMode, manualPolicyId);
 }
@@ -302,7 +302,7 @@ function applyUnifiedSettingsWithSave(category, templateName, templateMode, poli
 
 function showDataImportDialog() {
   try {
-    var html = HtmlService.createHtmlOutputFromFile('UnifiedDataImportDialog')
+    var html = createHtmlFromTemplate('UnifiedDataImportDialog')
       .setWidth(900).setHeight(780);
     SpreadsheetApp.getUi().showModalDialog(html, '📥 データインポート');
   } catch (e) {
@@ -319,7 +319,7 @@ function showDataImportDialog() {
  */
 function showSettingsImportDialog() {
   try {
-    var html = HtmlService.createHtmlOutputFromFile('SettingsImportDialog')
+    var html = createHtmlFromTemplate('SettingsImportDialog')
       .setWidth(700).setHeight(650);
     SpreadsheetApp.getUi().showModalDialog(html, '⚙️ 初期設定インポート');
   } catch (e) {
@@ -350,7 +350,7 @@ function showSettingsImportDialog() {
  */
 function showSettingsImportDialog() {
   try {
-    var html = HtmlService.createHtmlOutputFromFile('SettingsImportDialog')
+    var html = createHtmlFromTemplate('SettingsImportDialog')
       .setWidth(700).setHeight(650);
     SpreadsheetApp.getUi().showModalDialog(html, '⚙️ 初期設定インポート');
   } catch (e) {
@@ -437,20 +437,20 @@ function getSourceSettings(sourceUrl) {
  */
 function getCurrentSettings() {
   try {
-    var props = PropertiesService.getDocumentProperties();
-    var allProps = props.getProperties();
-    
+    var docProps = PropertiesService.getDocumentProperties();
+    var allProps = docProps.getProperties();
+
     // APIキーを除外
     delete allProps.OPENAI_API_KEY;
     delete allProps.CLAUDE_API_KEY;
     delete allProps.GEMINI_API_KEY;
     delete allProps.AI_PLATFORM;  // プラットフォームもAPIキーに関連するため除外
-    
+
     return {
       success: true,
       settings: allProps
     };
-    
+
   } catch (e) {
     return { success: false, error: e.message };
   }
@@ -523,10 +523,10 @@ function importSelectedSettings(sourceUrl, mode, selectedKeys) {
     }
     
     var sourceSettings = sourceResult.settings;
-    var targetProps = PropertiesService.getDocumentProperties();
+    var docProps = PropertiesService.getDocumentProperties();
     var imported = [];
     var skipped = [];
-    
+
     // モードによって処理を分岐
     if (mode === 'all') {
       // 全設定を一括インポート（APIキー除く）
@@ -537,8 +537,8 @@ function importSelectedSettings(sourceUrl, mode, selectedKeys) {
             skipped.push(key + ' (セキュリティのため除外)');
             continue;
           }
-          
-          targetProps.setProperty(key, sourceSettings[key]);
+
+          docProps.setProperty(key, sourceSettings[key]);
           imported.push(key);
         }
       }
@@ -547,18 +547,18 @@ function importSelectedSettings(sourceUrl, mode, selectedKeys) {
       if (!selectedKeys || selectedKeys.length === 0) {
         return { success: false, error: '設定項目が選択されていません' };
       }
-      
+
       for (var i = 0; i < selectedKeys.length; i++) {
         var key = selectedKeys[i];
-        
+
         // APIキー関連はスキップ
         if (key.indexOf('API_KEY') >= 0 || key === 'AI_PLATFORM') {
           skipped.push(key + ' (セキュリティのため除外)');
           continue;
         }
-        
+
         if (sourceSettings.hasOwnProperty(key)) {
-          targetProps.setProperty(key, sourceSettings[key]);
+          docProps.setProperty(key, sourceSettings[key]);
           imported.push(key);
         } else {
           skipped.push(key + ' (インポート元に存在しません)');
@@ -607,9 +607,9 @@ function importAllSettings(sourceUrl) {
 function exportSettingsToSheet() {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var props = PropertiesService.getDocumentProperties();
-    var allProps = props.getProperties();
-    
+    var docProps = PropertiesService.getDocumentProperties();
+    var allProps = docProps.getProperties();
+
     // APIキーを除外
     delete allProps.OPENAI_API_KEY;
     delete allProps.CLAUDE_API_KEY;
