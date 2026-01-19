@@ -3060,9 +3060,9 @@ function applyGenrePresetInternal_(sheet, genre, weight) {
     sheet.getRange('AJ5').setValue('固定金額');
     Logger.log('[applyGenrePresetInternal_] AJ5 = 固定金額');
 
-    // AJ2: 低価格配送 = Cpass Economy
-    sheet.getRange('AJ2').setValue('Cpass Economy');
-    Logger.log('[applyGenrePresetInternal_] AJ2 = Cpass Economy');
+    // AJ2: 低価格配送 = Cpass Economy（重量制限なし）
+    sheet.getRange('AJ2').setValue('Cpass Economy（重量制限なし）');
+    Logger.log('[applyGenrePresetInternal_] AJ2 = Cpass Economy（重量制限なし）');
 
     // AP3: 関税閾値
     sheet.getRange('AP3').setValue(preset.ap3);
