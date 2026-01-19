@@ -1,11 +1,85 @@
 /******************************************************
  * Utils.gs - ユーティリティ関数
+ * - ライブラリ更新チェック
  * - UI関連 (アラート、確認ダイアログ)
  * - 配列・データ処理 (バッチ作成)
  * - 処理制御 (停止制御、トリガー管理)
  * - シート操作 (シート取得、行取得)
  * - カスタム関数 (テンプレートID取得、ポリシーID取得)
  ******************************************************/
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ライブラリ更新チェック
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+// 現在のライブラリバージョン（デプロイ時に更新）
+var CURRENT_LIB_VERSION = 70;
+
+// GitHubのversion.json URL
+var VERSION_JSON_URL = 'https://raw.githubusercontent.com/naokijodan/bulk-sheet-apps-v2/main/version.json';
+
+/**
+ * ライブラリの更新をチェックし、新バージョンがあればToast通知
+ * onOpenから呼び出す。1日1回のみチェック。
+ */
+function checkLibraryUpdate() {
+  var docProps = PropertiesService.getDocumentProperties();
+  var today = Utilities.formatDate(new Date(), 'JST', 'yyyy-MM-dd');
+
+  try {
+    var lastCheck = docProps.getProperty('LIB_VERSION_LAST_CHECK');
+
+    // 今日すでにチェック済みなら終了
+    if (lastCheck === today) return;
+
+    // キャッシュバスター付きURLでfetch
+    var url = VERSION_JSON_URL + '?t=' + new Date().getTime();
+    var response = UrlFetchApp.fetch(url, {
+      muteHttpExceptions: true,
+      validateHttpsCertificates: true
+    });
+
+    // チェック完了を記録（成功・失敗問わず、連続リトライ防止）
+    docProps.setProperty('LIB_VERSION_LAST_CHECK', today);
+
+    if (response.getResponseCode() !== 200) {
+      // 取得失敗時は静かに終了
+      return;
+    }
+
+    var latest = JSON.parse(response.getContentText());
+    var latestVersion = parseInt(latest.version, 10);
+
+    // バージョン番号のバリデーション
+    if (isNaN(latestVersion)) {
+      console.warn('Invalid version number in version.json');
+      return;
+    }
+
+    // 新バージョンがあれば通知
+    if (latestVersion > CURRENT_LIB_VERSION) {
+      var note = latest.note || '詳細はリリースノートをご確認ください';
+      // noteが長すぎる場合は切り詰め
+      if (note.length > 50) {
+        note = note.substring(0, 47) + '...';
+      }
+      var message = 'v' + latest.version + ' (' + latest.date + ')\n' + note;
+      SpreadsheetApp.getActiveSpreadsheet().toast(
+        message,
+        '📢 ライブラリ更新あり',
+        20
+      );
+    }
+
+  } catch (e) {
+    // エラー時も日付を記録（連続リトライ防止）
+    try {
+      docProps.setProperty('LIB_VERSION_LAST_CHECK', today);
+    } catch (_) {}
+    // 静かに失敗（ユーザーに通知しない）
+    console.warn('Library update check failed:', e);
+  }
+}
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   UI関連
