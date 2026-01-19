@@ -88,6 +88,30 @@ if (!html) {
 2. Libraryにコピーする際、HTML読み込み部分をフォールバックパターンに書き換える
 3. または、最初からフォールバックパターンで書く（両方で動作する）
 
+### ⚠️ 重要：PropertiesService の違い
+
+**ライブラリでは `ScriptProperties` は使用禁止！必ず `DocumentProperties` を使用すること！**
+
+| プロパティ | 紐づき先 | ライブラリでの動作 |
+|-----------|---------|-------------------|
+| `ScriptProperties` | スクリプトプロジェクト | ライブラリ自身の空のプロパティを参照（NG） |
+| `DocumentProperties` | スプレッドシート | ユーザーのシートの設定を正しく参照（OK） |
+
+**Libraryフォルダの.gsファイルでは、必ず以下のパターンを使用すること：**
+
+```javascript
+// ❌ NG: ScriptProperties（ライブラリでは使えない）
+var props = PropertiesService.getScriptProperties();
+
+// ✅ OK: DocumentProperties（ライブラリでも動作する）
+var docProps = PropertiesService.getDocumentProperties();
+var props = docProps; // 後方互換のためpropsもdocPropsを参照
+```
+
+**過去の事故例（2026-01-17）：**
+ルートの `コード_Part1` を単純にLibraryにコピーした結果、`ScriptProperties` が混入し、
+SetupDialogの初期値が正しく読み込めなくなった。
+
 ### 新規ファイル作成時
 
 新しい `.gs` ファイルを作成した場合：
