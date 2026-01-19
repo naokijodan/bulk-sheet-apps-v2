@@ -7,7 +7,7 @@
  ******************************************************/
 
 function getSurchargeParamsFromWorkSheet() {
-  var props = PropertiesService.getScriptProperties();
+  var props = PropertiesService.getDocumentProperties();
   var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
   var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
   if (!sh) {
@@ -40,7 +40,7 @@ function getSurchargeParamsFromWorkSheet() {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function getAirmailOverrideFlag() {
   try {
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
     var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
     if (!sh) return 0;
@@ -253,7 +253,7 @@ function applyShippingCalculations(methodId, baseRate, chargeableWeight) {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function getSelectedShippingMethod(costYen, actualWeight, volWeight, sizeString) {
   try {
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     var threshold = parseFloat(props.getProperty('SHIPPING_THRESHOLD')) || 20000;
     var lowPriceMethod = props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'EP';
     var highPriceMethod = props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF';
@@ -305,7 +305,7 @@ function getSelectedShippingMethod(costYen, actualWeight, volWeight, sizeString)
     return highPriceMethodName;
   } catch (e) {
     // エラー時は設定された高価格配送方法にフォールバック
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     var highPriceMethod = props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CF';
 
     return highPriceMethod;
@@ -314,7 +314,7 @@ function getSelectedShippingMethod(costYen, actualWeight, volWeight, sizeString)
 
 
 function selectCheapestShippingRateWithConstraints(costYen, actualWeight, volWeight, sizeString) {
-  var props = PropertiesService.getScriptProperties();
+  var props = PropertiesService.getDocumentProperties();
   var threshold = parseFloat(props.getProperty('SHIPPING_THRESHOLD')) || 20000;
   var lowPriceMethod = props.getProperty('LOW_PRICE_SHIPPING_METHOD') || 'EP';
   var highPriceMethod = props.getProperty('HIGH_PRICE_SHIPPING_METHOD') || 'CD';

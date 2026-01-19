@@ -8,7 +8,7 @@
 
 function runSelectedRowsTranslate() {
   var SCRIPT_NAME = 'runSelectedRowsTranslate';
-  var props = PropertiesService.getScriptProperties();
+  var props = PropertiesService.getDocumentProperties();
   var startTime = new Date();
 
   var totalPrompt = parseInt(props.getProperty('totalPrompt_translate') || '0');
@@ -665,7 +665,7 @@ function updateProgressSidebar_(data) {
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
 
     // スクリプトプロパティに進捗データを保存
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     props.setProperty('sidebarProgress', JSON.stringify(data));
 
     // サイドバーが開いているかチェックして更新
@@ -681,7 +681,7 @@ function updateProgressSidebar_(data) {
  */
 function getProgressData() {
   try {
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     var data = props.getProperty('sidebarProgress');
     return data ? JSON.parse(data) : { currentBatch: 0, totalBatches: 0, successCount: 0, errorCount: 0 };
   } catch (e) {
@@ -693,7 +693,7 @@ function getProgressData() {
   翻訳専用の状態クリア
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function clearProcessingState_translate() {
-  var props = PropertiesService.getScriptProperties();
+  var props = PropertiesService.getDocumentProperties();
   [
     'isProcessing_translate', 'lastProcessedRowIndex_translate',
     'totalPrompt_translate', 'totalCompletion_translate',

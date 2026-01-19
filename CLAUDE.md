@@ -153,6 +153,55 @@ SetupDialogの初期値が正しく読み込めなくなった。
 
 ---
 
+## 必須：コミット前の再確認チェックリスト
+
+**コード変更後、コミット前に必ず以下を実行すること。省略は許可されない。**
+
+### 1. ScriptProperties チェック（必須）
+
+```bash
+# Library内にScriptPropertiesが残っていないか確認
+grep -rn "getScriptProperties" Library/*.gs
+
+# ルートフォルダも確認
+grep -n "getScriptProperties" *.gs
+```
+
+**結果が「なし」であることを確認する。1件でもあれば修正必須。**
+
+### 2. ルートとLibraryの同期チェック（必須）
+
+```bash
+# 変更したファイルがLibraryにも反映されているか確認
+git diff --name-only | grep -v Library | while read f; do
+  if [ -f "Library/$f" ]; then
+    echo "要確認: $f と Library/$f"
+  fi
+done
+```
+
+### 3. HtmlTemplates.gs チェック（.txtファイル変更時）
+
+```bash
+# .txtファイルを変更した場合、HtmlTemplates.gsを再生成
+python3 Library/convert_html_to_gs.py
+
+# 全テンプレートが含まれているか確認
+grep -c "HTML_TEMPLATES\[" Library/HtmlTemplates.gs
+# 結果: 13（テンプレート数）であること
+```
+
+### 4. 変更ファイルの最終確認
+
+```bash
+git status
+git diff --stat
+```
+
+**ルートとLibraryの両方が含まれていることを確認する。**
+
+---
+
 ## その他のルール
 
 ### コミット・プッシュ

@@ -235,7 +235,7 @@ function shouldContinueProcessing() {
 }
 
 function clearProcessingState() {
-  var props = PropertiesService.getScriptProperties();
+  var props = PropertiesService.getDocumentProperties();
   [
     'isProcessing','processingMode','lastProcessedRowIndex','totalTokens',
     'totalPrompt','totalCompletion','processedCount','errorCount','skippedCount',

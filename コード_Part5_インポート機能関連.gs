@@ -437,7 +437,7 @@ function getSourceSettings(sourceUrl) {
  */
 function getCurrentSettings() {
   try {
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     var allProps = props.getProperties();
     
     // APIキーを除外
@@ -523,7 +523,7 @@ function importSelectedSettings(sourceUrl, mode, selectedKeys) {
     }
     
     var sourceSettings = sourceResult.settings;
-    var targetProps = PropertiesService.getScriptProperties();
+    var targetProps = PropertiesService.getDocumentProperties();
     var imported = [];
     var skipped = [];
     
@@ -607,7 +607,7 @@ function importAllSettings(sourceUrl) {
 function exportSettingsToSheet() {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     var allProps = props.getProperties();
     
     // APIキーを除外

@@ -2223,7 +2223,7 @@ function getTemplateFromReferenceData(priceUSD, condition) {
  */
 function saveSelectedCategory(category) {
   try {
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     props.setProperty('SELECTED_CATEGORY', category);
     console.log('カテゴリーを保存: ' + category);
   } catch (error) {
@@ -2237,7 +2237,7 @@ function saveSelectedCategory(category) {
  */
 function getSavedCategory() {
   try {
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     return props.getProperty('SELECTED_CATEGORY');
   } catch (error) {
     console.error('カテゴリー取得エラー: ' + error.message);
@@ -2250,7 +2250,7 @@ function getSavedCategory() {
  */
 function clearSavedCategory() {
   try {
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     props.deleteProperty('SELECTED_CATEGORY');
     console.log('保存されたカテゴリーをクリア');
   } catch (error) {

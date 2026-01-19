@@ -80,7 +80,7 @@ function setupExchangeRateUpdateTrigger(silent) {
  */
 function updateExchangeRateAutomatically() {
   try {
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName(sheetName);
@@ -146,7 +146,7 @@ function showAlert(message, type) {
 
 function shouldShowPopups() {
   try {
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     var showPopups = props.getProperty('SHOW_POPUPS') || 'true';
     return showPopups === 'true';
   } catch (e) {
@@ -197,7 +197,7 @@ function createBatches(array, size) {
 
 function setupStopControlCell() {
   try {
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName(sheetName);
@@ -208,7 +208,7 @@ function setupStopControlCell() {
 
 function checkStopControl() {
   try {
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
     var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
     if (!sh) return true; // シートが見つからない場合は続行
@@ -222,7 +222,7 @@ function checkStopControl() {
 
 function shouldContinueProcessing() {
   try {
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName(sheetName);
@@ -235,7 +235,7 @@ function shouldContinueProcessing() {
 }
 
 function clearProcessingState() {
-  var props = PropertiesService.getScriptProperties();
+  var props = PropertiesService.getDocumentProperties();
   [
     'isProcessing','processingMode','lastProcessedRowIndex','totalTokens',
     'totalPrompt','totalCompletion','processedCount','errorCount','skippedCount',
@@ -315,7 +315,7 @@ function getTargetRows(sheet) {
 
 function validateAndGetSheet() {
   try {
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     var sheetName = props.getProperty('SHEET_NAME');
     if (!sheetName) {
       showAlert('作業シート名が設定されていません。初期設定を実行してください。', 'error');
@@ -1112,7 +1112,7 @@ function getShippingLimitForCategory_(categoryDisplay) {
 function calculateAdjustedPriceForPolicy_(priceUSD) {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
     var sheet = ss.getSheetByName(sheetName);
 

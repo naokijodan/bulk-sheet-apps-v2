@@ -545,7 +545,7 @@ function applyShippingPolicyWithCategory(selectedCategory) {
     if (!sheet) return;
 
     // 保存された範囲を取得
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     var startRow = parseInt(props.getProperty('SHIPPING_POLICY_START_ROW'));
     var endRow = parseInt(props.getProperty('SHIPPING_POLICY_END_ROW'));
     

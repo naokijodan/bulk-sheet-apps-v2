@@ -188,7 +188,7 @@ function initialSetup() {
   設定読み込み＆検証（不足時は null 返却）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function ensureSurchargeCellsOnWorkSheet() {
-  var props = PropertiesService.getScriptProperties();
+  var props = PropertiesService.getDocumentProperties();
   var sheetName = props.getProperty('SHEET_NAME') || '作業シート';
   var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
   if (!sh) return;
@@ -973,7 +973,7 @@ function handleCategorySelection(selectedCategory) {
     showAlert('カテゴリー選択がキャンセルされました。', 'info');
     
     // 一時保存した範囲をクリア
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     props.deleteProperty('TEMPLATE_UPDATE_START_ROW');
     props.deleteProperty('TEMPLATE_UPDATE_END_ROW');
   }
@@ -996,7 +996,7 @@ function executeTemplateUpdate() {
     if (!sheet) return;
 
     // 一時保存した範囲を取得
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     var startRow = parseInt(props.getProperty('TEMPLATE_UPDATE_START_ROW'));
     var endRow = parseInt(props.getProperty('TEMPLATE_UPDATE_END_ROW'));
     
@@ -1259,7 +1259,7 @@ function processRow(sheet, row, settings, manualWeight, manualSize) {
 
 function runSelectedRows() {
   var SCRIPT_NAME = 'runSelectedRows';
-  var props = PropertiesService.getScriptProperties();
+  var props = PropertiesService.getDocumentProperties();
   var startTime = new Date();
 
   var totalPrompt = parseInt(props.getProperty('totalPrompt') || '0');
@@ -1832,7 +1832,7 @@ function retryCalculationForErrors_(sheet, errorRows, manualWeight, manualSize, 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function runSelectedRowsComplete() {
   var SCRIPT_NAME = 'runSelectedRowsComplete';
-  var props = PropertiesService.getScriptProperties();
+  var props = PropertiesService.getDocumentProperties();
   var startTime = new Date();
 
   var totalPrompt = parseInt(props.getProperty('totalPrompt_complete') || '0');
@@ -2593,7 +2593,7 @@ function runSelectedRowsComplete() {
   統合処理用の状態クリア
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function clearProcessingStateComplete_() {
-  var props = PropertiesService.getScriptProperties();
+  var props = PropertiesService.getDocumentProperties();
   [
     'isProcessing_complete', 'lastProcessedRowIndex_complete',
     'totalPrompt_complete', 'totalCompletion_complete',
@@ -2621,7 +2621,7 @@ function runSelectedRowsCompleteBatch() {
   const startRow = selection.getRow();
   const numRows = selection.getNumRows();
   
-  const props = PropertiesService.getScriptProperties();
+  const props = PropertiesService.getDocumentProperties();
   
   // 既存の進捗とトリガーをクリア
   props.deleteProperty(PROGRESS_KEY);
@@ -2662,7 +2662,7 @@ function runSelectedRowsBatch() {
   const startRow = selection.getRow();
   const numRows = selection.getNumRows();
   
-  const props = PropertiesService.getScriptProperties();
+  const props = PropertiesService.getDocumentProperties();
   
   // 既存の進捗とトリガーをクリア
   props.deleteProperty(PROGRESS_KEY);
@@ -2699,7 +2699,7 @@ function runSelectedRowsBatch() {
 // ========================================
 function continueBatchProcessing() {
   const executionStartTime = new Date().getTime();
-  const props = PropertiesService.getScriptProperties();
+  const props = PropertiesService.getDocumentProperties();
   
   let batchCount = 0;
   
@@ -2820,7 +2820,7 @@ function scheduleNextExecution() {
 
     // 進捗情報を取得してトースト表示
     try {
-      var props = PropertiesService.getScriptProperties();
+      var props = PropertiesService.getDocumentProperties();
       var progressJson = props.getProperty('BATCH_PROGRESS');
 
       if (progressJson) {
@@ -2876,7 +2876,7 @@ function deleteAllBatchTriggers() {
 // 手動で処理を継続
 // ========================================
 function resumeBatchProcessing() {
-  const props = PropertiesService.getScriptProperties();
+  const props = PropertiesService.getDocumentProperties();
   const progressJson = props.getProperty(PROGRESS_KEY);
   
   if (!progressJson) {
@@ -2897,7 +2897,7 @@ function resumeBatchProcessing() {
 // バッチ処理の進捗確認
 // ========================================
 function checkBatchProgress() {
-  const props = PropertiesService.getScriptProperties();
+  const props = PropertiesService.getDocumentProperties();
   const progressJson = props.getProperty(PROGRESS_KEY);
   
   if (!progressJson) {
@@ -2925,7 +2925,7 @@ function checkBatchProgress() {
 // バッチ処理のキャンセル
 // ========================================
 function cancelBatchProcessing() {
-  const props = PropertiesService.getScriptProperties();
+  const props = PropertiesService.getDocumentProperties();
   const progressJson = props.getProperty(PROGRESS_KEY);
   
   if (!progressJson) {
@@ -4039,7 +4039,7 @@ function setupDropdownValidation() {
 function checkCurrentValidation() {
   try {
     var ui = SpreadsheetApp.getUi();
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     var docProps = PropertiesService.getDocumentProperties();
     var platform = props.getProperty('AI_PLATFORM') || 'openai';
     var model = props.getProperty('AI_MODEL') || 'gpt-5-nano';

@@ -194,7 +194,7 @@ var CONFIG = {
   設定の取得
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function getSettings() {
-  var props = PropertiesService.getScriptProperties();
+  var props = PropertiesService.getDocumentProperties();
   var docProps = PropertiesService.getDocumentProperties();
   var platform = props.getProperty('AI_PLATFORM') || 'openai';
   var model = props.getProperty('AI_MODEL') || 'gpt-5-nano';
@@ -248,13 +248,13 @@ function getSettings() {
   価格表示モード管理
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function getPriceDisplayMode() {
-  var props = PropertiesService.getScriptProperties();
+  var props = PropertiesService.getDocumentProperties();
   var mode = props.getProperty('PRICE_DISPLAY_MODE');
   return (mode === 'TAX_INCLUDED') ? 'TAX_INCLUDED' : 'NORMAL';
 }
 
 function setPriceDisplayMode(mode, showMessage) {
-  var props = PropertiesService.getScriptProperties();
+  var props = PropertiesService.getDocumentProperties();
   var validMode = (mode === 'TAX_INCLUDED') ? 'TAX_INCLUDED' : 'NORMAL';
   props.setProperty('PRICE_DISPLAY_MODE', validMode);
 

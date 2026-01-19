@@ -9,7 +9,7 @@
 function createAIPrompt(fullText, promptId) {
   // promptIdが指定されていない場合は、スクリプトプロパティから取得（後方互換性）
   if (!promptId) {
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     promptId = props.getProperty('PROMPT_ID') || 'EBAY_FULL_LISTING_PROMPT';
   }
 

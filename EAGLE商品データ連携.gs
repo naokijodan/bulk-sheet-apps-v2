@@ -45,7 +45,7 @@ function saveApiToken(apiToken) {
       throw new Error('無効なAPIトークンです');
     }
 
-    const properties = PropertiesService.getScriptProperties();
+    const properties = PropertiesService.getDocumentProperties();
     properties.setProperties({
       'eagle_api_token': apiToken.trim(),
       'eagle_saved_at': new Date().toISOString()
@@ -65,7 +65,7 @@ function saveApiToken(apiToken) {
  */
 function saveSelectedColumns(selectedColumns) {
   try {
-    const properties = PropertiesService.getScriptProperties();
+    const properties = PropertiesService.getDocumentProperties();
     properties.setProperty('eagle_selected_columns', JSON.stringify(selectedColumns));
     console.log('✅ 選択列設定を保存:', selectedColumns);
     return true;
@@ -80,7 +80,7 @@ function saveSelectedColumns(selectedColumns) {
  */
 function getSelectedColumns() {
   try {
-    const properties = PropertiesService.getScriptProperties();
+    const properties = PropertiesService.getDocumentProperties();
     const saved = properties.getProperty('eagle_selected_columns');
     if (saved) {
       return JSON.parse(saved);
@@ -98,7 +98,7 @@ function getSelectedColumns() {
  */
 function getApiToken() {
   try {
-    const properties = PropertiesService.getScriptProperties();
+    const properties = PropertiesService.getDocumentProperties();
 
     const apiToken = properties.getProperty('eagle_api_token');
 
@@ -120,7 +120,7 @@ function getApiToken() {
  * 保存されたAPIトークンをクリア
  */
 function clearApiToken() {
-  const properties = PropertiesService.getScriptProperties();
+  const properties = PropertiesService.getDocumentProperties();
   properties.deleteProperty('eagle_api_token');
   properties.deleteProperty('eagle_saved_at');
   console.log('保存されたAPIトークンを削除しました');
@@ -130,7 +130,7 @@ function clearApiToken() {
  * APIトークンの状態を確認（無期限版）
  */
 function checkApiTokenExpiry() {
-  const properties = PropertiesService.getScriptProperties();
+  const properties = PropertiesService.getDocumentProperties();
   const apiToken = properties.getProperty('eagle_api_token');
   const savedAt = properties.getProperty('eagle_saved_at');
 
@@ -1200,7 +1200,7 @@ function manageApiToken() {
 function debugApiToken() {
   console.log("=== APIトークンデバッグ（シンプル版） ===");
   
-  const properties = PropertiesService.getScriptProperties();
+  const properties = PropertiesService.getDocumentProperties();
   const apiToken = properties.getProperty('eagle_api_token');
   const expiryTime = properties.getProperty('eagle_expiry');
   const selectedColumns = getSelectedColumns();

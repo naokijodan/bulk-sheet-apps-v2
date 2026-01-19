@@ -548,7 +548,7 @@ function setTemplateAndPolicyForSelectedRows() {
     }
 
     // 選択範囲を一時保存
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     props.setProperty('UNIFIED_SETTING_START_ROW', range.getRow().toString());
     props.setProperty('UNIFIED_SETTING_END_ROW', range.getLastRow().toString());
     
@@ -589,7 +589,7 @@ function applyUnifiedSettings(selectedCategory, selectedTemplateName, templateMo
     var sheet = validateAndGetSheet();
     if (!sheet) return;
 
-    var props = PropertiesService.getScriptProperties();
+    var props = PropertiesService.getDocumentProperties();
     var startRow = parseInt(props.getProperty('UNIFIED_SETTING_START_ROW'));
     var endRow = parseInt(props.getProperty('UNIFIED_SETTING_END_ROW'));
     
