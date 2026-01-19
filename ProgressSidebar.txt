@@ -215,11 +215,64 @@
       transform: translateY(0);
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
+
+    /* 更新通知バナー */
+    .update-banner {
+      display: none;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: white;
+      padding: 12px 16px;
+      margin: -16px -16px 16px -16px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .update-banner:hover {
+      background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    }
+
+    .update-banner.show {
+      display: block;
+    }
+
+    .update-banner-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .update-banner-note {
+      font-size: 11px;
+      opacity: 0.9;
+    }
+
+    .update-banner-close {
+      float: right;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      opacity: 0.8;
+    }
+
+    .update-banner-close:hover {
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
   <div class="header">
     <h2 id="headerTitle">🔄 翻訳処理の進捗</h2>
+  </div>
+
+  <!-- 更新通知バナー -->
+  <div class="update-banner" id="updateBanner">
+    <button class="update-banner-close" onclick="closeUpdateBanner(event)">×</button>
+    <div class="update-banner-title">📢 ライブラリ更新あり: <span id="updateVersion"></span></div>
+    <div class="update-banner-note" id="updateNote"></div>
   </div>
 
   <div class="completion-banner" id="completionBanner">
@@ -358,6 +411,93 @@
 
     // 初回実行
     pollProgress();
+
+    // =============================================
+    // ライブラリ更新チェック（クライアントサイド）
+    // =============================================
+    var VERSION_JSON_URL = 'https://raw.githubusercontent.com/naokijodan/bulk-sheet-apps-v2/main/version.json';
+    var UPDATE_CHECK_KEY = 'libUpdateLastCheck';
+    var UPDATE_DISMISSED_KEY = 'libUpdateDismissed';
+
+    function checkLibraryUpdate() {
+      try {
+        // 今日の日付
+        var today = new Date().toISOString().split('T')[0];
+
+        // 今日すでにチェック済みならスキップ
+        var lastCheck = localStorage.getItem(UPDATE_CHECK_KEY);
+        if (lastCheck === today) {
+          console.log('更新チェック: 今日はチェック済み');
+          return;
+        }
+
+        // 既に閉じた通知は今日は表示しない
+        var dismissed = localStorage.getItem(UPDATE_DISMISSED_KEY);
+        if (dismissed === today) {
+          console.log('更新チェック: 今日は通知を閉じ済み');
+          return;
+        }
+
+        // GAS側から現在のバージョンを取得
+        google.script.run
+          .withSuccessHandler(function(currentVersion) {
+            fetchAndCompareVersion(currentVersion, today);
+          })
+          .withFailureHandler(function(error) {
+            console.warn('バージョン取得エラー:', error);
+            // 失敗しても静かにスキップ
+          })
+          .getCurrentLibVersion();
+
+      } catch (e) {
+        console.warn('更新チェックエラー:', e);
+        // 失敗しても静かにスキップ
+      }
+    }
+
+    function fetchAndCompareVersion(currentVersion, today) {
+      // キャッシュバスター付きURLでfetch
+      var url = VERSION_JSON_URL + '?t=' + Date.now();
+
+      fetch(url)
+        .then(function(response) {
+          if (!response.ok) throw new Error('HTTP ' + response.status);
+          return response.json();
+        })
+        .then(function(data) {
+          // チェック完了を記録
+          localStorage.setItem(UPDATE_CHECK_KEY, today);
+
+          var latestVersion = parseInt(data.version, 10);
+          console.log('更新チェック: 現在=' + currentVersion + ', 最新=' + latestVersion);
+
+          // 新バージョンがあれば通知
+          if (latestVersion > currentVersion) {
+            showUpdateBanner(data);
+          }
+        })
+        .catch(function(error) {
+          console.warn('GitHubからのfetchエラー:', error);
+          // 失敗しても静かにスキップ
+        });
+    }
+
+    function showUpdateBanner(data) {
+      document.getElementById('updateVersion').textContent = 'v' + data.version + ' (' + data.date + ')';
+      document.getElementById('updateNote').textContent = data.note || '';
+      document.getElementById('updateBanner').classList.add('show');
+    }
+
+    function closeUpdateBanner(event) {
+      event.stopPropagation();
+      document.getElementById('updateBanner').classList.remove('show');
+      // 今日は表示しないようにする
+      var today = new Date().toISOString().split('T')[0];
+      localStorage.setItem(UPDATE_DISMISSED_KEY, today);
+    }
+
+    // サイドバー表示時に更新チェックを実行
+    checkLibraryUpdate();
   </script>
 </body>
 </html>

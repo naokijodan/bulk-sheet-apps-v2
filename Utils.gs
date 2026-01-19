@@ -19,6 +19,14 @@ var CURRENT_LIB_VERSION = 70;
 var VERSION_JSON_URL = 'https://raw.githubusercontent.com/naokijodan/bulk-sheet-apps-v2/main/version.json';
 
 /**
+ * 現在のライブラリバージョンを返す（サイドバーから呼び出し用）
+ * @return {number} 現在のバージョン番号
+ */
+function getCurrentLibVersion() {
+  return CURRENT_LIB_VERSION;
+}
+
+/**
  * ライブラリの更新をチェックし、新バージョンがあればToast通知
  * onOpenから呼び出す。1日1回のみチェック。
  */
