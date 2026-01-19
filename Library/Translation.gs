@@ -651,7 +651,13 @@ function validateTranslationResult_(sheet, row, fields) {
  */
 function showProgressSidebar_() {
   try {
-    var html = createHtmlFromTemplate('ProgressSidebar')
+    // HTMLテンプレートを取得
+    var htmlContent = getHtmlTemplate('ProgressSidebar');
+
+    // バージョン番号を埋め込み（プレースホルダーを置換）
+    htmlContent = htmlContent.replace('{{CURRENT_VERSION}}', String(CURRENT_LIB_VERSION));
+
+    var html = HtmlService.createHtmlOutput(htmlContent)
       .setTitle('翻訳処理の進捗')
       .setWidth(320);
     SpreadsheetApp.getUi().showSidebar(html);

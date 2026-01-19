@@ -419,6 +419,9 @@
     var UPDATE_CHECK_KEY = 'libUpdateLastCheck';
     var UPDATE_DISMISSED_KEY = 'libUpdateDismissed';
 
+    // 現在のバージョン（GAS側から埋め込み）
+    var CURRENT_VERSION = {{CURRENT_VERSION}};
+
     function checkLibraryUpdate() {
       try {
         // 今日の日付
@@ -438,16 +441,8 @@
           return;
         }
 
-        // GAS側から現在のバージョンを取得
-        google.script.run
-          .withSuccessHandler(function(currentVersion) {
-            fetchAndCompareVersion(currentVersion, today);
-          })
-          .withFailureHandler(function(error) {
-            console.warn('バージョン取得エラー:', error);
-            // 失敗しても静かにスキップ
-          })
-          .getCurrentLibVersion();
+        // バージョン比較を実行
+        fetchAndCompareVersion(CURRENT_VERSION, today);
 
       } catch (e) {
         console.warn('更新チェックエラー:', e);
