@@ -247,15 +247,15 @@ function getSettings() {
   価格表示モード管理
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function getPriceDisplayMode() {
-  var props = PropertiesService.getDocumentProperties();
-  var mode = props.getProperty('PRICE_DISPLAY_MODE');
+  var docProps = PropertiesService.getDocumentProperties();
+  var mode = docProps.getProperty('PRICE_DISPLAY_MODE');
   return (mode === 'TAX_INCLUDED') ? 'TAX_INCLUDED' : 'NORMAL';
 }
 
 function setPriceDisplayMode(mode, showMessage) {
-  var props = PropertiesService.getDocumentProperties();
+  var docProps = PropertiesService.getDocumentProperties();
   var validMode = (mode === 'TAX_INCLUDED') ? 'TAX_INCLUDED' : 'NORMAL';
-  props.setProperty('PRICE_DISPLAY_MODE', validMode);
+  docProps.setProperty('PRICE_DISPLAY_MODE', validMode);
 
   if (showMessage === true) {
     var modeNames = {

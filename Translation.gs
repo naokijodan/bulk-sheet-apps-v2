@@ -145,6 +145,9 @@ function runSelectedRowsTranslate() {
       startTime = new Date(parseInt(props.getProperty('startTime_translate')));
       skippedCount = parseInt(props.getProperty('skippedCount_translate') || '0');
       conditionalShowAlert('翻訳処理を再開します。残り ' + (selectedRows.length - startRowIndex) + '件。', "info");
+
+      // 継続処理でもサイドバーを表示
+      showProgressSidebar_();
     }
 
     // P2セルの商品状態モードを1回だけ読み取る
