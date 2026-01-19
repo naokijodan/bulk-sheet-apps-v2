@@ -2990,6 +2990,87 @@ function saveIntegratedSettings(formData) {
     return { success: false, error: e.message };
   }
 }
+
+/**
+ * ゲーム・トレカ プリセット適用
+ * SetupDialogから呼び出され、作業シートに直接プリセット値を書き込む
+ * @param {string} genre - 'game' または 'card'
+ * @param {string} weight - '100', '200', '300'
+ * @return {Object} { success: boolean, error?: string }
+ */
+function applyGenrePreset(genre, weight) {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var docProps = PropertiesService.getDocumentProperties();
+    var sheetName = docProps.getProperty('WORK_SHEET_NAME') || '作業';
+    var sheet = ss.getSheetByName(sheetName);
+
+    if (!sheet) {
+      return { success: false, error: 'シート「' + sheetName + '」が見つかりません' };
+    }
+
+    Logger.log('[applyGenrePreset] ジャンル: ' + genre + ', 重量: ' + weight + 'g');
+
+    // プリセット値の定義
+    var presets = {
+      game: {
+        o1: 'Video Games（$20）',
+        ap3: 20
+      },
+      card: {
+        o1: '汎用（上限なし）',
+        ap3: 390
+      }
+    };
+
+    // 重量別送料設定
+    var shippingByWeight = {
+      '100': { j1: 880, ac2: 347 },
+      '200': { j1: 1060, ac2: 307 },
+      '300': { j1: 1240, ac2: 341 }
+    };
+
+    var preset = presets[genre];
+    var shipping = shippingByWeight[weight];
+
+    if (!preset || !shipping) {
+      return { success: false, error: '無効なプリセット設定です' };
+    }
+
+    // 各セルに値を書き込み
+    // O1: カテゴリ
+    sheet.getRange('O1').setValue(preset.o1);
+    Logger.log('[applyGenrePreset] O1 = ' + preset.o1);
+
+    // AJ5: 送料計算方法 = 固定金額
+    sheet.getRange('AJ5').setValue('固定金額');
+    Logger.log('[applyGenrePreset] AJ5 = 固定金額');
+
+    // AJ2: 低価格配送 = Cpass Economy
+    sheet.getRange('AJ2').setValue('Cpass Economy');
+    Logger.log('[applyGenrePreset] AJ2 = Cpass Economy');
+
+    // AP3: 関税閾値
+    sheet.getRange('AP3').setValue(preset.ap3);
+    Logger.log('[applyGenrePreset] AP3 = ' + preset.ap3);
+
+    // J1: eパケット送料
+    sheet.getRange('J1').setValue(shipping.j1);
+    Logger.log('[applyGenrePreset] J1 = ' + shipping.j1);
+
+    // AC2: EU送料差額
+    sheet.getRange('AC2').setValue(shipping.ac2);
+    Logger.log('[applyGenrePreset] AC2 = ' + shipping.ac2);
+
+    Logger.log('[applyGenrePreset] プリセット適用完了');
+    return { success: true };
+
+  } catch (e) {
+    Logger.log('[applyGenrePreset] エラー: ' + e.message);
+    return { success: false, error: e.message };
+  }
+}
+
 /**
  * 初期設定値を作業シートのAG列以降に書き出す
  * @param {string} sheetName - 作業シート名
