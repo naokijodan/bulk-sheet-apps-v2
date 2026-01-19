@@ -578,8 +578,8 @@
                 <div class="input-group">
                     <label>送料計算モード</label>
                     <select id="shippingMode" onchange="toggleShippingMode()">
-                        <option value="fixed">固定送料</option>
                         <option value="table">テーブル計算</option>
+                        <option value="fixed">固定送料</option>
                     </select>
                 </div>
                 <!-- 2段目：関税率、安全係数、VAT率、関税処理手数料率、米国通関処理手数料、MPF、EU送料差額 -->
