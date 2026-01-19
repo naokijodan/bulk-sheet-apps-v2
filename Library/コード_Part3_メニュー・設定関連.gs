@@ -11,9 +11,6 @@
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function onOpen() {
   try {
-    // ライブラリ更新チェック（1日1回）
-    checkLibraryUpdate();
-
     var ui = SpreadsheetApp.getUi();
 
     // 1. 実行メニュー（毎回使う機能）

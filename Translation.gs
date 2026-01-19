@@ -7,6 +7,9 @@
  ******************************************************/
 
 function runSelectedRowsTranslate() {
+  // ライブラリ更新チェック（1日1回）
+  checkLibraryUpdate();
+
   var SCRIPT_NAME = 'runSelectedRowsTranslate';
   var props = PropertiesService.getDocumentProperties();
   var startTime = new Date();
