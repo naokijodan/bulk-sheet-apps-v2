@@ -3056,13 +3056,37 @@ function applyGenrePresetInternal_(sheet, genre, weight) {
     sheet.getRange('O1').setValue(preset.o1);
     Logger.log('[applyGenrePresetInternal_] O1 = ' + preset.o1);
 
-    // AJ5: 送料計算方法 = 固定金額
-    sheet.getRange('AJ5').setValue('固定金額');
-    Logger.log('[applyGenrePresetInternal_] AJ5 = 固定金額');
+    // J2: 梱包重量（g）- ゲーム・トレカ共通
+    sheet.getRange('J2').setValue(200);
+    Logger.log('[applyGenrePresetInternal_] J2 = 200');
+
+    // L2: 長さ（cm）- ゲーム・トレカ共通
+    sheet.getRange('L2').setValue(25);
+    Logger.log('[applyGenrePresetInternal_] L2 = 25');
+
+    // M2: 幅（cm）- ゲーム・トレカ共通
+    sheet.getRange('M2').setValue(15);
+    Logger.log('[applyGenrePresetInternal_] M2 = 15');
+
+    // N2: 高さ（cm）- ゲーム・トレカ共通
+    sheet.getRange('N2').setValue(2);
+    Logger.log('[applyGenrePresetInternal_] N2 = 2');
 
     // AJ2: 低価格配送 = Cpass Economy（重量制限なし）
     sheet.getRange('AJ2').setValue('Cpass Economy（重量制限なし）');
     Logger.log('[applyGenrePresetInternal_] AJ2 = Cpass Economy（重量制限なし）');
+
+    // AJ3: 高価格配送 = Cpass FedEx（燃油・割引・追加料金あり）
+    sheet.getRange('AJ3').setValue('Cpass FedEx（燃油・割引・追加料金あり）');
+    Logger.log('[applyGenrePresetInternal_] AJ3 = Cpass FedEx（燃油・割引・追加料金あり）');
+
+    // AJ4: 送料切り替え基準（円）- デフォルト15000
+    sheet.getRange('AJ4').setValue(15000);
+    Logger.log('[applyGenrePresetInternal_] AJ4 = 15000');
+
+    // AJ5: 送料計算方法 = ゲーム・トレカ（条件分岐型）
+    sheet.getRange('AJ5').setValue('ゲーム・トレカ');
+    Logger.log('[applyGenrePresetInternal_] AJ5 = ゲーム・トレカ');
 
     // AP3: 関税閾値
     sheet.getRange('AP3').setValue(preset.ap3);
@@ -3261,9 +3285,9 @@ function writeSettingsToSheet(sheetName, settings) {
       .build();
     sheet.getRange('AJ3').setDataValidation(rule2);
 
-    // AJ5: 送料計算方法
+    // AJ5: 送料計算方法（「ゲーム・トレカ」はプリセット専用だがドロップダウンには含める）
     var rule3 = SpreadsheetApp.newDataValidation()
-      .requireValueInList(['テーブル計算', '固定金額'], true)
+      .requireValueInList(['テーブル計算', '固定金額', 'ゲーム・トレカ'], true)
       .setAllowInvalid(false)
       .build();
     sheet.getRange('AJ5').setDataValidation(rule3);
@@ -3419,8 +3443,9 @@ function applyCalculationFormulas(sheetName, settings) {
       // エラーが発生してもスキップして続行
     }
 
-    // AF列: 基本送料（VLOOKUPでShipping_Ratesから取得、テーブル計算モードのみ）
-    if (shippingCalc === 'TABLE') {
+    // AF列: 基本送料（VLOOKUPでShipping_Ratesから取得）
+    // テーブル計算モードまたはゲーム・トレカモード（高額商品で参照が必要）で出力
+    if (shippingCalc === 'TABLE' || shippingCalc === 'GAME_CARD') {
       // EPは実重量(Y列)、他は課金重量(AC列)をそのまま使用
       // VLOOKUPの近似一致がWeight_Fromの範囲で自動的に正しい行を見つける
       var baseCostFormula = '=ARRAYFORMULA(IF(ROW(AF4:AF)=4,"基本送料",IF(AC4:AC="","",IF(ISNUMBER(AC4:AC),IF(X4:X="EP",VLOOKUP(Y4:Y,Shipping_Rates!$A$3:$H,3,TRUE),IF(X4:X="CE",VLOOKUP(AC4:AC,Shipping_Rates!$A$3:$H,4,TRUE),IF(X4:X="EMS",VLOOKUP(AC4:AC,Shipping_Rates!$A$3:$H,5,TRUE),IF(X4:X="CF",VLOOKUP(AC4:AC,Shipping_Rates!$A$3:$H,6,TRUE),IF(X4:X="CD",VLOOKUP(AC4:AC,Shipping_Rates!$A$3:$H,7,TRUE),IF(X4:X="EL",VLOOKUP(AC4:AC,Shipping_Rates!$A$3:$H,8,TRUE),"")))))),""))))';
@@ -3439,6 +3464,22 @@ function applyCalculationFormulas(sheetName, settings) {
         // CD: base + extra + fuel - discount
         // CE/EL/EP: base のみ（テーブルに既にサーチャージが含まれている）
         var formula = '=IF(AF' + row + '="","",IF(X' + row + '="CF",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$1,subtotal,base+extra,fuel,subtotal*$V$1,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),IF(X' + row + '="CD",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$2,subtotal,base+extra,fuel,subtotal*$V$2,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),ROUND(AF' + row + '))))';
+        shippingFormulas.push([formula]);
+      }
+      if (shippingFormulas.length > 0) {
+        sheet.getRange(5, CONFIG.COLUMNS.SHIPPING, shippingFormulas.length, 1).setFormulas(shippingFormulas);
+      }
+    } else if (shippingCalc === 'GAME_CARD') {
+      // ゲーム・トレカモード：仕入れ価格に応じて固定/テーブル計算を切り替え
+      // AJ4が空欄/0以下 → テーブル計算（クーリエ送料、安全側）
+      // 仕入れ価格 ≤ AJ4 → 固定金額（J1の値）
+      // 仕入れ価格 > AJ4 → テーブル計算（AF列ベース）
+      var shippingFormulas = [];
+      for (var row = 5; row <= dataLastRow; row++) {
+        // テーブル計算式（CF/CD用の追加料金込み）
+        var tableFormula = 'IF(X' + row + '="CF",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$1,subtotal,base+extra,fuel,subtotal*$V$1,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),IF(X' + row + '="CD",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$2,subtotal,base+extra,fuel,subtotal*$V$2,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),ROUND(AF' + row + ')))';
+        // 条件分岐：I列（仕入れ価格）が空なら空、AJ4が空/0以下ならテーブル計算、I列≤AJ4なら固定、それ以外はテーブル計算
+        var formula = '=IF(I' + row + '="","",IF(OR($AJ$4="",$AJ$4<=0),' + tableFormula + ',IF(I' + row + '<=$AJ$4,$J$1,' + tableFormula + ')))';
         shippingFormulas.push([formula]);
       }
       if (shippingFormulas.length > 0) {
@@ -3878,8 +3919,8 @@ function reapplyCalculationFormulasToSelectedRows() {
     var profitCalcText = sheet.getRange('AL2').getValue(); // "利益率" or "利益額"
     var profitCalc = (profitCalcText === '利益額') ? 'AMOUNT' : 'RATE';
 
-    var shippingCalcText = sheet.getRange('AJ5').getValue(); // "テーブル計算" or "固定金額"
-    var shippingCalc = (shippingCalcText === '固定金額') ? 'FIXED' : 'TABLE';
+    var shippingCalcText = sheet.getRange('AJ5').getValue(); // "テーブル計算" or "固定金額" or "ゲーム・トレカ"
+    var shippingCalc = (shippingCalcText === '固定金額') ? 'FIXED' : (shippingCalcText === 'ゲーム・トレカ') ? 'GAME_CARD' : 'TABLE';
 
     // applyCalculationFormulas関数を呼び出して初期設定と同じ処理を実行
     var result = applyCalculationFormulas(settings.sheetName, {
