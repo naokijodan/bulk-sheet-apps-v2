@@ -2897,10 +2897,24 @@ function saveIntegratedSettings(formData) {
       Logger.log('初期設定後のAJ2の実際の値: ' + actualAJ2);
     }
 
+    // 🆕 AJ5の値を読み取って送料計算方法を決定（プリセットで「ゲーム・トレカ」が設定されている場合に対応）
+    var actualShippingCalcMethod = shippingCalcMethod;
+    if (sheet) {
+      var aj5Value = sheet.getRange('AJ5').getValue();
+      if (aj5Value === 'ゲーム・トレカ') {
+        actualShippingCalcMethod = 'GAME_CARD';
+      } else if (aj5Value === '固定金額') {
+        actualShippingCalcMethod = 'FIXED';
+      } else {
+        actualShippingCalcMethod = 'TABLE';
+      }
+      Logger.log('AJ5の値: ' + aj5Value + ' → shippingCalcMethod: ' + actualShippingCalcMethod);
+    }
+
     // 🆕 計算式ARRAYFORMULAを作業シートに適用
     var formulaResult = applyCalculationFormulas(sheetName, {
       profitCalc: profitCalc,
-      shippingCalcMethod: shippingCalcMethod
+      shippingCalcMethod: actualShippingCalcMethod
     });
 
     if (!formulaResult.success) {
