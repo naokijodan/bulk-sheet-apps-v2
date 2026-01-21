@@ -2984,6 +2984,21 @@ function saveIntegratedSettings(formData) {
           var genreName = formData.presetGenre === 'game' ? 'ゲームソフト' : 'トレーディングカード';
           msg += '\n\n【プリセット適用】\n' + genreName + '（' + formData.presetWeight + 'g）を適用しました。\n\n※重要: O2セルに専用テンプレートを設定してください。';
           Logger.log('プリセット適用完了: ' + genreName + ' / ' + formData.presetWeight + 'g');
+
+          // 🆕 プリセット適用後、AJ5が「ゲーム・トレカ」になっているので式を再出力
+          var aj5AfterPreset = sheet.getRange('AJ5').getValue();
+          if (aj5AfterPreset === 'ゲーム・トレカ') {
+            Logger.log('プリセット適用後のAJ5: ' + aj5AfterPreset + ' → GAME_CARDモードで式を再出力');
+            var reapplyResult = applyCalculationFormulas(sheetName, {
+              profitCalc: profitCalc,
+              shippingCalcMethod: 'GAME_CARD'
+            });
+            if (reapplyResult.success) {
+              Logger.log('GAME_CARDモードの式を再出力しました');
+            } else {
+              Logger.log('GAME_CARDモードの式再出力エラー: ' + reapplyResult.error);
+            }
+          }
         } else {
           msg += '\n\n【プリセット適用エラー】\n' + presetResult.error;
           Logger.log('プリセット適用エラー: ' + presetResult.error);
