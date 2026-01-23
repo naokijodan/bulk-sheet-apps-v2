@@ -1132,7 +1132,7 @@ function updateEagleData() {
       
       showProgressNotification('📊 商品データ取得中...');
       
-      const data = fetchEagleData(effectiveToken, selectedColumns);
+      const data = fetchEagleData(apiToken, selectedColumns);
       
       if (!data) {
         throw new Error('データ取得に失敗しました');
