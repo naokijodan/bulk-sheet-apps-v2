@@ -578,8 +578,8 @@ function writeItemSpecificsToSheet_(sheet, rowResults) {
 }
 
 /**
- * JSONオブジェクトをeBay File Exchange形式のフラット配列に変換
- * {"Brand": "Seiko", "Type": "Wrist Watch"} → ["C:Brand", "Seiko", "C:Type", "Wrist Watch"]
+ * JSONオブジェクトをフラット配列に変換
+ * {"Brand": "Seiko", "Type": "Wrist Watch"} → ["Brand", "Seiko", "Type", "Wrist Watch"]
  * @param {Object} data
  * @return {Array<string>}
  */
@@ -592,11 +592,11 @@ function jsonToFlatArray_(data) {
   for (var i = 0; i < keys.length; i++) {
     var key = keys[i];
     var val = data[key];
-    // 空文字やnullは出力しない（eBayに不要なフィールドを送らない）
+    // 空文字やnullは出力しない
     if (val === null || val === undefined || val === '') {
       continue;
     }
-    result.push('C:' + key);
+    result.push(key);
     result.push(String(val));
   }
   return result;
