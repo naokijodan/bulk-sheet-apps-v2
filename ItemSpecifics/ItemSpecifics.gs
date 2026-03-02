@@ -11,32 +11,6 @@
  * 注意: GASのES5互換 (var / function) に準拠
  */
 
-/**
- * 初回セットアップ: GASエディタからこの関数を1回実行するだけで、
- * 以降シートを開くたびにItem Specificsメニューが自動表示される。
- * 既存のonOpen関数には一切変更を加えない。
- */
-function setupItemSpecifics() {
-  // 既存のトリガーを確認（重複登録防止）
-  var triggers = ScriptApp.getProjectTriggers();
-  for (var i = 0; i < triggers.length; i++) {
-    if (triggers[i].getHandlerFunction() === 'addItemSpecificsMenu') {
-      SpreadsheetApp.getUi().alert('Item Specificsメニューは既にセットアップ済みです。');
-      return;
-    }
-  }
-  // インストール可能なonOpenトリガーを登録
-  ScriptApp.newTrigger('addItemSpecificsMenu')
-    .forSpreadsheet(SpreadsheetApp.getActive())
-    .onOpen()
-    .create();
-
-  // 今すぐメニューも表示
-  addItemSpecificsMenu();
-
-  SpreadsheetApp.getUi().alert('セットアップ完了！\n以降、シートを開くたびにItem Specificsメニューが自動表示されます。');
-}
-
 // =============================
 // 公開: メニュー追加
 // =============================
@@ -509,6 +483,8 @@ function initializeDictionaryWithConfirm() {
 // =============================
 // 非公開: 実行前検証
 // - APIキー
+// - 辞書シートID
+// - 辞書アクセス
 // - アクティブシート名
 // =============================
 function validateSetup_() {
@@ -529,7 +505,22 @@ function validateSetup_() {
       return res;
     }
 
-    // 辞書シートIDの検証は不要（同一スプレッドシート内を使用）
+    // 辞書シートID (任意: 存在する場合はアクセス検証)
+    var dictId = settings.DICTIONARY_SHEET_ID || settings.dictionarySpreadsheetId || '';
+    if (dictId) {
+      try {
+        var dictSs = SpreadsheetApp.openById(dictId);
+        if (!dictSs) {
+          res.ok = false;
+          res.message = '辞書スプレッドシートにアクセスできません。設定のIDを確認してください。';
+          return res;
+        }
+      } catch (e2) {
+        res.ok = false;
+        res.message = '辞書スプレッドシートのオープンに失敗しました。IDや権限を確認してください。';
+        return res;
+      }
+    }
 
     // アクティブシート名
     var targetSheetName = settings.targetSheetName || '出品2';
@@ -567,7 +558,7 @@ function getActiveISSettings_() {
   // 互換エイリアス
   settings.targetSheetName = settings.SHEET_NAME;
   settings.dataStartRow = settings.DATA_START_ROW;
-  // 辞書スプレッドシートIDのエイリアスは不要
+  settings.dictionarySpreadsheetId = settings.DICTIONARY_SHEET_ID || '';
   settings.apiKey = settings.OPENAI_API_KEY || '';
   return settings;
 }

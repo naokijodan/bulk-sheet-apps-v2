@@ -1,11 +1,14 @@
 /******************************************************
  * Config_IS.gs - Item Specifics 設定
+ * - 辞書スプレッドシートID
  * - OpenAI API設定
  * - 出品2シートの列マッピング
  ******************************************************/
 
 // グローバル設定（デフォルト値）
 var IS_CONFIG = {
+  // 辞書シートID（後でユーザーが設定）
+  DICTIONARY_SHEET_ID: '',
 
   // 出品2シートの列マッピング（1-based）
   COLUMNS: {
@@ -46,6 +49,7 @@ var IS_CONFIG = {
 
 /**
  * DocumentProperties から設定を読み込み、IS_CONFIGとマージして返す
+ * - IS_DICTIONARY_SHEET_ID
  * - OPENAI_API_KEY（既存と共有）
  * - IS_AI_MODEL
  * @return {Object}
@@ -55,7 +59,11 @@ function getISSettings() {
     var docProps = PropertiesService.getDocumentProperties();
     var settings = JSON.parse(JSON.stringify(IS_CONFIG)); // ディープコピー（ES5対応）
 
-    // 辞書シートIDの取得は不要（同一スプレッドシート内を使用）
+    // 辞書シートID
+    var dictId = docProps.getProperty('IS_DICTIONARY_SHEET_ID');
+    if (dictId) {
+      settings.DICTIONARY_SHEET_ID = dictId;
+    }
 
     // AIモデル
     var model = docProps.getProperty('IS_AI_MODEL');
@@ -88,7 +96,9 @@ function saveISSettings(settings) {
     }
     var docProps = PropertiesService.getDocumentProperties();
 
-    // 辞書シートIDの保存は不要
+    if (settings.DICTIONARY_SHEET_ID !== undefined && settings.DICTIONARY_SHEET_ID !== null) {
+      docProps.setProperty('IS_DICTIONARY_SHEET_ID', String(settings.DICTIONARY_SHEET_ID));
+    }
     if (settings.OPENAI_API_KEY !== undefined && settings.OPENAI_API_KEY !== null) {
       docProps.setProperty('OPENAI_API_KEY', String(settings.OPENAI_API_KEY));
     }
@@ -102,6 +112,7 @@ function saveISSettings(settings) {
 
 /**
  * 簡易設定ダイアログの表示（UIプロンプト）
+ * - 辞書シートID
  * - AIモデル
  */
 function showISSettingsDialog() {
@@ -109,13 +120,29 @@ function showISSettingsDialog() {
   try {
     var current = getISSettings();
 
+    // 辞書シートID
+    var dictPrompt = ui.prompt(
+      'Item Specifics 設定',
+      '辞書スプレッドシートのIDを入力してください（現在: ' + (current.DICTIONARY_SHEET_ID || '未設定') + '）',
+      ui.ButtonSet.OK_CANCEL
+    );
+    if (dictPrompt.getSelectedButton() !== ui.Button.OK) {
+      ui.alert('設定は変更されませんでした');
+      return;
+    }
+    var dictId = (dictPrompt.getResponseText() || '').trim();
+    if (dictId) {
+      current.DICTIONARY_SHEET_ID = dictId;
+    }
+
     // AIモデル
     var modelPrompt = ui.prompt(
-      'Item Specifics 設定',
-      'AIモデル名を入力してください（現在: ' + (current.AI && current.AI.MODEL ? current.AI.MODEL : '未設定') + '）\n\n推奨: gpt-5-nano（安価・高速）',
+      'AIモデル設定',
+      'AIモデル名を入力してください（現在: ' + (current.AI && current.AI.MODEL ? current.AI.MODEL : '未設定') + '）',
       ui.ButtonSet.OK_CANCEL
     );
     if (modelPrompt.getSelectedButton() !== ui.Button.OK) {
+      ui.alert('設定は変更されませんでした');
       return;
     }
     var model = (modelPrompt.getResponseText() || '').trim();
@@ -126,7 +153,7 @@ function showISSettingsDialog() {
     saveISSettings(current);
     ui.alert('設定を保存しました');
   } catch (e) {
-    ui.alert('設定エラー: ' + (e && e.message ? e.message : e));
+    ui.alert('設定ダイアログエラー: ' + (e && e.message ? e.message : e));
   }
 }
 
@@ -285,3 +312,4 @@ var IS_INITIAL_DATA = [
   { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Year', field_type: 'recommended', priority: 6, notes: '' },
   { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Features', field_type: 'recommended', priority: 7, notes: '' }
 ];
+
