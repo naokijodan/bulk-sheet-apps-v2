@@ -11,16 +11,11 @@ var LIB = BulkToolsLib;
 function onOpen() {
   try {
     SpreadsheetApp.getUi().createMenu('📋 Item Specifics')
-      .addItem('Step1: 基本項目を生成（選択行）', 'step1BasicSelectedRows')
-      .addItem('Step1: 基本項目を生成（全行）', 'step1BasicAllRows')
-      .addSeparator()
-      .addItem('Step2: AI補完（選択行）', 'extractSelectedRows')
-      .addItem('Step2: AI補完（全行）', 'extractAllRows')
+      .addItem('選択行に出力', 'step1BasicSelectedRows')
+      .addItem('全行に出力', 'step1BasicAllRows')
       .addSeparator()
       .addItem('辞書管理', 'showDictionaryManager')
       .addItem('辞書を初期化', 'initializeDictionaryWithConfirm')
-      .addSeparator()
-      .addItem('APIキー設定', 'showISApiKeyDialog')
       .addToUi();
   } catch(e) {
     SpreadsheetApp.getActive().toast('IS menu error: ' + e, 'Error', 10);

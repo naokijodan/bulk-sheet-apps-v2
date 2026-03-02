@@ -42,12 +42,9 @@ function setupItemSpecifics() {
 function addItemSpecificsMenu() {
   try {
     var ui = SpreadsheetApp.getUi();
-    ui.createMenu('🏷️ Item Specifics')
-      .addItem('Step1: 基本項目を生成（選択行）', 'step1BasicSelectedRows')
-      .addItem('Step1: 基本項目を生成（全行）', 'step1BasicAllRows')
-      .addSeparator()
-      .addItem('Step2: AI補完（選択行）', 'extractSelectedRows')
-      .addItem('Step2: AI補完（全行）', 'extractAllRows')
+    ui.createMenu('📋 Item Specifics')
+      .addItem('選択行に出力', 'step1BasicSelectedRows')
+      .addItem('全行に出力', 'step1BasicAllRows')
       .addSeparator()
       .addItem('辞書管理', 'showDictionaryManager')
       .addItem('辞書を初期化', 'initializeDictionaryWithConfirm')
@@ -134,7 +131,7 @@ function step1BasicSelectedRows() {
     var results = runStep1Basic_(sheet, rows);
     if (results.length > 0) {
       writeItemSpecificsToSheet_(sheet, results);
-      ss.toast('Step1完了: ' + results.length + ' 行にBrand/Country/Typeを出力しました', 'Item Specifics', 5);
+      ss.toast('Step1完了: ' + results.length + ' 行にItem Specificsを出力しました', 'Item Specifics', 5);
     } else {
       ui.alert('出力対象の行がありませんでした。');
     }
@@ -178,7 +175,7 @@ function step1BasicAllRows() {
     var results = runStep1Basic_(sheet, rows);
     if (results.length > 0) {
       writeItemSpecificsToSheet_(sheet, results);
-      ss.toast('Step1完了: ' + results.length + ' 行にBrand/Country/Typeを出力しました', 'Item Specifics', 5);
+      ss.toast('Step1完了: ' + results.length + ' 行にItem Specificsを出力しました', 'Item Specifics', 5);
     } else {
       ui.alert('出力対象の行がありませんでした。');
     }
@@ -205,31 +202,118 @@ function runStep1Basic_(sheet, rows) {
 
     if (!tag && !title) continue;
 
-    var data = {};
+    // 1. カテゴリ判定
+    var category = matchCategoryFromTag_(tag);
+    if (!category) {
+      // カテゴリ不明 → Brand, Type, Country の3つだけ出力
+      category = '_default';
+    }
 
-    // 1. Brand（タイトルからIS_BRAND_DICTでマッチ）
+    // 2. カテゴリ別フィールドリスト取得
+    var fields = IS_CATEGORY_FIELDS[category];
+    if (!fields) {
+      fields = ['Brand', 'Type', 'Country/Region of Manufacture'];
+    }
+
+    // 3. Brand情報を先に取得（複数フィールドで使うため）
     var brandInfo = matchBrandFromTitle_(title);
-    if (brandInfo) {
-      data['Brand'] = brandInfo.name;
-      // 2. Country（Brandのcountryから）
-      if (brandInfo.country) {
-        data['Country/Region of Manufacture'] = brandInfo.country;
-      }
+
+    // 4. 各フィールドを順番に埋める
+    var data = {};
+    for (var f = 0; f < fields.length; f++) {
+      var fieldName = fields[f];
+      var value = resolveFieldValue_(fieldName, tag, title, brandInfo, category);
+      data[fieldName] = value || 'Does not apply';
     }
 
-    // 3. Type（タグから推定）
-    var type = matchTypeFromTag_(tag);
-    if (type) {
-      data['Type'] = type;
-    }
-
-    // 何か1つでも値があれば出力対象
-    var keys = Object.keys(data);
-    if (keys.length > 0) {
-      results.push({ row: row, data: data });
-    }
+    results.push({ row: row, data: data });
   }
   return results;
+}
+
+// タグからカテゴリを判定
+function matchCategoryFromTag_(tag) {
+  if (!tag) return '';
+  var t = tag.toString().trim();
+  // 完全一致
+  if (typeof IS_TAG_TO_CATEGORY !== 'undefined' && IS_TAG_TO_CATEGORY[t]) return IS_TAG_TO_CATEGORY[t];
+  // 部分一致
+  if (typeof IS_TAG_TO_CATEGORY !== 'undefined') {
+    var keys = Object.keys(IS_TAG_TO_CATEGORY);
+    for (var i = 0; i < keys.length; i++) {
+      if (t.indexOf(keys[i]) !== -1) return IS_TAG_TO_CATEGORY[keys[i]];
+    }
+  }
+  return '';
+}
+
+// フィールド名に応じた値を解決
+function resolveFieldValue_(fieldName, tag, title, brandInfo, category) {
+  switch (fieldName) {
+    case 'Brand':
+      return brandInfo ? brandInfo.name : '';
+    case 'Country/Region of Manufacture':
+      return brandInfo ? brandInfo.country : '';
+    case 'Type':
+      return matchTypeFromTag_(tag);
+    case 'Metal':
+    case 'Case Material':
+    case 'Band Material':
+      return matchFromPatterns_(title, IS_METAL_PATTERNS);
+    case 'Metal Purity':
+      return matchFromPatterns_(title, IS_PURITY_PATTERNS);
+    case 'Main Stone':
+      return matchFromPatterns_(title, IS_GEMSTONE_PATTERNS);
+    case 'Department':
+      return matchFromPatterns_(title, IS_DEPARTMENT_PATTERNS);
+    case 'Movement':
+      return matchFromPatterns_(title, IS_MOVEMENT_PATTERNS);
+    case 'Color':
+    case 'Exterior Color':
+    case 'Dial Color':
+      return matchFromPatterns_(title, IS_COLOR_PATTERNS);
+    case 'Material':
+    case 'Exterior Material':
+      return matchFromPatterns_(title, IS_GENERAL_MATERIAL_PATTERNS);
+    case 'Style':
+      // バッグの場合はタグからスタイルを取得
+      return matchTypeFromTag_(tag);
+    case 'Game':
+      return matchFromPatterns_(title, IS_GAME_PATTERNS);
+    case 'Language':
+      return 'Japanese';
+    case 'Graded':
+      return matchGraded_(title);
+    default:
+      return '';
+  }
+}
+
+// パターン辞書から最初にマッチした値を返す
+function matchFromPatterns_(text, patterns) {
+  if (!text || !patterns) return '';
+  var t = text.toString();
+  for (var i = 0; i < patterns.length; i++) {
+    var p = patterns[i];
+    if (!p.keywords) continue;
+    for (var j = 0; j < p.keywords.length; j++) {
+      if (t.indexOf(p.keywords[j]) !== -1) {
+        return p.value;
+      }
+    }
+  }
+  return '';
+}
+
+// PSA/BGS等のグレーディング判定
+function matchGraded_(title) {
+  if (!title) return '';
+  var t = title.toString();
+  var gradeKeywords = ['PSA', 'BGS', 'CGC', 'SGC', 'ARS', 'グレード'];
+  for (var i = 0; i < gradeKeywords.length; i++) {
+    if (t.indexOf(gradeKeywords[i]) !== -1) return 'Yes';
+  }
+  return 'No';
 }
 
 /**
@@ -598,8 +682,8 @@ function jsonToFlatArray_(data) {
   for (var i = 0; i < keys.length; i++) {
     var key = keys[i];
     var val = data[key];
-    // 空文字やnullは出力しない
-    if (val === null || val === undefined || val === '') {
+    // null/undefinedのみスキップ（"Does not apply" は出力）
+    if (val === null || val === undefined) {
       continue;
     }
     result.push(key);

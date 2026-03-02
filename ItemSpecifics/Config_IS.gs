@@ -680,3 +680,179 @@ var IS_TAG_TO_TYPE = {
   'コート': 'Coat',
   'パンツ': 'Pants'
 };
+
+// ==============================
+// タグ → カテゴリ マッピング
+// ==============================
+var IS_TAG_TO_CATEGORY = {
+  '時計': 'Watches', '腕時計': 'Watches', 'ウォッチ': 'Watches', '懐中時計': 'Watches',
+  'リング': 'Rings', '指輪': 'Rings', 'リング・指輪': 'Rings',
+  'ネックレス': 'Necklaces', 'ペンダント': 'Necklaces', 'チェーン': 'Necklaces',
+  'ブレスレット': 'Bracelets', 'バングル': 'Bracelets',
+  'ピアス': 'Earrings', 'イヤリング': 'Earrings',
+  'バッグ': 'Handbags', 'ハンドバッグ': 'Handbags', 'ショルダーバッグ': 'Handbags',
+  'トートバッグ': 'Handbags', 'リュック': 'Handbags', 'ボストンバッグ': 'Handbags', 'クラッチバッグ': 'Handbags',
+  '衣類': 'Clothing', '服': 'Clothing', 'トップス': 'Clothing', 'ボトムス': 'Clothing',
+  'ジャケット': 'Clothing', 'コート': 'Clothing', 'ドレス': 'Clothing', 'スカート': 'Clothing', 'パンツ': 'Clothing',
+  '靴': 'Shoes', 'シューズ': 'Shoes', 'スニーカー': 'Shoes', 'ブーツ': 'Shoes',
+  'サンダル': 'Shoes', 'パンプス': 'Shoes', 'ローファー': 'Shoes',
+  'カメラ': 'Cameras', 'デジカメ': 'Cameras', '一眼レフ': 'Cameras', 'ミラーレス': 'Cameras',
+  '電子機器': 'Electronics', '家電': 'Electronics', 'オーディオ': 'Electronics',
+  'ヘッドホン': 'Electronics', 'イヤホン': 'Electronics', 'スピーカー': 'Electronics',
+  'トレカ': 'Trading Cards', 'カード': 'Trading Cards', 'トレーディングカード': 'Trading Cards',
+  'ポケカ': 'Trading Cards', '遊戯王': 'Trading Cards', 'MTG': 'Trading Cards',
+  'フィギュア': 'Collectibles', 'コレクティブル': 'Collectibles',
+  'アンティーク': 'Collectibles', 'ヴィンテージ': 'Collectibles', '骨董品': 'Collectibles', '人形': 'Collectibles'
+};
+
+// ==============================
+// カテゴリ別 出力フィールド定義（5-8フィールド、順序固定）
+// ==============================
+var IS_CATEGORY_FIELDS = {
+  'Watches':       ['Brand', 'Type', 'Movement', 'Case Material', 'Department', 'Country/Region of Manufacture'],
+  'Rings':         ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
+  'Necklaces':     ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
+  'Bracelets':     ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
+  'Earrings':      ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
+  'Handbags':      ['Brand', 'Style', 'Exterior Material', 'Exterior Color', 'Department', 'Country/Region of Manufacture'],
+  'Clothing':      ['Brand', 'Type', 'Department', 'Color', 'Material', 'Country/Region of Manufacture'],
+  'Shoes':         ['Brand', 'Type', 'Department', 'Color', 'Material', 'Country/Region of Manufacture'],
+  'Cameras':       ['Brand', 'Type', 'Color', 'Country/Region of Manufacture'],
+  'Electronics':   ['Brand', 'Type', 'Color', 'Country/Region of Manufacture'],
+  'Trading Cards': ['Game', 'Language', 'Graded', 'Country/Region of Manufacture'],
+  'Collectibles':  ['Brand', 'Type', 'Material', 'Country/Region of Manufacture']
+};
+
+// ==============================
+// 素材パターン辞書
+// ==============================
+var IS_METAL_PATTERNS = [
+  {keywords: ['K18', '18K', '18金', '750', 'Au750'], value: 'Yellow Gold'},
+  {keywords: ['WG', 'ホワイトゴールド', 'White Gold'], value: 'White Gold'},
+  {keywords: ['PG', 'ピンクゴールド', 'Pink Gold', 'ローズゴールド', 'Rose Gold'], value: 'Rose Gold'},
+  {keywords: ['K14', '14K', '14金', '585'], value: 'Yellow Gold'},
+  {keywords: ['K10', '10K', '10金', '417'], value: 'Yellow Gold'},
+  {keywords: ['Pt', 'プラチナ', 'Platinum', 'Pt900', 'Pt950', 'Pt850'], value: 'Platinum'},
+  {keywords: ['SV925', '925', 'シルバー', 'Sterling', 'Silver', 'SILVER', 'Ag925'], value: 'Sterling Silver'},
+  {keywords: ['ステンレス', 'Stainless', 'SS316'], value: 'Stainless Steel'},
+  {keywords: ['チタン', 'Titanium'], value: 'Titanium'},
+  {keywords: ['銅', 'Copper', 'Brass', '真鍮'], value: 'Base Metal'}
+];
+
+var IS_PURITY_PATTERNS = [
+  {keywords: ['K24', '24K', '24金', '999'], value: '24k'},
+  {keywords: ['K22', '22K', '22金', '916'], value: '22k'},
+  {keywords: ['K18', '18K', '18金', '750'], value: '18k'},
+  {keywords: ['K14', '14K', '14金', '585'], value: '14k'},
+  {keywords: ['K10', '10K', '10金', '417'], value: '10k'},
+  {keywords: ['K9', '9K', '9金', '375'], value: '9k'},
+  {keywords: ['Pt950'], value: '950'},
+  {keywords: ['Pt900'], value: '900'},
+  {keywords: ['Pt850'], value: '850'},
+  {keywords: ['SV925', '925', 'Sterling'], value: '925'}
+];
+
+// ==============================
+// 宝石パターン辞書
+// ==============================
+var IS_GEMSTONE_PATTERNS = [
+  {keywords: ['ダイヤ', 'Diamond', 'ダイアモンド'], value: 'Diamond'},
+  {keywords: ['ルビー', 'Ruby'], value: 'Ruby'},
+  {keywords: ['サファイア', 'Sapphire'], value: 'Sapphire'},
+  {keywords: ['エメラルド', 'Emerald'], value: 'Emerald'},
+  {keywords: ['パール', '真珠', 'Pearl', 'アコヤ'], value: 'Pearl'},
+  {keywords: ['オパール', 'Opal'], value: 'Opal'},
+  {keywords: ['アメジスト', 'Amethyst'], value: 'Amethyst'},
+  {keywords: ['トパーズ', 'Topaz'], value: 'Topaz'},
+  {keywords: ['ガーネット', 'Garnet'], value: 'Garnet'},
+  {keywords: ['ターコイズ', 'Turquoise'], value: 'Turquoise'},
+  {keywords: ['翡翠', 'ヒスイ', 'Jade'], value: 'Jade'},
+  {keywords: ['珊瑚', 'サンゴ', 'Coral'], value: 'Coral'},
+  {keywords: ['琥珀', 'アンバー', 'Amber'], value: 'Amber'},
+  {keywords: ['タンザナイト', 'Tanzanite'], value: 'Tanzanite'},
+  {keywords: ['アクアマリン', 'Aquamarine'], value: 'Aquamarine'},
+  {keywords: ['ムーンストーン', 'Moonstone'], value: 'Moonstone'}
+];
+
+// ==============================
+// Department パターン
+// ==============================
+var IS_DEPARTMENT_PATTERNS = [
+  {keywords: ['メンズ', '男性', 'Mens', "Men's", 'MEN', 'FOR MEN'], value: "Men"},
+  {keywords: ['レディース', '女性', 'Womens', "Women's", 'WOMEN', 'FOR WOMEN', 'LADIES'], value: "Women"},
+  {keywords: ['ユニセックス', '兼用', 'Unisex', 'UNISEX'], value: "Unisex"},
+  {keywords: ['ボーイズ', 'Boys', 'キッズ', 'Kids', 'ジュニア'], value: "Boys"},
+  {keywords: ['ガールズ', 'Girls'], value: "Girls"}
+];
+
+// ==============================
+// ムーブメント パターン（時計用）
+// ==============================
+var IS_MOVEMENT_PATTERNS = [
+  {keywords: ['自動巻', 'オートマチック', 'Automatic', 'AUTOMATIC', 'Cal.'], value: 'Automatic'},
+  {keywords: ['手巻', 'Manual', 'MANUAL', 'Hand-winding', 'Hand Winding'], value: 'Mechanical (Hand-winding)'},
+  {keywords: ['クォーツ', 'Quartz', 'QUARTZ', 'クオーツ', '電池式'], value: 'Quartz'},
+  {keywords: ['ソーラー', 'Solar', 'SOLAR', 'エコドライブ', 'Eco-Drive', 'タフソーラー'], value: 'Solar'},
+  {keywords: ['電波', 'Radio', 'Atomic'], value: 'Quartz'},
+  {keywords: ['スプリングドライブ', 'Spring Drive'], value: 'Mechanical (Automatic)'},
+  {keywords: ['キネティック', 'Kinetic', 'AGS'], value: 'Automatic'}
+];
+
+// ==============================
+// カラー パターン
+// ==============================
+var IS_COLOR_PATTERNS = [
+  {keywords: ['ブラック', '黒', 'Black', 'BLACK', 'Noir'], value: 'Black'},
+  {keywords: ['ホワイト', '白', 'White', 'WHITE', 'Blanc'], value: 'White'},
+  {keywords: ['レッド', '赤', 'Red', 'RED'], value: 'Red'},
+  {keywords: ['ブルー', '青', 'Blue', 'BLUE', 'ネイビー', 'Navy'], value: 'Blue'},
+  {keywords: ['グリーン', '緑', 'Green', 'GREEN'], value: 'Green'},
+  {keywords: ['ブラウン', '茶', 'Brown', 'BROWN'], value: 'Brown'},
+  {keywords: ['ゴールド', '金色', 'Gold', 'GOLD'], value: 'Gold'},
+  {keywords: ['シルバー', '銀色', 'Silver', 'SILVER'], value: 'Silver'},
+  {keywords: ['ピンク', 'Pink', 'PINK', 'ローズ', 'Rose'], value: 'Pink'},
+  {keywords: ['グレー', 'グレイ', 'Gray', 'Grey', 'GREY'], value: 'Gray'},
+  {keywords: ['ベージュ', 'Beige', 'BEIGE'], value: 'Beige'},
+  {keywords: ['オレンジ', 'Orange'], value: 'Orange'},
+  {keywords: ['パープル', '紫', 'Purple', 'Violet'], value: 'Purple'},
+  {keywords: ['イエロー', '黄', 'Yellow'], value: 'Yellow'}
+];
+
+// ==============================
+// 素材パターン（バッグ・衣類・靴用）
+// ==============================
+var IS_GENERAL_MATERIAL_PATTERNS = [
+  {keywords: ['レザー', '本革', '革', 'Leather', 'LEATHER', '牛革', 'カーフ', 'ラム'], value: 'Leather'},
+  {keywords: ['キャンバス', 'Canvas', 'CANVAS', '帆布'], value: 'Canvas'},
+  {keywords: ['ナイロン', 'Nylon', 'NYLON'], value: 'Nylon'},
+  {keywords: ['デニム', 'Denim', 'DENIM'], value: 'Denim'},
+  {keywords: ['スエード', 'Suede', 'SUEDE'], value: 'Suede'},
+  {keywords: ['シルク', '絹', 'Silk', 'SILK'], value: 'Silk'},
+  {keywords: ['コットン', '綿', 'Cotton', 'COTTON'], value: 'Cotton'},
+  {keywords: ['ウール', '羊毛', 'Wool', 'WOOL', 'カシミヤ', 'Cashmere'], value: 'Wool'},
+  {keywords: ['ポリエステル', 'Polyester'], value: 'Polyester'},
+  {keywords: ['リネン', '麻', 'Linen'], value: 'Linen'},
+  {keywords: ['ラバー', 'Rubber', 'ゴム'], value: 'Rubber'},
+  {keywords: ['PVC', 'ビニール', 'Vinyl'], value: 'PVC'},
+  {keywords: ['ダウン', 'Down', 'DOWN'], value: 'Down'},
+  {keywords: ['ファー', 'Fur', 'FUR', '毛皮'], value: 'Fur'},
+  {keywords: ['セラミック', 'Ceramic', 'CERAMIC', '陶器', '磁器', '陶磁器'], value: 'Ceramic'},
+  {keywords: ['木製', 'Wood', 'ウッド'], value: 'Wood'},
+  {keywords: ['ガラス', 'Glass', 'クリスタル', 'Crystal'], value: 'Glass'}
+];
+
+// ==============================
+// トレカ ゲーム判定パターン
+// ==============================
+var IS_GAME_PATTERNS = [
+  {keywords: ['ポケモン', 'ポケカ', 'Pokemon', 'POKEMON', 'ピカチュウ', 'リザードン'], value: 'Pokémon'},
+  {keywords: ['遊戯王', 'Yu-Gi-Oh', 'YU-GI-OH', 'YUGIOH', 'ブルーアイズ'], value: 'Yu-Gi-Oh!'},
+  {keywords: ['MTG', 'Magic:', 'Magic the', 'マジック・ザ・ギャザリング', 'マジックザギャザリング'], value: 'Magic: The Gathering'},
+  {keywords: ['デュエルマスターズ', 'Duel Masters', 'デュエマ'], value: 'Duel Masters'},
+  {keywords: ['ヴァイスシュヴァルツ', 'Weiss Schwarz'], value: 'Weiss Schwarz'},
+  {keywords: ['ヴァンガード', 'Vanguard', 'VANGUARD'], value: 'Cardfight!! Vanguard'},
+  {keywords: ['バトルスピリッツ', 'Battle Spirits', 'バトスピ'], value: 'Battle Spirits'},
+  {keywords: ['ドラゴンボール', 'Dragon Ball'], value: 'Dragon Ball Super Card Game'},
+  {keywords: ['ワンピース', 'ONE PIECE', 'One Piece Card'], value: 'One Piece Card Game'},
+  {keywords: ['デジモン', 'Digimon'], value: 'Digimon'}
+];
