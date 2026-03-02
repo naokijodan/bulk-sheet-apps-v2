@@ -9,9 +9,8 @@ var LIB = BulkToolsLib;
   メニュー・初期化
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function onOpen() {
-  SpreadsheetApp.getActive().toast('Main.gs onOpen started', 'DEBUG', 5);
   try {
-    SpreadsheetApp.getUi().createMenu('Item Specifics')
+    SpreadsheetApp.getUi().createMenu('📋 Item Specifics')
       .addItem('Step1: 基本項目を生成（選択行）', 'step1BasicSelectedRows')
       .addItem('Step1: 基本項目を生成（全行）', 'step1BasicAllRows')
       .addSeparator()
