@@ -8,7 +8,7 @@ var LIB = BulkToolsLib;
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   メニュー・初期化
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-function onOpen() { LIB.onOpen(); addItemSpecificsMenu(); }
+function onOpen() { LIB.onOpen(); try { addItemSpecificsMenu(); } catch(e) { Logger.log('IS menu error: ' + e); } }
 function initialSetup() { LIB.initialSetup(); }
 function openSimpleSetup() { LIB.openSimpleSetup(); }
 
