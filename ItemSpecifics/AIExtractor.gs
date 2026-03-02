@@ -259,13 +259,13 @@ function buildExtractionPrompt_(title, description, category, fields) {
 // OpenAI 単発呼び出し
 function callOpenAI_(prompt) {
   var docProps = PropertiesService.getDocumentProperties();
-  var apiKey = docProps.getProperty('OPENAI_API_KEY');
+  var apiKey = docProps.getProperty('IS_OPENAI_API_KEY');
   if (!apiKey) {
-    throw new Error('OpenAI APIキーが設定されていません。メニュー > Item Specifics > 設定 から設定してください。');
+    throw new Error('OpenAI APIキーが設定されていません。メニュー > Item Specifics > APIキー設定 から設定してください。');
   }
 
   var cfg = getAIConfig_();
-  var model = docProps.getProperty('IS_AI_MODEL') || cfg.MODEL;
+  var model = cfg.MODEL;
 
   var payload = {
     model: model,
@@ -309,13 +309,13 @@ function callOpenAI_(prompt) {
 // OpenAI 複数並列呼び出し
 function callOpenAIBatch_(prompts) {
   var docProps = PropertiesService.getDocumentProperties();
-  var apiKey = docProps.getProperty('OPENAI_API_KEY');
+  var apiKey = docProps.getProperty('IS_OPENAI_API_KEY');
   if (!apiKey) {
-    throw new Error('OpenAI APIキーが設定されていません');
+    throw new Error('OpenAI APIキーが設定されていません。メニュー > Item Specifics > APIキー設定 から設定してください。');
   }
 
   var cfg = getAIConfig_();
-  var model = docProps.getProperty('IS_AI_MODEL') || cfg.MODEL;
+  var model = cfg.MODEL;
 
   var requests = [];
   var i;

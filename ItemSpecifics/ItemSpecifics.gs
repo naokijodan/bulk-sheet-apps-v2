@@ -49,9 +49,44 @@ function addItemSpecificsMenu() {
       .addSeparator()
       .addItem('辞書管理', 'showDictionaryManager')
       .addItem('辞書を初期化', 'initializeDictionaryWithConfirm')
+      .addSeparator()
+      .addItem('APIキー設定', 'showISApiKeyDialog')
       .addToUi();
   } catch (e) {
     Logger.log('[addItemSpecificsMenu] error: ' + (e && e.stack ? e.stack : e));
+  }
+}
+
+/**
+ * Item Specifics用APIキー設定ダイアログ
+ */
+function showISApiKeyDialog() {
+  var ui = SpreadsheetApp.getUi();
+  try {
+    var docProps = PropertiesService.getDocumentProperties();
+    var current = docProps.getProperty('IS_OPENAI_API_KEY') || '';
+    var masked = current ? (current.substring(0, 6) + '...' + current.substring(current.length - 4)) : '未設定';
+
+    var result = ui.prompt(
+      'Item Specifics APIキー設定',
+      '現在のAPIキー: ' + masked + '\n\nOpenAI APIキーを入力してください:',
+      ui.ButtonSet.OK_CANCEL
+    );
+
+    if (result.getSelectedButton() !== ui.Button.OK) {
+      return;
+    }
+
+    var newKey = (result.getResponseText() || '').trim();
+    if (!newKey) {
+      ui.alert('APIキーが空です。設定は変更されませんでした。');
+      return;
+    }
+
+    saveISApiKey(newKey);
+    ui.alert('APIキーを保存しました。');
+  } catch (e) {
+    ui.alert('エラー: ' + (e && e.message ? e.message : e));
   }
 }
 
@@ -515,15 +550,15 @@ function validateSetup_() {
     var settings = getActiveISSettings_();
     var ui = SpreadsheetApp.getUi();
 
-    // APIキー (DocumentProperties or settings)
+    // APIキー (IS専用)
     var props = PropertiesService.getDocumentProperties();
     var apiKey = null;
-    try { apiKey = props.getProperty('OPENAI_API_KEY'); } catch (e1) {}
+    try { apiKey = props.getProperty('IS_OPENAI_API_KEY'); } catch (e1) {}
     if (!apiKey && settings && settings.apiKey) { apiKey = settings.apiKey; }
 
     if (!apiKey) {
       res.ok = false;
-      res.message = 'OpenAI APIキーが未設定です。設定画面でAPIキーを設定してください。';
+      res.message = 'OpenAI APIキーが未設定です。メニュー > Item Specifics > APIキー設定 から設定してください。';
       return res;
     }
 
@@ -716,4 +751,35 @@ if (typeof showISSettingsDialog !== 'function') {
     var ui = SpreadsheetApp.getUi();
     ui.alert('設定ダイアログは未実装です。Config_IS.gs に showISSettingsDialog を実装してください。');
   }
+}
+/**
+ * デバッグ用: DocumentPropertiesからAPIキー関連の値を確認する
+ * GASエディタから手動で実行して結果を確認する
+ */
+function debugISApiKey() {
+  var ui = SpreadsheetApp.getUi();
+  var lines = [];
+  try {
+    var docProps = PropertiesService.getDocumentProperties();
+    var allProps = docProps.getProperties();
+    var keys = Object.keys(allProps);
+    lines.push('DocumentProperties キー数: ' + keys.length);
+    lines.push('');
+    for (var i = 0; i < keys.length; i++) {
+      var k = keys[i];
+      if (k.indexOf('API_KEY') !== -1 || k.indexOf('api_key') !== -1 || k.indexOf('OPENAI') !== -1 || k.indexOf('AI_') !== -1) {
+        var v = allProps[k];
+        var masked = v ? (v.substring(0, 6) + '...' + v.substring(v.length - 4)) : '(空)';
+        lines.push(k + ' = ' + masked);
+      }
+    }
+    if (lines.length === 2) {
+      lines.push('APIキー関連のプロパティは見つかりませんでした');
+    }
+    lines.push('');
+    lines.push('SpreadsheetID: ' + SpreadsheetApp.getActive().getId());
+  } catch (e) {
+    lines.push('エラー: ' + (e && e.message ? e.message : e));
+  }
+  ui.alert('API Key デバッグ', lines.join('\n'), ui.ButtonSet.OK);
 }

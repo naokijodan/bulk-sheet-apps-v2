@@ -53,18 +53,26 @@ function getISSettings() {
     var docProps = PropertiesService.getDocumentProperties();
     var settings = JSON.parse(JSON.stringify(IS_CONFIG)); // ディープコピー（ES5対応）
 
-    // 既存共有のAPIキー
-    var apiKey = docProps.getProperty('OPENAI_API_KEY');
-    if (apiKey) {
-      settings.OPENAI_API_KEY = apiKey;
-    } else {
-      settings.OPENAI_API_KEY = '';
-    }
+    // Item Specifics専用のAPIキー
+    var apiKey = docProps.getProperty('IS_OPENAI_API_KEY');
+    settings.OPENAI_API_KEY = apiKey || '';
 
     return settings;
   } catch (e) {
     throw new Error('getISSettings エラー: ' + (e && e.message ? e.message : e));
   }
+}
+
+/**
+ * Item Specifics専用のAPIキーを保存
+ * @param {string} apiKey
+ */
+function saveISApiKey(apiKey) {
+  if (!apiKey || !apiKey.trim()) {
+    throw new Error('APIキーが空です');
+  }
+  var docProps = PropertiesService.getDocumentProperties();
+  docProps.setProperty('IS_OPENAI_API_KEY', apiKey.trim());
 }
 
 // ==============================
