@@ -282,6 +282,8 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category) {
       return matchFromPatterns_(title, IS_GAME_PATTERNS);
     case 'Language':
       return 'Japanese';
+    case 'Case Size':
+      return matchCaseSize_(title);
     case 'Graded':
       return matchGraded_(title);
     default:
@@ -314,6 +316,38 @@ function matchGraded_(title) {
     if (t.indexOf(gradeKeywords[i]) !== -1) return 'Yes';
   }
   return 'No';
+}
+
+// タイトルからケースサイズ（mm）を抽出
+// 例: "42mm", "40ミリ", "ケース径38", "φ36" → "42 mm" 等
+function matchCaseSize_(title) {
+  if (!title) return '';
+  var t = title.toString();
+  // パターン1: 数字+mm/MM（20-60mmの範囲で時計として妥当なサイズ）
+  var m = t.match(/(\d{2,3})\s*(?:mm|MM|ＭＭ)/);
+  if (m) {
+    var size = parseInt(m[1], 10);
+    if (size >= 20 && size <= 60) return size + ' mm';
+  }
+  // パターン2: 数字+ミリ
+  m = t.match(/(\d{2,3})\s*ミリ/);
+  if (m) {
+    var size2 = parseInt(m[1], 10);
+    if (size2 >= 20 && size2 <= 60) return size2 + ' mm';
+  }
+  // パターン3: ケース径/ケースサイズ+数字
+  m = t.match(/ケース[径サイズ]\s*[：:]?\s*(?:約)?\s*(\d{2,3})/);
+  if (m) {
+    var size3 = parseInt(m[1], 10);
+    if (size3 >= 20 && size3 <= 60) return size3 + ' mm';
+  }
+  // パターン4: φ+数字
+  m = t.match(/[φΦ]\s*(\d{2,3})/);
+  if (m) {
+    var size4 = parseInt(m[1], 10);
+    if (size4 >= 20 && size4 <= 60) return size4 + ' mm';
+  }
+  return '';
 }
 
 /**

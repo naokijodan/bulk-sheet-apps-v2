@@ -771,7 +771,7 @@ var IS_TAG_TO_CATEGORY = {
 // カテゴリ別 出力フィールド定義（5-8フィールド、順序固定）
 // ==============================
 var IS_CATEGORY_FIELDS = {
-  'Watches':       ['Brand', 'Type', 'Movement', 'Case Material', 'Department', 'Country/Region of Manufacture'],
+  'Watches':       ['Brand', 'Type', 'Movement', 'Case Material', 'Case Size', 'Department', 'Country/Region of Manufacture'],
   'Rings':         ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
   'Necklaces':     ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
   'Bracelets':     ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
