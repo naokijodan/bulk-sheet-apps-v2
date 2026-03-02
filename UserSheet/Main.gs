@@ -9,7 +9,7 @@ var LIB = BulkToolsLib;
   メニュー・初期化
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function onOpen() {
-  LIB.onOpen();
+  SpreadsheetApp.getActive().toast('Main.gs onOpen started', 'DEBUG', 5);
   try {
     SpreadsheetApp.getUi().createMenu('Item Specifics')
       .addItem('Step1: 基本項目を生成（選択行）', 'step1BasicSelectedRows')
@@ -26,6 +26,7 @@ function onOpen() {
   } catch(e) {
     SpreadsheetApp.getActive().toast('IS menu error: ' + e, 'Error', 10);
   }
+  LIB.onOpen();
 }
 function initialSetup() { LIB.initialSetup(); }
 function openSimpleSetup() { LIB.openSimpleSetup(); }
