@@ -44,8 +44,11 @@ function addItemSpecificsMenu() {
   try {
     var ui = SpreadsheetApp.getUi();
     ui.createMenu('🏷️ Item Specifics')
-      .addItem('選択行のItem Specificsを抽出', 'extractSelectedRows')
-      .addItem('全行のItem Specificsを抽出', 'extractAllRows')
+      .addItem('Step1: 基本項目を生成（選択行）', 'step1BasicSelectedRows')
+      .addItem('Step1: 基本項目を生成（全行）', 'step1BasicAllRows')
+      .addSeparator()
+      .addItem('Step2: AI補完（選択行）', 'extractSelectedRows')
+      .addItem('Step2: AI補完（全行）', 'extractAllRows')
       .addSeparator()
       .addItem('辞書管理', 'showDictionaryManager')
       .addItem('辞書を初期化', 'initializeDictionaryWithConfirm')
@@ -88,6 +91,217 @@ function showISApiKeyDialog() {
   } catch (e) {
     ui.alert('エラー: ' + (e && e.message ? e.message : e));
   }
+}
+
+// ============================
+// Step 1: 基本項目（ルールベース、AI不要）
+// Brand, Country/Region of Manufacture, Type の3項目
+// ============================
+
+function step1BasicSelectedRows() {
+  var lock = LockService.getScriptLock();
+  if (!acquireLock_(lock)) return;
+
+  var ss = SpreadsheetApp.getActive();
+  var ui = SpreadsheetApp.getUi();
+  try {
+    var settings = getActiveISSettings_();
+    var dataStartRow = settings.dataStartRow || 3;
+    var targetSheetName = settings.targetSheetName || '出品2';
+
+    var sheet = ss.getActiveSheet();
+    if (!sheet || sheet.getName() !== targetSheetName) {
+      ui.alert('アクティブシートが "' + targetSheetName + '" ではありません。');
+      return;
+    }
+
+    var range = sheet.getActiveRange();
+    if (!range) {
+      ui.alert('範囲が選択されていません。');
+      return;
+    }
+
+    var startRow = range.getRow();
+    var numRows = range.getNumRows();
+    var rows = [];
+    for (var r = startRow; r < startRow + numRows; r++) {
+      if (r >= dataStartRow) rows.push(r);
+    }
+    if (rows.length === 0) {
+      ui.alert('対象行がありません。');
+      return;
+    }
+
+    var results = runStep1Basic_(sheet, rows);
+    if (results.length > 0) {
+      writeItemSpecificsToSheet_(sheet, results);
+      ss.toast('Step1完了: ' + results.length + ' 行にBrand/Country/Typeを出力しました', 'Item Specifics', 5);
+    } else {
+      ui.alert('出力対象の行がありませんでした。');
+    }
+  } catch (e) {
+    Logger.log('[step1BasicSelectedRows] error: ' + (e && e.stack ? e.stack : e));
+    ui.alert('エラー: ' + e);
+  } finally {
+    try { lock.releaseLock(); } catch (re) {}
+  }
+}
+
+function step1BasicAllRows() {
+  var lock = LockService.getScriptLock();
+  if (!acquireLock_(lock)) return;
+
+  var ss = SpreadsheetApp.getActive();
+  var ui = SpreadsheetApp.getUi();
+  try {
+    var settings = getActiveISSettings_();
+    var dataStartRow = settings.dataStartRow || 3;
+    var targetSheetName = settings.targetSheetName || '出品2';
+
+    var sheet = ss.getActiveSheet();
+    if (!sheet || sheet.getName() !== targetSheetName) {
+      ui.alert('アクティブシートが "' + targetSheetName + '" ではありません。');
+      return;
+    }
+
+    var lastRow = sheet.getLastRow();
+    if (lastRow < dataStartRow) {
+      ui.alert('データ行がありません。');
+      return;
+    }
+
+    var rows = [];
+    for (var r = dataStartRow; r <= lastRow; r++) {
+      rows.push(r);
+    }
+
+    ss.toast('Step1実行中... ' + rows.length + ' 行を処理します', 'Item Specifics', 5);
+    var results = runStep1Basic_(sheet, rows);
+    if (results.length > 0) {
+      writeItemSpecificsToSheet_(sheet, results);
+      ss.toast('Step1完了: ' + results.length + ' 行にBrand/Country/Typeを出力しました', 'Item Specifics', 5);
+    } else {
+      ui.alert('出力対象の行がありませんでした。');
+    }
+  } catch (e) {
+    Logger.log('[step1BasicAllRows] error: ' + (e && e.stack ? e.stack : e));
+    ui.alert('エラー: ' + e);
+  } finally {
+    try { lock.releaseLock(); } catch (re) {}
+  }
+}
+
+/**
+ * Step 1のコア処理: ルールベースでBrand, Country, Typeを抽出
+ * @param {Sheet} sheet
+ * @param {Array<number>} rows - 行番号の配列
+ * @return {Array<{row: number, data: Object}>}
+ */
+function runStep1Basic_(sheet, rows) {
+  var results = [];
+  for (var i = 0; i < rows.length; i++) {
+    var row = rows[i];
+    var tag = getValue_(sheet, row, 1);    // A列
+    var title = getValue_(sheet, row, 7);  // G列
+
+    if (!tag && !title) continue;
+
+    var data = {};
+
+    // 1. Brand（タイトルからIS_BRAND_DICTでマッチ）
+    var brandInfo = matchBrandFromTitle_(title);
+    if (brandInfo) {
+      data['Brand'] = brandInfo.name;
+      // 2. Country（Brandのcountryから）
+      if (brandInfo.country) {
+        data['Country/Region of Manufacture'] = brandInfo.country;
+      }
+    }
+
+    // 3. Type（タグから推定）
+    var type = matchTypeFromTag_(tag);
+    if (type) {
+      data['Type'] = type;
+    }
+
+    // 何か1つでも値があれば出力対象
+    var keys = Object.keys(data);
+    if (keys.length > 0) {
+      results.push({ row: row, data: data });
+    }
+  }
+  return results;
+}
+
+/**
+ * タイトルからIS_BRAND_DICTを使ってブランドをマッチ
+ * 長い名前を優先（"Grand Seiko" > "Seiko"）
+ * @param {string} title
+ * @return {{name: string, country: string}|null}
+ */
+function matchBrandFromTitle_(title) {
+  if (!title) return null;
+  if (typeof IS_BRAND_DICT === 'undefined' || !IS_BRAND_DICT) return null;
+
+  var t = title.toString().toLowerCase();
+  var bestMatch = null;
+  var bestLen = 0;
+
+  for (var i = 0; i < IS_BRAND_DICT.length; i++) {
+    var b = IS_BRAND_DICT[i];
+    if (!b || !b.name) continue;
+
+    // 英語名チェック
+    if (t.indexOf(b.name.toLowerCase()) !== -1) {
+      if (b.name.length > bestLen) {
+        bestMatch = { name: b.name, country: b.country || '' };
+        bestLen = b.name.length;
+      }
+    }
+
+    // 日本語名チェック
+    if (b.jp_names) {
+      for (var j = 0; j < b.jp_names.length; j++) {
+        var jp = b.jp_names[j];
+        if (jp && t.indexOf(jp.toLowerCase()) !== -1) {
+          if (jp.length > bestLen) {
+            bestMatch = { name: b.name, country: b.country || '' };
+            bestLen = jp.length;
+          }
+        }
+      }
+    }
+  }
+
+  return bestMatch;
+}
+
+/**
+ * タグからTypeを推定（IS_TAG_TO_TYPEを使用）
+ * 完全一致 → 部分一致の順で検索
+ * @param {string} tag
+ * @return {string}
+ */
+function matchTypeFromTag_(tag) {
+  if (!tag) return '';
+  if (typeof IS_TAG_TO_TYPE === 'undefined' || !IS_TAG_TO_TYPE) return '';
+
+  var t = tag.toString().trim();
+
+  // 完全一致
+  if (IS_TAG_TO_TYPE[t]) {
+    return IS_TAG_TO_TYPE[t];
+  }
+
+  // 部分一致（タグの中にキーが含まれる）
+  var keys = Object.keys(IS_TAG_TO_TYPE);
+  for (var i = 0; i < keys.length; i++) {
+    if (t.indexOf(keys[i]) !== -1) {
+      return IS_TAG_TO_TYPE[keys[i]];
+    }
+  }
+
+  return '';
 }
 
 // =============================
