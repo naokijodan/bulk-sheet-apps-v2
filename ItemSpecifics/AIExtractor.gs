@@ -218,40 +218,46 @@ function extractItemSpecificsBatch(items) {
 function buildExtractionPrompt_(title, description, category, fields) {
   var lines = [];
   lines.push('You are an expert eBay Item Specifics extractor.');
+  lines.push('Extract Item Specifics from the given Title and Description.');
   lines.push('');
-  lines.push('Category: ' + (category || 'Unknown'));
+  lines.push('Category: ' + (category || 'General'));
   lines.push('');
-  lines.push('Extract the following Item Specifics from the title and description below.');
-  lines.push('Return a JSON object with the field names as keys.');
-  lines.push('');
-  lines.push('Fields to extract:');
 
-  var i;
-  if (fields && fields.length) {
-    for (i = 0; i < fields.length; i++) {
+  if (fields && fields.length > 0) {
+    lines.push('Extract these fields:');
+    for (var i = 0; i < fields.length; i++) {
       var f = fields[i] || {};
       var name = f.name || '';
-      var type = f.type || 'text';
-      var notes = f.notes || '';
-      var line = '- ' + name + ' (' + type + ')';
-      if (notes) line += ' [Note: ' + notes + ']';
-      lines.push(line);
+      if (!name) continue;
+      var constraint = '- ' + name;
+      if (f.type === 'required') {
+        constraint += ' (REQUIRED)';
+      }
+      if (f.notes) {
+        constraint += ' [Hint: ' + f.notes + ']';
+      }
+      lines.push(constraint);
     }
+  } else {
+    lines.push('Extract the most relevant eBay Item Specifics for this product (5-10 fields).');
+    lines.push('Common fields: Brand, Type, Model, Material, Color, Country of Origin, Style, Department.');
   }
 
   lines.push('');
   lines.push('Rules:');
-  lines.push('- Return ONLY a valid JSON object, no markdown, no explanation.');
-  lines.push('- For each field, extract the value from the title/description.');
-  lines.push('- If a value cannot be determined with confidence, return null for that field.');
-  lines.push('- For required fields where the value is unknown, use "Does not apply" (except Brand which should use "Unbranded" if unknown).');
-  lines.push('- Normalize values to eBay\'s recommended values (e.g., use "Blue" instead of "Navy Blue").');
-  lines.push('- Country of Origin = manufacturing country (NOT brand headquarters). Use full English name (e.g., "Japan", "Switzerland").');
-  lines.push('- Units must be accurate (don\'t confuse mm and cm).');
-  lines.push('- For boolean-like fields (With Papers, Graded), use "Yes" or "No".');
+  lines.push('- Return ONLY a valid JSON object. No markdown, no explanation, no code fences.');
+  lines.push('- Keys must be the exact field names specified above.');
+  lines.push('- Values must be in English.');
+  lines.push('- If a value cannot be determined, return empty string "".');
+  lines.push('- For required fields where value is unknown, use "Does not apply" (except Brand: use "Unbranded").');
+  lines.push('- Normalize values to eBay standard (e.g., "Blue" not "Navy Blue").');
+  lines.push('- Country of Origin = manufacturing country, not brand HQ. Use full English name.');
   lines.push('');
-  lines.push('Title: ' + (title || ''));
-  lines.push('Description: ' + (description || ''));
+  lines.push('### Title:');
+  lines.push(title || '');
+  lines.push('');
+  lines.push('### Description:');
+  lines.push(description || '');
 
   return lines.join('\n');
 }

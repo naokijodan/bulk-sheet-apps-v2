@@ -204,7 +204,7 @@ function extractSelectedRows() {
         Logger.log('[extractSelectedRows] getFieldsForCategory error row ' + row + ': ' + fErr);
       }
 
-      ensureHeaders_(sheet, fields);
+      
 
       requests.push({
         row: row,
@@ -225,7 +225,7 @@ function extractSelectedRows() {
 
     var results = runExtractionBatchWithRetry_(requests, settings, 2);
     if (!results || results.length === 0) {
-      ui.alert('抽出結果が得られませんでした。');
+      ui.alert('抽出結果が得られませんでした。\nログを確認してください: 表示 > 実行ログ');
       return;
     }
 
@@ -330,7 +330,7 @@ function extractAllRows() {
         Logger.log('[extractAllRows] getFieldsForCategory error row ' + r + ': ' + fErr);
       }
 
-      ensureHeaders_(sheet, fields);
+      
 
       requests.push({
         row: r,
@@ -368,151 +368,74 @@ function extractAllRows() {
   }
 }
 
-// =============================
-// 非公開: ヘッダーマッチング
-// =============================
-function matchHeaderToField_(header) {
-  var cleaned = String(header || '').trim();
-  if (cleaned.indexOf('C:') === 0) {
-    cleaned = cleaned.substring(2);
-  }
-  if (cleaned && cleaned.charAt(cleaned.length - 1) === '=') {
-    cleaned = cleaned.substring(0, cleaned.length - 1);
-  }
-  return String(cleaned || '').trim();
-}
+// (ヘッダーマッチングは不要: eBay File Exchange形式でフラット書き込みに変更)
 
-// =============================
-// 非公開: 抽出結果の書き込み
-// rowResults: [{ row: number, specifics|data: { field: value }, overwrite?: boolean }]
-// =============================
+/**
+ * AI抽出結果をeBay File Exchange形式で書き込む
+ * 各データ行のN列(14)以降に「C:フィールド名 | 値 | C:フィールド名 | 値 ...」と横並びで書く
+ * @param {Sheet} sheet
+ * @param {Array} rowResults - [{row: number, data: {field: value, ...}}]
+ */
 function writeItemSpecificsToSheet_(sheet, rowResults) {
   try {
     if (!sheet || !rowResults || rowResults.length === 0) {
       return;
     }
+    var startCol = 14; // N列
 
-    var settings = getActiveISSettings_();
-    var allowOverwrite = !!(settings && (settings.overwrite === true || settings.overwriteItemSpecifics === true || settings.overwriteMode === true));
-
-    // ヘッダー行は2行目。N列(14)以降を対象
-    var headerRow = 2;
-    var startCol = 14;
-    var lastCol = sheet.getLastColumn();
-    if (lastCol < startCol) {
-      return; // ヘッダーなし
-    }
-
-    var headerRange = sheet.getRange(headerRow, startCol, 1, lastCol - startCol + 1);
-    var headerValues = headerRange.getValues();
-    var headers = headerValues && headerValues[0] ? headerValues[0] : [];
-
-    // ヘッダーマップ: 正規化名 -> 列オフセット
-    var headerIndex = {};
-    var c;
-    for (c = 0; c < headers.length; c++) {
-      var h = matchHeaderToField_(headers[c]);
-      if (h) {
-        headerIndex[h] = c; // startCol + c が実列
-      }
-    }
-
-    var i;
-    for (i = 0; i < rowResults.length; i++) {
+    for (var i = 0; i < rowResults.length; i++) {
       var item = rowResults[i] || {};
       var row = item.row;
-
-      // 戻りデータキー名のバリエーションに対応
       var data = item.data || item.specifics || item.values || {};
       if (!row || !data) {
         continue;
       }
 
-      var keys = Object.keys(data);
-      for (var k = 0; k < keys.length; k++) {
-        var field = keys[k];
-        var val = data[field];
-        var headerKey = matchHeaderToField_(field);
-        var offset = headerIndex[headerKey];
-        if (typeof offset === 'number') {
-          var col = startCol + offset;
-          var cell = sheet.getRange(row, col);
-          var current = cell.getValue();
-          if (current && current !== '' && !allowOverwrite) {
-            continue; // 上書き禁止時はスキップ
-          }
-          try {
-            cell.setValue(val);
-          } catch (cellErr) {
-            Logger.log('[writeItemSpecificsToSheet_] setValue error row ' + row + ' col ' + col + ': ' + cellErr);
-          }
-        }
+      // JSON → フラット配列変換: {"Brand": "Seiko"} → ["C:Brand", "Seiko"]
+      var flat = jsonToFlatArray_(data);
+      if (flat.length === 0) {
+        continue;
       }
+
+      // 行のN列以降にフラット配列を書き込む
+      var writeRange = sheet.getRange(row, startCol, 1, flat.length);
+      writeRange.setValues([flat]);
     }
   } catch (e) {
     Logger.log('[writeItemSpecificsToSheet_] error: ' + (e && e.stack ? e.stack : e));
+    // エラーをユーザーにも見せる
+    try {
+      SpreadsheetApp.getActiveSpreadsheet().toast('書き込みエラー: ' + (e && e.message ? e.message : e), 'Item Specifics', 10);
+    } catch (te) {}
   }
 }
 
-// =============================
-// 非公開: 必要ヘッダーの確保
-// fields: ["Brand", "Style", ...]
-// 追加したヘッダーの配列を返す
-// =============================
-function ensureHeaders_(sheet, fields) {
-  var added = [];
-  try {
-    if (!sheet) { return added; }
-    fields = fields || [];
-    if (fields.length === 0) { return added; }
-
-    var headerRow = 2;
-    var startCol = 14; // N列
-    var lastCol = sheet.getLastColumn();
-    if (lastCol < startCol) {
-      lastCol = startCol - 1; // ヘッダーがまだない
-    }
-
-    var existingHeaders = [];
-    if (lastCol >= startCol) {
-      var headerRange = sheet.getRange(headerRow, startCol, 1, lastCol - startCol + 1);
-      var vals = headerRange.getValues();
-      existingHeaders = vals && vals[0] ? vals[0] : [];
-    }
-
-    var existingMap = {};
-    var c;
-    for (c = 0; c < existingHeaders.length; c++) {
-      var norm = matchHeaderToField_(existingHeaders[c]);
-      if (norm) {
-        existingMap[norm] = true;
-      }
-    }
-
-    var toAdd = [];
-    var i;
-    for (i = 0; i < fields.length; i++) {
-      var fObj = fields[i] || {};
-      var f = (typeof fObj === 'string') ? fObj.trim() : String(fObj.name || '').trim();
-      if (!f) { continue; }
-      var normF = matchHeaderToField_(f);
-      if (!existingMap[normF]) {
-        toAdd.push('C:' + normF);
-        existingMap[normF] = true;
-      }
-    }
-
-    if (toAdd.length > 0) {
-      var writeStartCol = startCol + existingHeaders.length;
-      var writeRange = sheet.getRange(headerRow, writeStartCol, 1, toAdd.length);
-      writeRange.setValues([toAdd]);
-      added = toAdd.slice(0);
-    }
-  } catch (e) {
-    Logger.log('[ensureHeaders_] error: ' + (e && e.stack ? e.stack : e));
+/**
+ * JSONオブジェクトをeBay File Exchange形式のフラット配列に変換
+ * {"Brand": "Seiko", "Type": "Wrist Watch"} → ["C:Brand", "Seiko", "C:Type", "Wrist Watch"]
+ * @param {Object} data
+ * @return {Array<string>}
+ */
+function jsonToFlatArray_(data) {
+  var result = [];
+  if (!data || typeof data !== 'object') {
+    return result;
   }
-  return added;
+  var keys = Object.keys(data);
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    var val = data[key];
+    // 空文字やnullは出力しない（eBayに不要なフィールドを送らない）
+    if (val === null || val === undefined || val === '') {
+      continue;
+    }
+    result.push('C:' + key);
+    result.push(String(val));
+  }
+  return result;
 }
+
+// (ヘッダー自動追加は不要: フラット配列を直接書き込むため)
 
 // =============================
 // 公開: 辞書初期化 (確認付き)
@@ -744,14 +667,7 @@ function normalizeBatchResults_(chunk, batchRes) {
   return { completed: completed, failed: failed };
 }
 
-// 参考: 設定ダイアログが存在しない環境向けのフォールバック
-// 他ファイルで showISSettingsDialog が未定義の場合のみ動作
-if (typeof showISSettingsDialog !== 'function') {
-  function showISSettingsDialog() {
-    var ui = SpreadsheetApp.getUi();
-    ui.alert('設定ダイアログは未実装です。Config_IS.gs に showISSettingsDialog を実装してください。');
-  }
-}
+// 設定ダイアログのフォールバックは削除（Config_IS.gs での実装に依存）
 /**
  * デバッグ用: DocumentPropertiesからAPIキー関連の値を確認する
  * GASエディタから手動で実行して結果を確認する
