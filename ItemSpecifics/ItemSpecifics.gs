@@ -505,22 +505,7 @@ function validateSetup_() {
       return res;
     }
 
-    // 辞書シートID (任意: 存在する場合はアクセス検証)
-    var dictId = settings.DICTIONARY_SHEET_ID || settings.dictionarySpreadsheetId || '';
-    if (dictId) {
-      try {
-        var dictSs = SpreadsheetApp.openById(dictId);
-        if (!dictSs) {
-          res.ok = false;
-          res.message = '辞書スプレッドシートにアクセスできません。設定のIDを確認してください。';
-          return res;
-        }
-      } catch (e2) {
-        res.ok = false;
-        res.message = '辞書スプレッドシートのオープンに失敗しました。IDや権限を確認してください。';
-        return res;
-      }
-    }
+    // 辞書シートIDの検証は不要（同一スプレッドシート内を使用）
 
     // アクティブシート名
     var targetSheetName = settings.targetSheetName || '出品2';
@@ -558,7 +543,7 @@ function getActiveISSettings_() {
   // 互換エイリアス
   settings.targetSheetName = settings.SHEET_NAME;
   settings.dataStartRow = settings.DATA_START_ROW;
-  settings.dictionarySpreadsheetId = settings.DICTIONARY_SHEET_ID || '';
+  // 辞書スプレッドシートIDのエイリアスは不要
   settings.apiKey = settings.OPENAI_API_KEY || '';
   return settings;
 }
