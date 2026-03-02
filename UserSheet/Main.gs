@@ -11,7 +11,7 @@ var LIB = BulkToolsLib;
 function onOpen() {
   LIB.onOpen();
   try {
-    SpreadsheetApp.getUi().createMenu('🏷️ Item Specifics')
+    SpreadsheetApp.getUi().createMenu('Item Specifics')
       .addItem('Step1: 基本項目を生成（選択行）', 'step1BasicSelectedRows')
       .addItem('Step1: 基本項目を生成（全行）', 'step1BasicAllRows')
       .addSeparator()
@@ -24,7 +24,7 @@ function onOpen() {
       .addItem('APIキー設定', 'showISApiKeyDialog')
       .addToUi();
   } catch(e) {
-    Logger.log('IS menu error: ' + e);
+    SpreadsheetApp.getActive().toast('IS menu error: ' + e, 'Error', 10);
   }
 }
 function initialSetup() { LIB.initialSetup(); }
