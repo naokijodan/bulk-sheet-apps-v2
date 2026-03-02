@@ -49,8 +49,6 @@ function addItemSpecificsMenu() {
       .addSeparator()
       .addItem('辞書管理', 'showDictionaryManager')
       .addItem('辞書を初期化', 'initializeDictionaryWithConfirm')
-      .addSeparator()
-      .addItem('設定', 'showISSettingsDialog')
       .addToUi();
   } catch (e) {
     Logger.log('[addItemSpecificsMenu] error: ' + (e && e.stack ? e.stack : e));

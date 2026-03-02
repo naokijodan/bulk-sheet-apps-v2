@@ -46,19 +46,12 @@ var IS_CONFIG = {
 /**
  * DocumentProperties から設定を読み込み、IS_CONFIGとマージして返す
  * - OPENAI_API_KEY（既存と共有）
- * - IS_AI_MODEL
  * @return {Object}
  */
 function getISSettings() {
   try {
     var docProps = PropertiesService.getDocumentProperties();
     var settings = JSON.parse(JSON.stringify(IS_CONFIG)); // ディープコピー（ES5対応）
-
-    // AIモデル
-    var model = docProps.getProperty('IS_AI_MODEL');
-    if (model) {
-      settings.AI.MODEL = model;
-    }
 
     // 既存共有のAPIキー
     var apiKey = docProps.getProperty('OPENAI_API_KEY');
@@ -71,57 +64,6 @@ function getISSettings() {
     return settings;
   } catch (e) {
     throw new Error('getISSettings エラー: ' + (e && e.message ? e.message : e));
-  }
-}
-
-/**
- * 設定を DocumentProperties に保存
- * @param {Object} settings
- */
-function saveISSettings(settings) {
-  try {
-    if (!settings) {
-      throw new Error('settings が未定義です');
-    }
-    var docProps = PropertiesService.getDocumentProperties();
-    if (settings.OPENAI_API_KEY !== undefined && settings.OPENAI_API_KEY !== null) {
-      docProps.setProperty('OPENAI_API_KEY', String(settings.OPENAI_API_KEY));
-    }
-    if (settings.AI && settings.AI.MODEL !== undefined && settings.AI.MODEL !== null) {
-      docProps.setProperty('IS_AI_MODEL', String(settings.AI.MODEL));
-    }
-  } catch (e) {
-    throw new Error('saveISSettings エラー: ' + (e && e.message ? e.message : e));
-  }
-}
-
-/**
- * 簡易設定ダイアログの表示（UIプロンプト）
- * - AIモデル
- */
-function showISSettingsDialog() {
-  var ui = SpreadsheetApp.getUi();
-  try {
-    var current = getISSettings();
-
-    // AIモデル
-    var modelPrompt = ui.prompt(
-      'Item Specifics 設定',
-      'AIモデル名を入力してください（現在: ' + (current.AI && current.AI.MODEL ? current.AI.MODEL : '未設定') + '）\n\n推奨: gpt-5-nano（安価・高速）',
-      ui.ButtonSet.OK_CANCEL
-    );
-    if (modelPrompt.getSelectedButton() !== ui.Button.OK) {
-      return;
-    }
-    var model = (modelPrompt.getResponseText() || '').trim();
-    if (model) {
-      current.AI.MODEL = model;
-    }
-
-    saveISSettings(current);
-    ui.alert('設定を保存しました');
-  } catch (e) {
-    ui.alert('設定エラー: ' + (e && e.message ? e.message : e));
   }
 }
 
