@@ -205,7 +205,7 @@ ItemSpecifics/
 ├── ItemSpecifics.gs       ← メインスクリプト（メニュー追加、実行ロジック）
 ├── Dictionary.gs          ← 辞書シートの読み込み・管理機能
 ├── AIExtractor.gs         ← AI API呼び出し・プロンプト生成・レスポンス解析
-└── Config_IS.gs           ← 設定（辞書シートID、API設定等）
+└── Config_IS.gs           ← 設定（AI設定等）
 ```
 
 ---

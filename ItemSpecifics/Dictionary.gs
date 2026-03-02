@@ -522,15 +522,7 @@ function invalidateDictionaryCache_() {
  * @return {GoogleAppsScript.Spreadsheet.Sheet|null}
  */
 function getDictionarySheet_(createIfMissing) {
-  var settings = getISSettings();
-  var id = (settings && settings.DICTIONARY_SHEET_ID) ? settings.DICTIONARY_SHEET_ID.toString().trim() : '';
-  if (!id) {
-    if (createIfMissing) {
-      throw new Error('辞書スプレッドシートIDが未設定です。showISSettingsDialog() で設定してください');
-    }
-    return null;
-  }
-  var ss = SpreadsheetApp.openById(id);
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sh = ss.getSheetByName(IS_DICTIONARY_SHEET_NAME);
   if (!sh && createIfMissing) {
     sh = ss.insertSheet(IS_DICTIONARY_SHEET_NAME);
@@ -557,4 +549,3 @@ function ensureDictionaryHeader_(sheet) {
     sheet.getRange(1, 1, 1, header.length).setValues([header]);
   }
 }
-
