@@ -1,6 +1,5 @@
 /******************************************************
  * Config_IS.gs - Item Specifics 設定
- * - 辞書スプレッドシートID
  * - OpenAI API設定
  * - 出品2シートの列マッピング
  ******************************************************/
@@ -47,7 +46,6 @@ var IS_CONFIG = {
 
 /**
  * DocumentProperties から設定を読み込み、IS_CONFIGとマージして返す
- * - IS_DICTIONARY_SHEET_ID
  * - OPENAI_API_KEY（既存と共有）
  * - IS_AI_MODEL
  * @return {Object}
@@ -104,7 +102,6 @@ function saveISSettings(settings) {
 
 /**
  * 簡易設定ダイアログの表示（UIプロンプト）
- * - 辞書シートID
  * - AIモデル
  */
 function showISSettingsDialog() {

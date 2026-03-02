@@ -11,6 +11,32 @@
  * 注意: GASのES5互換 (var / function) に準拠
  */
 
+/**
+ * 初回セットアップ: GASエディタからこの関数を1回実行するだけで、
+ * 以降シートを開くたびにItem Specificsメニューが自動表示される。
+ * 既存のonOpen関数には一切変更を加えない。
+ */
+function setupItemSpecifics() {
+  // 既存のトリガーを確認（重複登録防止）
+  var triggers = ScriptApp.getProjectTriggers();
+  for (var i = 0; i < triggers.length; i++) {
+    if (triggers[i].getHandlerFunction() === 'addItemSpecificsMenu') {
+      SpreadsheetApp.getUi().alert('Item Specificsメニューは既にセットアップ済みです。');
+      return;
+    }
+  }
+  // インストール可能なonOpenトリガーを登録
+  ScriptApp.newTrigger('addItemSpecificsMenu')
+    .forSpreadsheet(SpreadsheetApp.getActive())
+    .onOpen()
+    .create();
+
+  // 今すぐメニューも表示
+  addItemSpecificsMenu();
+
+  SpreadsheetApp.getUi().alert('セットアップ完了！\n以降、シートを開くたびにItem Specificsメニューが自動表示されます。');
+}
+
 // =============================
 // 公開: メニュー追加
 // =============================
@@ -483,8 +509,6 @@ function initializeDictionaryWithConfirm() {
 // =============================
 // 非公開: 実行前検証
 // - APIキー
-// - 辞書シートID
-// - 辞書アクセス
 // - アクティブシート名
 // =============================
 function validateSetup_() {
