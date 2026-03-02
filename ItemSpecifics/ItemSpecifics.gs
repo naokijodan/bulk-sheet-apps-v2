@@ -396,13 +396,17 @@ function extractSelectedRows() {
       }
       // category/fieldsがnull/空でもリクエストに含める（AIが自律判定する）
 
+      // Step1で既に書き込まれたデータを読み取る
+      var existingData = readExistingSpecifics_(sheet, row);
+
       requests.push({
         row: row,
         tag: tag,
         title: title,
         description: desc,
         category: category,
-        fields: fields
+        fields: fields,
+        existingData: existingData
       });
     }
 
@@ -498,13 +502,16 @@ function extractAllRows() {
       }
       // category/fieldsがnull/空でもリクエストに含める（AIが自律判定する）
 
+      var existingData2 = readExistingSpecifics_(sheet, r);
+
       requests.push({
         row: r,
         tag: tag,
         title: title,
         description: desc,
         category: category,
-        fields: fields
+        fields: fields,
+        existingData: existingData2
       });
 
       if (requests.length % 20 === 0) {
@@ -709,6 +716,37 @@ function getValue_(sheet, row, col) {
   }
 }
 
+/**
+ * N列以降に既に書き込まれたItem Specificsを読み取る
+ * フラット配列形式（key, value, key, value...）をオブジェクトに変換
+ * @param {Sheet} sheet
+ * @param {number} row
+ * @return {Object} - {fieldName: value, ...}
+ */
+function readExistingSpecifics_(sheet, row) {
+  var result = {};
+  try {
+    var startCol = 14; // N列
+    var lastCol = sheet.getLastColumn();
+    if (lastCol < startCol) return result;
+
+    var numCols = lastCol - startCol + 1;
+    var values = sheet.getRange(row, startCol, 1, numCols).getValues()[0];
+
+    // フラット配列: [key, value, key, value, ...]
+    for (var i = 0; i < values.length - 1; i += 2) {
+      var key = values[i];
+      var val = values[i + 1];
+      if (key && String(key).trim() !== '') {
+        result[String(key).trim()] = String(val || '').trim();
+      }
+    }
+  } catch (e) {
+    Logger.log('[readExistingSpecifics_] error row ' + row + ': ' + e);
+  }
+  return result;
+}
+
 // =============================
 // 非公開: バッチ抽出実行（簡易リトライ対応）
 // requests: [{row, tag, title, description, category, fields}]
@@ -785,6 +823,12 @@ function runExtractionBatchWithRetry_(requests, settings, retryMax) {
 
   if (remaining.length > 0) {
     Logger.log('[runExtractionBatchWithRetry_] 最終的に失敗した件数: ' + remaining.length);
+    try {
+      SpreadsheetApp.getActiveSpreadsheet().toast(
+        'AI抽出: ' + results.length + '件成功, ' + remaining.length + '件失敗（実行ログを確認してください）',
+        'Item Specifics', 10
+      );
+    } catch (te) {}
   }
   return results;
 }
@@ -813,6 +857,11 @@ function normalizeBatchResults_(chunk, batchRes) {
       if (!res) {
         failed.push(req);
         continue;
+      }
+
+      // エラー応答をログに記録
+      if (res.success === false && res.error) {
+        Logger.log('[normalizeBatchResults_] row ' + (res.row || req.row) + ' error: ' + res.error);
       }
 
       // 可能なキーに対応

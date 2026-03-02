@@ -127,7 +127,7 @@ function extractItemSpecificsBatch(items) {
           var idx = slice[j];
           var it = items[idx];
           try {
-            prompts.push(buildExtractionPrompt_(it.title, it.description, it.category, it.fields, it.tag));
+            prompts.push(buildExtractionPrompt_(it.title, it.description, it.category, it.fields, it.tag, it.existingData));
             meta.push(idx);
           } catch (e) {
             outcomes[idx] = { row: it && it.row, success: false, error: 'プロンプト生成エラー: ' + (e.message || e) };
@@ -172,7 +172,7 @@ function extractItemSpecificsBatch(items) {
               nextQueue.push(itemIndex);
               continue;
             }
-            var data = parseExtractionResponse_(content, item.fields);
+            var data = parseExtractionResponse_(content, item.fields, item.existingData);
             outcomes[itemIndex] = { row: item.row, success: true, data: data };
           } catch (e2) {
             nextQueue.push(itemIndex);
@@ -215,7 +215,7 @@ function extractItemSpecificsBatch(items) {
 // ——— プライベート関数群 ———
 
 // プロンプト構築
-function buildExtractionPrompt_(title, description, category, fields, tag) {
+function buildExtractionPrompt_(title, description, category, fields, tag, existingData) {
   var lines = [];
 
   // === 1. ロール定義 ===
@@ -265,6 +265,24 @@ function buildExtractionPrompt_(title, description, category, fields, tag) {
   lines.push('Movement (watches): Automatic, Manual, Quartz, Solar, Kinetic');
   lines.push('Material: Use eBay standard terms (e.g., "Stainless Steel" not "SS", "Sterling Silver" not "Silver 925")');
   lines.push('');
+
+  // === 6.5. 既存データ（Step 1結果）===
+  if (existingData && typeof existingData === 'object') {
+    var existingKeys = Object.keys(existingData);
+    if (existingKeys.length > 0) {
+      lines.push('### ALREADY CONFIRMED DATA (from Step 1)');
+      lines.push('The following fields are already filled. DO NOT overwrite them unless clearly incorrect:');
+      for (var ei = 0; ei < existingKeys.length; ei++) {
+        var ek = existingKeys[ei];
+        var ev = existingData[ek];
+        if (ev && ev !== '') {
+          lines.push('- ' + ek + ': ' + ev);
+        }
+      }
+      lines.push('Focus on extracting EMPTY fields only.');
+      lines.push('');
+    }
+  }
 
   // === 7. 出力ルール ===
   lines.push('### OUTPUT RULES');
@@ -442,7 +460,7 @@ function callOpenAIBatch_(prompts) {
 }
 
 // レスポンス解析
-function parseExtractionResponse_(responseText, fields) {
+function parseExtractionResponse_(responseText, fields, existingData) {
   var text = safeStripCodeFences_(responseText);
   var obj;
   try {
@@ -496,6 +514,18 @@ function parseExtractionResponse_(responseText, fields) {
       var normalized2 = normalizeFieldValue_(k2, val2);
       if (normalized2 !== null && typeof normalized2 !== 'undefined' && normalized2 !== '') {
         result[k2] = normalized2;
+      }
+    }
+  }
+  
+  // existingDataをマージ（Step1の結果を保持、AIが空の場合はStep1の値を使用）
+  if (existingData && typeof existingData === 'object') {
+    var eKeys = Object.keys(existingData);
+    for (var ei2 = 0; ei2 < eKeys.length; ei2++) {
+      var eKey = eKeys[ei2];
+      var eVal = existingData[eKey];
+      if (eVal && eVal !== '' && (!result[eKey] || result[eKey] === '' || result[eKey] === 'Does not apply' || result[eKey] === 'Unbranded')) {
+        result[eKey] = eVal;
       }
     }
   }
