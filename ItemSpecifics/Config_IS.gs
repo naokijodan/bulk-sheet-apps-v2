@@ -673,6 +673,19 @@ var IS_TAG_TO_TYPE = {
   '遊戯王': 'Trading Card',
   'MTG': 'Trading Card',
   'フィギュア': 'Action Figure',
+  'ブローチ': 'Brooch',
+  'カフリンクス': 'Cufflinks',
+  'カフリンク': 'Cufflinks',
+  'カフスボタン': 'Cufflinks',
+  '髪飾り': 'Hair Accessory',
+  'ヘアアクセサリー': 'Hair Accessory',
+  'かんざし': 'Hair Pin',
+  'バレッタ': 'Barrette',
+  '皿': 'Plate',
+  'プレート': 'Plate',
+  '食器': 'Dinnerware',
+  '茶碗': 'Bowl',
+  'カップ': 'Cup',
   '衣類': 'Clothing',
   '服': 'Clothing',
   'トップス': 'Top',
@@ -701,6 +714,9 @@ var IS_TAG_TO_CATEGORY = {
   'ヘッドホン': 'Electronics', 'イヤホン': 'Electronics', 'スピーカー': 'Electronics',
   'トレカ': 'Trading Cards', 'カード': 'Trading Cards', 'トレーディングカード': 'Trading Cards',
   'ポケカ': 'Trading Cards', '遊戯王': 'Trading Cards', 'MTG': 'Trading Cards',
+  'ブローチ': 'Brooches', 'カフリンクス': 'Cufflinks', 'カフリンク': 'Cufflinks', 'カフスボタン': 'Cufflinks',
+  '髪飾り': 'Hair Accessories', 'ヘアアクセサリー': 'Hair Accessories', 'かんざし': 'Hair Accessories', 'バレッタ': 'Hair Accessories',
+  '皿': 'Dinnerware', 'プレート': 'Dinnerware', '食器': 'Dinnerware', '茶碗': 'Dinnerware', 'カップ': 'Dinnerware',
   'フィギュア': 'Collectibles', 'コレクティブル': 'Collectibles',
   'アンティーク': 'Collectibles', 'ヴィンテージ': 'Collectibles', '骨董品': 'Collectibles', '人形': 'Collectibles'
 };
@@ -720,6 +736,10 @@ var IS_CATEGORY_FIELDS = {
   'Cameras':       ['Brand', 'Type', 'Color', 'Country/Region of Manufacture'],
   'Electronics':   ['Brand', 'Type', 'Color', 'Country/Region of Manufacture'],
   'Trading Cards': ['Game', 'Language', 'Graded', 'Country/Region of Manufacture'],
+  'Brooches':      ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
+  'Cufflinks':     ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
+  'Hair Accessories': ['Brand', 'Material', 'Type', 'Color', 'Country/Region of Manufacture'],
+  'Dinnerware':    ['Brand', 'Type', 'Material', 'Color', 'Country/Region of Manufacture'],
   'Collectibles':  ['Brand', 'Type', 'Material', 'Country/Region of Manufacture']
 };
 
