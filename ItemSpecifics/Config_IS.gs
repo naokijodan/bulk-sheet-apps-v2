@@ -721,7 +721,12 @@ var IS_TAG_TO_TYPE = {
   'ベビー用品': 'Baby Item',
   '櫛': 'Comb',
   'くし': 'Comb',
-  'コーム': 'Comb'
+  'コーム': 'Comb',
+  'キーリング': 'Key Chain',
+  'キーホルダー': 'Key Chain',
+  'キーケース': 'Key Chain',
+  'チャーム': 'Charm',
+  'ペンダントトップ': 'Charm'
 };
 
 // ==============================
@@ -756,6 +761,8 @@ var IS_TAG_TO_CATEGORY = {
   'カトラリー': 'Flatware', 'スプーン': 'Flatware', 'フォーク': 'Flatware', 'ナイフ': 'Flatware',
   'ベビー': 'Baby', 'ベビーシューズ': 'Baby', 'ラトル': 'Baby', 'ベビー用品': 'Baby',
   '櫛': 'Combs', 'くし': 'Combs', 'コーム': 'Combs',
+  'キーリング': 'Key Chains', 'キーホルダー': 'Key Chains', 'キーケース': 'Key Chains',
+  'チャーム': 'Charms', 'ペンダントトップ': 'Charms',
   'フィギュア': 'Collectibles', 'コレクティブル': 'Collectibles',
   'アンティーク': 'Collectibles', 'ヴィンテージ': 'Collectibles', '骨董品': 'Collectibles', '人形': 'Collectibles'
 };
@@ -789,6 +796,8 @@ var IS_CATEGORY_FIELDS = {
   'Flatware':      ['Brand', 'Type', 'Metal', 'Country/Region of Manufacture'],
   'Baby':          ['Brand', 'Type', 'Material', 'Color', 'Country/Region of Manufacture'],
   'Combs':         ['Brand', 'Material', 'Type', 'Color', 'Country/Region of Manufacture'],
+  'Key Chains':    ['Brand', 'Metal', 'Material', 'Color', 'Country/Region of Manufacture'],
+  'Charms':        ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
   'Collectibles':  ['Brand', 'Type', 'Material', 'Country/Region of Manufacture']
 };
 
