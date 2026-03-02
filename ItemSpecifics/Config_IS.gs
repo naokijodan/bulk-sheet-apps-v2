@@ -230,3 +230,117 @@ var IS_INITIAL_DATA = [
   { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Year', field_type: 'recommended', priority: 6, notes: '' },
   { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Features', field_type: 'recommended', priority: 7, notes: '' }
 ];
+
+// 主要ブランド辞書（プロンプト埋め込み用）
+// research_brands.json から全カテゴリ集約
+var IS_BRAND_DICT = [
+  // === Watches ===
+  {name: 'Seiko', jp_names: ['セイコー', 'SEIKO'], country: 'Japan'},
+  {name: 'Casio', jp_names: ['カシオ', 'CASIO'], country: 'Japan'},
+  {name: 'Citizen', jp_names: ['シチズン', 'CITIZEN'], country: 'Japan'},
+  {name: 'Orient', jp_names: ['オリエント', 'ORIENT'], country: 'Japan'},
+  {name: 'G-Shock', jp_names: ['ジーショック', 'Gショック', 'G-SHOCK'], country: 'Japan'},
+  {name: 'Grand Seiko', jp_names: ['グランドセイコー', 'GRAND SEIKO'], country: 'Japan'},
+  {name: 'Rolex', jp_names: ['ロレックス', 'ROLEX'], country: 'Switzerland'},
+  {name: 'Omega', jp_names: ['オメガ', 'OMEGA'], country: 'Switzerland'},
+  {name: 'TAG Heuer', jp_names: ['タグホイヤー', 'タグ・ホイヤー', 'TAG HEUER'], country: 'Switzerland'},
+  {name: 'Cartier', jp_names: ['カルティエ', 'CARTIER'], country: 'France'},
+  {name: 'Breitling', jp_names: ['ブライトリング', 'BREITLING'], country: 'Switzerland'},
+  {name: 'IWC', jp_names: ['アイダブリューシー', 'IWC'], country: 'Switzerland'},
+  {name: 'Patek Philippe', jp_names: ['パテックフィリップ', 'パテック・フィリップ', 'PATEK PHILIPPE'], country: 'Switzerland'},
+  {name: 'Tudor', jp_names: ['チューダー', 'チュードル', 'TUDOR'], country: 'Switzerland'},
+  {name: 'Longines', jp_names: ['ロンジン', 'LONGINES'], country: 'Switzerland'},
+  {name: 'Panerai', jp_names: ['パネライ', 'PANERAI'], country: 'Italy'},
+  {name: 'Hamilton', jp_names: ['ハミルトン', 'HAMILTON'], country: 'Switzerland'},
+  // === Jewelry ===
+  {name: 'Mikimoto', jp_names: ['ミキモト', 'MIKIMOTO'], country: 'Japan'},
+  {name: 'Tasaki', jp_names: ['タサキ', '田崎真珠', 'TASAKI'], country: 'Japan'},
+  {name: 'Tiffany & Co.', jp_names: ['ティファニー', 'TIFFANY'], country: 'USA'},
+  {name: 'Bvlgari', jp_names: ['ブルガリ', 'BVLGARI'], country: 'Italy'},
+  {name: 'Van Cleef & Arpels', jp_names: ['ヴァンクリーフ＆アーペル', 'ヴァンクリーフ', 'VAN CLEEF & ARPELS'], country: 'France'},
+  {name: 'Chrome Hearts', jp_names: ['クロムハーツ', 'CHROME HEARTS'], country: 'USA'},
+  {name: 'Vivienne Westwood', jp_names: ['ヴィヴィアンウエストウッド', 'ヴィヴィアン', 'VIVIENNE WESTWOOD'], country: 'UK'},
+  {name: 'Swarovski', jp_names: ['スワロフスキー', 'SWAROVSKI'], country: 'Austria'},
+  // === Trading Cards ===
+  {name: 'Pokemon', jp_names: ['ポケモン', 'ポケモンカード', 'ポケカ', 'POKEMON'], country: 'Japan'},
+  {name: 'Yu-Gi-Oh!', jp_names: ['遊戯王', 'ユウギオウ', 'YU-GI-OH'], country: 'Japan'},
+  {name: 'One Piece', jp_names: ['ワンピース', 'ワンピースカード', 'ONE PIECE'], country: 'Japan'},
+  {name: 'Magic: The Gathering', jp_names: ['マジック・ザ・ギャザリング', 'MTG'], country: 'USA'},
+  {name: 'Dragon Ball', jp_names: ['ドラゴンボール', 'DRAGON BALL'], country: 'Japan'},
+  {name: 'Weiss Schwarz', jp_names: ['ヴァイスシュヴァルツ', 'ヴァイス', 'WEISS SCHWARZ'], country: 'Japan'},
+  // === Video Games ===
+  {name: 'Nintendo', jp_names: ['任天堂', 'ニンテンドー', 'NINTENDO'], country: 'Japan'},
+  {name: 'Sony PlayStation', jp_names: ['ソニー', 'プレイステーション', 'プレステ', 'PLAYSTATION'], country: 'Japan'},
+  {name: 'Sega', jp_names: ['セガ', 'SEGA'], country: 'Japan'},
+  {name: 'Bandai Namco', jp_names: ['バンダイナムコ', 'バンナム', 'BANDAI NAMCO'], country: 'Japan'},
+  {name: 'Capcom', jp_names: ['カプコン', 'CAPCOM'], country: 'Japan'},
+  {name: 'Square Enix', jp_names: ['スクウェア・エニックス', 'スクエニ', 'SQUARE ENIX'], country: 'Japan'},
+  {name: 'Konami', jp_names: ['コナミ', 'KONAMI'], country: 'Japan'},
+  // === Figures & Collectibles ===
+  {name: 'Bandai', jp_names: ['バンダイ', 'BANDAI'], country: 'Japan'},
+  {name: 'Good Smile Company', jp_names: ['グッドスマイルカンパニー', 'グッスマ', 'GOOD SMILE COMPANY'], country: 'Japan'},
+  {name: 'MegaHouse', jp_names: ['メガハウス', 'MEGAHOUSE'], country: 'Japan'},
+  {name: 'Kotobukiya', jp_names: ['コトブキヤ', '壽屋', 'KOTOBUKIYA'], country: 'Japan'},
+  {name: 'Medicom Toy', jp_names: ['メディコムトイ', 'MEDICOM TOY'], country: 'Japan'},
+  // === Cameras ===
+  {name: 'Canon', jp_names: ['キヤノン', 'キャノン', 'CANON'], country: 'Japan'},
+  {name: 'Nikon', jp_names: ['ニコン', 'NIKON'], country: 'Japan'},
+  {name: 'Sony', jp_names: ['ソニー', 'SONY'], country: 'Japan'},
+  {name: 'Fujifilm', jp_names: ['富士フイルム', 'フジフイルム', 'FUJIFILM'], country: 'Japan'},
+  {name: 'Olympus', jp_names: ['オリンパス', 'OLYMPUS'], country: 'Japan'},
+  {name: 'Pentax', jp_names: ['ペンタックス', 'PENTAX'], country: 'Japan'},
+  {name: 'Leica', jp_names: ['ライカ', 'LEICA'], country: 'Germany'},
+  // === Cell Phones ===
+  {name: 'Apple', jp_names: ['アップル', 'APPLE', 'iPhone', 'アイフォン'], country: 'USA'},
+  {name: 'Samsung', jp_names: ['サムスン', 'SAMSUNG', 'Galaxy', 'ギャラクシー'], country: 'South Korea'},
+  // === Clothing ===
+  {name: 'Comme des Garcons', jp_names: ['コムデギャルソン', 'COMME DES GARCONS', 'CDG'], country: 'Japan'},
+  {name: 'Issey Miyake', jp_names: ['イッセイミヤケ', 'ISSEY MIYAKE'], country: 'Japan'},
+  {name: 'Yohji Yamamoto', jp_names: ['ヨウジヤマモト', 'YOHJI YAMAMOTO'], country: 'Japan'},
+  {name: 'A Bathing Ape', jp_names: ['ベイプ', 'BAPE', 'A BATHING APE'], country: 'Japan'},
+  {name: 'Supreme', jp_names: ['シュプリーム', 'SUPREME'], country: 'USA'},
+  {name: 'Neighborhood', jp_names: ['ネイバーフッド', 'NEIGHBORHOOD'], country: 'Japan'},
+  // === Shoes ===
+  {name: 'Nike', jp_names: ['ナイキ', 'NIKE'], country: 'USA'},
+  {name: 'Adidas', jp_names: ['アディダス', 'ADIDAS'], country: 'Germany'},
+  {name: 'New Balance', jp_names: ['ニューバランス', 'NEW BALANCE'], country: 'USA'},
+  {name: 'ASICS', jp_names: ['アシックス', 'ASICS'], country: 'Japan'},
+  {name: 'Onitsuka Tiger', jp_names: ['オニツカタイガー', 'ONITSUKA TIGER'], country: 'Japan'},
+  // === Bags ===
+  {name: 'Louis Vuitton', jp_names: ['ルイヴィトン', 'ルイ・ヴィトン', 'LOUIS VUITTON', 'LV'], country: 'France'},
+  {name: 'Gucci', jp_names: ['グッチ', 'GUCCI'], country: 'Italy'},
+  {name: 'Chanel', jp_names: ['シャネル', 'CHANEL'], country: 'France'},
+  {name: 'Hermes', jp_names: ['エルメス', 'HERMES'], country: 'France'},
+  {name: 'Porter', jp_names: ['ポーター', '吉田カバン', 'PORTER'], country: 'Japan'},
+  {name: 'Prada', jp_names: ['プラダ', 'PRADA'], country: 'Italy'},
+  {name: 'Celine', jp_names: ['セリーヌ', 'CELINE'], country: 'France'},
+  // === Pottery ===
+  {name: 'Arita', jp_names: ['有田焼', 'ARITA'], country: 'Japan'},
+  {name: 'Kutani', jp_names: ['九谷焼', 'KUTANI'], country: 'Japan'},
+  {name: 'Imari', jp_names: ['伊万里焼', 'IMARI'], country: 'Japan'},
+  {name: 'Satsuma', jp_names: ['薩摩焼', 'SATSUMA'], country: 'Japan'},
+  {name: 'Noritake', jp_names: ['ノリタケ', 'NORITAKE'], country: 'Japan'},
+  // === Musical Instruments ===
+  {name: 'Yamaha', jp_names: ['ヤマハ', 'YAMAHA'], country: 'Japan'},
+  {name: 'Roland', jp_names: ['ローランド', 'ROLAND'], country: 'Japan'},
+  {name: 'Korg', jp_names: ['コルグ', 'KORG'], country: 'Japan'},
+  {name: 'Ibanez', jp_names: ['アイバニーズ', 'IBANEZ'], country: 'Japan'},
+  {name: 'ESP', jp_names: ['イーエスピー', 'ESP'], country: 'Japan'},
+  // === Automotive ===
+  {name: 'Toyota', jp_names: ['トヨタ', 'TOYOTA'], country: 'Japan'},
+  {name: 'Honda', jp_names: ['ホンダ', 'HONDA'], country: 'Japan'},
+  {name: 'Nissan', jp_names: ['日産', 'ニッサン', 'NISSAN'], country: 'Japan'},
+  // === Toys ===
+  {name: 'Takara Tomy', jp_names: ['タカラトミー', 'TAKARA TOMY'], country: 'Japan'},
+  {name: 'Tamiya', jp_names: ['タミヤ', '田宮模型', 'TAMIYA'], country: 'Japan'},
+  {name: 'Gundam (Gunpla)', jp_names: ['ガンダム', 'ガンプラ', 'GUNDAM', 'GUNPLA'], country: 'Japan'},
+  // === Beauty ===
+  {name: 'Shiseido', jp_names: ['資生堂', 'シセイドウ', 'SHISEIDO'], country: 'Japan'},
+  {name: 'SK-II', jp_names: ['エスケーツー', 'SK-II', 'SK2'], country: 'Japan'},
+  {name: 'KOSE', jp_names: ['コーセー', 'KOSE'], country: 'Japan'},
+  // === Sporting Goods ===
+  {name: 'Mizuno', jp_names: ['ミズノ', 'MIZUNO'], country: 'Japan'},
+  {name: 'Yonex', jp_names: ['ヨネックス', 'YONEX'], country: 'Japan'},
+  {name: 'Shimano', jp_names: ['シマノ', 'SHIMANO'], country: 'Japan'},
+  {name: 'Daiwa', jp_names: ['ダイワ', 'DAIWA'], country: 'Japan'}
+];

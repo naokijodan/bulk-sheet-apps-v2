@@ -146,12 +146,13 @@ function extractSelectedRows() {
 
     SpreadsheetApp.getActiveSpreadsheet().toast('辞書読み込み中...', toastTitle, 5);
 
-    // 辞書読込
+    // 辞書読み込み（補完用 — なくても動作する）
     var dict = null;
     try {
       dict = (typeof loadDictionary === 'function') ? loadDictionary() : null;
     } catch (dictErr) {
-      Logger.log('[extractSelectedRows] loadDictionary error: ' + dictErr);
+      Logger.log('[extractSelectedRows] loadDictionary warning: ' + dictErr);
+      // 辞書なしでも続行
     }
 
     // データの読み取り (A:tag, G:title, L:description)
@@ -162,49 +163,25 @@ function extractSelectedRows() {
       var title = getValue_(sheet, row, 7);    // G列
       var desc = getValue_(sheet, row, 12);    // L列
 
-      if (!tag && !title) {
+      if (!title && !tag) {
         Logger.log('[extractSelectedRows] skip row ' + row + ' (tag/title empty)');
         continue;
       }
 
+      // カテゴリとフィールドは辞書から取得を試みるが、失敗しても続行
       var category = null;
-      try {
-        if (typeof getCategoryByTag === 'function' && tag) {
-          category = getCategoryByTag(tag, dict);
-        }
-      } catch (catErr) {
-        Logger.log('[extractSelectedRows] getCategoryByTag error row ' + row + ': ' + catErr);
-      }
-      if (!category) {
-        try {
-          if (typeof mapTagToCategory === 'function') {
-            var catNames = [];
-            if (dict) {
-              for (var cn in dict) {
-                if (dict.hasOwnProperty(cn)) { catNames.push(cn); }
-              }
-            }
-            category = mapTagToCategory(tag, catNames);
-          }
-        } catch (mapErr) {
-          Logger.log('[extractSelectedRows] mapTagToCategory error row ' + row + ': ' + mapErr);
-        }
-      }
-      if (!category) {
-        Logger.log('[extractSelectedRows] category not found row ' + row + ' (skip)');
-        continue;
-      }
-
       var fields = [];
       try {
-        if (typeof getFieldsForCategory === 'function') {
+        if (dict && typeof getCategoryByTag === 'function' && tag) {
+          category = getCategoryByTag(tag, dict);
+        }
+        if (category && typeof getFieldsForCategory === 'function') {
           fields = getFieldsForCategory(category, dict) || [];
         }
-      } catch (fErr) {
-        Logger.log('[extractSelectedRows] getFieldsForCategory error row ' + row + ': ' + fErr);
+      } catch (dictLookupErr) {
+        Logger.log('[extractSelectedRows] dict lookup warning row ' + row + ': ' + dictLookupErr);
       }
-
-      
+      // category/fieldsがnull/空でもリクエストに含める（AIが自律判定する）
 
       requests.push({
         row: row,
@@ -293,44 +270,20 @@ function extractAllRows() {
         continue; // スキップ
       }
 
+      // カテゴリとフィールドは辞書から取得を試みるが、失敗しても続行
       var category = null;
-      try {
-        if (typeof getCategoryByTag === 'function' && tag) {
-          category = getCategoryByTag(tag, dict);
-        }
-      } catch (catErr) {
-        Logger.log('[extractAllRows] getCategoryByTag error row ' + r + ': ' + catErr);
-      }
-      if (!category) {
-        try {
-          if (typeof mapTagToCategory === 'function') {
-            var catNames2 = [];
-            if (dict) {
-              for (var cn2 in dict) {
-                if (dict.hasOwnProperty(cn2)) { catNames2.push(cn2); }
-              }
-            }
-            category = mapTagToCategory(tag, catNames2);
-          }
-        } catch (mapErr) {
-          Logger.log('[extractAllRows] mapTagToCategory error row ' + r + ': ' + mapErr);
-        }
-      }
-      if (!category) {
-        Logger.log('[extractAllRows] category not found row ' + r + ' (skip)');
-        continue;
-      }
-
       var fields = [];
       try {
-        if (typeof getFieldsForCategory === 'function') {
+        if (dict && typeof getCategoryByTag === 'function' && tag) {
+          category = getCategoryByTag(tag, dict);
+        }
+        if (category && typeof getFieldsForCategory === 'function') {
           fields = getFieldsForCategory(category, dict) || [];
         }
-      } catch (fErr) {
-        Logger.log('[extractAllRows] getFieldsForCategory error row ' + r + ': ' + fErr);
+      } catch (dictLookupErr2) {
+        Logger.log('[extractAllRows] dict lookup warning row ' + r + ': ' + dictLookupErr2);
       }
-
-      
+      // category/fieldsがnull/空でもリクエストに含める（AIが自律判定する）
 
       requests.push({
         row: r,

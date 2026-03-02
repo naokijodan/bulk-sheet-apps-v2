@@ -31,10 +31,10 @@ function getAIConfig_() {
 }
 
 // 1. メイン抽出関数
-function extractItemSpecifics(title, description, category, fields) {
+function extractItemSpecifics(title, description, category, fields, tag) {
   var out = { success: false, data: null, error: null };
   try {
-    var prompt = buildExtractionPrompt_(title, description, category, fields);
+    var prompt = buildExtractionPrompt_(title, description, category, fields, tag);
     var responseText = callOpenAI_(prompt);
     var data = parseExtractionResponse_(responseText, fields);
     out.success = true;
@@ -127,7 +127,7 @@ function extractItemSpecificsBatch(items) {
           var idx = slice[j];
           var it = items[idx];
           try {
-            prompts.push(buildExtractionPrompt_(it.title, it.description, it.category, it.fields));
+            prompts.push(buildExtractionPrompt_(it.title, it.description, it.category, it.fields, it.tag));
             meta.push(idx);
           } catch (e) {
             outcomes[idx] = { row: it && it.row, success: false, error: 'プロンプト生成エラー: ' + (e.message || e) };
@@ -215,51 +215,144 @@ function extractItemSpecificsBatch(items) {
 // ——— プライベート関数群 ———
 
 // プロンプト構築
-function buildExtractionPrompt_(title, description, category, fields) {
+function buildExtractionPrompt_(title, description, category, fields, tag) {
   var lines = [];
-  lines.push('You are an expert eBay Item Specifics extractor.');
-  lines.push('Extract Item Specifics from the given Title and Description.');
-  lines.push('');
-  lines.push('Category: ' + (category || 'General'));
+
+  // === 1. ロール定義 ===
+  lines.push('You are an expert eBay Item Specifics extractor for Japanese sellers.');
+  lines.push('Analyze the product information and extract all relevant Item Specifics.');
   lines.push('');
 
-  if (fields && fields.length > 0) {
-    lines.push('Extract these fields:');
-    for (var i = 0; i < fields.length; i++) {
-      var f = fields[i] || {};
-      var name = f.name || '';
-      if (!name) continue;
-      var constraint = '- ' + name;
-      if (f.type === 'required') {
-        constraint += ' (REQUIRED)';
-      }
-      if (f.notes) {
-        constraint += ' [Hint: ' + f.notes + ']';
-      }
-      lines.push(constraint);
-    }
-  } else {
-    lines.push('Extract the most relevant eBay Item Specifics for this product (5-10 fields).');
-    lines.push('Common fields: Brand, Type, Model, Material, Color, Country of Origin, Style, Department.');
+  // === 2. 入力データ ===
+  lines.push('### INPUT DATA');
+  if (tag) {
+    lines.push('Product Tag (category hint): ' + tag);
+  }
+  lines.push('Title: ' + (title || ''));
+  lines.push('Description: ' + (description || ''));
+  lines.push('');
+
+  // === 3. カテゴリ判定指示 ===
+  lines.push('### STEP 1: CATEGORY DETECTION');
+  lines.push('Determine the eBay product category from the title and description.');
+  lines.push('The Product Tag is a HINT only - verify against the actual title/description.');
+  lines.push('Use one of these categories: Watches, Jewelry, Trading Cards, Video Games, Collectibles, Cameras, Cell Phones, Clothing, Shoes, Bags, Pottery, Musical Instruments, Automotive Parts, Books, Toys, Health & Beauty, Home & Garden, Sporting Goods, Art, Antiques, Other');
+  lines.push('');
+
+  // === 4. ブランド辞書（プロンプト埋め込み） ===
+  var brandDict = getBrandDictForPrompt_();
+  if (brandDict) {
+    lines.push('### BRAND DICTIONARY');
+    lines.push('Use this dictionary to identify brands from Japanese text:');
+    lines.push(brandDict);
+    lines.push('');
   }
 
+  // === 5. カテゴリ別フィールド要件 ===
+  lines.push('### STEP 2: EXTRACT ITEM SPECIFICS');
+  lines.push('Based on the detected category, extract these fields:');
   lines.push('');
-  lines.push('Rules:');
+
+  var categoryFields = getCategoryFieldsForPrompt_();
+  lines.push(categoryFields);
+  lines.push('');
+
+  // === 6. Accepted Values（正規化ルール） ===
+  lines.push('### NORMALIZATION RULES');
+  lines.push('Color: Use standard eBay colors: Black, Blue, Brown, Gold, Gray, Green, Multicolor, Orange, Pink, Purple, Red, Silver, White, Yellow, Beige, Navy');
+  lines.push('Country/Region of Manufacture: Use full English country name (Japan, Switzerland, United States, China, Italy, France, Germany, United Kingdom). This is the MANUFACTURING country, not brand HQ.');
+  lines.push('Department: Use Men, Women, Unisex, Boys, Girls');
+  lines.push('Movement (watches): Automatic, Manual, Quartz, Solar, Kinetic');
+  lines.push('Material: Use eBay standard terms (e.g., "Stainless Steel" not "SS", "Sterling Silver" not "Silver 925")');
+  lines.push('');
+
+  // === 7. 出力ルール ===
+  lines.push('### OUTPUT RULES');
   lines.push('- Return ONLY a valid JSON object. No markdown, no explanation, no code fences.');
-  lines.push('- Keys must be the exact field names specified above.');
+  lines.push('- First key must be "_category" with the detected eBay category name.');
+  lines.push('- Remaining keys are the Item Specifics field names with extracted values.');
   lines.push('- Values must be in English.');
-  lines.push('- If a value cannot be determined, return empty string "".');
-  lines.push('- For required fields where value is unknown, use "Does not apply" (except Brand: use "Unbranded").');
-  lines.push('- Normalize values to eBay standard (e.g., "Blue" not "Navy Blue").');
-  lines.push('- Country of Origin = manufacturing country, not brand HQ. Use full English name.');
+  lines.push('- If a value cannot be determined from the input, use empty string "".');
+  lines.push('- For REQUIRED fields where value is truly unknown: use "Does not apply" (except Brand: use "Unbranded").');
+  lines.push('- Do NOT guess or hallucinate values. Only extract what is clearly stated or strongly implied.');
+  lines.push('- Normalize values to eBay standard terms.');
   lines.push('');
-  lines.push('### Title:');
-  lines.push(title || '');
-  lines.push('');
-  lines.push('### Description:');
-  lines.push(description || '');
+
+  // === 8. 出力例 ===
+  lines.push('### OUTPUT EXAMPLE');
+  lines.push('{"_category": "Watches", "Brand": "Seiko", "Type": "Wrist Watch", "Model": "Presage", "Movement": "Automatic", "Case Material": "Stainless Steel", "Band Material": "Leather", "Department": "Men", "Dial Color": "Blue", "Country/Region of Manufacture": "Japan"}');
 
   return lines.join('\n');
+}
+
+/**
+ * ブランド辞書からプロンプト用テキストを生成
+ * IS_BRAND_DICT が定義されていれば使用、なければ空文字を返す
+ */
+function getBrandDictForPrompt_() {
+  try {
+    if (typeof IS_BRAND_DICT === 'undefined' || !IS_BRAND_DICT) return '';
+    var lines = [];
+    for (var i = 0; i < IS_BRAND_DICT.length; i++) {
+      var b = IS_BRAND_DICT[i];
+      if (!b || !b.name) continue;
+      var jp = (b.jp_names && b.jp_names.length) ? b.jp_names.join(', ') : '';
+      var line = b.name;
+      if (jp) line += ' (' + jp + ')';
+      if (b.country) line += ' [' + b.country + ']';
+      lines.push(line);
+    }
+    return lines.join('\n');
+  } catch (e) {
+    return '';
+  }
+}
+
+/**
+ * IS_INITIAL_DATA からカテゴリ別フィールド要件テキストを生成
+ */
+function getCategoryFieldsForPrompt_() {
+  try {
+    var data = [];
+    if (typeof IS_INITIAL_DATA !== 'undefined' && IS_INITIAL_DATA) {
+      data = IS_INITIAL_DATA;
+    }
+    if (!data.length) {
+      return 'Extract the most relevant Item Specifics for this product (Brand, Type, Model, Material, Color, Country/Region of Manufacture, Style, Department).';
+    }
+
+    // カテゴリごとにグループ化
+    var cats = {};
+    for (var i = 0; i < data.length; i++) {
+      var d = data[i];
+      if (!d || !d.category || !d.field_name) continue;
+      if (!cats[d.category]) {
+        cats[d.category] = { required: [], recommended: [] };
+      }
+      if (d.field_type === 'required') {
+        cats[d.category].required.push(d.field_name);
+      } else {
+        cats[d.category].recommended.push(d.field_name);
+      }
+    }
+
+    var lines = [];
+    for (var cat in cats) {
+      if (!cats.hasOwnProperty(cat)) continue;
+      var c = cats[cat];
+      var line = '[' + cat + '] Required: ' + c.required.join(', ');
+      if (c.recommended.length > 0) {
+        line += ' | Recommended: ' + c.recommended.join(', ');
+      }
+      lines.push(line);
+    }
+    lines.push('');
+    lines.push('For categories not listed above, extract: Brand, Type, Model, Material, Color, Country/Region of Manufacture, Style, Department.');
+
+    return lines.join('\n');
+  } catch (e) {
+    return 'Extract: Brand, Type, Model, Material, Color, Country/Region of Manufacture, Style, Department.';
+  }
 }
 
 // OpenAI 単発呼び出し
@@ -350,52 +443,60 @@ function callOpenAIBatch_(prompts) {
 
 // レスポンス解析
 function parseExtractionResponse_(responseText, fields) {
-  // 1. JSONをパース（```jsonフェンス対応, 生JSON対応）
   var text = safeStripCodeFences_(responseText);
   var obj;
   try {
     obj = JSON.parse(text);
   } catch (e) {
-    // 失敗時は空オブジェクト扱い
     obj = {};
   }
 
+  // _category はメタデータなので除外
   var result = {};
-  var i;
-  for (i = 0; i < (fields ? fields.length : 0); i++) {
-    var f = fields[i] || {};
-    var key = f.name || '';
-    if (!key) continue;
 
-    // フィールド値取得（厳密一致 → 大文字小文字無視）
-    var val;
-    if (obj.hasOwnProperty(key)) {
-      val = obj[key];
-    } else {
-      // 大文字/小文字を無視した一致
-      var k;
-      for (k in obj) {
-        if (obj.hasOwnProperty(k) && String(k).toLowerCase() === String(key).toLowerCase()) {
-          val = obj[k];
-          break;
+  if (fields && fields.length > 0) {
+    // フィールド定義がある場合: 定義に沿ってマッピング
+    for (var i = 0; i < fields.length; i++) {
+      var f = fields[i] || {};
+      var key = f.name || '';
+      if (!key) continue;
+
+      var val;
+      if (obj.hasOwnProperty(key)) {
+        val = obj[key];
+      } else {
+        var k;
+        for (k in obj) {
+          if (obj.hasOwnProperty(k) && String(k).toLowerCase() === String(key).toLowerCase()) {
+            val = obj[k];
+            break;
+          }
         }
+      }
+
+      var normalized = normalizeFieldValue_(key, val);
+      if (normalized === null || typeof normalized === 'undefined' || normalized === '') {
+        if (isRequiredField_(f)) {
+          if (String(key).toLowerCase() === 'brand') {
+            result[key] = 'Unbranded';
+          } else {
+            result[key] = 'Does not apply';
+          }
+        }
+      } else {
+        result[key] = normalized;
       }
     }
-
-    // 2. 各フィールドの値を検証・整形
-    var normalized = normalizeFieldValue_(key, val);
-
-    // 3/4. nullでない値のみ残す。required で null の場合は既定値
-    if (normalized === null || typeof normalized === 'undefined' || normalized === '') {
-      if (isRequiredField_(f)) {
-        if (String(key).toLowerCase() === 'brand') {
-          result[key] = 'Unbranded';
-        } else {
-          result[key] = 'Does not apply';
-        }
+  } else {
+    // フィールド定義がない場合: AIが返した全フィールドを使用
+    for (var k2 in obj) {
+      if (!obj.hasOwnProperty(k2)) continue;
+      if (k2 === '_category') continue; // メタデータ除外
+      var val2 = obj[k2];
+      var normalized2 = normalizeFieldValue_(k2, val2);
+      if (normalized2 !== null && typeof normalized2 !== 'undefined' && normalized2 !== '') {
+        result[k2] = normalized2;
       }
-    } else {
-      result[key] = normalized;
     }
   }
 
