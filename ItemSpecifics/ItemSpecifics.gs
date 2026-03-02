@@ -17,12 +17,11 @@
  * 既存のonOpen関数には一切変更を加えない。
  */
 function setupItemSpecifics() {
-  // 既存のトリガーを確認（重複登録防止）
+  // 既存のトリガーを削除してから再作成（コード更新後も確実に動くようにする）
   var triggers = ScriptApp.getProjectTriggers();
   for (var i = 0; i < triggers.length; i++) {
     if (triggers[i].getHandlerFunction() === 'addItemSpecificsMenu') {
-      SpreadsheetApp.getUi().alert('Item Specificsメニューは既にセットアップ済みです。');
-      return;
+      ScriptApp.deleteTrigger(triggers[i]);
     }
   }
   // インストール可能なonOpenトリガーを登録
@@ -34,7 +33,7 @@ function setupItemSpecifics() {
   // 今すぐメニューも表示
   addItemSpecificsMenu();
 
-  SpreadsheetApp.getUi().alert('セットアップ完了！\n以降、シートを開くたびにItem Specificsメニューが自動表示されます。');
+  SpreadsheetApp.getUi().alert('セットアップ完了！\nコード更新後もこの関数を実行すればメニューが復帰します。');
 }
 
 // =============================
