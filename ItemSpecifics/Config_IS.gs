@@ -630,6 +630,30 @@ var IS_BRAND_DICT = [
   {name: 'Tamiya', jp_names: ['タミヤ', 'TAMIYA'], country: 'Japan'},
   {name: 'Tomica', jp_names: ['トミカ', 'TOMICA'], country: 'Japan'},
 
+  // === Pipes (Tobacco Pipes) ===
+  {name: 'Peterson', jp_names: ['ピーターソン'], country: 'Ireland', category: ['Pipes']},
+  {name: 'Savinelli', jp_names: ['サビネリ'], country: 'Italy', category: ['Pipes']},
+  {name: 'Stanwell', jp_names: ['スタンウェル'], country: 'Denmark', category: ['Pipes']},
+  {name: 'Chacom', jp_names: ['シャコム'], country: 'France', category: ['Pipes']},
+  {name: 'Butz-Choquin', jp_names: ['ビュッツショカン'], country: 'France', category: ['Pipes']},
+  {name: 'Vauen', jp_names: ['ファウエン'], country: 'Germany', category: ['Pipes']},
+  {name: 'Brebbia', jp_names: ['ブレビア'], country: 'Italy', category: ['Pipes']},
+  {name: 'Nording', jp_names: ['ノルディング'], country: 'Denmark', category: ['Pipes']},
+  {name: 'Tsuge', jp_names: ['ツゲ', '柘', '柘製作所', 'TSUGE'], country: 'Japan', category: ['Pipes']},
+  {name: 'Castello', jp_names: ['カステロ'], country: 'Italy', category: ['Pipes']},
+  {name: 'Ser Jacopo', jp_names: ['セルヤコポ'], country: 'Italy', category: ['Pipes']},
+  {name: 'Radice', jp_names: ['ラディーチェ'], country: 'Italy', category: ['Pipes']},
+  {name: 'Kaywoodie', jp_names: ['ケイウッディ'], country: 'USA', category: ['Pipes']},
+  {name: 'Dr. Grabow', jp_names: ['ドクターグラボウ'], country: 'USA', category: ['Pipes']},
+  {name: 'Missouri Meerschaum', jp_names: ['ミズーリメシャム'], country: 'USA', category: ['Pipes']},
+  {name: 'Brigham', jp_names: ['ブリガム'], country: 'Canada', category: ['Pipes']},
+  {name: 'Ropp', jp_names: ['ロップ'], country: 'France', category: ['Pipes']},
+  {name: 'Winslow', jp_names: ['ウィンスロー'], country: 'Denmark', category: ['Pipes']},
+  {name: 'Ben Wade', jp_names: ['ベンウェイド'], country: 'UK', category: ['Pipes']},
+  {name: 'Il Ceppo', jp_names: ['イルチェッポ'], country: 'Italy', category: ['Pipes']},
+  {name: 'Caminetto', jp_names: ['カミネット'], country: 'Italy', category: ['Pipes']},
+  {name: 'Medico', jp_names: ['メディコ'], country: 'USA', category: ['Pipes']},
+
 ];
 
 // Step 1: タグからTypeを推定するためのマップ
@@ -726,7 +750,14 @@ var IS_TAG_TO_TYPE = {
   'キーホルダー': 'Key Chain',
   'キーケース': 'Key Chain',
   'チャーム': 'Charm',
-  'ペンダントトップ': 'Charm'
+  'ペンダントトップ': 'Charm',
+  // Pipes (Tobacco Pipes)
+  'パイプ': 'Tobacco Pipe',
+  '喫煙パイプ': 'Tobacco Pipe',
+  'パイプ・喫煙具': 'Tobacco Pipe',
+  '煙管': 'Kiseru',
+  'キセル': 'Kiseru',
+  'Pipe': 'Tobacco Pipe'
 };
 
 // ==============================
@@ -764,7 +795,9 @@ var IS_TAG_TO_CATEGORY = {
   'キーリング': 'Key Chains', 'キーホルダー': 'Key Chains', 'キーケース': 'Key Chains',
   'チャーム': 'Charms', 'ペンダントトップ': 'Charms',
   'フィギュア': 'Collectibles', 'コレクティブル': 'Collectibles',
-  'アンティーク': 'Collectibles', 'ヴィンテージ': 'Collectibles', '骨董品': 'Collectibles', '人形': 'Collectibles'
+  'アンティーク': 'Collectibles', 'ヴィンテージ': 'Collectibles', '骨董品': 'Collectibles', '人形': 'Collectibles',
+  // Pipes (Tobacco Pipes)
+  'パイプ': 'Pipes', '喫煙パイプ': 'Pipes', '煙管': 'Pipes', 'キセル': 'Pipes', 'パイプ・喫煙具': 'Pipes'
 };
 
 // ==============================
@@ -798,7 +831,8 @@ var IS_CATEGORY_FIELDS = {
   'Combs':         ['Brand', 'Material', 'Type', 'Color', 'Country/Region of Manufacture'],
   'Key Chains':    ['Brand', 'Metal', 'Material', 'Color', 'Country/Region of Manufacture'],
   'Charms':        ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
-  'Collectibles':  ['Brand', 'Type', 'Material', 'Country/Region of Manufacture']
+  'Collectibles':  ['Brand', 'Type', 'Material', 'Country/Region of Manufacture'],
+  'Pipes':         ['Brand', 'Material', 'Type', 'Color', 'Country/Region of Manufacture']
 };
 
 // ==============================
@@ -916,7 +950,10 @@ var IS_GENERAL_MATERIAL_PATTERNS = [
   {keywords: ['ファー', 'Fur', 'FUR', '毛皮'], value: 'Fur'},
   {keywords: ['セラミック', 'Ceramic', 'CERAMIC', '陶器', '磁器', '陶磁器'], value: 'Ceramic'},
   {keywords: ['木製', 'Wood', 'ウッド'], value: 'Wood'},
-  {keywords: ['ガラス', 'Glass', 'クリスタル', 'Crystal'], value: 'Glass'}
+  {keywords: ['ガラス', 'Glass', 'クリスタル', 'Crystal'], value: 'Glass'},
+  {keywords: ['ブライヤー', 'Briar', 'BRIAR', 'ブライアー'], value: 'Briar'},
+  {keywords: ['メシャム', 'Meerschaum', 'MEERSCHAUM', '海泡石'], value: 'Meerschaum'},
+  {keywords: ['コーンコブ', 'Corn Cob', 'CORN COB', 'コーン'], value: 'Corn Cob'}
 ];
 
 // ==============================
