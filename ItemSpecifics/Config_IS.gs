@@ -276,6 +276,7 @@ var IS_BRAND_DICT = [
   {name: '4℃', jp_names: ['ヨンドシー', '4℃'], country: 'Japan'},
   {name: 'Agete', jp_names: ['アガット', 'AGETE'], country: 'Japan'},
   {name: 'Ahkah', jp_names: ['アーカー', 'AHKAH'], country: 'Japan'},
+  {name: 'Alexandre de Paris', jp_names: ['アレクサンドルドゥパリ', 'アレクサンドル ドゥ パリ', 'ALEXANDRE DE PARIS'], country: 'France'},
   {name: 'Bill Wall Leather', jp_names: ['ビルウォールレザー', 'BILL WALL LEATHER'], country: 'USA'},
   {name: 'Boucheron', jp_names: ['ブシュロン', 'BOUCHERON'], country: 'France'},
   {name: 'Bulgari', jp_names: ['ブルガリ', 'BVLGARI'], country: 'Italy'},
