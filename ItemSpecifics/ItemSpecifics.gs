@@ -684,15 +684,30 @@ function writeItemSpecificsToSheet_(sheet, rowResults) {
 
       // 時計専用の後処理（Display推論 + Case Materialデフォルト）
       if (data.hasOwnProperty('Movement') || data.hasOwnProperty('Display')) {
+        // タイトルと説明文をシートから取得して判定に使う
+        var wtTitle = getValue_(sheet, row, 7) || '';  // G列: タイトル
+        var wtDesc = getValue_(sheet, row, 12) || '';   // L列: 説明文
+        var wtText = (wtTitle + ' ' + wtDesc).toLowerCase();
+
         // Display補正
         var dispVal = data['Display'] || '';
         if (!dispVal || dispVal === 'Does not apply') {
-          data['Display'] = 'Analog';
+          if (wtText.indexOf('digital') !== -1 && wtText.indexOf('analog') !== -1) {
+            data['Display'] = 'Analog & Digital';
+          } else if (wtText.indexOf('digital') !== -1 || wtText.indexOf('g-shock') !== -1 || wtText.indexOf('g shock') !== -1) {
+            data['Display'] = 'Digital';
+          } else {
+            data['Display'] = 'Analog';
+          }
         }
         // Case Material補正: Stainless Steelがデフォルト、Titaniumのみ例外許可
         var cmVal = data['Case Material'] || '';
         if (!cmVal || cmVal === 'Does not apply') {
-          data['Case Material'] = 'Stainless Steel';
+          if (wtText.indexOf('titanium') !== -1) {
+            data['Case Material'] = 'Titanium';
+          } else {
+            data['Case Material'] = 'Stainless Steel';
+          }
         } else {
           var cmLower = cmVal.toLowerCase();
           if (cmLower !== 'stainless steel' && cmLower !== 'titanium') {
