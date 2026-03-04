@@ -434,7 +434,7 @@ var IS_BRAND_DICT = [
   {name: 'Rolex Custom', jp_names: ['ロレックスカスタム', 'ROLEX CUSTOM'], country: 'Switzerland'},
   {name: 'SABIAN', jp_names: ['セイビアン', 'SABIAN'], country: 'Canada'},
   {name: 'SEIKO 5', jp_names: ['セイコー5', 'SEIKO 5'], country: 'Japan'},
-  {name: 'Salvatore Ferragamo', jp_names: ['サルヴァトーレ フェラガモ', 'SALVATORE FERRAGAMO'], country: 'Italy'},
+  {name: 'Salvatore Ferragamo', jp_names: ['サルヴァトーレ フェラガモ', 'フェラガモ', 'SALVATORE FERRAGAMO', 'Ferragamo', 'FERRAGAMO'], country: 'Italy'},
   {name: 'Saint Laurent Paris', jp_names: ['サンローランパリ', 'SAINT LAURENT PARIS'], country: 'France'},
   {name: 'Salsa', jp_names: ['サルサ', 'SALSA'], country: 'USA'},
   {name: 'Seikomatic', jp_names: ['セイコーマチック', 'SEIKOMATIC'], country: 'Japan'},
