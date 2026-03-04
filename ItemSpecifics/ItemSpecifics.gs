@@ -240,6 +240,8 @@ function matchCategoryFromTag_(tag) {
   // 部分一致
   if (typeof IS_TAG_TO_CATEGORY !== 'undefined') {
     var keys = Object.keys(IS_TAG_TO_CATEGORY);
+    // 長いキーを優先（「イヤリング」を「リング」より先にマッチさせる）
+    keys.sort(function(a, b) { return b.length - a.length; });
     for (var i = 0; i < keys.length; i++) {
       if (t.indexOf(keys[i]) !== -1) return IS_TAG_TO_CATEGORY[keys[i]];
     }
@@ -412,6 +414,8 @@ function matchTypeFromTag_(tag) {
 
   // 部分一致（タグの中にキーが含まれる）
   var keys = Object.keys(IS_TAG_TO_TYPE);
+  // 長いキーを優先（「イヤリング」を「リング」より先にマッチさせる）
+  keys.sort(function(a, b) { return b.length - a.length; });
   for (var i = 0; i < keys.length; i++) {
     if (t.indexOf(keys[i]) !== -1) {
       return IS_TAG_TO_TYPE[keys[i]];
@@ -712,6 +716,41 @@ function writeItemSpecificsToSheet_(sheet, rowResults) {
           var cmLower = cmVal.toLowerCase();
           if (cmLower !== 'stainless steel' && cmLower !== 'titanium') {
             data['Case Material'] = 'Stainless Steel';
+          }
+        }
+      }
+
+      // ジュエリー用の Metal 後処理（Gold tone / Silver tone の誤認識を補正）
+      if (data.hasOwnProperty('Metal') && data.hasOwnProperty('Metal Purity')) {
+        var metalVal = (data['Metal'] || '').toLowerCase();
+        var purityVal = (data['Metal Purity'] || '').toLowerCase();
+        var jTitle = getValue_(sheet, row, 7) || '';
+        var jDesc = getValue_(sheet, row, 12) || '';
+        var jText = (jTitle + ' ' + jDesc).toLowerCase();
+
+        // "tone", "plated", "color" が含まれる場合 → Base Metal に補正
+        var isTonePlated = (jText.indexOf('gold tone') !== -1 || jText.indexOf('gold-tone') !== -1 ||
+                           jText.indexOf('gold plated') !== -1 || jText.indexOf('gold color') !== -1 ||
+                           jText.indexOf('silver tone') !== -1 || jText.indexOf('silver-tone') !== -1 ||
+                           jText.indexOf('silver plated') !== -1 || jText.indexOf('silver color') !== -1 ||
+                           jText.indexOf('goldtone') !== -1 || jText.indexOf('silvertone') !== -1);
+
+        if (isTonePlated) {
+          data['Metal'] = 'Base Metal';
+          data['Metal Purity'] = 'Does not apply';
+        } else if (metalVal === 'gold' || metalVal === 'yellow gold' || metalVal === 'rose gold' || metalVal === 'white gold') {
+          // Metal が Gold 系だが、タイトル/説明文にKarat表記がない場合 → Base Metal
+          var hasKarat = /\b(k?(?:9|10|14|18|22|24)k?|750|585|375|999|916)\b/i.test(jTitle + ' ' + jDesc);
+          if (!hasKarat) {
+            data['Metal'] = 'Base Metal';
+            data['Metal Purity'] = 'Does not apply';
+          }
+        } else if (metalVal === 'silver' || metalVal === 'sterling silver') {
+          // Metal が Silver 系だが、925/Sterling の証拠がない場合 → Base Metal
+          var hasSilverPurity = /\b(925|sterling|sv925|ag925)\b/i.test(jTitle + ' ' + jDesc);
+          if (!hasSilverPurity) {
+            data['Metal'] = 'Base Metal';
+            data['Metal Purity'] = 'Does not apply';
           }
         }
       }

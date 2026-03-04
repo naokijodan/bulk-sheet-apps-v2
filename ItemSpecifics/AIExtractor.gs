@@ -266,6 +266,17 @@ function buildExtractionPrompt_(title, description, category, fields, tag, exist
   lines.push('Display (watches): Analog, Digital, Analog & Digital. Inference rules: if movement is Automatic/Mechanical/Manual → Analog. If title/description contains Digital or brand is G-Shock → Digital. If both analog hands and digital display → Analog & Digital. Default → Analog.');
   lines.push('Material: Use eBay standard terms (e.g., "Stainless Steel" not "SS", "Sterling Silver" not "Silver 925")');
   lines.push('');
+  lines.push('### METAL IDENTIFICATION RULES (CRITICAL for Jewelry)');
+  lines.push('IMPORTANT: Distinguish between actual precious metal and color/finish/plating:');
+  lines.push('- "gold tone", "gold plated", "gold color", "gold-tone", "GP" in description → Metal: "Base Metal", Metal Purity: "Does not apply"');
+  lines.push('- "silver tone", "silver plated", "silver color", "silver-tone" in description → Metal: "Base Metal", Metal Purity: "Does not apply"');
+  lines.push('- Real Gold REQUIRES explicit karat marking in title or description: 10K/K10, 14K/K14, 18K/K18, 24K/K24, 750, 585, 999');
+  lines.push('- Real Silver REQUIRES explicit purity in title or description: 925, Sterling Silver, SV925, Ag925');
+  lines.push('- Fashion/designer brands (Dior, Chanel, Gucci, LV, etc.) WITHOUT karat marking = likely Base Metal with plating');
+  lines.push('- If title says "Gold" but NO karat/purity evidence anywhere → Metal: "Base Metal"');
+  lines.push('- If title says "Silver" but NO 925/Sterling evidence anywhere → Metal: "Base Metal"');
+  lines.push('- Metal Purity: ONLY set when real precious metal is confirmed. Otherwise "Does not apply"');
+  lines.push('');
 
   // === 6.5. 既存データ（Step 1結果）===
   if (existingData && typeof existingData === 'object') {
