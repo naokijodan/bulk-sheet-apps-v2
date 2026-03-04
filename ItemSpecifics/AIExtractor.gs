@@ -263,6 +263,7 @@ function buildExtractionPrompt_(title, description, category, fields, tag, exist
   lines.push('Country/Region of Manufacture: Use full English country name (Japan, Switzerland, United States, China, Italy, France, Germany, United Kingdom). This is the MANUFACTURING country, not brand HQ.');
   lines.push('Department: Use Men, Women, Unisex, Boys, Girls');
   lines.push('Movement (watches): Automatic, Manual, Quartz, Solar, Kinetic');
+  lines.push('Display (watches): Analog, Digital, Analog & Digital. Inference rules: if movement is Automatic/Mechanical/Manual → Analog. If title/description contains Digital or brand is G-Shock → Digital. If both analog hands and digital display → Analog & Digital. Default → Analog.');
   lines.push('Material: Use eBay standard terms (e.g., "Stainless Steel" not "SS", "Sterling Silver" not "Silver 925")');
   lines.push('');
 
@@ -298,7 +299,7 @@ function buildExtractionPrompt_(title, description, category, fields, tag, exist
 
   // === 8. 出力例 ===
   lines.push('### OUTPUT EXAMPLE');
-  lines.push('{"_category": "Watches", "Brand": "Seiko", "Type": "Wrist Watch", "Model": "Presage", "Movement": "Automatic", "Case Material": "Stainless Steel", "Band Material": "Leather", "Department": "Men", "Dial Color": "Blue", "Country/Region of Manufacture": "Japan"}');
+  lines.push('{"_category": "Watches", "Brand": "Seiko", "Type": "Wrist Watch", "Model": "Presage", "Movement": "Automatic", "Display": "Analog", "Case Material": "Stainless Steel", "Band Material": "Leather", "Department": "Men", "Dial Color": "Blue", "Country/Region of Manufacture": "Japan"}');
 
   return lines.join('\n');
 }
