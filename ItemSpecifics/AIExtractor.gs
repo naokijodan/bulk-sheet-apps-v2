@@ -531,6 +531,12 @@ function parseExtractionResponse_(responseText, fields, existingData) {
     }
   }
 
+  // 時計カテゴリ専用の後処理
+  var detectedCategory = obj && obj['_category'] ? String(obj['_category']).toLowerCase() : '';
+  if (detectedCategory === 'watches' || detectedCategory === 'watch') {
+    result = postProcessWatches_(result, '', '');
+  }
+
   return result;
 }
 
@@ -595,4 +601,61 @@ function safeStripCodeFences_(text) {
     s = s.replace(/```\s*$/i, '');
   }
   return s;
+}
+
+/**
+ * 時計カテゴリ専用の後処理
+ * AIの出力を補正する（Display推論、Case Materialデフォルト）
+ * @param {Object} data - AIが返した抽出結果
+ * @param {string} title - タイトル
+ * @param {string} description - 説明文
+ * @return {Object} 補正後のデータ
+ */
+function postProcessWatches_(data, title, description) {
+  if (!data) return data;
+
+  var combined = ((title || '') + ' ' + (description || '')).toLowerCase();
+
+  // === Display 推論 ===
+  var display = data['Display'] || '';
+  if (!display || display === 'Does not apply' || display === '') {
+    var movement = (data['Movement'] || '').toLowerCase();
+    if (combined.indexOf('digital') !== -1 && combined.indexOf('analog') !== -1) {
+      data['Display'] = 'Analog & Digital';
+    } else if (combined.indexOf('digital') !== -1 || combined.indexOf('g-shock') !== -1 || combined.indexOf('g shock') !== -1) {
+      data['Display'] = 'Digital';
+    } else {
+      // Automatic, Mechanical, Manual, Quartz, Solar, Kinetic → 全てデフォルトAnalog
+      data['Display'] = 'Analog';
+    }
+  }
+
+  // === Case Material デフォルト ===
+  var caseMat = data['Case Material'] || '';
+  if (!caseMat || caseMat === 'Does not apply' || caseMat === '') {
+    // テキストにTitaniumが明示されていればTitanium、それ以外はStainless Steel
+    if (combined.indexOf('titanium') !== -1 || combined.indexOf('チタン') !== -1) {
+      data['Case Material'] = 'Titanium';
+    } else {
+      data['Case Material'] = 'Stainless Steel';
+    }
+  } else {
+    // AIが返した値がStainless SteelまたはTitanium以外なら補正
+    var caseMatLower = caseMat.toLowerCase();
+    if (caseMatLower === 'titanium') {
+      data['Case Material'] = 'Titanium';
+    } else if (caseMatLower === 'stainless steel') {
+      data['Case Material'] = 'Stainless Steel';
+    } else {
+      // Silver, Gold, Platinum等の不適切な値 → Stainless Steelに補正
+      // テキストにTitaniumがあればTitanium
+      if (combined.indexOf('titanium') !== -1 || combined.indexOf('チタン') !== -1) {
+        data['Case Material'] = 'Titanium';
+      } else {
+        data['Case Material'] = 'Stainless Steel';
+      }
+    }
+  }
+
+  return data;
 }
