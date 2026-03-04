@@ -531,9 +531,9 @@ function parseExtractionResponse_(responseText, fields, existingData) {
     }
   }
 
-  // 時計カテゴリ専用の後処理
-  var detectedCategory = obj && obj['_category'] ? String(obj['_category']).toLowerCase() : '';
-  if (detectedCategory === 'watches' || detectedCategory === 'watch') {
+  // 時計カテゴリ専用の後処理（MovementまたはDisplayフィールドがあれば時計と判定）
+  var hasWatchFields = result.hasOwnProperty('Movement') || result.hasOwnProperty('Display');
+  if (hasWatchFields) {
     result = postProcessWatches_(result, '', '');
   }
 
