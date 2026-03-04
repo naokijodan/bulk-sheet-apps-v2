@@ -682,6 +682,25 @@ function writeItemSpecificsToSheet_(sheet, rowResults) {
         continue;
       }
 
+      // 時計専用の後処理（Display推論 + Case Materialデフォルト）
+      if (data.hasOwnProperty('Movement') || data.hasOwnProperty('Display')) {
+        // Display補正
+        var dispVal = data['Display'] || '';
+        if (!dispVal || dispVal === 'Does not apply') {
+          data['Display'] = 'Analog';
+        }
+        // Case Material補正: Stainless Steelがデフォルト、Titaniumのみ例外許可
+        var cmVal = data['Case Material'] || '';
+        if (!cmVal || cmVal === 'Does not apply') {
+          data['Case Material'] = 'Stainless Steel';
+        } else {
+          var cmLower = cmVal.toLowerCase();
+          if (cmLower !== 'stainless steel' && cmLower !== 'titanium') {
+            data['Case Material'] = 'Stainless Steel';
+          }
+        }
+      }
+
       // JSON → フラット配列変換: {"Brand": "Seiko"} → ["C:Brand", "Seiko"]
       var flat = jsonToFlatArray_(data);
       if (flat.length === 0) {
