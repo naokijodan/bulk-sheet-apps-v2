@@ -95,6 +95,7 @@ var IS_INITIAL_DATA = [
   { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Country of Origin', field_type: 'recommended', priority: 13, notes: '製造国（本社所在国ではない）。フルネーム英語: Japan, Switzerland等' },
   { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'With Papers', field_type: 'recommended', priority: 14, notes: 'Yes / No' },
   { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'With Original Box', field_type: 'recommended', priority: 15, notes: 'Yes / No' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Display', field_type: 'recommended', priority: 16, notes: 'Analog / Digital / Analog & Digital' },
 
   // === Rings ===
   { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -279,10 +280,13 @@ var IS_BRAND_DICT = [
   {name: 'Chrome Hearts', jp_names: ['クロムハーツ', 'CHROME HEARTS'], country: 'USA'},
   {name: 'Cody Sanderson', jp_names: ['コディサンダーソン', 'CODY SANDERSON'], country: 'USA'},
   {name: 'Damiani', jp_names: ['ダミアーニ', 'DAMIANI'], country: 'Italy'},
+  {name: 'David Andersen', jp_names: ['デヴィッドアンデルセン', 'DAVID ANDERSEN', 'D.ANDERSEN'], country: 'Norway'},
   {name: 'David Yurman', jp_names: ['デイビット・ヤーマン', 'DAVID YURMAN'], country: 'USA'},
+  {name: 'Emporio Armani', jp_names: ['エンポリオアルマーニ', 'EMPORIO ARMANI'], country: 'Italy'},
   {name: 'Ete', jp_names: ['エテ', 'ETE'], country: 'Japan'},
   {name: 'Fred', jp_names: ['フレッド', 'FRED'], country: 'France'},
   {name: 'Gucci', jp_names: ['グッチ', 'GUCCI'], country: 'Italy'},
+  {name: 'Hans Hansen', jp_names: ['ハンスハンセン', 'HANS HANSEN'], country: 'Denmark'},
   {name: 'Harry Winston', jp_names: ['ハリー・ウィンストン', 'HARRY WINSTON'], country: 'USA'},
   {name: 'Hermes', jp_names: ['エルメス', 'HERMES'], country: 'France'},
   {name: 'Justin Davis', jp_names: ['ジャスティン・デイビス', 'JUSTIN DAVIS'], country: 'USA'},
@@ -365,6 +369,7 @@ var IS_BRAND_DICT = [
   {name: 'Kapital', jp_names: ['キャピタル', 'KAPITAL'], country: 'Japan'},
   {name: 'Kate Spade', jp_names: ['ケイト・スペード', 'KATE SPADE'], country: 'USA'},
   {name: 'Kenwood', jp_names: ['ケンウッド', 'KENWOOD'], country: 'Japan'},
+  {name: 'Kenzo', jp_names: ['ケンゾー', 'KENZO'], country: 'France'},
   {name: 'Kiyomizu', jp_names: ['清水焼', 'KIYOMIZU'], country: 'Japan'},
   {name: 'Knot', jp_names: ['ノット', 'KNOT'], country: 'Japan'},
   {name: 'Konica', jp_names: ['コニカ', 'KONICA'], country: 'Japan'},
@@ -804,7 +809,7 @@ var IS_TAG_TO_CATEGORY = {
 // カテゴリ別 出力フィールド定義（5-8フィールド、順序固定）
 // ==============================
 var IS_CATEGORY_FIELDS = {
-  'Watches':       ['Brand', 'Type', 'Movement', 'Case Material', 'Case Size', 'Department', 'Country/Region of Manufacture'],
+  'Watches':       ['Brand', 'Type', 'Display', 'Movement', 'Case Material', 'Case Size', 'Department', 'Country/Region of Manufacture'],
   'Rings':         ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
   'Necklaces':     ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
   'Bracelets':     ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
