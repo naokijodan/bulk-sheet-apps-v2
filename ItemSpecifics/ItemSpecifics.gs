@@ -216,7 +216,7 @@ function runStep1Basic_(sheet, rows) {
     }
 
     // 3. Brand情報を先に取得（複数フィールドで使うため）
-    var brandInfo = matchBrandFromTitle_(title);
+    var brandInfo = matchBrandFromTitle_(title, category);
 
     // 4. 各フィールドを順番に埋める
     var data = {};
@@ -256,6 +256,8 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category) {
       return brandInfo ? brandInfo.name : '';
     case 'Country/Region of Manufacture':
       return brandInfo ? brandInfo.country : '';
+    case 'Model':
+      return brandInfo && brandInfo.sub_brand ? brandInfo.sub_brand : '';
     case 'Type':
       return matchTypeFromTag_(tag);
     case 'Metal':
