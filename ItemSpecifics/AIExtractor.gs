@@ -328,6 +328,9 @@ function getBrandDictForPrompt_() {
       if (!b || !b.name) continue;
       var jp = (b.jp_names && b.jp_names.length) ? b.jp_names.join(', ') : '';
       var line = b.name;
+      if (b.parent_brand) {
+        line += ' -> Brand: ' + b.parent_brand + ', use "' + b.name + '" as Model hint';
+      }
       if (jp) line += ' (' + jp + ')';
       if (b.country) line += ' [' + b.country + ']';
       lines.push(line);

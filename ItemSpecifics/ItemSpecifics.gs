@@ -358,7 +358,7 @@ function matchCaseSize_(title) {
  * @param {string} title
  * @return {{name: string, country: string}|null}
  */
-function matchBrandFromTitle_(title) {
+function matchBrandFromTitle_(title, opt_category) {
   if (!title) return null;
   if (typeof IS_BRAND_DICT === 'undefined' || !IS_BRAND_DICT) return null;
 
@@ -371,18 +371,32 @@ function matchBrandFromTitle_(title) {
   for (var i = 0; i < IS_BRAND_DICT.length; i++) {
     var b = IS_BRAND_DICT[i];
     if (!b || !b.name) continue;
+    // category制限チェック
+    if (b.category && b.category.length > 0) {
+      if (!opt_category) continue; // カテゴリ不明なら制限付きブランドはスキップ
+      var catMatch = false;
+      for (var c = 0; c < b.category.length; c++) {
+        if (b.category[c].toLowerCase() === opt_category.toString().toLowerCase()) {
+          catMatch = true;
+          break;
+        }
+      }
+      if (!catMatch) continue;
+    }
     var isMaterial = b.is_material === true;
 
     // 英語名チェック
     if (t.indexOf(b.name.toLowerCase()) !== -1) {
       if (isMaterial) {
         if (b.name.length > materialLen) {
-          materialMatch = { name: b.name, country: b.country || '' };
+          materialMatch = { name: (b.parent_brand || b.name), country: b.country || '' };
+          if (b.parent_brand) materialMatch.sub_brand = b.name;
           materialLen = b.name.length;
         }
       } else {
         if (b.name.length > bestLen) {
-          bestMatch = { name: b.name, country: b.country || '' };
+          bestMatch = { name: (b.parent_brand || b.name), country: b.country || '' };
+          if (b.parent_brand) bestMatch.sub_brand = b.name;
           bestLen = b.name.length;
         }
       }
@@ -395,12 +409,14 @@ function matchBrandFromTitle_(title) {
         if (jp && t.indexOf(jp.toLowerCase()) !== -1) {
           if (isMaterial) {
             if (jp.length > materialLen) {
-              materialMatch = { name: b.name, country: b.country || '' };
+              materialMatch = { name: (b.parent_brand || b.name), country: b.country || '' };
+              if (b.parent_brand) materialMatch.sub_brand = b.name;
               materialLen = jp.length;
             }
           } else {
             if (jp.length > bestLen) {
-              bestMatch = { name: b.name, country: b.country || '' };
+              bestMatch = { name: (b.parent_brand || b.name), country: b.country || '' };
+              if (b.parent_brand) bestMatch.sub_brand = b.name;
               bestLen = jp.length;
             }
           }
