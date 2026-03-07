@@ -229,7 +229,16 @@ var IS_INITIAL_DATA = [
   { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Material', field_type: 'recommended', priority: 4, notes: '' },
   { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Country of Origin', field_type: 'recommended', priority: 5, notes: '製造国。フルネーム英語' },
   { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Year', field_type: 'recommended', priority: 6, notes: '' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Features', field_type: 'recommended', priority: 7, notes: '' }
+  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Features', field_type: 'recommended', priority: 7, notes: '' },
+
+  // === Watch Parts ===
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Part Type', field_type: 'required', priority: 2, notes: 'Link, Bracelet, Band/Strap, Buckle, Clasp, Movement, Crystal, Crown, Case Back, Dial, Bezel, Hand, Spring Bar, Rotor, Stem 等' },
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Material', field_type: 'required', priority: 3, notes: 'Stainless Steel, Gold, Titanium, Leather, Rubber, Ceramic 等' },
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Compatible Model', field_type: 'recommended', priority: 4, notes: '対応するモデル名（Submariner, Speedmaster等）' },
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Size', field_type: 'recommended', priority: 5, notes: 'mm単位。ラグ幅・ベルト幅・コマ幅など' },
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Color', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Country of Origin', field_type: 'recommended', priority: 7, notes: '製造国。フルネーム英語' }
 ];
 
 // 主要ブランド辞書（プロンプト埋め込み用）
@@ -387,6 +396,8 @@ var IS_BRAND_DICT = [
   {name: 'xC', jp_names: ['クロスシー', 'XC'], country: 'Japan', parent_brand: 'Citizen', category: ['Watches']},
   {name: 'Zenith', jp_names: ['ゼニス', 'ZENITH'], country: 'Switzerland'},
   {name: 'Zeppelin', jp_names: ['ツェッペリン', 'ZEPPELIN'], country: 'Germany'},
+  {name: 'U-Boat', jp_names: ['ユーボート', 'U BOAT', 'UBOAT'], country: 'Italy'},
+  {name: 'GaGa Milano', jp_names: ['ガガミラノ', 'GAGA MILANO', 'GAGA', 'ガガ ミラノ'], country: 'Italy'},
 
   // === Jewelry & Accessories ===
   {name: '4℃', jp_names: ['ヨンドシー', '4℃'], country: 'Japan'},
@@ -424,6 +435,10 @@ var IS_BRAND_DICT = [
   {name: 'Tiffany & Co.', jp_names: ['ティファニー', 'TIFFANY & CO.', 'TIFFANY', 'TIFFANY&CO', 'Tiffany'], country: 'USA'},
   {name: 'Van Cleef & Arpels', jp_names: ['ヴァン クリーフ＆アーペル', 'VAN CLEEF & ARPELS', 'VAN CLEEF', 'VANCLEEF&ARPELS'], country: 'France'},
   {name: 'Vivienne Westwood', jp_names: ['ヴィヴィアン・ウエストウッド', 'VIVIENNE WESTWOOD'], country: 'UK'},
+  {name: 'Trollbeads', jp_names: ['トロールビーズ', 'TROLLBEADS'], country: 'Denmark'},
+  {name: 'Yves Saint Laurent', jp_names: ['イヴサンローラン', 'イブサンローラン', 'YVES SAINT LAURENT', 'YSL'], country: 'France'},
+  {name: 'Maison Margiela', jp_names: ['メゾンマルジェラ', 'マルジェラ', 'MAISON MARGIELA', 'MARGIELA', 'メゾン マルジェラ'], country: 'Italy'},
+  {name: 'CINER', jp_names: ['シネール', 'CINER'], country: 'USA'},
 
   // === Bags ===
   {name: 'Anello', jp_names: ['アネロ', 'ANELLO'], country: 'Japan'},
@@ -872,7 +887,11 @@ var IS_TAG_TO_TYPE = {
   'パイプ・喫煙具': 'Tobacco Pipe',
   '煙管': 'Kiseru',
   'キセル': 'Kiseru',
-  'Pipe': 'Tobacco Pipe'
+  'Pipe': 'Tobacco Pipe',
+  // Watch Parts
+  'ウォッチパーツ': 'Watch Part',
+  '時計パーツ': 'Watch Part',
+  '時計部品': 'Watch Part'
 };
 
 // ==============================
@@ -912,7 +931,9 @@ var IS_TAG_TO_CATEGORY = {
   'フィギュア': 'Collectibles', 'コレクティブル': 'Collectibles',
   'アンティーク': 'Collectibles', 'ヴィンテージ': 'Collectibles', '骨董品': 'Collectibles', '人形': 'Collectibles',
   // Pipes (Tobacco Pipes)
-  'パイプ': 'Pipes', '喫煙パイプ': 'Pipes', '煙管': 'Pipes', 'キセル': 'Pipes', 'パイプ・喫煙具': 'Pipes'
+  'パイプ': 'Pipes', '喫煙パイプ': 'Pipes', '煙管': 'Pipes', 'キセル': 'Pipes', 'パイプ・喫煙具': 'Pipes',
+  // Watch Parts
+  'ウォッチパーツ': 'Watch Parts', '時計パーツ': 'Watch Parts', '時計部品': 'Watch Parts'
 };
 
 // ==============================
@@ -947,7 +968,8 @@ var IS_CATEGORY_FIELDS = {
   'Key Chains':    ['Brand', 'Metal', 'Material', 'Color', 'Country/Region of Manufacture'],
   'Charms':        ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
   'Collectibles':  ['Brand', 'Type', 'Material', 'Country/Region of Manufacture'],
-  'Pipes':         ['Brand', 'Material', 'Type', 'Color', 'Country/Region of Manufacture']
+  'Pipes':         ['Brand', 'Material', 'Type', 'Color', 'Country/Region of Manufacture'],
+  'Watch Parts':   ['Brand', 'Part Type', 'Material', 'Compatible Model', 'Size', 'Color', 'Country/Region of Manufacture']
 };
 
 // ==============================
