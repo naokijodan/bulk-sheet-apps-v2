@@ -199,6 +199,7 @@ function runStep1Basic_(sheet, rows) {
     var row = rows[i];
     var tag = getValue_(sheet, row, 1);    // A列
     var title = getValue_(sheet, row, 7);  // G列
+    var description = getValue_(sheet, row, 12); // L列
 
     if (!tag && !title) continue;
 
@@ -222,7 +223,7 @@ function runStep1Basic_(sheet, rows) {
     var data = {};
     for (var f = 0; f < fields.length; f++) {
       var fieldName = fields[f];
-      var value = resolveFieldValue_(fieldName, tag, title, brandInfo, category);
+      var value = resolveFieldValue_(fieldName, tag, title, brandInfo, category, description);
       data[fieldName] = value || 'Does not apply';
     }
 
@@ -250,7 +251,7 @@ function matchCategoryFromTag_(tag) {
 }
 
 // フィールド名に応じた値を解決
-function resolveFieldValue_(fieldName, tag, title, brandInfo, category) {
+function resolveFieldValue_(fieldName, tag, title, brandInfo, category, description) {
   switch (fieldName) {
     case 'Brand':
       return brandInfo ? brandInfo.name : '';
@@ -275,10 +276,14 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category) {
     case 'Color':
     case 'Exterior Color':
     case 'Dial Color':
-      return matchFromPatterns_(title, IS_COLOR_PATTERNS);
+      return matchAllColors_(title);
     case 'Material':
     case 'Exterior Material':
-      return matchFromPatterns_(title, IS_GENERAL_MATERIAL_PATTERNS);
+      // Watch Partsの場合、素材が不明ならStainless Steelをデフォルトにする
+      var mat = matchFromPatterns_(title, IS_METAL_PATTERNS);
+      if (!mat) mat = matchFromPatterns_(title, IS_GENERAL_MATERIAL_PATTERNS);
+      if (!mat && category === 'Watch Parts') mat = 'Stainless Steel';
+      return mat;
     case 'Style':
       // バッグの場合はタグからスタイルを取得
       return matchTypeFromTag_(tag);
@@ -290,9 +295,86 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category) {
       return matchCaseSize_(title);
     case 'Graded':
       return matchGraded_(title);
+    case 'Part Type':
+      return matchWatchPartType_(title + ' ' + (description || ''));
+    case 'Compatible Model':
+      return matchCompatibleModel_(title, brandInfo);
+    case 'Size':
+      var sz = matchPartSize_(title);
+      if (!sz && description) sz = matchPartSize_(description);
+      return sz;
     default:
       return '';
   }
+}
+
+// タイトルから全色をマッチしてカンマ区切りで返す
+function matchAllColors_(title) {
+  if (!title) return '';
+  if (typeof IS_COLOR_PATTERNS === 'undefined' || !IS_COLOR_PATTERNS) return '';
+  var t = title.toString();
+  var found = [];
+  for (var i = 0; i < IS_COLOR_PATTERNS.length; i++) {
+    var p = IS_COLOR_PATTERNS[i];
+    if (!p.keywords) continue;
+    for (var j = 0; j < p.keywords.length; j++) {
+      if (t.indexOf(p.keywords[j]) !== -1) {
+        if (found.indexOf(p.value) === -1) found.push(p.value);
+        break;
+      }
+    }
+  }
+  return found.join(', ');
+}
+
+// Watch Parts: タイトルからパーツタイプを判定
+function matchWatchPartType_(title) {
+  if (!title) return '';
+  if (typeof IS_WATCH_PART_TYPE_PATTERNS === 'undefined') return '';
+  return matchFromPatterns_(title, IS_WATCH_PART_TYPE_PATTERNS);
+}
+
+// Watch Parts: タイトルからCompatible Modelを抽出
+// ブランド名の後に続くモデル名（Florence, Submariner等）を取得
+function matchCompatibleModel_(title, brandInfo) {
+  if (!title) return '';
+  var t = title.toString();
+  // ブランド名が分かっていれば、その直後のワードをモデル候補として抽出
+  if (brandInfo && brandInfo.name) {
+    var brandName = brandInfo.name;
+    var idx = t.toLowerCase().indexOf(brandName.toLowerCase());
+    if (idx !== -1) {
+      var after = t.substring(idx + brandName.length).trim();
+      // ブランド名の後の最初の単語（英字で始まるもの）をモデル名候補とする
+      var m = after.match(/^([A-Z][A-Za-z0-9\-]+(?:\s+[A-Z][A-Za-z0-9\-]+)?)/);
+      if (m) {
+        var candidate = m[1].trim();
+        // "Spare", "Part", "Watch", "Link" などの汎用ワードは除外
+        var excludes = ['Spare', 'Part', 'Watch', 'Link', 'Pin', 'Bracelet', 'Band', 'Strap',
+                        'Buckle', 'Clasp', 'Movement', 'Crystal', 'Crown', 'Dial', 'Bezel',
+                        'Case', 'Hand', 'Rotor', 'Stem', 'Accessory', 'Component', 'Replacement'];
+        var firstWord = candidate.split(/\s+/)[0];
+        var isExcluded = false;
+        for (var i = 0; i < excludes.length; i++) {
+          if (firstWord.toLowerCase() === excludes[i].toLowerCase()) { isExcluded = true; break; }
+        }
+        if (!isExcluded && candidate.length > 1) return candidate;
+      }
+    }
+  }
+  return '';
+}
+
+// Watch Parts: タイトル・説明文からサイズを抽出
+function matchPartSize_(title) {
+  if (!title) return '';
+  var t = title.toString();
+  // パターン: 数字 + mm/cm （例: "19mm", "1.9 cm", "20mm幅"）
+  var m = t.match(/(\d+(?:\.\d+)?)\s*(?:mm|MM)/);
+  if (m) return m[1] + ' mm';
+  m = t.match(/(\d+(?:\.\d+)?)\s*(?:cm|CM)/);
+  if (m) return m[1] + ' cm';
+  return '';
 }
 
 // パターン辞書から最初にマッチした値を返す

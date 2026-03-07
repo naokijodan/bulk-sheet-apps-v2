@@ -1108,3 +1108,28 @@ var IS_GAME_PATTERNS = [
   {keywords: ['ワンピース', 'ONE PIECE', 'One Piece Card'], value: 'One Piece Card Game'},
   {keywords: ['デジモン', 'Digimon'], value: 'Digimon'}
 ];
+
+// ==============================
+// ウォッチパーツ タイプパターン
+// ==============================
+var IS_WATCH_PART_TYPE_PATTERNS = [
+  {keywords: ['コマ', 'あまりコマ', '余りコマ', 'Link', 'LINK', 'link', 'Spare Link', 'Extra Link'], value: 'Link'},
+  {keywords: ['Pin', 'PIN', 'ピン', 'Spare Part Pin'], value: 'Pin'},
+  {keywords: ['ブレスレット', 'ブレス', 'Bracelet', 'BRACELET', 'Metal Bracelet', 'バンド'], value: 'Bracelet/Band'},
+  {keywords: ['ストラップ', 'Strap', 'STRAP', 'ベルト', 'Belt', 'レザーベルト', 'ラバーベルト'], value: 'Band/Strap'},
+  {keywords: ['尾錠', 'バックル', 'Buckle', 'BUCKLE', 'Clasp', 'CLASP', 'クラスプ', 'Deployment', 'Deployant', 'デプロイメント', 'Dバックル'], value: 'Buckle/Clasp'},
+  {keywords: ['ムーブメント', 'Movement', 'MOVEMENT', 'キャリバー', 'Caliber', 'Cal.'], value: 'Movement'},
+  {keywords: ['風防', 'ガラス', 'Crystal', 'CRYSTAL', 'サファイアクリスタル', 'ミネラルガラス', 'プラスチック風防'], value: 'Crystal/Glass'},
+  {keywords: ['リューズ', '竜頭', 'Crown', 'CROWN'], value: 'Crown'},
+  {keywords: ['裏蓋', 'Case Back', 'CASE BACK', 'Caseback', 'ケースバック'], value: 'Case Back'},
+  {keywords: ['文字盤', 'ダイアル', 'ダイヤル', 'Dial', 'DIAL'], value: 'Dial'},
+  {keywords: ['ベゼル', 'Bezel', 'BEZEL', '回転ベゼル'], value: 'Bezel'},
+  {keywords: ['針', 'Hand', 'HAND', 'Hands', '時針', '分針', '秒針'], value: 'Hand'},
+  {keywords: ['バネ棒', 'Spring Bar', 'SPRING BAR', 'スプリングバー'], value: 'Spring Bar'},
+  {keywords: ['ローター', 'Rotor', 'ROTOR', '回転錘'], value: 'Rotor'},
+  {keywords: ['巻芯', '巻き芯', 'Stem', 'STEM'], value: 'Stem'},
+  {keywords: ['ケース', 'Case', 'CASE', 'ウォッチケース'], value: 'Case'},
+  {keywords: ['プッシャー', 'Pusher', 'PUSHER', 'Push Button', 'ボタン'], value: 'Pusher'},
+  {keywords: ['パッキン', 'ガスケット', 'Gasket', 'GASKET', 'Oリング', 'O-Ring'], value: 'Gasket'},
+  {keywords: ['インデックス', 'Index', 'INDEX', 'Hour Marker', 'マーカー'], value: 'Index/Marker'}
+];
