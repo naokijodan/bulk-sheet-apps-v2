@@ -862,7 +862,7 @@ function writeItemSpecificsToSheet_(sheet, rowResults) {
 
         // Step 1: 素材の物理的証拠をチェック（最優先）
         var hasSilverEvidence = /\b(925|sv925|ag925|sterling\s*silver|sterling)\b/i.test(jText);
-        var hasGoldEvidence = /\b(k?(?:9|10|14|18|22|24)k?|750|585|375|999|916)\b/i.test(jText);
+        var hasGoldEvidence = /\b([Kk](?:9|10|14|18|22|24)|(?:9|10|14|18|22|24)[Kk]|750|585|375|999|916|18金|14金|10金|22金|24金|9金)\b/i.test(jText);
         var hasPlatinumEvidence = /\b(pt(?:900|950|850)?|platinum)\b/i.test(jText);
 
         if (hasSilverEvidence) {
@@ -878,12 +878,12 @@ function writeItemSpecificsToSheet_(sheet, rowResults) {
           }
           // Metal Purity が空なら証拠から推定
           if (!data['Metal Purity'] || data['Metal Purity'] === 'Does not apply') {
-            if (/\b(k?18k?|750)\b/i.test(jText)) data['Metal Purity'] = '18k';
-            else if (/\b(k?14k?|585)\b/i.test(jText)) data['Metal Purity'] = '14k';
-            else if (/\b(k?10k?)\b/i.test(jText)) data['Metal Purity'] = '10k';
-            else if (/\b(k?24k?|999)\b/i.test(jText)) data['Metal Purity'] = '24k';
-            else if (/\b(k?22k?|916)\b/i.test(jText)) data['Metal Purity'] = '22k';
-            else if (/\b(k?9k?|375)\b/i.test(jText)) data['Metal Purity'] = '9k';
+            if (/\b([Kk]18|18[Kk]|750)\b/.test(jText)) data['Metal Purity'] = '18k';
+            else if (/\b([Kk]14|14[Kk]|585)\b/.test(jText)) data['Metal Purity'] = '14k';
+            else if (/\b([Kk]10|10[Kk])\b/.test(jText)) data['Metal Purity'] = '10k';
+            else if (/\b([Kk]24|24[Kk]|999)\b/.test(jText)) data['Metal Purity'] = '24k';
+            else if (/\b([Kk]22|22[Kk]|916)\b/.test(jText)) data['Metal Purity'] = '22k';
+            else if (/\b([Kk]9|9[Kk]|375)\b/.test(jText)) data['Metal Purity'] = '9k';
           }
         } else if (hasPlatinumEvidence) {
           data['Metal'] = 'Platinum';
@@ -900,13 +900,14 @@ function writeItemSpecificsToSheet_(sheet, rowResults) {
             data['Metal'] = 'Base Metal';
             data['Metal Purity'] = 'Does not apply';
           } else {
-            // Metal が Gold/Silver 系だが証拠なし → Base Metal
+            // Gold系: K表記なしの場合のみBase Metalに降格
+            // Silver系: tone/platedがなければ降格しない（Silverと書いてtoneでなければ実銀の可能性が高い）
             var metalValFb = (data['Metal'] || '').toLowerCase();
-            if (metalValFb === 'gold' || metalValFb === 'yellow gold' || metalValFb === 'rose gold' || metalValFb === 'white gold' ||
-                metalValFb === 'silver' || metalValFb === 'sterling silver') {
+            if (metalValFb === 'gold' || metalValFb === 'yellow gold' || metalValFb === 'rose gold' || metalValFb === 'white gold') {
               data['Metal'] = 'Base Metal';
               data['Metal Purity'] = 'Does not apply';
             }
+            // Silver系はそのまま維持（tone/platedチェック済みで該当しなかったため）
           }
         }
       }
