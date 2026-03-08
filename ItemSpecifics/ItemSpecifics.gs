@@ -292,7 +292,9 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
     case 'Language':
       return 'Japanese';
     case 'Case Size':
-      return matchCaseSize_(title);
+      var cs = matchCaseSize_(title);
+      if (!cs && description) cs = matchCaseSize_(description);
+      return cs;
     case 'Graded':
       return matchGraded_(title);
     case 'Part Type':
@@ -409,6 +411,12 @@ function matchGraded_(title) {
 function matchCaseSize_(title) {
   if (!title) return '';
   var t = title.toString();
+  // パターン0: "Case diameter about XX mm" / "case size XX mm"
+  var m0 = t.match(/[Cc]ase\s+(?:diameter|size)\s+(?:about\s+)?(?:approx\.?\s+)?(\d{2,3})\s*mm/i);
+  if (m0) {
+    var size0 = parseInt(m0[1], 10);
+    if (size0 >= 20 && size0 <= 60) return size0 + ' mm';
+  }
   // パターン1: 数字+mm/MM（20-60mmの範囲で時計として妥当なサイズ）
   var m = t.match(/(\d{2,3})\s*(?:mm|MM|ＭＭ)/);
   if (m) {
@@ -447,6 +455,7 @@ function matchBrandFromTitle_(title, opt_category) {
   if (typeof IS_BRAND_DICT === 'undefined' || !IS_BRAND_DICT) return null;
 
   var t = title.toString().toLowerCase();
+  var tNorm = t.replace(/[\s\-\.\/]/g, '');
   var bestMatch = null;
   var bestLen = 0;
   var materialMatch = null;
@@ -469,8 +478,10 @@ function matchBrandFromTitle_(title, opt_category) {
     }
     var isMaterial = b.is_material === true;
 
-    // 英語名チェック
-    if (t.indexOf(b.name.toLowerCase()) !== -1) {
+    // 英語名チェック（通常 + ノーマライズ）
+    var nameLower = b.name.toLowerCase();
+    var nameNorm = nameLower.replace(/[\s\-\.\/]/g, '');
+    if (t.indexOf(nameLower) !== -1 || tNorm.indexOf(nameNorm) !== -1) {
       if (isMaterial) {
         if (b.name.length > materialLen) {
           materialMatch = { name: (b.parent_brand || b.name), country: b.country || '' };
@@ -486,11 +497,14 @@ function matchBrandFromTitle_(title, opt_category) {
       }
     }
 
-    // 日本語名チェック
+    // 日本語名チェック（通常 + ノーマライズ）
     if (b.jp_names) {
       for (var j = 0; j < b.jp_names.length; j++) {
         var jp = b.jp_names[j];
-        if (jp && t.indexOf(jp.toLowerCase()) !== -1) {
+        if (jp) {
+          var jpLower = jp.toLowerCase();
+          var jpNorm = jpLower.replace(/[\s\-\.\/]/g, '');
+          if (t.indexOf(jpLower) !== -1 || tNorm.indexOf(jpNorm) !== -1) {
           if (isMaterial) {
             if (jp.length > materialLen) {
               materialMatch = { name: (b.parent_brand || b.name), country: b.country || '' };
@@ -503,6 +517,7 @@ function matchBrandFromTitle_(title, opt_category) {
               if (b.parent_brand) bestMatch.sub_brand = b.name;
               bestLen = jp.length;
             }
+          }
           }
         }
       }
@@ -838,37 +853,60 @@ function writeItemSpecificsToSheet_(sheet, rowResults) {
         }
       }
 
-      // ジュエリー用の Metal 後処理（Gold tone / Silver tone の誤認識を補正）
+      // ジュエリー用の Metal 後処理（証拠ベース判定）
       if (data.hasOwnProperty('Metal') && data.hasOwnProperty('Metal Purity')) {
-        var metalVal = (data['Metal'] || '').toLowerCase();
-        var purityVal = (data['Metal Purity'] || '').toLowerCase();
         var jTitle = getValue_(sheet, row, 7) || '';
         var jDesc = getValue_(sheet, row, 12) || '';
-        var jText = (jTitle + ' ' + jDesc).toLowerCase();
+        var jText = (jTitle + ' ' + jDesc);
+        var jTextLower = jText.toLowerCase();
 
-        // "tone", "plated", "color" が含まれる場合 → Base Metal に補正
-        var isTonePlated = (jText.indexOf('gold tone') !== -1 || jText.indexOf('gold-tone') !== -1 ||
-                           jText.indexOf('gold plated') !== -1 || jText.indexOf('gold color') !== -1 ||
-                           jText.indexOf('silver tone') !== -1 || jText.indexOf('silver-tone') !== -1 ||
-                           jText.indexOf('silver plated') !== -1 || jText.indexOf('silver color') !== -1 ||
-                           jText.indexOf('goldtone') !== -1 || jText.indexOf('silvertone') !== -1);
+        // Step 1: 素材の物理的証拠をチェック（最優先）
+        var hasSilverEvidence = /\b(925|sv925|ag925|sterling\s*silver|sterling)\b/i.test(jText);
+        var hasGoldEvidence = /\b(k?(?:9|10|14|18|22|24)k?|750|585|375|999|916)\b/i.test(jText);
+        var hasPlatinumEvidence = /\b(pt(?:900|950|850)?|platinum)\b/i.test(jText);
 
-        if (isTonePlated) {
-          data['Metal'] = 'Base Metal';
-          data['Metal Purity'] = 'Does not apply';
-        } else if (metalVal === 'gold' || metalVal === 'yellow gold' || metalVal === 'rose gold' || metalVal === 'white gold') {
-          // Metal が Gold 系だが、タイトル/説明文にKarat表記がない場合 → Base Metal
-          var hasKarat = /\b(k?(?:9|10|14|18|22|24)k?|750|585|375|999|916)\b/i.test(jTitle + ' ' + jDesc);
-          if (!hasKarat) {
-            data['Metal'] = 'Base Metal';
-            data['Metal Purity'] = 'Does not apply';
+        if (hasSilverEvidence) {
+          // 925/Sterling の証拠あり → Sterling Silver 確定
+          data['Metal'] = 'Sterling Silver';
+          data['Metal Purity'] = '925';
+          // 混合素材（925 + Gold）の場合、Silverを主素材とする
+        } else if (hasGoldEvidence) {
+          // Gold の証拠あり → Gold 確定（purityはStep1の値を維持）
+          var metalVal = (data['Metal'] || '').toLowerCase();
+          if (metalVal.indexOf('gold') === -1) {
+            data['Metal'] = 'Yellow Gold';
           }
-        } else if (metalVal === 'silver' || metalVal === 'sterling silver') {
-          // Metal が Silver 系だが、925/Sterling の証拠がない場合 → Base Metal
-          var hasSilverPurity = /\b(925|sterling|sv925|ag925)\b/i.test(jTitle + ' ' + jDesc);
-          if (!hasSilverPurity) {
+          // Metal Purity が空なら証拠から推定
+          if (!data['Metal Purity'] || data['Metal Purity'] === 'Does not apply') {
+            if (/\b(k?18k?|750)\b/i.test(jText)) data['Metal Purity'] = '18k';
+            else if (/\b(k?14k?|585)\b/i.test(jText)) data['Metal Purity'] = '14k';
+            else if (/\b(k?10k?)\b/i.test(jText)) data['Metal Purity'] = '10k';
+            else if (/\b(k?24k?|999)\b/i.test(jText)) data['Metal Purity'] = '24k';
+            else if (/\b(k?22k?|916)\b/i.test(jText)) data['Metal Purity'] = '22k';
+            else if (/\b(k?9k?|375)\b/i.test(jText)) data['Metal Purity'] = '9k';
+          }
+        } else if (hasPlatinumEvidence) {
+          data['Metal'] = 'Platinum';
+          // Purity は Step1 の値を維持
+        } else {
+          // 素材証拠なし → tone/plated チェック（フォールバック）
+          var isTonePlated = (jTextLower.indexOf('gold tone') !== -1 || jTextLower.indexOf('gold-tone') !== -1 ||
+                             jTextLower.indexOf('gold plated') !== -1 || jTextLower.indexOf('gold color') !== -1 ||
+                             jTextLower.indexOf('silver tone') !== -1 || jTextLower.indexOf('silver-tone') !== -1 ||
+                             jTextLower.indexOf('silver plated') !== -1 || jTextLower.indexOf('silver color') !== -1 ||
+                             jTextLower.indexOf('goldtone') !== -1 || jTextLower.indexOf('silvertone') !== -1);
+
+          if (isTonePlated) {
             data['Metal'] = 'Base Metal';
             data['Metal Purity'] = 'Does not apply';
+          } else {
+            // Metal が Gold/Silver 系だが証拠なし → Base Metal
+            var metalValFb = (data['Metal'] || '').toLowerCase();
+            if (metalValFb === 'gold' || metalValFb === 'yellow gold' || metalValFb === 'rose gold' || metalValFb === 'white gold' ||
+                metalValFb === 'silver' || metalValFb === 'sterling silver') {
+              data['Metal'] = 'Base Metal';
+              data['Metal Purity'] = 'Does not apply';
+            }
           }
         }
       }
