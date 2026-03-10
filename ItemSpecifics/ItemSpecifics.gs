@@ -455,11 +455,19 @@ function matchBrandFromTitle_(title, opt_category) {
   if (typeof IS_BRAND_DICT === 'undefined' || !IS_BRAND_DICT) return null;
 
   var t = title.toString().toLowerCase();
-  var tNorm = t.replace(/[\s\-\.\/]/g, '');
   var bestMatch = null;
   var bestLen = 0;
   var materialMatch = null;
   var materialLen = 0;
+
+  // parent_brand 検証用のルックアップマップを一度だけ構築
+  var parentBrandMap = {};
+  for (var pi = 0; pi < IS_BRAND_DICT.length; pi++) {
+    var pb = IS_BRAND_DICT[pi];
+    if (pb && pb.name && !pb.parent_brand) {
+      parentBrandMap[pb.name.toLowerCase()] = pb.jp_names || [];
+    }
+  }
 
   for (var i = 0; i < IS_BRAND_DICT.length; i++) {
     var b = IS_BRAND_DICT[i];
@@ -478,18 +486,32 @@ function matchBrandFromTitle_(title, opt_category) {
     }
     var isMaterial = b.is_material === true;
 
-    // 英語名チェック（通常 + ノーマライズ）
+    // 英語名チェック（通常）
     var nameLower = b.name.toLowerCase();
-    var nameNorm = nameLower.replace(/[\s\-\.\/]/g, '');
-    if (t.indexOf(nameLower) !== -1 || tNorm.indexOf(nameNorm) !== -1) {
+    if (t.indexOf(nameLower) !== -1) {
+      // parent_brand がある場合は、parent_brand もタイトルに存在するか検証
+      if (b.parent_brand) {
+        var parentLower = b.parent_brand.toLowerCase();
+        var parentFound = (t.indexOf(parentLower) !== -1);
+        if (!parentFound) {
+          var parentJpNames = parentBrandMap[parentLower] || [];
+          for (var pj = 0; pj < parentJpNames.length; pj++) {
+            if (t.indexOf(parentJpNames[pj].toLowerCase()) !== -1) {
+              parentFound = true;
+              break;
+            }
+          }
+        }
+        if (!parentFound) continue; // parent_brand が見つからない場合はスキップ
+      }
       if (isMaterial) {
-        if (b.name.length > materialLen) {
+        if (b.parent_brand ? (b.name.length >= materialLen) : (b.name.length > materialLen)) {
           materialMatch = { name: (b.parent_brand || b.name), country: b.country || '' };
           if (b.parent_brand) materialMatch.sub_brand = b.name;
           materialLen = b.name.length;
         }
       } else {
-        if (b.name.length > bestLen) {
+        if (b.parent_brand ? (b.name.length >= bestLen) : (b.name.length > bestLen)) {
           bestMatch = { name: (b.parent_brand || b.name), country: b.country || '' };
           if (b.parent_brand) bestMatch.sub_brand = b.name;
           bestLen = b.name.length;
@@ -497,25 +519,42 @@ function matchBrandFromTitle_(title, opt_category) {
       }
     }
 
-    // 日本語名チェック（通常 + ノーマライズ）
+    // 日本語名チェック（通常）
     if (b.jp_names) {
       for (var j = 0; j < b.jp_names.length; j++) {
         var jp = b.jp_names[j];
         if (jp) {
           var jpLower = jp.toLowerCase();
-          var jpNorm = jpLower.replace(/[\s\-\.\/]/g, '');
-          if (t.indexOf(jpLower) !== -1 || tNorm.indexOf(jpNorm) !== -1) {
-          if (isMaterial) {
-            if (jp.length > materialLen) {
-              materialMatch = { name: (b.parent_brand || b.name), country: b.country || '' };
-              if (b.parent_brand) materialMatch.sub_brand = b.name;
-              materialLen = jp.length;
+          if (t.indexOf(jpLower) !== -1) {
+          // parent_brand がある場合は、parent ブランドもタイトルに存在するか検証（フラグで制御）
+          var parentOk = true;
+          if (b.parent_brand) {
+            var parentLower2 = b.parent_brand.toLowerCase();
+            var parentFound2 = (t.indexOf(parentLower2) !== -1);
+            if (!parentFound2) {
+              var parentJpNames2 = parentBrandMap[parentLower2] || [];
+              for (var pj2 = 0; pj2 < parentJpNames2.length; pj2++) {
+                if (t.indexOf(parentJpNames2[pj2].toLowerCase()) !== -1) {
+                  parentFound2 = true;
+                  break;
+                }
+              }
             }
-          } else {
-            if (jp.length > bestLen) {
-              bestMatch = { name: (b.parent_brand || b.name), country: b.country || '' };
-              if (b.parent_brand) bestMatch.sub_brand = b.name;
-              bestLen = jp.length;
+            if (!parentFound2) parentOk = false;
+          }
+          if (parentOk) {
+            if (isMaterial) {
+              if (b.parent_brand ? (jp.length >= materialLen) : (jp.length > materialLen)) {
+                materialMatch = { name: (b.parent_brand || b.name), country: b.country || '' };
+                if (b.parent_brand) materialMatch.sub_brand = b.name;
+                materialLen = jp.length;
+              }
+            } else {
+              if (b.parent_brand ? (jp.length >= bestLen) : (jp.length > bestLen)) {
+                bestMatch = { name: (b.parent_brand || b.name), country: b.country || '' };
+                if (b.parent_brand) bestMatch.sub_brand = b.name;
+                bestLen = jp.length;
+              }
             }
           }
           }
