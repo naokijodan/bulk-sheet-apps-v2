@@ -464,6 +464,7 @@ var IS_BRAND_DICT = [
   {name: 'Seiko Sumo', jp_names: ['スモウ', 'SUMO'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
   {name: 'Seiko Tuna', jp_names: ['ツナ', 'ツナ缶', 'TUNA'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
   {name: 'Seiko Turtle', jp_names: ['タートル', 'TURTLE'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
+  {name: 'Seiko Type II', jp_names: ['タイプツー', 'TYPE II', 'タイプ2', 'TYPE2', 'TYPEII'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
   {name: 'Seiko Wired', jp_names: ['ワイアード', 'WIRED', 'Seiko Wired', 'SEIKO WIRED'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
   {name: 'Seikomatic', jp_names: ['セイコーマチック', 'SEIKOMATIC'], country: 'Japan'},
   {name: 'Seikosha', jp_names: ['精工舎', 'SEIKOSHA', 'SEIKOSYA'], country: 'Japan'},
