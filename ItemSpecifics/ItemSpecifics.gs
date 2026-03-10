@@ -445,6 +445,26 @@ function matchCaseSize_(title) {
 }
 
 /**
+ * 短い名前（4文字以下）の場合、タイトル内で単語境界にあるかチェック
+ * 5文字以上の名前は常にtrueを返す（既存の動作を変えない）
+ */
+function isWordBoundaryMatch_(text, matchStr, pos) {
+  if (matchStr.length > 4) return true;
+  // マッチ位置の前の文字をチェック
+  if (pos > 0) {
+    var before = text.charAt(pos - 1);
+    if (/[a-zA-Z0-9]/.test(before)) return false;
+  }
+  // マッチ位置の後の文字をチェック
+  var afterPos = pos + matchStr.length;
+  if (afterPos < text.length) {
+    var after = text.charAt(afterPos);
+    if (/[a-zA-Z0-9]/.test(after)) return false;
+  }
+  return true;
+}
+
+/**
  * タイトルからIS_BRAND_DICTを使ってブランドをマッチ
  * 長い名前を優先（"Grand Seiko" > "Seiko"）
  * @param {string} title
@@ -488,7 +508,8 @@ function matchBrandFromTitle_(title, opt_category) {
 
     // 英語名チェック（通常）
     var nameLower = b.name.toLowerCase();
-    if (t.indexOf(nameLower) !== -1) {
+    var namePos = t.indexOf(nameLower);
+    if (namePos !== -1 && isWordBoundaryMatch_(t, nameLower, namePos)) {
       // parent_brand がある場合は、parent_brand もタイトルに存在するか検証
       if (b.parent_brand) {
         var parentLower = b.parent_brand.toLowerCase();
@@ -525,7 +546,8 @@ function matchBrandFromTitle_(title, opt_category) {
         var jp = b.jp_names[j];
         if (jp) {
           var jpLower = jp.toLowerCase();
-          if (t.indexOf(jpLower) !== -1) {
+          var jpPos = t.indexOf(jpLower);
+          if (jpPos !== -1 && isWordBoundaryMatch_(t, jpLower, jpPos)) {
           // parent_brand がある場合は、parent ブランドもタイトルに存在するか検証（フラグで制御）
           var parentOk = true;
           if (b.parent_brand) {
