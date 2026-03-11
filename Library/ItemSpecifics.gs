@@ -206,6 +206,8 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
     case 'Game Name':
       return extractGameName_(title);
     case 'Publisher':
+      var pub = matchFromPatterns_(title, IS_GAME_PUBLISHER_PATTERNS);
+      if (pub) return pub;
       return brandInfo ? brandInfo.name : '';
     case 'Rating':
       return '';

@@ -1377,6 +1377,130 @@ var IS_GENRE_PATTERNS = [
 ];
 
 // ==============================
+// ゲーム タイトル→パブリッシャー判定パターン
+// ==============================
+var IS_GAME_PUBLISHER_PATTERNS = [
+  // Nintendo
+  {keywords: ['Super Mario', 'Mario Bros', 'Mario Kart', 'Mario Party', 'Mario Land', 'Mario World'], value: 'Nintendo'},
+  {keywords: ['Zelda', 'Link\'s Awakening'], value: 'Nintendo'},
+  {keywords: ['Kirby'], value: 'Nintendo'},
+  {keywords: ['Metroid'], value: 'Nintendo'},
+  {keywords: ['Donkey Kong'], value: 'Nintendo'},
+  {keywords: ['Star Fox', 'Starfox'], value: 'Nintendo'},
+  {keywords: ['Pikmin'], value: 'Nintendo'},
+  {keywords: ['Splatoon'], value: 'Nintendo'},
+  {keywords: ['Animal Crossing'], value: 'Nintendo'},
+  {keywords: ['Fire Emblem'], value: 'Nintendo'},
+  {keywords: ['Wario Land', 'WarioWare', 'Wario'], value: 'Nintendo'},
+  {keywords: ['F-Zero', 'F Zero'], value: 'Nintendo'},
+  {keywords: ['Golden Sun'], value: 'Nintendo'},
+  {keywords: ['Mother', 'EarthBound'], value: 'Nintendo'},
+  // Square / Square Enix
+  {keywords: ['Final Fantasy'], value: 'Square'},
+  {keywords: ['Chrono Trigger', 'Chrono Cross'], value: 'Square'},
+  {keywords: ['SaGa', 'Romancing SaGa', 'Final Fantasy Legend'], value: 'Square'},
+  {keywords: ['Mana', 'Seiken Densetsu', 'Secret of Mana'], value: 'Square'},
+  {keywords: ['Xanadu', 'Ys'], value: 'Falcom'},
+  // Enix
+  {keywords: ['Dragon Quest', 'Dragon Warrior'], value: 'Enix'},
+  {keywords: ['Actraiser', 'ActRaiser'], value: 'Enix'},
+  {keywords: ['Soul Blazer'], value: 'Enix'},
+  // Konami
+  {keywords: ['TwinBee', 'Twin Bee'], value: 'Konami'},
+  {keywords: ['Castlevania', 'Dracula', 'Akumajou'], value: 'Konami'},
+  {keywords: ['Gradius', 'Nemesis'], value: 'Konami'},
+  {keywords: ['Contra', 'Probotector'], value: 'Konami'},
+  {keywords: ['Metal Gear'], value: 'Konami'},
+  {keywords: ['Silent Hill'], value: 'Konami'},
+  {keywords: ['Bomberman'], value: 'Hudson Soft'},
+  {keywords: ['Parodius'], value: 'Konami'},
+  {keywords: ['Goemon', 'Ganbare Goemon', 'Mystical Ninja'], value: 'Konami'},
+  {keywords: ['Suikoden', 'Genso Suikoden'], value: 'Konami'},
+  {keywords: ['Tokimeki Memorial'], value: 'Konami'},
+  {keywords: ['Winning Eleven', 'Pro Evolution Soccer'], value: 'Konami'},
+  // Capcom
+  {keywords: ['Street Fighter'], value: 'Capcom'},
+  {keywords: ['Mega Man', 'Rockman', 'Rock Man'], value: 'Capcom'},
+  {keywords: ['Resident Evil', 'Biohazard'], value: 'Capcom'},
+  {keywords: ['Monster Hunter'], value: 'Capcom'},
+  {keywords: ['Ghosts \'n Goblins', 'Makaimura', 'Makai', 'Ghouls \'n Ghosts'], value: 'Capcom'},
+  {keywords: ['Breath of Fire'], value: 'Capcom'},
+  {keywords: ['Devil May Cry'], value: 'Capcom'},
+  {keywords: ['Ace Attorney', 'Phoenix Wright', 'Gyakuten Saiban'], value: 'Capcom'},
+  // Sega
+  {keywords: ['Sonic'], value: 'Sega'},
+  {keywords: ['Phantasy Star'], value: 'Sega'},
+  {keywords: ['Shining Force', 'Shining'], value: 'Sega'},
+  {keywords: ['Virtua Fighter'], value: 'Sega'},
+  {keywords: ['Yakuza', 'Ryu ga Gotoku'], value: 'Sega'},
+  {keywords: ['Puyo Puyo'], value: 'Sega'},
+  // Bandai Namco
+  {keywords: ['Pac-Man', 'Pac Man', 'Pacman'], value: 'Namco'},
+  {keywords: ['Tales of'], value: 'Namco'},
+  {keywords: ['Tekken'], value: 'Namco'},
+  {keywords: ['Gundam'], value: 'Bandai'},
+  {keywords: ['Taiko', 'Taiko no Tatsujin'], value: 'Namco'},
+  {keywords: ['Dragon Ball'], value: 'Bandai'},
+  {keywords: ['Naruto'], value: 'Bandai Namco'},
+  {keywords: ['One Piece'], value: 'Bandai'},
+  // Atlus
+  {keywords: ['Persona'], value: 'Atlus'},
+  {keywords: ['Shin Megami Tensei', 'Megami Tensei'], value: 'Atlus'},
+  // Compile
+  {keywords: ['Madou Monogatari'], value: 'Compile'},
+  {keywords: ['Zanac'], value: 'Compile'},
+  {keywords: ['Aleste'], value: 'Compile'},
+  // Taito
+  {keywords: ['Bubble Bobble'], value: 'Taito'},
+  {keywords: ['Space Invaders'], value: 'Taito'},
+  {keywords: ['Darius'], value: 'Taito'},
+  // Irem
+  {keywords: ['R-Type', 'R Type', 'RTYPE'], value: 'Irem'},
+  // Tecmo
+  {keywords: ['Ninja Gaiden'], value: 'Tecmo'},
+  {keywords: ['Dead or Alive'], value: 'Tecmo'},
+  // SNK
+  {keywords: ['King of Fighters', 'KOF'], value: 'SNK'},
+  {keywords: ['Fatal Fury', 'Garou'], value: 'SNK'},
+  {keywords: ['Samurai Shodown', 'Samurai Spirits'], value: 'SNK'},
+  // Koei
+  {keywords: ['Nobunaga', 'Nobunaga\'s Ambition'], value: 'Koei'},
+  {keywords: ['Romance of the Three Kingdoms', 'Sangokushi'], value: 'Koei'},
+  {keywords: ['Dynasty Warriors', 'Musou'], value: 'Koei'},
+  // Falcom
+  {keywords: ['Legend of Heroes', 'Trails'], value: 'Falcom'},
+  // From Software
+  {keywords: ['Dark Souls', 'Armored Core'], value: 'From Software'},
+  // Hudson Soft
+  {keywords: ['PC Genjin', 'Bonk'], value: 'Hudson Soft'},
+  {keywords: ['Star Soldier'], value: 'Hudson Soft'},
+  // Treasure
+  {keywords: ['Gunstar Heroes'], value: 'Treasure'},
+  // HAL Laboratory
+  {keywords: ['Lode Runner'], value: 'Hudson Soft'},
+  // Sailor Moon
+  {keywords: ['Sailor Moon'], value: 'Bandai'},
+  // Macross
+  {keywords: ['Macross'], value: 'Bandai'},
+  // To Love-Ru
+  {keywords: ['To Love', 'ToLoveRu', 'To LoveRu'], value: 'Bandai Namco'},
+  // God of War
+  {keywords: ['God of War'], value: 'Sony'},
+  // Prince of Persia
+  {keywords: ['Prince of Persia'], value: 'Ubisoft'},
+  // Atelier / Iris
+  {keywords: ['Atelier', 'Iris Atelier'], value: 'Gust'},
+  // Ginga Eiyu Densetsu (Legend of the Galactic Heroes)
+  {keywords: ['Ginga Eiyu Densetsu', 'Ginga Eiyuu'], value: 'Kemco'},
+  // F1
+  {keywords: ['F1 Grand Prix', 'F-1 Grand Prix'], value: 'Video System'},
+  // Master Karateka
+  {keywords: ['Karateka'], value: 'Broderbund'},
+  // Dynamite Duke
+  {keywords: ['Dynamite Duke'], value: 'Seibu Kaihatsu'}
+];
+
+// ==============================
 // ウォッチパーツ タイプパターン
 // ==============================
 var IS_WATCH_PART_TYPE_PATTERNS = [
