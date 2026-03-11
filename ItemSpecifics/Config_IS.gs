@@ -1306,6 +1306,76 @@ var IS_GAME_PATTERNS = [
 ];
 
 // ==============================
+// ゲーム プラットフォーム判定パターン
+// ==============================
+var IS_PLATFORM_PATTERNS = [
+  {keywords: ['SFC', 'Super Famicom', 'スーパーファミコン', 'スーファミ', 'SNES'], value: 'Nintendo Super Nintendo Entertainment System (Super Famicom)'},
+  {keywords: ['FC', 'Famicom', 'ファミコン', 'NES', 'ファミリーコンピュータ'], value: 'Nintendo Entertainment System (NES/Famicom)'},
+  {keywords: ['N64', 'Nintendo 64', 'ニンテンドー64', 'ニンテンドウ64'], value: 'Nintendo 64'},
+  {keywords: ['GC', 'GameCube', 'ゲームキューブ'], value: 'Nintendo GameCube'},
+  {keywords: ['Wii U', 'WiiU', 'ウィーユー'], value: 'Nintendo Wii U'},
+  {keywords: ['Wii', 'ウィー'], value: 'Nintendo Wii'},
+  {keywords: ['Nintendo Switch', 'Switch', 'スイッチ'], value: 'Nintendo Switch'},
+  {keywords: ['GBA', 'Game Boy Advance', 'ゲームボーイアドバンス'], value: 'Nintendo Game Boy Advance'},
+  {keywords: ['GBC', 'Game Boy Color', 'ゲームボーイカラー'], value: 'Nintendo Game Boy Color'},
+  {keywords: ['GB', 'Game Boy', 'ゲームボーイ'], value: 'Nintendo Game Boy'},
+  {keywords: ['DS Lite', 'DSi', 'DSLite'], value: 'Nintendo DS'},
+  {keywords: ['3DS', 'ニンテンドー3DS'], value: 'Nintendo 3DS'},
+  {keywords: ['NDS', 'Nintendo DS', 'ニンテンドーDS'], value: 'Nintendo DS'},
+  {keywords: ['PS5', 'PlayStation 5', 'プレイステーション5', 'プレステ5'], value: 'Sony PlayStation 5'},
+  {keywords: ['PS4', 'PlayStation 4', 'プレイステーション4', 'プレステ4'], value: 'Sony PlayStation 4'},
+  {keywords: ['PS3', 'PlayStation 3', 'プレイステーション3', 'プレステ3'], value: 'Sony PlayStation 3'},
+  {keywords: ['PS2', 'PlayStation 2', 'プレイステーション2', 'プレステ2'], value: 'Sony PlayStation 2'},
+  {keywords: ['PS1', 'PlayStation', 'プレイステーション', 'プレステ', 'PS one', 'PSone'], value: 'Sony PlayStation'},
+  {keywords: ['PSP', 'プレイステーション・ポータブル'], value: 'Sony PSP'},
+  {keywords: ['PS Vita', 'Vita', 'PSVITA'], value: 'Sony PlayStation Vita'},
+  {keywords: ['Xbox Series', 'XSX', 'XSS'], value: 'Microsoft Xbox Series X|S'},
+  {keywords: ['Xbox One', 'XB1', 'XBOXONE'], value: 'Microsoft Xbox One'},
+  {keywords: ['Xbox 360', 'X360'], value: 'Microsoft Xbox 360'},
+  {keywords: ['Xbox', 'XBOX'], value: 'Microsoft Xbox'},
+  {keywords: ['Dreamcast', 'ドリームキャスト', 'DC'], value: 'Sega Dreamcast'},
+  {keywords: ['Saturn', 'サターン', 'セガサターン', 'SS'], value: 'Sega Saturn'},
+  {keywords: ['Mega Drive', 'メガドライブ', 'MD', 'Genesis'], value: 'Sega Genesis/Mega Drive'},
+  {keywords: ['Game Gear', 'ゲームギア', 'GG'], value: 'Sega Game Gear'},
+  {keywords: ['PC Engine', 'PCエンジン', 'PCE', 'TurboGrafx'], value: 'NEC TurboGrafx-16/PC Engine'},
+  {keywords: ['Neo Geo', 'ネオジオ', 'NEOGEO', 'NGP'], value: 'SNK Neo Geo'},
+  {keywords: ['MSX', 'MSX2', 'MSX2+'], value: 'MSX'},
+  {keywords: ['WonderSwan', 'ワンダースワン'], value: 'Bandai WonderSwan'},
+  {keywords: ['Virtual Boy', 'バーチャルボーイ'], value: 'Nintendo Virtual Boy'}
+];
+
+// ==============================
+// ゲーム リージョンコード判定パターン
+// ==============================
+var IS_REGION_CODE_PATTERNS = [
+  {keywords: ['NTSC-J', 'NTSCJ', 'Japan Import', 'Japanese', '日本版'], value: 'NTSC-J (Japan)'},
+  {keywords: ['NTSC-U', 'NTSC-U/C', 'US Version', 'North America'], value: 'NTSC-U/C (US/Canada)'},
+  {keywords: ['PAL', 'European', 'Europe Version', 'EU版'], value: 'PAL'},
+  {keywords: ['Region Free', 'リージョンフリー'], value: 'Region Free'}
+];
+
+// ==============================
+// ゲーム ジャンル判定パターン
+// ==============================
+var IS_GENRE_PATTERNS = [
+  {keywords: ['RPG', 'Role Playing', 'ロールプレイング'], value: 'Role-Playing'},
+  {keywords: ['Action RPG', 'ARPG', 'アクションRPG'], value: 'Action RPG'},
+  {keywords: ['Action', 'アクション'], value: 'Action'},
+  {keywords: ['Adventure', 'アドベンチャー'], value: 'Adventure'},
+  {keywords: ['Fighting', '格闘', '対戦格闘'], value: 'Fighting'},
+  {keywords: ['Racing', 'レース', 'レーシング'], value: 'Racing'},
+  {keywords: ['Puzzle', 'パズル'], value: 'Puzzle'},
+  {keywords: ['Simulation', 'シミュレーション'], value: 'Simulation'},
+  {keywords: ['Sports', 'スポーツ'], value: 'Sports'},
+  {keywords: ['Shooter', 'シューティング', 'STG'], value: 'Shooter'},
+  {keywords: ['Strategy', '戦略', 'シミュレーションRPG', 'SRPG', 'Tactical'], value: 'Strategy'},
+  {keywords: ['Platform', 'プラットフォーマー', 'Platformer'], value: 'Platform'},
+  {keywords: ['Music', '音楽', 'リズム', 'Rhythm'], value: 'Music/Rhythm'},
+  {keywords: ['Horror', 'ホラー', 'サバイバルホラー'], value: 'Horror'},
+  {keywords: ['Board Game', 'ボードゲーム', 'Party', 'パーティ'], value: 'Board Game/Party'}
+];
+
+// ==============================
 // ウォッチパーツ タイプパターン
 // ==============================
 var IS_WATCH_PART_TYPE_PATTERNS = [

@@ -195,6 +195,19 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       return brandInfo && brandInfo.sub_brand ? brandInfo.sub_brand : '';
     case 'Type':
       return matchTypeFromTag_(tag);
+    // === Video Games fields ===
+    case 'Platform':
+      return matchPlatformFromTitle_(title);
+    case 'Region Code':
+      return matchFromPatterns_(title + ' ' + (description || ''), IS_REGION_CODE_PATTERNS);
+    case 'Genre':
+      return matchFromPatterns_(title + ' ' + (description || ''), IS_GENRE_PATTERNS);
+    case 'Game Name':
+      return '';
+    case 'Publisher':
+      return brandInfo ? brandInfo.name : '';
+    case 'Rating':
+      return '';
     case 'Metal':
     case 'Case Material':
     case 'Band Material':
@@ -311,6 +324,18 @@ function matchPartSize_(title) {
   m = t.match(/(\d+(?:\.\d+)?)\s*(?:cm|CM)/);
   if (m) return m[1] + ' cm';
   return '';
+}
+
+/**
+ * タイトルからプラットフォームを判定
+ * 部分文字列の問題を避けるため、長いキーワードから先にマッチ
+ */
+function matchPlatformFromTitle_(title) {
+  if (!title) return '';
+  if (typeof IS_PLATFORM_PATTERNS === 'undefined' || !IS_PLATFORM_PATTERNS) return '';
+  var t = title.toString();
+  // SFC/FC問題: "SFC"が先にマッチするよう、パターン配列の順序に依存
+  return matchFromPatterns_(t, IS_PLATFORM_PATTERNS);
 }
 
 // パターン辞書から最初にマッチした値を返す

@@ -264,6 +264,11 @@ function buildExtractionPrompt_(title, description, category, fields, tag, exist
   lines.push('Department: Use Men, Women, Unisex, Boys, Girls');
   lines.push('Movement (watches): Automatic, Manual, Quartz, Solar, Kinetic');
   lines.push('Display (watches): Analog, Digital, Analog & Digital. Inference rules: if movement is Automatic/Mechanical/Manual → Analog. If title/description contains Digital or brand is G-Shock → Digital. If both analog hands and digital display → Analog & Digital. Default → Analog.');
+  lines.push('Platform (video games): Use full eBay platform names. Mapping: SFC/Super Famicom/SNES → "Nintendo Super Nintendo Entertainment System (Super Famicom)", FC/Famicom/NES → "Nintendo Entertainment System (NES/Famicom)", GB/Game Boy → "Nintendo Game Boy", GBA → "Nintendo Game Boy Advance", GBC → "Nintendo Game Boy Color", N64 → "Nintendo 64", GC/GameCube → "Nintendo GameCube", DS/NDS → "Nintendo DS", 3DS → "Nintendo 3DS", PSP → "Sony PSP", PS Vita → "Sony PlayStation Vita", PS1/PlayStation → "Sony PlayStation", PS2 → "Sony PlayStation 2", PS3 → "Sony PlayStation 3", PS4 → "Sony PlayStation 4", PS5 → "Sony PlayStation 5", Dreamcast → "Sega Dreamcast", Saturn → "Sega Saturn", Mega Drive/Genesis → "Sega Genesis/Mega Drive", MSX → "MSX", PC Engine/TurboGrafx → "NEC TurboGrafx-16/PC Engine", Neo Geo → "SNK Neo Geo", Switch → "Nintendo Switch"');
+  lines.push('Region Code (video games): NTSC-J or "Japan Import" or Japanese → "NTSC-J (Japan)". NTSC-U/C or US/North America → "NTSC-U/C (US/Canada)". PAL or Europe → "PAL". If not specified → "NTSC-J (Japan)" for Japan import items.');
+  lines.push('Game Name (video games): Extract the game title from the listing title. Remove platform codes (SFC, FC, GB, etc.), region codes (NTSC-J, etc.), and condition descriptors (CIB, Box, Manual, etc.). Example: "Dragon Quest III And The Legend FC NTSC-J CIB" → "Dragon Quest III And The Legend"');
+  lines.push('Genre (video games): RPG, Action, Adventure, Fighting, Racing, Puzzle, Simulation, Sports, Shooter, Strategy, Platform, Music/Rhythm, Horror, Board Game/Party');
+  lines.push('Publisher (video games): Extract from brand knowledge or description. Common publishers: Nintendo, Capcom, Konami, Square Enix, Bandai Namco, Sega, Sony, Koei Tecmo, Atlus, Enix, Squaresoft, Hudson Soft, Taito, Irem, SNK');
   lines.push('Material: Use eBay standard terms (e.g., "Stainless Steel" not "SS", "Sterling Silver" not "Silver 925")');
   lines.push('');
   lines.push('### METAL IDENTIFICATION RULES (CRITICAL for Jewelry)');
@@ -311,6 +316,7 @@ function buildExtractionPrompt_(title, description, category, fields, tag, exist
   // === 8. 出力例 ===
   lines.push('### OUTPUT EXAMPLE');
   lines.push('{"_category": "Watches", "Brand": "Seiko", "Type": "Wrist Watch", "Model": "Presage", "Movement": "Automatic", "Display": "Analog", "Case Material": "Stainless Steel", "Band Material": "Leather", "Department": "Men", "Dial Color": "Blue", "Country/Region of Manufacture": "Japan"}');
+  lines.push('{"_category": "Video Games", "Platform": "Nintendo Super Nintendo Entertainment System (Super Famicom)", "Game Name": "Dragon Quest VI", "Region Code": "NTSC-J (Japan)", "Genre": "Role-Playing", "Character": "", "Publisher": "Enix", "Rating": "", "Language": "Japanese", "Country/Region of Manufacture": "Japan"}');
 
   return lines.join('\n');
 }
