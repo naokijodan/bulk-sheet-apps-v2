@@ -203,7 +203,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
     case 'Genre':
       return matchFromPatterns_(title + ' ' + (description || ''), IS_GENRE_PATTERNS);
     case 'Game Name':
-      return '';
+      return extractGameName_(title);
     case 'Publisher':
       return brandInfo ? brandInfo.name : '';
     case 'Rating':
@@ -336,6 +336,82 @@ function matchPlatformFromTitle_(title) {
   var t = title.toString();
   // SFC/FC問題: "SFC"が先にマッチするよう、パターン配列の順序に依存
   return matchFromPatterns_(t, IS_PLATFORM_PATTERNS);
+}
+
+/**
+ * タイトルからゲーム名を抽出
+ * プラットフォームコード・リージョンコード・状態表記・eBay用語を除去して返す
+ */
+function extractGameName_(title) {
+  if (!title) return '';
+  var t = title.toString();
+
+  // 1. プラットフォームコードを除去（長い順にマッチさせて部分文字列問題を回避）
+  var platformCodes = [
+    'Super Famicom', 'Nintendo Switch', 'Game Boy Advance', 'Game Boy Color',
+    'Game Boy', 'Game Gear', 'GameCube', 'Mega Drive', 'PC Engine',
+    'PlayStation Vita', 'PlayStation 5', 'PlayStation 4', 'PlayStation 3',
+    'PlayStation 2', 'PlayStation', 'Neo Geo', 'Virtual Boy', 'WonderSwan',
+    'Dreamcast', 'TurboGrafx',
+    'Nintendo DS', 'Xbox Series', 'Xbox One', 'Xbox 360',
+    'PSVITA', 'PSone', 'PS Vita',
+    'MSX2+', 'MSX2',
+    'SNES', 'SFC', 'NES', 'GBA', 'GBC', 'N64', 'NDS', '3DS',
+    'PS5', 'PS4', 'PS3', 'PS2', 'PS1', 'PSP',
+    'MSX', 'GC', 'GB', 'FC', 'MD', 'DC', 'SS', 'GG',
+    'Xbox', 'Wii U', 'WiiU', 'Wii',
+    'PCE', 'PC'
+  ];
+  for (var i = 0; i < platformCodes.length; i++) {
+    var code = platformCodes[i];
+    var regex = new RegExp('\\b' + code.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'gi');
+    t = t.replace(regex, ' ');
+  }
+
+  // 2. リージョンコード除去
+  t = t.replace(/\bNTSC[\-\/]?J\b/gi, ' ');
+  t = t.replace(/\bNTSC[\-\/]?U(?:\/C)?\b/gi, ' ');
+  t = t.replace(/\bPAL\b/gi, ' ');
+  t = t.replace(/\bRegion Free\b/gi, ' ');
+
+  // 3. 状態表記除去
+  var conditionWords = [
+    'CIB', 'Complete In Box', 'Complete in Box',
+    'No Manual', 'No Box', 'Box Manual', 'Box Included',
+    'Manual Included', 'Game Only', 'Disc Only', 'Discs Only',
+    'Cart Only', 'Cartridge Only', 'Boxed',
+    'with Box', 'with Manual', 'w/ Box', 'w/ Manual',
+    'Japan Import', 'Japanese Import', 'Japanese Version',
+    'Japan Version', 'Japanese',
+    'Retro', 'Rare', 'Vintage', 'Classic', 'Collectible',
+    'Limited', 'Limited Edition', 'Edition', 'Original',
+    'Video Game', 'Collectors', 'Collection'
+  ];
+  for (var j = 0; j < conditionWords.length; j++) {
+    var cw = conditionWords[j];
+    var cwRegex = new RegExp('\\b' + cw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'gi');
+    t = t.replace(cwRegex, ' ');
+  }
+
+  // 4. 余分なスペース整理
+  t = t.replace(/\s+/g, ' ').trim();
+
+  // 5. 末尾の不要ワードを除去（繰り返し）
+  var trailingWords = ['Set', 'Pack', 'Lot', 'Bundle', 'Import', 'Included'];
+  var changed = true;
+  while (changed) {
+    changed = false;
+    for (var k = 0; k < trailingWords.length; k++) {
+      var tw = trailingWords[k];
+      var twRegex = new RegExp('\\s+' + tw + '\\s*$', 'i');
+      if (twRegex.test(t)) {
+        t = t.replace(twRegex, '').trim();
+        changed = true;
+      }
+    }
+  }
+
+  return t;
 }
 
 // パターン辞書から最初にマッチした値を返す
