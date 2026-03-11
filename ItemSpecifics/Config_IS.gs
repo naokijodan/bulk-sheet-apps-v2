@@ -771,6 +771,7 @@ var IS_BRAND_DICT = [
   {name: 'Fendi', jp_names: ['フェンディ', 'FENDI'], country: 'Italy', category: ['Sunglasses']},
   {name: 'Gentle Monster', jp_names: ['ジェントルモンスター', 'GENTLE MONSTER'], country: 'South Korea', category: ['Sunglasses']},
   {name: 'Giorgio Armani', jp_names: ['ジョルジオアルマーニ', 'GIORGIO ARMANI'], country: 'Italy', category: ['Sunglasses']},
+  {name: 'Gregory Peck', jp_names: ['グレゴリーペック', 'GREGORY PECK'], country: 'USA', parent_brand: 'Oliver Peoples', category: ['Sunglasses']},
   {name: 'Gucci', jp_names: ['グッチ', 'GUCCI'], country: 'Italy', category: ['Sunglasses']},
   {name: 'ic! berlin', jp_names: ['アイシーベルリン', 'IC! BERLIN', 'IC BERLIN'], country: 'Germany', category: ['Sunglasses']},
   {name: 'Jacques Marie Mage', jp_names: ['ジャックマリーマージュ', 'JACQUES MARIE MAGE'], country: 'USA', category: ['Sunglasses']},
