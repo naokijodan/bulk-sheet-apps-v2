@@ -202,6 +202,18 @@ var IS_INITIAL_DATA = [
   { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Rarity', field_type: 'recommended', priority: 12, notes: '' },
   { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Features', field_type: 'recommended', priority: 13, notes: '' },
 
+  // === Video Games ===
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Platform', field_type: 'required', priority: 1, notes: 'Nintendo Switch, PlayStation 5, Xbox Series X等' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Game Name', field_type: 'required', priority: 2, notes: '' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Region Code', field_type: 'required', priority: 3, notes: 'NTSC-J, NTSC-U/C, PAL等' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Genre', field_type: 'required', priority: 4, notes: 'Action, RPG, Fighting等' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Character', field_type: 'recommended', priority: 5, notes: '' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Publisher', field_type: 'recommended', priority: 6, notes: 'Nintendo, Sony, Capcom等' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Rating', field_type: 'recommended', priority: 7, notes: 'CERO A, ESRB E, PEGI 3等' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Language', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Features', field_type: 'recommended', priority: 9, notes: 'Multiplayer, Online等' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Country/Region of Manufacture', field_type: 'recommended', priority: 10, notes: '' },
+
   // === Shoes ===
   { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
   { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'US Shoe Size', field_type: 'required', priority: 2, notes: '' },
@@ -1108,7 +1120,12 @@ var IS_TAG_TO_CATEGORY = {
   // Watch Parts
   'ウォッチパーツ': 'Watch Parts', '時計パーツ': 'Watch Parts', '時計部品': 'Watch Parts',
   // Sunglasses
-  'サングラス': 'Sunglasses', 'メガネ': 'Sunglasses', '眼鏡': 'Sunglasses'
+  'サングラス': 'Sunglasses', 'メガネ': 'Sunglasses', '眼鏡': 'Sunglasses',
+  // Video Games
+  'ゲーム': 'Video Games', 'ゲームソフト': 'Video Games', 'テレビゲーム': 'Video Games',
+  'Switch': 'Video Games', 'PS5': 'Video Games', 'PS4': 'Video Games', 'PS3': 'Video Games', 'PS2': 'Video Games',
+  'Xbox': 'Video Games', 'ファミコン': 'Video Games', 'スーファミ': 'Video Games',
+  'ゲームボーイ': 'Video Games', 'Nintendo': 'Video Games', 'PlayStation': 'Video Games'
 };
 
 // ==============================
@@ -1125,7 +1142,7 @@ var IS_CATEGORY_FIELDS = {
   'Shoes':         ['Brand', 'Type', 'Department', 'Color', 'Material', 'Country/Region of Manufacture'],
   'Cameras':       ['Brand', 'Type', 'Color', 'Country/Region of Manufacture'],
   'Electronics':   ['Brand', 'Type', 'Color', 'Country/Region of Manufacture'],
-  'Trading Cards': ['Game', 'Language', 'Graded', 'Country/Region of Manufacture'],
+  'Trading Cards': ['Game', 'Set', 'Character', 'Card Name', 'Card Number', 'Rarity', 'Finish', 'Language', 'Graded', 'Country/Region of Manufacture'],
   'Brooches':      ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
   'Cufflinks':     ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
   'Hair Accessories': ['Brand', 'Material', 'Type', 'Color', 'Country/Region of Manufacture'],
@@ -1145,7 +1162,8 @@ var IS_CATEGORY_FIELDS = {
   'Collectibles':  ['Brand', 'Type', 'Material', 'Country/Region of Manufacture'],
   'Pipes':         ['Brand', 'Material', 'Type', 'Color', 'Country/Region of Manufacture'],
   'Watch Parts':   ['Brand', 'Part Type', 'Material', 'Compatible Model', 'Size', 'Color', 'Country/Region of Manufacture'],
-  'Sunglasses':  ['Brand', 'Model', 'Frame Color', 'Lens Color', 'Frame Material', 'Style', 'Department', 'Country/Region of Manufacture']
+  'Sunglasses':  ['Brand', 'Model', 'Frame Color', 'Lens Color', 'Frame Material', 'Style', 'Department', 'Country/Region of Manufacture'],
+  'Video Games': ['Platform', 'Game Name', 'Region Code', 'Genre', 'Character', 'Publisher', 'Rating', 'Language', 'Country/Region of Manufacture']
 };
 
 // ==============================
