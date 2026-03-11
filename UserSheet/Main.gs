@@ -11,11 +11,13 @@ var LIB = BulkToolsLib;
 function onOpen() {
   try {
     SpreadsheetApp.getUi().createMenu('📋 Item Specifics')
-      .addItem('選択行に出力', 'step1BasicSelectedRows')
-      .addItem('全行に出力', 'step1BasicAllRows')
+      .addItem('選択行に出力', 'IS_step1BasicSelectedRows')
+      .addItem('全行に出力', 'IS_step1BasicAllRows')
       .addSeparator()
-      .addItem('辞書管理', 'showDictionaryManager')
-      .addItem('辞書を初期化', 'initializeDictionaryWithConfirm')
+      .addItem('辞書管理', 'IS_showDictionaryManager')
+      .addItem('辞書を初期化', 'IS_initializeDictionaryWithConfirm')
+      .addSeparator()
+      .addItem('APIキー設定', 'IS_showISApiKeyDialog')
       .addToUi();
   } catch(e) {
     SpreadsheetApp.getActive().toast('IS menu error: ' + e, 'Error', 10);
@@ -323,3 +325,14 @@ function doPost(e) {
     })).setMimeType(ContentService.MimeType.JSON);
   }
 }
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Item Specifics（ライブラリ経由）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+function IS_step1BasicSelectedRows() { LIB.step1BasicSelectedRows(); }
+function IS_step1BasicAllRows() { LIB.step1BasicAllRows(); }
+function IS_showDictionaryManager() { LIB.showDictionaryManager(); }
+function IS_initializeDictionaryWithConfirm() { LIB.initializeDictionaryWithConfirm(); }
+function IS_showISApiKeyDialog() { LIB.showISApiKeyDialog(); }
+function IS_extractSelectedRows() { LIB.extractSelectedRows(); }
+function IS_extractAllRows() { LIB.extractAllRows(); }
