@@ -238,7 +238,19 @@ var IS_INITIAL_DATA = [
   { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Compatible Model', field_type: 'recommended', priority: 4, notes: '対応するモデル名（Submariner, Speedmaster等）' },
   { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Size', field_type: 'recommended', priority: 5, notes: 'mm単位。ラグ幅・ベルト幅・コマ幅など' },
   { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Color', field_type: 'recommended', priority: 6, notes: '' },
-  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Country of Origin', field_type: 'recommended', priority: 7, notes: '製造国。フルネーム英語' }
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Country of Origin', field_type: 'recommended', priority: 7, notes: '製造国。フルネーム英語' },
+  
+  // === Sunglasses ===
+  { category: 'Sunglasses', tag_jp: 'サングラス', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス', field_name: 'Model', field_type: 'required', priority: 2, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス', field_name: 'Frame Color', field_type: 'required', priority: 3, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス', field_name: 'Lens Color', field_type: 'required', priority: 4, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス', field_name: 'Frame Material', field_type: 'required', priority: 5, notes: 'Plastic, Metal, Acetate, Titanium等' },
+  { category: 'Sunglasses', tag_jp: 'サングラス', field_name: 'Style', field_type: 'required', priority: 6, notes: 'Aviator, Wayfarer, Round, Rectangular, Cat Eye, Sport, Wrap等' },
+  { category: 'Sunglasses', tag_jp: 'サングラス', field_name: 'Department', field_type: 'recommended', priority: 7, notes: "Men's / Women's / Unisex" },
+  { category: 'Sunglasses', tag_jp: 'サングラス', field_name: 'Lens Technology', field_type: 'recommended', priority: 8, notes: 'Polarized, Mirrored, Gradient, Photochromic等' },
+  { category: 'Sunglasses', tag_jp: 'サングラス', field_name: 'Protection', field_type: 'recommended', priority: 9, notes: '100% UV, UV400等' },
+  { category: 'Sunglasses', tag_jp: 'サングラス', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' }
 ];
 
 // 主要ブランド辞書（プロンプト埋め込み用）
@@ -335,6 +347,7 @@ var IS_BRAND_DICT = [
   {name: 'Green Horse', jp_names: ['グリーンホース', 'GREEN HORSE'], country: 'Switzerland', parent_brand: 'Rado', category: ['Watches']},
   {name: 'Gucci Dive', jp_names: ['グッチダイブ', 'GUCCI DIVE'], country: 'Italy', parent_brand: 'Gucci', category: ['Watches']},
   {name: 'Gucci Grip', jp_names: ['グッチグリップ', 'GUCCI GRIP'], country: 'Italy', parent_brand: 'Gucci', category: ['Watches']},
+  {name: 'Gucci 9000M', jp_names: ['グッチ9000M', 'GUCCI 9000M', '9000M'], country: 'Italy', parent_brand: 'Gucci', category: ['Watches']},
   {name: 'Hamilton', jp_names: ['ハミルトン', 'HAMILTON'], country: 'USA'},
   {name: 'Hublot', jp_names: ['ウブロ', 'HUBLOT'], country: 'Switzerland'},
   {name: 'HydroConquest', jp_names: ['ハイドロコンクエスト', 'HYDROCONQUEST'], country: 'Switzerland', parent_brand: 'Longines', category: ['Watches']},
@@ -492,6 +505,15 @@ var IS_BRAND_DICT = [
   {name: 'Tiffany East West', jp_names: ['イーストウエスト', 'EAST WEST'], country: 'USA', parent_brand: 'Tiffany & Co.', category: ['Watches']},
   {name: 'Tiffany Cocktail', jp_names: ['カクテル', 'TIFFANY COCKTAIL'], country: 'USA', parent_brand: 'Tiffany & Co.', category: ['Watches']},
   {name: 'Time Teller', jp_names: ['タイムテラー', 'TIME TELLER'], country: 'USA', parent_brand: 'Nixon', category: ['Watches']},
+  {name: 'Timex', jp_names: ['タイメックス', 'TIMEX'], country: 'USA'},
+  {name: 'Timex Easy Reader', jp_names: ['イージーリーダー', 'EASY READER'], country: 'USA', parent_brand: 'Timex', category: ['Watches']},
+  {name: 'Timex Expedition', jp_names: ['エクスペディション', 'EXPEDITION'], country: 'USA', parent_brand: 'Timex', category: ['Watches']},
+  {name: 'Timex Ironman', jp_names: ['アイアンマン', 'IRONMAN', 'IRON MAN'], country: 'USA', parent_brand: 'Timex', category: ['Watches']},
+  {name: 'Timex Marlin', jp_names: ['マーリン', 'MARLIN'], country: 'USA', parent_brand: 'Timex', category: ['Watches']},
+  {name: 'Timex MK1', jp_names: ['MK1', 'エムケーワン'], country: 'USA', parent_brand: 'Timex', category: ['Watches']},
+  {name: 'Timex Q', jp_names: ['タイメックスQ', 'TIMEX Q'], country: 'USA', parent_brand: 'Timex', category: ['Watches']},
+  {name: 'Timex Waterbury', jp_names: ['ウォーターベリー', 'WATERBURY'], country: 'USA', parent_brand: 'Timex', category: ['Watches']},
+  {name: 'Timex Weekender', jp_names: ['ウィークエンダー', 'WEEKENDER'], country: 'USA', parent_brand: 'Timex', category: ['Watches']},
   {name: 'Tisse', jp_names: ['ティセ', 'TISSE'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
   {name: 'Tissot', jp_names: ['ティソ', 'TISSOT'], country: 'Switzerland'},
   {name: 'Tudor', jp_names: ['チュードル', 'チューダー', 'TUDOR'], country: 'Switzerland'},
@@ -718,6 +740,42 @@ var IS_BRAND_DICT = [
   {name: 'Yumi Katsura', jp_names: ['桂由美', 'ユミカツラ', 'YUMI KATSURA'], country: 'Japan'},
   {name: 'Zoom', jp_names: ['ズーム', 'ZOOM'], country: 'Japan'},
   {name: 'master-piece', jp_names: ['マスターピース', 'MASTER-PIECE', 'MASTERPIECE'], country: 'Japan'},
+
+  // === Sunglasses ===
+  {name: 'Barton Perreira', jp_names: ['バートンペレイラ', 'BARTON PERREIRA'], country: 'USA', category: ['Sunglasses']},
+  {name: 'Bottega Veneta', jp_names: ['ボッテガヴェネタ', 'BOTTEGA VENETA'], country: 'Italy', category: ['Sunglasses']},
+  {name: 'Bulgari', jp_names: ['ブルガリ', 'BVLGARI', 'BULGARI'], country: 'Italy', category: ['Sunglasses']},
+  {name: 'Burberry', jp_names: ['バーバリー', 'BURBERRY'], country: 'UK', category: ['Sunglasses']},
+  {name: 'Carrera', jp_names: ['カレラ', 'CARRERA'], country: 'Austria', category: ['Sunglasses']},
+  {name: 'Cartier', jp_names: ['カルティエ', 'CARTIER'], country: 'France', category: ['Sunglasses']},
+  {name: 'Cazal', jp_names: ['カザール', 'CAZAL'], country: 'Germany', category: ['Sunglasses']},
+  {name: 'Celine', jp_names: ['セリーヌ', 'CELINE'], country: 'France', category: ['Sunglasses']},
+  {name: 'Chanel', jp_names: ['シャネル', 'CHANEL'], country: 'France', category: ['Sunglasses']},
+  {name: 'Chrome Hearts', jp_names: ['クロムハーツ', 'CHROME HEARTS'], country: 'USA', category: ['Sunglasses']},
+  {name: 'Coach', jp_names: ['コーチ', 'COACH'], country: 'USA', category: ['Sunglasses']},
+  {name: 'Dior', jp_names: ['ディオール', 'DIOR'], country: 'France', category: ['Sunglasses']},
+  {name: 'Dolce & Gabbana', jp_names: ['ドルチェ&ガッバーナ', 'DOLCE & GABBANA', 'D&G', 'DOLCE&GABBANA'], country: 'Italy', category: ['Sunglasses']},
+  {name: 'Emporio Armani', jp_names: ['エンポリオアルマーニ', 'EMPORIO ARMANI'], country: 'Italy', category: ['Sunglasses']},
+  {name: 'Fendi', jp_names: ['フェンディ', 'FENDI'], country: 'Italy', category: ['Sunglasses']},
+  {name: 'Gentle Monster', jp_names: ['ジェントルモンスター', 'GENTLE MONSTER'], country: 'South Korea', category: ['Sunglasses']},
+  {name: 'Giorgio Armani', jp_names: ['ジョルジオアルマーニ', 'GIORGIO ARMANI'], country: 'Italy', category: ['Sunglasses']},
+  {name: 'Gucci', jp_names: ['グッチ', 'GUCCI'], country: 'Italy', category: ['Sunglasses']},
+  {name: 'ic! berlin', jp_names: ['アイシーベルリン', 'IC! BERLIN', 'IC BERLIN'], country: 'Germany', category: ['Sunglasses']},
+  {name: 'Jacques Marie Mage', jp_names: ['ジャックマリーマージュ', 'JACQUES MARIE MAGE'], country: 'USA', category: ['Sunglasses']},
+  {name: 'Maui Jim', jp_names: ['マウイジム', 'MAUI JIM'], country: 'USA', category: ['Sunglasses']},
+  {name: 'Michael Kors', jp_names: ['マイケルコース', 'MICHAEL KORS'], country: 'USA', category: ['Sunglasses']},
+  {name: 'Moscot', jp_names: ['モスコット', 'MOSCOT'], country: 'USA', category: ['Sunglasses']},
+  {name: 'Mykita', jp_names: ['マイキータ', 'MYKITA'], country: 'Germany', category: ['Sunglasses']},
+  {name: 'Oakley', jp_names: ['オークリー', 'OAKLEY'], country: 'USA', category: ['Sunglasses']},
+  {name: 'Oliver Peoples', jp_names: ['オリバーピープルズ', 'OLIVER PEOPLES'], country: 'USA', category: ['Sunglasses']},
+  {name: 'Persol', jp_names: ['ペルソール', 'PERSOL'], country: 'Italy', category: ['Sunglasses']},
+  {name: 'Police', jp_names: ['ポリス', 'POLICE'], country: 'Italy', category: ['Sunglasses']},
+  {name: 'Prada', jp_names: ['プラダ', 'PRADA'], country: 'Italy', category: ['Sunglasses']},
+  {name: 'Ray-Ban', jp_names: ['レイバン', 'RAY-BAN', 'RAYBAN', 'RAY BAN'], country: 'USA', category: ['Sunglasses']},
+  {name: 'Saint Laurent', jp_names: ['サンローラン', 'SAINT LAURENT', 'YSL'], country: 'France', category: ['Sunglasses']},
+  {name: 'Tiffany & Co.', jp_names: ['ティファニー', 'TIFFANY & CO.', 'TIFFANY'], country: 'USA', category: ['Sunglasses']},
+  {name: 'Tom Ford', jp_names: ['トムフォード', 'TOM FORD'], country: 'Italy', category: ['Sunglasses']},
+  {name: 'Versace', jp_names: ['ヴェルサーチ', 'VERSACE'], country: 'Italy', category: ['Sunglasses']},
 
   // === Shoes ===
   {name: 'ASICS', jp_names: ['アシックス', 'ASICS'], country: 'Japan'},
@@ -1048,7 +1106,9 @@ var IS_TAG_TO_CATEGORY = {
   // Pipes (Tobacco Pipes)
   'パイプ': 'Pipes', '喫煙パイプ': 'Pipes', '煙管': 'Pipes', 'キセル': 'Pipes', 'パイプ・喫煙具': 'Pipes',
   // Watch Parts
-  'ウォッチパーツ': 'Watch Parts', '時計パーツ': 'Watch Parts', '時計部品': 'Watch Parts'
+  'ウォッチパーツ': 'Watch Parts', '時計パーツ': 'Watch Parts', '時計部品': 'Watch Parts',
+  // Sunglasses
+  'サングラス': 'Sunglasses', 'メガネ': 'Sunglasses', '眼鏡': 'Sunglasses'
 };
 
 // ==============================
@@ -1084,7 +1144,8 @@ var IS_CATEGORY_FIELDS = {
   'Charms':        ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
   'Collectibles':  ['Brand', 'Type', 'Material', 'Country/Region of Manufacture'],
   'Pipes':         ['Brand', 'Material', 'Type', 'Color', 'Country/Region of Manufacture'],
-  'Watch Parts':   ['Brand', 'Part Type', 'Material', 'Compatible Model', 'Size', 'Color', 'Country/Region of Manufacture']
+  'Watch Parts':   ['Brand', 'Part Type', 'Material', 'Compatible Model', 'Size', 'Color', 'Country/Region of Manufacture'],
+  'Sunglasses':  ['Brand', 'Model', 'Frame Color', 'Lens Color', 'Frame Material', 'Style', 'Department', 'Country/Region of Manufacture']
 };
 
 // ==============================
