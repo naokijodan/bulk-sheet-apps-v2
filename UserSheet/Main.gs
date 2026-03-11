@@ -16,8 +16,6 @@ function onOpen() {
       .addSeparator()
       .addItem('辞書管理', 'IS_showDictionaryManager')
       .addItem('辞書を初期化', 'IS_initializeDictionaryWithConfirm')
-      .addSeparator()
-      .addItem('APIキー設定', 'IS_showISApiKeyDialog')
       .addToUi();
   } catch(e) {
     SpreadsheetApp.getActive().toast('IS menu error: ' + e, 'Error', 10);
@@ -333,6 +331,5 @@ function IS_step1BasicSelectedRows() { LIB.step1BasicSelectedRows(); }
 function IS_step1BasicAllRows() { LIB.step1BasicAllRows(); }
 function IS_showDictionaryManager() { LIB.showDictionaryManager(); }
 function IS_initializeDictionaryWithConfirm() { LIB.initializeDictionaryWithConfirm(); }
-function IS_showISApiKeyDialog() { LIB.showISApiKeyDialog(); }
 function IS_extractSelectedRows() { LIB.extractSelectedRows(); }
 function IS_extractAllRows() { LIB.extractAllRows(); }
