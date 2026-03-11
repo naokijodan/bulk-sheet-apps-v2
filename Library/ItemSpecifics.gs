@@ -190,6 +190,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
     case 'Brand':
       return brandInfo ? brandInfo.name : '';
     case 'Country/Region of Manufacture':
+      if (category === 'Video Games') return 'Japan';
       return brandInfo ? brandInfo.country : '';
     case 'Model':
       return brandInfo && brandInfo.sub_brand ? brandInfo.sub_brand : '';
