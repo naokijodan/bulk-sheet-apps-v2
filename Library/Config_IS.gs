@@ -1143,7 +1143,7 @@ var IS_CATEGORY_FIELDS = {
   'Shoes':         ['Brand', 'Type', 'Department', 'Color', 'Material', 'Country/Region of Manufacture'],
   'Cameras':       ['Brand', 'Type', 'Color', 'Country/Region of Manufacture'],
   'Electronics':   ['Brand', 'Type', 'Color', 'Country/Region of Manufacture'],
-  'Trading Cards': ['Game', 'Set', 'Character', 'Card Name', 'Card Number', 'Rarity', 'Finish', 'Language', 'Graded', 'Country/Region of Manufacture'],
+  'Trading Cards': ['Game', 'Set', 'Character', 'Card Name', 'Card Number', 'Rarity', 'Finish', 'Graded', 'Professional Grader', 'Grade'],
   'Brooches':      ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
   'Cufflinks':     ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
   'Hair Accessories': ['Brand', 'Material', 'Type', 'Color', 'Country/Region of Manufacture'],
@@ -1290,21 +1290,7 @@ var IS_GENERAL_MATERIAL_PATTERNS = [
   {keywords: ['コーンコブ', 'Corn Cob', 'CORN COB', 'コーン'], value: 'Corn Cob'}
 ];
 
-// ==============================
-// トレカ ゲーム判定パターン
-// ==============================
-var IS_GAME_PATTERNS = [
-  {keywords: ['ポケモン', 'ポケカ', 'Pokemon', 'POKEMON', 'ピカチュウ', 'リザードン'], value: 'Pokémon'},
-  {keywords: ['遊戯王', 'Yu-Gi-Oh', 'YU-GI-OH', 'YUGIOH', 'ブルーアイズ'], value: 'Yu-Gi-Oh!'},
-  {keywords: ['MTG', 'Magic:', 'Magic the', 'マジック・ザ・ギャザリング', 'マジックザギャザリング'], value: 'Magic: The Gathering'},
-  {keywords: ['デュエルマスターズ', 'Duel Masters', 'デュエマ'], value: 'Duel Masters'},
-  {keywords: ['ヴァイスシュヴァルツ', 'Weiss Schwarz'], value: 'Weiss Schwarz'},
-  {keywords: ['ヴァンガード', 'Vanguard', 'VANGUARD'], value: 'Cardfight!! Vanguard'},
-  {keywords: ['バトルスピリッツ', 'Battle Spirits', 'バトスピ'], value: 'Battle Spirits'},
-  {keywords: ['ドラゴンボール', 'Dragon Ball'], value: 'Dragon Ball Super Card Game'},
-  {keywords: ['ワンピース', 'ONE PIECE', 'One Piece Card'], value: 'One Piece Card Game'},
-  {keywords: ['デジモン', 'Digimon'], value: 'Digimon'}
-];
+// (Card game patterns moved to CardPatterns.gs)
 
 // ==============================
 // ゲーム プラットフォーム判定パターン
@@ -1500,89 +1486,11 @@ var IS_GAME_PUBLISHER_PATTERNS = [
   {keywords: ['Dynamite Duke'], value: 'Seibu Kaihatsu'}
 ];
 
-// ==============================
-// トレカ レアリティ判定パターン
-// ==============================
-var IS_CARD_RARITY_PATTERNS = [
-  // Pokemon レアリティ（上位から順に並べる。SRがSecret Rareに誤マッチしないよう注意）
-  {keywords: ['Special Art Rare', 'スペシャルアートレア', ' SAR '], value: 'Special Art Rare'},
-  {keywords: ['Secret Rare', 'シークレットレア'], value: 'Secret Rare'},
-  {keywords: ['Ultra Rare', 'ウルトラレア', ' UR '], value: 'Ultra Rare'},
-  {keywords: ['Hyper Rare', 'ハイパーレア', ' HR '], value: 'Hyper Rare'},
-  {keywords: ['Art Rare', 'アートレア', ' AR '], value: 'Art Rare'},
-  {keywords: ['Double Rare', 'ダブルレア', ' RR '], value: 'Double Rare'},
-  {keywords: ['Super Rare', 'スーパーレア', ' SR '], value: 'Super Rare'},
-  {keywords: ['Rare', 'レア'], value: 'Rare'},
-  {keywords: ['Uncommon', 'アンコモン'], value: 'Uncommon'},
-  {keywords: ['Common', 'コモン'], value: 'Common'},
-  // Yu-Gi-Oh
-  {keywords: ['Ultimate Rare', 'アルティメットレア'], value: 'Ultimate Rare'},
-  {keywords: ['Ghost Rare', 'ゴーストレア'], value: 'Ghost Rare'},
-  {keywords: ['Starlight Rare', 'スターライトレア'], value: 'Starlight Rare'},
-  {keywords: ['Prismatic Secret', 'プリズマティックシークレット'], value: 'Prismatic Secret Rare'},
-  {keywords: ['20th Secret', '20thシークレット'], value: '20th Secret Rare'},
-  {keywords: ['Collector\'s Rare', 'コレクターズレア'], value: 'Collector\'s Rare'},
-  // MTG
-  {keywords: ['Mythic Rare', 'ミシックレア', 'Mythic'], value: 'Mythic Rare'},
-  // General
-  {keywords: ['Promo', 'プロモ', 'PROMO'], value: 'Promo'}
-];
+// (Card rarity patterns moved to CardPatterns.gs)
 
-// ==============================
-// トレカ 仕上げ判定パターン
-// ==============================
-var IS_CARD_FINISH_PATTERNS = [
-  // 具体的なものを先に配置（Reverse Holo → Holo の順）
-  {keywords: ['Reverse Holo', 'リバースホロ', 'Reverse Foil'], value: 'Reverse Holo'},
-  {keywords: ['Full Art', 'フルアート'], value: 'Full Art'},
-  {keywords: ['Holo', 'ホロ', 'Holofoil', 'Holographic'], value: 'Holo/Foil'},
-  {keywords: ['Foil', 'フォイル'], value: 'Holo/Foil'},
-  {keywords: ['Chrome', 'クローム'], value: 'Chrome'},
-  {keywords: ['Refractor', 'リフラクター'], value: 'Refractor'},
-  {keywords: ['Gold Stamped', 'ゴールドスタンプ'], value: 'Gold'},
-  {keywords: ['VSTAR', 'V Star', 'Vスター'], value: 'Holo/Foil'},
-  {keywords: ['VMAX', 'Vマックス'], value: 'Holo/Foil'},
-  {keywords: [' EX ', ' ex '], value: 'Holo/Foil'},
-  {keywords: [' GX '], value: 'Holo/Foil'}
-];
+// (Card finish patterns moved to CardPatterns.gs)
 
-// ==============================
-// トレカ セット判定パターン
-// ==============================
-var IS_CARD_SET_PATTERNS = [
-  // Pokemon - 日本語セット（最新から順に）
-  {keywords: ['ステラミラクル', 'Stellar Miracle'], value: 'Stellar Miracle'},
-  {keywords: ['変幻の仮面', 'Mask of Change'], value: 'Mask of Change'},
-  {keywords: ['ワイルドフォース', 'Wild Force'], value: 'Wild Force'},
-  {keywords: ['サイバージャッジ', 'Cyber Judge'], value: 'Cyber Judge'},
-  {keywords: ['未来の一閃', 'Future Flash'], value: 'Future Flash'},
-  {keywords: ['古代の咆哮', 'Ancient Roar'], value: 'Ancient Roar'},
-  {keywords: ['レイジングサーフ', 'Raging Surf'], value: 'Raging Surf'},
-  {keywords: ['黒炎の支配者', 'Ruler of the Black Flame'], value: 'Ruler of the Black Flame'},
-  {keywords: ['クレイバースト', 'Clay Burst'], value: 'Clay Burst'},
-  {keywords: ['バイオレットex', 'Violet ex'], value: 'Violet ex'},
-  {keywords: ['スカーレットex', 'Scarlet ex'], value: 'Scarlet ex'},
-  {keywords: ['スカーレット&バイオレット', 'Scarlet & Violet'], value: 'Scarlet & Violet'},
-  {keywords: ['ソード&シールド', 'Sword & Shield'], value: 'Sword & Shield'},
-  {keywords: ['サン&ムーン', 'Sun & Moon'], value: 'Sun & Moon'},
-  {keywords: ['ブラック&ホワイト', 'Black & White'], value: 'Black & White'},
-  {keywords: ['ダイヤモンド&パール', 'Diamond & Pearl'], value: 'Diamond & Pearl'},
-  {keywords: ['旧裏', 'Base Set', 'ベースセット'], value: 'Base Set'},
-  {keywords: ['ジャングル', 'Jungle'], value: 'Jungle'},
-  {keywords: ['化石の秘密', 'Fossil'], value: 'Fossil'},
-  {keywords: ['ロケット団', 'Team Rocket'], value: 'Team Rocket'},
-  {keywords: ['Neo Genesis', 'ネオジェネシス', '金、銀、新世界へ'], value: 'Neo Genesis'},
-  {keywords: ['Neo Discovery', 'ネオディスカバリー', '遺跡をこえて'], value: 'Neo Discovery'},
-  // Yu-Gi-Oh
-  {keywords: ['レアリティコレクション', 'RARITY COLLECTION', 'Rarity Collection'], value: 'Rarity Collection'},
-  {keywords: ['レジェンドデュエリスト', 'Legendary Duelists'], value: 'Legendary Duelists'},
-  {keywords: ['デュエリストパック', 'Duelist Pack'], value: 'Duelist Pack'},
-  {keywords: ['PREMIUM PACK', 'プレミアムパック'], value: 'Premium Pack'},
-  // MTG
-  {keywords: ['Modern Horizons', 'モダンホライゾン'], value: 'Modern Horizons'},
-  {keywords: ['Commander', 'コマンダー'], value: 'Commander'},
-  {keywords: ['Draft Booster', 'ドラフトブースター'], value: 'Draft Booster'}
-];
+// (Card set patterns moved to CardPatterns.gs)
 
 // ==============================
 // ウォッチパーツ タイプパターン

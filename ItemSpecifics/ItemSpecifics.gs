@@ -238,6 +238,11 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       // バッグの場合はタグからスタイルを取得
       return matchTypeFromTag_(tag);
     // === Trading Cards fields ===
+    case 'Character':
+      if (category === 'Trading Cards') {
+        return matchFromPatterns_(title + ' ' + (description || ''), IS_CARD_CHARACTER_PATTERNS);
+      }
+      return '';
     case 'Rarity':
       return matchFromPatterns_(title + ' ' + (description || ''), IS_CARD_RARITY_PATTERNS);
     case 'Finish':
@@ -258,6 +263,10 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       return cs;
     case 'Graded':
       return matchGraded_(title);
+    case 'Professional Grader':
+      return matchGraderFromTitle_(title);
+    case 'Grade':
+      return matchGradeFromTitle_(title);
     case 'Part Type':
       return matchWatchPartType_(title + ' ' + (description || ''));
     case 'Compatible Model':
@@ -468,6 +477,34 @@ function extractCardNumber_(title) {
   // パターン3: SV2a-123, BT01-034 等のセットコード形式
   m = t.match(/([A-Z]{1,4}\d{1,3}[a-z]?[-]\d{2,4})/);
   if (m) return m[1];
+  return '';
+}
+
+// PSA/BGS等のグレーダー名を抽出
+function matchGraderFromTitle_(title) {
+  if (!title) return '';
+  var t = title.toString();
+  if (t.indexOf('PSA') !== -1) return 'PSA';
+  if (t.indexOf('BGS') !== -1) return 'BGS (Beckett)';
+  if (t.indexOf('CGC') !== -1) return 'CGC';
+  if (t.indexOf('SGC') !== -1) return 'SGC';
+  if (t.indexOf('ARS') !== -1) return 'ARS';
+  return '';
+}
+
+// PSA 10, BGS 9.5 等のグレード値を抽出
+function matchGradeFromTitle_(title) {
+  if (!title) return '';
+  var t = title.toString();
+  // PSA 10, PSA10, 【PSA10】等
+  var m = t.match(/PSA\s*(\d+(?:\.\d+)?)/i);
+  if (m) return 'PSA ' + m[1];
+  m = t.match(/BGS\s*(\d+(?:\.\d+)?)/i);
+  if (m) return 'BGS ' + m[1];
+  m = t.match(/CGC\s*(\d+(?:\.\d+)?)/i);
+  if (m) return 'CGC ' + m[1];
+  m = t.match(/SGC\s*(\d+(?:\.\d+)?)/i);
+  if (m) return 'SGC ' + m[1];
   return '';
 }
 
@@ -1035,6 +1072,16 @@ function writeItemSpecificsToSheet_(sheet, rowResults) {
             }
             // Silver系はそのまま維持（tone/platedチェック済みで該当しなかったため）
           }
+        }
+      }
+
+      // Trading Cards: Language/Country自動注入（IS_CATEGORY_FIELDS外で追加）
+      if (data['_category'] === 'Trading Cards' || data.hasOwnProperty('Game')) {
+        if (!data['Language'] || data['Language'] === '' || data['Language'] === 'Does not apply') {
+          data['Language'] = 'Japanese';
+        }
+        if (!data['Country/Region of Manufacture'] || data['Country/Region of Manufacture'] === '' || data['Country/Region of Manufacture'] === 'Does not apply') {
+          data['Country/Region of Manufacture'] = 'Japan';
         }
       }
 
