@@ -438,11 +438,11 @@ var CARD_BASEBALL_PLAYERS = [
   {jp: null, en: 'Aaron Judge', aliases: ['アーロン・ジャッジ', 'ジャッジ']},
   {jp: null, en: 'Mookie Betts', aliases: ['ムーキー・ベッツ', 'ベッツ']},
   {jp: null, en: 'Juan Soto', aliases: ['フアン・ソト', 'ソト']},
-  {jp: null, en: 'Ronald Acuna Jr', aliases: ['ロナルド・アクーニャ', 'アクーニャ']},
+  {jp: 'ロナルド・アクーニャ', en: 'Ronald Acuna Jr', aliases: ['アクーニャ', 'Acuña', 'Ronald Acuña Jr']},
   {jp: null, en: 'Freddie Freeman', aliases: ['フレディ・フリーマン']},
   {jp: null, en: 'Bryce Harper', aliases: ['ブライス・ハーパー']},
   {jp: null, en: 'Manny Machado', aliases: ['マニー・マチャド']},
-  {jp: null, en: 'Fernando Tatis Jr', aliases: ['フェルナンド・タティス', 'タティス']},
+  {jp: 'フェルナンド・タティスJr', en: 'Fernando Tatis Jr', aliases: ['フェルナンド・タティス', 'タティス', 'Tatís Jr', 'Tatis Jr']},
   {jp: null, en: 'Trea Turner', aliases: ['トレイ・ターナー', 'ターナー']},
   {jp: null, en: 'Corey Seager', aliases: ['コーリー・シーガー', 'シーガー']},
   {jp: null, en: 'Marcus Semien', aliases: ['マーカス・セミエン']},
@@ -554,7 +554,17 @@ var CARD_BASEBALL_PLAYERS = [
   {jp: '金田正一', en: 'Shoichi Kaneda'},
   {jp: '張本勲', en: 'Isao Harimoto'},
   {jp: '稲尾和久', en: 'Kazuhisa Inao'},
-  {jp: '衣笠祥雄', en: 'Sachio Kinugasa'}
+  {jp: '衣笠祥雄', en: 'Sachio Kinugasa'},
+  // 追加選手（不足分を末尾に追加）
+  {jp: 'ローレンス・バトラー', en: 'Lawrence Butler', aliases: ['バトラー']},
+  {jp: 'ジェイコブ・ミシオロウスキー', en: 'Jacob Misiorowski', aliases: ['ミシオロウスキー']},
+  {jp: 'チッパー・ジョーンズ', en: 'Chipper Jones', aliases: ['チッパー']},
+  {jp: 'バスター・ポージー', en: 'Buster Posey', aliases: ['ポージー']},
+  {jp: 'キム・ヘソン', en: 'Kim Heoson', aliases: ['ヘソン', 'Ha-Seong Kim', 'Ha Seong Kim']},
+  {jp: 'ジェームズ・ウッド', en: 'James Wood', aliases: ['ウッド']},
+  {jp: 'ルイスアンヘル・アクーニャ', en: 'Luisangel Acuna', aliases: ['Luisangel', 'Luisangel Acuña']},
+  {jp: 'マイルズ・マイコラス', en: 'Miles Mikolas', aliases: ['マイコラス', 'Mikolas']},
+  {jp: 'ニック・カーツ', en: 'Nick Kurtz', aliases: ['カーツ']}
 ];
 
 // ==============================
