@@ -1075,15 +1075,7 @@ function writeItemSpecificsToSheet_(sheet, rowResults) {
         }
       }
 
-      // Trading Cards: Language/Country自動注入（IS_CATEGORY_FIELDS外で追加）
-      if (data['_category'] === 'Trading Cards' || data.hasOwnProperty('Game')) {
-        if (!data['Language'] || data['Language'] === '' || data['Language'] === 'Does not apply') {
-          data['Language'] = 'Japanese';
-        }
-        if (!data['Country/Region of Manufacture'] || data['Country/Region of Manufacture'] === '' || data['Country/Region of Manufacture'] === 'Does not apply') {
-          data['Country/Region of Manufacture'] = 'Japan';
-        }
-      }
+      // Trading Cards: Language/Countryの自動注入はresolveFieldValue_のデフォルト値に委譲
 
       // JSON → フラット配列変換: {"Brand": "Seiko"} → ["C:Brand", "Seiko"]
       var flat = jsonToFlatArray_(data);

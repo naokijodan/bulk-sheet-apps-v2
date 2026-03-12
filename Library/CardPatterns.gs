@@ -366,6 +366,193 @@ var CARD_BASEBALL_TYPES = [
   {jp: 'ベース', en: 'Base'}
 ];
 
+// 野球カード セット辞書
+var CARD_BASEBALL_SETS = [
+  // Topps
+  {jp: 'トップスクローム', en: 'Topps Chrome', aliases: ['Topps Chrome', 'TOPPS CHROME']},
+  {jp: 'トップスアップデート', en: 'Topps Update Series', aliases: ['Update Series', 'TOPPS UPDATE']},
+  {jp: 'トップスシリーズ1', en: 'Topps Series 1', aliases: ['Series 1', 'Series One']},
+  {jp: 'トップスシリーズ2', en: 'Topps Series 2', aliases: ['Series 2', 'Series Two']},
+  {jp: 'トップスファイヤー', en: 'Topps Fire', aliases: ['TOPPS FIRE']},
+  {jp: 'トップスナウ', en: 'Topps NOW', aliases: ['Topps NOW', 'TOPPS NOW']},
+  {jp: 'トップスギャラリー', en: 'Topps Gallery', aliases: ['Gallery']},
+  {jp: 'トップスヘリテージ', en: 'Topps Heritage', aliases: ['Heritage']},
+  {jp: 'トップスアレン&ジンター', en: 'Topps Allen & Ginter', aliases: ['Allen & Ginter', 'Allen and Ginter']},
+  {jp: 'トップスジャパンエディション', en: 'Topps Japan Edition', aliases: ['Japan Edition']},
+  {jp: 'サクラ', en: 'Sakura', aliases: ['Sakura', 'さくら']},
+  {jp: 'スターズオブジャパン', en: 'Stars of Japan', aliases: ['Stars of Japan']},
+  {jp: 'オールトップスチーム', en: 'All-Topps Team', aliases: ['All-Topps Team']},
+  // Bowman
+  {jp: 'バウマンクローム', en: 'Bowman Chrome', aliases: ['Bowman Chrome', 'BOWMAN CHROME']},
+  {jp: 'バウマンドラフト', en: 'Bowman Draft', aliases: ['Bowman Draft']},
+  {jp: 'バウマンベスト', en: 'Bowman Best', aliases: ['Bowman Best']},
+  {jp: 'ファーストバウマン', en: '1st Bowman', aliases: ['1st Bowman', '1st Edition']},
+  // BBM
+  {jp: 'BBMルーキーエディション', en: 'BBM Rookie Edition', aliases: ['BBM ROOKIE EDITION']},
+  {jp: 'BBMプレミアム', en: 'BBM Premium', aliases: ['BBM Premium']},
+  {jp: 'BBMヒストリックコレクション', en: 'BBM Historic Collection'},
+  // Panini
+  {jp: 'プリズム', en: 'Prizm', aliases: ['Prizm', 'PRIZM']},
+  {jp: 'ドンラスオプティック', en: 'Donruss Optic', aliases: ['Optic', 'OPTIC']},
+  {jp: 'セレクト', en: 'Select', aliases: ['Select', 'SELECT']}
+];
+
+// 野球選手辞書
+var CARD_BASEBALL_PLAYERS = [
+  // 日本人MLB選手
+  {jp: '大谷翔平', en: 'Shohei Ohtani'},
+  {jp: 'イチロー', en: 'Ichiro Suzuki'},
+  {jp: 'ダルビッシュ有', en: 'Yu Darvish'},
+  {jp: '田中将大', en: 'Masahiro Tanaka'},
+  {jp: '松井秀喜', en: 'Hideki Matsui'},
+  {jp: '野茂英雄', en: 'Hideo Nomo'},
+  {jp: '鈴木誠也', en: 'Seiya Suzuki'},
+  {jp: '吉田正尚', en: 'Masataka Yoshida'},
+  {jp: '菊池雄星', en: 'Yusei Kikuchi'},
+  {jp: '千賀滉大', en: 'Kodai Senga'},
+  {jp: '前田健太', en: 'Kenta Maeda'},
+  {jp: '山本由伸', en: 'Yoshinobu Yamamoto'},
+  {jp: '今永昇太', en: 'Shota Imanaga'},
+  {jp: '佐々木朗希', en: 'Roki Sasaki'},
+  {jp: '藤浪晋太郎', en: 'Shintaro Fujinami'},
+  {jp: '岩隈久志', en: 'Hisashi Iwakuma'},
+  {jp: '黒田博樹', en: 'Hiroki Kuroda'},
+  {jp: '上原浩治', en: 'Koji Uehara'},
+  {jp: '城島健司', en: 'Kenji Johjima'},
+  {jp: '松坂大輔', en: 'Daisuke Matsuzaka'},
+  {jp: '田口壮', en: 'So Taguchi'},
+  {jp: '長谷川滋利', en: 'Shigetoshi Hasegawa'},
+  {jp: '伊良部秀輝', en: 'Hideki Irabu'},
+  {jp: '新庄剛志', en: 'Tsuyoshi Shinjo'},
+  {jp: '筒香嘉智', en: 'Yoshitomo Tsutsugo'},
+  {jp: '秋山翔吾', en: 'Shogo Akiyama'},
+  {jp: '有原航平', en: 'Kohei Arihara'},
+  {jp: '藤井秀悟', en: 'Shugo Fujii'},
+
+  // 現役MLBスター（英語名のみ）
+  {jp: null, en: 'Mike Trout', aliases: ['マイク・トラウト', 'トラウト']},
+  {jp: null, en: 'Aaron Judge', aliases: ['アーロン・ジャッジ', 'ジャッジ']},
+  {jp: null, en: 'Mookie Betts', aliases: ['ムーキー・ベッツ', 'ベッツ']},
+  {jp: null, en: 'Juan Soto', aliases: ['フアン・ソト', 'ソト']},
+  {jp: null, en: 'Ronald Acuna Jr', aliases: ['ロナルド・アクーニャ', 'アクーニャ']},
+  {jp: null, en: 'Freddie Freeman', aliases: ['フレディ・フリーマン']},
+  {jp: null, en: 'Bryce Harper', aliases: ['ブライス・ハーパー']},
+  {jp: null, en: 'Manny Machado', aliases: ['マニー・マチャド']},
+  {jp: null, en: 'Fernando Tatis Jr', aliases: ['フェルナンド・タティス', 'タティス']},
+  {jp: null, en: 'Trea Turner', aliases: ['トレイ・ターナー', 'ターナー']},
+  {jp: null, en: 'Corey Seager', aliases: ['コーリー・シーガー', 'シーガー']},
+  {jp: null, en: 'Marcus Semien', aliases: ['マーカス・セミエン']},
+  {jp: null, en: 'Matt Olson', aliases: ['マット・オルソン']},
+  {jp: null, en: 'Julio Rodriguez', aliases: ['フリオ・ロドリゲス']},
+  {jp: null, en: 'Corbin Carroll', aliases: ['コービン・キャロル']},
+  {jp: null, en: 'Gunnar Henderson', aliases: ['ガンナー・ヘンダーソン']},
+  {jp: null, en: 'Jackson Chourio', aliases: ['ジャクソン・チュリオ']},
+  {jp: null, en: 'Elly De La Cruz', aliases: ['エリー・デラクルーズ']},
+  {jp: null, en: 'Pete Alonso', aliases: ['ピート・アロンソ']},
+  {jp: null, en: 'Rafael Devers', aliases: ['ラファエル・デバース']},
+  {jp: null, en: 'Vladimir Guerrero Jr', aliases: ['ブラディミール・ゲレーロ', 'ゲレーロ']},
+  {jp: null, en: 'Bo Bichette', aliases: ['ボー・ビシェット']},
+  {jp: null, en: 'Wander Franco', aliases: ['ワンダー・フランコ']},
+  {jp: null, en: 'Bobby Witt Jr', aliases: ['ボビー・ウィット']},
+  {jp: null, en: 'Adley Rutschman', aliases: ['アドリー・ラッチマン']},
+  {jp: null, en: 'Spencer Strider', aliases: ['スペンサー・ストライダー']},
+  {jp: null, en: 'Gerrit Cole', aliases: ['ゲリット・コール']},
+  {jp: null, en: 'Jacob deGrom', aliases: ['ジェイコブ・デグロム']},
+  {jp: null, en: 'Max Scherzer', aliases: ['マックス・シャーザー']},
+  {jp: null, en: 'Justin Verlander', aliases: ['ジャスティン・バーランダー']},
+  {jp: null, en: 'Sandy Alcantara', aliases: ['サンディ・アルカンタラ']},
+  {jp: null, en: 'Shane McClanahan', aliases: ['シェーン・マクラナハン']},
+  {jp: null, en: 'Framber Valdez', aliases: ['フランバー・バルデス']},
+  {jp: null, en: 'Zack Wheeler', aliases: ['ザック・ウィーラー']},
+  {jp: null, en: 'Corbin Burnes', aliases: ['コービン・バーンズ']},
+  {jp: null, en: 'Dylan Cease', aliases: ['ディラン・シース']},
+  {jp: null, en: 'Logan Webb', aliases: ['ローガン・ウェブ']},
+  {jp: null, en: 'Ranger Suarez', aliases: ['レンジャー・スアレス']},
+  {jp: null, en: 'Tyler Glasnow', aliases: ['タイラー・グラスノー']},
+  {jp: null, en: 'Yoshinobu Yamamoto', aliases: ['山本由伸']},
+  {jp: null, en: 'Paul Skenes', aliases: ['ポール・スキーネス']},
+  {jp: null, en: 'Jackson Merrill', aliases: ['ジャクソン・メリル']},
+  {jp: null, en: 'Wyatt Langford', aliases: ['ワイアット・ラングフォード']},
+  {jp: null, en: 'Dylan Crews', aliases: ['ディラン・クルーズ']},
+  {jp: null, en: 'Colton Cowser', aliases: ['コルトン・カウザー']},
+  {jp: null, en: 'Pete Crow-Armstrong', aliases: ['ピート・クロウアームストロング']},
+  {jp: null, en: 'Masyn Winn', aliases: ['メイソン・ウィン']},
+  {jp: null, en: 'Evan Carter', aliases: ['エバン・カーター']},
+  {jp: null, en: 'Jordan Walker', aliases: ['ジョーダン・ウォーカー']},
+  {jp: null, en: 'Andrew Painter', aliases: ['アンドリュー・ペインター']},
+  {jp: null, en: 'Kyle Tucker', aliases: ['カイル・タッカー']},
+  {jp: null, en: 'Yordan Alvarez', aliases: ['ヨルダン・アルバレス']},
+  {jp: null, en: 'Jose Ramirez', aliases: ['ホセ・ラミレス']},
+  {jp: null, en: 'Austin Riley', aliases: ['オースティン・ライリー']},
+  {jp: null, en: 'Marcell Ozuna', aliases: ['マルセル・オズナ']},
+  {jp: null, en: 'Jose Altuve', aliases: ['ホセ・アルトゥーベ']},
+  {jp: null, en: 'Alex Bregman', aliases: ['アレックス・ブレグマン']},
+  {jp: null, en: 'Anthony Volpe', aliases: ['アンソニー・ボルピ']},
+  {jp: null, en: 'Francisco Lindor', aliases: ['フランシスコ・リンドア']},
+  {jp: null, en: 'Xander Bogaerts', aliases: ['ザンダー・ボガーツ']},
+  {jp: null, en: 'Jazz Chisholm', aliases: ['ジャズ・チゾム']},
+  {jp: null, en: 'CJ Abrams', aliases: ['CJ・エイブラムス', 'エイブラムス']},
+  {jp: null, en: 'Ozzie Albies', aliases: ['オジー・アルビーズ']},
+  {jp: null, en: 'Dansby Swanson', aliases: ['ダンズビー・スワンソン']},
+  {jp: null, en: 'Michael Harris II', aliases: ['マイケル・ハリス']},
+
+  // MLB殿堂入り/レジェンド
+  {jp: null, en: 'Babe Ruth', aliases: ['ベーブ・ルース', 'ルース']},
+  {jp: null, en: 'Mickey Mantle', aliases: ['ミッキー・マントル', 'マントル']},
+  {jp: null, en: 'Willie Mays', aliases: ['ウィリー・メイズ']},
+  {jp: null, en: 'Hank Aaron', aliases: ['ハンク・アーロン']},
+  {jp: null, en: 'Ted Williams', aliases: ['テッド・ウィリアムズ']},
+  {jp: null, en: 'Joe DiMaggio', aliases: ['ジョー・ディマジオ']},
+  {jp: null, en: 'Jackie Robinson', aliases: ['ジャッキー・ロビンソン']},
+  {jp: null, en: 'Roberto Clemente', aliases: ['ロベルト・クレメンテ']},
+  {jp: null, en: 'Lou Gehrig', aliases: ['ルー・ゲーリッグ']},
+  {jp: null, en: 'Ty Cobb', aliases: ['タイ・カッブ', 'タイ・コブ']},
+  {jp: null, en: 'Stan Musial', aliases: ['スタン・ミュージアル']},
+  {jp: null, en: 'Sandy Koufax', aliases: ['サンディ・コーファックス']},
+  {jp: null, en: 'Bob Gibson', aliases: ['ボブ・ギブソン']},
+  {jp: null, en: 'Nolan Ryan', aliases: ['ノーラン・ライアン']},
+  {jp: null, en: 'Pete Rose', aliases: ['ピート・ローズ']},
+  {jp: null, en: 'Johnny Bench', aliases: ['ジョニー・ベンチ']},
+  {jp: null, en: 'Mike Schmidt', aliases: ['マイク・シュミット']},
+  {jp: null, en: 'George Brett', aliases: ['ジョージ・ブレット']},
+  {jp: null, en: 'Cal Ripken Jr', aliases: ['カル・リプケン']},
+  {jp: null, en: 'Tony Gwynn', aliases: ['トニー・グウィン']},
+  {jp: null, en: 'Ken Griffey Jr', aliases: ['ケン・グリフィー']},
+  {jp: null, en: 'Derek Jeter', aliases: ['デレク・ジーター', 'ジーター']},
+  {jp: null, en: 'Mariano Rivera', aliases: ['マリアノ・リベラ']},
+  {jp: null, en: 'Barry Bonds', aliases: ['バリー・ボンズ']},
+  {jp: null, en: 'Roger Clemens', aliases: ['ロジャー・クレメンス']},
+  {jp: null, en: 'Sammy Sosa', aliases: ['サミー・ソーサ']},
+  {jp: null, en: 'Mark McGwire', aliases: ['マーク・マグワイア']},
+  {jp: null, en: 'Alex Rodriguez', aliases: ['アレックス・ロドリゲス']},
+  {jp: null, en: 'Albert Pujols', aliases: ['アルバート・プホルス']},
+  {jp: null, en: 'David Ortiz', aliases: ['デビッド・オルティーズ']},
+
+  // NPB人気選手（BBM）
+  {jp: '村上宗隆', en: 'Munetaka Murakami'},
+  {jp: '山田哲人', en: 'Tetsuto Yamada'},
+  {jp: '坂本勇人', en: 'Hayato Sakamoto'},
+  {jp: '柳田悠岐', en: 'Yuki Yanagita'},
+  {jp: '近藤健介', en: 'Kensuke Kondo'},
+  {jp: '牧秀悟', en: 'Shugo Maki'},
+  {jp: '宮城大弥', en: 'Hiroya Miyagi'},
+  {jp: '戸郷翔征', en: 'Shosei Togo'},
+  {jp: '佐藤輝明', en: 'Teruaki Sato'},
+  {jp: '森下暢仁', en: 'Masato Morishita'},
+  {jp: '吉川尚輝', en: 'Naoki Yoshikawa'},
+  {jp: '岡本和真', en: 'Kazuma Okamoto'},
+  {jp: '清宮幸太郎', en: 'Kotaro Kiyomiya'},
+  {jp: '奥川恭伸', en: 'Yasunobu Okugawa'},
+  {jp: '王貞治', en: 'Sadaharu Oh'},
+  {jp: '長嶋茂雄', en: 'Shigeo Nagashima'},
+  {jp: '落合博満', en: 'Hiromitsu Ochiai'},
+  {jp: '野村克也', en: 'Katsuya Nomura'},
+  {jp: '金田正一', en: 'Shoichi Kaneda'},
+  {jp: '張本勲', en: 'Isao Harimoto'},
+  {jp: '稲尾和久', en: 'Kazuhisa Inao'},
+  {jp: '衣笠祥雄', en: 'Sachio Kinugasa'}
+];
+
 // ==============================
 // 大相撲カード マスター辞書
 // ==============================
@@ -467,6 +654,7 @@ function getCardSetPatterns_() {
   all = all.concat(buildISPatterns_(CARD_MTG_SETS));
   all = all.concat(buildISPatterns_(CARD_YUGIOH_SETS));
   all = all.concat(buildISPatterns_(CARD_ONEPIECE_SETS));
+  all = all.concat(buildISPatterns_(CARD_BASEBALL_SETS));
   return all;
 }
 
@@ -481,6 +669,7 @@ function getCardCharacterPatterns_() {
   all = all.concat(buildISPatterns_(CARD_YUGIOH_CHARACTERS));
   all = all.concat(buildISPatterns_(CARD_ONEPIECE_CHARACTERS));
   all = all.concat(buildISPatterns_(CARD_SUMO_WRESTLERS));
+  all = all.concat(buildISPatterns_(CARD_BASEBALL_PLAYERS));
   return all;
 }
 
@@ -592,8 +781,14 @@ function buildCardTranslationDict_(game) {
     lines.push('[Brands]');
     lines.push(buildPromptDict_(CARD_BASEBALL_BRANDS));
     lines.push('');
+    lines.push('[Sets]');
+    lines.push(buildPromptDict_(CARD_BASEBALL_SETS));
+    lines.push('');
     lines.push('[Card Types]');
     lines.push(buildPromptDict_(CARD_BASEBALL_TYPES));
+    lines.push('');
+    lines.push('[Players]');
+    lines.push(buildPromptDict_(CARD_BASEBALL_PLAYERS));
   } else if (game === 'Sumo' || game === 'Sumo Wrestling') {
     lines.push('[Wrestlers]');
     lines.push(buildPromptDict_(CARD_SUMO_WRESTLERS));
@@ -601,4 +796,3 @@ function buildCardTranslationDict_(game) {
 
   return lines.join('\n');
 }
-
