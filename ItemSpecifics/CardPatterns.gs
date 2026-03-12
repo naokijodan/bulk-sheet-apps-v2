@@ -12,19 +12,23 @@
  * @return {Array} IS用パターン配列
  */
 function buildISPatterns_(masterArray) {
+  var MIN_KEYWORD_LEN = 2;
   var patterns = [];
   for (var i = 0; i < masterArray.length; i++) {
     var item = masterArray[i];
     if (!item || !item.en) continue;
     var keywords = [];
-    if (item.jp) keywords.push(item.jp);
-    if (item.en) keywords.push(item.en);
-    if (item.code) keywords.push(item.code);
+    if (item.jp && item.jp.length >= MIN_KEYWORD_LEN) keywords.push(item.jp);
+    if (item.en && item.en.length >= MIN_KEYWORD_LEN) keywords.push(item.en);
+    if (item.code && item.code.length >= MIN_KEYWORD_LEN) keywords.push(item.code);
     if (item.aliases) {
       for (var a = 0; a < item.aliases.length; a++) {
-        keywords.push(item.aliases[a]);
+        if (item.aliases[a] && item.aliases[a].length >= MIN_KEYWORD_LEN) {
+          keywords.push(item.aliases[a]);
+        }
       }
     }
+    if (keywords.length === 0) continue;
     patterns.push({keywords: keywords, value: item.en});
   }
   return patterns;
@@ -166,7 +170,7 @@ var CARD_POKEMON_TRAINERS = [
   {jp: 'フウロ', en: 'Skyla'},
   {jp: 'シロナ', en: 'Cynthia'},
   {jp: 'カミツレ', en: 'Elesa'},
-  {jp: 'N', en: 'N'},
+  {jp: 'エヌ', en: 'N', aliases: ['ポケカ N']},
   {jp: '博士の研究', en: 'Professors Research'},
   {jp: 'カスミ', en: 'Misty'},
   {jp: 'アセロラ', en: 'Acerola'},
