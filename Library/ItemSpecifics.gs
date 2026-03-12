@@ -190,7 +190,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
     case 'Brand':
       return brandInfo ? brandInfo.name : '';
     case 'Country/Region of Manufacture':
-      if (category === 'Video Games') return 'Japan';
+      if (category === 'Video Games' || category === 'Trading Cards') return 'Japan';
       return brandInfo ? brandInfo.country : '';
     case 'Model':
       return brandInfo && brandInfo.sub_brand ? brandInfo.sub_brand : '';
@@ -237,6 +237,17 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
     case 'Style':
       // バッグの場合はタグからスタイルを取得
       return matchTypeFromTag_(tag);
+    // === Trading Cards fields ===
+    case 'Rarity':
+      return matchFromPatterns_(title + ' ' + (description || ''), IS_CARD_RARITY_PATTERNS);
+    case 'Finish':
+      return matchFromPatterns_(title + ' ' + (description || ''), IS_CARD_FINISH_PATTERNS);
+    case 'Set':
+      return matchFromPatterns_(title + ' ' + (description || ''), IS_CARD_SET_PATTERNS);
+    case 'Card Number':
+      return extractCardNumber_(title);
+    case 'Specialty':
+      return '';
     case 'Game':
       return matchFromPatterns_(title, IS_GAME_PATTERNS);
     case 'Language':
@@ -442,6 +453,22 @@ function matchGraded_(title) {
     if (t.indexOf(gradeKeywords[i]) !== -1) return 'Yes';
   }
   return 'No';
+}
+
+// タイトルからカード番号を抽出
+function extractCardNumber_(title) {
+  if (!title) return '';
+  var t = title.toString();
+  // パターン1: 123/456 形式（最も一般的）
+  var m = t.match(/(\d{1,4}\/\d{1,4})/);
+  if (m) return m[1];
+  // パターン2: #123 形式
+  m = t.match(/#(\d{1,4})/);
+  if (m) return m[1];
+  // パターン3: SV2a-123, BT01-034 等のセットコード形式
+  m = t.match(/([A-Z]{1,4}\d{1,3}[a-z]?[-]\d{2,4})/);
+  if (m) return m[1];
+  return '';
 }
 
 // タイトルからケースサイズ（mm）を抽出

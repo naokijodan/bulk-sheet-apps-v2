@@ -270,6 +270,17 @@ function buildExtractionPrompt_(title, description, category, fields, tag, exist
   lines.push('Character (video games): Extract the main character or franchise character if identifiable from the game name. Well-known mappings: Super Mario/Mario Bros → Mario, Wario Land → Wario, Sonic → Sonic the Hedgehog, Zelda/Link → Link, Kirby → Kirby, Mega Man/Rockman → Mega Man, Sailor Moon → Sailor Moon, Macross → Macross, Dragon Ball → Goku, Madara → Madara, Bomberman → Bomberman, TwinBee → TwinBee, Pac-Man → Pac-Man, Castlevania/Dracula → Dracula/Belmont. If no character is identifiable, use empty string "". Do NOT use "Does not apply".');
   lines.push('Genre (video games): RPG, Action, Adventure, Fighting, Racing, Puzzle, Simulation, Sports, Shooter, Strategy, Platform, Music/Rhythm, Horror, Board Game/Party');
   lines.push('Publisher (video games): Extract from brand knowledge or description. Common publishers: Nintendo, Capcom, Konami, Square Enix, Bandai Namco, Sega, Sony, Koei Tecmo, Atlus, Enix, Squaresoft, Hudson Soft, Taito, Irem, SNK');
+  // Trading Cards normalization rules
+  lines.push('Game (trading cards): Use official English names. Pokemon → "Pokémon", Yu-Gi-Oh → "Yu-Gi-Oh!", Magic: The Gathering → "Magic: The Gathering", Duel Masters → "Duel Masters", Weiss Schwarz → "Weiss Schwarz", Vanguard → "Cardfight!! Vanguard", One Piece → "One Piece Card Game"');
+  lines.push('Set (trading cards): Use the official set name. For Pokemon Japanese sets, use English equivalent when available (e.g., クレイバースト → "Clay Burst"). For numbered series, include the series code (e.g., "SV2a", "S11a").');
+  lines.push('Character (trading cards): Extract the character/creature name from the card title. For Pokemon: use the Pokemon name (e.g., "Pikachu", "Charizard"). For Yu-Gi-Oh: use the monster name. For sports cards: use the player name. If multiple characters, use the primary one.');
+  lines.push('Card Name (trading cards): The full card name as it appears. Include any subtitle or variant (e.g., "Pikachu VMAX", "Dark Magician"). This is different from Character - Card Name is the specific card version.');
+  lines.push('Card Number (trading cards): Extract the collector number. Common formats: "123/456", "#123", "SV2a-123". If a PSA/BGS slab, the card number is on the label, not the grade number.');
+  lines.push('Rarity (trading cards): Common rarities: Common, Uncommon, Rare, Super Rare (SR), Ultra Rare (UR), Secret Rare, Hyper Rare (HR), Art Rare (AR), Special Art Rare (SAR), Mythic Rare (MTG), Promo. Use full English names.');
+  lines.push('Finish (trading cards): Holo/Foil, Reverse Holo, Full Art, Chrome, Refractor, Non-Holo. Cards with EX/GX/VMAX/VSTAR are typically Holo/Foil.');
+  lines.push('Graded (trading cards): "Yes" if PSA/BGS/CGC graded, "No" otherwise.');
+  lines.push('Professional Grader (trading cards): "PSA", "BGS" (Beckett), "CGC", "SGC" as appropriate.');
+  lines.push('Grade (trading cards): The numeric grade (e.g., "PSA 10", "BGS 9.5"). Include the grader prefix.');
   lines.push('Material: Use eBay standard terms (e.g., "Stainless Steel" not "SS", "Sterling Silver" not "Silver 925")');
   lines.push('');
   lines.push('### METAL IDENTIFICATION RULES (CRITICAL for Jewelry)');
@@ -318,6 +329,7 @@ function buildExtractionPrompt_(title, description, category, fields, tag, exist
   lines.push('### OUTPUT EXAMPLE');
   lines.push('{"_category": "Watches", "Brand": "Seiko", "Type": "Wrist Watch", "Model": "Presage", "Movement": "Automatic", "Display": "Analog", "Case Material": "Stainless Steel", "Band Material": "Leather", "Department": "Men", "Dial Color": "Blue", "Country/Region of Manufacture": "Japan"}');
   lines.push('{"_category": "Video Games", "Platform": "Nintendo Super Nintendo Entertainment System (Super Famicom)", "Game Name": "Dragon Quest VI", "Region Code": "NTSC-J (Japan)", "Genre": "Role-Playing", "Character": "", "Publisher": "Enix", "Rating": "", "Language": "Japanese", "Country/Region of Manufacture": "Japan"}');
+  lines.push('{"_category": "Trading Cards", "Game": "Pokémon", "Set": "Clay Burst", "Character": "Charizard", "Card Name": "Charizard ex SAR", "Card Number": "201/165", "Rarity": "Special Art Rare", "Finish": "Holo/Foil", "Language": "Japanese", "Graded": "No", "Country/Region of Manufacture": "Japan"}');
 
   return lines.join('\n');
 }
