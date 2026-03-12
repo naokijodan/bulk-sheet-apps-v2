@@ -552,13 +552,23 @@ function parseExtractionResponse_(responseText, fields, existingData) {
     }
   }
   
-  // existingDataをマージ（Step1の結果を保持、AIが空の場合はStep1の値を使用）
+  // existingDataをマージ（Step1の結果を保持、AIが空/不正値の場合はStep1の値を使用）
   if (existingData && typeof existingData === 'object') {
     var eKeys = Object.keys(existingData);
     for (var ei2 = 0; ei2 < eKeys.length; ei2++) {
       var eKey = eKeys[ei2];
       var eVal = existingData[eKey];
-      if (eVal && eVal !== '' && (!result[eKey] || result[eKey] === '' || result[eKey] === 'Does not apply' || result[eKey] === 'Unbranded')) {
+      if (!eVal || eVal === '' || eVal === 'Does not apply') continue;
+      var aiVal = result[eKey];
+      var isAiBad = !aiVal || aiVal === '' || aiVal === 'Does not apply' || aiVal === 'Unbranded';
+      if (!isAiBad) {
+        // AIの値が短すぎる場合（"N", "N/A", "-" 等）もStep1を優先
+        var aiTrimmed = String(aiVal).trim();
+        if (aiTrimmed.length <= 3 && String(eVal).trim().length > 3) {
+          isAiBad = true;
+        }
+      }
+      if (isAiBad) {
         result[eKey] = eVal;
       }
     }
