@@ -157,7 +157,7 @@ function runStep1Basic_(sheet, rows) {
     var data = {};
     for (var f = 0; f < fields.length; f++) {
       var fieldName = fields[f];
-      var value = resolveFieldValue_(fieldName, tag, title, brandInfo, category, description);
+      var value = resolveFieldValue_(fieldName, tag, title, brandInfo, category, description, data);
       data[fieldName] = value || 'Does not apply';
     }
 
@@ -185,7 +185,7 @@ function matchCategoryFromTag_(tag) {
 }
 
 // フィールド名に応じた値を解決
-function resolveFieldValue_(fieldName, tag, title, brandInfo, category, description) {
+function resolveFieldValue_(fieldName, tag, title, brandInfo, category, description, data) {
   switch (fieldName) {
     case 'Brand':
       return brandInfo ? brandInfo.name : '';
@@ -240,14 +240,23 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
     // === Trading Cards fields ===
     case 'Character':
       if (category === 'Trading Cards') {
-        return matchFromPatterns_(title + ' ' + (description || ''), IS_CARD_CHARACTER_PATTERNS);
+        var charGame = (data && data['Game'] && data['Game'] !== 'Does not apply') ? data['Game'] : '';
+        return matchFromPatterns_(title + ' ' + (description || ''), getCardCharacterPatternsForGame_(charGame));
       }
       return '';
     case 'Rarity':
+      if (category === 'Trading Cards') {
+        var rarGame = (data && data['Game'] && data['Game'] !== 'Does not apply') ? data['Game'] : '';
+        return matchFromPatterns_(title + ' ' + (description || ''), getCardRarityPatternsForGame_(rarGame));
+      }
       return matchFromPatterns_(title + ' ' + (description || ''), IS_CARD_RARITY_PATTERNS);
     case 'Finish':
       return matchFromPatterns_(title + ' ' + (description || ''), IS_CARD_FINISH_PATTERNS);
     case 'Set':
+      if (category === 'Trading Cards') {
+        var setGame = (data && data['Game'] && data['Game'] !== 'Does not apply') ? data['Game'] : '';
+        return matchFromPatterns_(title + ' ' + (description || ''), getCardSetPatternsForGame_(setGame));
+      }
       return matchFromPatterns_(title + ' ' + (description || ''), IS_CARD_SET_PATTERNS);
     case 'Card Number':
       return extractCardNumber_(title);

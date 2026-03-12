@@ -678,6 +678,75 @@ function getCardCharacterPatterns_() {
 }
 
 /**
+ * ゲーム別のキャラクターパターンを返す（クロスゲーム誤マッチ防止）
+ * @param {string} game - Game値（'Pokemon', 'Baseball', 'Yu-Gi-Oh!' 等）
+ * @return {Array} 該当ゲームのキャラクターパターン配列
+ */
+function getCardCharacterPatternsForGame_(game) {
+  if (!game || game === 'Does not apply') return getCardCharacterPatterns_();
+  switch (game) {
+    case 'Pokemon':
+      return buildISPatterns_(CARD_POKEMON_CHARACTERS).concat(buildISPatterns_(CARD_POKEMON_TRAINERS));
+    case 'Magic: The Gathering':
+      return buildISPatterns_(CARD_MTG_CARDS);
+    case 'Yu-Gi-Oh!':
+      return buildISPatterns_(CARD_YUGIOH_CHARACTERS);
+    case 'One Piece':
+      return buildISPatterns_(CARD_ONEPIECE_CHARACTERS);
+    case 'Baseball':
+      return buildISPatterns_(CARD_BASEBALL_PLAYERS);
+    case 'Sumo Wrestling':
+      return buildISPatterns_(CARD_SUMO_WRESTLERS);
+    default:
+      return getCardCharacterPatterns_();
+  }
+}
+
+/**
+ * ゲーム別のレアリティパターンを返す
+ * @param {string} game - Game値
+ * @return {Array} 該当ゲームのレアリティパターン配列
+ */
+function getCardRarityPatternsForGame_(game) {
+  if (!game || game === 'Does not apply') return getCardRarityPatterns_();
+  switch (game) {
+    case 'Pokemon':
+      return buildISPatterns_(CARD_RARITY_POKEMON);
+    case 'Yu-Gi-Oh!':
+      return buildISPatterns_(CARD_RARITY_YUGIOH);
+    case 'Magic: The Gathering':
+      return buildISPatterns_(CARD_RARITY_MTG);
+    case 'One Piece':
+      return buildISPatterns_(CARD_RARITY_ONEPIECE);
+    default:
+      return [];
+  }
+}
+
+/**
+ * ゲーム別のセットパターンを返す
+ * @param {string} game - Game値
+ * @return {Array} 該当ゲームのセットパターン配列
+ */
+function getCardSetPatternsForGame_(game) {
+  if (!game || game === 'Does not apply') return getCardSetPatterns_();
+  switch (game) {
+    case 'Pokemon':
+      return buildISPatterns_(CARD_POKEMON_SETS);
+    case 'Magic: The Gathering':
+      return buildISPatterns_(CARD_MTG_SETS);
+    case 'Yu-Gi-Oh!':
+      return buildISPatterns_(CARD_YUGIOH_SETS);
+    case 'One Piece':
+      return buildISPatterns_(CARD_ONEPIECE_SETS);
+    case 'Baseball':
+      return buildISPatterns_(CARD_BASEBALL_SETS);
+    default:
+      return getCardSetPatterns_();
+  }
+}
+
+/**
  * 全ゲームのレアリティパターンを統合してIS用配列を返す
  * 重複排除のため、ゲーム固有→汎用の順で並べる
  */
