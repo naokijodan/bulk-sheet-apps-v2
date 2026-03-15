@@ -72,10 +72,15 @@ function sanitizeInputJP_(text) {
   text = text.replace(/ベルト新品/g, 'ベルト交換済み');
   text = text.replace(/バンド新品/g, 'バンド交換済み');
   text = text.replace(/ストラップ新品/g, 'ストラップ交換済み');
+  // 「新品」→「未使用」に正規化（AIがNewと翻訳する元を消す）
+  text = text.replace(/新品未使用/g, '未使用');
+  text = text.replace(/新品同様/g, '未使用に近い状態');
+  text = text.replace(/新品/g, '未使用');
 
   // === 2. 文単位で不要情報を削除 ===
-  // 日本語の文区切り（。改行、全角スペース区切り等）で分割
-  var sentences = text.split(/[。\n\r]+/);
+  // メルカリ等のC2C出品文は句点を使わないことが多い
+  // 句点、改行、読点、全角スペース、タブ、感嘆符、疑問符で分割
+  var sentences = text.split(/[。、\n\r\t！？]+/);
   var bannedJP = [
     // 配送系
     '送料', '配送', '発送', '梱包', '宅急便', 'ゆうパック', 'レターパック',
