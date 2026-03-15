@@ -154,6 +154,49 @@ function sanitizeListingText_(text, isDescription) {
     // 5.5 表現の重複軽減（例: "includes papers included" → "includes papers"）
     text = text.replace(/\bincludes\s+papers\s+included\b/gi, 'includes papers');
 
+    // 5.6 追加パターン1: 「new」の文脈別変換（Descriptionのみ）
+    if (isDescription) {
+      // 既存: /\bnew battery\b/gi → Battery Replaced（確認済み）
+      text = text.replace(/\bnew\s+band\b/gi, 'replacement band');
+      text = text.replace(/\bnew\s+one\b/gi, 'replaced');
+      text = text.replace(/\bnew\s+strap\b/gi, 'replacement strap');
+      text = text.replace(/\bnew\s+unused\b/gi, 'Unused');
+      text = text.replace(/\bpurchased\s+new\b/gi, '');
+      text = text.replace(/\bbought\s+new\b/gi, '');
+    }
+
+    // 5.7 追加パターン2: 購入履歴・使用履歴の削除（Title/Description）
+    // 文末（. ! ? または改行/終端）までを対象にし過剰削除を防ぐ
+    text = text.replace(/\bpurchased\s+(?:in|at|from|on)\s+[^.!?\r\n]*/gi, '');
+    text = text.replace(/\bbought\s+(?:in|at|from|on)\s+[^.!?\r\n]*/gi, '');
+    text = text.replace(/\bused\s+(?:a\s+few|several|a\s+couple\s+of|only\s+a\s+few)\s+times\b/gi, '');
+    text = text.replace(/\bworn\s+(?:a\s+few|several|only)\s+times\b/gi, '');
+    text = text.replace(/\bfrom\s+a\s+recycle\s+shop\b/gi, '');
+    text = text.replace(/\bfrom\s+a\s+secondhand\s+shop\b/gi, '');
+    text = text.replace(/\bfrom\s+a\s+thrift\s+shop\b/gi, '');
+
+    // 5.8 追加パターン3: guarantee の削除（Title/Description）
+    text = text.replace(/\bdoes\s+not\s+guarantee\b/gi, '');
+    // 既存: /\bnot guaranteed\b/gi（確認済み）
+    text = text.replace(/\bguarantee\b/gi, '');
+
+    // 5.9 追加パターン4: 配送系（Title/Description）
+    text = text.replace(/\bpacked\b/gi, '');
+    // 既存: /packaging/系（確認）。単語としての "packaging" も除去
+    text = text.replace(/\bpackaging\b/gi, '');
+    text = text.replace(/\bdelivery\b/gi, '');
+    // 既存: /before dispatch/（確認済み）。冗長だが安全のため再掲
+    text = text.replace(/\bbefore\s+dispatch\b/gi, '');
+    text = text.replace(/\bfor\s+safe\s+handling\b/gi, '');
+    text = text.replace(/\bafter\s+delivery\b/gi, '');
+    text = text.replace(/\bexchanges\s+after\b[^.!?\r\n]*\bpolicy\b/gi, '');
+
+    // 5.10 追加パターン5: 売り手のポリシー・意見の削除（Title/Description）
+    text = text.replace(/\bper\s+seller\s+policy\b/gi, '');
+    text = text.replace(/\bseller\s+(?:states?|mentions?|notes?|describes?)\b/gi, '');
+    text = text.replace(/\bplease\s+replace\b[^.!?\r\n]*\byourself\b/gi, '');
+    text = text.replace(/\bplease\s+confirm\b[^.!?\r\n]*\bimages\b/gi, '');
+
     // 6. CJK文字除去（非ASCIIを全除去）
     text = text.replace(/[^\x00-\x7F]/g, '');
 
