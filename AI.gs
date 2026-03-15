@@ -327,6 +327,24 @@ function sanitizeListingText_(text, isDescription) {
     text = text.replace(/\bpristine\b/gi, 'Very Good');
     text = text.replace(/\bpristine\s+condition\b/gi, 'Very Good');
 
+    // 5.12 追加パターン6: 「new in ○○」の変換（Title/Description）
+    text = text.replace(/\bnew\s+in\s+pouch\b/gi, 'Unused with Pouch');
+    text = text.replace(/\bnew\s+in\s+box\b/gi, 'Unused in Box');
+    text = text.replace(/\bnew\s+in\s+bag\b/gi, 'Unused in Bag');
+    text = text.replace(/\bnew\s+in\s+wrapper\b/gi, 'Unused in Wrapper');
+    text = text.replace(/\bnew\s+in\s+package\b/gi, 'Unused in Package');
+
+    // 5.13 追加パターン7: 「unknown country」削除（Title/Description）
+    text = text.replace(/\bmade\s+in\s+unknown\s+country\b/gi, '');
+    text = text.replace(/\bunknown\s+country\b/gi, '');
+
+    // 5.14 追加パターン8: 売り手の指示・写真確認系の削除（Title/Description）
+    text = text.replace(/\bplease\s+(?:view|see|check|refer\s+to)\s+(?:the\s+)?photos?\b[^.!?\r\n]*/gi, '');
+    text = text.replace(/\bsee\s+(?:the\s+)?photos?\s+for\b[^.!?\r\n]*/gi, '');
+
+    // 5.15 追加パターン9: フィラーフレーズ削除（Title/Description）
+    text = text.replace(/\bfor\s+(?:everyday|daily)\s+(?:wear|use)\b/gi, '');
+
     // 6. CJK文字除去（非ASCIIを全除去）
     text = text.replace(/[^\x00-\x7F]/g, '');
 
