@@ -327,23 +327,67 @@ function sanitizeListingText_(text, isDescription) {
     text = text.replace(/\bpristine\b/gi, 'Very Good');
     text = text.replace(/\bpristine\s+condition\b/gi, 'Very Good');
 
-    // 5.12 追加パターン6: 「new in ○○」の変換（Title/Description）
-    text = text.replace(/\bnew\s+in\s+pouch\b/gi, 'Unused with Pouch');
-    text = text.replace(/\bnew\s+in\s+box\b/gi, 'Unused in Box');
-    text = text.replace(/\bnew\s+in\s+bag\b/gi, 'Unused in Bag');
-    text = text.replace(/\bnew\s+in\s+wrapper\b/gi, 'Unused in Wrapper');
-    text = text.replace(/\bnew\s+in\s+package\b/gi, 'Unused in Package');
+    // ============================================================
+    // 5.12 "new" のホワイトリスト保護方式
+    // 方針: 保護すべき表現を退避 → \bnew\b を一括削除 → 復元
+    // 既存の変換パターン（5.2, 5.2.5, 5.6）で new battery → Battery Replaced 等は
+    // 既に処理済みなので、ここに到達する "new" は不要なものだけ
+    // ============================================================
+    // Step 1: 保護（消してはいけない "new" を含む表現をプレースホルダーに退避）
+    text = text.replace(/\bNew York\b/g, '__PROTECT_NY__');
+    text = text.replace(/\bNew Jersey\b/g, '__PROTECT_NJ__');
+    text = text.replace(/\bNew Zealand\b/g, '__PROTECT_NZ__');
+    text = text.replace(/\bNew Orleans\b/g, '__PROTECT_NO__');
+    text = text.replace(/\bNew Era\b/g, '__PROTECT_NE__');
+    text = text.replace(/\brenewal\b/gi, '__PROTECT_RENEWAL__');
+    text = text.replace(/\bBattery Replaced\b/g, '__PROTECT_BR__');
+    text = text.replace(/\breplacement\b/gi, '__PROTECT_REPL__');
 
-    // 5.13 追加パターン7: 「unknown country」削除（Title/Description）
-    text = text.replace(/\bmade\s+in\s+unknown\s+country\b/gi, '');
-    text = text.replace(/\bunknown\s+country\b/gi, '');
+    // Step 2: 一括洗浄（残っている "new" を全て削除）
+    text = text.replace(/\bbrand\s+new\b/gi, '');
+    text = text.replace(/\bnew\b/gi, '');
 
-    // 5.14 追加パターン8: 売り手の指示・写真確認系の削除（Title/Description）
+    // Step 3: 復元（プレースホルダーを元に戻す）
+    text = text.replace(/__PROTECT_NY__/g, 'New York');
+    text = text.replace(/__PROTECT_NJ__/g, 'New Jersey');
+    text = text.replace(/__PROTECT_NZ__/g, 'New Zealand');
+    text = text.replace(/__PROTECT_NO__/g, 'New Orleans');
+    text = text.replace(/__PROTECT_NE__/g, 'New Era');
+    text = text.replace(/__PROTECT_RENEWAL__/g, 'renewal');
+    text = text.replace(/__PROTECT_BR__/g, 'Battery Replaced');
+    text = text.replace(/__PROTECT_REPL__/g, 'replacement');
+
+    // ============================================================
+    // 5.13 単語レベルのブラックリスト（文脈を問わず削除）
+    // ============================================================
+    var blacklist = [
+      'authentic', 'genuine',
+      'unknown country', 'made in unknown country',
+      'for everyday wear', 'for daily wear', 'for everyday use', 'for daily use',
+      'please view photos', 'please see photos', 'please check photos',
+      'see photos for details', 'see the photos for details',
+      'please refer to photos', 'please view the photos',
+      'view photos for details'
+    ];
+    // 長いフレーズから順にマッチさせる
+    blacklist.sort(function(a, b) { return b.length - a.length; });
+    for (var j = 0; j < blacklist.length; j++) {
+      // 各単語/フレーズを正規表現に変換（スペースは \s+ に）
+      var escaped = blacklist[j].replace(/[-\/\\^$*+?.()|[\]{}]/g, '\$&');
+      var flexPattern = escaped.replace(/\s+/g, '\\s+');
+      var re = new RegExp('\\b' + flexPattern + '\\b', 'gi');
+      text = text.replace(re, '');
+    }
+
+    // ============================================================
+    // 5.14 フレーズレベルの追加削除（文末まで削除するパターン）
+    // ============================================================
+    // 写真確認系（文末まで削除）
     text = text.replace(/\bplease\s+(?:view|see|check|refer\s+to)\s+(?:the\s+)?photos?\b[^.!?\r\n]*/gi, '');
     text = text.replace(/\bsee\s+(?:the\s+)?photos?\s+for\b[^.!?\r\n]*/gi, '');
-
-    // 5.15 追加パターン9: フィラーフレーズ削除（Title/Description）
-    text = text.replace(/\bfor\s+(?:everyday|daily)\s+(?:wear|use)\b/gi, '');
+    // unknown country（文中のどこでも）
+    text = text.replace(/\bunknown\s+country\b/gi, '');
+    text = text.replace(/\bmade\s+in\s+unknown\b[^.!?\r\n]*/gi, '');
 
     // 6. CJK文字除去（非ASCIIを全除去）
     text = text.replace(/[^\x00-\x7F]/g, '');
