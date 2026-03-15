@@ -68,6 +68,7 @@ function parseAIResponseToFields(content) {
       result.category    = String(obj.Category || obj.category || "");
       result.condition   = String(obj.Condition || obj.condition || "");           // 新規追加
       result.ebayCategory = String(obj.EbayCategory || obj.ebayCategory || "");    // 新規追加
+      result = postProcessListingFields_(result);
       return result;
     }
   } catch (_) {}
@@ -86,7 +87,87 @@ function parseAIResponseToFields(content) {
   result.category    = grab('Category');
   result.condition   = grab('Condition');           // 新規追加
   result.ebayCategory = grab('EbayCategory');       // 新規追加
+  result = postProcessListingFields_(result);
   return result;
+}
+
+// 後処理: タイトル・説明の文言整形と不要表現の除去
+function postProcessListingFields_(result) {
+  try {
+    var processedTitle = sanitizeListingText_(String(result && result.title || ''), false);
+    var processedDesc  = sanitizeListingText_(String(result && result.description || ''), true);
+    result.title = processedTitle;
+    result.description = processedDesc;
+  } catch (e) {
+    // 失敗時は元の値を返す
+  }
+  return result;
+}
+
+// テキスト共通整形ヘルパー（GAS ES5対応）
+function sanitizeListingText_(text, isDescription) {
+  try {
+    text = String(text || '');
+
+    // 1. 保証書系 → "includes papers"
+    text = text.replace(/warranty\s+card/gi, 'includes papers');
+    text = text.replace(/warranty\s+certificate/gi, 'includes papers');
+    text = text.replace(/warranty\s+booklet/gi, 'includes papers');
+    text = text.replace(/warranty\s+book/gi, 'includes papers');
+    text = text.replace(/guarantee\s+card/gi, 'includes papers');
+    text = text.replace(/certificate\s+of\s+authenticity/gi, 'includes papers');
+    text = text.replace(/showa\s+\d+\s+warranty/gi, 'includes papers');
+    // 単独の "warranty" を削除（前後が空白/文頭末想定）
+    text = text.replace(/(^|\s)warranty(\s|$)/gi, function(match, p1, p2){ return (p1 && p1.length ? ' ' : '') + (p2 && p2.length ? ' ' : ''); });
+
+    // 2. 条件系（Description のみ）
+    if (isDescription) {
+      text = text.replace(/new\s+battery/gi, 'Battery Replaced');
+      text = text.replace(/fresh\s+battery/gi, 'Battery Replaced');
+      text = text.replace(/new\s+stock/gi, 'Unused');
+    }
+
+    // 3. 配送系 → 完全削除
+    text = text.replace(/prior\s+to\s+shipping/gi, '');
+    text = text.replace(/before\s+shipping/gi, '');
+    text = text.replace(/for\s+shipping/gi, '');
+    text = text.replace(/careful\s+packaging/gi, '');
+    text = text.replace(/original\s+packaging/gi, '');
+    text = text.replace(/packaging\s+will/gi, '');
+    text = text.replace(/packed\s+in\s+a\s+bag/gi, '');
+    text = text.replace(/packed\s+in\s+bag/gi, '');
+    text = text.replace(/before\s+dispatch/gi, '');
+    text = text.replace(/cleaned\s+before\s+dispatch/gi, '');
+
+    // 4. 防水保証系 → 完全削除
+    text = text.replace(/water\s+resistance\s+not\s+guaranteed/gi, '');
+    text = text.replace(/waterproof\s+not\s+guaranteed/gi, '');
+    text = text.replace(/water\s+resistance\s+is\s+not\s+guaranteed/gi, '');
+    text = text.replace(/\bnot\s+guaranteed\b/gi, '');
+
+    // 5. 返品系 → 完全削除
+    text = text.replace(/no\s+returns\s+accepted/gi, '');
+    text = text.replace(/no\s+returns/gi, '');
+    text = text.replace(/buyer\s+accepts\s+no\s+returns/gi, '');
+    text = text.replace(/as-is/gi, '');
+
+    // 5.5 表現の重複軽減（例: "includes papers included" → "includes papers"）
+    text = text.replace(/\bincludes\s+papers\s+included\b/gi, 'includes papers');
+
+    // 6. CJK文字除去（非ASCIIを全除去）
+    text = text.replace(/[^\x00-\x7F]/g, '');
+
+    // 7. クリーンアップ
+    text = text.replace(/ \/\./g, '.');     // ピリオド前の空白を除去（先に）
+    text = text.replace(/\.{2,}/g, '.');     // 連続ピリオドを1つに
+    text = text.replace(/\s{2,}/g, ' ');     // 連続スペースを1つに
+    text = text.replace(/\s+\./g, '.');     // 念のため再度ピリオド前空白
+    text = text.replace(/^\s+|\s+$/g, '');  // trim
+
+    return text;
+  } catch (e) {
+    return String(text || '');
+  }
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
