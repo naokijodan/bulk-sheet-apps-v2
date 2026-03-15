@@ -132,9 +132,15 @@ function sanitizeListingText_(text, isDescription) {
     // 2.5 「new」関連はTitle/Description共通で変換
     text = text.replace(/\bnew\s+battery\b/gi, 'Battery Replaced');
     text = text.replace(/\bbattery\s+is\s+new\b/gi, 'Battery Replaced');
+    text = text.replace(/\breplaced\s+with\s+a\s+new\s+cell\b/gi, 'Battery Replaced');
+    text = text.replace(/\bnew\s+cell\b/gi, 'Battery Replaced');
     text = text.replace(/\bnew\s+external\s+strap\b/gi, 'replacement strap');
+    text = text.replace(/\bnew\s+aftermarket\b/gi, 'aftermarket replacement');
     text = text.replace(/\bnew\s+strap\b/gi, 'replacement strap');
     text = text.replace(/\bnew\s+band\b/gi, 'replacement band');
+    text = text.replace(/\bbelt\s+is\s+new\b/gi, 'belt replaced');
+    text = text.replace(/\bstrap\s+is\s+new\b/gi, 'strap replaced');
+    text = text.replace(/\bband\s+is\s+new\b/gi, 'band replaced');
 
     // 3. 配送系 → 完全削除
     text = text.replace(/prior\s+to\s+shipping/gi, '');
@@ -148,17 +154,26 @@ function sanitizeListingText_(text, isDescription) {
     text = text.replace(/before\s+dispatch/gi, '');
     text = text.replace(/cleaned\s+before\s+dispatch/gi, '');
 
+    // 3.5 配送系追加
+    text = text.replace(/\bafter\s+shipping\b/gi, '');
+    text = text.replace(/\bduring\s+shipping\b/gi, '');
+    text = text.replace(/\bin\s+shipping\b/gi, '');
+
     // 4. 防水保証系 → 完全削除
     text = text.replace(/water\s+resistance\s+not\s+guaranteed/gi, '');
     text = text.replace(/waterproof\s+not\s+guaranteed/gi, '');
     text = text.replace(/water\s+resistance\s+is\s+not\s+guaranteed/gi, '');
     text = text.replace(/\bno\s+guarantees?\s+on\b[^.!?\r\n]*/gi, '');
     text = text.replace(/\bnot\s+guaranteed\b/gi, '');
+    text = text.replace(/\bno\s+waterproof\s+warranty\b/gi, '');
+    text = text.replace(/\bwaterproof\s+warranty\b/gi, '');
 
     // 5. 返品系 → 完全削除
     text = text.replace(/no\s+returns\s+accepted/gi, '');
     text = text.replace(/no\s+returns/gi, '');
     text = text.replace(/buyer\s+accepts\s+no\s+returns/gi, '');
+    text = text.replace(/\breturns?\s+not\s+offered\b/gi, '');
+    text = text.replace(/\breturns?\s+not\s+accepted\b/gi, '');
     text = text.replace(/as-is/gi, '');
 
     // 5.5 表現の重複軽減（例: "includes papers included" → "includes papers"）
