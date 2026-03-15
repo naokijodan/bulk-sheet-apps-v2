@@ -127,6 +127,9 @@ function sanitizeListingText_(text, isDescription) {
       text = text.replace(/new\s+stock/gi, 'Unused');
     }
 
+    // 2.5 「new battery」はTitle/Description共通で変換
+    text = text.replace(/\bnew\s+battery\b/gi, 'Battery Replaced');
+
     // 3. 配送系 → 完全削除
     text = text.replace(/prior\s+to\s+shipping/gi, '');
     text = text.replace(/before\s+shipping/gi, '');
@@ -196,6 +199,17 @@ function sanitizeListingText_(text, isDescription) {
     text = text.replace(/\bseller\s+(?:states?|mentions?|notes?|describes?)\b/gi, '');
     text = text.replace(/\bplease\s+replace\b[^.!?\r\n]*\byourself\b/gi, '');
     text = text.replace(/\bplease\s+confirm\b[^.!?\r\n]*\bimages\b/gi, '');
+    text = text.replace(/\bprivate\s+sale\b[^.!?\r\n]*/gi, '');
+    text = text.replace(/\bno\s+claims?\s+(?:or\s+)?returns?\b/gi, '');
+    text = text.replace(/\bdescribed\s+as\s+new\b/gi, '');
+
+    // 5.11 主観系禁止ワード削除（Title/Description）
+    text = text.replace(/\bbeautiful\b/gi, '');
+    text = text.replace(/\bgorgeous\b/gi, '');
+    text = text.replace(/\bstunning\b/gi, '');
+    text = text.replace(/\bamazing\b/gi, '');
+    text = text.replace(/\bgood\s+condition\b/gi, '');
+    text = text.replace(/\bgreat\s+condition\b/gi, '');
 
     // 6. CJK文字除去（非ASCIIを全除去）
     text = text.replace(/[^\x00-\x7F]/g, '');
