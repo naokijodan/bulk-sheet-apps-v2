@@ -421,7 +421,7 @@ function sanitizeListingText_(text, isDescription) {
     text = text.replace(/\.{2,}/g, '.');     // 連続ピリオドを1つに
     // 7.5 壊れた文末の修復（Post-processの副作用対策）
     // 文末に孤立した前置詞・接続詞が残った場合を除去
-    text = text.replace(/\s+(?:in|at|on|with|and|or|from|for|by|to)\s*\./g, '.');
+    text = text.replace(/\s+(?:in|at|on|with|and|or|from|for|by|to)\s*\./gi, '.');
     // "Condition:." や "Condition:," のような空のラベルを除去
     text = text.replace(/\b(?:Condition|Color|Country)\s*:\s*[.,]\s*/gi, '');
     // "Please." のような孤立した単語+ピリオドを除去
