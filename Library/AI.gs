@@ -39,7 +39,79 @@ function createAIPrompt(fullText, promptId) {
     tmpl = tmpl + additionalInstructions;
   }
 
+  // AIに渡す前に日本語ソーステキストから不要情報を除去
+  fullText = sanitizeInputJP_(fullText);
+
   return tmpl.replace('${fullText}', fullText);
+}
+
+/**
+ * 日本語ソーステキストのPre-process
+ * AIに渡す前に、不要な情報を含む文を除去・変換する
+ * AIが見なければ、warranty/shipping/new等を出力しようがない
+ */
+function sanitizeInputJP_(text) {
+  if (!text) return '';
+  text = String(text);
+
+  // === 1. 変換（付属品・状態情報は概念を変えて残す） ===
+  // 保証書系 → 「付属:書類あり」（warrantyという概念を消す）
+  text = text.replace(/保証書付[きけ]?/g, '付属:書類あり');
+  text = text.replace(/保証書あり/g, '付属:書類あり');
+  text = text.replace(/ギャランティ[ー]?カード?付?/g, '付属:書類あり');
+  text = text.replace(/証明書付[きけ]?/g, '付属:書類あり');
+  text = text.replace(/鑑定書付[きけ]?/g, '付属:書類あり');
+  // 箱系 → 「付属:箱あり」
+  text = text.replace(/箱付[きけ]?/g, '付属:箱あり');
+  text = text.replace(/化粧箱付[きけ]?/g, '付属:箱あり');
+  text = text.replace(/元箱付[きけ]?/g, '付属:箱あり');
+  // 電池系 → 概念を変換（newを消す）
+  text = text.replace(/電池新品/g, '電池交換済み');
+  text = text.replace(/電池[はを]?新しく/g, '電池交換済み');
+  // ベルト・バンド系
+  text = text.replace(/ベルト新品/g, 'ベルト交換済み');
+  text = text.replace(/バンド新品/g, 'バンド交換済み');
+  text = text.replace(/ストラップ新品/g, 'ストラップ交換済み');
+
+  // === 2. 文単位で不要情報を削除 ===
+  // 日本語の文区切り（。改行、全角スペース区切り等）で分割
+  var sentences = text.split(/[。\n\r]+/);
+  var bannedJP = [
+    // 配送系
+    '送料', '配送', '発送', '梱包', '宅急便', 'ゆうパック', 'レターパック',
+    'クリックポスト', 'ネコポス', 'らくらくメルカリ便', 'ゆうゆうメルカリ便',
+    '匿名配送', '着払い', '定形外',
+    // 返品・ポリシー系
+    '返品', '返金', 'ノークレーム', 'ノーリターン', 'キャンセル',
+    'クレーム', '3N',
+    // 購入・売り手系
+    '購入時期', '購入場所', '購入価格', '定価', '参考価格', '元値',
+    'リサイクルショップ', '質屋', '中古ショップ',
+    // プラットフォーム・指示系
+    '即購入', 'コメントなし購入', 'プロフ必読', '値下げ不可', '値下げ交渉',
+    'いいねした方', '様専用', '専用出品', '専用ページ', '取り置き',
+    '神経質な方', 'ご遠慮', 'ご理解', 'ご了承',
+    '転載禁止', '無断転載',
+    // 保証系（変換されなかった残り）
+    '保証期間', '保証はありません', '保証対象外', '防水の保証', '防水についての保証',
+    '防水性能の保証'
+  ];
+
+  var kept = [];
+  for (var i = 0; i < sentences.length; i++) {
+    var s = sentences[i].trim();
+    if (!s) continue;
+    var banned = false;
+    for (var j = 0; j < bannedJP.length; j++) {
+      if (s.indexOf(bannedJP[j]) !== -1) {
+        banned = true;
+        break;
+      }
+    }
+    if (!banned) kept.push(s);
+  }
+
+  return kept.join('。');
 }
 
 function parseAIResponseToFields(content) {
