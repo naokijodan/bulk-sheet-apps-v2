@@ -114,6 +114,8 @@ function sanitizeListingText_(text, isDescription) {
     text = text.replace(/warranty\s+certificate/gi, 'includes papers');
     text = text.replace(/warranty\s+booklet/gi, 'includes papers');
     text = text.replace(/warranty\s+book/gi, 'includes papers');
+    text = text.replace(/\bbooklet\s+with\s+warranty\b/gi, 'includes papers');
+    text = text.replace(/\bwith\s+warranty\b/gi, 'includes papers');
     text = text.replace(/guarantee\s+card/gi, 'includes papers');
     text = text.replace(/certificate\s+of\s+authenticity/gi, 'includes papers');
     text = text.replace(/showa\s+\d+\s+warranty/gi, 'includes papers');
@@ -127,8 +129,12 @@ function sanitizeListingText_(text, isDescription) {
       text = text.replace(/new\s+stock/gi, 'Unused');
     }
 
-    // 2.5 「new battery」はTitle/Description共通で変換
+    // 2.5 「new」関連はTitle/Description共通で変換
     text = text.replace(/\bnew\s+battery\b/gi, 'Battery Replaced');
+    text = text.replace(/\bbattery\s+is\s+new\b/gi, 'Battery Replaced');
+    text = text.replace(/\bnew\s+external\s+strap\b/gi, 'replacement strap');
+    text = text.replace(/\bnew\s+strap\b/gi, 'replacement strap');
+    text = text.replace(/\bnew\s+band\b/gi, 'replacement band');
 
     // 3. 配送系 → 完全削除
     text = text.replace(/prior\s+to\s+shipping/gi, '');
@@ -146,6 +152,7 @@ function sanitizeListingText_(text, isDescription) {
     text = text.replace(/water\s+resistance\s+not\s+guaranteed/gi, '');
     text = text.replace(/waterproof\s+not\s+guaranteed/gi, '');
     text = text.replace(/water\s+resistance\s+is\s+not\s+guaranteed/gi, '');
+    text = text.replace(/\bno\s+guarantees?\s+on\b[^.!?\r\n]*/gi, '');
     text = text.replace(/\bnot\s+guaranteed\b/gi, '');
 
     // 5. 返品系 → 完全削除
@@ -174,9 +181,11 @@ function sanitizeListingText_(text, isDescription) {
     text = text.replace(/\bbought\s+(?:in|at|from|on)\s+[^.!?\r\n]*/gi, '');
     text = text.replace(/\bused\s+(?:a\s+few|several|a\s+couple\s+of|only\s+a\s+few)\s+times\b/gi, '');
     text = text.replace(/\bworn\s+(?:a\s+few|several|only)\s+times\b/gi, '');
+    text = text.replace(/\bsourced\s+from\b[^.!?\r\n]*\bshops?\b/gi, '');
     text = text.replace(/\bfrom\s+a\s+recycle\s+shop\b/gi, '');
     text = text.replace(/\bfrom\s+a\s+secondhand\s+shop\b/gi, '');
     text = text.replace(/\bfrom\s+a\s+thrift\s+shop\b/gi, '');
+    text = text.replace(/\bfrom\s+(?:a\s+)?major\s+recycle\b[^.!?\r\n]*/gi, '');
 
     // 5.8 追加パターン3: guarantee の削除（Title/Description）
     text = text.replace(/\bdoes\s+not\s+guarantee\b/gi, '');
