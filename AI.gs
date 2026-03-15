@@ -202,6 +202,8 @@ function sanitizeListingText_(text, isDescription) {
     text = text.replace(/\bwith\s+warranty\b/gi, 'includes papers');
     text = text.replace(/guarantee\s+card/gi, 'includes papers');
     text = text.replace(/certificate\s+of\s+authenticity/gi, 'includes papers');
+    text = text.replace(/\ba\s+certificate\b/gi, 'papers');
+    text = text.replace(/\bcertificate\b/gi, 'papers');
     text = text.replace(/showa\s+\d+\s+warranty/gi, 'includes papers');
     // 単独の "warranty" を削除（前後が空白/文頭末想定）
     text = text.replace(/(^|\s)warranty(\s|$)/gi, function(match, p1, p2){ return (p1 && p1.length ? ' ' : '') + (p2 && p2.length ? ' ' : ''); });
@@ -259,6 +261,8 @@ function sanitizeListingText_(text, isDescription) {
     text = text.replace(/\breturns?\s+not\s+offered\b/gi, '');
     text = text.replace(/\breturns?\s+not\s+accepted\b/gi, '');
     text = text.replace(/as-is/gi, '');
+    text = text.replace(/\bas\s+is\b/gi, '');
+    text = text.replace(/\bsold\s+as\s+is\b/gi, '');
 
     // 5.5 表現の重複軽減（例: "includes papers included" → "includes papers"）
     text = text.replace(/\bincludes\s+papers\s+included\b/gi, 'includes papers');
@@ -311,13 +315,17 @@ function sanitizeListingText_(text, isDescription) {
     text = text.replace(/\bno\s+claims?\s+(?:or\s+)?returns?\b/gi, '');
     text = text.replace(/\bdescribed\s+as\s+new\b/gi, '');
 
-    // 5.11 主観系禁止ワード削除（Title/Description）
+    // 5.11 主観系・条件系禁止ワード削除（Title/Description）
     text = text.replace(/\bbeautiful\b/gi, '');
     text = text.replace(/\bgorgeous\b/gi, '');
     text = text.replace(/\bstunning\b/gi, '');
     text = text.replace(/\bamazing\b/gi, '');
     text = text.replace(/\bgood\s+condition\b/gi, '');
     text = text.replace(/\bgreat\s+condition\b/gi, '');
+    text = text.replace(/\bnear\s+mint\b/gi, 'Very Good');
+    text = text.replace(/\bmint\s+condition\b/gi, 'Very Good');
+    text = text.replace(/\bpristine\b/gi, 'Very Good');
+    text = text.replace(/\bpristine\s+condition\b/gi, 'Very Good');
 
     // 6. CJK文字除去（非ASCIIを全除去）
     text = text.replace(/[^\x00-\x7F]/g, '');
