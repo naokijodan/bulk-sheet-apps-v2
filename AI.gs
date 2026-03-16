@@ -77,6 +77,20 @@ function sanitizeInputJP_(text) {
   text = text.replace(/新品同様/g, '未使用に近い状態');
   text = text.replace(/新品/g, '未使用');
 
+  // === 1.5 故障・不具合の英語マーカー付加（AIの誤訳防止） ===
+  text = text.replace(/操作できず/g, '操作できず(DEFECT: not operational)');
+  text = text.replace(/操作不可/g, '操作不可(DEFECT: not operational)');
+  text = text.replace(/設定不可/g, '設定不可(DEFECT: setting not possible)');
+  text = text.replace(/調整できません/g, '調整できません(DEFECT: adjustment not possible)');
+  text = text.replace(/調整不可/g, '調整不可(DEFECT: adjustment not possible)');
+  text = text.replace(/切り替えできず/g, '切り替えできず(DEFECT: switching not possible)');
+  text = text.replace(/切り替え不可/g, '切り替え不可(DEFECT: switching not possible)');
+  text = text.replace(/動かない/g, '動かない(DEFECT: not running)');
+  text = text.replace(/不動/g, '不動(DEFECT: not running)');
+  text = text.replace(/故障/g, '故障(DEFECT: malfunction)');
+  text = text.replace(/壊れ/g, '壊れ(DEFECT: broken)');
+  text = text.replace(/ジャンク/g, 'ジャンク(DEFECT: for parts)');
+
   // === 2. 禁止ワードをテキストから直接除去 ===
   // 文単位削除ではなく、禁止ワードだけをピンポイントで除去する
   // 文を壊さず、商品スペック情報を保持しつつ不要情報だけ消す
