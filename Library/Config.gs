@@ -65,7 +65,11 @@ var CONFIG = {
     ACTUAL_TAX: 34,           // AH列: 実際の関税額
 
     // AT列: チェック
-    DUPLICATE_CHECK: 46       // AT列: 重複チェック
+    DUPLICATE_CHECK: 46,      // AT列: 重複チェック
+
+    // AU-AV列: 交通整理バックアップ
+    JP_TITLE_BACKUP: 47,     // AU列: 日本語タイトルバックアップ
+    JP_DESC_BACKUP: 48       // AV列: 商品説明バックアップ
   },
 
   // 料金・見積
