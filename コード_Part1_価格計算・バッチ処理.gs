@@ -3719,6 +3719,9 @@ function clearSelectedRowsValues(sheet, startRow, endRow) {
     // AE列（31列目）をクリア
     sheet.getRange(startRow, CONFIG.COLUMNS.CONDITION, rowCount, 1).clearContent();
 
+    // AU, AV列（47-48列：交通整理バックアップ）をクリア
+    sheet.getRange(startRow, CONFIG.COLUMNS.JP_TITLE_BACKUP, rowCount, 2).clearContent();
+
   } catch(e) {
     throw new Error('行クリア中にエラー: ' + e.message);
   }

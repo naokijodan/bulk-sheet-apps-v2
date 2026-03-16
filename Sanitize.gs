@@ -16,7 +16,7 @@ var SANITIZE_PROMPT_DEFAULT_ = [
   '翻訳AIに渡す前に、ソーステキストから必要な情報を抜き出してください。',
   '',
   'ソーステキストから以下の項目を埋めてください。',
-  'ソースに情報がない項目は空欄にしてください。',
+  'ソースに情報がない項目はNAと記入してください。',
   '各項目の文字数上限を厳守してください。',
   '',
   'ブランド: (15文字以内)',
@@ -38,7 +38,7 @@ var SANITIZE_PROMPT_DEFAULT_ = [
   '',
   'ルール:',
   '1. 数値はソースのまま忠実に出力する。丸めない、変換しない。',
-  '2. ソースにない情報は書かない。空欄にする。',
+  '2. ソースにない情報は書かない。NAにする。',
   '3. 出力は日本語のまま。',
   '',
   '入力:',
@@ -477,7 +477,8 @@ function parseSanitizedFields_(content) {
     var match = content.match(re);
     if (match) {
       var value = match[1].replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
-      if (value) {
+      // NAや空の項目はスキップ
+      if (value && !/^N\/?A$/i.test(value) && value !== '-' && value !== 'なし' && value !== '不明') {
         parts.push(fields[i] + ': ' + value);
       }
     }
@@ -488,8 +489,11 @@ function parseSanitizedFields_(content) {
   for (var i = 0; i < 3; i++) {
     var re = new RegExp('^' + fields[i] + '[：:]\\s*(.+)$', 'm');
     var match = content.match(re);
-    if (match && match[1].trim()) {
-      titleParts.push(match[1].trim());
+    if (match) {
+      var val = match[1].trim();
+      if (val && !/^N\/?A$/i.test(val) && val !== '-') {
+        titleParts.push(val);
+      }
     }
   }
   result.title = titleParts.join(' ');
