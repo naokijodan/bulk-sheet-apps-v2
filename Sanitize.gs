@@ -125,13 +125,8 @@ function runSanitizeSelectedRows() {
     return;
   }
 
-  // 確認ダイアログ
-  var response = ui.alert(
-    '交通整理',
-    items.length + '行のソーステキストを交通整理します。\n元データはAU・AV列にバックアップされます。\n\n実行しますか？',
-    ui.ButtonSet.YES_NO
-  );
-  if (response !== ui.Button.YES) return;
+  // 開始通知（トースト）
+  SpreadsheetApp.getActiveSpreadsheet().toast(items.length + '行の交通整理を開始します...', '🧹 交通整理', 3);
 
   // ===== Step 1: バックアップ（最優先） =====
   for (var i = 0; i < items.length; i++) {
