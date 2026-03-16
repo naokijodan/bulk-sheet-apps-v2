@@ -378,7 +378,21 @@ function sanitizeListingText_(text, isDescription) {
     // 6. CJK文字除去（非ASCIIを全除去）
     text = text.replace(/[^\x00-\x7F]/g, '');
 
-    // 7. クリーンアップ
+    // 7. 壊れた文の残骸除去（禁止ワード除去後に残る不完全な文）
+    // 7.1 孤立したセミコロンの除去
+    text = text.replace(/\s*;\s*/g, ' ');
+    // 7.2 前置詞・冠詞・be動詞で終わる不完全な文の除去
+    //   例: "covered by any." "waterproofing is." "The item is."
+    text = text.replace(/[A-Z][^.]*?\b(?:is|are|was|were|by|with|for|from|of|to|in|on|at|an?|the|any|and|or)\s*\./gi, function(m) {
+      // 3語以下の文なら残骸とみなして除去
+      var words = m.replace(/\./g, '').trim().split(/\s+/);
+      return words.length <= 3 ? '' : m;
+    });
+    // 7.3 動詞だけで終わる孤立した文の除去
+    //   例: "Includes." "Contains."
+    text = text.replace(/\b(?:Includes?|Contains?|Features?|Offers?|Provides?)\s*\./gi, '');
+
+    // 8. クリーンアップ
     text = text.replace(/ \/\./g, '.');     // ピリオド前の空白を除去（先に）
     text = text.replace(/\.{2,}/g, '.');     // 連続ピリオドを1つに
     text = text.replace(/\s{2,}/g, ' ');     // 連続スペースを1つに
