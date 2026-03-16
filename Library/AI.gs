@@ -328,9 +328,13 @@ function sanitizeListingText_(text, isDescription) {
     text = text.replace(/\bpristine\s+condition\b/gi, 'Very Good');
 
     // 5.12 禁止ワード漏れ補完（V10検証で発見されたパターン）
-    // "condition is new" → "Unused"、単独の "new" は状態として使用禁止
-    text = text.replace(/\bcondition\s+is\s+new\b/gi, 'Unused');
-    text = text.replace(/\bcondition\s+is\s+new\s+and\s+unused\b/gi, 'Unused');
+    // "new and unused" / "condition: new" 等 → "Unused"
+    text = text.replace(/\bcondition[:\s]+new\s+and\s+unused\b/gi, 'Unused');
+    text = text.replace(/\bcondition[:\s]+new\b/gi, 'Unused');
+    text = text.replace(/\bnew\s+and\s+unused\b/gi, 'Unused');
+    // "nearly new" / "like new" → 削除（状態としてのnew）
+    text = text.replace(/\bnearly\s+new\b/gi, '');
+    text = text.replace(/\blike\s+new\b/gi, '');
     // "shipping" 単独出現の除去（配送系文脈）
     text = text.replace(/\bdue\s+to\s+(?:international\s+)?shipping\b/gi, '');
     text = text.replace(/\bfrom\s+shipping\b/gi, '');
