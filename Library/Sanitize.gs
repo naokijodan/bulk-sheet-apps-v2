@@ -462,16 +462,16 @@ function parseSanitizeResponse_(platform, httpResp) {
 function parseSanitizedFields_(content) {
   var result = { title: '', description: '' };
 
-  // 「タイトル: ...」形式を抽出
-  var titleMatch = content.match(/^タイトル[：:][\s]*(.+)$/m);
+  // 「タイトル: ...」形式を抽出（説明:の手前まで）
+  var titleMatch = content.match(/^タイトル[：:][\s]*([\s\S]*?)(?=\n説明[：:])/m);
   if (titleMatch) {
-    result.title = titleMatch[1].trim();
+    result.title = titleMatch[1].replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
   }
 
-  // 「説明: ...」形式を抽出（複数行対応）
+  // 「説明: ...」形式を抽出（末尾まで）
   var descMatch = content.match(/^説明[：:][\s]*([\s\S]*)$/m);
   if (descMatch) {
-    result.description = descMatch[1].trim();
+    result.description = descMatch[1].replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
   }
 
   return result;
