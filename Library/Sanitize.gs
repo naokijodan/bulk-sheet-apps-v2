@@ -114,12 +114,16 @@ function runSanitizeSelectedRows() {
   // 開始通知（トースト）
   SpreadsheetApp.getActiveSpreadsheet().toast(items.length + '行の交通整理を開始します...', '🧹 交通整理', 3);
 
-  // ===== Step 1: バックアップ（最優先） =====
+  // ===== Step 1: 元データをAU/AVに移動し、J/Kを空にする =====
   for (var i = 0; i < items.length; i++) {
+    // AU/AVにバックアップ
     sheet.getRange(items[i].row, CONFIG.COLUMNS.JP_TITLE_BACKUP, 1, 2)
       .setValues([[items[i].jpTitle, items[i].jpDesc]]);
+    // J/Kを空にする
+    sheet.getRange(items[i].row, CONFIG.COLUMNS.JP_TITLE, 1, 2)
+      .setValues([['', '']]);
   }
-  SpreadsheetApp.flush(); // バックアップを確実に書き込む
+  SpreadsheetApp.flush(); // 移動を確実に書き込む
 
   // ===== Step 2: プロンプト取得 =====
   var promptTemplate = getPromptContent(SANITIZE_PROMPT_ID_);
