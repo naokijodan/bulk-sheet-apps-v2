@@ -115,8 +115,17 @@ function sanitizeInputJP_(text) {
     '保証期間', '保証はありません', '保証対象外',
     '防水の保証はいたしません', '防水についての保証', '防水性能の保証',
     // 配送関連の文（長い定型文）
-    '海外発送の都合上', '簡易包装にて発送', '梱包して発送',
-    '発送いたします', '発送します', '発送予定',
+    '緩衝材でしっかり保護し防水梱包で発送いたします',
+    '基本的にご購入から1-2日以内に発送しております',
+    '基本的にご購入から1～2日以内に発送しております',
+    '簡易包装にて1～3日程度で発送いたします',
+    '簡易包装にて1～3日程度で発送します',
+    '簡易包装にて発送', '梱包して発送', '防水梱包',
+    '緩衝材でしっかり保護', '緩衝材で保護',
+    '海外発送の都合上', 'プチプチで梱包',
+    '配送中に時計の稼働が停止する恐れがあります',
+    '発送いたします', '発送します', '発送致します', '発送予定',
+    '発送について', '発送方法',
     'ご了承ください', 'ご理解ください', 'ご確認ください'
   ];
 
@@ -254,10 +263,24 @@ function sanitizeListingText_(text, isDescription) {
     text = text.replace(/before\s+dispatch/gi, '');
     text = text.replace(/cleaned\s+before\s+dispatch/gi, '');
 
-    // 3.5 配送系追加
+    // 3.5 配送系追加（ワード単位）
     text = text.replace(/\bafter\s+shipping\b/gi, '');
     text = text.replace(/\bduring\s+shipping\b/gi, '');
     text = text.replace(/\bin\s+shipping\b/gi, '');
+
+    // 3.6 配送文の丸ごと除去（文単位）
+    // "Ships with protective..." "Shipped with..." "dispatched within..." 等の配送文を文ごと削除
+    text = text.replace(/\bShips?\b[^.!?]*\bwithin\s+\d[^.!?]*[.!?]?/gi, '');
+    text = text.replace(/\bShipped\b[^.!?]*\bwithin\s+\d[^.!?]*[.!?]?/gi, '');
+    text = text.replace(/\bdispatched?\b[^.!?]*\bwithin\s+\d[^.!?]*[.!?]?/gi, '');
+    text = text.replace(/\bShips?\s+(?:securely|quickly|carefully|well|fast|in\s+protective|with\s+protective|with\s+sturdy|protected)\b[^.!?]*[.!?]?/gi, '');
+    text = text.replace(/\bShipped\s+(?:with\s+protective|in\s+a\s+bag|removed)\b[^.!?]*[.!?]?/gi, '');
+    text = text.replace(/\bShipment\b[^.!?]*[.!?]?/gi, '');
+    text = text.replace(/\bships?\s+after\s+(?:purchase|payment|order)\b[^.!?]*[.!?]?/gi, '');
+    // "within 1-2 days of purchase" 等の孤立した配送フレーズ
+    text = text.replace(/\bwithin\s+\d+-?\d*\s+days?\s+(?:of|after)\s+(?:purchase|payment|order)\b[^.!?]*[.!?]?/gi, '');
+    // "Ships in 1-3 days" 等の短い配送文
+    text = text.replace(/\bShips?\s+in\s+\d+-?\d*\s+days?\b[^.!?]*[.!?]?/gi, '');
 
     // 4. 防水保証系 → 完全削除
     text = text.replace(/water\s+resistance\s+not\s+guaranteed/gi, '');
