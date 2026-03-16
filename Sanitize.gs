@@ -146,54 +146,71 @@ function runSanitizeSelectedRows() {
     promptTemplate = SANITIZE_PROMPT_DEFAULT_;
   }
 
-  // ===== Step 3: AI呼び出し（並列） =====
-  var requests = [];
-  for (var i = 0; i < items.length; i++) {
-    var prompt = promptTemplate
-      .replace('${jpTitle}', items[i].jpTitle)
-      .replace('${jpDesc}',  items[i].jpDesc);
-    requests.push(buildSanitizeRequest_(settings, prompt));
-  }
-
-  var responses;
-  try {
-    responses = UrlFetchApp.fetchAll(requests);
-  } catch (e) {
-    showAlert('API呼び出しに失敗しました: ' + e.message, 'error');
-    return;
-  }
-
-  // ===== Step 4: レスポンス解析 & 書き込み =====
+  // ===== Step 3 & 4: バッチでAI呼び出し + 書き込み =====
+  var BATCH_SIZE = CONFIG.PARALLEL_REQUESTS || 10;
   var successCount = 0;
   var errorCount = 0;
   var errorDetails = [];
 
-  for (var i = 0; i < responses.length; i++) {
+  for (var batchStart = 0; batchStart < items.length; batchStart += BATCH_SIZE) {
+    var batchEnd = Math.min(batchStart + BATCH_SIZE, items.length);
+    var batchItems = items.slice(batchStart, batchEnd);
+
+    // バッチ分のリクエストを構築
+    var requests = [];
+    for (var j = 0; j < batchItems.length; j++) {
+      var prompt = promptTemplate
+        .replace('${jpTitle}', batchItems[j].jpTitle)
+        .replace('${jpDesc}',  batchItems[j].jpDesc);
+      requests.push(buildSanitizeRequest_(settings, prompt));
+    }
+
+    // API呼び出し
+    var responses;
     try {
-      var result = parseSanitizeResponse_(settings.platform, responses[i]);
-      if (!result.ok) {
-        errorCount++;
-        errorDetails.push('行' + items[i].row + ': ' + result.error);
-        continue;
-      }
-
-      var parsed = parseSanitizedFields_(result.content);
-      if (!parsed.title && !parsed.description) {
-        errorCount++;
-        errorDetails.push('行' + items[i].row + ': AIの出力を解析できませんでした');
-        continue;
-      }
-
-      // J列・K列を上書き
-      var newTitle = parsed.title || items[i].jpTitle;
-      var newDesc  = parsed.description || items[i].jpDesc;
-      sheet.getRange(items[i].row, CONFIG.COLUMNS.JP_TITLE, 1, 2)
-        .setValues([[newTitle, newDesc]]);
-      successCount++;
-
+      responses = UrlFetchApp.fetchAll(requests);
     } catch (e) {
-      errorCount++;
-      errorDetails.push('行' + items[i].row + ': ' + (e.message || String(e)));
+      // バッチ全体が失敗した場合、残りのバッチも中断
+      for (var j = 0; j < batchItems.length; j++) {
+        errorCount++;
+        errorDetails.push('行' + batchItems[j].row + ': ' + e.message);
+      }
+      continue;
+    }
+
+    // レスポンス解析 & 書き込み
+    for (var j = 0; j < responses.length; j++) {
+      try {
+        var result = parseSanitizeResponse_(settings.platform, responses[j]);
+        if (!result.ok) {
+          errorCount++;
+          errorDetails.push('行' + batchItems[j].row + ': ' + result.error);
+          continue;
+        }
+
+        var parsed = parseSanitizedFields_(result.content);
+        if (!parsed.title && !parsed.description) {
+          errorCount++;
+          errorDetails.push('行' + batchItems[j].row + ': AIの出力を解析できませんでした');
+          continue;
+        }
+
+        // J列・K列を上書き
+        var newTitle = parsed.title || batchItems[j].jpTitle;
+        var newDesc  = parsed.description || batchItems[j].jpDesc;
+        sheet.getRange(batchItems[j].row, CONFIG.COLUMNS.JP_TITLE, 1, 2)
+          .setValues([[newTitle, newDesc]]);
+        successCount++;
+
+      } catch (e) {
+        errorCount++;
+        errorDetails.push('行' + batchItems[j].row + ': ' + (e.message || String(e)));
+      }
+    }
+
+    // 次のバッチまでスリープ（レート制限回避）
+    if (batchEnd < items.length) {
+      Utilities.sleep(CONFIG.SLEEP_BETWEEN_BATCHES || 3000);
     }
   }
 
