@@ -383,6 +383,10 @@ function sanitizeListingText_(text, isDescription) {
     text = text.replace(/\bpristine\s+condition\b/gi, 'Very Good');
     text = text.replace(/\bpristine\b/gi, 'Very Good');
 
+    // 5.115 "Japan Made" / "Made in Japan" → "Japan" に変換
+    text = text.replace(/\bJapan\s+Made\b/gi, 'Japan');
+    text = text.replace(/\bMade\s+in\s+Japan\b/gi, 'Japan');
+
     // 5.12 禁止ワード漏れ補完（V10検証で発見されたパターン）
     // "new and unused" / "condition: new" 等 → "Unused"
     text = text.replace(/\bcondition[:\s]+new\s+and\s+unused\b/gi, 'Unused');
