@@ -9,17 +9,6 @@ var LIB = BulkToolsLib;
   メニュー・初期化
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function onOpen() {
-  try {
-    SpreadsheetApp.getUi().createMenu('📋 Item Specifics')
-      .addItem('選択行に出力', 'IS_step1BasicSelectedRows')
-      .addItem('全行に出力', 'IS_step1BasicAllRows')
-      .addSeparator()
-      .addItem('辞書管理', 'IS_showDictionaryManager')
-      .addItem('辞書を初期化', 'IS_initializeDictionaryWithConfirm')
-      .addToUi();
-  } catch(e) {
-    SpreadsheetApp.getActive().toast('IS menu error: ' + e, 'Error', 10);
-  }
   LIB.onOpen();
 }
 function initialSetup() { LIB.initialSetup(); }
@@ -36,6 +25,8 @@ function runSelectedRowsCalculate() { LIB.runSelectedRowsCalculate(); }
 function runSelectedRowsComplete() { LIB.runSelectedRowsComplete(); }
 function runSelectedRowsCompleteBatch() { LIB.runSelectedRowsCompleteBatch(); }
 function runSelectedRowsTranslate() { LIB.runSelectedRowsTranslate(); }
+function runSanitizeSelectedRows() { if (LIB.runSanitizeSelectedRows) { LIB.runSanitizeSelectedRows(); } }
+function restoreSanitizeSelectedRows() { if (LIB.restoreSanitizeSelectedRows) { LIB.restoreSanitizeSelectedRows(); } }
 function runSimpleSelected() { LIB.runSimpleSelected(); }
 function simpleTranslateSelectedRows() { LIB.simpleTranslateSelectedRows ? LIB.simpleTranslateSelectedRows() : runSimpleSelected(); }
 function simpleTranslateAll() { LIB.simpleTranslateAll ? LIB.simpleTranslateAll() : null; }
