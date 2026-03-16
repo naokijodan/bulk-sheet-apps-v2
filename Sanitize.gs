@@ -13,34 +13,33 @@ var SANITIZE_PROMPT_ID_ = 'SANITIZE_SOURCE';
 
 var SANITIZE_PROMPT_DEFAULT_ = [
   'この商品はeBayに英語で出品します。',
-  '翻訳AIに渡す前に、ソーステキストを整理してください。',
+  '翻訳AIに渡す前に、ソーステキストから必要な情報を抜き出してください。',
   '',
-  'eBayの出品に必要な情報（時計の場合の例）:',
-  '- 商品のスペック（ブランド、型番、素材、サイズ、ムーブメント等）',
-  '- 商品の機能（ベゼル、カレンダー、防水等の実際の機能）',
-  '- コンディション（傷、汚れ、動作状態、故障）',
-  '- 付属品の有無',
-  '※カテゴリによって必要な情報は異なります。商品に応じて柔軟に判断してください。',
+  'ソーステキストから以下の項目を埋めてください。',
+  'ソースに情報がない項目は空欄にしてください。',
   '',
-  'eBayで不要または禁止されている情報:',
-  '- 売り手独自の評価ランク（S/A/B等のランク表）',
-  '- セールストーク（「高級」「ダンディ」「幅広く活躍」等の宣伝文句）',
-  '- 他プラットフォームの取引条件（送料、配送方法、返品ポリシー、ノークレーム等）',
-  '- 真贋保証の主張（「100%正規品」「本物保証」等）',
-  '- 挨拶・お願い文',
-  '- 転載禁止等の注意書き',
-  '- 防水保証の免責（eBayでは別途Condition欄で扱う）',
+  'ブランド:',
+  'モデル名:',
+  '型番:',
+  'ムーブメント:',
+  'ケース素材:',
+  'ケースサイズ:',
+  '文字盤色:',
+  '風防:',
+  'ベルト素材:',
+  '防水:',
+  '表示方式:',
+  '腕周り:',
+  '付属品:',
+  'コンディション:',
+  '故障・不具合:',
+  '製造国:',
   '',
   'ルール:',
   '1. ソースの表現をそのまま抜き出す。言い換えない。',
-  '2. ソースにない情報は書かない。',
-  '3. 項目名やラベルを付けない。',
-  '4. 数値は変更しない。',
-  '5. 出力は日本語のまま。',
-  '',
-  '出力形式:',
-  'タイトル: (抽出結果)',
-  '説明: (抽出結果)',
+  '2. ソースにない情報は書かない。空欄にする。',
+  '3. 数値は変更しない。',
+  '4. 出力は日本語のまま。',
   '',
   '入力:',
   'タイトル: ${jpTitle}',
@@ -464,16 +463,50 @@ function parseSanitizeResponse_(platform, httpResp) {
 function parseSanitizedFields_(content) {
   var result = { title: '', description: '' };
 
-  // 「タイトル: ...」形式を抽出（説明:の手前まで）
-  var titleMatch = content.match(/^タイトル[：:][\s]*([\s\S]*?)(?=\n説明[：:])/m);
-  if (titleMatch) {
-    result.title = titleMatch[1].replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+  // フォーマット形式のパース: 各項目を抽出
+  var fields = [
+    'ブランド', 'モデル名', '型番', 'ムーブメント',
+    'ケース素材', 'ケースサイズ', '文字盤色', '風防',
+    'ベルト素材', '防水', '表示方式', '腕周り',
+    '付属品', 'コンディション', '故障・不具合', '製造国'
+  ];
+
+  var parts = [];
+  for (var i = 0; i < fields.length; i++) {
+    var re = new RegExp('^' + fields[i] + '[：:]\\s*(.+)$', 'm');
+    var match = content.match(re);
+    if (match) {
+      var value = match[1].replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+      if (value) {
+        parts.push(fields[i] + ': ' + value);
+      }
+    }
   }
 
-  // 「説明: ...」形式を抽出（末尾まで）
-  var descMatch = content.match(/^説明[：:][\s]*([\s\S]*)$/m);
-  if (descMatch) {
-    result.description = descMatch[1].replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+  // タイトル: ブランド + モデル名 + 型番を結合
+  var titleParts = [];
+  for (var i = 0; i < 3; i++) {
+    var re = new RegExp('^' + fields[i] + '[：:]\\s*(.+)$', 'm');
+    var match = content.match(re);
+    if (match && match[1].trim()) {
+      titleParts.push(match[1].trim());
+    }
+  }
+  result.title = titleParts.join(' ');
+
+  // 説明: 全項目を連結
+  result.description = parts.join(' ');
+
+  // フォールバック: フォーマット形式でない場合は旧形式で試す
+  if (!result.description) {
+    var descMatch = content.match(/^説明[：:][\s]*([\s\S]*)$/m);
+    if (descMatch) {
+      result.description = descMatch[1].replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+    }
+    var titleMatch = content.match(/^タイトル[：:][\s]*([\s\S]*?)(?=\n説明[：:])/m);
+    if (titleMatch) {
+      result.title = titleMatch[1].replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+    }
   }
 
   return result;
