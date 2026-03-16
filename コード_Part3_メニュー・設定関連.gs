@@ -13,24 +13,17 @@ function onOpen() {
   try {
     var ui = SpreadsheetApp.getUi();
 
-    // 1. 実行メニュー（毎回使う機能）
-    ui.createMenu("🔁 実行メニュー")  
-      .addItem("✅　選択行を実行(翻訳・計算)", "runSelectedRows")
-      .addItem("🚀　統合実行（翻訳・計算・テンプレ・ポリシー）", "runSelectedRowsComplete")
-      .addSeparator()
-      .addItem("🔄 バッチ処理(翻訳・計算) 50行ずつ自動実行", "runSelectedRowsBatch")
-      .addItem("🔄 バッチ処理(統合実行) 50行ずつ自動実行", "runSelectedRowsCompleteBatch")
-      .addItem('▶️ 処理を再開', 'resumeBatchProcessing')
-      .addItem('📊 進捗確認', 'checkBatchProgress')
-      .addItem('❌ 処理をキャンセル', 'cancelBatchProcessing')
-      .addSeparator()
+    // 1. 実行メニュー
+    ui.createMenu("🔁 実行メニュー")
+      .addItem("🧹 選択行を交通整理（ソース整理）", "runSanitizeSelectedRows")
+      .addItem("↩️ 交通整理を元に戻す", "restoreSanitizeSelectedRows")
       .addItem("📝　選択行を翻訳のみ", "runSelectedRowsTranslate")
       .addItem("🔢　選択行を計算のみ", "runSelectedRowsCalculate")
       .addSeparator()
-      .addItem('⚡ テンプレ・ポリシー自動出力（O1・O2使用）', 'autoApplyTemplateAndPolicy')
-      .addItem('🖐️ テンプレ・ポリシー手動選択（ダイアログ）', 'setTemplateAndPolicyForSelectedRows')
-      .addItem('🔍 テンプレート手動検索', 'showTemplateManualSearchDialog')
-      .addItem('🔍 シッピングポリシー手動検索', 'showShippingPolicyManualSearchDialog')
+      .addItem("📋 Item Specifics 選択行に出力", "IS_step1BasicSelectedRows")
+      .addItem("📋 Item Specifics 全行に出力", "IS_step1BasicAllRows")
+      .addItem("📖 辞書管理", "IS_showDictionaryManager")
+      .addItem("📖 辞書を初期化", "IS_initializeDictionaryWithConfirm")
       .addSeparator()
       .addItem("📦 選択行を保存してクリア", "saveSelectedRowsAndClear")
       .addItem("🗑️ 選択行のデータのみ削除", "clearSelectedRowsOnly")
@@ -42,7 +35,6 @@ function onOpen() {
       .addItem('選択行の高さをリセット', 'resetSelectedRowHeights')
       .addItem('選択行をクリア', 'clearSelectedRowsSafely')
       .addItem('作業シートにコピー', 'copyToWorkSheet')
-
       .addToUi();
     
     // 2. 計算メニュー
