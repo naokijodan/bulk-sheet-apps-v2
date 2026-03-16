@@ -147,7 +147,7 @@ function runSanitizeSelectedRows() {
   }
 
   // ===== Step 3 & 4: バッチでAI呼び出し + 書き込み =====
-  var BATCH_SIZE = CONFIG.PARALLEL_REQUESTS || 10;
+  var BATCH_SIZE = 50;
   var successCount = 0;
   var errorCount = 0;
   var errorDetails = [];
