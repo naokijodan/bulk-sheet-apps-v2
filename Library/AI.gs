@@ -327,6 +327,36 @@ function sanitizeListingText_(text, isDescription) {
     text = text.replace(/\bpristine\b/gi, 'Very Good');
     text = text.replace(/\bpristine\s+condition\b/gi, 'Very Good');
 
+    // 5.12 禁止ワード漏れ補完（V10検証で発見されたパターン）
+    // "condition is new" → "Unused"、単独の "new" は状態として使用禁止
+    text = text.replace(/\bcondition\s+is\s+new\b/gi, 'Unused');
+    text = text.replace(/\bcondition\s+is\s+new\s+and\s+unused\b/gi, 'Unused');
+    // "shipping" 単独出現の除去（配送系文脈）
+    text = text.replace(/\bdue\s+to\s+(?:international\s+)?shipping\b/gi, '');
+    text = text.replace(/\bfrom\s+shipping\b/gi, '');
+    text = text.replace(/\bshipping\b/gi, '');
+    // "warranty" の追加パターン（"expired warranty" 等）
+    text = text.replace(/\bexpired\s+warranty\b/gi, '');
+    text = text.replace(/\bwith\s+expired\s+warranty\b/gi, '');
+    text = text.replace(/\bincludes?\s+(?:manual,?\s+)?warranty(?:,?\s+and\s+box)?\b/gi, function(m) {
+      // "includes manual, warranty, and box" → "includes manual and box"
+      return m.replace(/,?\s*warranty,?\s*/gi, ' ').replace(/\s{2,}/g, ' ');
+    });
+
+    // 5.13 Display type exact phrase正規化（Description限定）
+    if (isDescription) {
+      // "display is digital" → "digital display"
+      text = text.replace(/\bdisplay\s+is\s+digital\b/gi, 'digital display');
+      // "display is analog" → "analog display"
+      text = text.replace(/\bdisplay\s+is\s+analog\b/gi, 'analog display');
+      // "display is analog and digital" → "analog and digital display"
+      text = text.replace(/\bdisplay\s+is\s+analog\s+and\s+digital\b/gi, 'analog and digital display');
+      // "digital and analog display" → "analog and digital display"（語順修正）
+      text = text.replace(/\bdigital\s+and\s+analog\s+display\b/gi, 'analog and digital display');
+      // "analog digital display" → "analog and digital display"（and欠落補完）
+      text = text.replace(/\banalog\s+digital\s+display\b/gi, 'analog and digital display');
+    }
+
     // 6. CJK文字除去（非ASCIIを全除去）
     text = text.replace(/[^\x00-\x7F]/g, '');
 
