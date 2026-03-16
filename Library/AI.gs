@@ -77,6 +77,21 @@ function sanitizeInputJP_(text) {
   text = text.replace(/新品同様/g, '未使用に近い状態');
   text = text.replace(/新品/g, '未使用');
 
+  // === 1.4 配送関連の文を統一文言に変換 ===
+  // 日にちは絶対に入れない。全て「丁寧な梱包で発送します。」に統一
+  text = text.replace(/緩衝材でしっかり保護し[、]?防水梱包で[^。]*。?/g, '丁寧な梱包で発送します。');
+  text = text.replace(/簡易包装にて[^。]*。?/g, '丁寧な梱包で発送します。');
+  text = text.replace(/プチプチで梱包[^。]*。?/g, '丁寧な梱包で発送します。');
+  text = text.replace(/緩衝材で[しっかり]*保護[^。]*。?/g, '丁寧な梱包で発送します。');
+  text = text.replace(/防水梱包[^。]*。?/g, '丁寧な梱包で発送します。');
+  text = text.replace(/梱包して発送[^。]*。?/g, '丁寧な梱包で発送します。');
+  text = text.replace(/丁寧に梱包[^。]*。?/g, '丁寧な梱包で発送します。');
+  text = text.replace(/発送いたします/g, '丁寧な梱包で発送します。');
+  text = text.replace(/発送します/g, '丁寧な梱包で発送します。');
+  text = text.replace(/発送致します/g, '丁寧な梱包で発送します。');
+  // 重複した「丁寧な梱包で発送します。」を1つに
+  text = text.replace(/(丁寧な梱包で発送します。)+/g, '丁寧な梱包で発送します。');
+
   // === 1.5 故障・不具合の英語マーカー付加（AIの誤訳防止） ===
   text = text.replace(/操作できず/g, '操作できず(DEFECT: not operational)');
   text = text.replace(/操作不可/g, '操作不可(DEFECT: not operational)');
@@ -114,18 +129,14 @@ function sanitizeInputJP_(text) {
     // 保証系（変換されなかった残り）
     '保証期間', '保証はありません', '保証対象外',
     '防水の保証はいたしません', '防水についての保証', '防水性能の保証',
-    // 配送関連の文（長い定型文）
-    '緩衝材でしっかり保護し防水梱包で発送いたします',
+    // 配送関連（bannedJPで除去するもの：日にち、方法名等）
     '基本的にご購入から1-2日以内に発送しております',
     '基本的にご購入から1～2日以内に発送しております',
-    '簡易包装にて1～3日程度で発送いたします',
-    '簡易包装にて1～3日程度で発送します',
-    '簡易包装にて発送', '梱包して発送', '防水梱包',
-    '緩衝材でしっかり保護', '緩衝材で保護',
-    '海外発送の都合上', 'プチプチで梱包',
+    '1～3日程度で発送いたします', '1～3日程度で発送します',
+    '1-2日以内に発送', '1～2日以内に発送',
+    '海外発送の都合上',
     '配送中に時計の稼働が停止する恐れがあります',
-    '発送いたします', '発送します', '発送致します', '発送予定',
-    '発送について', '発送方法',
+    '発送予定', '発送について', '発送方法',
     'ご了承ください', 'ご理解ください', 'ご確認ください'
   ];
 
@@ -268,19 +279,21 @@ function sanitizeListingText_(text, isDescription) {
     text = text.replace(/\bduring\s+shipping\b/gi, '');
     text = text.replace(/\bin\s+shipping\b/gi, '');
 
-    // 3.6 配送文の丸ごと除去（文単位）
-    // "Ships with protective..." "Shipped with..." "dispatched within..." 等の配送文を文ごと削除
-    text = text.replace(/\bShips?\b[^.!?]*\bwithin\s+\d[^.!?]*[.!?]?/gi, '');
-    text = text.replace(/\bShipped\b[^.!?]*\bwithin\s+\d[^.!?]*[.!?]?/gi, '');
-    text = text.replace(/\bdispatched?\b[^.!?]*\bwithin\s+\d[^.!?]*[.!?]?/gi, '');
-    text = text.replace(/\bShips?\s+(?:securely|quickly|carefully|well|fast|in\s+protective|with\s+protective|with\s+sturdy|protected)\b[^.!?]*[.!?]?/gi, '');
-    text = text.replace(/\bShipped\s+(?:with\s+protective|in\s+a\s+bag|removed)\b[^.!?]*[.!?]?/gi, '');
-    text = text.replace(/\bShipment\b[^.!?]*[.!?]?/gi, '');
-    text = text.replace(/\bships?\s+after\s+(?:purchase|payment|order)\b[^.!?]*[.!?]?/gi, '');
-    // "within 1-2 days of purchase" 等の孤立した配送フレーズ
-    text = text.replace(/\bwithin\s+\d+-?\d*\s+days?\s+(?:of|after)\s+(?:purchase|payment|order)\b[^.!?]*[.!?]?/gi, '');
-    // "Ships in 1-3 days" 等の短い配送文
-    text = text.replace(/\bShips?\s+in\s+\d+-?\d*\s+days?\b[^.!?]*[.!?]?/gi, '');
+    // 3.6 配送文の統一変換（文単位）
+    // 配送関連の文は全て「Carefully packed for safe transit.」に変換。日にちは入れない。
+    var shippingReplacement = 'Carefully packed for safe transit.';
+    text = text.replace(/\bShips?\b[^.!?]*\bwithin\s+\d[^.!?]*[.!?]?/gi, shippingReplacement);
+    text = text.replace(/\bShipped\b[^.!?]*\bwithin\s+\d[^.!?]*[.!?]?/gi, shippingReplacement);
+    text = text.replace(/\bdispatched?\b[^.!?]*\bwithin\s+\d[^.!?]*[.!?]?/gi, shippingReplacement);
+    text = text.replace(/\bShips?\s+(?:securely|quickly|carefully|well|fast|in\s+protective|with\s+protective|with\s+sturdy|protected)\b[^.!?]*[.!?]?/gi, shippingReplacement);
+    text = text.replace(/\bShipped\s+(?:with\s+protective|in\s+a\s+bag|removed)\b[^.!?]*[.!?]?/gi, shippingReplacement);
+    text = text.replace(/\bShipment\b[^.!?]*[.!?]?/gi, shippingReplacement);
+    text = text.replace(/\bships?\s+after\s+(?:purchase|payment|order)\b[^.!?]*[.!?]?/gi, shippingReplacement);
+    text = text.replace(/\bwithin\s+\d+-?\d*\s+days?\s+(?:of|after)\s+(?:purchase|payment|order)\b[^.!?]*[.!?]?/gi, shippingReplacement);
+    text = text.replace(/\bShips?\s+in\s+\d+-?\d*\s+days?\b[^.!?]*[.!?]?/gi, shippingReplacement);
+    // 重複した変換文を1つに
+    var shippingEscaped = shippingReplacement.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    text = text.replace(new RegExp('(' + shippingEscaped + '\\s*)+', 'gi'), shippingReplacement + ' ');
 
     // 4. 防水保証系 → 完全削除
     text = text.replace(/water\s+resistance\s+not\s+guaranteed/gi, '');
@@ -352,17 +365,23 @@ function sanitizeListingText_(text, isDescription) {
     text = text.replace(/\bno\s+claims?\s+(?:or\s+)?returns?\b/gi, '');
     text = text.replace(/\bdescribed\s+as\s+new\b/gi, '');
 
-    // 5.11 主観系・条件系禁止ワード削除（Title/Description）
-    text = text.replace(/\bbeautiful\b/gi, '');
-    text = text.replace(/\bgorgeous\b/gi, '');
-    text = text.replace(/\bstunning\b/gi, '');
-    text = text.replace(/\bamazing\b/gi, '');
-    text = text.replace(/\bgood\s+condition\b/gi, '');
-    text = text.replace(/\bgreat\s+condition\b/gi, '');
+    // 5.11 主観系・条件系禁止ワード → 使っていいワードに変換（文破損防止）
+    text = text.replace(/\bin\s+excellent\s+condition\b/gi, 'in pre-owned condition');
+    text = text.replace(/\bin\s+good\s+condition\b/gi, 'in pre-owned condition');
+    text = text.replace(/\bin\s+great\s+condition\b/gi, 'in pre-owned condition');
+    text = text.replace(/\bexcellent\s+condition\b/gi, 'pre-owned condition');
+    text = text.replace(/\bgood\s+condition\b/gi, 'pre-owned condition');
+    text = text.replace(/\bgreat\s+condition\b/gi, 'pre-owned condition');
+    text = text.replace(/\bexcellent\b/gi, 'clean');
+    text = text.replace(/\bperfect\b/gi, 'clean');
+    text = text.replace(/\bbeautiful\b/gi, 'well-kept');
+    text = text.replace(/\bgorgeous\b/gi, 'well-kept');
+    text = text.replace(/\bstunning\b/gi, 'notable');
+    text = text.replace(/\bamazing\b/gi, 'notable');
     text = text.replace(/\bnear\s+mint\b/gi, 'Very Good');
     text = text.replace(/\bmint\s+condition\b/gi, 'Very Good');
-    text = text.replace(/\bpristine\b/gi, 'Very Good');
     text = text.replace(/\bpristine\s+condition\b/gi, 'Very Good');
+    text = text.replace(/\bpristine\b/gi, 'Very Good');
 
     // 5.12 禁止ワード漏れ補完（V10検証で発見されたパターン）
     // "new and unused" / "condition: new" 等 → "Unused"
