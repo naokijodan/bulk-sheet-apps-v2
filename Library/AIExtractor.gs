@@ -282,6 +282,12 @@ function buildExtractionPrompt_(title, description, category, fields, tag, exist
   lines.push('Professional Grader (trading cards): "PSA", "BGS" (Beckett), "CGC", "SGC" as appropriate.');
   lines.push('Grade (trading cards): The numeric grade (e.g., "PSA 10", "BGS 9.5"). Include the grader prefix.');
   lines.push('Material: Use eBay standard terms (e.g., "Stainless Steel" not "SS", "Sterling Silver" not "Silver 925")');
+  // Camera normalization rules
+  lines.push('Maximum Resolution (cameras): Format as "XX.X MP" (e.g., "20.1 MP", "24.2 MP", "45.7 MP"). Extract megapixel count from title/description. Common patterns: "2000万画素" → "20.0 MP", "有効画素数2420万" → "24.2 MP". If only total pixels given, convert to megapixels (divide by 1,000,000).');
+  lines.push('Type (cameras): Use eBay standard types: "Digital Camera", "DSLR Camera", "Mirrorless Camera", "Film Camera", "Medium Format Camera", "Compact Camera", "Rangefinder Camera", "Instant Camera", "Action Camera". Mapping: 一眼レフ/SLR → "DSLR Camera", ミラーレス → "Mirrorless Camera", コンパクト/コンデジ → "Compact Camera", フィルムカメラ → "Film Camera", 中判 → "Medium Format Camera", レンジファインダー → "Rangefinder Camera".');
+  lines.push('Series (cameras): The product line/series name. Examples: Canon → "EOS", "PowerShot", "IXY". Nikon → "D", "Z", "Coolpix". Sony → "Alpha", "Cyber-shot", "NEX". Fujifilm → "X", "GFX", "FinePix". Olympus → "OM-D", "PEN". Pentax → "K", "645".');
+  lines.push('Lens Mount (cameras): Use standard mount names: "Canon EF", "Canon EF-S", "Canon RF", "Nikon F", "Nikon Z", "Sony A", "Sony E", "Micro Four Thirds", "Fujifilm X", "Pentax K", "Leica M", "Leica L". For film cameras, identify the correct mount system.');
+  lines.push('Battery Type (cameras): Use eBay standard terms: "Lithium-Ion", "Lithium", "AA", "AAA", "CR123A". Most modern digital cameras use "Lithium-Ion".');
   lines.push('');
   lines.push('### METAL IDENTIFICATION RULES (CRITICAL for Jewelry)');
   lines.push('IMPORTANT: Distinguish between actual precious metal and color/finish/plating:');

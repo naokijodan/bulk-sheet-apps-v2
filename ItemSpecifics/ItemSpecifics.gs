@@ -1084,6 +1084,29 @@ function writeItemSpecificsToSheet_(sheet, rowResults) {
         }
       }
 
+      // カメラ用の後処理（Maximum Resolution正規化）
+      if (data.hasOwnProperty('Maximum Resolution')) {
+        var maxRes = String(data['Maximum Resolution'] || '');
+        if (maxRes && maxRes !== 'Does not apply') {
+          // 数字だけ抽出して "XX.X MP" 形式に正規化
+          var mpMatch = maxRes.match(/([\d.]+)\s*(?:MP|Megapixel|メガピクセル|万画素)/i);
+          if (mpMatch) {
+            var mpVal = parseFloat(mpMatch[1]);
+            // 万画素の場合は100で割ってMPに変換（2000万画素 → 20.0 MP）
+            if (/万画素/.test(maxRes)) {
+              mpVal = mpVal / 100;
+            }
+            data['Maximum Resolution'] = mpVal.toFixed(1) + ' MP';
+          } else {
+            // 数字のみの場合（例: "24.2"）
+            var numOnly = maxRes.match(/^([\d.]+)$/);
+            if (numOnly) {
+              data['Maximum Resolution'] = parseFloat(numOnly[1]).toFixed(1) + ' MP';
+            }
+          }
+        }
+      }
+
       // Trading Cards: Language/Countryの自動注入はresolveFieldValue_のデフォルト値に委譲
 
       // JSON → フラット配列変換: {"Brand": "Seiko"} → ["C:Brand", "Seiko"]
