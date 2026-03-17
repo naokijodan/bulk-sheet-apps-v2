@@ -1107,6 +1107,34 @@ function writeItemSpecificsToSheet_(sheet, rowResults) {
         }
       }
 
+      // カメラ用 Battery Type 後処理: デフォルトはLithium-Ion、単三系のみ例外
+      if (data.hasOwnProperty('Battery Type')) {
+        var btVal = String(data['Battery Type'] || '').toLowerCase();
+        if (!btVal || btVal === 'does not apply' || btVal === 'na' || btVal === 'n/a') {
+          // バッテリー情報なし → デジタルカメラの大半はLithium-Ion
+          data['Battery Type'] = 'Lithium-Ion';
+        } else if (/単三|単3|aa[^a]/i.test(btVal) || btVal === 'aa') {
+          data['Battery Type'] = 'AA';
+        } else if (/単四|単4|aaa/i.test(btVal)) {
+          data['Battery Type'] = 'AAA';
+        } else if (/cr123/i.test(btVal)) {
+          data['Battery Type'] = 'CR123A';
+        } else if (/cr2[^0-9]/i.test(btVal) || /^cr2$/i.test(btVal)) {
+          data['Battery Type'] = 'CR2';
+        } else if (/リチウムイオン|lithium.ion|li.ion/i.test(btVal)) {
+          data['Battery Type'] = 'Lithium-Ion';
+        } else if (/ボタン|button|lr44|sr44/i.test(btVal)) {
+          data['Battery Type'] = 'Button Cell (LR44/SR44)';
+        } else if (/不要|not.applicable|mechanical/i.test(btVal)) {
+          data['Battery Type'] = 'Not Applicable';
+        } else if (/内蔵|built.in/i.test(btVal)) {
+          data['Battery Type'] = 'Built-in';
+        } else {
+          // その他不明 → デフォルトLithium-Ion
+          data['Battery Type'] = 'Lithium-Ion';
+        }
+      }
+
       // Trading Cards: Language/Countryの自動注入はresolveFieldValue_のデフォルト値に委譲
 
       // JSON → フラット配列変換: {"Brand": "Seiko"} → ["C:Brand", "Seiko"]
