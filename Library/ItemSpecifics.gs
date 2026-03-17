@@ -1107,31 +1107,39 @@ function writeItemSpecificsToSheet_(sheet, rowResults) {
         }
       }
 
-      // カメラ用 Battery Type 後処理: デフォルトはLithium-Ion、単三系のみ例外
+      // カメラ用 Battery Type 後処理: ソーステキストを直接検出（AIの判定より優先）
       if (data.hasOwnProperty('Battery Type')) {
-        var btVal = String(data['Battery Type'] || '').toLowerCase();
-        if (!btVal || btVal === 'does not apply' || btVal === 'na' || btVal === 'n/a') {
-          // バッテリー情報なし → デジタルカメラの大半はLithium-Ion
-          data['Battery Type'] = 'Lithium-Ion';
-        } else if (/単三|単3|aa[^a]/i.test(btVal) || btVal === 'aa') {
+        // ソーステキスト（タイトル+説明文）から直接バッテリー種類を検出
+        var btTitle = getValue_(sheet, row, 7) || '';  // G列: タイトル
+        var btDesc = getValue_(sheet, row, 12) || '';   // L列: 説明文
+        var btSource = (btTitle + ' ' + btDesc);
+
+        // ソーステキストから直接検出（最優先）
+        if (/単三|単3電池|\bAA電池|\bAA\b/i.test(btSource)) {
           data['Battery Type'] = 'AA';
-        } else if (/単四|単4|aaa/i.test(btVal)) {
+        } else if (/単四|単4電池|\bAAA\b/i.test(btSource)) {
           data['Battery Type'] = 'AAA';
-        } else if (/cr123/i.test(btVal)) {
+        } else if (/CR123/i.test(btSource)) {
           data['Battery Type'] = 'CR123A';
-        } else if (/cr2[^0-9]/i.test(btVal) || /^cr2$/i.test(btVal)) {
+        } else if (/\bCR2\b/i.test(btSource)) {
           data['Battery Type'] = 'CR2';
-        } else if (/リチウムイオン|lithium.ion|li.ion/i.test(btVal)) {
-          data['Battery Type'] = 'Lithium-Ion';
-        } else if (/ボタン|button|lr44|sr44/i.test(btVal)) {
+        } else if (/ボタン電池|LR44|SR44/i.test(btSource)) {
           data['Battery Type'] = 'Button Cell (LR44/SR44)';
-        } else if (/不要|not.applicable|mechanical/i.test(btVal)) {
-          data['Battery Type'] = 'Not Applicable';
-        } else if (/内蔵|built.in/i.test(btVal)) {
-          data['Battery Type'] = 'Built-in';
         } else {
-          // その他不明 → デフォルトLithium-Ion
-          data['Battery Type'] = 'Lithium-Ion';
+          // ソースに明記なし → AIの値を正規化、なければデフォルトLithium-Ion
+          var btVal = String(data['Battery Type'] || '').toLowerCase();
+          if (/\baa\b/.test(btVal) || /単三|単3/.test(btVal)) {
+            data['Battery Type'] = 'AA';
+          } else if (/\baaa\b/.test(btVal) || /単四|単4/.test(btVal)) {
+            data['Battery Type'] = 'AAA';
+          } else if (/不要|not.applicable|mechanical/i.test(btVal)) {
+            data['Battery Type'] = 'Not Applicable';
+          } else if (/内蔵|built.in/i.test(btVal)) {
+            data['Battery Type'] = 'Built-in';
+          } else {
+            // デフォルト: Lithium-Ion（デジタルカメラの大半）
+            data['Battery Type'] = 'Lithium-Ion';
+          }
         }
       }
 
