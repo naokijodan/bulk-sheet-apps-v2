@@ -9,42 +9,94 @@
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   デフォルトプロンプト
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-var SANITIZE_PROMPT_ID_ = 'SANITIZE_SOURCE';
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  カテゴリ別フィールド定義
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+var SANITIZE_FIELDS_ = {
+  watch: [
+    'ブランド', 'モデル名', '型番', 'ムーブメント',
+    'ケース素材', 'ケースサイズ', '文字盤色', '風防',
+    'ベルト素材', '防水', '表示方式', '腕周り',
+    '付属品', 'コンディション', '故障・不具合', '製造国'
+  ],
+  camera: [
+    'ブランド', 'モデル名', 'タイプ', 'シリーズ',
+    '色', '画素数', 'レンズマウント', '付属レンズ',
+    'シャッター回数', 'バッテリー',
+    '付属品', 'コンディション', '故障・不具合', '製造国'
+  ]
+};
 
-var SANITIZE_PROMPT_DEFAULT_ = [
-  'この商品はeBayに英語で出品します。',
-  '翻訳AIに渡す前に、ソーステキストから必要な情報を抜き出してください。',
-  '',
-  'ソーステキストから以下の項目を埋めてください。',
-  'ソースに情報がない項目はNAと記入してください。',
-  '各項目の文字数上限を厳守してください。',
-  '',
-  'ブランド: (15文字以内)',
-  'モデル名: (15文字以内)',
-  '型番: (15文字以内)',
-  'ムーブメント: (15文字以内)',
-  'ケース素材: (15文字以内)',
-  'ケースサイズ: (15文字以内)',
-  '文字盤色: (15文字以内)',
-  '風防: (15文字以内)',
-  'ベルト素材: (15文字以内)',
-  '防水: (15文字以内)',
-  '表示方式: (15文字以内)',
-  '腕周り: (15文字以内)',
-  '付属品: (25文字以内)',
-  'コンディション: (25文字以内)',
-  '故障・不具合: (25文字以内)',
-  '製造国: (15文字以内)',
-  '',
-  'ルール:',
-  '1. 数値はソースのまま忠実に出力する。丸めない、変換しない。',
-  '2. ソースにない情報は書かない。NAにする。',
-  '3. 出力は日本語のまま。',
-  '',
-  '入力:',
-  'タイトル: ${jpTitle}',
-  '説明: ${jpDesc}'
-].join('\n');
+/**
+ * カテゴリのフィールド定義からデフォルトプロンプトを動的生成する
+ * GPT_Promptsシートにプロンプトがない場合のフォールバック
+ * @param {string} category - カテゴリキー（'watch', 'camera'等）
+ * @return {string} プロンプト文字列
+ */
+function buildDefaultSanitizePrompt_(category) {
+  var fields = SANITIZE_FIELDS_[category] || SANITIZE_FIELDS_['watch'];
+  var charLimits = {
+    '付属品': 25, 'コンディション': 25, '故障・不具合': 25,
+    'モデル名': 20, '付属レンズ': 25, '色': 10
+  };
+
+  var lines = [
+    'この商品はeBayに英語で出品します。',
+    '翻訳AIに渡す前に、ソーステキストから必要な情報を抜き出してください。',
+    '',
+    'ソーステキストから以下の項目を埋めてください。',
+    'ソースに情報がない項目はNAと記入してください。',
+    '各項目の文字数上限を厳守してください。',
+    ''
+  ];
+
+  for (var i = 0; i < fields.length; i++) {
+    var limit = charLimits[fields[i]] || 15;
+    lines.push(fields[i] + ': (' + limit + '文字以内)');
+  }
+
+  lines.push('');
+  lines.push('ルール:');
+  lines.push('1. 数値はソースのまま忠実に出力する。丸めない、変換しない。');
+  lines.push('2. ソースにない情報は書かない。NAにする。');
+  lines.push('3. 出力は日本語のまま。');
+  lines.push('');
+  lines.push('入力:');
+  lines.push('タイトル: ${jpTitle}');
+  lines.push('説明: ${jpDesc}');
+
+  return lines.join('\n');
+}
+
+
+/**
+ * D列タグからカテゴリキーを判定する
+ * @param {string} tag - D列のタグ文字列
+ * @return {string|null} カテゴリキー（'watch', 'camera'等）。該当なしはnull
+ */
+function detectSanitizeCategory_(tag) {
+  if (!tag) return null;
+  var t = tag.toString().trim();
+  if (!t) return null;
+
+  var categories = CONFIG.SANITIZE_CATEGORIES;
+  // 長いキーワードから順にマッチ（「腕時計」を「時計」より先に）
+  var allEntries = [];
+  for (var catKey in categories) {
+    var kws = categories[catKey].keywords;
+    for (var i = 0; i < kws.length; i++) {
+      allEntries.push({ keyword: kws[i], catKey: catKey });
+    }
+  }
+  allEntries.sort(function(a, b) { return b.keyword.length - a.keyword.length; });
+
+  for (var i = 0; i < allEntries.length; i++) {
+    if (t.indexOf(allEntries[i].keyword) !== -1) {
+      return allEntries[i].catKey;
+    }
+  }
+  return null;
+}
 
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -84,8 +136,9 @@ function runSanitizeSelectedRows() {
   var maxCol = CONFIG.COLUMNS.JP_DESC_BACKUP; // AV列 = 48
   var allData = sheet.getRange(startRow, 1, numRows, maxCol).getValues();
 
-  // 対象行を特定
+  // 対象行を特定（D列タグでカテゴリ判定）
   var items = [];
+  var skippedRows = [];  // スキップした行の情報
   for (var i = 0; i < numRows; i++) {
     var jpTitle = allData[i][CONFIG.COLUMNS.JP_TITLE - 1];
     var jpDesc  = allData[i][CONFIG.COLUMNS.JP_DESC - 1];
@@ -98,15 +151,31 @@ function runSanitizeSelectedRows() {
     var backupDesc = allData[i][CONFIG.COLUMNS.JP_DESC_BACKUP - 1];
     if (backupTitle || backupDesc) continue;
 
+    // D列タグからカテゴリ判定
+    var tag = String(allData[i][CONFIG.COLUMNS.TAG - 1] || '');
+    var category = detectSanitizeCategory_(tag);
+
+    if (!category) {
+      // カテゴリ不明 → スキップ
+      skippedRows.push({ row: startRow + i, tag: tag || 'タグなし' });
+      continue;
+    }
+
     items.push({
       row: startRow + i,
       jpTitle: String(jpTitle || ''),
-      jpDesc:  String(jpDesc || '')
+      jpDesc:  String(jpDesc || ''),
+      tag: tag,
+      category: category
     });
   }
 
   if (items.length === 0) {
-    showAlert('交通整理する行がありません。\n（ソースが空、または既にバックアップがある行はスキップされます）', 'info');
+    var skipMsg = '交通整理する行がありません。\n（ソースが空、バックアップ済み、またはタグ未対応の行はスキップされます）';
+    if (skippedRows.length > 0) {
+      skipMsg += '\n\nスキップ: ' + skippedRows.map(function(s) { return '行' + s.row + '(' + s.tag + ')'; }).join(', ');
+    }
+    showAlert(skipMsg, 'info');
     return;
   }
 
@@ -124,11 +193,8 @@ function runSanitizeSelectedRows() {
   }
   SpreadsheetApp.flush(); // 移動を確実に書き込む
 
-  // ===== Step 2: プロンプト取得 =====
-  var promptTemplate = getPromptContent(SANITIZE_PROMPT_ID_);
-  if (!promptTemplate) {
-    promptTemplate = SANITIZE_PROMPT_DEFAULT_;
-  }
+  // ===== Step 2: カテゴリ別プロンプト取得（キャッシュ） =====
+  var promptCache = {};  // { category: promptTemplate }
 
   // ===== Step 3 & 4: バッチでAI呼び出し + 書き込み =====
   var BATCH_SIZE = 50;
@@ -140,10 +206,22 @@ function runSanitizeSelectedRows() {
     var batchEnd = Math.min(batchStart + BATCH_SIZE, items.length);
     var batchItems = items.slice(batchStart, batchEnd);
 
-    // バッチ分のリクエストを構築
+    // バッチ分のリクエストを構築（カテゴリ別プロンプト）
     var requests = [];
     for (var j = 0; j < batchItems.length; j++) {
-      var prompt = promptTemplate
+      var cat = batchItems[j].category;
+
+      // プロンプトをキャッシュから取得、なければロード
+      if (!promptCache[cat]) {
+        var catConfig = CONFIG.SANITIZE_CATEGORIES[cat];
+        var tmpl = catConfig ? getPromptContent(catConfig.promptId) : null;
+        if (!tmpl) {
+          tmpl = buildDefaultSanitizePrompt_(cat);
+        }
+        promptCache[cat] = tmpl;
+      }
+
+      var prompt = promptCache[cat]
         .replace('${jpTitle}', batchItems[j].jpTitle)
         .replace('${jpDesc}',  batchItems[j].jpDesc);
       requests.push(buildSanitizeRequest_(settings, prompt));
@@ -172,7 +250,7 @@ function runSanitizeSelectedRows() {
           continue;
         }
 
-        var parsed = parseSanitizedFields_(result.content);
+        var parsed = parseSanitizedFields_(result.content, batchItems[j].category);
         if (!parsed.title && !parsed.description) {
           errorCount++;
           errorDetails.push('行' + batchItems[j].row + ': AIの出力を解析できませんでした');
@@ -202,6 +280,10 @@ function runSanitizeSelectedRows() {
   var message = '交通整理完了: ' + successCount + '件成功';
   if (errorCount > 0) {
     message += ', ' + errorCount + '件エラー\n\n' + errorDetails.join('\n');
+  }
+  if (skippedRows.length > 0) {
+    message += '\n\nスキップ(' + skippedRows.length + '件): '
+      + skippedRows.map(function(s) { return '行' + s.row + '(' + s.tag + ')'; }).join(', ');
   }
   showAlert(message, errorCount > 0 ? 'warning' : 'success');
 }
@@ -460,16 +542,11 @@ function parseSanitizeResponse_(platform, httpResp) {
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   内部関数: AI出力からタイトル・説明を抽出
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-function parseSanitizedFields_(content) {
+function parseSanitizedFields_(content, category) {
   var result = { title: '', description: '' };
 
-  // フォーマット形式のパース: 各項目を抽出
-  var fields = [
-    'ブランド', 'モデル名', '型番', 'ムーブメント',
-    'ケース素材', 'ケースサイズ', '文字盤色', '風防',
-    'ベルト素材', '防水', '表示方式', '腕周り',
-    '付属品', 'コンディション', '故障・不具合', '製造国'
-  ];
+  // カテゴリ別フィールド定義を取得（デフォルトは時計）
+  var fields = SANITIZE_FIELDS_[category || 'watch'] || SANITIZE_FIELDS_['watch'];
 
   var parts = [];
   for (var i = 0; i < fields.length; i++) {
