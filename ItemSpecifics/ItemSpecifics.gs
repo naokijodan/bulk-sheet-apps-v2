@@ -1135,6 +1135,11 @@ function writeItemSpecificsToSheet_(sheet, rowResults) {
         }
       }
 
+      // 石鹸: Type は常に Bar Soap 固定
+      if (data.hasOwnProperty('Scent') || data.hasOwnProperty('Product Line')) {
+        data['Type'] = 'Bar Soap';
+      }
+
       // Trading Cards: Language/Countryの自動注入はresolveFieldValue_のデフォルト値に委譲
 
       // JSON → フラット配列変換: {"Brand": "Seiko"} → ["C:Brand", "Seiko"]

@@ -236,7 +236,12 @@ function buildExtractionPrompt_(title, description, category, fields, tag, exist
   lines.push('### STEP 1: CATEGORY DETECTION');
   lines.push('Determine the eBay product category from the title and description.');
   lines.push('The Product Tag is a HINT only - verify against the actual title/description.');
-  lines.push('Use one of these categories: Watches, Jewelry, Trading Cards, Video Games, Collectibles, Cameras, Cell Phones, Clothing, Shoes, Bags, Pottery, Musical Instruments, Automotive Parts, Books, Toys, Health & Beauty, Home & Garden, Sporting Goods, Art, Antiques, Other');
+  lines.push('Use one of these categories: Watches, Jewelry, Trading Cards, Video Games, Collectibles, Cameras, Cell Phones, Clothing, Shoes, Bags, Pottery, Musical Instruments, Automotive Parts, Books, Toys, Health & Beauty, Home & Garden, Sporting Goods, Art, Antiques, Soap, Other');
+  lines.push('');
+  lines.push('CRITICAL DISAMBIGUATION RULES:');
+  lines.push('- "MTG-B2000", "MTG-B1000", "MTG-B3000" = Casio G-SHOCK watch models (MT-G series), NOT Magic: The Gathering trading cards. If brand is Casio/G-SHOCK and model starts with MTG-, category is Watches.');
+  lines.push('- "MTG" alone in trading card context (ポケカ, 遊戯王, カード) = Magic: The Gathering.');
+  lines.push('- G-SHOCK models: DW-, GA-, GW-, GBD-, GMW-, GST-, GG-, GWF-, GPR-, MRG-, MTG- are ALL Casio watches.');
   lines.push('');
 
   // === 4. ブランド辞書（プロンプト埋め込み） ===
@@ -320,6 +325,11 @@ function buildExtractionPrompt_(title, description, category, fields, tag, exist
   lines.push('- Compact film (Contax T2/T3, Olympus μ, Yashica T) → "CR123A" or "CR2"');
   lines.push('- Instant cameras (Polaroid, Instax) → "Built-in" or "AA"');
   lines.push('- If specific battery model is mentioned (LP-E6, EN-EL15, NP-FW50 etc.) → "Lithium-Ion"');
+  lines.push('');
+  lines.push('### SOAP RULES');
+  lines.push('Type (soap): ALWAYS set to "Bar Soap". Do not use other values.');
+  lines.push('Scent (soap): Extract fragrance/scent from title/description. Common scents: Rose, Lavender, Citrus, Orange, Honey, Jasmine, Verbena, Green Tea, Sandalwood, Vanilla, Coconut, Herbal, Floral, Unscented. Use English.');
+  lines.push('Product Line (soap): The specific product line name. Examples: Hermès → "Eau d\'Orange Verte", "Jardin", "Twilly". CHANEL → "N°5", "Coco Mademoiselle". Dior → "Miss Dior", "Sauvage", "J\'adore". Bvlgari → "Au Thé Vert". HACCI → "Honey Face Soap". L\'Occitane → "Shea Butter". Jo Malone → "Lime Basil & Mandarin". Cow Brand → "Beauty Soap Red Box", "Beauty Soap Blue Box".');
   lines.push('');
   lines.push('### METAL IDENTIFICATION RULES (CRITICAL for Jewelry)');
   lines.push('IMPORTANT: Distinguish between actual precious metal and color/finish/plating:');

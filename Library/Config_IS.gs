@@ -253,7 +253,24 @@ var IS_INITIAL_DATA = [
   { category: 'Sunglasses', tag_jp: 'サングラス', field_name: 'Department', field_type: 'recommended', priority: 7, notes: "Men's / Women's / Unisex" },
   { category: 'Sunglasses', tag_jp: 'サングラス', field_name: 'Lens Technology', field_type: 'recommended', priority: 8, notes: 'Polarized, Mirrored, Gradient, Photochromic等' },
   { category: 'Sunglasses', tag_jp: 'サングラス', field_name: 'Protection', field_type: 'recommended', priority: 9, notes: '100% UV, UV400等' },
-  { category: 'Sunglasses', tag_jp: 'サングラス', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' }
+  { category: 'Sunglasses', tag_jp: 'サングラス', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' },
+
+  // === Soap (石鹸) ===
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Type', field_type: 'required', priority: 2, notes: 'Bar Soap固定' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Scent', field_type: 'required', priority: 3, notes: 'Rose, Lavender, Citrus, Honey等' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Product Line', field_type: 'recommended', priority: 4, notes: 'ブランドの代表ライン名' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Color', field_type: 'recommended', priority: 5, notes: '' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Country of Origin', field_type: 'recommended', priority: 6, notes: '製造国。フルネーム英語' },
+
+  // === Scarves (スカーフ) ===
+  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Type', field_type: 'required', priority: 2, notes: 'Scarf, Shawl, Stole, Muffler' },
+  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Material', field_type: 'required', priority: 3, notes: 'Silk, Cashmere, Wool, Cotton等' },
+  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Color', field_type: 'required', priority: 4, notes: '' },
+  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Size', field_type: 'recommended', priority: 5, notes: '例: 90cm x 90cm, 70cm x 180cm等' },
+  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Pattern', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Country of Origin', field_type: 'recommended', priority: 7, notes: '製造国。フルネーム英語' }
 ];
 
 // 主要ブランド辞書（プロンプト埋め込み用）
@@ -313,6 +330,7 @@ var IS_BRAND_DICT = [
   {name: 'Connected', jp_names: ['コネクテッド', 'CONNECTED'], country: 'Switzerland', parent_brand: 'TAG Heuer', category: ['Watches']},
   {name: 'Credor', jp_names: ['クレドール', 'CREDOR'], country: 'Japan'},
   {name: 'Dan Henry', jp_names: ['ダンヘンリー', 'DAN HENRY'], country: 'USA'},
+  {name: 'D1 Milano', jp_names: ['ディーワンミラノ', 'D1 MILANO', 'D1MILANO'], country: 'Italy'},
   {name: 'Daniel Wellington', jp_names: ['ダニエルウェリントン', 'DANIEL WELLINGTON', 'DW'], country: 'Sweden'},
   {name: 'Datejust', jp_names: ['デイトジャスト', 'DATEJUST'], country: 'Switzerland', parent_brand: 'Rolex', category: ['Watches']},
   {name: 'Day-Date', jp_names: ['デイデイト', 'DAY-DATE'], country: 'Switzerland', parent_brand: 'Rolex', category: ['Watches']},
@@ -378,6 +396,7 @@ var IS_BRAND_DICT = [
   {name: 'Knot', jp_names: ['ノット', 'KNOT'], country: 'Japan'},
   {name: 'Kurono Tokyo', jp_names: ['クロノトウキョウ', 'KURONO TOKYO'], country: 'Japan'},
   {name: 'Lady Sports', jp_names: ['レディスポーツ', 'LADY SPORTS'], country: 'Italy', parent_brand: 'GaGa Milano', category: ['Watches']},
+  {name: 'Lamborghini', jp_names: ['ランボルギーニ', 'LAMBORGHINI', 'TONINO LAMBORGHINI'], country: 'Italy'},
   {name: 'Le Locle', jp_names: ['ル・ロックル', 'LE LOCLE'], country: 'Switzerland', parent_brand: 'Tissot', category: ['Watches']},
   {name: 'Leatherback Sea Turtle', jp_names: ['レザーバックシータートル', 'LEATHERBACK SEA TURTLE', 'LEATHERBACK'], country: 'USA', parent_brand: 'Luminox', category: ['Watches']},
   {name: 'Legend Diver', jp_names: ['レジェンドダイバー', 'LEGEND DIVER'], country: 'Switzerland', parent_brand: 'Longines', category: ['Watches']},
@@ -536,6 +555,7 @@ var IS_BRAND_DICT = [
   {name: 'Venu', jp_names: ['ヴェニュー', 'VENU'], country: 'USA', parent_brand: 'Garmin', category: ['Watches']},
   {name: 'Voyager', jp_names: ['ボイジャー', 'VOYAGER'], country: 'Switzerland', parent_brand: 'Rado', category: ['Watches']},
   {name: 'Wave Ceptor', jp_names: ['ウェーブセプター', 'WAVE CEPTOR'], country: 'Japan', parent_brand: 'Casio', category: ['Watches']},
+  {name: 'Waltham', jp_names: ['ウォルサム', 'WALTHAM'], country: 'USA'},
   {name: 'Wenger', jp_names: ['ウェンガー', 'WENGER'], country: 'Switzerland'},
   {name: 'xC', jp_names: ['クロスシー', 'XC'], country: 'Japan', parent_brand: 'Citizen', category: ['Watches']},
   {name: 'Yacht-Master', jp_names: ['ヨットマスター', 'YACHT-MASTER', 'YACHT MASTER', 'YACHTMASTER'], country: 'Switzerland', parent_brand: 'Rolex', category: ['Watches']},
@@ -788,6 +808,12 @@ var IS_BRAND_DICT = [
   {name: 'Tiffany & Co.', jp_names: ['ティファニー', 'TIFFANY & CO.', 'TIFFANY'], country: 'USA', category: ['Sunglasses']},
   {name: 'Tom Ford', jp_names: ['トムフォード', 'TOM FORD'], country: 'Italy', category: ['Sunglasses']},
   {name: 'Versace', jp_names: ['ヴェルサーチ', 'VERSACE'], country: 'Italy', category: ['Sunglasses']},
+  {name: 'TITMUS', jp_names: ['ティトマス', 'TITMUS'], country: 'USA', category: ['Sunglasses']},
+  {name: 'ADSR', jp_names: ['ADSR', 'エーディーエスアール'], country: 'Japan', category: ['Sunglasses']},
+  {name: 'TAKAHIROMIYASHITA TheSoloist.', jp_names: ['タカヒロミヤシタ', 'TAKAHIROMIYASHITA', 'ザソロイスト', 'THE SOLOIST', 'THESOLOIST'], country: 'Japan', category: ['Sunglasses']},
+  {name: 'N.S.H', jp_names: ['N.S.H', 'NSH', 'エヌエスエイチ'], country: 'Japan', category: ['Sunglasses']},
+  {name: 'Jean Paul Gaultier', jp_names: ['ジャンポールゴルチエ', 'ゴルチエ', 'JEAN PAUL GAULTIER', 'JPG'], country: 'France', category: ['Sunglasses']},
+  {name: 'Oliver Goldsmith', jp_names: ['オリバーゴールドスミス', 'OLIVER GOLDSMITH'], country: 'United Kingdom', category: ['Sunglasses']},
 
   // === Shoes ===
   {name: 'ASICS', jp_names: ['アシックス', 'ASICS'], country: 'Japan'},
@@ -879,6 +905,27 @@ var IS_BRAND_DICT = [
   {name: 'Sega', jp_names: ['セガ', 'SEGA'], country: 'Japan'},
   {name: 'Sony PlayStation', jp_names: ['プレイステーション', 'プレステ', 'PLAYSTATION', 'PS5', 'PS4'], country: 'Japan'},
   {name: 'Square Enix', jp_names: ['スクウェア・エニックス', 'SQUARE ENIX'], country: 'Japan'},
+
+  // === Soap & Bath ===
+  {name: 'Acqua di Parma', jp_names: ['アクアディパルマ', 'ACQUA DI PARMA'], country: 'Italy'},
+  {name: 'Aesop', jp_names: ['イソップ', 'AESOP'], country: 'Australia'},
+  {name: 'Bvlgari', jp_names: ['ブルガリ', 'BVLGARI', 'BULGARI'], country: 'Italy'},
+  {name: 'Claus Porto', jp_names: ['クラウスポルト', 'CLAUS PORTO'], country: 'Portugal'},
+  {name: 'Cow Brand', jp_names: ['牛乳石鹸', 'カウブランド', 'COW BRAND'], country: 'Japan'},
+  {name: 'Diptyque', jp_names: ['ディプティック', 'DIPTYQUE'], country: 'France'},
+  {name: 'HACCI', jp_names: ['ハッチ', 'HACCI'], country: 'Japan'},
+  {name: 'Jo Malone', jp_names: ['ジョーマローン', 'JO MALONE'], country: 'United Kingdom'},
+  {name: 'Kao', jp_names: ['花王', 'KAO'], country: 'Japan'},
+  {name: "L'Occitane", jp_names: ['ロクシタン', "L'OCCITANE", 'LOCCITANE'], country: 'France'},
+  {name: 'Le Labo', jp_names: ['ルラボ', 'LE LABO'], country: 'United States'},
+  {name: 'Lush', jp_names: ['ラッシュ', 'LUSH'], country: 'United Kingdom'},
+  {name: 'Molton Brown', jp_names: ['モルトンブラウン', 'MOLTON BROWN'], country: 'United Kingdom'},
+  {name: "Penhaligon's", jp_names: ['ペンハリガン', "PENHALIGON'S", 'PENHALIGONS'], country: 'United Kingdom'},
+  {name: 'Roger & Gallet', jp_names: ['ロジェ・ガレ', 'ROGER GALLET', 'ROGER & GALLET'], country: 'France'},
+  {name: 'Sabon', jp_names: ['サボン', 'SABON'], country: 'Israel'},
+  {name: 'Santa Maria Novella', jp_names: ['サンタマリアノヴェッラ', 'SANTA MARIA NOVELLA'], country: 'Italy'},
+  {name: 'SHIRO', jp_names: ['シロ', 'SHIRO'], country: 'Japan'},
+  {name: 'Shiseido', jp_names: ['資生堂', 'SHISEIDO'], country: 'Japan'},
 
   // === Figures & Collectibles ===
   {name: 'Alter', jp_names: ['アルター', 'ALTER'], country: 'Japan'},
@@ -1151,7 +1198,9 @@ var IS_TAG_TO_CATEGORY = {
   'ゲーム': 'Video Games', 'ゲームソフト': 'Video Games', 'テレビゲーム': 'Video Games',
   'Switch': 'Video Games', 'PS5': 'Video Games', 'PS4': 'Video Games', 'PS3': 'Video Games', 'PS2': 'Video Games',
   'Xbox': 'Video Games', 'ファミコン': 'Video Games', 'スーファミ': 'Video Games',
-  'ゲームボーイ': 'Video Games', 'Nintendo': 'Video Games', 'PlayStation': 'Video Games'
+  'ゲームボーイ': 'Video Games', 'Nintendo': 'Video Games', 'PlayStation': 'Video Games',
+  // Soap
+  '石鹸': 'Soap', 'せっけん': 'Soap', 'ソープ': 'Soap', '石けん': 'Soap'
 };
 
 // ==============================
@@ -1173,7 +1222,7 @@ var IS_CATEGORY_FIELDS = {
   'Cufflinks':     ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
   'Hair Accessories': ['Brand', 'Material', 'Type', 'Color', 'Country/Region of Manufacture'],
   'Dinnerware':    ['Brand', 'Type', 'Material', 'Color', 'Country/Region of Manufacture'],
-  'Scarves':       ['Brand', 'Type', 'Material', 'Color', 'Country/Region of Manufacture'],
+  'Scarves':       ['Brand', 'Type', 'Material', 'Color', 'Size', 'Pattern', 'Country/Region of Manufacture'],
   'Neckties':      ['Brand', 'Type', 'Material', 'Color', 'Country/Region of Manufacture'],
   'Handkerchiefs': ['Brand', 'Material', 'Color', 'Country/Region of Manufacture'],
   'Tie Accessories': ['Brand', 'Metal', 'Metal Purity', 'Type', 'Country/Region of Manufacture'],
@@ -1189,7 +1238,8 @@ var IS_CATEGORY_FIELDS = {
   'Pipes':         ['Brand', 'Material', 'Type', 'Color', 'Country/Region of Manufacture'],
   'Watch Parts':   ['Brand', 'Part Type', 'Material', 'Compatible Model', 'Size', 'Color', 'Country/Region of Manufacture'],
   'Sunglasses':  ['Brand', 'Model', 'Frame Color', 'Lens Color', 'Frame Material', 'Style', 'Department', 'Country/Region of Manufacture'],
-  'Video Games': ['Platform', 'Game Name', 'Region Code', 'Genre', 'Character', 'Publisher', 'Rating', 'Language', 'Country/Region of Manufacture']
+  'Video Games': ['Platform', 'Game Name', 'Region Code', 'Genre', 'Character', 'Publisher', 'Rating', 'Language', 'Country/Region of Manufacture'],
+  'Soap':        ['Brand', 'Type', 'Scent', 'Product Line', 'Color', 'Country/Region of Manufacture']
 };
 
 // ==============================
