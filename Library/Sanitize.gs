@@ -42,9 +42,10 @@ function buildDefaultSanitizePrompt_(category) {
 
   var lines = [
     'この商品はeBayに英語で出品します。',
-    '翻訳AIに渡す前に、ソーステキストから必要な情報を抜き出してください。',
+    '翻訳AIに渡す前に、説明文から必要な情報を抜き出してください。',
+    'タイトルは商品名の参考情報です。説明文と合わせて判断してください。',
     '',
-    'ソーステキストから以下の項目を埋めてください。',
+    '説明文から以下の項目を埋めてください。',
     'ソースに情報がない項目はNAと記入してください。',
     '各項目の文字数上限を厳守してください。',
     ''
@@ -62,8 +63,8 @@ function buildDefaultSanitizePrompt_(category) {
   lines.push('3. 出力は日本語のまま。');
   lines.push('');
   lines.push('入力:');
-  lines.push('タイトル: ${jpTitle}');
-  lines.push('説明: ${jpDesc}');
+  lines.push('タイトル（参考）: ${jpTitle}');
+  lines.push('説明文: ${jpDesc}');
 
   return lines.join('\n');
 }
@@ -149,7 +150,7 @@ function runSanitizeSelectedRows() {
 
     // 既にバックアップがある行はスキップ（二重上書き防止）
     var backupDesc = allData[i][CONFIG.COLUMNS.JP_DESC_BACKUP - 1];
-    if (backupTitle || backupDesc) continue;
+    if (backupDesc) continue;
 
     // D列タグからカテゴリ判定
     var tag = String(allData[i][CONFIG.COLUMNS.TAG - 1] || '');
@@ -182,16 +183,16 @@ function runSanitizeSelectedRows() {
   // 開始通知（トースト）
   SpreadsheetApp.getActiveSpreadsheet().toast(items.length + '行の交通整理を開始します...', '🧹 交通整理', 3);
 
-  // ===== Step 1: 元データをAU/AVに移動し、J/Kを空にする =====
+  // ===== Step 1: K列の元データをAV列にバックアップし、K列を空にする（J列はノータッチ） =====
   for (var i = 0; i < items.length; i++) {
-    // AU/AVにバックアップ
-    sheet.getRange(items[i].row, CONFIG.COLUMNS.JP_TITLE_BACKUP, 1, 2)
-      .setValues([[items[i].jpTitle, items[i].jpDesc]]);
-    // J/Kを空にする
-    sheet.getRange(items[i].row, CONFIG.COLUMNS.JP_TITLE, 1, 2)
-      .setValues([['', '']]);
+    // AV列にK列のバックアップ
+    sheet.getRange(items[i].row, CONFIG.COLUMNS.JP_DESC_BACKUP)
+      .setValue(items[i].jpDesc);
+    // K列を空にする
+    sheet.getRange(items[i].row, CONFIG.COLUMNS.JP_DESC)
+      .setValue('');
   }
-  SpreadsheetApp.flush(); // 移動を確実に書き込む
+  SpreadsheetApp.flush();
 
   // ===== Step 2: カテゴリ別プロンプト取得（キャッシュ） =====
   var promptCache = {};  // { category: promptTemplate }
@@ -246,17 +247,15 @@ function runSanitizeSelectedRows() {
         }
 
         var parsed = parseSanitizedFields_(result.content, batchItems[j].category);
-        if (!parsed.title && !parsed.description) {
+        if (!parsed.description) {
           errorCount++;
           errorDetails.push('行' + batchItems[j].row + ': AIの出力を解析できませんでした');
           continue;
         }
 
-        // J列・K列を上書き
-        var newTitle = parsed.title || batchItems[j].jpTitle;
-        var newDesc  = parsed.description || batchItems[j].jpDesc;
-        sheet.getRange(batchItems[j].row, CONFIG.COLUMNS.JP_TITLE, 1, 2)
-          .setValues([[newTitle, newDesc]]);
+        // K列のみ上書き（J列はノータッチ）
+        sheet.getRange(batchItems[j].row, CONFIG.COLUMNS.JP_DESC)
+          .setValue(parsed.description);
         successCount++;
 
       } catch (e) {
@@ -315,18 +314,16 @@ function restoreSanitizeSelectedRows() {
 
   var numRows = endRow - startRow + 1;
 
-  // AU・AV列を読み込み
-  var backupData = sheet.getRange(startRow, CONFIG.COLUMNS.JP_TITLE_BACKUP, numRows, 2).getValues();
+  // AV列を読み込み
+  var backupData = sheet.getRange(startRow, CONFIG.COLUMNS.JP_DESC_BACKUP, numRows, 1).getValues();
 
   // バックアップがある行を特定
   var restoreItems = [];
   for (var i = 0; i < numRows; i++) {
-    var backupTitle = backupData[i][0];
-    var backupDesc  = backupData[i][1];
-    if (backupTitle || backupDesc) {
+    var backupDesc = backupData[i][0];
+    if (backupDesc) {
       restoreItems.push({
         row: startRow + i,
-        title: backupTitle,
         desc: backupDesc
       });
     }
@@ -345,17 +342,17 @@ function restoreSanitizeSelectedRows() {
   );
   if (response !== ui.Button.YES) return;
 
-  // Step 1: J・K列を全行復元
+  // Step 1: K列を復元（J列はノータッチ）
   for (var i = 0; i < restoreItems.length; i++) {
-    sheet.getRange(restoreItems[i].row, CONFIG.COLUMNS.JP_TITLE, 1, 2)
-      .setValues([[restoreItems[i].title, restoreItems[i].desc]]);
+    sheet.getRange(restoreItems[i].row, CONFIG.COLUMNS.JP_DESC)
+      .setValue(restoreItems[i].desc);
   }
-  SpreadsheetApp.flush(); // 復元を確実に書き込む
+  SpreadsheetApp.flush();
 
-  // Step 2: AU・AV列を全行クリア
+  // Step 2: AV列をクリア
   for (var i = 0; i < restoreItems.length; i++) {
-    sheet.getRange(restoreItems[i].row, CONFIG.COLUMNS.JP_TITLE_BACKUP, 1, 2)
-      .setValues([['', '']]);
+    sheet.getRange(restoreItems[i].row, CONFIG.COLUMNS.JP_DESC_BACKUP)
+      .setValue('');
   }
 
   showAlert(restoreItems.length + '行を復元しました。', 'success');
@@ -538,7 +535,7 @@ function parseSanitizeResponse_(platform, httpResp) {
   内部関数: AI出力からタイトル・説明を抽出
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function parseSanitizedFields_(content, category) {
-  var result = { title: '', description: '' };
+  var result = { description: '' };
 
   // カテゴリ別フィールド定義を取得（デフォルトは時計）
   var fields = SANITIZE_FIELDS_[category || 'watch'] || SANITIZE_FIELDS_['watch'];
@@ -556,20 +553,6 @@ function parseSanitizedFields_(content, category) {
     }
   }
 
-  // タイトル: ブランド + モデル名 + 型番を結合
-  var titleParts = [];
-  for (var i = 0; i < 3; i++) {
-    var re = new RegExp('^' + fields[i] + '[：:]\\s*(.+)$', 'm');
-    var match = content.match(re);
-    if (match) {
-      var val = match[1].trim();
-      if (val && !/^N\/?A$/i.test(val) && val !== '-') {
-        titleParts.push(val);
-      }
-    }
-  }
-  result.title = titleParts.join(' ');
-
   // 説明: 全項目を連結
   result.description = parts.join(' ');
 
@@ -578,10 +561,6 @@ function parseSanitizedFields_(content, category) {
     var descMatch = content.match(/^説明[：:][\s]*([\s\S]*)$/m);
     if (descMatch) {
       result.description = descMatch[1].replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
-    }
-    var titleMatch = content.match(/^タイトル[：:][\s]*([\s\S]*?)(?=\n説明[：:])/m);
-    if (titleMatch) {
-      result.title = titleMatch[1].replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
     }
   }
 
