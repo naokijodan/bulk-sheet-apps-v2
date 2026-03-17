@@ -21,8 +21,8 @@ var SANITIZE_FIELDS_ = {
   ],
   camera: [
     'ブランド', 'モデル名', 'タイプ', 'シリーズ',
-    '色', '画素数', 'レンズマウント', '付属レンズ',
-    'シャッター回数', 'バッテリー',
+    '色', '画素数', 'レンズマウント', 'バッテリータイプ',
+    '付属レンズ', 'シャッター回数',
     '付属品', 'コンディション', '故障・不具合', '製造国'
   ]
 };
@@ -61,6 +61,18 @@ function buildDefaultSanitizePrompt_(category) {
   lines.push('1. 数値はソースのまま忠実に出力する。丸めない、変換しない。');
   lines.push('2. ソースにない情報は書かない。NAにする。');
   lines.push('3. 出力は日本語のまま。');
+
+  // カメラ用の補足ルール
+  if (category === 'camera') {
+    lines.push('');
+    lines.push('カメラ用の補足ルール:');
+    lines.push('- タイプ: 一眼レフ/ミラーレス/コンパクト/フィルムカメラ/中判/レンジファインダー/二眼レフ/蛇腹/アクションカメラ/インスタントカメラ のいずれかで記入。');
+    lines.push('- シリーズ: ブランドの製品ラインを記入。例: Canon→EOS/PowerShot, Nikon→D/Z/FM, Sony→Alpha/Cyber-shot, Fujifilm→X/GFX, Olympus→OM-D/PEN/OM, Pentax→K/645, Leica→M/R/Q, Contax→G/T/RTS, Mamiya→RB67/RZ67/645, Hasselblad→500/H/X');
+    lines.push('- レンズマウント: マウント名を記入。例: EFマウント/FDマウント/RFマウント/Fマウント/Zマウント/Eマウント/Aマウント/マイクロフォーサーズ/Xマウント/Kマウント/Mマウント/M42/C/Yマウント/Lマウント');
+    lines.push('- バッテリータイプ: リチウムイオン/単3/CR123A/CR2/ボタン電池/不要 のいずれか。型番（LP-E6, EN-EL15等）がある場合はリチウムイオンと判断。');
+    lines.push('- 画素数: 万画素の数字をそのまま記入（例: 2420万画素）。');
+  }
+
   lines.push('');
   lines.push('入力:');
   lines.push('タイトル（参考）: ${jpTitle}');

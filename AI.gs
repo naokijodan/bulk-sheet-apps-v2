@@ -39,6 +39,36 @@ function createAIPrompt(fullText, promptId) {
     tmpl = tmpl + additionalInstructions;
   }
 
+  // カメラ関連キーワード検出時にカメラ用翻訳補足を動的注入
+  var cameraKeywords = ['カメラ', 'デジカメ', '一眼レフ', 'ミラーレス', 'レンズ',
+    'Canon', 'Nikon', 'Sony', 'Fujifilm', 'Olympus', 'Pentax', 'Leica', 'Contax',
+    'Mamiya', 'Hasselblad', 'Bronica', 'Minolta', 'Ricoh', 'Yashica', 'Kodak',
+    'Rollei', 'Voigtlander', 'Panasonic', 'LUMIX', 'GoPro', 'DJI'];
+  var fullTextLower = fullText.toLowerCase();
+  var isCamera = false;
+  for (var ci = 0; ci < cameraKeywords.length; ci++) {
+    if (fullTextLower.indexOf(cameraKeywords[ci].toLowerCase()) !== -1) {
+      isCamera = true;
+      break;
+    }
+  }
+  if (isCamera && tmpl.indexOf('CAMERA TRANSLATION') === -1) {
+    var cameraTranslationHints = [
+      '',
+      '### CAMERA TRANSLATION HINTS',
+      'This appears to be a camera product. Apply these rules:',
+      '- Series names: Canon EOS, PowerShot, IXY, Kiss(=Rebel). Nikon D, Z, FM, FE, F. Sony Alpha, Cyber-shot, RX, NEX. Fujifilm X, GFX, FinePix, Klasse. Olympus OM-D, PEN, OM, μ(Mju). Pentax K, 645, LX, MX. Leica M, R, Q, SL. Contax G, T, RTS, Aria. Mamiya RB67, RZ67, 645, 7. Hasselblad 500, H, X.',
+      '- Lens Mount: Canon FD/EF/EF-S/RF, Nikon F/Z, Sony A/E, Micro Four Thirds, Fujifilm X/G, Pentax K/M42/645/67, Leica M/R/L, Minolta SR/MC/MD/A, Contax/Yashica(C/Y), M42.',
+      '- Type: Digital SLR, Mirrorless Interchangeable Lens, Compact, Film SLR, Rangefinder, TLR, Medium Format, Point & Shoot, Folding, Action, Instant.',
+      '- Battery: Modern digital → Lithium-Ion. Mechanical film (no meter) → N/A. Film SLR with meter → Button Cell or CR123A. Compact film → CR123A/CR2.',
+      '- Maximum Resolution: Format as "XX.X MP". 万画素 ÷ 100 = MP.',
+      '- Keep model numbers exact (do not translate or modify: EOS 5D Mark IV, FM2, α7III, X-T5, etc.).',
+      '- シャッター回数 → "Shutter Count: XXXX". Include in description if available.',
+      '- 付属レンズ → Include lens details (focal length, aperture) in description.'
+    ].join('\n');
+    tmpl = tmpl + cameraTranslationHints;
+  }
+
   // AIに渡す前に日本語ソーステキストから不要情報を除去
   fullText = sanitizeInputJP_(fullText);
 
