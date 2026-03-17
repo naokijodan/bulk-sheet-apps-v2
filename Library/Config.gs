@@ -72,15 +72,13 @@ var CONFIG = {
     JP_DESC_BACKUP: 48       // AV列: 商品説明バックアップ
   },
 
-  // 交通整理: カテゴリ判定（D列タグのキーワード → プロンプトID）
+  // 交通整理: カテゴリ判定（D列タグのキーワード）
   SANITIZE_CATEGORIES: {
     watch: {
-      keywords: ['時計', '腕時計', 'ウォッチ', '置き時計', '懐中時計'],
-      promptId: 'SANITIZE_WATCH'
+      keywords: ['時計', '腕時計', 'ウォッチ', '置き時計', '懐中時計']
     },
     camera: {
-      keywords: ['カメラ', 'デジカメ', '一眼レフ', 'ミラーレス', 'レンズ'],
-      promptId: 'SANITIZE_CAMERA'
+      keywords: ['カメラ', 'デジカメ', '一眼レフ', 'ミラーレス', 'レンズ']
     }
   },
 

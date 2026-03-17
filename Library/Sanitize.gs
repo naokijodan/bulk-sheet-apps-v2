@@ -211,14 +211,9 @@ function runSanitizeSelectedRows() {
     for (var j = 0; j < batchItems.length; j++) {
       var cat = batchItems[j].category;
 
-      // プロンプトをキャッシュから取得、なければロード
+      // プロンプトをキャッシュから取得、なければ生成
       if (!promptCache[cat]) {
-        var catConfig = CONFIG.SANITIZE_CATEGORIES[cat];
-        var tmpl = catConfig ? getPromptContent(catConfig.promptId) : null;
-        if (!tmpl) {
-          tmpl = buildDefaultSanitizePrompt_(cat);
-        }
-        promptCache[cat] = tmpl;
+        promptCache[cat] = buildDefaultSanitizePrompt_(cat);
       }
 
       var prompt = promptCache[cat]
