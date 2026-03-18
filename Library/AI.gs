@@ -70,11 +70,13 @@ function createAIPrompt(fullText, promptId) {
   }
 
   // トレーディングカード関連キーワード検出時にカード用翻訳辞書を動的注入
+  // Config.gs SANITIZE_CATEGORIES.card.keywords と同期すること
   var cardKeywords = ['ポケカ', 'ポケモンカード', 'トレカ', 'トレーディングカード',
     '遊戯王', 'MTG', 'マジックザギャザリング', 'デュエマ', 'デュエルマスターズ',
     'ワンピースカード', 'ヴァイスシュヴァルツ', 'ヴァンガード',
-    'バトスピ', 'バトルスピリッツ', 'BBM', 'ベースボールカード',
-    '大相撲', 'PSA', 'BGS', 'CGC',
+    'バトスピ', 'バトルスピリッツ', 'ドラゴンボールカード',
+    'BBM', 'ベースボールカード', '野球カード', '大相撲カード',
+    'PSA', 'BGS', 'CGC', 'SGC',
     'Pokemon', 'Yu-Gi-Oh', 'Duel Masters', 'Weiss Schwarz'];
   var isCard = false;
   var detectedGame = '';
@@ -98,6 +100,16 @@ function createAIPrompt(fullText, promptId) {
       detectedGame = 'Baseball';
     } else if (fullTextLower.indexOf('大相撲') !== -1 || fullTextLower.indexOf('力士') !== -1) {
       detectedGame = 'Sumo';
+    } else if (fullTextLower.indexOf('デュエマ') !== -1 || fullTextLower.indexOf('デュエルマスターズ') !== -1 || fullTextLower.indexOf('duel masters') !== -1) {
+      detectedGame = 'Duel Masters';
+    } else if (fullTextLower.indexOf('ヴァイスシュヴァルツ') !== -1 || fullTextLower.indexOf('weiss schwarz') !== -1) {
+      detectedGame = 'Weiss Schwarz';
+    } else if (fullTextLower.indexOf('ヴァンガード') !== -1 || fullTextLower.indexOf('vanguard') !== -1) {
+      detectedGame = 'Vanguard';
+    } else if (fullTextLower.indexOf('バトスピ') !== -1 || fullTextLower.indexOf('バトルスピリッツ') !== -1) {
+      detectedGame = 'Battle Spirits';
+    } else if (fullTextLower.indexOf('ドラゴンボール') !== -1 || fullTextLower.indexOf('dragon ball') !== -1) {
+      detectedGame = 'Dragon Ball';
     }
 
     var cardHints = [
