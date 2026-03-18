@@ -1084,6 +1084,224 @@ function writeItemSpecificsToSheet_(sheet, rowResults) {
         }
       }
 
+      // カメラ用: Model/Series/Type/LensMount/MaxRes ソーステキスト自動抽出
+      if (data.hasOwnProperty('Model') || data.hasOwnProperty('Series')) {
+        var camTitle = getValue_(sheet, row, 7) || '';  // G列
+        var camDesc = getValue_(sheet, row, 12) || '';   // L列
+        var camText = camTitle + ' ' + camDesc;
+        var camBrand = String(data['Brand'] || '');
+        var modelVal = String(data['Model'] || '');
+        var seriesVal = String(data['Series'] || '');
+        var needModel = (!modelVal || modelVal === 'Does not apply');
+        var needSeries = (!seriesVal || seriesVal === 'Does not apply');
+        var extractedModel = '';
+        var extractedSeries = '';
+        var extractedType = '';
+        var extractedMount = '';
+
+        // --- Panasonic LUMIX ---
+        if (/Panasonic/i.test(camBrand)) {
+          var pMatch = camText.match(/\b(DMC-[A-Z]{2,3}\d+[A-Z]?|DC-[A-Z]{2,3}\d+[A-Z]?)\b/i);
+          if (!pMatch) pMatch = camText.match(/\bLUMIX[- ]?(G[FHX]\d+|GX\d+|G\d+|S\d+|TZ\d+|FZ\d+|LX\d+)\b/i);
+          if (!pMatch) pMatch = camText.match(/\b(FX\d+|FS\d+|FH\d+|TZ\d+|SZ\d+|FT\d+|ZX\d+|LX\d+|FZ\d+)\b/i);
+          if (pMatch) {
+            extractedModel = pMatch[0].toUpperCase();
+            extractedSeries = 'LUMIX';
+          }
+          // GF/GX/GH/G系はミラーレス
+          if (/\b(GF|GX|GH|G\d)[- ]?\d/i.test(extractedModel) || /\bDMC-GF|DC-GF|DMC-GX|DC-GX|DMC-GH|DC-GH|DMC-G\d|DC-G\d/i.test(extractedModel)) {
+            extractedType = 'Mirrorless Interchangeable Lens';
+            extractedMount = 'Micro Four Thirds';
+          } else if (/\bDC-S\d/i.test(extractedModel)) {
+            extractedType = 'Mirrorless Interchangeable Lens';
+            extractedMount = 'Leica L';
+          }
+        }
+
+        // --- Nikon ---
+        if (/Nikon/i.test(camBrand)) {
+          // COOLPIX
+          var nCool = camText.match(/\bCOOLPIX\s*([A-Z]\d+[A-Z]?)\b/i);
+          if (!nCool) nCool = camText.match(/\b([SLABPW]\d{3,5})\b.*?COOLPIX/i);
+          if (!nCool) nCool = camText.match(/COOLPIX.*?\b([SLABPW]\d{3,5})\b/i);
+          if (nCool) {
+            extractedModel = 'COOLPIX ' + nCool[1].toUpperCase();
+            extractedSeries = 'COOLPIX';
+          }
+          // Nikon 1
+          if (!extractedModel) {
+            var n1Match = camText.match(/\bNIKON\s*1?\s*(J\d|V\d|S\d|AW1)\b/i);
+            if (n1Match) {
+              extractedModel = 'Nikon 1 ' + n1Match[1].toUpperCase();
+              extractedSeries = 'Nikon 1';
+              extractedType = 'Mirrorless Interchangeable Lens';
+              extractedMount = 'Nikon 1';
+            }
+          }
+          // KeyMission, DL
+          if (!extractedModel) {
+            var nOther = camText.match(/\b(KeyMission\s*\d+|DL\d*)\b/i);
+            if (nOther) { extractedModel = nOther[0]; }
+          }
+        }
+
+        // --- Sony Cyber-shot ---
+        if (/Sony/i.test(camBrand)) {
+          var sMatch = camText.match(/\b(DSC-[A-Z]+\d+[A-Z]?)\b/i);
+          if (sMatch) {
+            extractedModel = sMatch[1].toUpperCase();
+            extractedSeries = 'Cyber-shot';
+          }
+          // NEX
+          if (!extractedModel) {
+            var nexMatch = camText.match(/\b(NEX-[A-Z0-9]+)\b/i);
+            if (nexMatch) {
+              extractedModel = nexMatch[1].toUpperCase();
+              extractedSeries = 'NEX';
+              extractedType = 'Mirrorless Interchangeable Lens';
+              extractedMount = 'Sony E';
+            }
+          }
+        }
+
+        // --- Canon ---
+        if (/Canon/i.test(camBrand)) {
+          // IXY
+          var cIxy = camText.match(/\bIXY\s*(DIGITAL\s*)?([A-Z]?\d+[A-Z]*)\b/i);
+          if (cIxy) {
+            extractedModel = 'IXY ' + (cIxy[1] ? cIxy[1].trim() + ' ' : '') + cIxy[2].toUpperCase();
+            extractedSeries = 'IXY';
+          }
+          // PowerShot
+          if (!extractedModel) {
+            var cPs = camText.match(/\bPowerShot\s*([A-Z]+\d+[A-Z]*(?:\s*(?:HS|IS))?)\b/i);
+            if (cPs) {
+              extractedModel = 'PowerShot ' + cPs[1].toUpperCase();
+              extractedSeries = 'PowerShot';
+            }
+          }
+          // EOS M系（ミラーレス）
+          if (!extractedModel) {
+            var cEosM = camText.match(/\bEOS\s*(M\d*)\b/i);
+            if (cEosM) {
+              extractedModel = 'EOS ' + cEosM[1].toUpperCase();
+              extractedSeries = 'EOS';
+              extractedType = 'Mirrorless Interchangeable Lens';
+              extractedMount = 'Canon EF-M';
+            }
+          }
+        }
+
+        // --- Fujifilm FinePix ---
+        if (/Fuji/i.test(camBrand)) {
+          var fFp = camText.match(/\bFinePix\s*([A-Z]+\d+[A-Z]*(?:EXR)?)\b/i);
+          if (fFp) {
+            extractedModel = 'FinePix ' + fFp[1].toUpperCase();
+            extractedSeries = 'FinePix';
+          }
+          if (!extractedModel) {
+            var fXf = camText.match(/\b(XF\d+|XQ\d+)\b/i);
+            if (fXf) { extractedModel = fXf[1].toUpperCase(); }
+          }
+        }
+
+        // --- Casio EXILIM ---
+        if (/Casio/i.test(camBrand)) {
+          var csMatch = camText.match(/\b(EX-[A-Z]+\d+[A-Z]?)\b/i);
+          if (csMatch) {
+            extractedModel = csMatch[1].toUpperCase();
+            extractedSeries = 'EXILIM';
+          }
+        }
+
+        // --- Olympus ---
+        if (/Olympus/i.test(camBrand)) {
+          // PEN E-PL/E-P系
+          var oPen = camText.match(/\b(E-PL?\d+)\b/i);
+          if (oPen) {
+            extractedModel = oPen[1].toUpperCase();
+            extractedSeries = 'PEN';
+            extractedType = 'Mirrorless Interchangeable Lens';
+            extractedMount = 'Micro Four Thirds';
+          }
+          // Tough TG系
+          if (!extractedModel) {
+            var oTg = camText.match(/\b(TG-?\d+)\b/i);
+            if (oTg) {
+              extractedModel = oTg[1].toUpperCase().replace(/TG(\d)/, 'TG-$1');
+              extractedSeries = 'Tough';
+            }
+          }
+          // FE/VH/SH/mu/SZ/XZ
+          if (!extractedModel) {
+            var oOther = camText.match(/\b(FE-\d+|VH-\d+|SH-\d+|SZ-\d+|XZ-\d+|SP-\d+)\b/i);
+            if (oOther) { extractedModel = oOther[1].toUpperCase(); }
+          }
+          if (!extractedModel) {
+            var oMu = camText.match(/\bmu\s*(\d+)\b/i);
+            if (oMu) {
+              extractedModel = 'mu ' + oMu[1];
+              extractedSeries = 'Stylus';
+            }
+          }
+        }
+
+        // --- Pentax Optio ---
+        if (/Pentax/i.test(camBrand)) {
+          var ptMatch = camText.match(/\bOptio\s*([A-Z]+\d+[A-Z]?)\b/i);
+          if (ptMatch) {
+            extractedModel = 'Optio ' + ptMatch[1].toUpperCase();
+            extractedSeries = 'Optio';
+          }
+        }
+
+        // --- Ricoh WG ---
+        if (/Ricoh/i.test(camBrand)) {
+          var rWg = camText.match(/\b(WG-?\d+[A-Z]?)\b/i);
+          if (rWg) {
+            extractedModel = rWg[1].toUpperCase();
+            extractedSeries = 'WG';
+          }
+        }
+
+        // --- Kodak ---
+        if (/Kodak/i.test(camBrand)) {
+          var kdMatch = camText.match(/\b(PIXPRO\s*[A-Z]+\d+[A-Z]?|EasyShare\s*[A-Z]?\d+)\b/i);
+          if (kdMatch) {
+            extractedModel = kdMatch[0].toUpperCase();
+            if (/PIXPRO/i.test(extractedModel)) extractedSeries = 'PIXPRO';
+            if (/EASYSHARE/i.test(extractedModel)) extractedSeries = 'EasyShare';
+          }
+        }
+
+        // 結果を反映（AIの値が空/Does not applyの場合のみ上書き）
+        if (needModel && extractedModel) {
+          data['Model'] = extractedModel;
+        }
+        if (needSeries && extractedSeries) {
+          data['Series'] = extractedSeries;
+        }
+        // Type: ミラーレス判定
+        var typeVal = String(data['Type'] || '');
+        if (extractedType && (typeVal === 'Digital Camera' || typeVal === 'Does not apply' || !typeVal)) {
+          data['Type'] = extractedType;
+        }
+        // Lens Mount
+        var mountVal = String(data['Lens Mount'] || '');
+        if (extractedMount && (!mountVal || mountVal === 'Does not apply')) {
+          data['Lens Mount'] = extractedMount;
+        }
+
+        // Maximum Resolution: ソーステキストからMP抽出
+        var mrVal = String(data['Maximum Resolution'] || '');
+        if (!mrVal || mrVal === 'Does not apply') {
+          var mrMatch = camText.match(/([\d.]+)\s*(?:MP|megapixel)/i);
+          if (mrMatch) {
+            data['Maximum Resolution'] = parseFloat(mrMatch[1]).toFixed(1) + ' MP';
+          }
+        }
+      }
+
       // カメラ用の後処理（Maximum Resolution正規化）
       if (data.hasOwnProperty('Maximum Resolution')) {
         var maxRes = String(data['Maximum Resolution'] || '');
