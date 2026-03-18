@@ -944,6 +944,7 @@ var IS_BRAND_DICT = [
   {name: 'S.H.Figuarts', jp_names: ['S.H.フィギュアーツ', 'S.H.FIGUARTS', 'SHFIGUARTS', 'SH FIGUARTS'], country: 'Japan'},
 
   // === Pottery & Porcelain ===
+  {name: 'Arabia', jp_names: ['アラビア', 'ARABIA'], country: 'Finland'},
   {name: 'Arita', jp_names: ['有田焼', 'ARITA'], country: 'Japan'},
   {name: 'Baccarat', jp_names: ['バカラ', 'BACCARAT'], country: 'France'},
   {name: 'Bizen', jp_names: ['備前焼', 'BIZEN'], country: 'Japan'},
