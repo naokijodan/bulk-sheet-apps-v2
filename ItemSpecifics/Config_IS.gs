@@ -945,6 +945,7 @@ var IS_BRAND_DICT = [
 
   // === Pottery & Porcelain ===
   {name: 'Arabia', jp_names: ['アラビア', 'ARABIA'], country: 'Finland'},
+  {name: 'Starbucks', jp_names: ['スターバックス', 'スタバ', 'STARBUCKS'], country: 'USA'},
   {name: 'Arita', jp_names: ['有田焼', 'ARITA'], country: 'Japan'},
   {name: 'Baccarat', jp_names: ['バカラ', 'BACCARAT'], country: 'France'},
   {name: 'Bizen', jp_names: ['備前焼', 'BIZEN'], country: 'Japan'},
