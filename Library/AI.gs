@@ -69,6 +69,62 @@ function createAIPrompt(fullText, promptId) {
     tmpl = tmpl + cameraTranslationHints;
   }
 
+  // トレーディングカード関連キーワード検出時にカード用翻訳辞書を動的注入
+  var cardKeywords = ['ポケカ', 'ポケモンカード', 'トレカ', 'トレーディングカード',
+    '遊戯王', 'MTG', 'マジックザギャザリング', 'デュエマ', 'デュエルマスターズ',
+    'ワンピースカード', 'ヴァイスシュヴァルツ', 'ヴァンガード',
+    'バトスピ', 'バトルスピリッツ', 'BBM', 'ベースボールカード',
+    '大相撲', 'PSA', 'BGS', 'CGC',
+    'Pokemon', 'Yu-Gi-Oh', 'Duel Masters', 'Weiss Schwarz'];
+  var isCard = false;
+  var detectedGame = '';
+  for (var ki = 0; ki < cardKeywords.length; ki++) {
+    if (fullTextLower.indexOf(cardKeywords[ki].toLowerCase()) !== -1) {
+      isCard = true;
+      break;
+    }
+  }
+  if (isCard && tmpl.indexOf('TRADING CARD TRANSLATION') === -1) {
+    // ゲーム判定（翻訳辞書の絞り込み用）
+    if (fullTextLower.indexOf('ポケモン') !== -1 || fullTextLower.indexOf('ポケカ') !== -1 || fullTextLower.indexOf('pokemon') !== -1) {
+      detectedGame = 'Pokemon';
+    } else if (fullTextLower.indexOf('遊戯王') !== -1 || fullTextLower.indexOf('yu-gi-oh') !== -1) {
+      detectedGame = 'Yu-Gi-Oh';
+    } else if (fullTextLower.indexOf('mtg') !== -1 || fullTextLower.indexOf('マジック') !== -1) {
+      detectedGame = 'MTG';
+    } else if (fullTextLower.indexOf('ワンピース') !== -1 || fullTextLower.indexOf('one piece') !== -1) {
+      detectedGame = 'One Piece';
+    } else if (fullTextLower.indexOf('bbm') !== -1 || fullTextLower.indexOf('ベースボール') !== -1 || fullTextLower.indexOf('野球') !== -1) {
+      detectedGame = 'Baseball';
+    } else if (fullTextLower.indexOf('大相撲') !== -1 || fullTextLower.indexOf('力士') !== -1) {
+      detectedGame = 'Sumo';
+    }
+
+    var cardHints = [
+      '',
+      '### TRADING CARD TRANSLATION HINTS',
+      'This is a trading card product. Apply these rules:',
+      '- Translate set names using the official English names from the dictionary below.',
+      '- Translate character/Pokemon/monster names using the official English names.',
+      '- Keep card numbers exactly as-is (e.g., 201/165, SV2a-123).',
+      '- Rarity codes: keep the code as-is (SR, UR, SAR, AR, HR, RR, C, UC).',
+      '- Grading: PSA 10 = "GEM MINT", BGS 9.5 = "GEM MINT", keep numeric grade.',
+      '- Do NOT translate proper names of cards/characters - use official English names only.',
+      ''
+    ];
+
+    // ゲーム別辞書をプロンプトに注入（buildCardTranslationDict_はCardPatterns.gsで定義）
+    if (detectedGame && typeof buildCardTranslationDict_ === 'function') {
+      var dictText = buildCardTranslationDict_(detectedGame);
+      if (dictText) {
+        cardHints.push('### Translation Dictionary (' + detectedGame + ')');
+        cardHints.push(dictText);
+      }
+    }
+
+    tmpl = tmpl + cardHints.join('\n');
+  }
+
   // AIに渡す前に日本語ソーステキストから不要情報を除去
   fullText = sanitizeInputJP_(fullText);
 
