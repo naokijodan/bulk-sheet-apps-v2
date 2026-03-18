@@ -1262,6 +1262,7 @@ var IS_BRAND_DICT = [
   {name: 'Claus Porto', jp_names: ['クラウスポルト', 'CLAUS PORTO'], country: 'Portugal'},
   {name: 'Cow Brand', jp_names: ['牛乳石鹸', 'カウブランド', 'COW BRAND'], country: 'Japan'},
   {name: 'Diptyque', jp_names: ['ディプティック', 'DIPTYQUE'], country: 'France'},
+  {name: 'Gamila Secret', jp_names: ['ガミラシークレット', 'GAMILA', 'GAMILA SECRET'], country: 'Israel'},
   {name: 'HACCI', jp_names: ['ハッチ', 'HACCI'], country: 'Japan'},
   {name: 'Jo Malone', jp_names: ['ジョーマローン', 'JO MALONE'], country: 'United Kingdom'},
   {name: 'Kao', jp_names: ['花王', 'KAO'], country: 'Japan'},
@@ -1273,6 +1274,7 @@ var IS_BRAND_DICT = [
   {name: 'Roger & Gallet', jp_names: ['ロジェ・ガレ', 'ROGER GALLET', 'ROGER & GALLET'], country: 'France'},
   {name: 'Sabon', jp_names: ['サボン', 'SABON'], country: 'Israel'},
   {name: 'Santa Maria Novella', jp_names: ['サンタマリアノヴェッラ', 'SANTA MARIA NOVELLA'], country: 'Italy'},
+  {name: 'Savons Gemme', jp_names: ['サボンジェム', 'SAVONS GEMME'], country: 'France'},
   {name: 'SHIRO', jp_names: ['シロ', 'SHIRO'], country: 'Japan'},
   {name: 'Shiseido', jp_names: ['資生堂', 'SHISEIDO'], country: 'Japan'},
 
