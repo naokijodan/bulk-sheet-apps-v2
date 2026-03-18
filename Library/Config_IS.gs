@@ -592,6 +592,7 @@ var IS_BRAND_DICT = [
   {name: 'Louis Faglin', jp_names: ['ルイファグラン', 'LOUIS FAGLIN'], country: 'France'},
   {name: 'Max Mara', jp_names: ['マックスマーラ', 'MAX MARA'], country: 'Italy'},
   {name: 'Mikimoto', jp_names: ['ミキモト', 'MIKIMOTO'], country: 'Japan'},
+  {name: 'Nina Ricci', jp_names: ['ニナリッチ', 'NINA RICCI'], country: 'France'},
   {name: 'Pandora', jp_names: ['パンドラ', 'PANDORA'], country: 'Denmark'},
   {name: 'Paul Smith', jp_names: ['ポールスミス', 'ポール・スミス', 'PAUL SMITH'], country: 'UK'},
   {name: 'Swarovski', jp_names: ['スワロフスキー', 'SWAROVSKI'], country: 'Austria', is_material: true},
