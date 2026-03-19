@@ -1653,7 +1653,7 @@ var IS_TAG_TO_TYPE = {
   // Dolls & Plush
   'ドール': 'Fashion Doll',
   'ぬいぐるみ': 'Plush Toy',
-  'テディベア': 'Teddy Bear',
+  'テディベア': 'Plush Toy',
   'プーリップ': 'Fashion Doll',
   'ブライス': 'Fashion Doll',
   'ドルフィー': 'BJD',
@@ -1662,7 +1662,7 @@ var IS_TAG_TO_TYPE = {
   'リカちゃん': 'Fashion Doll',
   'モンチッチ': 'Plush Toy',
   'ベアブリック': 'Art Toy',
-  'シュタイフ': 'Teddy Bear',
+  'シュタイフ': 'Plush Toy',
   'ジェリーキャット': 'Plush Toy',
   'スクイッシュマロ': 'Plush Toy',
   '人形': 'Doll'
