@@ -263,6 +263,15 @@ var IS_INITIAL_DATA = [
   { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Color', field_type: 'recommended', priority: 5, notes: '' },
   { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Country of Origin', field_type: 'recommended', priority: 6, notes: '製造国。フルネーム英語' },
 
+  // === Dolls & Plush (ドール＆ぬいぐるみ) ===
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Type', field_type: 'required', priority: 2, notes: 'Fashion Doll, BJD, Teddy Bear, Plush Toy, Art Toy等' },
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Character', field_type: 'required', priority: 3, notes: 'キャラクター名。該当しない場合はN/A' },
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Size', field_type: 'recommended', priority: 4, notes: '高さcm表記推奨' },
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Color', field_type: 'recommended', priority: 5, notes: '' },
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Material', field_type: 'recommended', priority: 6, notes: 'Mohair, Plush, Vinyl, ABS等' },
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Country/Region of Manufacture', field_type: 'recommended', priority: 7, notes: '製造国。Made in Japanが強いキーワード' },
+
   // === Scarves (スカーフ) ===
   { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
   { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Type', field_type: 'required', priority: 2, notes: 'Scarf, Shawl, Stole, Muffler' },
@@ -1443,6 +1452,43 @@ var IS_BRAND_DICT = [
   {name: 'Caminetto', jp_names: ['カミネット'], country: 'Italy', category: ['Pipes']},
   {name: 'Medico', jp_names: ['メディコ'], country: 'USA', category: ['Pipes']},
 
+  // === Dolls & Plush (ドール＆ぬいぐるみ) ===
+  {name: 'Steiff', jp_names: ['シュタイフ', 'STEIFF'], country: 'Germany', category: ['Dolls & Plush']},
+  {name: 'Merrythought', jp_names: ['メリーソート', 'MERRYTHOUGHT'], country: 'UK', category: ['Dolls & Plush']},
+  {name: 'Hermann', jp_names: ['ヘルマン', 'HERMANN'], country: 'Germany', category: ['Dolls & Plush']},
+  {name: 'Clemens', jp_names: ['クレメンス', 'CLEMENS'], country: 'Germany', category: ['Dolls & Plush']},
+  {name: 'Ideal', jp_names: ['アイディアル', 'IDEAL'], country: 'USA', category: ['Dolls & Plush']},
+  {name: 'Knickerbocker', jp_names: ['ニッカーボッカー', 'KNICKERBOCKER'], country: 'USA', category: ['Dolls & Plush']},
+  {name: 'VOLKS', jp_names: ['ボークス', 'VOLKS'], country: 'Japan', category: ['Dolls & Plush']},
+  {name: 'Blythe', jp_names: ['ブライス', 'ネオブライス', 'BLYTHE', 'NEO BLYTHE'], country: 'Japan', category: ['Dolls & Plush']},
+  {name: 'Pullip', jp_names: ['プーリップ', 'PULLIP'], country: 'Japan', category: ['Dolls & Plush']},
+  {name: 'PetWorks', jp_names: ['ペットワークス', 'PETWORKS', 'PET WORKS'], country: 'Japan', category: ['Dolls & Plush']},
+  {name: 'Azone International', jp_names: ['アゾン', 'アゾンインターナショナル', 'AZONE', 'AZONE INTERNATIONAL'], country: 'Japan', category: ['Dolls & Plush']},
+  {name: 'Smart Doll', jp_names: ['スマートドール', 'SMART DOLL'], country: 'Japan', category: ['Dolls & Plush']},
+  {name: 'Barbie', jp_names: ['バービー', 'BARBIE'], country: 'USA', category: ['Dolls & Plush']},
+  {name: 'Mattel', jp_names: ['マテル', 'MATTEL'], country: 'USA', category: ['Dolls & Plush']},
+  {name: 'Obitsu', jp_names: ['オビツ', 'OBITSU', 'オビツ製作所'], country: 'Japan', category: ['Dolls & Plush']},
+  {name: 'Sekiguchi', jp_names: ['セキグチ', 'SEKIGUCHI', 'モンチッチ', 'MONCHHICHI'], country: 'Japan', category: ['Dolls & Plush']},
+  {name: 'Takara Tomy', jp_names: ['タカラトミー', 'TAKARA TOMY', 'タカラ', 'TAKARA', 'リカちゃん'], country: 'Japan', category: ['Dolls & Plush']},
+  {name: 'Groove', jp_names: ['グルーヴ', 'GROOVE'], country: 'Japan', category: ['Dolls & Plush']},
+  {name: 'LUTS', jp_names: ['ルッツ', 'LUTS'], country: 'South Korea', category: ['Dolls & Plush']},
+  {name: 'Fairyland', jp_names: ['フェアリーランド', 'FAIRYLAND'], country: 'South Korea', category: ['Dolls & Plush']},
+  {name: 'Jellycat', jp_names: ['ジェリーキャット', 'JELLYCAT'], country: 'UK', category: ['Dolls & Plush']},
+  {name: 'GUND', jp_names: ['ガンド', 'GUND'], country: 'USA', category: ['Dolls & Plush']},
+  {name: 'Squishmallows', jp_names: ['スクイッシュマロ', 'SQUISHMALLOWS'], country: 'USA', category: ['Dolls & Plush']},
+  {name: 'Build-A-Bear', jp_names: ['ビルドアベア', 'BUILD-A-BEAR', 'BUILD A BEAR'], country: 'USA', category: ['Dolls & Plush']},
+  {name: 'Sun Arrow', jp_names: ['サンアロー', 'SUN ARROW'], country: 'Japan', category: ['Dolls & Plush']},
+  {name: 'San-X', jp_names: ['サンエックス', 'SAN-X', 'SANX'], country: 'Japan', category: ['Dolls & Plush']},
+  {name: 'Sanrio', jp_names: ['サンリオ', 'SANRIO'], country: 'Japan', category: ['Dolls & Plush']},
+  {name: 'Pokemon Center', jp_names: ['ポケモンセンター', 'POKEMON CENTER'], country: 'Japan', category: ['Dolls & Plush']},
+  {name: 'Disney', jp_names: ['ディズニー', 'DISNEY'], country: 'USA', category: ['Dolls & Plush']},
+  {name: 'Shinada Global', jp_names: ['シナダグローバル', 'SHINADA', 'SHINADA GLOBAL'], country: 'Japan', category: ['Dolls & Plush']},
+  {name: 'Nakajima Corporation', jp_names: ['ナカジマコーポレーション', 'NAKAJIMA'], country: 'Japan', category: ['Dolls & Plush']},
+  {name: 'Sonny Angel', jp_names: ['ソニーエンジェル', 'SONNY ANGEL'], country: 'Japan', category: ['Dolls & Plush']},
+  {name: 'BE@RBRICK', jp_names: ['ベアブリック', 'BEARBRICK', 'BE@RBRICK'], country: 'Japan', category: ['Dolls & Plush']},
+  {name: 'KAWS', jp_names: ['カウズ', 'KAWS'], country: 'USA', category: ['Dolls & Plush']},
+  {name: 'Bandai', jp_names: ['バンダイ', 'BANDAI'], country: 'Japan', category: ['Dolls & Plush']},
+
 ];
 
 // Step 1: タグからTypeを推定するためのマップ
@@ -1598,7 +1644,7 @@ var IS_TAG_TO_CATEGORY = {
   'キーリング': 'Key Chains', 'キーホルダー': 'Key Chains', 'キーケース': 'Key Chains',
   'チャーム': 'Charms', 'ペンダントトップ': 'Charms',
   'フィギュア': 'Collectibles', 'コレクティブル': 'Collectibles',
-  'アンティーク': 'Collectibles', 'ヴィンテージ': 'Collectibles', '骨董品': 'Collectibles', '人形': 'Collectibles',
+  'アンティーク': 'Collectibles', 'ヴィンテージ': 'Collectibles', '骨董品': 'Collectibles', '人形': 'Dolls & Plush',
   // Pipes (Tobacco Pipes)
   'パイプ': 'Pipes', '喫煙パイプ': 'Pipes', '煙管': 'Pipes', 'キセル': 'Pipes', 'パイプ・喫煙具': 'Pipes',
   // Watch Parts
@@ -1611,7 +1657,13 @@ var IS_TAG_TO_CATEGORY = {
   'Xbox': 'Video Games', 'ファミコン': 'Video Games', 'スーファミ': 'Video Games',
   'ゲームボーイ': 'Video Games', 'Nintendo': 'Video Games', 'PlayStation': 'Video Games',
   // Soap
-  '石鹸': 'Soap', 'せっけん': 'Soap', 'ソープ': 'Soap', '石けん': 'Soap'
+  '石鹸': 'Soap', 'せっけん': 'Soap', 'ソープ': 'Soap', '石けん': 'Soap',
+  // Dolls & Plush
+  'ドール': 'Dolls & Plush', 'ぬいぐるみ': 'Dolls & Plush', 'テディベア': 'Dolls & Plush',
+  'プーリップ': 'Dolls & Plush', 'ブライス': 'Dolls & Plush', 'ドルフィー': 'Dolls & Plush',
+  'BJD': 'Dolls & Plush', 'バービー': 'Dolls & Plush', 'リカちゃん': 'Dolls & Plush',
+  'ベアブリック': 'Dolls & Plush', 'シュタイフ': 'Dolls & Plush', 'ジェリーキャット': 'Dolls & Plush',
+  'スクイッシュマロ': 'Dolls & Plush', 'モンチッチ': 'Dolls & Plush'
 };
 
 // ==============================
@@ -1650,7 +1702,8 @@ var IS_CATEGORY_FIELDS = {
   'Watch Parts':   ['Brand', 'Part Type', 'Material', 'Compatible Model', 'Size', 'Color', 'Country/Region of Manufacture'],
   'Sunglasses':  ['Brand', 'Model', 'Frame Color', 'Lens Color', 'Frame Material', 'Style', 'Department', 'Country/Region of Manufacture'],
   'Video Games': ['Platform', 'Game Name', 'Region Code', 'Genre', 'Character', 'Publisher', 'Rating', 'Language', 'Country/Region of Manufacture'],
-  'Soap':        ['Brand', 'Type', 'Scent', 'Product Line', 'Color', 'Country/Region of Manufacture']
+  'Soap':        ['Brand', 'Type', 'Scent', 'Product Line', 'Color', 'Country/Region of Manufacture'],
+  'Dolls & Plush': ['Brand', 'Type', 'Character', 'Size', 'Color', 'Material', 'Country/Region of Manufacture']
 };
 
 // ==============================
