@@ -3054,7 +3054,7 @@ function applyGenrePresetInternal_(sheet, genre, weight) {
       },
       card: {
         o1: '汎用（上限なし）',
-        ap3: 390
+        ap3: 500
       }
     };
 

@@ -669,7 +669,7 @@
               <div class="input-group">
                 <label for="dduThreshold">想定関税閾値（ドル）:</label>
                 <input type="number" id="dduThreshold" name="dduThreshold"
-                       value="<?= currentDduThreshold || '390' ?>" min="1" step="1">
+                       value="<?= currentDduThreshold || '500' ?>" min="1" step="1">
               </div>
             </div>
             <div class="help-text">
@@ -800,7 +800,7 @@
               <div class="title">プリセットで設定される項目（保存時に適用）</div>
               <div class="content">
                 <strong>ゲームソフト:</strong> O1=Video Games（$20）/ 関税閾値$20 / 送料計算=固定金額<br>
-                <strong>トレカ:</strong> O1=汎用（上限なし）/ 関税閾値$390 / 送料計算=固定金額<br>
+                <strong>トレカ:</strong> O1=汎用（上限なし）/ 関税閾値$500 / 送料計算=固定金額<br>
                 <strong>共通:</strong> 低価格配送=Cpass Economy / 送料・EU差額は重量で自動設定
               </div>
             </div>

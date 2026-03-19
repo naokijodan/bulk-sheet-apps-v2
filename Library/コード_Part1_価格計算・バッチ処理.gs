@@ -138,8 +138,8 @@ function initialSetup() {
 
     // DDU価格調整機能の設定変数（DocumentPropertiesから取得 - スプレッドシートに紐づく）
     tmpl.currentDduAdjustmentEnabled = docProps.getProperty('DDU_ADJUSTMENT_ENABLED') || 'false';
-    tmpl.currentDduThreshold = docProps.getProperty('DDU_THRESHOLD') || '390';
-    tmpl.currentDduAdjustment = docProps.getProperty('DDU_ADJUSTMENT_AMOUNT') || '390';
+    tmpl.currentDduThreshold = docProps.getProperty('DDU_THRESHOLD') || '500';
+    tmpl.currentDduAdjustment = docProps.getProperty('DDU_ADJUSTMENT_AMOUNT') || '500';
     
     // 価格表示モード設定
     tmpl.currentPriceDisplayMode = props.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL';

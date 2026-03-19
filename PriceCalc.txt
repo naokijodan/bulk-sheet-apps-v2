@@ -1341,7 +1341,18 @@
             { minDDU: 2390, maxDDU: 2422, tariff: 375 },
             { minDDU: 2422, maxDDU: 2454, tariff: 380 },
             { minDDU: 2454, maxDDU: 2487, tariff: 385 },
-            { minDDU: 2487, maxDDU: 2519, tariff: 390 }
+            { minDDU: 2487, maxDDU: 2519, tariff: 390 },
+            { minDDU: 2519, maxDDU: 2584, tariff: 400 },
+            { minDDU: 2584, maxDDU: 2649, tariff: 410 },
+            { minDDU: 2649, maxDDU: 2714, tariff: 420 },
+            { minDDU: 2714, maxDDU: 2779, tariff: 430 },
+            { minDDU: 2779, maxDDU: 2844, tariff: 440 },
+            { minDDU: 2844, maxDDU: 2909, tariff: 450 },
+            { minDDU: 2909, maxDDU: 2974, tariff: 460 },
+            { minDDU: 2974, maxDDU: 3039, tariff: 470 },
+            { minDDU: 3039, maxDDU: 3104, tariff: 480 },
+            { minDDU: 3104, maxDDU: 3169, tariff: 490 },
+            { minDDU: 3169, maxDDU: 3234, tariff: 500 }
         ];
 
         // 関税額からポリシーを検索
@@ -1377,7 +1388,7 @@
                 methodCode = 'eco';
             } else if (shippingMethod === 'CX') {
                 policies = xpPolicies;
-                maxTariff = 390;
+                maxTariff = 500;
                 minTariff = 7;
                 methodCode = 'xp';
             } else {
