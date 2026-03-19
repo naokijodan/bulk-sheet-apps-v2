@@ -1491,6 +1491,49 @@ var IS_BRAND_DICT = [
 
 ];
 
+// ドール＆ぬいぐるみ用キャラクターパターン辞書
+var IS_DOLL_CHARACTER_PATTERNS = [
+  // テディベア・動物系
+  {keywords: ['テディベア', 'Teddy Bear', 'TEDDY BEAR', 'teddy bear'], value: 'Teddy Bear'},
+  {keywords: ['トトロ', 'Totoro', 'TOTORO'], value: 'Totoro'},
+  {keywords: ['ジジ', 'Jiji', 'JIJI', '黒猫'], value: 'Jiji'},
+  {keywords: ['ネコバス', 'Catbus', 'CATBUS'], value: 'Catbus'},
+  // サンリオ
+  {keywords: ['ハローキティ', 'Hello Kitty', 'HELLO KITTY', 'キティ'], value: 'Hello Kitty'},
+  {keywords: ['マイメロディ', 'My Melody', 'MY MELODY', 'マイメロ'], value: 'My Melody'},
+  {keywords: ['シナモロール', 'Cinnamoroll', 'CINNAMOROLL', 'シナモン'], value: 'Cinnamoroll'},
+  {keywords: ['ポムポムプリン', 'Pompompurin', 'POMPOMPURIN', 'プリン'], value: 'Pompompurin'},
+  {keywords: ['クロミ', 'Kuromi', 'KUROMI'], value: 'Kuromi'},
+  // サンエックス
+  {keywords: ['リラックマ', 'Rilakkuma', 'RILAKKUMA'], value: 'Rilakkuma'},
+  {keywords: ['すみっコぐらし', 'Sumikko Gurashi', 'SUMIKKO'], value: 'Sumikko Gurashi'},
+  // ポケモン
+  {keywords: ['ピカチュウ', 'Pikachu', 'PIKACHU'], value: 'Pikachu'},
+  {keywords: ['イーブイ', 'Eevee', 'EEVEE'], value: 'Eevee'},
+  {keywords: ['ミュウ', 'Mew', 'MEW'], value: 'Mew'},
+  {keywords: ['リザードン', 'Charizard', 'CHARIZARD'], value: 'Charizard'},
+  // ディズニー
+  {keywords: ['ミッキー', 'Mickey', 'MICKEY'], value: 'Mickey Mouse'},
+  {keywords: ['ミニー', 'Minnie', 'MINNIE'], value: 'Minnie Mouse'},
+  {keywords: ['ダッフィー', 'Duffy', 'DUFFY'], value: 'Duffy'},
+  {keywords: ['シェリーメイ', 'ShellieMay', 'SHELLIEMAY'], value: 'ShellieMay'},
+  {keywords: ['ジェラトーニ', 'Gelatoni', 'GELATONI'], value: 'Gelatoni'},
+  {keywords: ['プーさん', 'Winnie the Pooh', 'POOH', 'Pooh'], value: 'Winnie the Pooh'},
+  // スヌーピー
+  {keywords: ['スヌーピー', 'Snoopy', 'SNOOPY'], value: 'Snoopy'},
+  // モンチッチ
+  {keywords: ['モンチッチ', 'Monchhichi', 'MONCHHICHI'], value: 'Monchhichi'},
+  // アニメ・ゲームコラボ（ドルフィードリーム等）
+  {keywords: ['初音ミク', 'Hatsune Miku', 'HATSUNE MIKU', 'ミク'], value: 'Hatsune Miku'},
+  {keywords: ['セーラームーン', 'Sailor Moon', 'SAILOR MOON'], value: 'Sailor Moon'},
+  // ソニーエンジェル
+  {keywords: ['ソニーエンジェル', 'Sonny Angel', 'SONNY ANGEL'], value: 'Sonny Angel'},
+  // かえるのピクルス
+  {keywords: ['ピクルス', 'Pickles the Frog', 'PICKLES'], value: 'Pickles the Frog'},
+  // もちねこ
+  {keywords: ['もちねこ', 'Mochineko'], value: 'Mochineko'},
+];
+
 // Step 1: タグからTypeを推定するためのマップ
 // ルールベース抽出用（AI不要）
 var IS_TAG_TO_TYPE = {
@@ -1606,7 +1649,23 @@ var IS_TAG_TO_TYPE = {
   // Watch Parts
   'ウォッチパーツ': 'Watch Part',
   '時計パーツ': 'Watch Part',
-  '時計部品': 'Watch Part'
+  '時計部品': 'Watch Part',
+  // Dolls & Plush
+  'ドール': 'Fashion Doll',
+  'ぬいぐるみ': 'Plush Toy',
+  'テディベア': 'Teddy Bear',
+  'プーリップ': 'Fashion Doll',
+  'ブライス': 'Fashion Doll',
+  'ドルフィー': 'BJD',
+  'BJD': 'BJD',
+  'バービー': 'Fashion Doll',
+  'リカちゃん': 'Fashion Doll',
+  'モンチッチ': 'Plush Toy',
+  'ベアブリック': 'Art Toy',
+  'シュタイフ': 'Teddy Bear',
+  'ジェリーキャット': 'Plush Toy',
+  'スクイッシュマロ': 'Plush Toy',
+  '人形': 'Doll'
 };
 
 // ==============================

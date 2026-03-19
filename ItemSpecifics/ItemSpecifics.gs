@@ -243,6 +243,9 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
         var charGame = (data && data['Game'] && data['Game'] !== 'Does not apply') ? data['Game'] : '';
         return matchFromPatterns_(title + ' ' + (description || ''), getCardCharacterPatternsForGame_(charGame));
       }
+      if (category === 'Dolls & Plush') {
+        return matchFromPatterns_(title + ' ' + (description || ''), IS_DOLL_CHARACTER_PATTERNS);
+      }
       return '';
     case 'Rarity':
       if (category === 'Trading Cards') {
