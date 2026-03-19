@@ -233,6 +233,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       var mat = matchFromPatterns_(title, IS_METAL_PATTERNS);
       if (!mat) mat = matchFromPatterns_(title, IS_GENERAL_MATERIAL_PATTERNS);
       if (!mat && category === 'Watch Parts') mat = 'Stainless Steel';
+      if (!mat && category === 'Dolls & Plush') mat = 'Plush';
       return mat;
     case 'Style':
       // バッグの場合はタグからスタイルを取得

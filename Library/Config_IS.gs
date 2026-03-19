@@ -1885,7 +1885,14 @@ var IS_GENERAL_MATERIAL_PATTERNS = [
   {keywords: ['ガラス', 'Glass', 'クリスタル', 'Crystal'], value: 'Glass'},
   {keywords: ['ブライヤー', 'Briar', 'BRIAR', 'ブライアー'], value: 'Briar'},
   {keywords: ['メシャム', 'Meerschaum', 'MEERSCHAUM', '海泡石'], value: 'Meerschaum'},
-  {keywords: ['コーンコブ', 'Corn Cob', 'CORN COB', 'コーン'], value: 'Corn Cob'}
+  {keywords: ['コーンコブ', 'Corn Cob', 'CORN COB', 'コーン'], value: 'Corn Cob'},
+  // Dolls & Plush 素材
+  {keywords: ['モヘア', 'Mohair', 'MOHAIR'], value: 'Mohair'},
+  {keywords: ['プラッシュ', 'Plush', 'PLUSH'], value: 'Plush'},
+  {keywords: ['フェルト', 'Felt', 'FELT'], value: 'Felt'},
+  {keywords: ['ベルベット', 'Velvet', 'VELVET'], value: 'Velvet'},
+  {keywords: ['ABS', 'ABS樹脂'], value: 'ABS'},
+  {keywords: ['ソフトビニール', 'Soft Vinyl', 'ソフビ'], value: 'Soft Vinyl'}
 ];
 
 // (Card game patterns moved to CardPatterns.gs)
