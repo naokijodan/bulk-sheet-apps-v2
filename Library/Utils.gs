@@ -1195,8 +1195,8 @@ function getImportPoliciesDataCached_() {
     return [];
   }
 
-  // A-G列を取得（範囲を300行に限定）
-  var maxRow = Math.min(lastRow, 300);
+  // A-G列を取得（範囲を500行に限定）
+  var maxRow = Math.min(lastRow, 500);
   var data = sheet.getRange(2, 1, maxRow - 1, 7).getValues();
 
   // キャッシュに保存（30分間）
