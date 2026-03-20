@@ -1304,6 +1304,10 @@ var IS_BRAND_DICT = [
   {name: 'S5 II', jp_names: ['S5 II', 'LUMIX S5 II', 'DC-S5M2'], country: 'Japan', parent_brand: 'Panasonic', category: ['Cameras']},
   {name: 'Lumix S1', jp_names: ['LUMIX S1', 'DC-S1', 'DMC-S1'], country: 'Japan', parent_brand: 'Panasonic', category: ['Cameras']},
   {name: 'S1R', jp_names: ['S1R', 'LUMIX S1R', 'DC-S1R'], country: 'Japan', parent_brand: 'Panasonic', category: ['Cameras']},
+  {name: 'Lumix GF', jp_names: ['LUMIX GF', 'DMC-GF', 'DC-GF', 'GF9', 'GF10', 'GF7', 'GF5', 'GF3', 'GF2', 'GF1'], country: 'Japan', parent_brand: 'Panasonic', category: ['Cameras']},
+
+  // === Casio EXILIM ===
+  {name: 'EXILIM', jp_names: ['EXILIM', 'エクシリム', 'EX-Z', 'EX-ZR', 'EX-ZS', 'EX-FR', 'EX-100'], country: 'Japan', parent_brand: 'Casio', category: ['Cameras']},
 
   // === Konica ===
   {name: 'Hexar AF', jp_names: ['HEXAR AF', 'ヘキサーAF'], country: 'Japan', parent_brand: 'Konica', category: ['Cameras']},
