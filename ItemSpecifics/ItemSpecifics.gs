@@ -293,6 +293,8 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       return matchFromPatterns_(title, IS_GAME_PATTERNS);
     case 'Language':
       return 'Japanese';
+    case 'Wrist Size':
+      return extractWristSize_(title + ' ' + (description || ''));
     case 'Case Size':
       var cs = matchCaseSize_(title);
       if (!cs && description) cs = matchCaseSize_(description);
@@ -725,6 +727,48 @@ function matchBrandFromTitle_(title, opt_category) {
 
   // 通常ブランドが見つかればそちらを優先、なければ素材ブランドをフォールバック
   return bestMatch || materialMatch;
+}
+
+/**
+ * タイトル・説明文から腕周りサイズを抽出（cm/inch併記）
+ */
+function extractWristSize_(text) {
+  if (!text) return '';
+  // パターン1: "wrist 18cm/7.1in" or "wrist 18cm"
+  var m1 = text.match(/wrist[:\s]*(\d+\.?\d*)\s*cm\s*[\/]?\s*(\d+\.?\d*)\s*in/i);
+  if (m1) return m1[1] + 'cm/' + m1[2] + 'in';
+  // パターン2: "wrist 18cm" (inchなし)
+  var m2 = text.match(/wrist[:\s]*(\d+\.?\d*)\s*cm/i);
+  if (m2) {
+    var cm = parseFloat(m2[1]);
+    var inch = (cm / 2.54).toFixed(1);
+    return cm + 'cm/' + inch + 'in';
+  }
+  // パターン3: 腕周り18cm
+  var m3 = text.match(/腕周り[:\s]*(\d+\.?\d*)\s*cm/);
+  if (m3) {
+    var cm3 = parseFloat(m3[1]);
+    var inch3 = (cm3 / 2.54).toFixed(1);
+    return cm3 + 'cm/' + inch3 + 'in';
+  }
+  return '';
+}
+
+/**
+ * タイトル・説明文からケースサイズを抽出（mm/inch併記）
+ */
+function extractCaseSize_(text) {
+  if (!text) return '';
+  // パターン1: "38mm" or "case 38mm"
+  var m1 = text.match(/(\d+\.?\d*)\s*mm/i);
+  if (m1) {
+    var mm = parseFloat(m1[1]);
+    if (mm >= 15 && mm <= 60) {
+      var inch = (mm / 25.4).toFixed(2);
+      return mm + 'mm/' + inch + 'in';
+    }
+  }
+  return '';
 }
 
 /**
