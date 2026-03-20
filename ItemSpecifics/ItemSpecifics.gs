@@ -191,6 +191,11 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       return brandInfo ? brandInfo.name : '';
     case 'Country/Region of Manufacture':
       if (category === 'Video Games' || category === 'Trading Cards') return 'Japan';
+      if (category === 'Collectibles') {
+        var frCountry = matchFranchise_(title + ' ' + (description || ''));
+        if (frCountry) return frCountry.country;
+        return brandInfo ? brandInfo.country : 'Japan';
+      }
       return brandInfo ? brandInfo.country : '';
     case 'Model':
       return brandInfo && brandInfo.sub_brand ? brandInfo.sub_brand : '';
@@ -246,6 +251,24 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       }
       if (category === 'Dolls & Plush') {
         return matchFromPatterns_(title + ' ' + (description || ''), IS_DOLL_CHARACTER_PATTERNS);
+      }
+      if (category === 'Collectibles') {
+        return matchFromPatterns_(title + ' ' + (description || ''), IS_FIGURE_CHARACTER_PATTERNS);
+      }
+      return '';
+    case 'Franchise':
+      if (category === 'Collectibles') {
+        var fr = matchFranchise_(title + ' ' + (description || ''));
+        return fr ? fr.value : '';
+      }
+      return '';
+    case 'Theme':
+      if (category === 'Collectibles') {
+        var frTheme = matchFranchise_(title + ' ' + (description || ''));
+        if (frTheme) {
+          return (frTheme.country === 'Japan') ? 'Anime & Manga' : (frTheme.country === 'USA' ? 'Movie & TV' : 'Video Game');
+        }
+        return '';
       }
       return '';
     case 'Rarity':
@@ -732,6 +755,23 @@ function matchTypeFromTag_(tag) {
   }
 
   return '';
+}
+
+/**
+ * タイトル・説明文からアニメフランチャイズを検出
+ * @return {Object|null} {value: 'One Piece', country: 'Japan'} or null
+ */
+function matchFranchise_(text) {
+  if (!text || typeof IS_FRANCHISE_PATTERNS === 'undefined') return null;
+  for (var i = 0; i < IS_FRANCHISE_PATTERNS.length; i++) {
+    var pattern = IS_FRANCHISE_PATTERNS[i];
+    for (var j = 0; j < pattern.keywords.length; j++) {
+      if (text.indexOf(pattern.keywords[j]) !== -1) {
+        return {value: pattern.value, country: pattern.country};
+      }
+    }
+  }
+  return null;
 }
 
 // =============================

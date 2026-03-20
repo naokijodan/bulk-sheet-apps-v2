@@ -225,14 +225,17 @@ var IS_INITIAL_DATA = [
   { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Pattern', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' },
 
-  // === Collectibles ===
-  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Type', field_type: 'required', priority: 2, notes: '' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Theme', field_type: 'recommended', priority: 3, notes: '' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Material', field_type: 'recommended', priority: 4, notes: '' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Country of Origin', field_type: 'recommended', priority: 5, notes: '製造国。フルネーム英語' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Year', field_type: 'recommended', priority: 6, notes: '' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Features', field_type: 'recommended', priority: 7, notes: '' },
+  // === Collectibles (フィギュア・コレクティブル) ===
+  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品', field_name: 'Character', field_type: 'required', priority: 2, notes: 'キャラクター名' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品', field_name: 'Franchise', field_type: 'required', priority: 3, notes: '作品名（One Piece, Dragon Ball等）' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品', field_name: 'Type', field_type: 'required', priority: 4, notes: 'Action Figure, Statue, Scale Figure等' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品', field_name: 'Theme', field_type: 'recommended', priority: 5, notes: 'Anime & Manga, Video Game, Movie等' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品', field_name: 'Material', field_type: 'recommended', priority: 6, notes: 'PVC, ABS, Resin等' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品', field_name: 'Features', field_type: 'recommended', priority: 7, notes: 'Limited Edition, Japan Release等' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品', field_name: 'Size', field_type: 'recommended', priority: 8, notes: '1/7 Scale, 15cm等' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品', field_name: 'Color', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品', field_name: 'Country/Region of Manufacture', field_type: 'recommended', priority: 10, notes: '日本アニメ→Japan、アメリカキャラ→USA' },
 
   // === Watch Parts ===
   { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -1566,6 +1569,144 @@ var IS_DOLL_CHARACTER_PATTERNS = [
   {keywords: ['もちねこ', 'Mochineko'], value: 'Mochineko'},
 ];
 
+// アニメ・漫画・ゲーム フランチャイズ辞書
+var IS_FRANCHISE_PATTERNS = [
+  // === 少年ジャンプ系 ===
+  {keywords: ['ワンピース', 'ONE PIECE', 'One Piece', 'ルフィ', 'ゾロ', 'ナミ', 'サンジ', 'チョッパー'], value: 'One Piece', country: 'Japan'},
+  {keywords: ['ドラゴンボール', 'DRAGON BALL', 'Dragon Ball', '悟空', 'ベジータ', 'フリーザ'], value: 'Dragon Ball', country: 'Japan'},
+  {keywords: ['ナルト', 'NARUTO', 'Naruto', 'BORUTO', 'ボルト'], value: 'Naruto', country: 'Japan'},
+  {keywords: ['鬼滅の刃', 'DEMON SLAYER', 'Demon Slayer', 'Kimetsu', '炭治郎', '禰豆子', '煉獄'], value: 'Demon Slayer', country: 'Japan'},
+  {keywords: ['呪術廻戦', 'JUJUTSU KAISEN', 'Jujutsu Kaisen', '虎杖', '五条', '宿儺'], value: 'Jujutsu Kaisen', country: 'Japan'},
+  {keywords: ['僕のヒーローアカデミア', 'MY HERO ACADEMIA', 'ヒロアカ', 'Boku no Hero'], value: 'My Hero Academia', country: 'Japan'},
+  {keywords: ['ブリーチ', 'BLEACH', 'Bleach', '黒崎一護'], value: 'Bleach', country: 'Japan'},
+  {keywords: ['ハンターハンター', 'HUNTER X HUNTER', 'Hunter x Hunter', 'HxH', 'ゴン', 'キルア'], value: 'Hunter x Hunter', country: 'Japan'},
+  {keywords: ['スラムダンク', 'SLAM DUNK', 'Slam Dunk'], value: 'Slam Dunk', country: 'Japan'},
+  {keywords: ['チェンソーマン', 'CHAINSAW MAN', 'Chainsaw Man', 'デンジ', 'マキマ', 'パワー'], value: 'Chainsaw Man', country: 'Japan'},
+  {keywords: ['SPY×FAMILY', 'スパイファミリー', 'Spy x Family', 'SPY FAMILY', 'アーニャ'], value: 'Spy x Family', country: 'Japan'},
+  {keywords: ['キングダム', 'KINGDOM', 'Kingdom'], value: 'Kingdom', country: 'Japan'},
+  {keywords: ['ハイキュー', 'HAIKYU', 'Haikyu'], value: 'Haikyu!!', country: 'Japan'},
+  {keywords: ['黒子のバスケ', 'KUROKO', 'Kuroko'], value: "Kuroko's Basketball", country: 'Japan'},
+  {keywords: ['銀魂', 'GINTAMA', 'Gintama'], value: 'Gintama', country: 'Japan'},
+  // === ガンダム ===
+  {keywords: ['ガンダム', 'GUNDAM', 'Gundam', 'ガンプラ'], value: 'Gundam', country: 'Japan'},
+  // === エヴァンゲリオン ===
+  {keywords: ['エヴァンゲリオン', 'EVANGELION', 'Evangelion', 'エヴァ', 'EVA'], value: 'Evangelion', country: 'Japan'},
+  // === ジブリ ===
+  {keywords: ['ジブリ', 'GHIBLI', 'Ghibli', 'トトロ', '千と千尋', 'もののけ姫', 'ハウル', 'ナウシカ'], value: 'Studio Ghibli', country: 'Japan'},
+  // === その他人気アニメ ===
+  {keywords: ['進撃の巨人', 'ATTACK ON TITAN', 'Attack on Titan', 'Shingeki'], value: 'Attack on Titan', country: 'Japan'},
+  {keywords: ['ソードアートオンライン', 'SWORD ART ONLINE', 'SAO'], value: 'Sword Art Online', country: 'Japan'},
+  {keywords: ['Re:ゼロ', 'RE:ZERO', 'Re:Zero', 'リゼロ', 'レム', 'ラム'], value: 'Re:Zero', country: 'Japan'},
+  {keywords: ['Fate', 'FATE', 'フェイト', 'セイバー'], value: 'Fate', country: 'Japan'},
+  {keywords: ['初音ミク', 'HATSUNE MIKU', 'Hatsune Miku', 'ミク', 'ボーカロイド', 'VOCALOID'], value: 'Vocaloid', country: 'Japan'},
+  {keywords: ['推しの子', 'OSHI NO KO', 'Oshi no Ko'], value: 'Oshi no Ko', country: 'Japan'},
+  {keywords: ['葬送のフリーレン', 'FRIEREN', 'Frieren'], value: 'Frieren', country: 'Japan'},
+  {keywords: ['東京リベンジャーズ', 'TOKYO REVENGERS', 'Tokyo Revengers'], value: 'Tokyo Revengers', country: 'Japan'},
+  {keywords: ['ラブライブ', 'LOVE LIVE', 'Love Live'], value: 'Love Live!', country: 'Japan'},
+  {keywords: ['けいおん', 'K-ON', 'K-On'], value: 'K-On!', country: 'Japan'},
+  {keywords: ['まどかマギカ', 'MADOKA MAGICA', 'Madoka Magica', 'まどマギ'], value: 'Puella Magi Madoka Magica', country: 'Japan'},
+  {keywords: ['五等分の花嫁', 'QUINTESSENTIAL QUINTUPLETS', 'Quintuplets', '五等分'], value: 'The Quintessential Quintuplets', country: 'Japan'},
+  // === ゲーム系 ===
+  {keywords: ['原神', 'GENSHIN', 'Genshin Impact'], value: 'Genshin Impact', country: 'China'},
+  {keywords: ['崩壊スターレイル', 'HONKAI STAR RAIL', 'Honkai Star Rail'], value: 'Honkai: Star Rail', country: 'China'},
+  {keywords: ['アークナイツ', 'ARKNIGHTS', 'Arknights'], value: 'Arknights', country: 'China'},
+  {keywords: ['ファイナルファンタジー', 'FINAL FANTASY', 'Final Fantasy', 'FF'], value: 'Final Fantasy', country: 'Japan'},
+  {keywords: ['ペルソナ', 'PERSONA', 'Persona'], value: 'Persona', country: 'Japan'},
+  {keywords: ['NieR', 'ニーア', 'NIER', 'ニーアオートマタ', '2B'], value: 'NieR', country: 'Japan'},
+  // === ポケモン ===
+  {keywords: ['ポケモン', 'POKEMON', 'Pokemon', 'ピカチュウ'], value: 'Pokemon', country: 'Japan'},
+  // === 特撮 ===
+  {keywords: ['ウルトラマン', 'ULTRAMAN', 'Ultraman'], value: 'Ultraman', country: 'Japan'},
+  {keywords: ['仮面ライダー', 'KAMEN RIDER', 'Kamen Rider', 'Masked Rider'], value: 'Kamen Rider', country: 'Japan'},
+  {keywords: ['ゴジラ', 'GODZILLA', 'Godzilla'], value: 'Godzilla', country: 'Japan'},
+  // === アメリカ系 ===
+  {keywords: ['マーベル', 'MARVEL', 'Marvel', 'アベンジャーズ', 'Avengers', 'スパイダーマン', 'Spider-Man', 'アイアンマン'], value: 'Marvel', country: 'USA'},
+  {keywords: ['DC', 'バットマン', 'Batman', 'スーパーマン', 'Superman', 'ジョーカー', 'Joker'], value: 'DC Comics', country: 'USA'},
+  {keywords: ['スターウォーズ', 'STAR WARS', 'Star Wars', 'ダースベイダー', 'Darth Vader', 'ヨーダ'], value: 'Star Wars', country: 'USA'},
+  {keywords: ['トランスフォーマー', 'TRANSFORMERS', 'Transformers', 'オプティマス'], value: 'Transformers', country: 'USA'},
+  {keywords: ['ディズニー', 'DISNEY', 'Disney', 'ミッキー', 'Mickey'], value: 'Disney', country: 'USA'},
+];
+
+// アニメ・漫画キャラクター辞書（フランチャイズ連動）
+var IS_FIGURE_CHARACTER_PATTERNS = [
+  // One Piece
+  {keywords: ['ルフィ', 'Luffy', 'LUFFY', 'モンキー・D'], value: 'Monkey D. Luffy'},
+  {keywords: ['ゾロ', 'Zoro', 'ZORO', 'ロロノア'], value: 'Roronoa Zoro'},
+  {keywords: ['ナミ', 'Nami', 'NAMI'], value: 'Nami'},
+  {keywords: ['サンジ', 'Sanji', 'SANJI'], value: 'Sanji'},
+  {keywords: ['チョッパー', 'Chopper', 'CHOPPER'], value: 'Tony Tony Chopper'},
+  {keywords: ['エース', 'Ace', 'ACE', 'ポートガス'], value: 'Portgas D. Ace'},
+  {keywords: ['ハンコック', 'Hancock', 'HANCOCK', 'ボア'], value: 'Boa Hancock'},
+  // Dragon Ball
+  {keywords: ['悟空', 'Goku', 'GOKU', '孫悟空', 'カカロット'], value: 'Son Goku'},
+  {keywords: ['ベジータ', 'Vegeta', 'VEGETA'], value: 'Vegeta'},
+  {keywords: ['フリーザ', 'Frieza', 'FRIEZA', 'Freeza'], value: 'Frieza'},
+  {keywords: ['悟飯', 'Gohan', 'GOHAN'], value: 'Son Gohan'},
+  {keywords: ['トランクス', 'Trunks', 'TRUNKS'], value: 'Trunks'},
+  {keywords: ['ブロリー', 'Broly', 'BROLY'], value: 'Broly'},
+  // Naruto
+  {keywords: ['ナルト', 'Naruto', 'NARUTO', 'うずまきナルト'], value: 'Naruto Uzumaki'},
+  {keywords: ['サスケ', 'Sasuke', 'SASUKE', 'うちはサスケ'], value: 'Sasuke Uchiha'},
+  {keywords: ['カカシ', 'Kakashi', 'KAKASHI'], value: 'Kakashi Hatake'},
+  {keywords: ['イタチ', 'Itachi', 'ITACHI'], value: 'Itachi Uchiha'},
+  // Demon Slayer
+  {keywords: ['炭治郎', 'Tanjiro', 'TANJIRO'], value: 'Tanjiro Kamado'},
+  {keywords: ['禰豆子', 'Nezuko', 'NEZUKO'], value: 'Nezuko Kamado'},
+  {keywords: ['煉獄', 'Rengoku', 'RENGOKU'], value: 'Kyojuro Rengoku'},
+  {keywords: ['胡蝶しのぶ', 'Shinobu', 'SHINOBU'], value: 'Shinobu Kocho'},
+  // Jujutsu Kaisen
+  {keywords: ['虎杖', 'Itadori', 'ITADORI'], value: 'Yuji Itadori'},
+  {keywords: ['五条', 'Gojo', 'GOJO', '五条悟'], value: 'Satoru Gojo'},
+  {keywords: ['宿儺', 'Sukuna', 'SUKUNA'], value: 'Ryomen Sukuna'},
+  // Evangelion
+  {keywords: ['綾波レイ', 'Rei Ayanami', 'REI', '綾波'], value: 'Rei Ayanami'},
+  {keywords: ['アスカ', 'Asuka', 'ASUKA'], value: 'Asuka Langley'},
+  {keywords: ['シンジ', 'Shinji', 'SHINJI', '碇シンジ'], value: 'Shinji Ikari'},
+  // Gundam
+  {keywords: ['RX-78', 'ガンダム', 'Gundam RX'], value: 'RX-78-2 Gundam'},
+  {keywords: ['シャア', 'Char', 'CHAR', 'シャア専用'], value: 'Char Aznable'},
+  {keywords: ['ザク', 'Zaku', 'ZAKU'], value: 'Zaku II'},
+  // Chainsaw Man
+  {keywords: ['デンジ', 'Denji', 'DENJI'], value: 'Denji'},
+  {keywords: ['マキマ', 'Makima', 'MAKIMA'], value: 'Makima'},
+  {keywords: ['パワー', 'Power', 'POWER'], value: 'Power'},
+  // Spy x Family
+  {keywords: ['アーニャ', 'Anya', 'ANYA'], value: 'Anya Forger'},
+  {keywords: ['ロイド', 'Loid', 'LOID', 'ロイドフォージャー'], value: 'Loid Forger'},
+  {keywords: ['ヨル', 'Yor', 'YOR', 'ヨルフォージャー'], value: 'Yor Forger'},
+  // Re:Zero
+  {keywords: ['レム', 'Rem', 'REM'], value: 'Rem'},
+  {keywords: ['ラム', 'Ram', 'RAM'], value: 'Ram'},
+  {keywords: ['エミリア', 'Emilia', 'EMILIA'], value: 'Emilia'},
+  // Fate
+  {keywords: ['セイバー', 'Saber', 'SABER', 'アルトリア'], value: 'Saber (Artoria)'},
+  // NieR
+  {keywords: ['2B', 'ヨルハ二号B型'], value: '2B (YoRHa No.2 Type B)'},
+  // Attack on Titan
+  {keywords: ['エレン', 'Eren', 'EREN'], value: 'Eren Yeager'},
+  {keywords: ['リヴァイ', 'Levi', 'LEVI'], value: 'Levi Ackerman'},
+  {keywords: ['ミカサ', 'Mikasa', 'MIKASA'], value: 'Mikasa Ackerman'},
+  // Godzilla / Ultraman / Kamen Rider
+  {keywords: ['ゴジラ', 'Godzilla', 'GODZILLA'], value: 'Godzilla'},
+  {keywords: ['ウルトラマン', 'Ultraman', 'ULTRAMAN'], value: 'Ultraman'},
+  {keywords: ['仮面ライダー', 'Kamen Rider', 'KAMEN RIDER'], value: 'Kamen Rider'},
+  // Vocaloid
+  {keywords: ['初音ミク', 'Hatsune Miku', 'HATSUNE MIKU', 'ミク'], value: 'Hatsune Miku'},
+  // Frieren
+  {keywords: ['フリーレン', 'Frieren', 'FRIEREN'], value: 'Frieren'},
+  {keywords: ['フェルン', 'Fern', 'FERN'], value: 'Fern'},
+  // Oshi no Ko
+  {keywords: ['アイ', 'Ai', 'AI', '星野アイ'], value: 'Ai Hoshino'},
+  // Marvel
+  {keywords: ['スパイダーマン', 'Spider-Man', 'SPIDER-MAN', 'SPIDERMAN'], value: 'Spider-Man'},
+  {keywords: ['アイアンマン', 'Iron Man', 'IRON MAN', 'IRONMAN'], value: 'Iron Man'},
+  // DC
+  {keywords: ['バットマン', 'Batman', 'BATMAN'], value: 'Batman'},
+  // Star Wars
+  {keywords: ['ダースベイダー', 'Darth Vader', 'DARTH VADER'], value: 'Darth Vader'},
+  {keywords: ['ヨーダ', 'Yoda', 'YODA'], value: 'Yoda'},
+];
+
 // Step 1: タグからTypeを推定するためのマップ
 // ルールベース抽出用（AI不要）
 var IS_TAG_TO_TYPE = {
@@ -1788,7 +1929,7 @@ var IS_CATEGORY_FIELDS = {
   'Combs':         ['Brand', 'Material', 'Type', 'Color', 'Country/Region of Manufacture'],
   'Key Chains':    ['Brand', 'Metal', 'Material', 'Color', 'Country/Region of Manufacture'],
   'Charms':        ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
-  'Collectibles':  ['Brand', 'Type', 'Material', 'Country/Region of Manufacture'],
+  'Collectibles':  ['Brand', 'Character', 'Franchise', 'Type', 'Theme', 'Material', 'Features', 'Size', 'Color', 'Country/Region of Manufacture'],
   'Pipes':         ['Brand', 'Material', 'Type', 'Color', 'Country/Region of Manufacture'],
   'Watch Parts':   ['Brand', 'Part Type', 'Material', 'Compatible Model', 'Size', 'Color', 'Country/Region of Manufacture'],
   'Sunglasses':  ['Brand', 'Model', 'Frame Color', 'Lens Color', 'Frame Material', 'Style', 'Department', 'Country/Region of Manufacture'],
