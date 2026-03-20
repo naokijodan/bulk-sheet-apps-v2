@@ -296,8 +296,12 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
     case 'Wrist Size':
       return extractWristSize_(title + ' ' + (description || ''));
     case 'Case Size':
-      var cs = matchCaseSize_(title);
-      if (!cs && description) cs = matchCaseSize_(description);
+      var cs = extractCaseSize_(title + ' ' + (description || ''));
+      if (!cs) {
+        var csOld = matchCaseSize_(title);
+        if (!csOld && description) csOld = matchCaseSize_(description);
+        return csOld;
+      }
       return cs;
     case 'Graded':
       return matchGraded_(title);
