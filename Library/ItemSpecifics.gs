@@ -198,7 +198,13 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       }
       return brandInfo ? brandInfo.country : '';
     case 'Model':
-      return brandInfo && brandInfo.sub_brand ? brandInfo.sub_brand : '';
+      var model = brandInfo && brandInfo.sub_brand ? brandInfo.sub_brand : '';
+      // G-Shockでサブライン未特定の場合、シリーズコードを抽出
+      if (model === 'G-Shock') {
+        var seriesMatch = title.match(/\b(DW|GA|GW|GBD|GPR|GST|GXW|GX|AW|DWE|GLS|GLX|GD|GMW|GM|GAS|GAE)\b[\s-]?\d/i);
+        if (seriesMatch) model = 'G-Shock ' + seriesMatch[1].toUpperCase();
+      }
+      return model;
     case 'Type':
       return matchTypeFromTag_(tag);
     // === Video Games fields ===
