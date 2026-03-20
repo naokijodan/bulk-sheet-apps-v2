@@ -201,7 +201,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       var model = brandInfo && brandInfo.sub_brand ? brandInfo.sub_brand : '';
       // G-Shockでサブライン未特定の場合、シリーズコードを抽出
       if (model === 'G-Shock') {
-        var seriesMatch = title.match(/\b(DW|GA|GW|GBD|GPR|GST|GXW|GX|AW|DWE|GLS|GLX|GD|GMW|GM|GAS|GAE)\b[\s-]?\d/i);
+        var seriesMatch = title.match(/\b(DWE|DWX|DW|GAE|GAS|GA|GBD|GLX|GLS|GMW|GM|GPR|GST|GXW|GX|GW|AW|GD)\b[\s-]?[A-Z0-9]/i);
         if (seriesMatch) model = 'G-Shock ' + seriesMatch[1].toUpperCase();
       }
       return model;
@@ -673,7 +673,11 @@ function matchBrandFromTitle_(title, opt_category) {
             }
           }
         }
-        if (!parentFound) continue; // parent_brand が見つからない場合はスキップ
+        // G-Shock系は「G-SHOCK」だけでCasioを示すため例外的に許可
+        if (!parentFound) {
+          var isGShock = (b.parent_brand.toLowerCase() === 'casio') && (t.indexOf('g-shock') !== -1 || t.indexOf('g shock') !== -1 || t.indexOf('gshock') !== -1);
+          if (!isGShock) continue;
+        }
       }
       if (isMaterial) {
         if (b.parent_brand ? (b.name.length >= materialLen) : (b.name.length > materialLen)) {
@@ -712,7 +716,10 @@ function matchBrandFromTitle_(title, opt_category) {
                 }
               }
             }
-            if (!parentFound2) parentOk = false;
+            if (!parentFound2) {
+              var isGShock2 = (b.parent_brand.toLowerCase() === 'casio') && (t.indexOf('g-shock') !== -1 || t.indexOf('g shock') !== -1 || t.indexOf('gshock') !== -1);
+              if (!isGShock2) parentOk = false;
+            }
           }
           if (parentOk) {
             if (isMaterial) {

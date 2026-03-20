@@ -476,7 +476,7 @@ var IS_BRAND_DICT = [
   {name: 'Milgauss', jp_names: ['ミルガウス', 'MILGAUSS'], country: 'Switzerland', parent_brand: 'Rolex', category: ['Watches']},
   {name: 'Minase', jp_names: ['ミナセ', 'MINASE'], country: 'Japan'},
   {name: 'Monaco', jp_names: ['モナコ', 'MONACO'], country: 'Switzerland', parent_brand: 'TAG Heuer', category: ['Watches']},
-  {name: 'G-Shock MR-G', jp_names: ['MR-G', 'MRG'], country: 'Japan', parent_brand: 'Casio', category: ['Watches']},
+  {name: 'G-Shock MR-G', jp_names: ['MR-G', 'MRG-', 'MRG ', 'MR-G-'], country: 'Japan', parent_brand: 'Casio', category: ['Watches']},
   {name: 'G-Shock MT-G', jp_names: ['MT-G', 'MTG'], country: 'Japan', parent_brand: 'Casio', category: ['Watches']},
   {name: 'G-Shock Mudmaster', jp_names: ['マッドマスター', 'MUDMASTER', 'Mudmaster'], country: 'Japan', parent_brand: 'Casio', category: ['Watches']},
   {name: 'Manhattan', jp_names: ['マンハッタン', 'MANHATTAN'], country: 'Switzerland', parent_brand: 'Rado', category: ['Watches']},
