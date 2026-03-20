@@ -411,6 +411,7 @@ var IS_BRAND_DICT = [
   {name: 'Instinct', jp_names: ['インスティンクト', 'INSTINCT'], country: 'USA', parent_brand: 'Garmin', category: ['Watches']},
   {name: 'Integral', jp_names: ['インテグラル', 'INTEGRAL'], country: 'Switzerland', parent_brand: 'Rado', category: ['Watches']},
   {name: 'Intarsio', jp_names: ['インタルシオ', 'INTARSIO'], country: 'USA', parent_brand: 'Tiffany & Co.', category: ['Watches']},
+  {name: 'Bering', jp_names: ['ベーリング', 'BERING'], country: 'Denmark'},
   {name: 'Jacob Jensen', jp_names: ['ヤコブイェンセン', 'JACOB JENSEN'], country: 'Denmark'},
   {name: 'IWC', jp_names: ['IWC'], country: 'Switzerland'},
   {name: 'IWC Mark', jp_names: ['マーク', 'MARK'], country: 'Switzerland', parent_brand: 'IWC', category: ['Watches']},
