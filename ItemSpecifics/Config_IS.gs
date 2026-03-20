@@ -1068,6 +1068,7 @@ var IS_BRAND_DICT = [
   {name: 'Z9', jp_names: ['Z9', 'ニコンZ9'], country: 'Japan', parent_brand: 'Nikon', category: ['Cameras']},
   {name: 'Zf', jp_names: ['ZF', 'ニコンZF'], country: 'Japan', parent_brand: 'Nikon', category: ['Cameras']},
   {name: 'Zfc', jp_names: ['ZFC', 'ニコンZFC'], country: 'Japan', parent_brand: 'Nikon', category: ['Cameras']},
+  {name: 'Coolpix', jp_names: ['COOLPIX', 'クールピクス', 'W150', 'W300', 'W100', 'P950', 'P1000', 'B600', 'B500', 'A1000', 'A900'], country: 'Japan', parent_brand: 'Nikon', category: ['Cameras']},
 
   // === Sony Mirrorless ===
   {name: 'α7', jp_names: ['Α7', 'A7', 'ALPHA 7', 'ILCE-7'], country: 'Japan', parent_brand: 'Sony', category: ['Cameras']},
@@ -1301,7 +1302,7 @@ var IS_BRAND_DICT = [
   {name: 'G9 II', jp_names: ['G9 II', 'LUMIX G9 II', 'DC-G9M2'], country: 'Japan', parent_brand: 'Panasonic', category: ['Cameras']},
   {name: 'S5', jp_names: ['S5', 'LUMIX S5', 'DC-S5'], country: 'Japan', parent_brand: 'Panasonic', category: ['Cameras']},
   {name: 'S5 II', jp_names: ['S5 II', 'LUMIX S5 II', 'DC-S5M2'], country: 'Japan', parent_brand: 'Panasonic', category: ['Cameras']},
-  {name: 'S1', jp_names: ['S1', 'LUMIX S1', 'DC-S1'], country: 'Japan', parent_brand: 'Panasonic', category: ['Cameras']},
+  {name: 'Lumix S1', jp_names: ['LUMIX S1', 'DC-S1', 'DMC-S1'], country: 'Japan', parent_brand: 'Panasonic', category: ['Cameras']},
   {name: 'S1R', jp_names: ['S1R', 'LUMIX S1R', 'DC-S1R'], country: 'Japan', parent_brand: 'Panasonic', category: ['Cameras']},
 
   // === Konica ===
