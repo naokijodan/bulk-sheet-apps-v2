@@ -670,7 +670,7 @@ var IS_BRAND_DICT = [
   {name: 'Damiani', jp_names: ['ダミアーニ', 'DAMIANI'], country: 'Italy'},
   {name: 'David Andersen', jp_names: ['デヴィッドアンデルセン', 'DAVID ANDERSEN', 'D.ANDERSEN'], country: 'Norway'},
   {name: 'David Yurman', jp_names: ['デイビット・ヤーマン', 'DAVID YURMAN'], country: 'USA'},
-  {name: 'Emporio Armani', jp_names: ['エンポリオアルマーニ', 'EMPORIO ARMANI'], country: 'Italy'},
+  {name: 'Emporio Armani', jp_names: ['エンポリオアルマーニ', 'エンポリオ アルマーニ', 'EMPORIO ARMANI', 'EMPORIOARMANI', 'ARMANI'], country: 'Italy'},
   {name: 'Ete', jp_names: ['エテ', 'ETE'], country: 'Japan'},
   {name: 'Folli Follie', jp_names: ['フォリフォリ', 'FOLLI FOLLIE'], country: 'Greece'},
   {name: 'Etro', jp_names: ['エトロ', 'ETRO'], country: 'Italy'},
