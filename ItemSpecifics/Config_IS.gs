@@ -526,6 +526,7 @@ var IS_BRAND_DICT = [
   {name: 'Purple Horse', jp_names: ['パープルホース', 'PURPLE HORSE'], country: 'Switzerland', parent_brand: 'Rado', category: ['Watches']},
   {name: 'Quadrato', jp_names: ['クアドラート', 'QUADRATO'], country: 'Switzerland', parent_brand: 'Tissot', category: ['Watches']},
   {name: 'Radiomir', jp_names: ['ラジオミール', 'RADIOMIR'], country: 'Italy', parent_brand: 'Panerai', category: ['Watches']},
+  {name: 'Raymond Weil', jp_names: ['レイモンドウェイル', 'レイモンドウエイル', 'RAYMOND WEIL'], country: 'Switzerland'},
   {name: 'Rey Urban', jp_names: ['レイアーバン', 'REY URBAN'], country: 'Denmark'},
   {name: 'Rado', jp_names: ['ラドー', 'RADO'], country: 'Switzerland'},
   {name: 'Railmaster', jp_names: ['レイルマスター', 'RAILMASTER'], country: 'Switzerland', parent_brand: 'Omega', category: ['Watches']},
