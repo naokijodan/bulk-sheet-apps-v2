@@ -1,0 +1,88 @@
+一括シートApps_v3のItemSpecificsモジュールに「Hats（帽子）」カテゴリを追加する。
+
+## 変更対象ファイルと変更箇所
+
+### 1. ItemSpecifics/Config_IS.gs
+
+#### (A) IS_INITIAL_DATA（287行目の閉じ括弧の直前、Scarvesセクションの後に追加）
+
+  // === Hats (帽子) ===
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Style', field_type: 'required', priority: 2, notes: 'Baseball Cap, Bucket Hat, Beanie, Fedora, Trucker Hat, Snapback, Dad Hat, Visor, Beret, Newsboy Cap, Flat Cap, Sun Hat, Panama Hat, Cowboy Hat' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Department', field_type: 'required', priority: 3, notes: 'Men, Women, Unisex Adults' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Color', field_type: 'required', priority: 4, notes: '' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Material', field_type: 'recommended', priority: 5, notes: 'Cotton, Polyester, Wool, Acrylic, Nylon, Mesh, Straw, Leather, Canvas' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Pattern', field_type: 'recommended', priority: 6, notes: 'Solid, Camouflage, Plaid, Striped, Floral, Animal Print' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Season', field_type: 'recommended', priority: 7, notes: 'Spring, Summer, Fall, Winter' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Features', field_type: 'recommended', priority: 8, notes: 'Adjustable, Breathable, Mesh Back, UV Protection, Wide Brim, Lined, Ear Flap, Waterproof' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Size', field_type: 'recommended', priority: 9, notes: 'One Size, S, M, L, XL, 7 1/8, 7 1/4, 7 3/8, 7 1/2, Adjustable' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Country/Region of Manufacture', field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' },
+
+#### (B) IS_TAG_TO_TYPE（'人形': 'Doll' の後に追加）
+
+  // Hats
+  '帽子': 'Hat',
+  'キャップ': 'Baseball Cap',
+  'ハット': 'Hat',
+  'ベースボールキャップ': 'Baseball Cap',
+  'スナップバック': 'Baseball Cap',
+  'バケットハット': 'Bucket Hat',
+  'ビーニー': 'Beanie',
+  'ニット帽': 'Beanie',
+  'トラッカーハット': 'Trucker Hat',
+  'ベレー帽': 'Beret',
+  'フェドーラ': 'Fedora',
+  'パナマハット': 'Panama Hat',
+  'ダッドハット': 'Dad Hat',
+  'サンバイザー': 'Visor',
+  'ハンチング': 'Flat Cap',
+  'キャスケット': 'Newsboy Cap'
+
+#### (C) IS_TAG_TO_CATEGORY（'モンチッチ': 'Dolls & Plush' の後に追加）
+
+  // Hats
+  '帽子': 'Hats', 'キャップ': 'Hats', 'ハット': 'Hats',
+  'ビーニー': 'Hats', 'バケットハット': 'Hats', 'スナップバック': 'Hats',
+  'ベースボールキャップ': 'Hats', 'トラッカーハット': 'Hats',
+  'ニット帽': 'Hats', 'ベレー帽': 'Hats', 'フェドーラ': 'Hats',
+  'パナマハット': 'Hats', 'キャスケット': 'Hats', 'ハンチング': 'Hats',
+  'ダッドハット': 'Hats', 'サンバイザー': 'Hats'
+
+#### (D) IS_CATEGORY_FIELDS（'Dolls & Plush' 行の後に追加）
+
+  'Hats':          ['Brand', 'Style', 'Department', 'Color', 'Material', 'Pattern', 'Season', 'Features', 'Size', 'Country/Region of Manufacture']
+
+#### (E) IS_BRAND_DICT（末尾の ]; の前に追加）
+
+  // === Hats ===
+  {name: 'New Era', jp_names: ['ニューエラ', 'NEW ERA', 'NEWERA'], country: 'USA', category: ['Hats']},
+  {name: 'Kangol', jp_names: ['カンゴール', 'KANGOL'], country: 'UK', category: ['Hats']},
+  {name: 'Stetson', jp_names: ['ステットソン', 'STETSON'], country: 'USA', category: ['Hats']},
+  {name: 'Brixton', jp_names: ['ブリクストン', 'BRIXTON'], country: 'USA', category: ['Hats']},
+  {name: 'Goorin Bros', jp_names: ['グーリンブラザーズ', 'GOORIN BROS', 'GOORIN'], country: 'USA', category: ['Hats']},
+  {name: 'Richardson', jp_names: ['リチャードソン', 'RICHARDSON'], country: 'USA', category: ['Hats']},
+  {name: "'47 Brand", jp_names: ['フォーティーセブン', '47 BRAND', "'47", 'FORTYSEVEN'], country: 'USA', category: ['Hats']},
+  {name: 'CA4LA', jp_names: ['カシラ', 'CA4LA'], country: 'Japan', category: ['Hats']},
+  {name: 'Override', jp_names: ['オーバーライド', 'OVERRIDE'], country: 'Japan', category: ['Hats']},
+  {name: 'H.W. Dog & Co.', jp_names: ['エイチダブリュードッグ', 'H.W. DOG', 'HW DOG', 'HWDOG'], country: 'Japan', category: ['Hats']},
+  {name: 'Nine Tailor', jp_names: ['ナインテイラー', 'NINE TAILOR', 'NINETAILOR'], country: 'Japan', category: ['Hats']},
+  {name: 'Bocodeco', jp_names: ['ボコデコ', 'BOCODECO'], country: 'Japan', category: ['Hats']},
+  {name: 'Flexfit', jp_names: ['フレックスフィット', 'FLEXFIT'], country: 'USA', category: ['Hats']},
+  {name: 'Yupoong', jp_names: ['ユーポン', 'YUPOONG'], country: 'USA', category: ['Hats']},
+  {name: 'Mitchell & Ness', jp_names: ['ミッチェルアンドネス', 'MITCHELL & NESS', 'MITCHELL AND NESS', 'MITCHELL&NESS'], country: 'USA', category: ['Hats']},
+  {name: 'Starter', jp_names: ['スターター', 'STARTER'], country: 'USA', category: ['Hats']},
+  {name: 'Lack of Color', jp_names: ['ラックオブカラー', 'LACK OF COLOR'], country: 'Australia', category: ['Hats']},
+  {name: 'Racal', jp_names: ['ラカル', 'RACAL'], country: 'Japan', category: ['Hats']},
+
+### 2. ItemSpecifics/ItemSpecifics.gs — resolveFieldValue_ 内に帽子用ロジック追加
+
+詳細はタスク本文参照。Style, Material, Features, Season, Size の各caseを修正/追加。
+
+### 3. ItemSpecifics/AIExtractor.gs — AIプロンプトに帽子用正規化ルール追加
+
+SOAP RULESの後にHAT STYLE RULESセクションを追加。
+
+## 制約
+- ES5互換（const/let/アロー関数は使わない）
+- ScriptProperties は使わない
+- IS_CATEGORY_FIELDSは10フィールド以内

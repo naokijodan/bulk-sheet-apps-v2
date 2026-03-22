@@ -331,6 +331,14 @@ function buildExtractionPrompt_(title, description, category, fields, tag, exist
   lines.push('Scent (soap): Extract fragrance/scent from title/description. Common scents: Rose, Lavender, Citrus, Orange, Honey, Jasmine, Verbena, Green Tea, Sandalwood, Vanilla, Coconut, Herbal, Floral, Unscented. Use English.');
   lines.push('Product Line (soap): The specific product line name. Examples: Hermès → "Eau d\'Orange Verte", "Jardin", "Twilly". CHANEL → "N°5", "Coco Mademoiselle". Dior → "Miss Dior", "Sauvage", "J\'adore". Bvlgari → "Au Thé Vert". HACCI → "Honey Face Soap". L\'Occitane → "Shea Butter". Jo Malone → "Lime Basil & Mandarin". Cow Brand → "Beauty Soap Red Box", "Beauty Soap Blue Box".');
   lines.push('');
+  lines.push('### HAT STYLE RULES');
+  lines.push('Category = Hats: Extract and normalize these fields.');
+  lines.push('Style (hats): Choose one of: Baseball Cap, Bucket Hat, Beanie, Fedora, Trucker Hat, Snapback, Dad Hat, Visor, Beret, Newsboy Cap, Flat Cap, Sun Hat, Panama Hat, Cowboy Hat. Map Japanese terms: キャップ/ベースボール/59FIFTY/9FIFTY/9FORTY → Baseball Cap, スナップバック → Snapback, トラッカー → Trucker Hat, ダッドハット → Dad Hat, バケットハット → Bucket Hat, ビーニー/ニット帽 → Beanie, フェドーラ/中折れ → Fedora, ベレー帽 → Beret, キャスケット → Newsboy Cap, ハンチング → Flat Cap, サンバイザー → Visor, パナマハット → Panama Hat, サンハット/つば広 → Sun Hat, カウボーイ → Cowboy Hat.');
+  lines.push('Material (hats): Normalize to Cotton, Polyester, Wool, Acrylic, Nylon, Mesh, Straw, Leather, Canvas.');
+  lines.push('Features (hats): Use comma-separated features from: Adjustable, Breathable, Mesh Back, UV Protection, Wide Brim, Lined, Ear Flap, Waterproof.');
+  lines.push('Season (hats): Use Spring, Summer, Fall, Winter. Infer from text/material: Straw/Panama/wide brim → Summer; Wool/fleece/beanie/ear flap → Winter. If text says 春夏 or 秋冬, output the two seasons separated by comma.');
+  lines.push('Size (hats): Extract "One Size", "Adjustable", alpha sizes (S/M/L/XL), US hat sizes like 6 7/8, 7 1/8, 7 1/4, 7 3/8, 7 1/2, 7 5/8, 7 3/4, 7 7/8, or cm sizes like 57cm/58cm. Prefer "One Size" over "Adjustable" if both appear.');
+  lines.push('');
   lines.push('### METAL IDENTIFICATION RULES (CRITICAL for Jewelry)');
   lines.push('IMPORTANT: Distinguish between actual precious metal and color/finish/plating:');
   lines.push('- "gold tone", "gold plated", "gold color", "gold-tone", "GP" in description → Metal: "Base Metal", Metal Purity: "Does not apply"');

@@ -284,6 +284,19 @@ var IS_INITIAL_DATA = [
   { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Size', field_type: 'recommended', priority: 5, notes: '例: 90cm x 90cm, 70cm x 180cm等' },
   { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Pattern', field_type: 'recommended', priority: 6, notes: '' },
   { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Country of Origin', field_type: 'recommended', priority: 7, notes: '製造国。フルネーム英語' }
+,
+
+  // === Hats (帽子) ===
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Style', field_type: 'required', priority: 2, notes: 'Baseball Cap, Bucket Hat, Beanie, Fedora, Trucker Hat, Snapback, Dad Hat, Visor, Beret, Newsboy Cap, Flat Cap, Sun Hat, Panama Hat, Cowboy Hat' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Department', field_type: 'required', priority: 3, notes: 'Men, Women, Unisex Adults' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Color', field_type: 'required', priority: 4, notes: '' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Material', field_type: 'recommended', priority: 5, notes: 'Cotton, Polyester, Wool, Acrylic, Nylon, Mesh, Straw, Leather, Canvas' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Pattern', field_type: 'recommended', priority: 6, notes: 'Solid, Camouflage, Plaid, Striped, Floral, Animal Print' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Season', field_type: 'recommended', priority: 7, notes: 'Spring, Summer, Fall, Winter' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Features', field_type: 'recommended', priority: 8, notes: 'Adjustable, Breathable, Mesh Back, UV Protection, Wide Brim, Lined, Ear Flap, Waterproof' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Size', field_type: 'recommended', priority: 9, notes: 'One Size, S, M, L, XL, 7 1/8, 7 1/4, 7 3/8, 7 1/2, Adjustable' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Country/Region of Manufacture', field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' }
 ];
 
 // 主要ブランド辞書（プロンプト埋め込み用）
@@ -1579,7 +1592,26 @@ var IS_BRAND_DICT = [
   {name: 'BE@RBRICK', jp_names: ['ベアブリック', 'BEARBRICK', 'BE@RBRICK'], country: 'Japan', category: ['Dolls & Plush']},
   {name: 'KAWS', jp_names: ['カウズ', 'KAWS'], country: 'USA', category: ['Dolls & Plush']},
   {name: 'Bandai', jp_names: ['バンダイ', 'BANDAI'], country: 'Japan', category: ['Dolls & Plush']},
-
+  
+  // === Hats ===
+  {name: 'New Era', jp_names: ['ニューエラ', 'NEW ERA', 'NEWERA'], country: 'USA', category: ['Hats']},
+  {name: 'Kangol', jp_names: ['カンゴール', 'KANGOL'], country: 'UK', category: ['Hats']},
+  {name: 'Stetson', jp_names: ['ステットソン', 'STETSON'], country: 'USA', category: ['Hats']},
+  {name: 'Brixton', jp_names: ['ブリクストン', 'BRIXTON'], country: 'USA', category: ['Hats']},
+  {name: 'Goorin Bros', jp_names: ['グーリンブラザーズ', 'GOORIN BROS', 'GOORIN'], country: 'USA', category: ['Hats']},
+  {name: 'Richardson', jp_names: ['リチャードソン', 'RICHARDSON'], country: 'USA', category: ['Hats']},
+  {name: "'47 Brand", jp_names: ['フォーティーセブン', '47 BRAND', "'47", 'FORTYSEVEN'], country: 'USA', category: ['Hats']},
+  {name: 'CA4LA', jp_names: ['カシラ', 'CA4LA'], country: 'Japan', category: ['Hats']},
+  {name: 'Override', jp_names: ['オーバーライド', 'OVERRIDE'], country: 'Japan', category: ['Hats']},
+  {name: 'H.W. Dog & Co.', jp_names: ['エイチダブリュードッグ', 'H.W. DOG', 'HW DOG', 'HWDOG'], country: 'Japan', category: ['Hats']},
+  {name: 'Nine Tailor', jp_names: ['ナインテイラー', 'NINE TAILOR', 'NINETAILOR'], country: 'Japan', category: ['Hats']},
+  {name: 'Bocodeco', jp_names: ['ボコデコ', 'BOCODECO'], country: 'Japan', category: ['Hats']},
+  {name: 'Flexfit', jp_names: ['フレックスフィット', 'FLEXFIT'], country: 'USA', category: ['Hats']},
+  {name: 'Yupoong', jp_names: ['ユーポン', 'YUPOONG'], country: 'USA', category: ['Hats']},
+  {name: 'Mitchell & Ness', jp_names: ['ミッチェルアンドネス', 'MITCHELL & NESS', 'MITCHELL AND NESS', 'MITCHELL&NESS'], country: 'USA', category: ['Hats']},
+  {name: 'Starter', jp_names: ['スターター', 'STARTER'], country: 'USA', category: ['Hats']},
+  {name: 'Lack of Color', jp_names: ['ラックオブカラー', 'LACK OF COLOR'], country: 'Australia', category: ['Hats']},
+  {name: 'Racal', jp_names: ['ラカル', 'RACAL'], country: 'Japan', category: ['Hats']},
 ];
 
 // ドール＆ぬいぐるみ用キャラクターパターン辞書
@@ -1894,7 +1926,25 @@ var IS_TAG_TO_TYPE = {
   'シュタイフ': 'Plush Toy',
   'ジェリーキャット': 'Plush Toy',
   'スクイッシュマロ': 'Plush Toy',
-  '人形': 'Doll'
+  '人形': 'Doll',
+
+  // Hats
+  '帽子': 'Hat',
+  'キャップ': 'Baseball Cap',
+  'ハット': 'Hat',
+  'ベースボールキャップ': 'Baseball Cap',
+  'スナップバック': 'Baseball Cap',
+  'バケットハット': 'Bucket Hat',
+  'ビーニー': 'Beanie',
+  'ニット帽': 'Beanie',
+  'トラッカーハット': 'Trucker Hat',
+  'ベレー帽': 'Beret',
+  'フェドーラ': 'Fedora',
+  'パナマハット': 'Panama Hat',
+  'ダッドハット': 'Dad Hat',
+  'サンバイザー': 'Visor',
+  'ハンチング': 'Flat Cap',
+  'キャスケット': 'Newsboy Cap'
 };
 
 // ==============================
@@ -1954,6 +2004,14 @@ var IS_TAG_TO_CATEGORY = {
   'スクイッシュマロ': 'Dolls & Plush', 'モンチッチ': 'Dolls & Plush'
 };
 
+// Hats
+IS_TAG_TO_CATEGORY['帽子'] = 'Hats'; IS_TAG_TO_CATEGORY['キャップ'] = 'Hats'; IS_TAG_TO_CATEGORY['ハット'] = 'Hats';
+IS_TAG_TO_CATEGORY['ビーニー'] = 'Hats'; IS_TAG_TO_CATEGORY['バケットハット'] = 'Hats'; IS_TAG_TO_CATEGORY['スナップバック'] = 'Hats';
+IS_TAG_TO_CATEGORY['ベースボールキャップ'] = 'Hats'; IS_TAG_TO_CATEGORY['トラッカーハット'] = 'Hats';
+IS_TAG_TO_CATEGORY['ニット帽'] = 'Hats'; IS_TAG_TO_CATEGORY['ベレー帽'] = 'Hats'; IS_TAG_TO_CATEGORY['フェドーラ'] = 'Hats';
+IS_TAG_TO_CATEGORY['パナマハット'] = 'Hats'; IS_TAG_TO_CATEGORY['キャスケット'] = 'Hats'; IS_TAG_TO_CATEGORY['ハンチング'] = 'Hats';
+IS_TAG_TO_CATEGORY['ダッドハット'] = 'Hats'; IS_TAG_TO_CATEGORY['サンバイザー'] = 'Hats';
+
 // ==============================
 // カテゴリ別 出力フィールド定義（5-8フィールド、順序固定）
 // ==============================
@@ -1991,7 +2049,8 @@ var IS_CATEGORY_FIELDS = {
   'Sunglasses':  ['Brand', 'Model', 'Frame Color', 'Lens Color', 'Frame Material', 'Style', 'Department', 'Country/Region of Manufacture'],
   'Video Games': ['Platform', 'Game Name', 'Region Code', 'Genre', 'Character', 'Publisher', 'Rating', 'Language', 'Country/Region of Manufacture'],
   'Soap':        ['Brand', 'Type', 'Scent', 'Product Line', 'Color', 'Country/Region of Manufacture'],
-  'Dolls & Plush': ['Brand', 'Type', 'Character', 'Size', 'Color', 'Material', 'Country/Region of Manufacture']
+  'Dolls & Plush': ['Brand', 'Type', 'Character', 'Size', 'Color', 'Material', 'Country/Region of Manufacture'],
+  'Hats':          ['Brand', 'Style', 'Department', 'Color', 'Material', 'Pattern', 'Season', 'Features', 'Size', 'Country/Region of Manufacture']
 };
 
 // ==============================

@@ -238,6 +238,16 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
     case 'Exterior Color':
     case 'Dial Color':
       return matchAllColors_(title);
+    case 'Features':
+      if (category === 'Hats') {
+        return matchHatFeatures_((title || '') + ' ' + (description || ''));
+      }
+      return '';
+    case 'Season':
+      if (category === 'Hats') {
+        return matchHatSeason_((title || '') + ' ' + (description || ''));
+      }
+      return '';
     case 'Material':
     case 'Exterior Material':
       // Watch Partsの場合、素材が不明ならStainless Steelをデフォルトにする
@@ -245,9 +255,21 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       if (!mat) mat = matchFromPatterns_(title, IS_GENERAL_MATERIAL_PATTERNS);
       if (!mat && category === 'Watch Parts') mat = 'Stainless Steel';
       if (!mat && category === 'Dolls & Plush') mat = 'Plush';
+      // Hats 追加素材（Acrylic / Mesh / Straw）
+      if (!mat && category === 'Hats') {
+        var textHM = (title + ' ' + (description || '')).toLowerCase();
+        if (/(アクリル|acrylic)/i.test(textHM)) mat = 'Acrylic';
+        else if (/(メッシュ|mesh)/i.test(textHM)) mat = 'Mesh';
+        else if (/(ストロー|麦わら|ラフィア|raffia|panama|パナマ)/i.test(textHM)) mat = 'Straw';
+      }
       return mat;
     case 'Style':
-      // バッグの場合はタグからスタイルを取得
+      // バッグ/帽子 はタグからスタイルを取得。帽子はタイトルも確認。
+      if (category === 'Hats') {
+        var hs = matchTypeFromTag_(tag);
+        if (!hs) hs = matchHatStyleFromText_((title || '') + ' ' + (description || ''));
+        return hs;
+      }
       return matchTypeFromTag_(tag);
     // === Trading Cards fields ===
     case 'Character':
@@ -320,6 +342,10 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
     case 'Compatible Model':
       return matchCompatibleModel_(title, brandInfo);
     case 'Size':
+      if (category === 'Hats') {
+        var szText = (title + ' ' + (description || ''));
+        return matchHatSize_(szText);
+      }
       var sz = matchPartSize_(title);
       if (!sz && description) sz = matchPartSize_(description);
       return sz;
@@ -818,6 +844,86 @@ function matchTypeFromTag_(tag) {
   return '';
 }
 
+// 帽子: タイトル/説明からスタイルを推定
+function matchHatStyleFromText_(text) {
+  if (!text) return '';
+  var t = String(text);
+  // 優先度順にチェック
+  if (/(ベースボールキャップ|baseball\s*cap|キャップ|59fifty|9fifty|9forty|47\s*brand)/i.test(t)) return 'Baseball Cap';
+  if (/(スナップバック|snap\s*back|snapback)/i.test(t)) return 'Snapback';
+  if (/(トラッカーハット|trucker\s*hat|trucker)/i.test(t)) return 'Trucker Hat';
+  if (/(ダッドハット|dad\s*hat)/i.test(t)) return 'Dad Hat';
+  if (/(バケットハット|bucket\s*hat|ブケット|バケハ)/i.test(t)) return 'Bucket Hat';
+  if (/(ビーニー|ニット帽|beanie|watch\s*cap)/i.test(t)) return 'Beanie';
+  if (/(フェドーラ|fedora|中折れ)/i.test(t)) return 'Fedora';
+  if (/(ベレー帽|beret)/i.test(t)) return 'Beret';
+  if (/(キャスケット|newsboy|news\s*boy)/i.test(t)) return 'Newsboy Cap';
+  if (/(ハンチング|flat\s*cap)/i.test(t)) return 'Flat Cap';
+  if (/(サンバイザー|visor)/i.test(t)) return 'Visor';
+  if (/(パナマハット|panama\s*hat)/i.test(t)) return 'Panama Hat';
+  if (/(カウボーイ|cowboy\s*hat)/i.test(t)) return 'Cowboy Hat';
+  if (/(サンハット|sun\s*hat|wide\s*brim)/i.test(t)) return 'Sun Hat';
+  if (/(ハット|hat)/i.test(t)) return 'Hat';
+  return '';
+}
+
+// 帽子: 特徴を抽出（カンマ区切り）
+function matchHatFeatures_(text) {
+  if (!text) return '';
+  var t = String(text).toLowerCase();
+  var feats = [];
+  if (/(調整|アジャスト|アジャスタブル|adjustable|バックル|スナップ|後部ベルト)/i.test(t)) feats.push('Adjustable');
+  if (/(通気|ベンチレー|メッシュ)/i.test(t)) feats.push('Breathable');
+  if (/(メッシュ\s*バック|trucker|mesh\s*back)/i.test(t)) feats.push('Mesh Back');
+  if (/(uv|upf|日除け|日よけ|紫外線)/i.test(t)) feats.push('UV Protection');
+  if (/(つば広|ワイドブリム|wide\s*brim)/i.test(t)) feats.push('Wide Brim');
+  if (/(裏地|ライニング|lined)/i.test(t)) feats.push('Lined');
+  if (/(耳当て|イヤーフラップ|ear\s*flap)/i.test(t)) feats.push('Ear Flap');
+  if (/(防水|撥水|water\s*proof|water-resistant|water\s*resistant)/i.test(t)) feats.push('Waterproof');
+  // 重複排除
+  var out = [];
+  for (var i = 0; i < feats.length; i++) if (out.indexOf(feats[i]) === -1) out.push(feats[i]);
+  return out.join(', ');
+}
+
+// 帽子: シーズン分類
+function matchHatSeason_(text) {
+  if (!text) return '';
+  var t = String(text).toLowerCase();
+  // 直接記述優先
+  if (/春夏|spring\/?summer/.test(t)) return 'Spring, Summer';
+  if (/秋冬|fall\/?winter|autumn/.test(t)) return 'Fall, Winter';
+  if (/spring|春/.test(t)) return 'Spring';
+  if (/summer|サマー|夏/.test(t)) return 'Summer';
+  if (/fall|autumn|秋/.test(t)) return 'Fall';
+  if (/winter|ウィンター|冬/.test(t)) return 'Winter';
+  // 素材/スタイルで推定
+  if (/(ストロー|麦わら|ラフィア|raffia|panama|パナマ)/.test(t)) return 'Summer';
+  if (/(ウール|フリース|ボア|wool|fleece|ear\s*flap|ニット|beanie)/.test(t)) return 'Winter';
+  return '';
+}
+
+// 帽子: サイズ抽出
+function matchHatSize_(text) {
+  if (!text) return '';
+  var t = String(text);
+  // One Size / Adjustable 優先
+  if (/(one\s*size|osfm|free\s*size|フリーサイズ|フリー)/i.test(t)) return 'One Size';
+  if (/(adjustable|アジャスタブル|サイズ調整|調整可能)/i.test(t)) return 'Adjustable';
+  // US fraction sizes: e.g., 7 1/8, 7 1/4, 7 3/8, 7 1/2
+  var mFrac = t.match(/\b([6-8])\s*(1\/(?:8|4|2)|3\/8|5\/8|3\/4|7\/8)\b/);
+  if (mFrac) return (mFrac[1] + ' ' + mFrac[2]).replace(/\s+/, ' ');
+  // Plain numeric like 7 1/2 without slash spacing variations
+  var mFrac2 = t.match(/\b([6-8])\s*(?:\-)?(1\/8|1\/4|3\/8|1\/2|5\/8|3\/4|7\/8)\b/);
+  if (mFrac2) return (mFrac2[1] + ' ' + mFrac2[2]).replace(/\s+/, ' ');
+  // EU cm sizes (57cm, 58 cm)
+  var mCm = t.match(/\b(\d{2})\s*cm\b/i);
+  if (mCm) return mCm[1] + 'cm';
+  // Alpha sizes: S/M/L/XL (avoid matching words ending with these letters)
+  var mAlpha = t.match(/\b(XXL|XL|L|M|S)\b/);
+  if (mAlpha) return mAlpha[1];
+  return '';
+}
 /**
  * タイトル・説明文からアニメフランチャイズを検出
  * @return {Object|null} {value: 'One Piece', country: 'Japan'} or null
