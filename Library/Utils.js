@@ -743,8 +743,15 @@ function GET_SHIPPING_POLICY_FROM_IMPORT(categoryDisplay, estimatedTax, conditio
       return 'エラー';
     }
 
-    // DDU閾値のキャップはスプレッドシート数式側（AP2/AP3参照）で処理済み
-    // AP3セルが唯一の閾値設定として機能する
+    // DDU閾値を取得し、想定関税が閾値以上なら閾値を使用（DocumentPropertiesから取得）
+    var docProps = PropertiesService.getDocumentProperties();
+    var dduEnabled = docProps.getProperty('DDU_ADJUSTMENT_ENABLED') === 'true';
+    var dduThreshold = parseFloat(docProps.getProperty('DDU_THRESHOLD')) || CONFIG.DDU_PRICE_ADJUSTMENT.DEFAULT_THRESHOLD;
+
+    // DDU調整が有効で、想定関税が閾値以上の場合は閾値を使用
+    if (dduEnabled && taxValue >= dduThreshold) {
+      taxValue = dduThreshold;
+    }
 
     // 配送方法を配送タイプに変換
     var shippingType = convertShippingMethodToType_(shippingMethod);
@@ -1195,8 +1202,8 @@ function getImportPoliciesDataCached_() {
     return [];
   }
 
-  // A-G列を取得（範囲を500行に限定）
-  var maxRow = Math.min(lastRow, 500);
+  // A-G列を取得（範囲を300行に限定）
+  var maxRow = Math.min(lastRow, 300);
   var data = sheet.getRange(2, 1, maxRow - 1, 7).getValues();
 
   // キャッシュに保存（30分間）
