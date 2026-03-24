@@ -380,6 +380,7 @@ var IS_BRAND_DICT = [
   {name: 'Eco-Drive', jp_names: ['エコドライブ', 'ECO-DRIVE', 'ECO DRIVE', 'ECODRIVE'], country: 'Japan', parent_brand: 'Citizen', category: ['Watches']},
   {name: 'Eco-Drive One', jp_names: ['エコドライブワン', 'ECO-DRIVE ONE', 'ECO DRIVE ONE'], country: 'Japan', parent_brand: 'Citizen', category: ['Watches']},
   {name: 'Edifice', jp_names: ['エディフィス', 'EDIFICE'], country: 'Japan', parent_brand: 'Casio', category: ['Watches']},
+  {name: 'Chronoffshore', jp_names: ['クロノオフショア', 'CHRONOFFSHORE', 'CHRONO OFFSHORE'], country: 'Switzerland', parent_brand: 'Edox', category: ['Watches']},
   {name: 'Edox', jp_names: ['エドックス', 'EDOX'], country: 'Switzerland'},
   {name: 'Eliros', jp_names: ['エリロス', 'ELIROS'], country: 'Switzerland', parent_brand: 'Maurice Lacroix', category: ['Watches']},
   {name: 'Epson', jp_names: ['エプソン', 'EPSON'], country: 'Japan'},
@@ -561,7 +562,7 @@ var IS_BRAND_DICT = [
   {name: 'Sea-Dweller', jp_names: ['シードゥエラー', 'SEA-DWELLER', 'SEA DWELLER'], country: 'Switzerland', parent_brand: 'Rolex', category: ['Watches']},
   {name: 'Seamaster', jp_names: ['シーマスター', 'SEAMASTER'], country: 'Switzerland', parent_brand: 'Omega', category: ['Watches']},
   {name: 'Seastar', jp_names: ['シースター', 'SEASTAR'], country: 'Switzerland', parent_brand: 'Tissot', category: ['Watches']},
-  {name: 'Satellite Wave', jp_names: ['サテライトウェーブ', 'SATELLITE WAVE'], country: 'Japan', parent_brand: 'Citizen', category: ['Watches']},
+  // Satellite Wave は技術名（モデルではない）→ 削除済み。AIのStep2で対応
   {name: 'Seiko', jp_names: ['セイコー', 'SEIKO'], country: 'Japan'},
   {name: 'Seiko 5', jp_names: ['セイコー5', 'SEIKO 5', 'セイコーファイブ', 'SEIKO5', 'Seiko Five'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
   {name: 'Seiko Advan', jp_names: ['アドバン', 'ADVAN', 'Advan'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},

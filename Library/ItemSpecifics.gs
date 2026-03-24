@@ -699,6 +699,7 @@ function matchBrandFromTitle_(title, opt_category) {
   var t = title.toString().toLowerCase();
   var bestMatch = null;
   var bestLen = 0;
+  var bestHasParent = false; // sub-brand(モデルライン)は親ブランド単体より常に優先
   var materialMatch = null;
   var materialLen = 0;
 
@@ -758,10 +759,19 @@ function matchBrandFromTitle_(title, opt_category) {
           materialLen = b.name.length;
         }
       } else {
-        if (b.parent_brand ? (b.name.length >= bestLen) : (b.name.length > bestLen)) {
+        var shouldReplace = false;
+        if (b.parent_brand) {
+          // sub-brand: 親ブランド単体より常に優先。sub-brand同士は長い方が勝つ
+          shouldReplace = !bestHasParent || (b.name.length >= bestLen);
+        } else {
+          // bare brand: 既にsub-brandがマッチしていたら負け
+          shouldReplace = !bestHasParent && (b.name.length > bestLen);
+        }
+        if (shouldReplace) {
           bestMatch = { name: (b.parent_brand || b.name), country: b.country || '' };
           if (b.parent_brand) bestMatch.sub_brand = b.name;
           bestLen = b.name.length;
+          bestHasParent = !!b.parent_brand;
         }
       }
     }
@@ -801,10 +811,17 @@ function matchBrandFromTitle_(title, opt_category) {
                 materialLen = jp.length;
               }
             } else {
-              if (b.parent_brand ? (jp.length >= bestLen) : (jp.length > bestLen)) {
+              var shouldReplace2 = false;
+              if (b.parent_brand) {
+                shouldReplace2 = !bestHasParent || (jp.length >= bestLen);
+              } else {
+                shouldReplace2 = !bestHasParent && (jp.length > bestLen);
+              }
+              if (shouldReplace2) {
                 bestMatch = { name: (b.parent_brand || b.name), country: b.country || '' };
                 if (b.parent_brand) bestMatch.sub_brand = b.name;
                 bestLen = jp.length;
+                bestHasParent = !!b.parent_brand;
               }
             }
           }
