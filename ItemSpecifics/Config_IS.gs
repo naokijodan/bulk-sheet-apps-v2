@@ -698,7 +698,7 @@ var IS_BRAND_DICT = [
   {name: 'J. Tostrup', jp_names: ['トストルプ', 'J. TOSTRUP', 'TOSTRUP'], country: 'Norway'},
   {name: 'Justin Davis', jp_names: ['ジャスティン・デイビス', 'JUSTIN DAVIS'], country: 'USA'},
   {name: 'K.UNO', jp_names: ['ケイウノ', 'K.UNO', 'KUNO'], country: 'Japan'},
-  {name: 'Kalevala Koru', jp_names: ['カレワラコル', 'カレワラ', 'KALEVALA KORU', 'KALEVALA'], country: 'Finland'},
+  {name: 'Kalevala Koru', jp_names: ['カレワラコル', 'KALEVALA KORU', 'KALEVALA JEWELRY'], country: 'Finland'},
   {name: 'Kultaseppä Salovaara', jp_names: ['クルタセッパサロヴァーラ', 'KULTASEPPA SALOVAARA', 'SALOVAARA'], country: 'Finland'},
   {name: 'KUMIKYOKU', jp_names: ['組曲', 'クミキョク', 'KUMIKYOKU'], country: 'Japan'},
   {name: 'Lapponia', jp_names: ['ラッポニア', 'LAPPONIA'], country: 'Finland'},
