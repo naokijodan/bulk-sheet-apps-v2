@@ -696,7 +696,6 @@ var IS_BRAND_DICT = [
   {name: 'Harry Winston', jp_names: ['ハリー・ウィンストン', 'HARRY WINSTON'], country: 'USA'},
   {name: 'Hermes', jp_names: ['エルメス', 'HERMES'], country: 'France'},
   {name: 'J. Tostrup', jp_names: ['トストルプ', 'J. TOSTRUP', 'TOSTRUP'], country: 'Norway'},
-  {name: 'Jorma Laine', jp_names: ['ヨルマライネ', 'JORMA LAINE'], country: 'Finland'},
   {name: 'Justin Davis', jp_names: ['ジャスティン・デイビス', 'JUSTIN DAVIS'], country: 'USA'},
   {name: 'K.UNO', jp_names: ['ケイウノ', 'K.UNO', 'KUNO'], country: 'Japan'},
   {name: 'Kalevala Koru', jp_names: ['カレワラコル', 'カレワラ', 'KALEVALA KORU', 'KALEVALA'], country: 'Finland'},
@@ -712,7 +711,6 @@ var IS_BRAND_DICT = [
   {name: 'Nina Ricci', jp_names: ['ニナリッチ', 'NINA RICCI'], country: 'France'},
   {name: 'Pandora', jp_names: ['パンドラ', 'PANDORA'], country: 'Denmark'},
   {name: 'Paul Smith', jp_names: ['ポールスミス', 'ポール・スミス', 'PAUL SMITH'], country: 'UK'},
-  {name: 'Pentti Sarpaneva', jp_names: ['ペンッティサルパネヴァ', 'PENTTI SARPANEVA', 'SARPANEVA'], country: 'Finland'},
   {name: 'STAR JEWELRY', jp_names: ['スタージュエリー', 'STAR JEWELRY'], country: 'Japan'},
   {name: 'Swarovski', jp_names: ['スワロフスキー', 'SWAROVSKI'], country: 'Austria', is_material: true},
   {name: 'Tasaki', jp_names: ['タサキ', 'TASAKI'], country: 'Japan'},
@@ -2026,18 +2024,18 @@ IS_TAG_TO_CATEGORY['ダッドハット'] = 'Hats'; IS_TAG_TO_CATEGORY['サンバ
 // ==============================
 var IS_CATEGORY_FIELDS = {
   'Watches':       ['Brand', 'Model', 'Display', 'Movement', 'Case Material', 'Case Size', 'Wrist Size', 'Dial Color', 'Department', 'Country/Region of Manufacture'],
-  'Rings':         ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
-  'Necklaces':     ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
-  'Bracelets':     ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
-  'Earrings':      ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
+  'Rings':         ['Brand', 'Designer', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
+  'Necklaces':     ['Brand', 'Designer', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
+  'Bracelets':     ['Brand', 'Designer', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
+  'Earrings':      ['Brand', 'Designer', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
   'Handbags':      ['Brand', 'Style', 'Exterior Material', 'Exterior Color', 'Department', 'Country/Region of Manufacture'],
   'Clothing':      ['Brand', 'Type', 'Department', 'Color', 'Material', 'Country/Region of Manufacture'],
   'Shoes':         ['Brand', 'Type', 'Department', 'Color', 'Material', 'Country/Region of Manufacture'],
   'Cameras':       ['Brand', 'Model', 'Type', 'Series', 'Color', 'Maximum Resolution', 'Battery Type', 'Features', 'Lens Mount', 'Country/Region of Manufacture'],
   'Electronics':   ['Brand', 'Type', 'Color', 'Country/Region of Manufacture'],
   'Trading Cards': ['Game', 'Set', 'Character', 'Card Name', 'Card Number', 'Rarity', 'Finish', 'Graded', 'Professional Grader', 'Grade'],
-  'Brooches':      ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
-  'Cufflinks':     ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
+  'Brooches':      ['Brand', 'Designer', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
+  'Cufflinks':     ['Brand', 'Designer', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
   'Hair Accessories': ['Brand', 'Material', 'Type', 'Color', 'Country/Region of Manufacture'],
   'Dinnerware':    ['Brand', 'Type', 'Material', 'Color', 'Country/Region of Manufacture'],
   'Scarves':       ['Brand', 'Type', 'Material', 'Color', 'Size', 'Pattern', 'Country/Region of Manufacture'],
@@ -2051,7 +2049,7 @@ var IS_CATEGORY_FIELDS = {
   'Baby':          ['Brand', 'Type', 'Material', 'Color', 'Country/Region of Manufacture'],
   'Combs':         ['Brand', 'Material', 'Type', 'Color', 'Country/Region of Manufacture'],
   'Key Chains':    ['Brand', 'Metal', 'Material', 'Color', 'Country/Region of Manufacture'],
-  'Charms':        ['Brand', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
+  'Charms':        ['Brand', 'Designer', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country/Region of Manufacture'],
   'Collectibles':  ['Brand', 'Character', 'Franchise', 'Type', 'Theme', 'Material', 'Features', 'Size', 'Color', 'Country/Region of Manufacture'],
   'Pipes':         ['Brand', 'Material', 'Type', 'Color', 'Country/Region of Manufacture'],
   'Watch Parts':   ['Brand', 'Part Type', 'Material', 'Compatible Model', 'Size', 'Color', 'Country/Region of Manufacture'],
@@ -2061,6 +2059,38 @@ var IS_CATEGORY_FIELDS = {
   'Dolls & Plush': ['Brand', 'Type', 'Character', 'Size', 'Color', 'Material', 'Country/Region of Manufacture'],
   'Hats':          ['Brand', 'Style', 'Department', 'Color', 'Material', 'Pattern', 'Season', 'Features', 'Size', 'Country/Region of Manufacture']
 };
+
+// ==============================
+// デザイナー辞書（ジュエリー用）
+// ==============================
+var IS_DESIGNER_DICT = [
+  // --- Georg Jensen ---
+  {name: 'Vivianna Torun', jp_names: ['トールン', 'VIVIANNA TORUN', 'TORUN', 'ヴィヴィアンナ'], brands: ['Georg Jensen']},
+  {name: 'Henning Koppel', jp_names: ['ヘニングコッペル', 'HENNING KOPPEL', 'KOPPEL'], brands: ['Georg Jensen']},
+  {name: 'Arno Malinowski', jp_names: ['マリノフスキー', 'ARNO MALINOWSKI', 'MALINOWSKI'], brands: ['Georg Jensen']},
+  {name: 'Nanna Ditzel', jp_names: ['ナナディッツェル', 'NANNA DITZEL', 'DITZEL'], brands: ['Georg Jensen', 'Anton Michelsen']},
+  {name: 'Harald Nielsen', jp_names: ['ハラルドニールセン', 'HARALD NIELSEN'], brands: ['Georg Jensen']},
+  {name: 'Johan Rohde', jp_names: ['ヨハンローデ', 'JOHAN ROHDE', 'ROHDE'], brands: ['Georg Jensen']},
+  // --- Tiffany & Co. ---
+  {name: 'Elsa Peretti', jp_names: ['エルサペレッティ', 'エルサ ペレッティ', 'ELSA PERETTI', 'PERETTI'], brands: ['Tiffany & Co.']},
+  {name: 'Paloma Picasso', jp_names: ['パロマピカソ', 'パロマ ピカソ', 'PALOMA PICASSO'], brands: ['Tiffany & Co.']},
+  {name: 'Jean Schlumberger', jp_names: ['シュランバージェ', 'JEAN SCHLUMBERGER', 'SCHLUMBERGER'], brands: ['Tiffany & Co.']},
+  // --- Lapponia ---
+  {name: 'Bjorn Weckstrom', jp_names: ['ヴェクストロム', 'ビョルンヴェクストロム', 'BJORN WECKSTROM', 'WECKSTROM'], brands: ['Lapponia']},
+  // --- David Andersen ---
+  {name: 'Willy Winnaess', jp_names: ['ウィリーヴィナエス', 'WILLY WINNAESS', 'WINNAESS'], brands: ['David Andersen']},
+  {name: 'Bjorn Sigurd Ostern', jp_names: ['オステルン', 'BJORN SIGURD OSTERN', 'OSTERN'], brands: ['David Andersen']},
+  {name: 'Uni David-Andersen', jp_names: ['ウニダヴィッドアンデルセン', 'UNI DAVID-ANDERSEN', 'UNI DAVID ANDERSEN'], brands: ['David Andersen']},
+  // --- Anton Michelsen ---
+  {name: 'Gertrud Engel', jp_names: ['ゲルトルードエンゲル', 'GERTRUD ENGEL', 'ENGEL'], brands: ['Anton Michelsen']},
+  // --- Hans Hansen ---
+  {name: 'Bent Gabrielsen', jp_names: ['ベントガブリエルセン', 'BENT GABRIELSEN', 'GABRIELSEN'], brands: ['Hans Hansen', 'Georg Jensen']},
+  // --- J. Tostrup ---
+  {name: 'Grete Prytz Kittelsen', jp_names: ['グレーテプリッツ', 'GRETE PRYTZ KITTELSEN', 'GRETE PRYTZ', 'PRYTZ'], brands: ['J. Tostrup']},
+  // --- 独立系デザイナー（Brand欄にも入りうる） ---
+  {name: 'Pentti Sarpaneva', jp_names: ['ペンッティサルパネヴァ', 'PENTTI SARPANEVA', 'SARPANEVA'], brands: ['Kalevala Koru', 'Lapponia']},
+  {name: 'Jorma Laine', jp_names: ['ヨルマライネ', 'JORMA LAINE'], brands: ['Kalevala Koru']}
+];
 
 // ==============================
 // 素材パターン辞書

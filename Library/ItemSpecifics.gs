@@ -189,6 +189,8 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
   switch (fieldName) {
     case 'Brand':
       return brandInfo ? brandInfo.name : '';
+    case 'Designer':
+      return matchDesignerFromTitle_(title, brandInfo ? brandInfo.name : '');
     case 'Country/Region of Manufacture':
       if (category === 'Video Games' || category === 'Trading Cards') return 'Japan';
       if (category === 'Collectibles') {
@@ -646,6 +648,50 @@ function isWordBoundaryMatch_(text, matchStr, pos) {
  * @param {string} title
  * @return {{name: string, country: string}|null}
  */
+/**
+ * タイトルからデザイナー名を検出する（IS_DESIGNER_DICT使用）
+ * ブランド名と同一のデザイナーは除外する
+ */
+function matchDesignerFromTitle_(title, brandName) {
+  if (!title) return '';
+  if (typeof IS_DESIGNER_DICT === 'undefined' || !IS_DESIGNER_DICT) return '';
+
+  var t = title.toString().toLowerCase();
+  var bestName = '';
+  var bestLen = 0;
+
+  for (var i = 0; i < IS_DESIGNER_DICT.length; i++) {
+    var d = IS_DESIGNER_DICT[i];
+    if (!d || !d.name) continue;
+
+    // ブランド名と同一なら除外
+    if (brandName && d.name.toLowerCase() === brandName.toLowerCase()) continue;
+
+    // 英語名チェック
+    var nameLower = d.name.toLowerCase();
+    if (t.indexOf(nameLower) !== -1 && d.name.length > bestLen) {
+      bestName = d.name;
+      bestLen = d.name.length;
+    }
+
+    // 日本語名チェック
+    if (d.jp_names) {
+      for (var j = 0; j < d.jp_names.length; j++) {
+        var jp = d.jp_names[j];
+        if (jp) {
+          var jpLower = jp.toLowerCase();
+          if (t.indexOf(jpLower) !== -1 && jp.length > bestLen) {
+            bestName = d.name;
+            bestLen = jp.length;
+          }
+        }
+      }
+    }
+  }
+
+  return bestName;
+}
+
 function matchBrandFromTitle_(title, opt_category) {
   if (!title) return null;
   if (typeof IS_BRAND_DICT === 'undefined' || !IS_BRAND_DICT) return null;
