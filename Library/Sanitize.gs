@@ -69,7 +69,8 @@ function buildDefaultSanitizePrompt_(category) {
   lines.push('ルール:');
   lines.push('1. 数値はソースのまま忠実に出力する。丸めない、変換しない。');
   lines.push('2. ソースにない情報は書かない。NAにする。');
-  lines.push('3. 出力は日本語のまま。');
+  lines.push('3. 出力は日本語のまま。ただしブランド名とモデル名は英語の正式名称で出力する。');
+  lines.push('4. ブランド名は下記リストにあればそのスペルを正確に使用する。リストにない場合は正式な英語表記で出力する。');
 
   // ブランド辞書リスト（カテゴリ別）
   var brandList = '';
@@ -81,9 +82,9 @@ function buildDefaultSanitizePrompt_(category) {
   if (brandList) {
     lines.push('');
     if (category === 'card') {
-      lines.push('参考: 主要ゲーム名一覧（該当するものがあればこの表記を使用してください）:');
+      lines.push('ゲーム名一覧（該当するものがあればこの英語表記を正確に使用してください）:');
     } else {
-      lines.push('参考: 主要ブランド名一覧（該当するものがあればこの表記を使用してください）:');
+      lines.push('ブランド名一覧（該当するものがあればこの英語表記を正確に使用してください）:');
     }
     lines.push(brandList);
   }
