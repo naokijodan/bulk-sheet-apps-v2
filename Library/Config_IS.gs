@@ -893,6 +893,7 @@ var IS_BRAND_DICT = [
   {name: 'Taylor', jp_names: ['テイラー', 'TAYLOR'], country: 'USA'},
   {name: 'Teac', jp_names: ['ティアック', 'TEAC'], country: 'Japan'},
   {name: 'Technics', jp_names: ['テクニクス', 'TECHNICS'], country: 'Japan'},
+  {name: 'Technos', jp_names: ['テクノス', 'TECHNOS'], country: 'Switzerland', category: ['Watches']},
   {name: 'Timberland', jp_names: ['ティンバーランド', 'TIMBERLAND'], country: 'USA'},
   {name: 'Tobe', jp_names: ['砥部焼', 'TOBE'], country: 'Japan'},
   {name: 'Tommy Hilfiger', jp_names: ['トミーヒルフィガー', 'TOMMY HILFIGER', 'トミー ヒルフィガー'], country: 'USA'},
