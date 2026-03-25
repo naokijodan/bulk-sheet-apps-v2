@@ -317,6 +317,7 @@ var IS_BRAND_DICT = [
   {name: 'Aquis', jp_names: ['アクイス', 'AQUIS'], country: 'Switzerland', parent_brand: 'Oris', category: ['Watches']},
   {name: 'Atacama Field', jp_names: ['アタカマフィールド', 'ATACAMA FIELD', 'ATACAMA'], country: 'USA', parent_brand: 'Luminox', category: ['Watches']},
   {name: 'Attesa', jp_names: ['アテッサ', 'ATTESA'], country: 'Japan', parent_brand: 'Citizen', category: ['Watches']},
+  {name: 'Alpina', jp_names: ['アルピナ', 'ALPINA'], country: 'Switzerland'},
   {name: 'Audemars Piguet', jp_names: ['オーデマピゲ', 'AUDEMARS PIGUET'], country: 'Switzerland'},
   {name: 'Autavia', jp_names: ['オータヴィア', 'AUTAVIA'], country: 'Switzerland', parent_brand: 'TAG Heuer', category: ['Watches']},
   {name: 'Avenger', jp_names: ['アベンジャー', 'AVENGER'], country: 'Switzerland', parent_brand: 'Breitling', category: ['Watches']},
@@ -332,6 +333,7 @@ var IS_BRAND_DICT = [
   {name: 'Bell & Ross', jp_names: ['ベル&ロス', 'BELL & ROSS', 'BELL&ROSS'], country: 'France'},
   {name: 'Bell-Matic', jp_names: ['ベルマチック', 'BELL-MATIC', 'BELLMATIC'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
   {name: 'Beside', jp_names: ['ビサイド', 'BESIDE'], country: 'Japan', parent_brand: 'Casio', category: ['Watches']},
+  {name: 'Bedat & Co', jp_names: ['ベダアンドカンパニー', 'ベダ＆カンパニー', 'BEDAT & CO', 'BEDAT&CO', 'BEDAT'], country: 'Switzerland'},
   {name: 'Big Bang', jp_names: ['ビッグバン', 'BIG BANG'], country: 'Switzerland', parent_brand: 'Hublot', category: ['Watches']},
   {name: 'Big Crown', jp_names: ['ビッグクラウン', 'BIG CROWN'], country: 'Switzerland', parent_brand: 'Oris', category: ['Watches']},
   {name: 'Black Bay', jp_names: ['ブラックベイ', 'BLACK BAY'], country: 'Switzerland', parent_brand: 'Tudor', category: ['Watches']},
@@ -454,6 +456,7 @@ var IS_BRAND_DICT = [
   {name: 'Lamborghini', jp_names: ['ランボルギーニ', 'LAMBORGHINI', 'TONINO LAMBORGHINI'], country: 'Italy'},
   {name: 'Le Locle', jp_names: ['ル・ロックル', 'LE LOCLE'], country: 'Switzerland', parent_brand: 'Tissot', category: ['Watches']},
   {name: 'Leatherback Sea Turtle', jp_names: ['レザーバックシータートル', 'LEATHERBACK SEA TURTLE', 'LEATHERBACK'], country: 'USA', parent_brand: 'Luminox', category: ['Watches']},
+  {name: 'Louis Erard', jp_names: ['ルイエラール', 'ルイ・エラール', 'LOUIS ERARD'], country: 'Switzerland'},
   {name: 'Legend Diver', jp_names: ['レジェンドダイバー', 'LEGEND DIVER'], country: 'Switzerland', parent_brand: 'Longines', category: ['Watches']},
   {name: 'Lineage', jp_names: ['リニエージ', 'LINEAGE'], country: 'Japan', parent_brand: 'Casio', category: ['Watches']},
   {name: 'Link', jp_names: ['リンク', 'LINK'], country: 'Switzerland', parent_brand: 'TAG Heuer', category: ['Watches']},
@@ -548,12 +551,14 @@ var IS_BRAND_DICT = [
   {name: 'G-Shock Raysman', jp_names: ['レイズマン', 'RAYSMAN', 'Raysman'], country: 'Japan', parent_brand: 'Casio', category: ['Watches']},
   {name: 'G-Shock Riseman', jp_names: ['ライズマン', 'RISEMAN', 'Riseman', 'RiseMan'], country: 'Japan', parent_brand: 'Casio', category: ['Watches']},
   {name: 'Ray', jp_names: ['レイ', 'RAY'], country: 'Japan', parent_brand: 'Orient', category: ['Watches']},
+  {name: 'Revue Thommen', jp_names: ['レビュートーメン', 'REVUE THOMMEN'], country: 'Switzerland'},
   {name: 'Longines Record', jp_names: ['レコード', 'RECORD'], country: 'Switzerland', parent_brand: 'Longines', category: ['Watches']},
   {name: 'Roberto Cavalli', jp_names: ['ロベルトカヴァリ', 'ROBERTO CAVALLI'], country: 'Italy'},
   {name: 'Rolex', jp_names: ['ロレックス', 'ROLEX'], country: 'Switzerland'},
   {name: 'Rolex Custom', jp_names: ['ロレックスカスタム', 'ROLEX CUSTOM'], country: 'Switzerland'},
   {name: 'Rotolog', jp_names: ['ロトログ', 'ROTOLOG'], country: 'USA', parent_brand: 'Nixon', category: ['Watches']},
   {name: 'Royal Orient', jp_names: ['ロイヤルオリエント', 'ROYAL ORIENT'], country: 'Japan', parent_brand: 'Orient', category: ['Watches']},
+  {name: 'RSW', jp_names: ['ラマスイスウォッチ', 'RSW', 'RAMA SWISS WATCH'], country: 'Switzerland'},
   {name: 'Royal Oak', jp_names: ['ロイヤルオーク', 'ROYAL OAK'], country: 'Switzerland', parent_brand: 'Audemars Piguet', category: ['Watches']},
   {name: 'Royal Oak Offshore', jp_names: ['ロイヤルオークオフショア', 'ROYAL OAK OFFSHORE'], country: 'Switzerland', parent_brand: 'Audemars Piguet', category: ['Watches']},
   {name: 'S/el', jp_names: ['セル', 'SEL', 'S/EL'], country: 'Switzerland', parent_brand: 'TAG Heuer', category: ['Watches']},
@@ -562,7 +567,7 @@ var IS_BRAND_DICT = [
   {name: 'Sea-Dweller', jp_names: ['シードゥエラー', 'SEA-DWELLER', 'SEA DWELLER'], country: 'Switzerland', parent_brand: 'Rolex', category: ['Watches']},
   {name: 'Seamaster', jp_names: ['シーマスター', 'SEAMASTER'], country: 'Switzerland', parent_brand: 'Omega', category: ['Watches']},
   {name: 'Seastar', jp_names: ['シースター', 'SEASTAR'], country: 'Switzerland', parent_brand: 'Tissot', category: ['Watches']},
-  // Satellite Wave は技術名（モデルではない）→ 削除済み。AIのStep2で対応
+  {name: 'Satellite Wave', jp_names: ['サテライトウェーブ', 'SATELLITE WAVE'], country: 'Japan', parent_brand: 'Citizen', category: ['Watches']},
   {name: 'Seiko', jp_names: ['セイコー', 'SEIKO'], country: 'Japan'},
   {name: 'Seiko 5', jp_names: ['セイコー5', 'SEIKO 5', 'セイコーファイブ', 'SEIKO5', 'Seiko Five'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
   {name: 'Seiko Advan', jp_names: ['アドバン', 'ADVAN', 'Advan'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
@@ -649,8 +654,10 @@ var IS_BRAND_DICT = [
   {name: 'Tissot', jp_names: ['ティソ', 'TISSOT'], country: 'Switzerland'},
   {name: 'Triton', jp_names: ['トリトン', 'TRITON'], country: 'Japan', parent_brand: 'Orient', category: ['Watches']},
   {name: 'True', jp_names: ['トゥルー', 'TRUE', 'RADO TRUE'], country: 'Switzerland', parent_brand: 'Rado', category: ['Watches']},
+  {name: 'Terra Cielo Mare', jp_names: ['テッラチエロマーレ', 'TERRA CIELO MARE', 'TCM'], country: 'Italy'},
   {name: 'Tudor', jp_names: ['チュードル', 'チューダー', 'TUDOR'], country: 'Switzerland'},
   {name: 'Ulysse Nardin', jp_names: ['ユリスナルダン', 'ULYSSE NARDIN'], country: 'Switzerland'},
+  {name: 'Universal Geneve', jp_names: ['ユニバーサルジュネーブ', 'UNIVERSAL GENEVE', 'UNIVERSAL GENÈVE'], country: 'Switzerland'},
   {name: 'Vacheron Constantin', jp_names: ['ヴァシュロンコンスタンタン', 'VACHERON CONSTANTIN'], country: 'Switzerland'},
   {name: 'Vanac', jp_names: ['バナック', 'VANAC', 'Seiko Vanac', 'SEIKO VANAC'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
   {name: 'Vega', jp_names: ['ベガ', 'VEGA'], country: 'USA', parent_brand: 'Nixon', category: ['Watches']},
@@ -839,6 +846,7 @@ var IS_BRAND_DICT = [
   {name: 'Moncler', jp_names: ['モンクレール', 'MONCLER'], country: 'France'},
   {name: 'Montbell', jp_names: ['モンベル', 'MONTBELL'], country: 'Japan'},
   {name: 'Montblanc', jp_names: ['モンブラン', 'MONTBLANC'], country: 'Germany'},
+  {name: 'Mido', jp_names: ['ミドー', 'MIDO'], country: 'Switzerland'},
   {name: 'Moog', jp_names: ['モーグ', 'MOOG'], country: 'USA'},
   {name: 'Morris', jp_names: ['モーリス', 'MORRIS'], country: 'Japan'},
   {name: 'Nakamichi', jp_names: ['ナカミチ', 'NAKAMICHI'], country: 'Japan'},
@@ -1379,7 +1387,7 @@ var IS_BRAND_DICT = [
   {name: 'Panasonic', jp_names: ['パナソニック', 'PANASONIC'], country: 'Japan'},
   {name: 'Pioneer', jp_names: ['パイオニア', 'PIONEER'], country: 'Japan'},
   {name: 'Samsung', jp_names: ['サムスン', 'SAMSUNG'], country: 'South Korea'},
-  {name: 'Sony', jp_names: ['ソニー', 'SONY'], country: 'Japan'},
+  {name: 'Sony', jp_names: ['ソニー', 'SONY'], country: 'Japan', category: ['Cameras', 'Electronics']},
 
   // === Trading Cards ===
   {name: 'Battle Spirits', jp_names: ['バトルスピリッツ', 'BATTLE SPIRITS'], country: 'Japan'},
@@ -1621,6 +1629,96 @@ var IS_BRAND_DICT = [
   {name: 'Lack of Color', jp_names: ['ラックオブカラー', 'LACK OF COLOR'], country: 'Australia', category: ['Hats']},
   {name: 'Racal', jp_names: ['ラカル', 'RACAL'], country: 'Japan', category: ['Hats']},
 ];
+
+/**
+ * 交通整理（Sanitize）用のブランドリストを生成する
+ * IS_BRAND_DICTからカテゴリに応じたブランドの英語名+日本語名をコンパクトな文字列で返す
+ * @param {string} category - Sanitizeカテゴリ ('watch', 'camera', 'card')
+ * @return {string} ブランドリスト文字列（例: "Seiko(セイコー), Omega(オメガ), ..."）
+ */
+function getBrandListForSanitize_(category) {
+  try {
+    // カードの場合はCardPatterns.gsのゲーム名を返す
+    if (category === 'card') {
+      var games = [
+        'Pokemon TCG(ポケモンカード)', 'Yu-Gi-Oh!(遊戯王)', 'Magic the Gathering(MTG)',
+        'Duel Masters(デュエルマスターズ)', 'Weiss Schwarz(ヴァイスシュヴァルツ)',
+        'Cardfight Vanguard(ヴァンガード)', 'Battle Spirits(バトルスピリッツ)',
+        'Dragon Ball(ドラゴンボール)', 'One Piece(ワンピース)',
+        'BBM(野球カード)', 'Sumo(大相撲カード)'
+      ];
+      return games.join(', ');
+    }
+
+    // watch/cameraの場合はIS_BRAND_DICTからフィルタ
+    if (typeof IS_BRAND_DICT === 'undefined' || !IS_BRAND_DICT) return '';
+
+    var targetCategories;
+    if (category === 'watch') {
+      targetCategories = ['Watches'];
+    } else if (category === 'camera') {
+      targetCategories = ['Cameras'];
+    } else {
+      return '';
+    }
+
+    var seen = {};
+    var results = [];
+
+    for (var i = 0; i < IS_BRAND_DICT.length; i++) {
+      var entry = IS_BRAND_DICT[i];
+      // parent_brandがあるエントリ（サブブランド）はスキップ — 親ブランドだけ収集
+      if (entry.parent_brand) continue;
+
+      // categoryフィールドがあるエントリはカテゴリでフィルタ
+      var isMatch = false;
+      if (entry.category && entry.category.length > 0) {
+        for (var j = 0; j < targetCategories.length; j++) {
+          if (entry.category.indexOf(targetCategories[j]) !== -1) {
+            isMatch = true;
+            break;
+          }
+        }
+      }
+
+      // categoryがないエントリ（親ブランド）は、そのサブブランドが対象カテゴリを持つか確認
+      if (!isMatch && !entry.category) {
+        for (var k = 0; k < IS_BRAND_DICT.length; k++) {
+          var sub = IS_BRAND_DICT[k];
+          if (sub.parent_brand === entry.name && sub.category) {
+            for (var j = 0; j < targetCategories.length; j++) {
+              if (sub.category.indexOf(targetCategories[j]) !== -1) {
+                isMatch = true;
+                break;
+              }
+            }
+            if (isMatch) break;
+          }
+        }
+      }
+
+      if (!isMatch) continue;
+      if (seen[entry.name]) continue;
+      seen[entry.name] = true;
+
+      // 日本語名の最初の1つを取得（カタカナ優先）
+      var jpName = '';
+      if (entry.jp_names && entry.jp_names.length > 0) {
+        jpName = entry.jp_names[0];
+      }
+
+      if (jpName && jpName !== entry.name.toUpperCase()) {
+        results.push(entry.name + '(' + jpName + ')');
+      } else {
+        results.push(entry.name);
+      }
+    }
+
+    return results.join(', ');
+  } catch (e) {
+    return '';
+  }
+}
 
 // ドール＆ぬいぐるみ用キャラクターパターン辞書
 var IS_DOLL_CHARACTER_PATTERNS = [

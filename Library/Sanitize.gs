@@ -71,6 +71,23 @@ function buildDefaultSanitizePrompt_(category) {
   lines.push('2. ソースにない情報は書かない。NAにする。');
   lines.push('3. 出力は日本語のまま。');
 
+  // ブランド辞書リスト（カテゴリ別）
+  var brandList = '';
+  try {
+    brandList = getBrandListForSanitize_(category);
+  } catch (e) {
+    brandList = '';
+  }
+  if (brandList) {
+    lines.push('');
+    if (category === 'card') {
+      lines.push('参考: 主要ゲーム名一覧（該当するものがあればこの表記を使用してください）:');
+    } else {
+      lines.push('参考: 主要ブランド名一覧（該当するものがあればこの表記を使用してください）:');
+    }
+    lines.push(brandList);
+  }
+
   // カメラ用の補足ルール
   if (category === 'camera') {
     lines.push('');
