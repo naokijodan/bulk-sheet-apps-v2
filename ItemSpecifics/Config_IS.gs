@@ -553,6 +553,7 @@ var IS_BRAND_DICT = [
   {name: 'Ray', jp_names: ['レイ', 'RAY'], country: 'Japan', parent_brand: 'Orient', category: ['Watches']},
   {name: 'Revue Thommen', jp_names: ['レビュートーメン', 'REVUE THOMMEN'], country: 'Switzerland', category: ['Watches']},
   {name: 'Longines Record', jp_names: ['レコード', 'RECORD'], country: 'Switzerland', parent_brand: 'Longines', category: ['Watches']},
+  {name: 'Ritmo Latino', jp_names: ['リトモラティーノ', 'RITMO LATINO'], country: 'Italy', category: ['Watches']},
   {name: 'Roberto Cavalli', jp_names: ['ロベルトカヴァリ', 'ROBERTO CAVALLI'], country: 'Italy'},
   {name: 'Rolex', jp_names: ['ロレックス', 'ROLEX'], country: 'Switzerland'},
   {name: 'Rolex Custom', jp_names: ['ロレックスカスタム', 'ROLEX CUSTOM'], country: 'Switzerland'},
