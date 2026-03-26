@@ -1610,7 +1610,7 @@ var IS_BRAND_DICT = [
   {name: 'Sonny Angel', jp_names: ['ソニーエンジェル', 'SONNY ANGEL'], country: 'Japan', category: ['Dolls & Plush']},
   {name: 'BE@RBRICK', jp_names: ['ベアブリック', 'BEARBRICK', 'BE@RBRICK'], country: 'Japan', category: ['Dolls & Plush']},
   {name: 'KAWS', jp_names: ['カウズ', 'KAWS'], country: 'USA', category: ['Dolls & Plush']},
-  {name: 'Bandai', jp_names: ['バンダイ', 'BANDAI'], country: 'Japan', category: ['Dolls & Plush']},
+  {name: 'Bandai', jp_names: ['バンダイ', 'BANDAI'], country: 'Japan', category: ['Dolls & Plush', 'Video Games']},
   
   // === Hats ===
   {name: 'New Era', jp_names: ['ニューエラ', 'NEW ERA', 'NEWERA'], country: 'USA', category: ['Hats']},
@@ -1807,6 +1807,61 @@ var IS_BRAND_DICT = [
   {name: 'Miyoo', jp_names: ['ミヨー', 'MIYOO'], country: 'China', category: ['Video Games']},
   {name: 'Epoch', jp_names: ['エポック', 'エポック社', 'EPOCH'], country: 'Japan', category: ['Video Games']},
   {name: 'Sharp', jp_names: ['シャープ', 'SHARP', 'ツインファミコン'], country: 'Japan', category: ['Video Games']},
+  // Newly added parent brands for Video Games
+  {name: 'Magnavox', jp_names: ['マグナボックス', 'MAGNAVOX'], country: 'USA', category: ['Video Games']},
+  {name: 'AYANEO', jp_names: ['アヤネオ', 'AYANEO'], country: 'China', category: ['Video Games']},
+  {name: 'GPD', jp_names: ['ジーピーディー', 'GPD'], country: 'China', category: ['Video Games']},
+  {name: 'Retroid', jp_names: ['レトロイド', 'RETROID'], country: 'China', category: ['Video Games']},
+  {name: 'Powkiddy', jp_names: ['パウキッディ', 'POWKIDDY'], country: 'China', category: ['Video Games']},
+  {name: 'Playdate', jp_names: ['プレイデート', 'PLAYDATE'], country: 'USA', category: ['Video Games']},
+  {name: 'Evercade', jp_names: ['エバーケード', 'EVERCADE'], country: 'UK', category: ['Video Games']},
+
+  // Sub-brands (console models) with parent_brand
+  // Nintendo
+  {name: 'Famicom', jp_names: ['ファミコン', 'ファミリーコンピュータ', 'FC'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Super Famicom', jp_names: ['スーパーファミコン', 'スーファミ', 'SFC'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Nintendo 64', jp_names: ['ニンテンドー64', 'N64', 'ニンテンドウ64'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Nintendo GameCube', jp_names: ['ゲームキューブ', 'GC', 'GAMECUBE'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Wii', jp_names: ['ウィー', 'Wii'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Wii U', jp_names: ['ウィーユー', 'WiiU'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Nintendo Switch', jp_names: ['ニンテンドースイッチ', 'スイッチ', 'SWITCH'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Game Boy', jp_names: ['ゲームボーイ', 'GB', 'GAMEBOY'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Game Boy Advance', jp_names: ['ゲームボーイアドバンス', 'GBA', 'GAMEBOY ADVANCE'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Nintendo DS', jp_names: ['ニンテンドーDS', 'DS', 'NDS'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Nintendo 3DS', jp_names: ['ニンテンドー3DS', '3DS'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Virtual Boy', jp_names: ['バーチャルボーイ', 'VIRTUAL BOY'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Game & Watch', jp_names: ['ゲームアンドウォッチ', 'ゲーム&ウオッチ', 'GAME & WATCH'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+
+  // Sony PlayStation
+  {name: 'PlayStation', jp_names: ['プレイステーション', 'プレステ', 'PS1', 'PS ONE'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games']},
+  {name: 'PlayStation 2', jp_names: ['プレイステーション2', 'PS2', 'プレステ2'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games']},
+  {name: 'PlayStation 3', jp_names: ['プレイステーション3', 'PS3', 'プレステ3'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games']},
+  {name: 'PlayStation 4', jp_names: ['プレイステーション4', 'PS4', 'プレステ4'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games']},
+  {name: 'PlayStation 5', jp_names: ['プレイステーション5', 'PS5', 'プレステ5'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games']},
+  {name: 'PSP', jp_names: ['PSP', 'プレイステーションポータブル', 'PLAYSTATION PORTABLE'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games']},
+  {name: 'PS Vita', jp_names: ['ヴィータ', 'PSVITA', 'PS VITA', 'プレイステーションヴィータ'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games']},
+
+  // Sega
+  {name: 'Mega Drive', jp_names: ['メガドライブ', 'MEGA DRIVE', 'GENESIS', 'ジェネシス'], country: 'Japan', parent_brand: 'Sega', category: ['Video Games']},
+  {name: 'Sega Saturn', jp_names: ['セガサターン', 'サターン', 'SATURN'], country: 'Japan', parent_brand: 'Sega', category: ['Video Games']},
+  {name: 'Dreamcast', jp_names: ['ドリームキャスト', 'DREAMCAST', 'DC'], country: 'Japan', parent_brand: 'Sega', category: ['Video Games']},
+  {name: 'Game Gear', jp_names: ['ゲームギア', 'GAME GEAR'], country: 'Japan', parent_brand: 'Sega', category: ['Video Games']},
+  {name: 'Sega Mark III', jp_names: ['マークIII', 'セガマークIII', 'MASTER SYSTEM', 'マスターシステム'], country: 'Japan', parent_brand: 'Sega', category: ['Video Games']},
+
+  // SNK
+  {name: 'Neo Geo AES', jp_names: ['ネオジオ', 'ネオジオAES', 'NEO GEO AES', 'NEOGEO'], country: 'Japan', parent_brand: 'SNK', category: ['Video Games']},
+  {name: 'Neo Geo CD', jp_names: ['ネオジオCD', 'NEO GEO CD'], country: 'Japan', parent_brand: 'SNK', category: ['Video Games']},
+  {name: 'Neo Geo Pocket', jp_names: ['ネオジオポケット', 'NEO GEO POCKET'], country: 'Japan', parent_brand: 'SNK', category: ['Video Games']},
+
+  // NEC
+  {name: 'PC Engine', jp_names: ['PCエンジン', 'PC ENGINE', 'TURBOGRAFX-16', 'ターボグラフィックス'], country: 'Japan', parent_brand: 'NEC', category: ['Video Games']},
+  {name: 'PC-FX', jp_names: ['PC-FX', 'PCFX'], country: 'Japan', parent_brand: 'NEC', category: ['Video Games']},
+
+  // Bandai
+  {name: 'WonderSwan', jp_names: ['ワンダースワン', 'WONDERSWAN', 'WONDER SWAN'], country: 'Japan', parent_brand: 'Bandai', category: ['Video Games']},
+
+  // Other
+  {name: 'Cassette Vision', jp_names: ['カセットビジョン', 'CASSETTE VISION'], country: 'Japan', parent_brand: 'Epoch', category: ['Video Games']},
 ];
 
 /**
