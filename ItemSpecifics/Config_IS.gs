@@ -1862,6 +1862,64 @@ var IS_BRAND_DICT = [
 
   // Other
   {name: 'Cassette Vision', jp_names: ['カセットビジョン', 'CASSETTE VISION'], country: 'Japan', parent_brand: 'Epoch', category: ['Video Games']},
+  
+  // === Fishing Reels: New Parent Brands ===
+  {name: 'Tailwalk', jp_names: ['テイルウォーク', 'TAILWALK'], country: 'Japan', category: ['Fishing Reels']},
+  {name: 'Evergreen', jp_names: ['エバーグリーン', 'EVERGREEN'], country: 'Japan', category: ['Fishing Reels']},
+  {name: 'Major Craft', jp_names: ['メジャークラフト', 'MAJOR CRAFT'], country: 'Japan', category: ['Fishing Reels']},
+  {name: 'Studio Ocean Mark', jp_names: ['スタジオオーシャンマーク', 'STUDIO OCEAN MARK', 'SOM'], country: 'Japan', category: ['Fishing Reels']},
+  {name: 'Smith', jp_names: ['スミス', 'SMITH'], country: 'Japan', category: ['Fishing Reels']},
+  {name: 'Valleyhill', jp_names: ['バレーヒル', 'VALLEYHILL'], country: 'Japan', category: ['Fishing Reels']},
+  {name: 'PALMS', jp_names: ['パームス', 'PALMS'], country: 'Japan', category: ['Fishing Reels']},
+
+  // === Fishing Reels: Shimano Spinning ===
+  {name: 'Stella', jp_names: ['ステラ', 'STELLA'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+  {name: 'Twin Power', jp_names: ['ツインパワー', 'TWIN POWER', 'TWINPOWER'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+  {name: 'Vanquish', jp_names: ['ヴァンキッシュ', 'バンキッシュ', 'VANQUISH'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+  {name: 'Stradic', jp_names: ['ストラディック', 'STRADIC'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+  {name: 'Exsence', jp_names: ['エクスセンス', 'EXSENCE'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+  {name: 'Sephia', jp_names: ['セフィア', 'SEPHIA'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+  {name: 'Soare', jp_names: ['ソアレ', 'SOARE'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+
+  // === Fishing Reels: Shimano Bait ===
+  {name: 'Scorpion', jp_names: ['スコーピオン', 'SCORPION'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+  {name: 'Metanium', jp_names: ['メタニウム', 'METANIUM'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+  {name: 'Antares', jp_names: ['アンタレス', 'ANTARES'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+  {name: 'Calcutta', jp_names: ['カルカッタ', 'CALCUTTA'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+  {name: 'Bantam', jp_names: ['バンタム', 'BANTAM'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+  {name: 'Aldebaran', jp_names: ['アルデバラン', 'ALDEBARAN'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+
+  // === Fishing Reels: Shimano Electric ===
+  {name: 'ForceMaster', jp_names: ['フォースマスター', 'FORCEMASTER'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+  {name: 'BeastMaster', jp_names: ['ビーストマスター', 'BEASTMASTER'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+  {name: 'Plays', jp_names: ['プレイズ', 'PLAYS'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+
+  // === Fishing Reels: Daiwa Spinning ===
+  {name: 'Exist', jp_names: ['イグジスト', 'EXIST'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
+  {name: 'Certate', jp_names: ['セルテート', 'CERTATE'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
+  {name: 'Luvias', jp_names: ['ルビアス', 'LUVIAS'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
+  {name: 'Saltiga', jp_names: ['ソルティガ', 'SALTIGA'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
+  {name: 'Caldia', jp_names: ['カルディア', 'CALDIA'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
+  {name: 'Emeraldas', jp_names: ['エメラルダス', 'EMERALDAS'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
+
+  // === Fishing Reels: Daiwa Bait ===
+  {name: 'Steez', jp_names: ['スティーズ', 'STEEZ'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
+  {name: 'Zillion', jp_names: ['ジリオン', 'ZILLION'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
+  {name: 'Tatula', jp_names: ['タトゥーラ', 'TATULA'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
+  {name: 'Ryoga', jp_names: ['リョウガ', 'RYOGA'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
+  {name: 'Alphas', jp_names: ['アルファス', 'ALPHAS'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
+  {name: 'Millionaire', jp_names: ['ミリオネア', 'MILLIONAIRE'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
+
+  // === Fishing Reels: Daiwa Electric ===
+  {name: 'Seaborg', jp_names: ['シーボーグ', 'SEABORG'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
+  {name: 'Tanacom', jp_names: ['タナコン', 'TANACOM'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
+  {name: 'Leobritz', jp_names: ['レオブリッツ', 'LEOBRITZ'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
+
+  // === Fishing Reels: Abu Garcia ===
+  {name: 'Ambassadeur', jp_names: ['アンバサダー', 'AMBASSADEUR'], country: 'Sweden', parent_brand: 'Abu Garcia', category: ['Fishing Reels']},
+  {name: 'Revo', jp_names: ['レボ', 'REVO'], country: 'Sweden', parent_brand: 'Abu Garcia', category: ['Fishing Reels']},
+  {name: 'Cardinal', jp_names: ['カーディナル', 'CARDINAL'], country: 'Sweden', parent_brand: 'Abu Garcia', category: ['Fishing Reels']},
+  {name: 'Roxani', jp_names: ['ロキサーニ', 'ROXANI'], country: 'Sweden', parent_brand: 'Abu Garcia', category: ['Fishing Reels']},
 ];
 
 /**
