@@ -30,6 +30,16 @@ var SANITIZE_FIELDS_ = {
     'カード番号', 'レアリティ', '仕上げ', '言語',
     '鑑定会社', '鑑定グレード',
     'コンディション', '枚数'
+  ],
+  game: [
+    'メーカー', '機種名', '型番', 'タイプ',
+    'ストレージ容量', '色', 'リージョン',
+    '付属品', 'コンディション', '故障・不具合'
+  ],
+  reel: [
+    'メーカー', 'モデル名', '型番', 'リールタイプ',
+    '巻き方向', 'ギア比', 'サイズ/番手',
+    '付属品', 'コンディション', '故障・不具合'
   ]
 };
 
@@ -46,7 +56,8 @@ function buildDefaultSanitizePrompt_(category) {
     'モデル名': 20, '付属レンズ': 25, '色': 10,
     'セット名': 30, 'カード名': 30, 'キャラクター名': 20,
     'カード番号': 15, 'レアリティ': 15, '鑑定会社': 10,
-    '鑑定グレード': 10, '枚数': 10
+    '鑑定グレード': 10, '枚数': 10,
+    '機種名': 25
   };
 
   var lines = [
@@ -117,6 +128,27 @@ function buildDefaultSanitizePrompt_(category) {
     lines.push('- 枚数: まとめ売りの場合の枚数。単品ならNA。');
     lines.push('');
     lines.push('重要: カード名とキャラクター名を混同しない。キャラクター名は「ピカチュウ」、カード名は「ピカチュウVMAX SA」のように区別する。');
+  }
+
+  // ゲーム機用の補足ルール
+  if (category === 'game') {
+    lines.push('');
+    lines.push('ゲーム機用の補足ルール:');
+    lines.push('- メーカー: Nintendo/Sony/Sega/Microsoft/SNK/NEC/Atari のいずれかで記入。');
+    lines.push('- 機種名: 正式名称で記入。例: Nintendo Switch, PlayStation 5, Sega Mega Drive, Xbox Series X, PC Engine, Neo Geo AES');
+    lines.push('- タイプ: 据え置き/携帯機/ハイブリッド のいずれかで記入。');
+    lines.push('- リージョン: NTSC-J(日本)/NTSC-U(北米)/PAL(欧州) のいずれか。日本製はNTSC-J。');
+    lines.push('- ストレージ容量: GB単位で記入（例: 32GB, 825GB）。不明ならNA。');
+  }
+
+  // リール用の補足ルール
+  if (category === 'reel') {
+    lines.push('');
+    lines.push('リール用の補足ルール:');
+    lines.push('- リールタイプ: スピニング/ベイト(両軸)/フライ/電動/スピンキャスト のいずれかで記入。');
+    lines.push('- 巻き方向: 右巻き/左巻き/両対応 のいずれかで記入。ハンドル交換可能なら両対応。');
+    lines.push('- ギア比: ソースにある場合そのまま記入（例: 5.2:1, 6.4:1）。ない場合はNA。');
+    lines.push('- サイズ/番手: 型番に含まれる数字（例: 2500, C3000, 103）をそのまま記入。');
   }
 
   lines.push('');

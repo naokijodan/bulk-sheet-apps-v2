@@ -1405,13 +1405,13 @@ var IS_BRAND_DICT = [
   {name: 'Yu-Gi-Oh', jp_names: ['遊戯王', 'YU-GI-OH', 'YUGIOH'], country: 'Japan'},
 
   // === Video Games ===
-  {name: 'Bandai Namco', jp_names: ['バンダイナムコ', 'バンナム', 'BANDAI NAMCO'], country: 'Japan'},
-  {name: 'Capcom', jp_names: ['カプコン', 'CAPCOM'], country: 'Japan'},
-  {name: 'Konami', jp_names: ['コナミ', 'KONAMI'], country: 'Japan'},
-  {name: 'Nintendo', jp_names: ['任天堂', 'ニンテンドー', 'NINTENDO'], country: 'Japan'},
-  {name: 'Sega', jp_names: ['セガ', 'SEGA'], country: 'Japan'},
-  {name: 'Sony PlayStation', jp_names: ['プレイステーション', 'プレステ', 'PLAYSTATION', 'PS5', 'PS4'], country: 'Japan'},
-  {name: 'Square Enix', jp_names: ['スクウェア・エニックス', 'SQUARE ENIX'], country: 'Japan'},
+  {name: 'Bandai Namco', jp_names: ['バンダイナムコ', 'バンナム', 'BANDAI NAMCO'], country: 'Japan', category: ['Video Games']},
+  {name: 'Capcom', jp_names: ['カプコン', 'CAPCOM'], country: 'Japan', category: ['Video Games']},
+  {name: 'Konami', jp_names: ['コナミ', 'KONAMI'], country: 'Japan', category: ['Video Games']},
+  {name: 'Nintendo', jp_names: ['任天堂', 'ニンテンドー', 'NINTENDO'], country: 'Japan', category: ['Video Games']},
+  {name: 'Sega', jp_names: ['セガ', 'SEGA'], country: 'Japan', category: ['Video Games']},
+  {name: 'Sony PlayStation', jp_names: ['プレイステーション', 'プレステ', 'PLAYSTATION', 'PS5', 'PS4'], country: 'Japan', category: ['Video Games']},
+  {name: 'Square Enix', jp_names: ['スクウェア・エニックス', 'SQUARE ENIX'], country: 'Japan', category: ['Video Games']},
 
   // === Soap & Bath ===
   {name: 'Acqua di Parma', jp_names: ['アクアディパルマ', 'ACQUA DI PARMA'], country: 'Italy'},
@@ -1789,6 +1789,24 @@ var IS_BRAND_DICT = [
   {name: 'Pezon et Michel', jp_names: ['ペゾンエミシェル', 'PEZON ET MICHEL'], country: 'France', category: ['Fishing Reels']},
   {name: 'Ocean City', jp_names: ['オーシャンシティ', 'OCEAN CITY'], country: 'USA', category: ['Fishing Reels']},
   {name: 'Langley', jp_names: ['ラングレー', 'LANGLEY'], country: 'USA', category: ['Fishing Reels']},
+
+  // === Video Game Consoles & Related ===
+  {name: 'Microsoft Xbox', jp_names: ['エックスボックス', 'Xbox', 'XBOX', 'マイクロソフト'], country: 'USA', category: ['Video Games']},
+  {name: 'Atari', jp_names: ['アタリ', 'ATARI'], country: 'USA', category: ['Video Games']},
+  {name: 'SNK', jp_names: ['エスエヌケイ', 'SNK', 'ネオジオ', 'NEO GEO', 'NEOGEO'], country: 'Japan', category: ['Video Games']},
+  {name: 'NEC', jp_names: ['NEC', 'エヌイーシー', 'PCエンジン', 'PC ENGINE', 'PC-ENGINE'], country: 'Japan', category: ['Video Games']},
+  {name: 'Panasonic 3DO', jp_names: ['3DO', 'スリーディーオー'], country: 'Japan', category: ['Video Games']},
+  {name: 'Commodore', jp_names: ['コモドール', 'COMMODORE'], country: 'USA', category: ['Video Games']},
+  {name: 'Coleco', jp_names: ['コレコ', 'COLECO', 'COLECOVISION'], country: 'USA', category: ['Video Games']},
+  {name: 'Mattel', jp_names: ['マテル', 'MATTEL', 'INTELLIVISION'], country: 'USA', category: ['Video Games']},
+  {name: 'Valve', jp_names: ['バルブ', 'VALVE', 'STEAM DECK'], country: 'USA', category: ['Video Games']},
+  {name: 'Analogue', jp_names: ['アナログ', 'ANALOGUE'], country: 'USA', category: ['Video Games']},
+  {name: 'Retro-Bit', jp_names: ['レトロビット', 'RETRO-BIT', 'RETROBIT'], country: 'USA', category: ['Video Games']},
+  {name: 'Hyperkin', jp_names: ['ハイパーキン', 'HYPERKIN'], country: 'USA', category: ['Video Games']},
+  {name: 'Anbernic', jp_names: ['アンバーニック', 'ANBERNIC'], country: 'China', category: ['Video Games']},
+  {name: 'Miyoo', jp_names: ['ミヨー', 'MIYOO'], country: 'China', category: ['Video Games']},
+  {name: 'Epoch', jp_names: ['エポック', 'エポック社', 'EPOCH'], country: 'Japan', category: ['Video Games']},
+  {name: 'Sharp', jp_names: ['シャープ', 'SHARP', 'ツインファミコン'], country: 'Japan', category: ['Video Games']},
 ];
 
 /**
@@ -1819,6 +1837,10 @@ function getBrandListForSanitize_(category) {
       targetCategories = ['Watches'];
     } else if (category === 'camera') {
       targetCategories = ['Cameras'];
+    } else if (category === 'game') {
+      targetCategories = ['Video Games'];
+    } else if (category === 'reel') {
+      targetCategories = ['Fishing Reels'];
     } else {
       return '';
     }
