@@ -285,6 +285,8 @@ function buildExtractionPrompt_(title, description, category, fields, tag, exist
   lines.push('Gear Ratio (fishing reels): Format as "X.X:1" (e.g., "5.2:1", "6.3:1", "7.1:1"). Extract from title/description.');
   lines.push('Ball Bearings (fishing reels): Extract count as number (e.g., "11", "7+1"). Common patterns: "11BB", "ベアリング数11".');
   lines.push('Fishing Type (fishing reels): Saltwater Fishing, Freshwater Fishing, All Water. Japanese: 海釣り/ソルト→Saltwater, 淡水/バス→Freshwater.');
+  lines.push('Fish Species (fishing reels): Infer target species from model line or context. Examples: Sephia→Squid, Emeraldas→Squid, Saltiga→Tuna, Exsence→Sea Bass, Soare→Rockfish. Common: Bass, Trout, Tuna, Sea Bass, Squid, Rockfish, Walleye, Pike, Catfish, Carp. If unclear, use empty string.');
+  lines.push('Edition (video game consoles): Extract edition info. "限定版/限定モデル"→"Limited Edition", "初期型"→"Launch Edition", "後期型/最終型"→"Late Model". Color variants: "ピカチュウエディション"→"Pikachu Edition". If standard model, use empty string.');
   // Trading Cards normalization rules
   lines.push('Game (trading cards): Use official English names. Pokemon → "Pokémon", Yu-Gi-Oh → "Yu-Gi-Oh!", Magic: The Gathering → "Magic: The Gathering", Duel Masters → "Duel Masters", Weiss Schwarz → "Weiss Schwarz", Vanguard → "Cardfight!! Vanguard", One Piece → "One Piece Card Game"');
   lines.push('Set (trading cards): Use the official set name. For Pokemon Japanese sets, use English equivalent when available (e.g., クレイバースト → "Clay Burst"). For numbered series, include the series code (e.g., "SV2a", "S11a").');
@@ -396,8 +398,8 @@ function buildExtractionPrompt_(title, description, category, fields, tag, exist
   lines.push('{"_category": "Watches", "Brand": "Seiko", "Type": "Wrist Watch", "Model": "Presage", "Movement": "Automatic", "Display": "Analog", "Case Material": "Stainless Steel", "Band Material": "Leather", "Department": "Men", "Dial Color": "Blue", "Country/Region of Manufacture": "Japan"}');
   lines.push('{"_category": "Video Games", "Platform": "Nintendo Super Nintendo Entertainment System (Super Famicom)", "Game Name": "Dragon Quest VI", "Region Code": "NTSC-J (Japan)", "Genre": "Role-Playing", "Character": "", "Publisher": "Enix", "Rating": "", "Language": "Japanese", "Country/Region of Manufacture": "Japan"}');
   lines.push('{"_category": "Trading Cards", "Game": "Pokémon", "Set": "Clay Burst", "Character": "Charizard", "Card Name": "Charizard ex SAR", "Card Number": "201/165", "Rarity": "Special Art Rare", "Finish": "Holo/Foil", "Language": "Japanese", "Graded": "No", "Country/Region of Manufacture": "Japan"}');
-  lines.push('{"_category": "Video Game Consoles", "Brand": "Nintendo", "Platform": "Nintendo Super Nintendo Entertainment System (Super Famicom)", "Model": "Super Famicom Jr.", "Type": "Home Console", "Storage Capacity": "", "Color": "Gray", "Region Code": "NTSC-J (Japan)", "Connectivity": "AV", "MPN": "SHVC-101", "Country/Region of Manufacture": "Japan"}');
-  lines.push('{"_category": "Fishing Reels", "Brand": "Shimano", "Model": "Stella", "Reel Type": "Spinning", "Hand Retrieve": "", "Gear Ratio": "5.2:1", "Ball Bearings": "12+1", "Line Capacity": "", "Fishing Type": "All Water", "MPN": "", "Country/Region of Manufacture": "Japan"}');
+  lines.push('{"_category": "Video Game Consoles", "Brand": "Nintendo", "Platform": "Nintendo Super Nintendo Entertainment System (Super Famicom)", "Model": "Super Famicom Jr.", "Type": "Home Console", "Storage Capacity": "", "Color": "Gray", "Region Code": "NTSC-J (Japan)", "Connectivity": "AV", "Edition": "", "Country/Region of Manufacture": "Japan"}');
+  lines.push('{"_category": "Fishing Reels", "Brand": "Shimano", "Model": "Stella", "Reel Type": "Spinning", "Hand Retrieve": "", "Gear Ratio": "5.2:1", "Ball Bearings": "12+1", "Line Capacity": "", "Fishing Type": "All Water", "Fish Species": "", "Country/Region of Manufacture": "Japan"}');
 
   return lines.join('\n');
 }

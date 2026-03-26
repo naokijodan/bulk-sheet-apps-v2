@@ -223,7 +223,7 @@ var IS_INITIAL_DATA = [
   { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Color', field_type: 'recommended', priority: 6, notes: '' },
   { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Region Code', field_type: 'required', priority: 7, notes: 'NTSC-J (Japan), Region Free等' },
   { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Connectivity', field_type: 'recommended', priority: 8, notes: 'HDMI, Wi-Fi, Bluetooth等' },
-  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'MPN', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Edition', field_type: 'recommended', priority: 9, notes: '限定版, 初期型, 後期型等' },
   { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Country/Region of Manufacture', field_type: 'recommended', priority: 10, notes: '' },
 
   // === Fishing Reels ===
@@ -235,7 +235,7 @@ var IS_INITIAL_DATA = [
   { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Ball Bearings', field_type: 'recommended', priority: 6, notes: '' },
   { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Line Capacity', field_type: 'recommended', priority: 7, notes: '' },
   { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Fishing Type', field_type: 'recommended', priority: 8, notes: 'Saltwater, Freshwater, All Water等' },
-  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'MPN', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Fish Species', field_type: 'recommended', priority: 9, notes: 'Bass, Trout, Tuna等' },
   { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Country/Region of Manufacture', field_type: 'recommended', priority: 10, notes: '' },
 
   // === Shoes ===
@@ -2478,8 +2478,8 @@ var IS_CATEGORY_FIELDS = {
   'Watch Parts':   ['Brand', 'Part Type', 'Material', 'Compatible Model', 'Size', 'Color', 'Country/Region of Manufacture'],
   'Sunglasses':  ['Brand', 'Model', 'Frame Color', 'Lens Color', 'Frame Material', 'Style', 'Department', 'Country/Region of Manufacture'],
   'Video Games': ['Platform', 'Game Name', 'Region Code', 'Genre', 'Character', 'Publisher', 'Rating', 'Language', 'Country/Region of Manufacture'],
-  'Video Game Consoles': ['Brand', 'Platform', 'Model', 'Type', 'Storage Capacity', 'Color', 'Region Code', 'Connectivity', 'MPN', 'Country/Region of Manufacture'],
-  'Fishing Reels': ['Brand', 'Model', 'Reel Type', 'Hand Retrieve', 'Gear Ratio', 'Ball Bearings', 'Line Capacity', 'Fishing Type', 'MPN', 'Country/Region of Manufacture'],
+  'Video Game Consoles': ['Brand', 'Platform', 'Model', 'Type', 'Storage Capacity', 'Color', 'Region Code', 'Connectivity', 'Edition', 'Country/Region of Manufacture'],
+  'Fishing Reels': ['Brand', 'Model', 'Reel Type', 'Hand Retrieve', 'Gear Ratio', 'Ball Bearings', 'Line Capacity', 'Fishing Type', 'Fish Species', 'Country/Region of Manufacture'],
   'Soap':        ['Brand', 'Type', 'Scent', 'Product Line', 'Color', 'Country/Region of Manufacture'],
   'Dolls & Plush': ['Brand', 'Type', 'Character', 'Size', 'Color', 'Material', 'Country/Region of Manufacture'],
   'Hats':          ['Brand', 'Style', 'Department', 'Color', 'Material', 'Pattern', 'Season', 'Features', 'Size', 'Country/Region of Manufacture']

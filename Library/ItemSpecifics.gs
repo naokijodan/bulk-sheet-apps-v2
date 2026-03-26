@@ -237,8 +237,9 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
     case 'Ball Bearings':
     case 'Line Capacity':
     case 'Fishing Type':
+    case 'Fish Species':
       return '';  // AI抽出に委ねる
-    case 'MPN':
+    case 'Edition':
       return '';  // AI抽出に委ねる
     case 'Metal':
     case 'Case Material':
