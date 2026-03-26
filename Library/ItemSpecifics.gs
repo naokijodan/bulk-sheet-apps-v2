@@ -192,7 +192,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
     case 'Designer':
       return matchDesignerFromTitle_(title, brandInfo ? brandInfo.name : '');
     case 'Country/Region of Manufacture':
-      if (category === 'Video Games' || category === 'Trading Cards') return 'Japan';
+      if (category === 'Video Games' || category === 'Video Game Consoles' || category === 'Trading Cards') return 'Japan';
       if (category === 'Collectibles') {
         var frCountry = matchFranchise_(title + ' ' + (description || ''));
         if (frCountry) return frCountry.country;
@@ -224,6 +224,22 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       return brandInfo ? brandInfo.name : '';
     case 'Rating':
       return '';
+    // === Video Game Consoles fields ===
+    case 'Storage Capacity':
+    case 'Connectivity':
+      return '';  // AI抽出に委ねる
+    // === Fishing Reels fields ===
+    case 'Reel Type':
+      return matchReelType_(title + ' ' + (description || ''));
+    case 'Hand Retrieve':
+      return matchHandRetrieve_(title + ' ' + (description || ''));
+    case 'Gear Ratio':
+    case 'Ball Bearings':
+    case 'Line Capacity':
+    case 'Fishing Type':
+      return '';  // AI抽出に委ねる
+    case 'MPN':
+      return '';  // AI抽出に委ねる
     case 'Metal':
     case 'Case Material':
     case 'Band Material':
@@ -987,6 +1003,30 @@ function matchHatSize_(text) {
   if (mAlpha) return mAlpha[1];
   return '';
 }
+
+// リール: リールタイプ判定
+function matchReelType_(text) {
+  if (!text) return '';
+  var t = String(text);
+  if (/(ベイトリール|ベイトキャスティング|baitcast|両軸)/i.test(t)) return 'Baitcasting';
+  if (/(スピニング|spinning)/i.test(t)) return 'Spinning';
+  if (/(フライ|fly\s*reel)/i.test(t)) return 'Fly';
+  if (/(電動リール|electric|電動)/i.test(t)) return 'Electric';
+  if (/(スピンキャスト|spincast)/i.test(t)) return 'Spincast';
+  if (/(トローリング|trolling)/i.test(t)) return 'Trolling';
+  return '';
+}
+
+// リール: 巻き手判定
+function matchHandRetrieve_(text) {
+  if (!text) return '';
+  var t = String(text);
+  if (/(左巻き|左ハンドル|left\s*hand)/i.test(t)) return 'Left';
+  if (/(右巻き|右ハンドル|right\s*hand)/i.test(t)) return 'Right';
+  if (/(左右兼用|両利き|interchangeable)/i.test(t)) return 'Interchangeable';
+  return '';
+}
+
 /**
  * タイトル・説明文からアニメフランチャイズを検出
  * @return {Object|null} {value: 'One Piece', country: 'Japan'} or null

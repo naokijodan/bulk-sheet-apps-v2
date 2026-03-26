@@ -214,6 +214,30 @@ var IS_INITIAL_DATA = [
   { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Features', field_type: 'recommended', priority: 9, notes: 'Multiplayer, Online等' },
   { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Country/Region of Manufacture', field_type: 'recommended', priority: 10, notes: '' },
 
+  // === Video Game Consoles ===
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Brand', field_type: 'required', priority: 1, notes: 'Nintendo, Sony, Sega等' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Platform', field_type: 'required', priority: 2, notes: 'Nintendo Switch, PlayStation 5等' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Model', field_type: 'required', priority: 3, notes: '' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Type', field_type: 'required', priority: 4, notes: 'Home Console, Handheld等' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Storage Capacity', field_type: 'recommended', priority: 5, notes: '500GB, 1TB等' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Color', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Region Code', field_type: 'required', priority: 7, notes: 'NTSC-J (Japan), Region Free等' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Connectivity', field_type: 'recommended', priority: 8, notes: 'HDMI, Wi-Fi, Bluetooth等' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'MPN', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Country/Region of Manufacture', field_type: 'recommended', priority: 10, notes: '' },
+
+  // === Fishing Reels ===
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Brand', field_type: 'required', priority: 1, notes: 'Shimano, Daiwa, Abu Garcia等' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Model', field_type: 'required', priority: 2, notes: '' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Reel Type', field_type: 'required', priority: 3, notes: 'Spinning, Baitcasting, Fly等' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Hand Retrieve', field_type: 'required', priority: 4, notes: 'Right, Left, Interchangeable' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Gear Ratio', field_type: 'recommended', priority: 5, notes: '5.2:1, 6.3:1等' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Ball Bearings', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Line Capacity', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Fishing Type', field_type: 'recommended', priority: 8, notes: 'Saltwater, Freshwater, All Water等' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'MPN', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Country/Region of Manufacture', field_type: 'recommended', priority: 10, notes: '' },
+
   // === Shoes ===
   { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
   { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'US Shoe Size', field_type: 'required', priority: 2, notes: '' },
@@ -2391,6 +2415,10 @@ var IS_TAG_TO_CATEGORY = {
   'ウォッチパーツ': 'Watch Parts', '時計パーツ': 'Watch Parts', '時計部品': 'Watch Parts',
   // Sunglasses
   'サングラス': 'Sunglasses', 'メガネ': 'Sunglasses', '眼鏡': 'Sunglasses',
+  // Video Game Consoles（「ゲーム機」は「ゲーム」より長いので先にマッチする）
+  'ゲーム機': 'Video Game Consoles',
+  // Fishing Reels
+  'リール': 'Fishing Reels',
   // Video Games
   'ゲーム': 'Video Games', 'ゲームソフト': 'Video Games', 'テレビゲーム': 'Video Games',
   'Switch': 'Video Games', 'PS5': 'Video Games', 'PS4': 'Video Games', 'PS3': 'Video Games', 'PS2': 'Video Games',
@@ -2450,6 +2478,8 @@ var IS_CATEGORY_FIELDS = {
   'Watch Parts':   ['Brand', 'Part Type', 'Material', 'Compatible Model', 'Size', 'Color', 'Country/Region of Manufacture'],
   'Sunglasses':  ['Brand', 'Model', 'Frame Color', 'Lens Color', 'Frame Material', 'Style', 'Department', 'Country/Region of Manufacture'],
   'Video Games': ['Platform', 'Game Name', 'Region Code', 'Genre', 'Character', 'Publisher', 'Rating', 'Language', 'Country/Region of Manufacture'],
+  'Video Game Consoles': ['Brand', 'Platform', 'Model', 'Type', 'Storage Capacity', 'Color', 'Region Code', 'Connectivity', 'MPN', 'Country/Region of Manufacture'],
+  'Fishing Reels': ['Brand', 'Model', 'Reel Type', 'Hand Retrieve', 'Gear Ratio', 'Ball Bearings', 'Line Capacity', 'Fishing Type', 'MPN', 'Country/Region of Manufacture'],
   'Soap':        ['Brand', 'Type', 'Scent', 'Product Line', 'Color', 'Country/Region of Manufacture'],
   'Dolls & Plush': ['Brand', 'Type', 'Character', 'Size', 'Color', 'Material', 'Country/Region of Manufacture'],
   'Hats':          ['Brand', 'Style', 'Department', 'Color', 'Material', 'Pattern', 'Season', 'Features', 'Size', 'Country/Region of Manufacture']
