@@ -2451,6 +2451,46 @@ IS_TAG_TO_CATEGORY['ニット帽'] = 'Hats'; IS_TAG_TO_CATEGORY['ベレー帽'] 
 IS_TAG_TO_CATEGORY['パナマハット'] = 'Hats'; IS_TAG_TO_CATEGORY['キャスケット'] = 'Hats'; IS_TAG_TO_CATEGORY['ハンチング'] = 'Hats';
 IS_TAG_TO_CATEGORY['ダッドハット'] = 'Hats'; IS_TAG_TO_CATEGORY['サンバイザー'] = 'Hats';
 
+// Musical Instruments
+IS_TAG_TO_CATEGORY['楽器'] = 'Musical Instruments'; IS_TAG_TO_CATEGORY['ギター'] = 'Musical Instruments';
+IS_TAG_TO_CATEGORY['ベース'] = 'Musical Instruments'; IS_TAG_TO_CATEGORY['キーボード'] = 'Musical Instruments';
+IS_TAG_TO_CATEGORY['シンセサイザー'] = 'Musical Instruments'; IS_TAG_TO_CATEGORY['バイオリン'] = 'Musical Instruments';
+IS_TAG_TO_CATEGORY['フルート'] = 'Musical Instruments'; IS_TAG_TO_CATEGORY['サックス'] = 'Musical Instruments';
+IS_TAG_TO_CATEGORY['トランペット'] = 'Musical Instruments'; IS_TAG_TO_CATEGORY['ドラム'] = 'Musical Instruments';
+IS_TAG_TO_CATEGORY['ウクレレ'] = 'Musical Instruments'; IS_TAG_TO_CATEGORY['ハーモニカ'] = 'Musical Instruments';
+IS_TAG_TO_CATEGORY['エフェクター'] = 'Musical Instruments'; IS_TAG_TO_CATEGORY['アンプ'] = 'Musical Instruments';
+
+// Pens & Writing Instruments
+IS_TAG_TO_CATEGORY['万年筆'] = 'Pens'; IS_TAG_TO_CATEGORY['ボールペン'] = 'Pens';
+IS_TAG_TO_CATEGORY['ペン'] = 'Pens'; IS_TAG_TO_CATEGORY['シャープペンシル'] = 'Pens';
+IS_TAG_TO_CATEGORY['筆記具'] = 'Pens'; IS_TAG_TO_CATEGORY['メカニカルペンシル'] = 'Pens';
+
+// Wallets
+IS_TAG_TO_CATEGORY['財布'] = 'Wallets'; IS_TAG_TO_CATEGORY['長財布'] = 'Wallets';
+IS_TAG_TO_CATEGORY['二つ折り財布'] = 'Wallets'; IS_TAG_TO_CATEGORY['コインケース'] = 'Wallets';
+IS_TAG_TO_CATEGORY['カードケース'] = 'Wallets'; IS_TAG_TO_CATEGORY['マネークリップ'] = 'Wallets';
+
+// Lighters
+IS_TAG_TO_CATEGORY['ライター'] = 'Lighters'; IS_TAG_TO_CATEGORY['Zippo'] = 'Lighters';
+IS_TAG_TO_CATEGORY['ジッポ'] = 'Lighters'; IS_TAG_TO_CATEGORY['オイルライター'] = 'Lighters';
+IS_TAG_TO_CATEGORY['ガスライター'] = 'Lighters';
+
+// Art
+IS_TAG_TO_CATEGORY['絵画'] = 'Art'; IS_TAG_TO_CATEGORY['版画'] = 'Art';
+IS_TAG_TO_CATEGORY['リトグラフ'] = 'Art'; IS_TAG_TO_CATEGORY['油絵'] = 'Art';
+IS_TAG_TO_CATEGORY['水彩画'] = 'Art'; IS_TAG_TO_CATEGORY['掛軸'] = 'Art';
+IS_TAG_TO_CATEGORY['木版画'] = 'Art'; IS_TAG_TO_CATEGORY['浮世絵'] = 'Art';
+
+// Pottery & Ceramics（茶碗はDinnerwareから上書き: 陶器としての出品が主）
+IS_TAG_TO_CATEGORY['陶磁器'] = 'Pottery'; IS_TAG_TO_CATEGORY['陶器'] = 'Pottery';
+IS_TAG_TO_CATEGORY['磁器'] = 'Pottery'; IS_TAG_TO_CATEGORY['焼物'] = 'Pottery';
+IS_TAG_TO_CATEGORY['茶道具'] = 'Pottery'; IS_TAG_TO_CATEGORY['茶碗'] = 'Pottery';
+IS_TAG_TO_CATEGORY['急須'] = 'Pottery'; IS_TAG_TO_CATEGORY['壺'] = 'Pottery';
+
+// Belts
+IS_TAG_TO_CATEGORY['ベルト'] = 'Belts'; IS_TAG_TO_CATEGORY['レザーベルト'] = 'Belts';
+IS_TAG_TO_CATEGORY['ベルトバックル'] = 'Belt Buckles';
+
 // ==============================
 // カテゴリ別 出力フィールド定義（5-8フィールド、順序固定）
 // ==============================
@@ -2491,7 +2531,15 @@ var IS_CATEGORY_FIELDS = {
   'Fishing Reels': ['Brand', 'Model', 'Reel Type', 'Hand Retrieve', 'Gear Ratio', 'Ball Bearings', 'Line Capacity', 'Fishing Type', 'Fish Species', 'Country/Region of Manufacture'],
   'Soap':        ['Brand', 'Type', 'Scent', 'Product Line', 'Color', 'Country/Region of Manufacture'],
   'Dolls & Plush': ['Brand', 'Type', 'Character', 'Size', 'Color', 'Material', 'Country/Region of Manufacture'],
-  'Hats':          ['Brand', 'Style', 'Department', 'Color', 'Material', 'Pattern', 'Season', 'Features', 'Size', 'Country/Region of Manufacture']
+  'Hats':          ['Brand', 'Style', 'Department', 'Color', 'Material', 'Pattern', 'Season', 'Features', 'Size', 'Country/Region of Manufacture'],
+  'Musical Instruments': ['Brand', 'Type', 'Model', 'Body Color', 'Body Material', 'String Configuration', 'Country/Region of Manufacture'],
+  'Pens':          ['Brand', 'Type', 'Ink Color', 'Material', 'Country/Region of Manufacture'],
+  'Wallets':       ['Brand', 'Type', 'Material', 'Color', 'Department', 'Country/Region of Manufacture'],
+  'Lighters':      ['Brand', 'Type', 'Material', 'Color', 'Country/Region of Manufacture'],
+  'Art':           ['Listed By', 'Medium', 'Subject', 'Style', 'Size', 'Country/Region of Manufacture'],
+  'Pottery':       ['Brand', 'Type', 'Material', 'Color', 'Country/Region of Manufacture'],
+  'Belts':         ['Brand', 'Type', 'Material', 'Color', 'Size', 'Department', 'Country/Region of Manufacture'],
+  'Belt Buckles':  ['Brand', 'Type', 'Material', 'Color', 'Country/Region of Manufacture']
 };
 
 // ==============================
@@ -2882,3 +2930,175 @@ var IS_WATCH_PART_TYPE_PATTERNS = [
   {keywords: ['パッキン', 'ガスケット', 'Gasket', 'GASKET', 'Oリング', 'O-Ring'], value: 'Gasket'},
   {keywords: ['インデックス', 'Index', 'INDEX', 'Hour Marker', 'マーカー'], value: 'Index/Marker'}
 ];
+
+// ==============================
+// タグ一覧シート出力
+// ==============================
+
+/**
+ * 対応カテゴリとタグの一覧を Tag_List シートに出力する
+ * メニュー「タグ一覧出力」から呼び出される
+ */
+function outputTagListSheet_() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheetName = 'Tag_List';
+  var sh = ss.getSheetByName(sheetName);
+
+  if (sh) {
+    var ui = SpreadsheetApp.getUi();
+    var answer = ui.alert('タグ一覧出力', '「' + sheetName + '」シートが既に存在します。上書きしますか？', ui.ButtonSet.YES_NO);
+    if (answer !== ui.Button.YES) return;
+    sh.clear();
+  } else {
+    sh = ss.insertSheet(sheetName);
+  }
+
+  // --- ジャンル別カテゴリ定義（並び順） ---
+  var categoryGroups = [
+    {group: 'Jewelry（ジュエリー）', categories: [
+      {cat: 'Watches', desc: '腕時計・懐中時計'},
+      {cat: 'Watch Parts', desc: '時計パーツ・部品'},
+      {cat: 'Rings', desc: '指輪・リング'},
+      {cat: 'Necklaces', desc: 'ネックレス・ペンダント・チェーン'},
+      {cat: 'Bracelets', desc: 'ブレスレット・バングル'},
+      {cat: 'Earrings', desc: 'ピアス・イヤリング'},
+      {cat: 'Brooches', desc: 'ブローチ・ピン'},
+      {cat: 'Cufflinks', desc: 'カフリンクス（メンズジュエリー）'},
+      {cat: 'Charms', desc: 'チャーム・ペンダントトップ'}
+    ]},
+    {group: 'Fashion（ファッション）', categories: [
+      {cat: 'Handbags', desc: 'バッグ・ハンドバッグ全般'},
+      {cat: 'Wallets', desc: '財布・カードケース・コインケース'},
+      {cat: 'Clothing', desc: '衣類全般（トップス・ボトムス・ジャケット等）'},
+      {cat: 'Shoes', desc: '靴・スニーカー・ブーツ等'},
+      {cat: 'Hats', desc: '帽子（キャップ・ハット・ビーニー等）'},
+      {cat: 'Scarves', desc: 'スカーフ・マフラー・ストール'},
+      {cat: 'Belts', desc: 'ベルト'},
+      {cat: 'Belt Buckles', desc: 'ベルトバックル'},
+      {cat: 'Sunglasses', desc: 'サングラス・眼鏡'},
+      {cat: 'Neckties', desc: 'ネクタイ'},
+      {cat: 'Tie Accessories', desc: 'ネクタイピン・タイバー・スカーフリング'},
+      {cat: 'Handkerchiefs', desc: 'ハンカチ'},
+      {cat: 'Hair Accessories', desc: '髪飾り・かんざし・バレッタ'}
+    ]},
+    {group: 'Electronics（電子機器）', categories: [
+      {cat: 'Cameras', desc: 'デジカメ・一眼レフ・ミラーレス'},
+      {cat: 'Electronics', desc: '家電・オーディオ・ヘッドホン'},
+      {cat: 'Video Games', desc: 'ゲームソフト全般'},
+      {cat: 'Video Game Consoles', desc: 'ゲーム機本体'}
+    ]},
+    {group: 'Hobby（ホビー・コレクティブル）', categories: [
+      {cat: 'Trading Cards', desc: 'トレカ（ポケカ・遊戯王・MTG等）'},
+      {cat: 'Collectibles', desc: 'フィギュア・コレクティブル・アンティーク'},
+      {cat: 'Dolls & Plush', desc: 'ドール・ぬいぐるみ'},
+      {cat: 'Musical Instruments', desc: '楽器（ギター・キーボード・管楽器等）'},
+      {cat: 'Art', desc: '絵画・版画・リトグラフ・浮世絵'},
+      {cat: 'Fishing Reels', desc: '釣りリール'}
+    ]},
+    {group: 'Home & Living（生活・雑貨）', categories: [
+      {cat: 'Dinnerware', desc: '食器・皿・カップ'},
+      {cat: 'Pottery', desc: '陶磁器・焼物・茶道具'},
+      {cat: 'Glassware', desc: 'ガラス細工・クリスタル・花瓶'},
+      {cat: 'Flatware', desc: 'カトラリー（スプーン・フォーク・ナイフ）'},
+      {cat: 'Snow Globes', desc: 'スノードーム'},
+      {cat: 'Boxes', desc: 'ジュエリーボックス・時計ケース'},
+      {cat: 'Combs', desc: '櫛・コーム'},
+      {cat: 'Key Chains', desc: 'キーリング・キーホルダー'},
+      {cat: 'Soap', desc: '石鹸・ソープ'},
+      {cat: 'Baby', desc: 'ベビー用品'}
+    ]},
+    {group: 'Writing & Smoking（筆記具・喫煙具）', categories: [
+      {cat: 'Pens', desc: '万年筆・ボールペン・シャープペンシル'},
+      {cat: 'Lighters', desc: 'ライター・Zippo'},
+      {cat: 'Pipes', desc: 'パイプ・キセル・煙管'}
+    ]}
+  ];
+
+  // --- IS_TAG_TO_CATEGORY からカテゴリ→タグの逆引きマップを構築 ---
+  var categoryToTags = {};
+  var allTags = Object.keys(IS_TAG_TO_CATEGORY);
+  for (var i = 0; i < allTags.length; i++) {
+    var tag = allTags[i];
+    var cat = IS_TAG_TO_CATEGORY[tag];
+    if (!categoryToTags[cat]) categoryToTags[cat] = [];
+    categoryToTags[cat].push(tag);
+  }
+
+  // --- 交通整理/IS対応状況の判定 ---
+  var sanitizeCategories = ['watch', 'camera', 'card', 'game', 'reel'];
+  var sanitizeMap = {
+    'Watches': 'watch', 'Cameras': 'camera', 'Trading Cards': 'card',
+    'Video Games': 'game', 'Video Game Consoles': 'game', 'Fishing Reels': 'reel'
+  };
+
+  // --- ヘッダー ---
+  var headers = ['タグ（入力用）', 'eBayカテゴリ', '同カテゴリの他のタグ', '対応状況', '説明'];
+  sh.getRange(1, 1, 1, headers.length).setValues([headers]);
+  sh.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground('#4a86c8').setFontColor('#ffffff');
+
+  // 使い方の説明（2行目）
+  sh.getRange(2, 1).setValue('↓ A列のタグをコピーして出品シートのA列に貼り付けてください');
+  sh.getRange(2, 1, 1, headers.length).setFontColor('#666666').setFontStyle('italic');
+
+  var currentRow = 3;
+
+  for (var g = 0; g < categoryGroups.length; g++) {
+    var group = categoryGroups[g];
+
+    // グループ見出し行
+    sh.getRange(currentRow, 1).setValue(group.group);
+    sh.getRange(currentRow, 1, 1, headers.length).setFontWeight('bold').setBackground('#e8f0fe').setFontColor('#1a4472');
+    currentRow++;
+
+    for (var c = 0; c < group.categories.length; c++) {
+      var catDef = group.categories[c];
+      var catName = catDef.cat;
+      var tags = categoryToTags[catName] || [];
+
+      if (tags.length === 0) continue;
+
+      // 代表タグ（最初のタグ）
+      var representativeTag = tags[0];
+      var otherTags = tags.slice(1).join('、');
+
+      // 対応状況
+      var hasSanitize = sanitizeMap[catName] ? true : false;
+      var hasIS = IS_CATEGORY_FIELDS && IS_CATEGORY_FIELDS[catName] ? true : false;
+      var status = '';
+      if (hasSanitize && hasIS) status = '○ 交通整理＋IS';
+      else if (hasIS) status = '△ ISのみ';
+      else status = '- 未対応';
+
+      sh.getRange(currentRow, 1).setValue(representativeTag);
+      sh.getRange(currentRow, 2).setValue(catName);
+      sh.getRange(currentRow, 3).setValue(otherTags);
+      sh.getRange(currentRow, 4).setValue(status);
+      sh.getRange(currentRow, 5).setValue(catDef.desc);
+
+      // 対応状況で色分け
+      if (hasSanitize && hasIS) {
+        sh.getRange(currentRow, 4).setFontColor('#137333');
+      } else if (hasIS) {
+        sh.getRange(currentRow, 4).setFontColor('#b06000');
+      } else {
+        sh.getRange(currentRow, 4).setFontColor('#999999');
+      }
+
+      currentRow++;
+    }
+  }
+
+  // 列幅調整
+  sh.setColumnWidth(1, 140);
+  sh.setColumnWidth(2, 180);
+  sh.setColumnWidth(3, 350);
+  sh.setColumnWidth(4, 140);
+  sh.setColumnWidth(5, 280);
+
+  // フィルター設定
+  if (sh.getFilter()) sh.getFilter().remove();
+  sh.getRange(1, 1, currentRow - 1, headers.length).createFilter();
+
+  ss.setActiveSheet(sh);
+  SpreadsheetApp.getUi().alert('タグ一覧出力', '「Tag_List」シートにタグ一覧を出力しました（' + (currentRow - 3) + '件）。\n\nA列のタグをコピーして出品シートのA列に貼り付けてください。', SpreadsheetApp.getUi().ButtonSet.OK);
+}

@@ -60,6 +60,8 @@ function onOpen() {
       .addSeparator()
       .addItem('🗑️ Policy_Masterキャッシュクリア', 'clearPolicyMasterCache')
       .addSeparator()
+      .addItem('🏷️ タグ一覧出力', 'outputTagListSheet_')
+      .addSeparator()
       .addSubMenu(ui.createMenu('📱 簡易版')
         .addItem('🎯 簡易版を開く', 'openSimpleMode')
         .addItem('🔄 簡易版を更新', 'updateSimpleMode'))
