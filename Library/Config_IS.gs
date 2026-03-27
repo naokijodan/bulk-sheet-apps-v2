@@ -567,7 +567,7 @@ var IS_BRAND_DICT = [
   {name: 'Purple Horse', jp_names: ['パープルホース', 'PURPLE HORSE'], country: 'Switzerland', parent_brand: 'Rado', category: ['Watches']},
   {name: 'Quadrato', jp_names: ['クアドラート', 'QUADRATO'], country: 'Switzerland', parent_brand: 'Tissot', category: ['Watches']},
   {name: 'Radiomir', jp_names: ['ラジオミール', 'RADIOMIR'], country: 'Italy', parent_brand: 'Panerai', category: ['Watches']},
-  {name: 'Raymond Weil', jp_names: ['レイモンドウェイル', 'レイモンドウエイル', 'RAYMOND WEIL'], country: 'Switzerland', category: ['Watches']},
+  {name: 'Raymond Weil', jp_names: ['レイモンドウェイル', 'レイモンド・ウェイル', 'レイモンドウエイル', 'RAYMOND WEIL'], country: 'Switzerland', category: ['Watches']},
   {name: 'Rey Urban', jp_names: ['レイアーバン', 'REY URBAN'], country: 'Denmark'},
   {name: 'Rado', jp_names: ['ラドー', 'RADO'], country: 'Switzerland'},
   {name: 'Railmaster', jp_names: ['レイルマスター', 'RAILMASTER'], country: 'Switzerland', parent_brand: 'Omega', category: ['Watches']},
@@ -635,7 +635,7 @@ var IS_BRAND_DICT = [
   {name: 'Skyliner', jp_names: ['スカイライナー', 'SKYLINER'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
   {name: 'Space Series', jp_names: ['スペースシリーズ', 'SPACE SERIES', 'SPACE'], country: 'USA', parent_brand: 'Luminox', category: ['Watches']},
   {name: 'Speedmaster', jp_names: ['スピードマスター', 'SPEEDMASTER'], country: 'Switzerland', parent_brand: 'Omega', category: ['Watches']},
-  {name: 'Spinnaker', jp_names: ['スピニカー', 'SPINNAKER'], country: 'USA', category: ['Watches']},
+  {name: 'Spinnaker', jp_names: ['スピニカー', 'SPINNAKER'], country: 'UK', category: ['Watches']},
   {name: 'Sportura', jp_names: ['スポーチュラ', 'SPORTURA'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
   {name: 'Submariner', jp_names: ['サブマリーナ', 'SUBMARINER'], country: 'Switzerland', parent_brand: 'Rolex', category: ['Watches']},
   {name: 'Submersible', jp_names: ['サブマーシブル', 'SUBMERSIBLE'], country: 'Italy', parent_brand: 'Panerai', category: ['Watches']},
@@ -1769,11 +1769,11 @@ var IS_BRAND_DICT = [
 
   {name: 'I.T.A.', jp_names: ['アイティーエー', 'ITA', 'I.T.A.', 'I.T.A', 'ITALIA TECNICA ARTIGIANA'], country: 'Italy', category: ['Watches']},
   {name: 'Tendence', jp_names: ['テンデンス', 'TENDENCE'], country: 'Switzerland', category: ['Watches']},
-  {name: 'Guionnet', jp_names: ['ギオネ', 'GUIONNET'], country: 'France', category: ['Watches']},
+  {name: 'Guionnet', jp_names: ['ギオネ', 'GUIONNET'], country: 'Japan', category: ['Watches']},
   {name: 'Elgin', jp_names: ['エルジン', 'ELGIN'], country: 'USA', category: ['Watches']},
-  {name: 'Ice-Watch', jp_names: ['アイスウォッチ', 'ICE WATCH', 'ICE-WATCH', 'ICEWATCH'], country: 'Belgium', category: ['Watches']},
+  {name: 'Ice-Watch', jp_names: ['アイスウォッチ', 'アイス・ウォッチ', 'ICE WATCH', 'ICE-WATCH', 'ICEWATCH'], country: 'Belgium', category: ['Watches']},
   {name: 'Corniche', jp_names: ['コーニッシュ', 'CORNICHE'], country: 'Sweden', category: ['Watches']},
-  {name: 'Olivia Burton', jp_names: ['オリビアバートン', 'OLIVIA BURTON'], country: 'UK', category: ['Watches']},
+  {name: 'Olivia Burton', jp_names: ['オリビアバートン', 'オリビア・バートン', 'OLIVIA BURTON'], country: 'UK', category: ['Watches']},
   {name: 'OSSO ITALY', jp_names: ['オッソイタリー', 'オッソイタリィ', 'OSSO ITALY', 'OSSO'], country: 'Italy', category: ['Watches']},
 
   // === Fishing Reels ===
