@@ -60,8 +60,6 @@ function onOpen() {
       .addSeparator()
       .addItem('🗑️ Policy_Masterキャッシュクリア', 'clearPolicyMasterCache')
       .addSeparator()
-      .addItem('🏷️ タグ一覧出力', 'outputTagListSheet_')
-      .addSeparator()
       .addSubMenu(ui.createMenu('📱 簡易版')
         .addItem('🎯 簡易版を開く', 'openSimpleMode')
         .addItem('🔄 簡易版を更新', 'updateSimpleMode'))
@@ -2967,6 +2965,23 @@ function saveIntegratedSettings(formData) {
       } catch (e) {
         msg += '\n\n【送料レート更新エラー】\n' + e.message;
         Logger.log('送料レート更新で例外発生: ' + e.message);
+      }
+    }
+
+    // タグ一覧出力処理（チェックボックスがOnの場合のみ）
+    if (formData.outputTagList === true) {
+      try {
+        var tagListResult = outputTagListSheet_();
+        if (tagListResult.success) {
+          msg += '\n\n【タグ一覧出力】\n' + tagListResult.message + '\n出力件数: ' + tagListResult.count + '件';
+          Logger.log('タグ一覧を出力しました: ' + tagListResult.count + '件');
+        } else {
+          msg += '\n\n【タグ一覧出力エラー】\n' + tagListResult.message;
+          Logger.log('タグ一覧出力エラー: ' + tagListResult.message);
+        }
+      } catch (e) {
+        msg += '\n\n【タグ一覧出力エラー】\n' + e.message;
+        Logger.log('タグ一覧出力で例外発生: ' + e.message);
       }
     }
 

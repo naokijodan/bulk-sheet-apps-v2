@@ -2937,7 +2937,8 @@ var IS_WATCH_PART_TYPE_PATTERNS = [
 
 /**
  * 対応カテゴリとタグの一覧を Tag_List シートに出力する
- * メニュー「タグ一覧出力」から呼び出される
+ * 初期設定（saveIntegratedSettings）から呼び出される
+ * @return {Object} {success: boolean, message: string, count: number}
  */
 function outputTagListSheet_() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -2945,9 +2946,6 @@ function outputTagListSheet_() {
   var sh = ss.getSheetByName(sheetName);
 
   if (sh) {
-    var ui = SpreadsheetApp.getUi();
-    var answer = ui.alert('タグ一覧出力', '「' + sheetName + '」シートが既に存在します。上書きしますか？', ui.ButtonSet.YES_NO);
-    if (answer !== ui.Button.YES) return;
     sh.clear();
   } else {
     sh = ss.insertSheet(sheetName);
@@ -3099,6 +3097,6 @@ function outputTagListSheet_() {
   if (sh.getFilter()) sh.getFilter().remove();
   sh.getRange(1, 1, currentRow - 1, headers.length).createFilter();
 
-  ss.setActiveSheet(sh);
-  SpreadsheetApp.getUi().alert('タグ一覧出力', '「Tag_List」シートにタグ一覧を出力しました（' + (currentRow - 3) + '件）。\n\nA列のタグをコピーして出品シートのA列に貼り付けてください。', SpreadsheetApp.getUi().ButtonSet.OK);
+  var tagCount = currentRow - 3;
+  return {success: true, message: 'Tag_Listシートにタグ一覧を出力しました', count: tagCount};
 }

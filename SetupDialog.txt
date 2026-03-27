@@ -771,6 +771,20 @@
           </div>
 
           <div style="margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--line);">
+            <label>タグ一覧出力</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="outputTagList" name="outputTagList">
+                対応カテゴリのタグ一覧をシートに出力する
+              </label>
+            </div>
+            <div class="help-text">
+              「Tag_List」シートに、使用可能なタグの一覧をジャンル別に出力します。<br>
+              A列のタグをコピーして出品シートのA列に貼り付けて使えます。
+            </div>
+          </div>
+
+          <div style="margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--line);">
             <label>ゲーム・トレカ プリセット設定</label>
             <div class="help-text" style="margin-bottom: 12px;">
               ゲームソフトまたはトレーディングカードの出品に最適化された送料設定を一括適用します。
@@ -1317,6 +1331,7 @@
         lowPriceMethod: document.getElementById('lowPriceMethod').value,
         highPriceMethod: document.getElementById('highPriceMethod').value,
         updateShippingRates: document.getElementById('updateShippingRates').checked,
+        outputTagList: document.getElementById('outputTagList').checked,
 
         // プリセット設定
         presetGenre: document.querySelector('input[name="presetGenre"]:checked').value,
