@@ -3535,8 +3535,8 @@ function saveSelectedRowsAndClear() {
     var profitCalcText = sheet.getRange('AL2').getValue(); // "利益率" or "利益額"
     var profitCalc = (profitCalcText === '利益額') ? 'AMOUNT' : 'RATE';
 
-    var shippingCalcText = sheet.getRange('AJ5').getValue(); // "テーブル計算" or "固定金額"
-    var shippingCalc = (shippingCalcText === '固定金額') ? 'FIXED' : 'TABLE';
+    var shippingCalcText = sheet.getRange('AJ5').getValue(); // "テーブル計算" or "固定金額" or "ゲーム・トレカ" or "タグ別送料"
+    var shippingCalc = (shippingCalcText === '固定金額') ? 'FIXED' : (shippingCalcText === 'ゲーム・トレカ') ? 'GAME_CARD' : (shippingCalcText === 'タグ別送料') ? 'TAG_SHIPPING' : 'TABLE';
 
     // 4. applyCalculationFormulas関数を呼び出して全列の式を再設定
     var result = applyCalculationFormulas(settings.sheetName, {
@@ -3767,8 +3767,8 @@ function clearAndReapplyFormulas() {
     var profitCalcText = sheet.getRange('AL2').getValue(); // "利益率" or "利益額"
     var profitCalc = (profitCalcText === '利益額') ? 'AMOUNT' : 'RATE';
 
-    var shippingCalcText = sheet.getRange('AJ5').getValue(); // "テーブル計算" or "固定金額"
-    var shippingCalc = (shippingCalcText === '固定金額') ? 'FIXED' : 'TABLE';
+    var shippingCalcText = sheet.getRange('AJ5').getValue(); // "テーブル計算" or "固定金額" or "ゲーム・トレカ" or "タグ別送料"
+    var shippingCalc = (shippingCalcText === '固定金額') ? 'FIXED' : (shippingCalcText === 'ゲーム・トレカ') ? 'GAME_CARD' : (shippingCalcText === 'タグ別送料') ? 'TAG_SHIPPING' : 'TABLE';
 
     // 3. applyCalculationFormulas関数を呼び出して全列の式を再設定
     var result = applyCalculationFormulas(settings.sheetName, {
