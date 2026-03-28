@@ -140,6 +140,9 @@ function initialSetup() {
     tmpl.currentDduAdjustmentEnabled = docProps.getProperty('DDU_ADJUSTMENT_ENABLED') || 'false';
     tmpl.currentDduThreshold = docProps.getProperty('DDU_THRESHOLD') || '500';
     tmpl.currentDduAdjustment = docProps.getProperty('DDU_ADJUSTMENT_AMOUNT') || '500';
+
+    // プロンプト自動選択
+    tmpl.currentAutoPromptSelect = docProps.getProperty('AUTO_PROMPT_SELECT') || '手動';
     
     // 価格表示モード設定
     tmpl.currentPriceDisplayMode = props.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL';

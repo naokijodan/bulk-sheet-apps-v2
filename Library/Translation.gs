@@ -49,6 +49,44 @@ function runSelectedRowsTranslate() {
       console.log('AS2セルからプロンプトIDを読み取れませんでした。既存の設定を使用します: ' + e.message);
     }
 
+    // AS3セルからプロンプト選択モードを読み取り（自動選択機能）
+    var autoPromptMode = false;
+    var tagToPromptMap = {};  // タグ→プロンプトIDの逆引きマップ
+    try {
+      var modeValue = sheet.getRange('AS3').getValue();
+      if (String(modeValue).trim() === '自動選択') {
+        autoPromptMode = true;
+        // GPT_PromptsシートのA列+E列からタグ→promptIDマップを構築
+        var promptSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('GPT_Prompts');
+        if (promptSheet) {
+          var pLastRow = promptSheet.getLastRow();
+          if (pLastRow >= 2) {
+            var promptData = promptSheet.getRange(2, 1, pLastRow - 1, 5).getValues(); // A-E列
+            for (var pi = 0; pi < promptData.length; pi++) {
+              var pId = (promptData[pi][0] || '').toString().trim();
+              var pTags = (promptData[pi][4] || '').toString().trim(); // E列
+              if (pId && pTags) {
+                var tagList = pTags.split(',');
+                for (var ti = 0; ti < tagList.length; ti++) {
+                  var tag = tagList[ti].trim();
+                  if (tag) {
+                    if (tagToPromptMap[tag] && tagToPromptMap[tag] !== pId) {
+                      console.log('⚠️ タグ重複検知: "' + tag + '" → 既存: ' + tagToPromptMap[tag] + ' / 新: ' + pId + '（既存を維持）');
+                    } else {
+                      tagToPromptMap[tag] = pId;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        console.log('プロンプト自動選択モード: ON（マッピング ' + Object.keys(tagToPromptMap).length + ' タグ）');
+      }
+    } catch (e) {
+      console.log('AS3セルからプロンプト選択モードを読み取れませんでした: ' + e.message);
+    }
+
     var isContinuing = props.getProperty('isProcessing_translate') === 'true' && props.getProperty('processingMode') === SCRIPT_NAME;
 
     if (!isContinuing) {
@@ -201,7 +239,15 @@ function runSelectedRowsTranslate() {
           var enTitle = batchValues[rowIndex][CONFIG.COLUMNS.EN_TITLE - 1];
 
           if (jpTitle && jpDesc && costYen > 0 && !enTitle) {
-            items.push({ row: row, jpTitle: jpTitle, jpDesc: jpDesc, costYen: costYen });
+            var item = { row: row, jpTitle: jpTitle, jpDesc: jpDesc, costYen: costYen };
+            // 自動選択モード: D列タグからプロンプトIDを判定
+            if (autoPromptMode) {
+              var rowTag = (batchValues[rowIndex][CONFIG.COLUMNS.TAG - 1] || '').toString().trim();
+              if (rowTag && tagToPromptMap[rowTag]) {
+                item.promptId = tagToPromptMap[rowTag];
+              }
+            }
+            items.push(item);
           } else {
             skippedCount++;
           }

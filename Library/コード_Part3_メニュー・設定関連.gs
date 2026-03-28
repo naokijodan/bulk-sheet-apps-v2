@@ -2781,6 +2781,9 @@ function saveIntegratedSettings(formData) {
     var dduThreshold = parseFloat(formData.dduThreshold) || CONFIG.DDU_PRICE_ADJUSTMENT.DEFAULT_THRESHOLD;
     var dduAdjustment = parseFloat(formData.dduAdjustment) || CONFIG.DDU_PRICE_ADJUSTMENT.DEFAULT_ADJUSTMENT;
 
+    // プロンプト自動選択（デフォルト: 手動）
+    var autoPromptSelect = formData.autoPromptSelect === 'true' ? '自動選択' : '手動';
+
     // 重複チェック設定
     var duplicateCheckEnabled = formData.duplicateCheckEnabled || false;
     var duplicateSettings = null;
@@ -2841,7 +2844,10 @@ function saveIntegratedSettings(formData) {
     docProps.setProperty('DDU_ADJUSTMENT_ENABLED', dduAdjustmentEnabled);
     docProps.setProperty('DDU_THRESHOLD', String(dduThreshold));
     docProps.setProperty('DDU_ADJUSTMENT_AMOUNT', String(dduAdjustment));
-    
+
+    // プロンプト自動選択の保存
+    docProps.setProperty('AUTO_PROMPT_SELECT', autoPromptSelect);
+
     // 価格表示モードの保存
     setPriceDisplayMode(priceDisplayMode);
 
@@ -2873,6 +2879,7 @@ function saveIntegratedSettings(formData) {
       dduAdjustmentEnabled: dduAdjustmentEnabled,
       dduThreshold: dduThreshold,
       dduAdjustment: dduAdjustment,
+      autoPromptSelect: autoPromptSelect,
       duplicateCheckEnabled: duplicateCheckEnabled,
       duplicateSettings: duplicateSettings
     });
@@ -3292,11 +3299,12 @@ function writeSettingsToSheet(sheetName, settings) {
 
     // プロンプト設定（黄色系）
     var promptData = [
-      ['使用プロンプト', settings.promptId || 'EBAY_FULL_LISTING_PROMPT']
+      ['使用プロンプト', settings.promptId || 'EBAY_FULL_LISTING_PROMPT'],
+      ['プロンプト選択', settings.autoPromptSelect || '手動']
     ];
-    sheet.getRange('AR2:AS2').setValues(promptData);
-    sheet.getRange('AR2:AS2').setBackground('#FFF9C4');
-    sheet.getRange('AR2').setFontWeight('bold');
+    sheet.getRange('AR2:AS3').setValues(promptData);
+    sheet.getRange('AR2:AS3').setBackground('#FFF9C4');
+    sheet.getRange('AR2:AR3').setFontWeight('bold');
 
     // 枠線を設定（AI1からAS5まで）
     var settingsRange = sheet.getRange('AI1:AS5');
@@ -3353,6 +3361,16 @@ function writeSettingsToSheet(sheetName, settings) {
         .build();
       sheet.getRange('AS2').setDataValidation(rule6);
     }
+
+    // AS3: プロンプト選択モード（手動 / 自動選択）
+    var rule7 = SpreadsheetApp.newDataValidation()
+      .requireValueInList(['手動', '自動選択'], true)
+      .setAllowInvalid(false)
+      .build();
+    sheet.getRange('AS3').setDataValidation(rule7);
+
+    // GPT_PromptsシートのE列にタグマッピングを書き込み（可視化用）
+    writePromptTagMapping_();
 
     // 注釈を追加
     sheet.getRange('AI6').setValue('※この設定値は計算式から参照されます。値セル（AJ, AL, AN, AP, AS列）は直接編集可能です。ドロップダウンから選択できます。')
@@ -3975,5 +3993,43 @@ function reapplyCalculationFormulasToSelectedRows() {
 
   } catch (e) {
     showAlert("計算式の再出力エラー: " + e.message, "error");
+  }
+}
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  GPT_PromptsシートE列にタグマッピングを書き込み
+  初期設定時に呼び出し、どのプロンプトがどのタグに対応するか可視化する
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+function writePromptTagMapping_() {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sh = ss.getSheetByName('GPT_Prompts');
+    if (!sh) return;
+
+    var lastRow = sh.getLastRow();
+    if (lastRow < 2) return;
+
+    // A列（プロンプトID）を一括読み込み
+    var ids = sh.getRange(2, 1, lastRow - 1, 1).getValues();
+
+    // E列ヘッダーが無ければ追加
+    var header = sh.getRange(1, 5).getValue();
+    if (!header) {
+      sh.getRange(1, 5).setValue('対象タグ');
+    }
+
+    // ID→タグリストをE列に書き込む
+    var eValues = [];
+    for (var i = 0; i < ids.length; i++) {
+      var id = (ids[i][0] || '').toString().trim();
+      var tags = PROMPT_TAG_MAPPING[id];
+      eValues.push([tags ? tags.join(', ') : '']);
+    }
+
+    // E列に一括書き込み
+    sh.getRange(2, 5, eValues.length, 1).setValues(eValues);
+
+  } catch (e) {
+    console.log('writePromptTagMapping_ エラー: ' + e.message);
   }
 }

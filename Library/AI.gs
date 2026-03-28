@@ -821,7 +821,7 @@ function callGemini(prompt, settings) {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function buildRequestForProvider_(settings, item) {
   var fullText = 'Japanese Title: ' + item.jpTitle + '\nJapanese Description: ' + item.jpDesc;
-  var prompt = createAIPrompt(fullText, settings.promptId);
+  var prompt = createAIPrompt(fullText, item.promptId || settings.promptId);
 
   var platform = settings.platform;
   var model = settings.model;
