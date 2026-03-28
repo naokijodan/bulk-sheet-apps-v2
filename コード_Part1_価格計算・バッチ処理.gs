@@ -3537,14 +3537,13 @@ function saveSelectedRowsAndClear() {
     var targetSheet = getOrCreateSaveSheet(ss, requiredRows);
     var savedCount = saveRowsToSheet(sheet, targetSheet, startRow, endRow);
 
-    // 2. クリア処理
-    clearSelectedRowsValues(sheet, startRow, endRow);
-
-    // 3. 計算モードの読み取り
+    // 2. 計算モードの読み取り
     var profitCalcText = sheet.getRange('AL2').getValue(); // "利益率" or "利益額"
     var profitCalc = (profitCalcText === '利益額') ? 'AMOUNT' : 'RATE';
-
     var shippingCalc = getShippingCalcMethodFromLabel_(sheet);
+
+    // 3. クリア処理
+    clearSelectedRowsValues(sheet, startRow, endRow, shippingCalc);
 
     // 4. applyCalculationFormulas関数を呼び出して全列の式を再設定
     var result = applyCalculationFormulas(settings.sheetName, {
@@ -3592,13 +3591,18 @@ function clearSelectedRowsOnly() {
       conditionalShowAlert('キャンセルしました。', "info");
       return;
     }
-
-    clearSelectedRowsValues(sheet, startRow, endRow);
+    
+    // クリア処理前に配送計算モードを取得
+    var method = getShippingCalcMethodFromLabel_(sheet);
+    clearSelectedRowsValues(sheet, startRow, endRow, method);
     var count = endRow - startRow + 1;
+    var deletedCols = (method === 'TAG_SHIPPING')
+      ? 'A,B,C,D,G～N列,AE列の値／ハイライト（F列の式は保持）'
+      : 'A,B,C,D,F～N列,AE列の値／ハイライト';
     var msg = '✅ データ削除完了\n\n' +
       '🗑️ ' + startRow + '～' + endRow + ' 行 (' + count + '行)\n' +
       '✅ 保持：E列・O列・P列以降の数式／全列のドロップダウン\n' +
-      '❌ 削除：A,B,C,D,F～N列,AE列の値／ハイライト';
+      '❌ 削除：' + deletedCols;
     
     // 🔹 修正：完了通知を条件付きに変更
     conditionalShowAlert(msg, "success");
@@ -3714,9 +3718,10 @@ function saveRowsToSheet(sourceSheet, targetSheet, startRow, endRow) {
  * 🆕 選択行のA～O列の値のみクリア
  * P列以降の計算式は完全に保持
  */
-function clearSelectedRowsValues(sheet, startRow, endRow) {
+function clearSelectedRowsValues(sheet, startRow, endRow, opt_method) {
   try {
     var rowCount = endRow - startRow + 1;
+    var method = opt_method || 'TABLE';
 
     // 指定された列のみクリア（E列・O列・P列以降は保持、AE列は除外）
     // clearContent() = 値のみ削除、書式・入力規則は保持
@@ -3724,8 +3729,14 @@ function clearSelectedRowsValues(sheet, startRow, endRow) {
     // A, B, C, D列（1～4列）をクリア
     sheet.getRange(startRow, 1, rowCount, 4).clearContent();
 
-    // F, G, H, I, J, K, L, M, N列（6～14列）をクリア
-    sheet.getRange(startRow, 6, rowCount, 9).clearContent();
+    // F列はTAG_SHIPPINGモードで式が入るため、モードに応じてクリア範囲を分岐
+    if (method === 'TAG_SHIPPING') {
+      // G～N列（7～14列、8列分）のみクリア（F列の式を保護）
+      sheet.getRange(startRow, 7, rowCount, 8).clearContent();
+    } else {
+      // F～N列（6～14列、9列分）をクリア
+      sheet.getRange(startRow, 6, rowCount, 9).clearContent();
+    }
 
     // AE列（31列目）をクリア
     sheet.getRange(startRow, CONFIG.COLUMNS.CONDITION, rowCount, 1).clearContent();
@@ -3768,14 +3779,13 @@ function clearAndReapplyFormulas() {
     var settings = getSettings();
     if (!settings) return;
 
-    // 1. 選択行をクリア
-    clearSelectedRowsValues(sheet, startRow, endRow);
-
-    // 2. シートから計算モードを読み取る
+    // 1. 計算モードの読み取り
     var profitCalcText = sheet.getRange('AL2').getValue(); // "利益率" or "利益額"
     var profitCalc = (profitCalcText === '利益額') ? 'AMOUNT' : 'RATE';
-
     var shippingCalc = getShippingCalcMethodFromLabel_(sheet);
+
+    // 2. 選択行をクリア
+    clearSelectedRowsValues(sheet, startRow, endRow, shippingCalc);
 
     // 3. applyCalculationFormulas関数を呼び出して全列の式を再設定
     var result = applyCalculationFormulas(settings.sheetName, {
