@@ -17,18 +17,26 @@ from typing import Dict, Tuple, List
 
 
 # 変換対象: ファイル名 -> プロンプトID
+# ファイル名 = GPT_PromptsシートのプロンプトIDと一致させる
 FILE_TO_ID: Dict[str, str] = {
-    '時計プロンプトV10.txt': '時計用',
-    'カメラプロンプトV1.txt': 'カメラ',
-    'リールプロンプトV1.txt': 'リール',
-    'ゴルフプロンプトV1.txt': 'ゴルフ',
-    'ジュエリー専用プロンプト_v4.txt': 'ジュエリー',
-    'ポケカプロンプト_改善版V9.txt': 'ポケカ',
-    'MTGプロンプト_V1.txt': 'MTG',
+    '時計用.txt': '時計用',
+    'カメラ.txt': 'カメラ',
+    'リール.txt': 'リール',
+    'ゴルフ.txt': 'ゴルフ',
+    'ジュエリー.txt': 'ジュエリー',
+    'ポケカ.txt': 'ポケカ',
+    'MTG.txt': 'MTG',
     'ベースボールカード.txt': 'ベースボールカード',
     '大相撲カード.txt': '大相撲カード',
-    'ゲーム機プロンプトV1.txt': 'ゲーム機',
-    'アパレルプロンプト.txt': 'アパレル・ブランド品',
+    'ゲーム機.txt': 'ゲーム機',
+    'アパレル・ブランド品.txt': 'アパレル・ブランド品',
+    '一般商品・汎用.txt': '一般商品・汎用',
+    'ゲーム用.txt': 'ゲーム用',
+    '日本ブランド.txt': '日本ブランド',
+    'フィギュア.txt': 'フィギュア',
+    'タイトル並べ替え.txt': 'タイトル並べ替え',
+    'スニーカー.txt': 'スニーカー',
+    'ドレスシューズ.txt': 'ドレスシューズ',
 }
 
 
@@ -141,7 +149,7 @@ def convert_to_gs(prompt_dir: str) -> str:
 
 if __name__ == '__main__':
     # 既定ディレクトリ/出力パス（引数なしで動作）
-    prompt_dir = '/Users/naokijodan/Desktop/ツール開発/プロンプト編集'
+    prompt_dir = '/Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/prompts'
     output_path = '/Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/Library/PromptTemplates.gs'
 
     result = convert_to_gs(prompt_dir)
