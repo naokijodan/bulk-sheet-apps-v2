@@ -4,112 +4,81 @@
 
 ## 前回のセッションでやったこと
 
-### A. 翻訳プロンプト自動選択機能（完了）
-- Config.gs: `PROMPT_TAG_MAPPING` テーブル定義（15カテゴリ・35タグ）
-- Translation.gs: AS3セルから自動選択モード読み取り → GPT_PromptsシートE列からタグ→promptIDマップ構築 → 行ごとにpromptId判定
-- AI.gs: `item.promptId || settings.promptId` でフォールバック対応
-- コード_Part3: `writePromptTagMapping_()` でGPT_PromptsシートE列に可視化用書き込み
-- コード_Part3: AS3ドロップダウン（手動/自動選択）+ DocumentProperties保存
-- コード_Part1: `tmpl.currentAutoPromptSelect` でダイアログ状態復元
-- SetupDialog.txt: プロンプト設定セクション内にチェックボックスUI追加
-- AU列に使用プロンプトIDを記録（検証用） — JP_TITLE_BACKUP残骸を除去
+### テーマ1: プロンプトの充実（設計・基盤整備）
 
-### B. プロンプト自動同期機能（完了）
-- `Library/convert_prompts_to_gs.py`: .txtからPromptTemplates.gsへの変換スクリプト（厳格検証付き）
-- `Library/PromptTemplates.gs`: 11個のプロンプトテンプレート格納（78KB）
-- `syncPromptsToSheet_()`: GPT_Promptsシートへの自動反映（F列バージョン整数比較、バックアップ自動生成）
-- SetupDialog.txt: 「新しいプロンプトを追加」「既存プロンプトを最新版に更新」チェックボックス追加
-- バックアップ失敗時は更新を中断する安全設計
+#### A. プロンプト管理フォルダの一元化（commit bad5e68）
+- `prompts/`フォルダを新設、全プロンプトをプロンプトID名で統一管理
+- 旧`プロンプト例/`フォルダから移行＋旧フォルダ削除
+- `convert_prompts_to_gs.py`のFILE_TO_IDを11個→18個に拡張、参照先を`prompts/`に変更
+- スニーカー・ドレスシューズのプロンプトをユーザーが貼り付け済み
 
-### レビューで採用したGemini指摘
-- ダイアログ再開時の状態復元（tmpl.currentAutoPromptSelect）
-- タグ重複検知ログ（Translation.gs）
-- バックアップ失敗時の更新中断（syncPromptsToSheet_）
-- addNew後のflush()追加（syncPromptsToSheet_）
+#### B. PROMPT_TAG_MAPPING拡張（commit a094e93）
+3者協議（Claude/GPT/Gemini）を2回実施し、49の未割り当てカテゴリの振り分けを決定。
+
+**既存プロンプトへのタグ追加:**
+- 時計用: + Watch Parts系タグ（時計パーツ,ウォッチパーツ,時計部品）
+- ジュエリー: + カフリンクス,カフスボタン,チャーム,ペンダントトップ
+- アパレル・ブランド品: バッグ・財布を削除し、帽子・スカーフ・ベルト・ネクタイ等のFashion小物を統合
+- リール→釣り具: 釣竿・ロッド追加、プロンプトファイル`釣り具.txt`作成済み（リールのコピー）
+- フィギュア: + ドール,ぬいぐるみ,アニメ,アニメグッズ
+- レザーグッズ: 新規プロンプト枠（バッグ,財布,キーケース等）、`レザーグッズ.txt`は空ファイル
+
+#### C. 新規プロンプト17個の設計確定（3者協議で合意）
+
+| # | プロンプト名 | カテゴリ | 優先度 |
+|---|------------|---------|--------|
+| 1 | レザーグッズ | Wallets, Handbags, キーケース等 | Tier 1 |
+| 2 | サングラス | Sunglasses | Tier 2 |
+| 3 | オーディオ・家電 | Electronics | Tier 1 |
+| 4 | 楽器 | Musical Instruments | Tier 1 |
+| 5 | RC・模型 | RC & Models | Tier 1 |
+| 6 | レコード | Records | Tier 1 |
+| 7 | 万年筆・筆記具 | Pens | Tier 2 |
+| 8 | パイプ・喫煙具 | Pipes | Tier 3 |
+| 9 | テニス | Tennis | Tier 2 |
+| 10 | 野球 | Baseball | Tier 2 |
+| 11 | スポーツウェア | ユニフォーム,ゴルフ手袋,サンバイザー等 | Tier 2 |
+| 12 | テーブルウェア | Dinnerware, Glassware, Flatware, 包丁 | Tier 3 |
+| 13 | 着物 | Kimono | Tier 2 |
+| 14 | 日本刀 | Japanese Swords | Tier 2 |
+| 15 | 日本伝統・骨董 | Tea Ceremony, Tetsubin, Pottery, Buddhist Art | Tier 2 |
+| 16 | アート | Art, Prints | Tier 2 |
+| 17 | 和楽器 | Japanese Instruments | Tier 3 |
+
+**汎用で対応:** Snow Globes, Boxes, Combs, Key Chains, Soap, Baby, Stamps, Coins, Collectibles
+**除外（空輸不可）:** Bonsai, Lighters
 
 ## 現在のステータス
-- ブランチ: main / 最新コミット: ad4b6ff / git push済み / clasp push済み
+- ブランチ: main / 最新コミット: a094e93 / git push済み / clasp push済み
+- プロンプトファイル: 20個（prompts/フォルダ内。うちレザーグッズは空）
+- PromptTemplates.gs: 19個登録済み（リール + 釣り具の両方を含む）
 
-## 次にやること（2つの独立した開発テーマ）
+## 次にやること（優先順位順）
 
-開始時に「プロンプトの充実」か「タグ別送料管理」のどちらかを指定する。
+### 1. 新規プロンプト17個の生成（Tier 1から順に）
 
----
+**進め方:**
+1. 既存プロンプト（時計V10、ジュエリーv4、ポケカV9等）の共通構造を抽出して雛形を作る
+2. Geminiに各カテゴリの専門用語・翻訳ルール・Item Specificsをリサーチさせる
+3. 雛形 × カテゴリ辞書でプロンプトを生成
+4. `prompts/`にファイル作成 → `convert_prompts_to_gs.py`のFILE_TO_IDに追加 → 変換 → clasp push
+5. PROMPT_TAG_MAPPINGに新プロンプトのタグを追加
 
-### テーマ1: プロンプトの充実
+**Tier 1（最優先）:** オーディオ・家電、楽器、RC・模型、レコード、レザーグッズ
+**Tier 2:** サングラス、万年筆、テニス、野球、スポーツウェア、着物、日本刀、日本伝統・骨董、アート
+**Tier 3:** パイプ・喫煙具、テーブルウェア、和楽器
 
-#### 概要
-既存プロンプト（11個）の構造を分析し、「構造テンプレート×カテゴリ辞書」方式で新カテゴリ用プロンプトを効率的に設計・追加する。
+### 2. 釣り具プロンプトの拡充
+- 現在リールのコピー。釣竿固有の用語（長さ・アクション・ルアーウェイト等）を追加する
 
-#### 進め方
-1. 既存プロンプト（時計V10、ポケカV9等）の構造をGeminiに分析させる
-2. 共通パターンと差分を把握 → テンプレート型を7種類程度に分類
-3. IS_CATEGORY_FIELDSの辞書情報を活用して新カテゴリのプロンプトを生成
-4. convert_prompts_to_gs.pyでPromptTemplates.gsに変換 → clasp push
+### 3. タグ別送料の運用・拡張（テーマ2-b、前回から継続）
 
-#### テンプレート型の見込み（3者協議で合意済みの方向性）
-| テンプレート型 | 該当カテゴリ例 |
-|--------------|-------------|
-| 機械・精密機器型 | Watches, Cameras, Fishing Reels |
-| トレカ・グレード型 | Trading Cards各種 |
-| ファッション・ブランド型 | Handbags, Clothing, Shoes, Hats |
-| ジュエリー・貴金属型 | Rings, Necklaces, Bracelets |
-| スポーツ用品型 | Golf, Tennis, Baseball |
-| コレクティブル・ホビー型 | Figures, Anime, Dolls |
-| 日本文化・美術型 | Kimono, Japanese Swords, Tea Ceremony |
-| 小物・雑貨型 | Pens, Lighters, Flatware等 |
-
-#### 注意事項
-- 既存プロンプトは試行錯誤の結晶。構造は繊細。壊さないこと
-- 既存プロンプトはそのまま使う。新しいものを追加する方向
-- プロンプトが壊れると翻訳がストップ → タイムオーバー → 作業が行われない
-- .txtファイルの1行目に `// VERSION: N` を追加してバージョン管理
-
-#### 関連ファイル
-- プロンプト: `~/Desktop/ツール開発/プロンプト編集/*.txt`
-- 変換スクリプト: `Library/convert_prompts_to_gs.py`（FILE_TO_IDにマッピング追加）
+## 関連ファイル
+- プロンプト: `prompts/*.txt`
+- 変換スクリプト: `Library/convert_prompts_to_gs.py`（FILE_TO_IDにマッピング追加が必要）
+- PROMPT_TAG_MAPPING: `Config.gs` L213 / `Library/Config.gs` L213
 - IS_CATEGORY_FIELDS: `Library/Config_IS.gs` L3031-3096
-- IS_TAG_TO_CATEGORY: `Library/Config_IS.gs` L2789-2845
-
----
-
-### テーマ2: タグ別送料管理 + 参考eBay ID自動セット
-
-#### 概要
-D列タグから送料と参考eBay IDを自動でセットする機能。タグごとに3パターンの固定送料を定義し、手作業を解消する。
-
-#### テーブル構造（ユーザーが定義）
-| タグ | ep | CE | CF,CD | 参考eBay ID |
-|------|-----|------|-------|------------|
-| フィギュア単体 | 1800 | 2000 | 3000 | 既存出品のID |
-| フィギュアまとめ | 3000 | 5000 | 6000 | 既存出品のID |
-| 時計 | 1200 | 1800 | 3000 | 既存出品のID |
-| 時計箱入り | 2000 | 2500 | 4000 | 既存出品のID |
-
-#### 現状の課題
-- 同じカテゴリでも梱包サイズが違う（単体 vs まとめ売り、時計 vs 箱入り）
-- 今はシートを分けるか手動で送料を変更して対応
-- 参考eBay ID（F列）も毎回手作業で貼り付けている
-
-#### 実現したいこと
-- タグごとにep/CE/CF,CDの3パターンの固定送料を定義
-- D列タグから自動判定して送料を適用
-- 同じテーブルで参考eBay IDも管理し、F列に自動セット
-- ユーザーが自由にタグと送料の組み合わせを追加できる
-
-#### 設計の検討ポイント（3者協議推奨）
-- テーブルの保存先: スプレッドシートの専用シート？ DocumentProperties？
-- 既存の送料計算（テーブル計算/固定金額/ゲーム・トレカ）との共存方法
-- 送料適用のタイミング: 翻訳時？ 初期設定時？ 価格計算時？
-- CONFIG.COLUMNS.REF_EBAY (F列=6) への自動書き込み
-
-#### 関連ファイル
-- Config.gs: CONFIG.COLUMNS（列定義）、CONFIG.SHIPPING_METHODS等
-- Shipping.gs: 送料計算ロジック
-- Translation.gs: D列タグの読み取り（自動選択機能で実装済み）
-- コード_Part1: 価格計算・バッチ処理
-
----
+- IS_TAG_TO_CATEGORY: `Library/Config_IS.gs` L2789-3027
 
 ## 共通の注意事項
 - コーディングはCodex CLIに委託する（L1-1）
@@ -118,9 +87,9 @@ D列タグから送料と参考eBay IDを自動でセットする機能。タグ
 - clasp push前にScriptPropertiesチェック必須
 - HtmlTemplates.gsの再生成はconvert_html_to_gs.pyで実行
 - PromptTemplates.gsの再生成はconvert_prompts_to_gs.pyで実行
+- 送料モードの追加・変更はbuildShippingFormulas_()（Utils.gs）を修正すること（SSOT）
+- 既存プロンプトは試行錯誤の結晶。構造は壊さないこと
+- プロンプトが壊れると翻訳がストップ → 作業が行われない
 
-## その他の残タスク
-- トレカのE2Eテスト
-- ゴルフプロンプトV1のテスト・調整
-- ゲーム用プロンプトの作成（ゲーム機プロンプトは既存。ゲームソフト用が未作成）
-- スニーカー/ドレスシューズ/フィギュアのプロンプト作成
+## 設計書
+- `docs/shipping-mode-refactor-plan.md` — 送料モード共通関数化の設計書（3者協議の記録含む）
