@@ -340,7 +340,7 @@ var IS_INITIAL_DATA = [
   { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Loft', field_type: 'recommended', priority: 7, notes: '角度' },
   { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Club Number', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Set Makeup', field_type: 'recommended', priority: 9, notes: '' },
-  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Department', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' },
 
   // === Tennis ===
   { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -379,7 +379,7 @@ var IS_INITIAL_DATA = [
   { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Fish Species', field_type: 'recommended', priority: 7, notes: '' },
   { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Fishing Type', field_type: 'recommended', priority: 8, notes: 'Freshwater / Saltwater' },
   { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Material', field_type: 'recommended', priority: 9, notes: '' },
-  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Lure Weight', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' },
 
   // === RC & Models ===
   { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -447,7 +447,7 @@ var IS_INITIAL_DATA = [
   { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Main Stone Color', field_type: 'recommended', priority: 7, notes: '' },
   { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Pendant Shape', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Secondary Stone', field_type: 'recommended', priority: 9, notes: '' },
-  { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Theme', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' },
 
   // === Brooches ===
   { category: 'Brooches', tag_jp: 'ブローチ', field_name: 'Type', field_type: 'required', priority: 1, notes: 'Brooch / Pin' },
@@ -3082,11 +3082,11 @@ var IS_CATEGORY_FIELDS = {
   'Prints':              ['Listed By', 'Medium', 'Subject', 'Maker', 'Style', 'Size', 'Country of Origin'],
   'Buddhist Art':        ['Type', 'Material', 'Size', 'Era', 'Country of Origin'],
   'Tetsubin':            ['Brand', 'Type', 'Material', 'Size', 'Country of Origin'],
-  'Golf':                ['Brand', 'Golf Club Type', 'Handedness', 'Model', 'Flex', 'Shaft Material', 'Loft', 'Club Number', 'Set Makeup', 'Department'],
+  'Golf':                ['Brand', 'Golf Club Type', 'Handedness', 'Model', 'Flex', 'Shaft Material', 'Loft', 'Club Number', 'Set Makeup', 'Country of Origin'],
   'Tennis':              ['Brand', 'Type', 'Head Size', 'Grip Size', 'String Pattern', 'Weight', 'Country of Origin'],
   'Baseball':            ['Brand', 'Handedness', 'Player Position', 'Size', 'Type', 'Material', 'Color', 'Sport/Activity', 'Country of Origin', 'Model Year'],
   'Japanese Instruments': ['Type', 'Material', 'Size', 'Country of Origin'],
-  'Fishing Rods':        ['Brand', 'Rod Type', 'Model', 'Item Length', 'Rod Power', 'Rod Action', 'Fish Species', 'Fishing Type', 'Material', 'Lure Weight'],
+  'Fishing Rods':        ['Brand', 'Rod Type', 'Model', 'Item Length', 'Rod Power', 'Rod Action', 'Fish Species', 'Fishing Type', 'Material', 'Country of Origin'],
   'RC & Models':         ['Brand', 'Type', 'Scale', 'Fuel Type', 'Color', 'Country of Origin'],
   'Anime':               ['Brand', 'Character', 'Franchise', 'Type', 'Material', 'Country of Origin'],
   'Figures':             ['Franchise', 'Character', 'Type', 'Brand', 'Scale', 'Material', 'Theme', 'Original/Licensed Reproduction', 'Series', 'Vintage'],
