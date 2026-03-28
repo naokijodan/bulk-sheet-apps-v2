@@ -70,7 +70,7 @@ function createAIPrompt(fullText, promptId) {
   }
 
   // トレーディングカード関連キーワード検出時にカード用翻訳辞書を動的注入
-  // Config.gs SANITIZE_CATEGORIES.card.keywords と同期すること
+  // IS_TAG_TO_CATEGORY の Trading Cards タグと同期すること
   var cardKeywords = ['ポケカ', 'ポケモンカード', 'トレカ', 'トレーディングカード',
     '遊戯王', 'MTG', 'マジックザギャザリング', 'デュエマ', 'デュエルマスターズ',
     'ワンピースカード', 'ヴァイスシュヴァルツ', 'ヴァンガード',

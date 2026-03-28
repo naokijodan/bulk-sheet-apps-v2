@@ -13,30 +13,30 @@
   カテゴリ別フィールド定義
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 var SANITIZE_FIELDS_ = {
-  watch: [
+  'Watches': [
     'ブランド', 'モデル名', '型番', 'ムーブメント',
     'ケース素材', 'ケースサイズ', '文字盤色', '風防',
     'ベルト素材', '防水', '表示方式', '腕周り',
     '付属品', 'コンディション', '故障・不具合', '製造国'
   ],
-  camera: [
+  'Cameras': [
     'ブランド', 'モデル名', 'タイプ', 'シリーズ',
     '色', '画素数', 'レンズマウント', 'バッテリータイプ',
     '付属レンズ', 'シャッター回数',
     '付属品', 'コンディション', '故障・不具合', '製造国'
   ],
-  card: [
+  'Trading Cards': [
     'ゲーム名', 'セット名', 'キャラクター名', 'カード名',
     'カード番号', 'レアリティ', '仕上げ', '言語',
     '鑑定会社', '鑑定グレード',
     'コンディション', '枚数'
   ],
-  game: [
+  'Video Game Consoles': [
     'メーカー', '機種名', '型番', 'タイプ',
     'ストレージ容量', '色', 'リージョン', 'エディション',
     '付属品', 'コンディション', '故障・不具合'
   ],
-  reel: [
+  'Fishing Reels': [
     'メーカー', 'モデル名', '型番', 'リールタイプ',
     '巻き方向', 'ギア比', 'サイズ/番手', '対象魚種',
     '付属品', 'コンディション', '故障・不具合'
@@ -50,7 +50,7 @@ var SANITIZE_FIELDS_ = {
  * @return {string} プロンプト文字列
  */
 function buildDefaultSanitizePrompt_(category) {
-  var fields = SANITIZE_FIELDS_[category] || SANITIZE_FIELDS_['watch'];
+  var fields = SANITIZE_FIELDS_[category] || SANITIZE_FIELDS_['Watches'];
   var charLimits = {
     '付属品': 25, 'コンディション': 25, '故障・不具合': 25,
     'モデル名': 20, '付属レンズ': 25, '色': 10,
@@ -93,7 +93,7 @@ function buildDefaultSanitizePrompt_(category) {
   }
   if (brandList) {
     lines.push('');
-    if (category === 'card') {
+    if (category === 'Trading Cards') {
       lines.push('ゲーム名一覧（該当するものがあればこの英語表記を正確に使用してください）:');
     } else {
       lines.push('ブランド名一覧（該当するものがあればこの英語表記を正確に使用してください）:');
@@ -102,7 +102,7 @@ function buildDefaultSanitizePrompt_(category) {
   }
 
   // カメラ用の補足ルール
-  if (category === 'camera') {
+  if (category === 'Cameras') {
     lines.push('');
     lines.push('カメラ用の補足ルール:');
     lines.push('- タイプ: 一眼レフ/ミラーレス/コンパクト/フィルムカメラ/中判/レンジファインダー/二眼レフ/蛇腹/アクションカメラ/インスタントカメラ のいずれかで記入。');
@@ -113,7 +113,7 @@ function buildDefaultSanitizePrompt_(category) {
   }
 
   // カード用の補足ルール
-  if (category === 'card') {
+  if (category === 'Trading Cards') {
     lines.push('');
     lines.push('カード用の補足ルール:');
     lines.push('- ゲーム名: ポケモンカード/遊戯王/MTG/デュエルマスターズ/ヴァイスシュヴァルツ/ヴァンガード/バトルスピリッツ/ドラゴンボール/ワンピース/BBM(野球)/大相撲 のいずれかで記入。');
@@ -132,7 +132,7 @@ function buildDefaultSanitizePrompt_(category) {
   }
 
   // ゲーム機用の補足ルール
-  if (category === 'game') {
+  if (category === 'Video Game Consoles') {
     lines.push('');
     lines.push('ゲーム機用の補足ルール:');
     lines.push('- メーカー: Nintendo/Sony/Sega/Microsoft/SNK/NEC/Atari のいずれかで記入。');
@@ -145,7 +145,7 @@ function buildDefaultSanitizePrompt_(category) {
   }
 
   // リール用の補足ルール
-  if (category === 'reel') {
+  if (category === 'Fishing Reels') {
     lines.push('');
     lines.push('リール用の補足ルール:');
     lines.push('- リールタイプ: スピニング/ベイト(両軸)/フライ/電動/スピンキャスト のいずれかで記入。');
@@ -167,30 +167,24 @@ function buildDefaultSanitizePrompt_(category) {
 
 
 /**
- * D列タグからカテゴリキーを判定する
+ * D列タグからISカテゴリ名を判定する
+ * IS_TAG_TO_CATEGORY（Config_IS.gs）を参照し、64カテゴリ全てに対応
  * @param {string} tag - D列のタグ文字列
- * @return {string|null} カテゴリキー（'watch', 'camera'等）。該当なしはnull
+ * @return {string|null} ISカテゴリ名（'Watches', 'Cameras'等）。該当なしはnull
  */
 function detectSanitizeCategory_(tag) {
   if (!tag) return null;
   var t = tag.toString().trim();
   if (!t) return null;
 
-  var categories = CONFIG.SANITIZE_CATEGORIES;
-  // 長いキーワードから順にマッチ（「腕時計」を「時計」より先に）
-  var allEntries = [];
-  for (var catKey in categories) {
-    var kws = categories[catKey].keywords;
-    for (var i = 0; i < kws.length; i++) {
-      allEntries.push({ keyword: kws[i], catKey: catKey });
-    }
-  }
-  allEntries.sort(function(a, b) { return b.keyword.length - a.keyword.length; });
+  // IS_TAG_TO_CATEGORYで完全一致
+  if (IS_TAG_TO_CATEGORY[t]) return IS_TAG_TO_CATEGORY[t];
 
-  for (var i = 0; i < allEntries.length; i++) {
-    if (t.indexOf(allEntries[i].keyword) !== -1) {
-      return allEntries[i].catKey;
-    }
+  // 部分一致フォールバック（長いキーワードから順にマッチ）
+  var keys = Object.keys(IS_TAG_TO_CATEGORY);
+  keys.sort(function(a, b) { return b.length - a.length; });
+  for (var i = 0; i < keys.length; i++) {
+    if (t.indexOf(keys[i]) !== -1) return IS_TAG_TO_CATEGORY[keys[i]];
   }
   return null;
 }
@@ -634,7 +628,7 @@ function parseSanitizedFields_(content, category) {
   var result = { description: '' };
 
   // カテゴリ別フィールド定義を取得（デフォルトは時計）
-  var fields = SANITIZE_FIELDS_[category || 'watch'] || SANITIZE_FIELDS_['watch'];
+  var fields = SANITIZE_FIELDS_[category || 'Watches'] || SANITIZE_FIELDS_['Watches'];
 
   var parts = [];
   for (var i = 0; i < fields.length; i++) {

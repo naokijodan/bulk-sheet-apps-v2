@@ -2356,13 +2356,13 @@ var IS_BRAND_DICT = [
 /**
  * 交通整理（Sanitize）用のブランドリストを生成する
  * IS_BRAND_DICTからカテゴリに応じたブランドの英語名+日本語名をコンパクトな文字列で返す
- * @param {string} category - Sanitizeカテゴリ ('watch', 'camera', 'card')
+ * @param {string} category - ISカテゴリ名 ('Watches', 'Cameras', 'Trading Cards'等)
  * @return {string} ブランドリスト文字列（例: "Seiko(セイコー), Omega(オメガ), ..."）
  */
 function getBrandListForSanitize_(category) {
   try {
     // カードの場合はCardPatterns.gsのゲーム名を返す
-    if (category === 'card') {
+    if (category === 'Trading Cards') {
       var games = [
         'Pokemon TCG(ポケモンカード)', 'Yu-Gi-Oh!(遊戯王)', 'Magic the Gathering(MTG)',
         'Duel Masters(デュエルマスターズ)', 'Weiss Schwarz(ヴァイスシュヴァルツ)',
@@ -2376,17 +2376,20 @@ function getBrandListForSanitize_(category) {
     // watch/cameraの場合はIS_BRAND_DICTからフィルタ
     if (typeof IS_BRAND_DICT === 'undefined' || !IS_BRAND_DICT) return '';
 
+    // ISカテゴリ名をIS_BRAND_DICTのカテゴリ名にマッピング
+    // ※ Video Game Consolesのブランドは IS_BRAND_DICT上 'Video Games' で登録されている
     var targetCategories;
-    if (category === 'watch') {
+    if (category === 'Watches') {
       targetCategories = ['Watches'];
-    } else if (category === 'camera') {
+    } else if (category === 'Cameras') {
       targetCategories = ['Cameras'];
-    } else if (category === 'game') {
+    } else if (category === 'Video Game Consoles') {
       targetCategories = ['Video Games'];
-    } else if (category === 'reel') {
+    } else if (category === 'Fishing Reels') {
       targetCategories = ['Fishing Reels'];
     } else {
-      return '';
+      // 新規カテゴリ: ISカテゴリ名をそのままIS_BRAND_DICTのフィルタに使用
+      targetCategories = [category];
     }
 
     var seen = {};
@@ -2979,6 +2982,48 @@ IS_TAG_TO_CATEGORY['メダル'] = 'Coins';
 IS_TAG_TO_CATEGORY['レコード'] = 'Records'; IS_TAG_TO_CATEGORY['LP'] = 'Records';
 IS_TAG_TO_CATEGORY['EP'] = 'Records'; IS_TAG_TO_CATEGORY['CD'] = 'Records';
 IS_TAG_TO_CATEGORY['カセット'] = 'Records';
+
+// ==============================
+// 交通整理（Sanitize）用 追加キーワード
+// 旧 CONFIG.SANITIZE_CATEGORIES にあったキーワードのうち
+// IS_TAG_TO_CATEGORY に未登録だったものを補完
+// ==============================
+
+// Watches 追加
+IS_TAG_TO_CATEGORY['置き時計'] = 'Watches';
+
+// Cameras 追加
+IS_TAG_TO_CATEGORY['レンズ'] = 'Cameras';
+
+// Trading Cards 追加（カードゲーム固有名詞・略称・鑑定会社）
+IS_TAG_TO_CATEGORY['ポケモンカード'] = 'Trading Cards';
+IS_TAG_TO_CATEGORY['マジックザギャザリング'] = 'Trading Cards';
+IS_TAG_TO_CATEGORY['デュエマ'] = 'Trading Cards'; IS_TAG_TO_CATEGORY['デュエルマスターズ'] = 'Trading Cards';
+IS_TAG_TO_CATEGORY['ワンピースカード'] = 'Trading Cards';
+IS_TAG_TO_CATEGORY['ヴァイスシュヴァルツ'] = 'Trading Cards'; IS_TAG_TO_CATEGORY['ヴァンガード'] = 'Trading Cards';
+IS_TAG_TO_CATEGORY['バトスピ'] = 'Trading Cards'; IS_TAG_TO_CATEGORY['バトルスピリッツ'] = 'Trading Cards';
+IS_TAG_TO_CATEGORY['ドラゴンボールカード'] = 'Trading Cards';
+IS_TAG_TO_CATEGORY['BBM'] = 'Trading Cards'; IS_TAG_TO_CATEGORY['ベースボールカード'] = 'Trading Cards';
+IS_TAG_TO_CATEGORY['野球カード'] = 'Trading Cards'; IS_TAG_TO_CATEGORY['大相撲カード'] = 'Trading Cards';
+IS_TAG_TO_CATEGORY['PSA'] = 'Trading Cards'; IS_TAG_TO_CATEGORY['BGS'] = 'Trading Cards';
+IS_TAG_TO_CATEGORY['CGC'] = 'Trading Cards'; IS_TAG_TO_CATEGORY['SGC'] = 'Trading Cards';
+
+// Video Game Consoles 追加（機種名・略称）
+IS_TAG_TO_CATEGORY['ゲーム本体'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['コンソール'] = 'Video Game Consoles';
+IS_TAG_TO_CATEGORY['プレステ'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['PlayStation'] = 'Video Game Consoles';
+IS_TAG_TO_CATEGORY['PS1'] = 'Video Game Consoles';
+IS_TAG_TO_CATEGORY['スーファミ'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['ゲームボーイ'] = 'Video Game Consoles';
+IS_TAG_TO_CATEGORY['Wii'] = 'Video Game Consoles';
+IS_TAG_TO_CATEGORY['ドリームキャスト'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['サターン'] = 'Video Game Consoles';
+IS_TAG_TO_CATEGORY['メガドライブ'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['PCエンジン'] = 'Video Game Consoles';
+IS_TAG_TO_CATEGORY['ネオジオ'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['ゲームキューブ'] = 'Video Game Consoles';
+IS_TAG_TO_CATEGORY['Nintendo 64'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['N64'] = 'Video Game Consoles';
+IS_TAG_TO_CATEGORY['DS'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['3DS'] = 'Video Game Consoles';
+IS_TAG_TO_CATEGORY['PSP'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['PSVita'] = 'Video Game Consoles';
+IS_TAG_TO_CATEGORY['Steam Deck'] = 'Video Game Consoles';
+
+// Fishing Reels 追加
+IS_TAG_TO_CATEGORY['釣り'] = 'Fishing Reels'; IS_TAG_TO_CATEGORY['フィッシング'] = 'Fishing Reels';
 
 // ==============================
 // カテゴリ別 出力フィールド定義（5-8フィールド、順序固定）
