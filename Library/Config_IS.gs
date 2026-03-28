@@ -3031,7 +3031,7 @@ IS_TAG_TO_CATEGORY['釣り'] = 'Fishing Reels'; IS_TAG_TO_CATEGORY['フィッシ
 var IS_CATEGORY_FIELDS = {
   'Watches':       ['Brand', 'Model', 'Display', 'Movement', 'Case Material', 'Case Size', 'Wrist Size', 'Dial Color', 'Department', 'Country of Origin'],
   'Rings':         ['Brand', 'Designer', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country of Origin'],
-  'Necklaces':     ['Style', 'Brand', 'Type', 'Color', 'Metal', 'Main Stone', 'Main Stone Color', 'Pendant Shape', 'Secondary Stone', 'Theme'],
+  'Necklaces':     ['Style', 'Brand', 'Type', 'Color', 'Metal', 'Main Stone', 'Main Stone Color', 'Pendant Shape', 'Secondary Stone', 'Country of Origin'],
   'Bracelets':     ['Brand', 'Designer', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country of Origin'],
   'Earrings':      ['Brand', 'Designer', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country of Origin'],
   'Handbags':      ['Brand', 'Style', 'Exterior Material', 'Exterior Color', 'Department', 'Country of Origin'],
