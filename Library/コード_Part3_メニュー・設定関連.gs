@@ -3620,6 +3620,12 @@ function applyCalculationFormulas(sheetName, settings) {
       sheet.getRange(5, CONFIG.COLUMNS.PRICE, clearRowCount, 13).clearContent();
       // AF列(32)からAG列(33)まで = 2列（AE列の直後から）
       sheet.getRange(5, CONFIG.COLUMNS.BASE_SHIPPING, clearRowCount, 2).clearContent();
+      // TAG_SHIPPINGモード時はF列（参考eBay ID）もクリアして式を再出力できるようにする
+      // 他モードに切り替えた場合も古い式を除去する
+      if (shippingCalc === 'TAG_SHIPPING') {
+        sheet.getRange(5, CONFIG.COLUMNS.REF_EBAY, clearRowCount, 1).clearContent();
+        console.log('F列（参考eBay ID）もクリアしました（TAG_SHIPPINGモード）');
+      }
       console.log('E列・O列・R列～AD列・AF列～AG列（5～' + lastRow + '行）をクリアしました（AE列は保持）');
     }
 
@@ -3706,6 +3712,16 @@ function applyCalculationFormulas(sheetName, settings) {
       sheet.getRange('AF4').setFormula(baseCostFormula);
     } else {
       sheet.getRange('AF4').clearContent();
+    }
+
+    // TAG_SHIPPING以外のモードに切り替えた場合、F列の古いTAG_SHIPPING式を除去する
+    // 注意: F5にINDEX(TagShipping!...)式がある場合のみクリア。手動入力の値は保護される
+    if (shippingCalc !== 'TAG_SHIPPING' && lastRow >= 5) {
+      var f5 = sheet.getRange(5, CONFIG.COLUMNS.REF_EBAY);
+      if (f5.getFormula() !== '') {
+        sheet.getRange(5, CONFIG.COLUMNS.REF_EBAY, lastRow - 4, 1).clearContent();
+        console.log('F列の古いTAG_SHIPPING式をクリアしました');
+      }
     }
 
     // T列: 送料（配送方法に応じた計算）
