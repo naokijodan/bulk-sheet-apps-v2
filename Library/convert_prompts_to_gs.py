@@ -37,6 +37,13 @@ FILE_TO_ID: Dict[str, str] = {
     'タイトル並べ替え.txt': 'タイトル並べ替え',
     'スニーカー.txt': 'スニーカー',
     'ドレスシューズ.txt': 'ドレスシューズ',
+    'レザーグッズ.txt': 'レザーグッズ',
+    'オーディオ・家電.txt': 'オーディオ・家電',
+    '楽器.txt': '楽器',
+    'RC・模型.txt': 'RC・模型',
+    'レコード.txt': 'レコード',
+    '釣竿.txt': '釣竿',
+    '釣具汎用.txt': '釣具汎用',
 }
 
 
@@ -161,4 +168,3 @@ if __name__ == '__main__':
 
     print(f"\nOutput written to: {output_path}")
     print(f"Total size: {len(result)} bytes")
-
