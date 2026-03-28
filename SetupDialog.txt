@@ -746,6 +746,7 @@
           <div class="radio-group">
             <label><input type="radio" name="shippingCalcMethod" value="TABLE" <?= currentShippingCalculationMethod === 'TABLE' ? 'checked' : '' ?>> テーブル計算</label>
             <label><input type="radio" name="shippingCalcMethod" value="FIXED" <?= currentShippingCalculationMethod === 'FIXED' ? 'checked' : '' ?>> 固定金額</label>
+            <label><input type="radio" name="shippingCalcMethod" value="TAG_SHIPPING" <?= currentShippingCalculationMethod === 'TAG_SHIPPING' ? 'checked' : '' ?>> タグ別送料</label>
           </div>
 
           <label for="shippingThreshold">送料計算切替基準金額（円） *</label>
@@ -770,7 +771,8 @@
             <div class="title">送料計算方法の説明</div>
             <div class="content">
               <strong>テーブル計算</strong>: 重量・サイズに基づいて自動計算（推奨）<br>
-              <strong>固定金額</strong>: J1 または Profit_Amounts!D から取得<br><br>
+              <strong>固定金額</strong>: J1 または Profit_Amounts!D から取得<br>
+              <strong>タグ別送料</strong>: D列タグからTagShippingシートを参照。参考eBay IDも自動セット<br><br>
               <strong>固定金額の設定</strong><br>
               • 全商品共通: J1 セルに金額を入力<br>
               • 仕入れ値別: Profit_Amounts!D列に各金額帯の送料

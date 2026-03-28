@@ -3047,6 +3047,8 @@ function saveIntegratedSettings(formData) {
       var aj5Value = sheet.getRange('AJ5').getValue();
       if (aj5Value === 'ゲーム・トレカ') {
         actualShippingCalcMethod = 'GAME_CARD';
+      } else if (aj5Value === 'タグ別送料') {
+        actualShippingCalcMethod = 'TAG_SHIPPING';
       } else if (aj5Value === '固定金額') {
         actualShippingCalcMethod = 'FIXED';
       } else {
@@ -3361,7 +3363,7 @@ function writeSettingsToSheet(sheetName, settings) {
       ['低価格配送方法', lowPriceName],
       ['高価格配送方法', highPriceName],
       ['送料切替基準(円)', settings.shippingThreshold],
-      ['送料計算方法', settings.shippingCalcMethod === 'TABLE' ? 'テーブル計算' : '固定金額']
+      ['送料計算方法', settings.shippingCalcMethod === 'TABLE' ? 'テーブル計算' : settings.shippingCalcMethod === 'TAG_SHIPPING' ? 'タグ別送料' : '固定金額']
     ];
     console.log('[writeSettingsToSheet] shippingDataの内容:', JSON.stringify(shippingData));
 
@@ -3478,7 +3480,7 @@ function writeSettingsToSheet(sheetName, settings) {
 
     // AJ5: 送料計算方法（「ゲーム・トレカ」はプリセット専用だがドロップダウンには含める）
     var rule3 = SpreadsheetApp.newDataValidation()
-      .requireValueInList(['テーブル計算', '固定金額', 'ゲーム・トレカ'], true)
+      .requireValueInList(['テーブル計算', '固定金額', 'ゲーム・トレカ', 'タグ別送料'], true)
       .setAllowInvalid(false)
       .build();
     sheet.getRange('AJ5').setDataValidation(rule3);
@@ -3541,6 +3543,49 @@ function writeSettingsToSheet(sheetName, settings) {
     console.error('[writeSettingsToSheet] エラー発生:', e.message);
     return { success: false, error: e.message };
   }
+}
+
+/**
+ * TagShippingシートの存在を確認し、なければ雛形を作成する
+ * @param {Spreadsheet} ss - スプレッドシートオブジェクト
+ * @return {Sheet} TagShippingシート
+ */
+function ensureTagShippingSheet_(ss) {
+    var sheetName = CONFIG.TAG_SHIPPING.SHEET_NAME;
+    var sheet = ss.getSheetByName(sheetName);
+    if (sheet) {
+        return sheet;
+    }
+
+    // 新規作成
+    sheet = ss.insertSheet(sheetName);
+    var headers = CONFIG.TAG_SHIPPING.HEADERS;
+
+    // ヘッダー行を出力
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+    sheet.getRange(1, 1, 1, headers.length)
+        .setFontWeight('bold')
+        .setBackground(CONFIG.TAG_SHIPPING.HEADER_BG_COLOR)
+        .setFontColor(CONFIG.TAG_SHIPPING.HEADER_FONT_COLOR)
+        .setHorizontalAlignment('center');
+
+    // 列幅設定
+    sheet.setColumnWidth(1, 180);  // タグ名
+    sheet.setColumnWidth(2, 100);  // EP送料
+    sheet.setColumnWidth(3, 100);  // CE送料
+    sheet.setColumnWidth(4, 120);  // CF/CD送料
+    sheet.setColumnWidth(5, 200);  // 参考eBay ID
+
+    // B〜D列を数値書式に設定（2行目以降）
+    var maxRows = sheet.getMaxRows();
+    if (maxRows > 1) {
+      sheet.getRange(2, 2, maxRows - 1, 3).setNumberFormat('#,##0');
+    }
+
+    // シートを右端に配置（最後のシートの後ろ）
+    Logger.log('[ensureTagShippingSheet_] TagShippingシートを新規作成しました');
+
+    return sheet;
 }
 
 /**
@@ -3693,6 +3738,25 @@ function applyCalculationFormulas(sheetName, settings) {
       }
       if (shippingFormulas.length > 0) {
         sheet.getRange(5, CONFIG.COLUMNS.SHIPPING, shippingFormulas.length, 1).setFormulas(shippingFormulas);
+      }
+    } else if (shippingCalc === 'TAG_SHIPPING') {
+      // タグ別送料モード：D列タグからTagShippingシートを参照
+      var tagSheet = ensureTagShippingSheet_(ss);
+      var tsName = CONFIG.TAG_SHIPPING.SHEET_NAME;
+      var shippingFormulas = [];
+      var refFormulas = [];
+      for (var row = 5; row <= dataLastRow; row++) {
+        // T列: SWITCH関数で配送方法に応じた列を参照（EP=B列=1, CE=C列=2, CF/CD=D列=3）
+        // X列が空欄の場合は#配送方法未設定を返す
+        var sFormula = '=IF(D' + row + '="","",IF(X' + row + '="","#配送方法未設定",IFERROR(INDEX(' + tsName + '!B:D,MATCH(D' + row + ',' + tsName + '!A:A,0),SWITCH(X' + row + ',"EP",1,"ePacket",1,"CE",2,"Cpass-Economy",2,"CF",3,"Cpass-FedEx",3,"CD",3,"Cpass-DHL",3,"EL",3,"eLogistics",3)),"#タグ未登録")))';
+        shippingFormulas.push([sFormula]);
+        // F列: 参考eBay ID（D列タグからTagShippingシートのE列を参照）
+        var rFormula = '=IF(D' + row + '="","",IFERROR(INDEX(' + tsName + '!E:E,MATCH(D' + row + ',' + tsName + '!A:A,0)),""))';
+        refFormulas.push([rFormula]);
+      }
+      if (shippingFormulas.length > 0) {
+        sheet.getRange(5, CONFIG.COLUMNS.SHIPPING, shippingFormulas.length, 1).setFormulas(shippingFormulas);
+        sheet.getRange(5, CONFIG.COLUMNS.REF_EBAY, refFormulas.length, 1).setFormulas(refFormulas);
       }
     } else {
       // 固定金額モード：個別行の式を設定（ARRAYFORMULAを使わない）
@@ -4128,8 +4192,8 @@ function reapplyCalculationFormulasToSelectedRows() {
     var profitCalcText = sheet.getRange('AL2').getValue(); // "利益率" or "利益額"
     var profitCalc = (profitCalcText === '利益額') ? 'AMOUNT' : 'RATE';
 
-    var shippingCalcText = sheet.getRange('AJ5').getValue(); // "テーブル計算" or "固定金額" or "ゲーム・トレカ"
-    var shippingCalc = (shippingCalcText === '固定金額') ? 'FIXED' : (shippingCalcText === 'ゲーム・トレカ') ? 'GAME_CARD' : 'TABLE';
+    var shippingCalcText = sheet.getRange('AJ5').getValue(); // "テーブル計算" or "固定金額" or "ゲーム・トレカ" or "タグ別送料"
+    var shippingCalc = (shippingCalcText === '固定金額') ? 'FIXED' : (shippingCalcText === 'ゲーム・トレカ') ? 'GAME_CARD' : (shippingCalcText === 'タグ別送料') ? 'TAG_SHIPPING' : 'TABLE';
 
     // applyCalculationFormulas関数を呼び出して初期設定と同じ処理を実行
     var result = applyCalculationFormulas(settings.sheetName, {

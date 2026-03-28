@@ -194,6 +194,14 @@ var CONFIG = {
     DEFAULT_THRESHOLD: 500,
     DEFAULT_ADJUSTMENT: 200,
     HIGHLIGHT_COLOR: '#ffe0b3'
+  },
+
+  // タグ別送料管理
+  TAG_SHIPPING: {
+    SHEET_NAME: 'TagShipping',
+    HEADERS: ['タグ名', 'EP送料', 'CE送料', 'CF/CD送料', '参考eBay ID'],
+    HEADER_BG_COLOR: '#4285F4',
+    HEADER_FONT_COLOR: '#FFFFFF'
   }
 };
 
