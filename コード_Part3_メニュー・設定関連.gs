@@ -2660,6 +2660,145 @@ function testTemplateManualSearch() {
   }
 }
 
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  GPT_Prompts同期（テンプレート → シート）
+  - PROMPT_TEMPLATES の内容を GPT_Prompts シートへ追加/更新
+  - オプション指定で新規追加・既存更新を制御
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/**
+ * PROMPT_TEMPLATES を GPT_Prompts シートへ同期
+ * @param {Object} options - { addNew: boolean, updateExisting: boolean }
+ * @return {Object} 結果 { added: 数, updated: 数, skipped: 数 }
+ * @private
+ */
+function syncPromptsToSheet_(options) {
+  // 仕様: var を使用、DocumentPropertiesのみ使用、バルクIO、例外はcatchしてconsole.log
+  var added = 0;
+  var updated = 0;
+  var skipped = 0;
+  try {
+    var opts = options || {};
+    var doAdd = opts.addNew === true;
+    var doUpdate = opts.updateExisting === true;
+
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName('GPT_Prompts');
+
+    // シートが無ければ作成し、ヘッダー行を用意
+    if (!sheet) {
+      sheet = ss.insertSheet('GPT_Prompts');
+      sheet.getRange(1, 1, 1, 6).setValues([[
+        'プロンプトID', '本文', '未使用', '更新日時', '対象タグ', 'バージョン'
+      ]]);
+    }
+
+    // 既存データの一括読み込み（A～F列）
+    var lastRow = sheet.getLastRow();
+    var hasHeader = lastRow >= 1;
+    var dataRows = Math.max(0, lastRow - 1);
+    var values = dataRows > 0 ? sheet.getRange(2, 1, dataRows, 6).getValues() : [];
+
+    // F列ヘッダーが無ければ追加（「バージョン」）
+    var fHeader = sheet.getRange(1, 6).getValue();
+    if (!fHeader) {
+      sheet.getRange(1, 6).setValue('バージョン');
+    }
+
+    // 既存ID → 行インデックスのマップ（0始まり: values配列内）
+    var idToIndex = {};
+    for (var i = 0; i < values.length; i++) {
+      var id = (values[i][0] || '').toString().trim();
+      if (id) idToIndex[id] = i;
+    }
+
+    var now = new Date();
+
+    // addNew: PROMPT_TEMPLATESにあってシートに無いIDを末尾に追加
+    if (doAdd && typeof PROMPT_TEMPLATES === 'object') {
+      var newRows = [];
+      for (var key in PROMPT_TEMPLATES) {
+        if (!PROMPT_TEMPLATES.hasOwnProperty(key)) continue;
+        if (idToIndex.hasOwnProperty(key)) continue; // 既に存在
+        var tpl = PROMPT_TEMPLATES[key] || {};
+        var ver = Number(tpl.version) || 0;
+        var content = (tpl.content || '').toString();
+        newRows.push([key, content, '', now, '', ver]);
+      }
+      if (newRows.length > 0) {
+        var startRow = sheet.getLastRow() + 1; // 末尾追加
+        sheet.getRange(startRow, 1, newRows.length, 6).setValues(newRows);
+        added = newRows.length;
+        SpreadsheetApp.flush(); // 追加を確定させてから更新処理に進む
+      }
+    }
+
+    // updateExisting: バックアップ作成 → バージョン比較して必要行を更新
+    if (doUpdate && typeof PROMPT_TEMPLATES === 'object') {
+      // バックアップ作成（先にコピーしてから旧バックアップを削除 = 安全な順序）
+      var backupCreated = false;
+      try {
+        var copied = sheet.copyTo(ss);
+        copied.setName('GPT_Prompts_Backup_temp');
+        // コピー成功後に旧バックアップを削除
+        var oldBackup = ss.getSheetByName('GPT_Prompts_Backup');
+        if (oldBackup) ss.deleteSheet(oldBackup);
+        copied.setName('GPT_Prompts_Backup');
+        backupCreated = true;
+      } catch (eCopy) {
+        console.log('バックアップ作成失敗: ' + eCopy.message);
+      }
+      // バックアップ失敗時は更新を中断
+      if (!backupCreated) {
+        console.log('バックアップが作成できなかったため、既存プロンプトの更新をスキップします');
+        return { added: added, updated: 0, skipped: 0 };
+      }
+
+      // 追加後の状態で再読込（更新対象が末尾追加されても更新は「既存のみ」が仕様）
+      lastRow = sheet.getLastRow();
+      dataRows = Math.max(0, lastRow - 1);
+      values = dataRows > 0 ? sheet.getRange(2, 1, dataRows, 6).getValues() : [];
+      idToIndex = {};
+      for (var j = 0; j < values.length; j++) {
+        var id2 = (values[j][0] || '').toString().trim();
+        if (id2) idToIndex[id2] = j;
+      }
+
+      // 既存IDのみ更新判定
+      var touched = 0;
+      var commonTotal = 0;
+      for (var key2 in PROMPT_TEMPLATES) {
+        if (!PROMPT_TEMPLATES.hasOwnProperty(key2)) continue;
+        if (!idToIndex.hasOwnProperty(key2)) continue; // シートに無ければスキップ（新規はadd側）
+        commonTotal++;
+        var tpl2 = PROMPT_TEMPLATES[key2] || {};
+        var tplVer = Number(tpl2.version) || 0;
+        var idx = idToIndex[key2];
+        var row = values[idx];
+        var sheetVer = Number(row[5]) || 0; // F列
+        if (tplVer > sheetVer) {
+          // 本文・更新日時・バージョンを更新
+          row[1] = (tpl2.content || '').toString(); // B列
+          row[3] = now;                               // D列
+          row[5] = tplVer;                            // F列
+          updated++;
+          touched++;
+        }
+      }
+      skipped = Math.max(0, commonTotal - updated);
+
+      // 変更がある場合のみ一括書き込み
+      if (touched > 0 && values.length > 0) {
+        sheet.getRange(2, 1, values.length, 6).setValues(values);
+      }
+    }
+
+    return { added: added, updated: updated, skipped: skipped };
+  } catch (e) {
+    console.log('syncPromptsToSheet_ エラー: ' + e.message);
+    return { added: added, updated: updated, skipped: skipped };
+  }
+}
+
 /**
  * 参照データの構造を確認（デバッグ用）
  */
@@ -2784,6 +2923,10 @@ function saveIntegratedSettings(formData) {
     // プロンプト自動選択（デフォルト: 手動）
     var autoPromptSelect = formData.autoPromptSelect === 'true' ? '自動選択' : '手動';
 
+    // プロンプト同期オプション
+    var syncPromptAdd = formData.syncPromptAdd === 'true';
+    var syncPromptUpdate = formData.syncPromptUpdate === 'true';
+
     // 重複チェック設定
     var duplicateCheckEnabled = formData.duplicateCheckEnabled || false;
     var duplicateSettings = null;
@@ -2880,6 +3023,8 @@ function saveIntegratedSettings(formData) {
       dduThreshold: dduThreshold,
       dduAdjustment: dduAdjustment,
       autoPromptSelect: autoPromptSelect,
+      syncPromptAdd: syncPromptAdd,
+      syncPromptUpdate: syncPromptUpdate,
       duplicateCheckEnabled: duplicateCheckEnabled,
       duplicateSettings: duplicateSettings
     });
@@ -3368,6 +3513,14 @@ function writeSettingsToSheet(sheetName, settings) {
       .setAllowInvalid(false)
       .build();
     sheet.getRange('AS3').setDataValidation(rule7);
+
+    // プロンプト同期（新規追加・既存更新）
+    var syncPromptAdd = settings.syncPromptAdd === true;
+    var syncPromptUpdate = settings.syncPromptUpdate === true;
+    if (syncPromptAdd || syncPromptUpdate) {
+      var syncResult = syncPromptsToSheet_({ addNew: syncPromptAdd, updateExisting: syncPromptUpdate });
+      console.log('[writeSettingsToSheet] プロンプト同期: 追加=' + syncResult.added + ' 更新=' + syncResult.updated + ' スキップ=' + syncResult.skipped);
+    }
 
     // GPT_PromptsシートのE列にタグマッピングを書き込み（可視化用）
     writePromptTagMapping_();
