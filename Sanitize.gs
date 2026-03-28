@@ -43,14 +43,142 @@ var SANITIZE_FIELDS_ = {
   ]
 };
 
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  IS_CATEGORY_FIELDS 英語→日本語 フィールド名変換テーブル
+  未登録のフィールドは英語のまま使用される
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+var FIELD_EN_TO_JP_ = {
+  // 共通
+  'Brand': 'ブランド', 'Model': 'モデル名', 'Type': 'タイプ',
+  'Color': '色', 'Material': '素材', 'Size': 'サイズ',
+  'Style': 'スタイル', 'Country of Origin': '製造国',
+  'Department': '対象', 'Pattern': '模様', 'Theme': 'テーマ',
+  'Features': '特徴', 'Era': '年代', 'Vintage': 'ヴィンテージ',
+  'Season': 'シーズン', 'Occasion': '用途', 'Shape': '形状',
+  'Handedness': '利き手', 'Edition': 'エディション',
+  // ジュエリー
+  'Designer': 'デザイナー', 'Metal': '金属', 'Metal Purity': '金属純度',
+  'Main Stone': '主石', 'Main Stone Color': '主石の色',
+  'Main Stone Shape': '主石の形', 'Pendant Shape': 'ペンダントの形',
+  'Secondary Stone': '副石',
+  // ファッション
+  'Exterior Material': '外装素材', 'Exterior Color': '外装色',
+  // 時計
+  'Display': '表示方式', 'Movement': 'ムーブメント',
+  'Case Material': 'ケース素材', 'Case Size': 'ケースサイズ',
+  'Wrist Size': '腕周り', 'Dial Color': '文字盤色',
+  // カメラ
+  'Series': 'シリーズ', 'Maximum Resolution': '最大解像度',
+  'Battery Type': 'バッテリータイプ', 'Lens Mount': 'レンズマウント',
+  // カード
+  'Game': 'ゲーム名', 'Set': 'セット名', 'Character': 'キャラクター',
+  'Card Name': 'カード名', 'Card Number': 'カード番号',
+  'Rarity': 'レアリティ', 'Finish': '仕上げ',
+  'Graded': '鑑定済み', 'Professional Grader': '鑑定会社', 'Grade': 'グレード',
+  // ゲーム
+  'Platform': 'プラットフォーム', 'Game Name': 'ゲーム名',
+  'Region Code': 'リージョンコード', 'Genre': 'ジャンル',
+  'Publisher': '発売元', 'Rating': 'レーティング', 'Language': '言語',
+  'Storage Capacity': 'ストレージ容量', 'Connectivity': '接続方式',
+  // 釣り
+  'Reel Type': 'リールタイプ', 'Hand Retrieve': '巻き方向',
+  'Gear Ratio': 'ギア比', 'Ball Bearings': 'ベアリング数',
+  'Line Capacity': '糸巻量', 'Fishing Type': '釣りタイプ',
+  'Fish Species': '対象魚種',
+  'Rod Type': 'ロッドタイプ', 'Item Length': '長さ',
+  'Rod Power': 'パワー', 'Rod Action': 'アクション', 'Lure Weight': 'ルアー重量',
+  // 楽器
+  'Body Color': 'ボディカラー', 'Body Type': 'ボディタイプ',
+  'String Configuration': '弦構成', 'Model Year': '年式',
+  'Number of Frets': 'フレット数',
+  // 万年筆
+  'Ink Color': 'インク色', 'Nib Size': 'ニブサイズ', 'Nib Material': 'ニブ素材',
+  // パイプ
+  'Body Shape': '形状', 'Filter Size': 'フィルターサイズ', 'Handmade': 'ハンドメイド',
+  // 時計パーツ
+  'Part Type': 'パーツタイプ', 'Compatible Model': '対応モデル',
+  // サングラス
+  'Frame Color': 'フレーム色', 'Lens Color': 'レンズ色', 'Frame Material': 'フレーム素材',
+  // 美術・版画
+  'Artist': 'アーティスト', 'Production Technique': '制作技法',
+  'Subject': '題材', 'Original/Licensed Reproduction': 'オリジナル/複製',
+  'Time Period Produced': '制作年代',
+  'Listed By': '出品者区分', 'Medium': '技法', 'Maker': '作家',
+  // ゴルフ
+  'Golf Club Type': 'クラブタイプ', 'Loft': 'ロフト角',
+  'Lie Angle': 'ライ角', 'Head Shape': 'ヘッド形状', 'Bounce': 'バウンス',
+  'Flex': 'フレックス', 'Shaft Material': 'シャフト素材',
+  'Club Number': 'クラブ番号', 'Set Makeup': 'セット構成',
+  // テニス
+  'Head Size': 'ヘッドサイズ', 'Grip Size': 'グリップサイズ',
+  'String Pattern': 'ストリングパターン', 'Weight': '重量',
+  // 野球
+  'Player Position': 'ポジション', 'Sport/Activity': 'スポーツ',
+  // 刀剣
+  'Blade Material': '刃の素材', 'Original/Reproduction': 'オリジナル/複製',
+  // レコード
+  'Release Title': 'タイトル', 'Record Grading': 'レコード評価',
+  'Record Label': 'レーベル', 'Format': 'フォーマット',
+  'Record Size': 'レコードサイズ', 'Release Year': '発売年',
+  'Sleeve Grading': 'ジャケット評価',
+  // コイン・切手
+  'Certification': '鑑定', 'Denomination': '額面', 'Year': '年',
+  'Year of Issue': '発行年', 'Topic': 'テーマ', 'Quality': '品質',
+  'Composition': '素材構成',
+  // その他
+  'Scent': '香り', 'Product Line': '製品ライン',
+  'Suitable For': '用途', 'Lining Material': '裏地素材',
+  'Character Family': 'キャラクターファミリー', 'Franchise': 'フランチャイズ',
+  'Scale': 'スケール', 'Fuel Type': '動力源',
+  'Set Includes': 'セット内容', 'Number of Place Settings': '人数分',
+  'Item Width': '幅', 'Fits Belt Width': '対応ベルト幅',
+  'Hair Type': '髪質', 'Collection': 'コレクション',
+  'Year Manufactured': '製造年'
+};
+
+// 汎用フォールバックフィールド（IS_CATEGORY_FIELDSにもSANITIZE_FIELDS_にもないカテゴリ用）
+var SANITIZE_GENERIC_FIELDS_ = [
+  'ブランド', 'タイプ', '素材', '色', 'サイズ',
+  'コンディション', '付属品'
+];
+
+/**
+ * カテゴリに応じた交通整理用フィールド一覧を返す
+ * 1. SANITIZE_FIELDS_ にあればそれを使う（既存5カテゴリの専用定義）
+ * 2. なければ IS_CATEGORY_FIELDS から英語→日本語変換
+ * 3. どちらにもなければ汎用フィールド
+ * @param {string} category - ISカテゴリ名
+ * @return {string[]} 日本語フィールド名の配列
+ */
+function getSanitizeFields_(category) {
+  // 1. 既存5カテゴリの専用定義
+  if (SANITIZE_FIELDS_[category]) {
+    return SANITIZE_FIELDS_[category];
+  }
+  // 2. IS_CATEGORY_FIELDSから動的生成
+  if (typeof IS_CATEGORY_FIELDS !== 'undefined' && IS_CATEGORY_FIELDS[category]) {
+    var enFields = IS_CATEGORY_FIELDS[category];
+    var fields = [];
+    for (var i = 0; i < enFields.length; i++) {
+      fields.push(FIELD_EN_TO_JP_[enFields[i]] || enFields[i]);
+    }
+    // コンディション・付属品を末尾に追加（IS_CATEGORY_FIELDSには含まれないが交通整理で必要）
+    fields.push('コンディション');
+    fields.push('付属品');
+    return fields;
+  }
+  // 3. 汎用フォールバック
+  return SANITIZE_GENERIC_FIELDS_;
+}
+
 /**
  * カテゴリのフィールド定義からデフォルトプロンプトを動的生成する
  * GPT_Promptsシートにプロンプトがない場合のフォールバック
- * @param {string} category - カテゴリキー（'watch', 'camera'等）
+ * @param {string} category - ISカテゴリ名（'Watches', 'Cameras'等）
  * @return {string} プロンプト文字列
  */
 function buildDefaultSanitizePrompt_(category) {
-  var fields = SANITIZE_FIELDS_[category] || SANITIZE_FIELDS_['Watches'];
+  var fields = getSanitizeFields_(category);
   var charLimits = {
     '付属品': 25, 'コンディション': 25, '故障・不具合': 25,
     'モデル名': 20, '付属レンズ': 25, '色': 10,
@@ -627,8 +755,8 @@ function parseSanitizeResponse_(platform, httpResp) {
 function parseSanitizedFields_(content, category) {
   var result = { description: '' };
 
-  // カテゴリ別フィールド定義を取得（デフォルトは時計）
-  var fields = SANITIZE_FIELDS_[category || 'Watches'] || SANITIZE_FIELDS_['Watches'];
+  // カテゴリ別フィールド定義を取得
+  var fields = getSanitizeFields_(category || 'Watches');
 
   var parts = [];
   for (var i = 0; i < fields.length; i++) {
