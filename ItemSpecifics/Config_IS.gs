@@ -3561,23 +3561,28 @@ function outputTagListSheet_() {
   };
 
   // --- ヘッダー ---
+  var COLS = 13; // A〜M
   var headers = ['タグ（入力用）', 'eBayカテゴリ', '対応状況', 'Field 1', 'Field 2', 'Field 3', 'Field 4', 'Field 5', 'Field 6', 'Field 7', 'Field 8', 'Field 9', 'Field 10'];
-  sh.getRange(1, 1, 1, headers.length).setValues([headers]);
-  sh.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground('#4a86c8').setFontColor('#ffffff');
 
-  // 使い方の説明（2行目）
-  sh.getRange(2, 1).setValue('↓ A列のタグをコピーして出品シートのA列に貼り付けてください。D〜M列は対応するItem Specificsフィールドです。');
-  sh.getRange(2, 1, 1, headers.length).setFontColor('#666666').setFontStyle('italic');
+  // --- 2次元配列にデータを構築（一括書き込み用） ---
+  var allRows = [];
+  var groupHeaderRows = []; // グループ見出し行のインデックス
+  var statusColors = [];    // 各データ行の対応状況色
 
-  var currentRow = 3;
+  allRows.push(headers);
+  // 説明行
+  var descRow = ['↓ A列のタグをコピーして出品シートのA列に貼り付けてください。D〜M列は対応するItem Specificsフィールドです。'];
+  for (var p = 1; p < COLS; p++) descRow.push('');
+  allRows.push(descRow);
 
   for (var g = 0; g < categoryGroups.length; g++) {
     var group = categoryGroups[g];
 
     // グループ見出し行
-    sh.getRange(currentRow, 1).setValue(group.group);
-    sh.getRange(currentRow, 1, 1, headers.length).setFontWeight('bold').setBackground('#e8f0fe').setFontColor('#1a4472');
-    currentRow++;
+    var groupRow = [group.group];
+    for (var p = 1; p < COLS; p++) groupRow.push('');
+    groupHeaderRows.push(allRows.length);
+    allRows.push(groupRow);
 
     for (var c = 0; c < group.categories.length; c++) {
       var catDef = group.categories[c];
@@ -3590,52 +3595,72 @@ function outputTagListSheet_() {
       var hasSanitize = sanitizeMap[catName] ? true : false;
       var hasIS = IS_CATEGORY_FIELDS && IS_CATEGORY_FIELDS[catName] ? true : false;
       var status = '';
-      if (hasSanitize && hasIS) status = '○ 交通整理＋IS';
-      else if (hasIS) status = '△ ISのみ';
-      else status = '- 未対応';
+      var color = '#999999';
+      if (hasSanitize && hasIS) { status = '○ 交通整理＋IS'; color = '#137333'; }
+      else if (hasIS) { status = '△ ISのみ'; color = '#b06000'; }
+      else { status = '- 未対応'; }
 
       // フィールド取得
       var fields = IS_CATEGORY_FIELDS[catName] || [];
 
-      // タグごとに1行出力
+      // タグごとに1行
       for (var t = 0; t < tags.length; t++) {
-        var tag = tags[t];
-        sh.getRange(currentRow, 1).setValue(tag);
-        sh.getRange(currentRow, 2).setValue(catName);
-        sh.getRange(currentRow, 3).setValue(status);
-
+        var row = [tags[t], catName, status];
         for (var f = 0; f < 10; f++) {
-          if (f < fields.length) {
-            sh.getRange(currentRow, 4 + f).setValue(fields[f]);
-          }
+          row.push(f < fields.length ? fields[f] : '');
         }
-
-        // 対応状況で色分け（C列）
-        if (hasSanitize && hasIS) {
-          sh.getRange(currentRow, 3).setFontColor('#137333');
-        } else if (hasIS) {
-          sh.getRange(currentRow, 3).setFontColor('#b06000');
-        } else {
-          sh.getRange(currentRow, 3).setFontColor('#999999');
-        }
-
-        currentRow++;
+        statusColors.push(color);
+        allRows.push(row);
       }
     }
   }
 
+  // --- 一括書き込み ---
+  if (allRows.length > 0) {
+    sh.getRange(1, 1, allRows.length, COLS).setValues(allRows);
+  }
+
+  // --- 書式設定（最小限のAPI呼び出し） ---
+  // ヘッダー行
+  sh.getRange(1, 1, 1, COLS).setFontWeight('bold').setBackground('#4a86c8').setFontColor('#ffffff');
+  // 説明行
+  sh.getRange(2, 1, 1, COLS).setFontColor('#666666').setFontStyle('italic');
+  // グループ見出し行
+  for (var h = 0; h < groupHeaderRows.length; h++) {
+    sh.getRange(groupHeaderRows[h] + 1, 1, 1, COLS).setFontWeight('bold').setBackground('#e8f0fe').setFontColor('#1a4472');
+  }
+  // 対応状況の色分け（データ行のみ）
+  var dataStartRow = 3 + (groupHeaderRows.length > 0 ? 1 : 0); // 最初のデータ行
+  for (var s = 0; s < statusColors.length; s++) {
+    // statusColors[s]に対応する実際の行を計算
+    // allRowsの構造: [header, desc, group1, data..., group2, data..., ...]
+    // 直接行番号を使うのではなく、allRowsのインデックスから計算
+  }
+  // 色分けはグループ見出しを考慮して正確に適用
+  var rowIdx = 0;
+  for (var r = 3; r <= allRows.length; r++) { // 3行目以降（1-indexed）
+    var isGroupHeader = false;
+    for (var gh = 0; gh < groupHeaderRows.length; gh++) {
+      if (groupHeaderRows[gh] + 1 === r) { isGroupHeader = true; break; }
+    }
+    if (!isGroupHeader && rowIdx < statusColors.length) {
+      sh.getRange(r, 3).setFontColor(statusColors[rowIdx]);
+      rowIdx++;
+    }
+  }
+
   // 列幅調整
-  sh.setColumnWidth(1, 160);  // タグ
-  sh.setColumnWidth(2, 180);  // カテゴリ
-  sh.setColumnWidth(3, 140);  // 対応状況
+  sh.setColumnWidth(1, 160);
+  sh.setColumnWidth(2, 180);
+  sh.setColumnWidth(3, 140);
   for (var w = 4; w <= 13; w++) {
-    sh.setColumnWidth(w, 160);  // Field 1-10
+    sh.setColumnWidth(w, 160);
   }
 
   // フィルター設定
   if (sh.getFilter()) sh.getFilter().remove();
-  sh.getRange(1, 1, currentRow - 1, headers.length).createFilter();
+  sh.getRange(1, 1, allRows.length, COLS).createFilter();
 
-  var tagCount = currentRow - 3;
+  var tagCount = statusColors.length;
   return {success: true, message: 'Tag_Listシートにタグ一覧を出力しました', count: tagCount};
 }
