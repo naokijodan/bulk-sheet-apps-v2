@@ -28,28 +28,32 @@
 | # | プロンプト名 | カテゴリ | 優先度 |
 |---|------------|---------|--------|
 | 1 | レザーグッズ | Wallets, Handbags, キーケース等 | Tier 1 |
-| 2 | サングラス | Sunglasses | Tier 2 |
-| 3 | オーディオ・家電 | Electronics | Tier 1 |
-| 4 | 楽器 | Musical Instruments | Tier 1 |
-| 5 | RC・模型 | RC & Models | Tier 1 |
-| 6 | レコード | Records | Tier 1 |
-| 7 | 万年筆・筆記具 | Pens | Tier 2 |
-| 8 | パイプ・喫煙具 | Pipes | Tier 3 |
-| 9 | テニス | Tennis | Tier 2 |
-| 10 | 野球 | Baseball | Tier 2 |
-| 11 | スポーツウェア | ユニフォーム,ゴルフ手袋,サンバイザー等 | Tier 2 |
-| 12 | テーブルウェア | Dinnerware, Glassware, Flatware, 包丁 | Tier 3 |
+| 2 | オーディオ・家電 | Electronics | Tier 1 |
+| 3 | 楽器 | Musical Instruments | Tier 1 |
+| 4 | RC・模型 | RC & Models | Tier 1 |
+| 5 | レコード | Records | Tier 1 |
+| 6 | 釣竿 | Fishing Rods | Tier 1 |
+| 7 | ルアー | Lures | Tier 1 |
+| 8 | サングラス | Sunglasses | Tier 2 |
+| 9 | 万年筆・筆記具 | Pens | Tier 2 |
+| 10 | テニス | Tennis | Tier 2 |
+| 11 | 野球 | Baseball | Tier 2 |
+| 12 | スポーツウェア | ユニフォーム,ゴルフ手袋,サンバイザー等 | Tier 2 |
 | 13 | 着物 | Kimono | Tier 2 |
 | 14 | 日本刀 | Japanese Swords | Tier 2 |
 | 15 | 日本伝統・骨董 | Tea Ceremony, Tetsubin, Pottery, Buddhist Art | Tier 2 |
 | 16 | アート | Art, Prints | Tier 2 |
-| 17 | 和楽器 | Japanese Instruments | Tier 3 |
+| 17 | パイプ・喫煙具 | Pipes | Tier 3 |
+| 18 | テーブルウェア | Dinnerware, Glassware, Flatware, 包丁 | Tier 3 |
+| 19 | 和楽器 | Japanese Instruments | Tier 3 |
+
+**注意: 釣り系は3プロンプト体制（リール既存 + 釣竿・ルアー新規）。主戦場のため専門性を高く保つ。**
 
 **汎用で対応:** Snow Globes, Boxes, Combs, Key Chains, Soap, Baby, Stamps, Coins, Collectibles
 **除外（空輸不可）:** Bonsai, Lighters
 
 ## 現在のステータス
-- ブランチ: main / 最新コミット: a094e93 / git push済み / clasp push済み
+- ブランチ: main / 最新コミット: 8f0840e / git push済み / clasp push済み
 - プロンプトファイル: 20個（prompts/フォルダ内。うちレザーグッズは空）
 - PromptTemplates.gs: 19個登録済み（リール + 釣り具の両方を含む）
 
@@ -68,8 +72,10 @@
 **Tier 2:** サングラス、万年筆、テニス、野球、スポーツウェア、着物、日本刀、日本伝統・骨董、アート
 **Tier 3:** パイプ・喫煙具、テーブルウェア、和楽器
 
-### 2. 釣り具プロンプトの拡充
-- 現在リールのコピー。釣竿固有の用語（長さ・アクション・ルアーウェイト等）を追加する
+### 2. 釣り系プロンプト（釣竿・ルアー）の生成
+- リールは既存プロンプトで対応済み
+- 釣竿・ルアーは空ファイル作成済み、中身の生成が必要
+- 釣りは主戦場のため3プロンプト体制で専門性を保つ
 
 ### 3. タグ別送料の運用・拡張（テーマ2-b、前回から継続）
 
