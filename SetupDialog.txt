@@ -621,6 +621,17 @@
               メニュー「AI翻訳・価格計算」→「プロンプト編集」から開けます。
             </div>
           </div>
+
+          <label>翻訳プロンプト自動選択</label>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+ <input type="checkbox" id="autoPromptSelect" name="autoPromptSelect" <?= currentAutoPromptSelect === '自動選択' ? 'checked' : '' ?>>
+  D列タグに応じてプロンプトを自動選択する
+</label>
+          </div>
+          <div class="help-text">
+            有効にすると、翻訳実行時にD列のタグからプロンプトを自動選択します。マッチしない場合は上記の手動選択プロンプトを使用します。
+          </div>
         </div>
       </div>
 
@@ -693,17 +704,6 @@
             </div>
           </div>
         </div>
-
-          <label>翻訳プロンプト自動選択</label>
-          <div class="checkbox-group">
-            <label class="checkbox-label">
- <input type="checkbox" id="autoPromptSelect" name="autoPromptSelect" <?= currentAutoPromptSelect === '自動選択' ? 'checked' : '' ?>>
-  D列タグに応じてプロンプトを自動選択する
-</label>
-          </div>
-          <div class="help-text">
-            有効にすると、翻訳実行時にD列のタグからプロンプトを自動選択します。マッチしない場合はAS2の手動選択プロンプトを使用します。
-          </div>
       </div>
 
       <!-- 4. 送料・配送設定 -->
