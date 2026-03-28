@@ -361,7 +361,6 @@ function runSanitizeSelectedRows() {
   for (var i = 0; i < numRows; i++) {
     var jpTitle = allData[i][CONFIG.COLUMNS.JP_TITLE - 1];
     var jpDesc  = allData[i][CONFIG.COLUMNS.JP_DESC - 1];
-    var backupTitle = allData[i][CONFIG.COLUMNS.JP_TITLE_BACKUP - 1];
 
     // ソースが空の行はスキップ
     if (!jpTitle && !jpDesc) continue;

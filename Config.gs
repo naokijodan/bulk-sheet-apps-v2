@@ -67,8 +67,9 @@ var CONFIG = {
     // AT列: チェック
     DUPLICATE_CHECK: 46,      // AT列: 重複チェック
 
-    // AU-AV列: 交通整理バックアップ
-    JP_TITLE_BACKUP: 47,     // AU列: 日本語タイトルバックアップ
+    // AU列: 使用プロンプト（翻訳時に自動記録）
+    USED_PROMPT: 47,         // AU列: 使用プロンプトID
+    // AV列: 交通整理バックアップ
     JP_DESC_BACKUP: 48       // AV列: 商品説明バックアップ
   },
 

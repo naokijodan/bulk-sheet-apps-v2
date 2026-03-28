@@ -271,6 +271,7 @@ function runSelectedRowsTranslate() {
         var res = par.results[idx];
 
         if (res.ok) {
+          res.usedPromptId = items[idx].promptId || settings.promptId;
           validatedItems.push(res);
           totalPrompt += (res.usage && res.usage.in) || 0;
           totalCompletion += (res.usage && res.usage.out) || 0;
@@ -873,6 +874,22 @@ function applyTranslationBatch_(sheet, results, conditionMode) {
     // Step 7: AE列（商品状態）を一括書き込み
     // ========================================
     sheet.getRange(minRow, CONFIG.COLUMNS.CONDITION, rowCount, 1).setValues(conditionData);
+
+    // ========================================
+    // Step 7.5: AU列（使用プロンプトID）を一括書き込み
+    // ========================================
+    var promptData = [];
+    var existingPrompts = sheet.getRange(minRow, CONFIG.COLUMNS.USED_PROMPT, rowCount, 1).getValues();
+    for (var row = minRow; row <= maxRow; row++) {
+      var res = resultsMap[row];
+      var idx = row - minRow;
+      if (res && res.usedPromptId) {
+        promptData.push([res.usedPromptId]);
+      } else {
+        promptData.push([existingPrompts[idx][0]]);
+      }
+    }
+    sheet.getRange(minRow, CONFIG.COLUMNS.USED_PROMPT, rowCount, 1).setValues(promptData);
 
     // ========================================
     // Step 8: メモは個別に設定（一括メソッドがないため）
