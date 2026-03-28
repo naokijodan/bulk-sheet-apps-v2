@@ -161,8 +161,8 @@ function runStep1Basic_(sheet, rows) {
       data[fieldName] = value || 'Does not apply';
     }
 
-    // 5. Country of Origin が未処理なら共通フィールドとして追加（全カテゴリ共通）
-    if (!data['Country of Origin'] && !data['Country/Region of Manufacture']) {
+    // 5. Country of Origin が未処理かつ10件未満なら追加（EAGLE 10件制限厳守）
+    if (!data['Country of Origin'] && !data['Country/Region of Manufacture'] && Object.keys(data).length < 10) {
       var country = resolveFieldValue_('Country of Origin', tag, title, brandInfo, category, description, data);
       if (country) data['Country of Origin'] = country;
     }
