@@ -3499,7 +3499,12 @@ function outputTagListSheet_() {
       {cat: 'Dolls & Plush', desc: 'ドール・ぬいぐるみ'},
       {cat: 'Musical Instruments', desc: '楽器（ギター・キーボード・管楽器等）'},
       {cat: 'Art', desc: '絵画・版画・リトグラフ・浮世絵'},
-      {cat: 'Fishing Reels', desc: '釣りリール'}
+      {cat: 'Figures', desc: 'フィギュア・アクションフィギュア・スタチュー'},
+      {cat: 'Anime', desc: 'アニメグッズ・漫画'},
+      {cat: 'RC & Models', desc: 'ラジコン・模型・プラモデル'},
+      {cat: 'Stamps', desc: '切手・記念切手'},
+      {cat: 'Coins', desc: 'コイン・古銭・硬貨'},
+      {cat: 'Records', desc: 'レコード・LP・CD'}
     ]},
     {group: 'Home & Living（生活・雑貨）', categories: [
       {cat: 'Dinnerware', desc: '食器・皿・カップ'},
@@ -3512,6 +3517,24 @@ function outputTagListSheet_() {
       {cat: 'Key Chains', desc: 'キーリング・キーホルダー'},
       {cat: 'Soap', desc: '石鹸・ソープ'},
       {cat: 'Baby', desc: 'ベビー用品'}
+    ]},
+    {group: 'Sports（スポーツ）', categories: [
+      {cat: 'Golf', desc: 'ゴルフクラブ（完成品）'},
+      {cat: 'Golf Heads', desc: 'ゴルフヘッド（単体）'},
+      {cat: 'Tennis', desc: 'テニスラケット'},
+      {cat: 'Baseball', desc: '野球グローブ・バット'},
+      {cat: 'Fishing Rods', desc: '釣竿・ロッド'},
+      {cat: 'Fishing Reels', desc: '釣りリール'}
+    ]},
+    {group: 'Japanese Traditional（日本伝統）', categories: [
+      {cat: 'Kimono', desc: '着物・和装・振袖・浴衣・帯'},
+      {cat: 'Japanese Swords', desc: '日本刀・脇差・短刀・鍔'},
+      {cat: 'Tea Ceremony', desc: '茶道具・茶碗・棗・茶杓'},
+      {cat: 'Bonsai', desc: '盆栽・盆栽鉢・水石'},
+      {cat: 'Prints', desc: '浮世絵・版画・木版画'},
+      {cat: 'Buddhist Art', desc: '仏像・仏具・仏教美術'},
+      {cat: 'Tetsubin', desc: '鉄瓶・銀瓶・南部鉄器'},
+      {cat: 'Japanese Instruments', desc: '三味線・尺八・琴・和太鼓'}
     ]},
     {group: 'Writing & Smoking（筆記具・喫煙具）', categories: [
       {cat: 'Pens', desc: '万年筆・ボールペン・シャープペンシル'},
@@ -3538,12 +3561,12 @@ function outputTagListSheet_() {
   };
 
   // --- ヘッダー ---
-  var headers = ['タグ（入力用）', 'eBayカテゴリ', '同カテゴリの他のタグ', '対応状況', '説明'];
+  var headers = ['タグ（入力用）', 'eBayカテゴリ', '対応状況', 'Field 1', 'Field 2', 'Field 3', 'Field 4', 'Field 5', 'Field 6', 'Field 7', 'Field 8', 'Field 9', 'Field 10'];
   sh.getRange(1, 1, 1, headers.length).setValues([headers]);
   sh.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground('#4a86c8').setFontColor('#ffffff');
 
   // 使い方の説明（2行目）
-  sh.getRange(2, 1).setValue('↓ A列のタグをコピーして出品シートのA列に貼り付けてください');
+  sh.getRange(2, 1).setValue('↓ A列のタグをコピーして出品シートのA列に貼り付けてください。D〜M列は対応するItem Specificsフィールドです。');
   sh.getRange(2, 1, 1, headers.length).setFontColor('#666666').setFontStyle('italic');
 
   var currentRow = 3;
@@ -3563,10 +3586,6 @@ function outputTagListSheet_() {
 
       if (tags.length === 0) continue;
 
-      // 代表タグ（最初のタグ）
-      var representativeTag = tags[0];
-      var otherTags = tags.slice(1).join('、');
-
       // 対応状況
       var hasSanitize = sanitizeMap[catName] ? true : false;
       var hasIS = IS_CATEGORY_FIELDS && IS_CATEGORY_FIELDS[catName] ? true : false;
@@ -3575,31 +3594,43 @@ function outputTagListSheet_() {
       else if (hasIS) status = '△ ISのみ';
       else status = '- 未対応';
 
-      sh.getRange(currentRow, 1).setValue(representativeTag);
-      sh.getRange(currentRow, 2).setValue(catName);
-      sh.getRange(currentRow, 3).setValue(otherTags);
-      sh.getRange(currentRow, 4).setValue(status);
-      sh.getRange(currentRow, 5).setValue(catDef.desc);
+      // フィールド取得
+      var fields = IS_CATEGORY_FIELDS[catName] || [];
 
-      // 対応状況で色分け
-      if (hasSanitize && hasIS) {
-        sh.getRange(currentRow, 4).setFontColor('#137333');
-      } else if (hasIS) {
-        sh.getRange(currentRow, 4).setFontColor('#b06000');
-      } else {
-        sh.getRange(currentRow, 4).setFontColor('#999999');
+      // タグごとに1行出力
+      for (var t = 0; t < tags.length; t++) {
+        var tag = tags[t];
+        sh.getRange(currentRow, 1).setValue(tag);
+        sh.getRange(currentRow, 2).setValue(catName);
+        sh.getRange(currentRow, 3).setValue(status);
+
+        for (var f = 0; f < 10; f++) {
+          if (f < fields.length) {
+            sh.getRange(currentRow, 4 + f).setValue(fields[f]);
+          }
+        }
+
+        // 対応状況で色分け（C列）
+        if (hasSanitize && hasIS) {
+          sh.getRange(currentRow, 3).setFontColor('#137333');
+        } else if (hasIS) {
+          sh.getRange(currentRow, 3).setFontColor('#b06000');
+        } else {
+          sh.getRange(currentRow, 3).setFontColor('#999999');
+        }
+
+        currentRow++;
       }
-
-      currentRow++;
     }
   }
 
   // 列幅調整
-  sh.setColumnWidth(1, 140);
-  sh.setColumnWidth(2, 180);
-  sh.setColumnWidth(3, 350);
-  sh.setColumnWidth(4, 140);
-  sh.setColumnWidth(5, 280);
+  sh.setColumnWidth(1, 160);  // タグ
+  sh.setColumnWidth(2, 180);  // カテゴリ
+  sh.setColumnWidth(3, 140);  // 対応状況
+  for (var w = 4; w <= 13; w++) {
+    sh.setColumnWidth(w, 160);  // Field 1-10
+  }
 
   // フィルター設定
   if (sh.getFilter()) sh.getFilter().remove();
