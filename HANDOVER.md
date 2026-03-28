@@ -4,84 +4,65 @@
 
 ## 前回のセッションでやったこと
 
-### テーマ1: プロンプトの充実（設計・基盤整備）
+### Tier 1 新規プロンプト7個の生成（commit faeccb7）
 
-#### A. プロンプト管理フォルダの一元化（commit bad5e68）
-- `prompts/`フォルダを新設、全プロンプトをプロンプトID名で統一管理
-- 旧`プロンプト例/`フォルダから移行＋旧フォルダ削除
-- `convert_prompts_to_gs.py`のFILE_TO_IDを11個→18個に拡張、参照先を`prompts/`に変更
-- スニーカー・ドレスシューズのプロンプトをユーザーが貼り付け済み
+Geminiにカテゴリ別の専門知識（ブランド、用語、不良表現、eBayカテゴリ）をリサーチさせ、既存プロンプトの共通構造をベースに7個の新規プロンプトを生成した。
 
-#### B. PROMPT_TAG_MAPPING拡張（commit a094e93）
-3者協議（Claude/GPT/Gemini）を2回実施し、49の未割り当てカテゴリの振り分けを決定。
+| # | プロンプト名 | サイズ | 主な特徴 |
+|---|------------|--------|----------|
+| 1 | レザーグッズ | 10,935B | LV/Chanel/Hermes等25+ブランド、素材NO FALSE CLAIMS、ボディバッグ→Sling Bag |
+| 2 | オーディオ・家電 | 8,251B | オーディオ+家電、100V電圧警告ルール |
+| 3 | 楽器 | 8,471B | ギター/シンセ/管楽器/打楽器、Japan Vintage/MIJ検出 |
+| 4 | RC・模型 | 8,104B | RCカー/プラモデル/鉄道模型、BUILD STATUS/SCALE検出 |
+| 5 | レコード | 7,086B | 帯付き(With Obi)、City Pop、初回プレス、日本盤用語 |
+| 6 | 釣竿 | 8,395B | ロッドタイプ20+種、スペック用語、モデル番号エンコード |
+| 7 | 釣具汎用 | 8,310B | ルアー(ハード/ソフト)、タックル、ライン、Japanese Lure Premium |
 
-**既存プロンプトへのタグ追加:**
-- 時計用: + Watch Parts系タグ（時計パーツ,ウォッチパーツ,時計部品）
-- ジュエリー: + カフリンクス,カフスボタン,チャーム,ペンダントトップ
-- アパレル・ブランド品: バッグ・財布を削除し、帽子・スカーフ・ベルト・ネクタイ等のFashion小物を統合
-- リール→釣り具: 釣竿・ロッド追加、プロンプトファイル`釣り具.txt`作成済み（リールのコピー）
-- フィギュア: + ドール,ぬいぐるみ,アニメ,アニメグッズ
-- レザーグッズ: 新規プロンプト枠（バッグ,財布,キーケース等）、`レザーグッズ.txt`は空ファイル
-
-#### C. 新規プロンプト17個の設計確定（3者協議で合意）
-
-| # | プロンプト名 | カテゴリ | 優先度 |
-|---|------------|---------|--------|
-| 1 | レザーグッズ | Wallets, Handbags, キーケース等 | Tier 1 |
-| 2 | オーディオ・家電 | Electronics | Tier 1 |
-| 3 | 楽器 | Musical Instruments | Tier 1 |
-| 4 | RC・模型 | RC & Models | Tier 1 |
-| 5 | レコード | Records | Tier 1 |
-| 6 | 釣竿 | Fishing Rods | Tier 1 |
-| 7 | 釣具汎用 | ルアー・その他釣り用品 | Tier 1 |
-| 8 | サングラス | Sunglasses | Tier 2 |
-| 9 | 万年筆・筆記具 | Pens | Tier 2 |
-| 10 | テニス | Tennis | Tier 2 |
-| 11 | 野球 | Baseball | Tier 2 |
-| 12 | スポーツウェア | ユニフォーム,ゴルフ手袋,サンバイザー等 | Tier 2 |
-| 13 | 着物 | Kimono | Tier 2 |
-| 14 | 日本刀 | Japanese Swords | Tier 2 |
-| 15 | 日本伝統・骨董 | Tea Ceremony, Tetsubin, Pottery, Buddhist Art | Tier 2 |
-| 16 | アート | Art, Prints | Tier 2 |
-| 17 | パイプ・喫煙具 | Pipes | Tier 3 |
-| 18 | テーブルウェア | Dinnerware, Glassware, Flatware, 包丁 | Tier 3 |
-| 19 | 和楽器 | Japanese Instruments | Tier 3 |
-
-**注意: 釣り系は3プロンプト体制（リール既存 + 釣竿・ルアー新規）。主戦場のため専門性を高く保つ。**
-
-**汎用で対応:** Snow Globes, Boxes, Combs, Key Chains, Soap, Baby, Stamps, Coins, Collectibles
-**除外（空輸不可）:** Bonsai, Lighters
+- FILE_TO_IDに7エントリ追加 → convert_prompts_to_gs.pyで再生成
+- Claude+Gemini 2者レビュー: 全項目PASS
 
 ## 現在のステータス
-- ブランチ: main / 最新コミット: 01b4693 / git push済み / clasp push済み
-- プロンプトファイル: 20個（prompts/フォルダ内。うちレザーグッズは空）
-- PromptTemplates.gs: 19個登録済み（リール + 釣り具の両方を含む）
+- ブランチ: main / 最新コミット: faeccb7 / git push済み
+- プロンプトファイル: 25個（prompts/フォルダ内）
+- PromptTemplates.gs: 25個登録済み（177,568 bytes）
+- clasp pushはまだ未実施（次回セッションで実施）
 
 ## 次にやること（優先順位順）
 
-### 1. 新規プロンプト17個の生成（Tier 1から順に）
+### 1. clasp push
+- PromptTemplates.gsの変更をGASに反映する
+- clasp push前にScriptPropertiesチェック必須
 
-**進め方:**
-1. 既存プロンプト（時計V10、ジュエリーv4、ポケカV9等）の共通構造を抽出して雛形を作る
-2. Geminiに各カテゴリの専門用語・翻訳ルール・Item Specificsをリサーチさせる
-3. 雛形 × カテゴリ辞書でプロンプトを生成
-4. `prompts/`にファイル作成 → `convert_prompts_to_gs.py`のFILE_TO_IDに追加 → 変換 → clasp push
-5. PROMPT_TAG_MAPPINGに新プロンプトのタグを追加
+### 2. PROMPT_TAG_MAPPINGへの新規プロンプト追加
+- Config.gsのPROMPT_TAG_MAPPINGに新規7プロンプトのタグ設定を追加する
+- 前回セッションでタグの振り分けは3者協議で決定済み（HANDOVER旧版参照）
 
-**Tier 1（最優先）:** オーディオ・家電、楽器、RC・模型、レコード、レザーグッズ
-**Tier 2:** サングラス、万年筆、テニス、野球、スポーツウェア、着物、日本刀、日本伝統・骨董、アート
-**Tier 3:** パイプ・喫煙具、テーブルウェア、和楽器
+### 3. Tier 2 プロンプト生成（10個）
+| # | プロンプト名 | カテゴリ |
+|---|------------|---------|
+| 8 | サングラス | Sunglasses |
+| 9 | 万年筆・筆記具 | Pens |
+| 10 | テニス | Tennis |
+| 11 | 野球 | Baseball |
+| 12 | スポーツウェア | ユニフォーム,ゴルフ手袋,サンバイザー等 |
+| 13 | 着物 | Kimono |
+| 14 | 日本刀 | Japanese Swords |
+| 15 | 日本伝統・骨董 | Tea Ceremony, Tetsubin, Pottery, Buddhist Art |
+| 16 | アート | Art, Prints |
+| 17 | パイプ・喫煙具 | Pipes |
 
-### 2. 釣り系プロンプト（釣竿・釣具汎用）の生成
-- リールは既存プロンプトで対応済み
-- 釣竿・釣具汎用は空ファイル作成済み、中身の生成が必要
-- 釣りは主戦場のため3プロンプト体制（リール/釣竿/釣具汎用）で専門性を保つ
+### 4. Tier 3 プロンプト生成（2個）
+| # | プロンプト名 | カテゴリ |
+|---|------------|---------|
+| 18 | テーブルウェア | Dinnerware, Glassware, Flatware, 包丁 |
+| 19 | 和楽器 | Japanese Instruments |
 
-### 3. タグ別送料の運用・拡張（テーマ2-b、前回から継続）
+### 5. タグ別送料の運用・拡張（テーマ2-b、前回から継続）
 
 ## 関連ファイル
-- プロンプト: `prompts/*.txt`
-- 変換スクリプト: `Library/convert_prompts_to_gs.py`（FILE_TO_IDにマッピング追加が必要）
+- プロンプト: `prompts/*.txt`（25ファイル）
+- 変換スクリプト: `Library/convert_prompts_to_gs.py`（FILE_TO_IDに25マッピング）
+- PromptTemplates.gs: `Library/PromptTemplates.gs`
 - PROMPT_TAG_MAPPING: `Config.gs` L213 / `Library/Config.gs` L213
 - IS_CATEGORY_FIELDS: `Library/Config_IS.gs` L3031-3096
 - IS_TAG_TO_CATEGORY: `Library/Config_IS.gs` L2789-3027
