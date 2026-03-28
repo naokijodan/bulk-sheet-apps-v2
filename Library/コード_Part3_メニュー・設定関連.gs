@@ -2722,7 +2722,8 @@ function syncPromptsToSheet_(options) {
         var tpl = PROMPT_TEMPLATES[key] || {};
         var ver = Number(tpl.version) || 0;
         var content = (tpl.content || '').toString();
-        newRows.push([key, content, '', now, '', ver]);
+        var tags = (typeof PROMPT_TAG_MAPPING === 'object' && PROMPT_TAG_MAPPING[key]) ? PROMPT_TAG_MAPPING[key].join(',') : '';
+        newRows.push([key, content, '', now, tags, ver]);
       }
       if (newRows.length > 0) {
         var startRow = sheet.getLastRow() + 1; // 末尾追加
@@ -2776,9 +2777,10 @@ function syncPromptsToSheet_(options) {
         var row = values[idx];
         var sheetVer = Number(row[5]) || 0; // F列
         if (tplVer > sheetVer) {
-          // 本文・更新日時・バージョンを更新
+          // 本文・更新日時・タグ・バージョンを更新
           row[1] = (tpl2.content || '').toString(); // B列
           row[3] = now;                               // D列
+          row[4] = (typeof PROMPT_TAG_MAPPING === 'object' && PROMPT_TAG_MAPPING[key2]) ? PROMPT_TAG_MAPPING[key2].join(',') : ''; // E列
           row[5] = tplVer;                            // F列
           updated++;
           touched++;
