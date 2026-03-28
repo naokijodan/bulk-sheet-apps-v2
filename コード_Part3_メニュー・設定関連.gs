@@ -3041,20 +3041,9 @@ function saveIntegratedSettings(formData) {
       Logger.log('初期設定後のAJ2の実際の値: ' + actualAJ2);
     }
 
-    // 🆕 AJ5の値を読み取って送料計算方法を決定（プリセットで「ゲーム・トレカ」が設定されている場合に対応）
     var actualShippingCalcMethod = shippingCalcMethod;
     if (sheet) {
-      var aj5Value = sheet.getRange('AJ5').getValue();
-      if (aj5Value === 'ゲーム・トレカ') {
-        actualShippingCalcMethod = 'GAME_CARD';
-      } else if (aj5Value === 'タグ別送料') {
-        actualShippingCalcMethod = 'TAG_SHIPPING';
-      } else if (aj5Value === '固定金額') {
-        actualShippingCalcMethod = 'FIXED';
-      } else {
-        actualShippingCalcMethod = 'TABLE';
-      }
-      Logger.log('AJ5の値: ' + aj5Value + ' → shippingCalcMethod: ' + actualShippingCalcMethod);
+      actualShippingCalcMethod = getShippingCalcMethodFromLabel_(sheet);
     }
 
     // 🆕 計算式ARRAYFORMULAを作業シートに適用
@@ -3095,7 +3084,7 @@ function saveIntegratedSettings(formData) {
       '作業シート: ' + sheetName + '\n' +
       '利益計算: ' + (profitCalc === 'RATE' ? '利益率' : '利益額') + '\n' +
       '価格表示: ' + priceText + '\n' +
-      '送料計算: ' + (shippingCalcMethod === 'TABLE' ? 'テーブル計算' : '固定金額') + '\n' +
+      '送料計算: ' + getLabelFromShippingCalcMethod_(shippingCalcMethod) + '\n' +
       '送料切替基準: ' + shippingThreshold + '円\n' +
       '低価格配送: ' + lowPriceName + '\n' +
       '高価格配送: ' + highPriceName + '\n' +
@@ -3363,7 +3352,7 @@ function writeSettingsToSheet(sheetName, settings) {
       ['低価格配送方法', lowPriceName],
       ['高価格配送方法', highPriceName],
       ['送料切替基準(円)', settings.shippingThreshold],
-      ['送料計算方法', settings.shippingCalcMethod === 'TABLE' ? 'テーブル計算' : settings.shippingCalcMethod === 'TAG_SHIPPING' ? 'タグ別送料' : '固定金額']
+      ['送料計算方法', getLabelFromShippingCalcMethod_(settings.shippingCalcMethod)]
     ];
     console.log('[writeSettingsToSheet] shippingDataの内容:', JSON.stringify(shippingData));
 
@@ -3724,66 +3713,29 @@ function applyCalculationFormulas(sheetName, settings) {
       }
     }
 
-    // T列: 送料（配送方法に応じた計算）
+    // T列: 送料（Formula Factoryで式を生成）
     sheet.getRange('T4').setValue('送料');
-    if (shippingCalc === 'TABLE') {
-      // テーブル計算モード：個別行の式を設定
-      var shippingFormulas = [];
-      for (var row = 5; row <= dataLastRow; row++) {
-        // CF: base + extra + fuel - discount
-        // CD: base + extra + fuel - discount
-        // CE/EL/EP: base のみ（テーブルに既にサーチャージが含まれている）
-        var formula = '=IF(AF' + row + '="","",IF(X' + row + '="CF",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$1,subtotal,base+extra,fuel,subtotal*$V$1,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),IF(X' + row + '="CD",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$2,subtotal,base+extra,fuel,subtotal*$V$2,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),ROUND(AF' + row + '))))';
-        shippingFormulas.push([formula]);
+    if (shippingCalc === 'TAG_SHIPPING') {
+      ensureTagShippingSheet_(ss);
+    }
+    var shippingFormulas = [];
+    var refFormulas = [];
+    var hasRefFormulas = false;
+    for (var row = 5; row <= dataLastRow; row++) {
+      var formulas = buildShippingFormulas_(row, shippingCalc);
+      shippingFormulas.push([formulas.shippingFormula]);
+      if (formulas.refEbayFormula) {
+        refFormulas.push([formulas.refEbayFormula]);
+        hasRefFormulas = true;
+      } else {
+        refFormulas.push(['']);
       }
-      if (shippingFormulas.length > 0) {
-        sheet.getRange(5, CONFIG.COLUMNS.SHIPPING, shippingFormulas.length, 1).setFormulas(shippingFormulas);
-      }
-    } else if (shippingCalc === 'GAME_CARD') {
-      // ゲーム・トレカモード：仕入れ価格に応じて固定/テーブル計算を切り替え
-      // AJ4が空欄/0以下 → テーブル計算（クーリエ送料、安全側）
-      // 仕入れ価格 ≤ AJ4 → 固定金額（J1の値）
-      // 仕入れ価格 > AJ4 → テーブル計算（AF列ベース）
-      var shippingFormulas = [];
-      for (var row = 5; row <= dataLastRow; row++) {
-        // テーブル計算式（CF/CD用の追加料金込み）
-        var tableFormula = 'IF(X' + row + '="CF",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$1,subtotal,base+extra,fuel,subtotal*$V$1,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),IF(X' + row + '="CD",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$2,subtotal,base+extra,fuel,subtotal*$V$2,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),ROUND(AF' + row + ')))';
-        // 条件分岐：I列（仕入れ価格）が空なら空、AJ4が空/0以下ならテーブル計算、I列≤AJ4なら固定、それ以外はテーブル計算
-        var formula = '=IF(I' + row + '="","",IF(OR($AJ$4="",$AJ$4<=0),' + tableFormula + ',IF(I' + row + '<=$AJ$4,$J$1,' + tableFormula + ')))';
-        shippingFormulas.push([formula]);
-      }
-      if (shippingFormulas.length > 0) {
-        sheet.getRange(5, CONFIG.COLUMNS.SHIPPING, shippingFormulas.length, 1).setFormulas(shippingFormulas);
-      }
-    } else if (shippingCalc === 'TAG_SHIPPING') {
-      // タグ別送料モード：D列タグからTagShippingシートを参照
-      var tagSheet = ensureTagShippingSheet_(ss);
-      var tsName = CONFIG.TAG_SHIPPING.SHEET_NAME;
-      var shippingFormulas = [];
-      var refFormulas = [];
-      for (var row = 5; row <= dataLastRow; row++) {
-        // T列: SWITCH関数で配送方法に応じた列を参照（EP=B列=1, CE=C列=2, CF/CD=D列=3）
-        // X列が空欄の場合は#配送方法未設定を返す
-        var sFormula = '=IF(D' + row + '="","",IF(X' + row + '="","#配送方法未設定",IFERROR(INDEX(' + tsName + '!B:D,MATCH(D' + row + ',' + tsName + '!A:A,0),SWITCH(X' + row + ',"EP",1,"ePacket",1,"CE",2,"Cpass-Economy",2,"CF",3,"Cpass-FedEx",3,"CD",3,"Cpass-DHL",3,"EL",3,"eLogistics",3)),"#タグ未登録")))';
-        shippingFormulas.push([sFormula]);
-        // F列: 参考eBay ID（D列タグからTagShippingシートのE列を参照）
-        var rFormula = '=IF(D' + row + '="","",IFERROR(INDEX(' + tsName + '!E:E,MATCH(D' + row + ',' + tsName + '!A:A,0)),""))';
-        refFormulas.push([rFormula]);
-      }
-      if (shippingFormulas.length > 0) {
-        sheet.getRange(5, CONFIG.COLUMNS.SHIPPING, shippingFormulas.length, 1).setFormulas(shippingFormulas);
-        sheet.getRange(5, CONFIG.COLUMNS.REF_EBAY, refFormulas.length, 1).setFormulas(refFormulas);
-      }
-    } else {
-      // 固定金額モード：個別行の式を設定（ARRAYFORMULAを使わない）
-      var shippingFormulas = [];
-      for (var row = 5; row <= dataLastRow; row++) {
-        var formula = '=IF(I' + row + '="","",IF($J$1<>"", $J$1, VLOOKUP(I' + row + ',Profit_Amounts!$A$2:$D$8,4,TRUE)))';
-        shippingFormulas.push([formula]);
-      }
-      if (shippingFormulas.length > 0) {
-        sheet.getRange(5, CONFIG.COLUMNS.SHIPPING, shippingFormulas.length, 1).setFormulas(shippingFormulas);
-      }
+    }
+    if (shippingFormulas.length > 0) {
+      sheet.getRange(5, CONFIG.COLUMNS.SHIPPING, shippingFormulas.length, 1).setFormulas(shippingFormulas);
+    }
+    if (hasRefFormulas && refFormulas.length > 0) {
+      sheet.getRange(5, CONFIG.COLUMNS.REF_EBAY, refFormulas.length, 1).setFormulas(refFormulas);
     }
 
     // U列: 利益
@@ -4208,8 +4160,7 @@ function reapplyCalculationFormulasToSelectedRows() {
     var profitCalcText = sheet.getRange('AL2').getValue(); // "利益率" or "利益額"
     var profitCalc = (profitCalcText === '利益額') ? 'AMOUNT' : 'RATE';
 
-    var shippingCalcText = sheet.getRange('AJ5').getValue(); // "テーブル計算" or "固定金額" or "ゲーム・トレカ" or "タグ別送料"
-    var shippingCalc = (shippingCalcText === '固定金額') ? 'FIXED' : (shippingCalcText === 'ゲーム・トレカ') ? 'GAME_CARD' : (shippingCalcText === 'タグ別送料') ? 'TAG_SHIPPING' : 'TABLE';
+    var shippingCalc = getShippingCalcMethodFromLabel_(sheet);
 
     // applyCalculationFormulas関数を呼び出して初期設定と同じ処理を実行
     var result = applyCalculationFormulas(settings.sheetName, {

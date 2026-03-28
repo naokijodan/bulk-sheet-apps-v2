@@ -1270,3 +1270,82 @@ function parseShippingPolicyName_(policyName) {
     return null;
   }
 }
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  送料モード共通関数（Single Source of Truth）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+/**
+ * AJ5セルの日本語ラベルを内部コードに変換する
+ * @param {Sheet} sheet - 作業シート
+ * @return {string} 内部コード（TABLE/FIXED/GAME_CARD/TAG_SHIPPING）
+ */
+function getShippingCalcMethodFromLabel_(sheet) {
+  var LABEL_TO_CODE = {
+    'テーブル計算': 'TABLE',
+    '固定金額': 'FIXED',
+    'ゲーム・トレカ': 'GAME_CARD',
+    'タグ別送料': 'TAG_SHIPPING'
+  };
+  var label = String(sheet.getRange('AJ5').getValue()).trim();
+  var code = LABEL_TO_CODE[label];
+  if (!code) {
+    Logger.log('[getShippingCalcMethodFromLabel_] 不明なラベル: "' + label + '" → TABLEにフォールバック');
+    return 'TABLE';
+  }
+  return code;
+}
+
+/**
+ * 内部コードを日本語ラベルに変換する
+ * @param {string} code - 内部コード（TABLE/FIXED/GAME_CARD/TAG_SHIPPING）
+ * @return {string} 日本語ラベル
+ */
+function getLabelFromShippingCalcMethod_(code) {
+  var CODE_TO_LABEL = {
+    'TABLE': 'テーブル計算',
+    'FIXED': '固定金額',
+    'GAME_CARD': 'ゲーム・トレカ',
+    'TAG_SHIPPING': 'タグ別送料'
+  };
+  return CODE_TO_LABEL[code] || 'テーブル計算';
+}
+
+/**
+ * 送料モードに応じたT列・F列の式を生成する（Formula Factory）
+ * applyCalculationFormulas / setFormulas / batchCalculateFormulas の全てがこの関数を使う
+ *
+ * @param {number} row - 行番号
+ * @param {string} shippingCalcMethod - 内部コード（TABLE/FIXED/GAME_CARD/TAG_SHIPPING）
+ * @return {Object} { shippingFormula: string, refEbayFormula: string|null }
+ */
+function buildShippingFormulas_(row, shippingCalcMethod) {
+  if (shippingCalcMethod === 'FIXED') {
+    return {
+      shippingFormula: '=IF(I' + row + '="","",IF($J$1<>"", $J$1, VLOOKUP(I' + row + ',Profit_Amounts!$A$2:$D$8,4,TRUE)))',
+      refEbayFormula: null
+    };
+  }
+
+  if (shippingCalcMethod === 'GAME_CARD') {
+    var tableFormula = 'IF(X' + row + '="CF",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$1,subtotal,base+extra,fuel,subtotal*$V$1,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),IF(X' + row + '="CD",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$2,subtotal,base+extra,fuel,subtotal*$V$2,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),ROUND(AF' + row + ')))';
+    return {
+      shippingFormula: '=IF(I' + row + '="","",IF(OR($AJ$4="",$AJ$4<=0),' + tableFormula + ',IF(I' + row + '<=$AJ$4,$J$1,' + tableFormula + ')))',
+      refEbayFormula: null
+    };
+  }
+
+  if (shippingCalcMethod === 'TAG_SHIPPING') {
+    var tsName = CONFIG.TAG_SHIPPING.SHEET_NAME;
+    return {
+      shippingFormula: '=IF(D' + row + '="","",IF(X' + row + '="","#配送方法未設定",IFERROR(INDEX(' + tsName + '!B:D,MATCH(D' + row + ',' + tsName + '!A:A,0),SWITCH(X' + row + ',"EP",1,"ePacket",1,"CE",2,"Cpass-Economy",2,"CF",3,"Cpass-FedEx",3,"CD",3,"Cpass-DHL",3,"EL",3,"eLogistics",3)),"#タグ未登録")))',
+      refEbayFormula: '=IF(D' + row + '="","",IFERROR(INDEX(' + tsName + '!E:E,MATCH(D' + row + ',' + tsName + '!A:A,0)),""))'
+    };
+  }
+
+  // TABLE（デフォルト）
+  return {
+    shippingFormula: '=IF(AF' + row + '="","",IF(X' + row + '="CF",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$1,subtotal,base+extra,fuel,subtotal*$V$1,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),IF(X' + row + '="CD",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$2,subtotal,base+extra,fuel,subtotal*$V$2,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),ROUND(AF' + row + '))))',
+    refEbayFormula: null
+  };
+}
