@@ -3727,9 +3727,8 @@ function applyCalculationFormulas(sheetName, settings) {
 
     // T列: 送料（Formula Factoryで式を生成）
     sheet.getRange('T4').setValue('送料');
-    if (shippingCalc === 'TAG_SHIPPING') {
-      ensureTagShippingSheet_(ss);
-    }
+    // SKU自動生成のため、送料モードに関係なく常にTagShippingシートを確保
+    ensureTagShippingSheet_(ss);
     var shippingFormulas = [];
     var refFormulas = [];
     var hasRefFormulas = false;
