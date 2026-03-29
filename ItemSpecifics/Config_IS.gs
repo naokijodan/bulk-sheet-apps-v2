@@ -1095,7 +1095,7 @@ var IS_BRAND_DICT = [
   {name: 'xC', jp_names: ['クロスシー', 'XC'], country: 'Japan', parent_brand: 'Citizen', category: ['Watches']},
   {name: 'Yacht-Master', jp_names: ['ヨットマスター', 'YACHT-MASTER', 'YACHT MASTER', 'YACHTMASTER'], country: 'Switzerland', parent_brand: 'Rolex', category: ['Watches']},
   {name: 'Zenith', jp_names: ['ゼニス', 'ZENITH'], country: 'Switzerland'},
-  {name: 'Zeppelin', jp_names: ['ツェッペリン', 'ZEPPELIN'], country: 'Germany'},
+  {name: 'Zeppelin', jp_names: ['ツェッペリン', 'ZEPPELIN'], country: 'Germany', category: ['Watches']},
   {name: 'U-Boat', jp_names: ['ユーボート', 'U BOAT', 'UBOAT'], country: 'Italy'},
   {name: 'GaGa Milano', jp_names: ['ガガミラノ', 'GAGA MILANO', 'GAGAMILANO', 'GAGA', 'ガガ ミラノ'], country: 'Italy'},
 
