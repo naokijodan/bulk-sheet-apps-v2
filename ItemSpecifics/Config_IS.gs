@@ -2189,6 +2189,7 @@ var IS_BRAND_DICT = [
   {name: 'B-Barrel', jp_names: ['ビーバレル', 'B-BARREL', 'BBARREL'], country: 'Japan', category: ['Watches']},
   {name: 'Shellman', jp_names: ['シェルマン', 'SHELLMAN'], country: 'Japan', category: ['Watches']},
   {name: 'JAM HOME MADE', jp_names: ['ジャムホームメイド', 'JAM HOME MADE', 'JAMHOMEMADE'], country: 'Japan', category: ['Watches']},
+  {name: 'Nordgreen', jp_names: ['ノードグリーン', 'NORDGREEN'], country: 'Denmark', category: ['Watches']},
 
   // === Fishing Reels ===
   {name: 'Ryobi', jp_names: ['リョービ', 'RYOBI'], country: 'Japan', category: ['Fishing Reels']},
