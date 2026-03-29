@@ -258,13 +258,9 @@ function runSelectedRowsTranslate() {
                   item.promptId = tagToPromptMap[rowTag];
                 } else {
                   // スペース区切りの先頭部分で再検索（例: 「フィギュア 3000」→「フィギュア」）
-                  var spaceIdx = rowTag.indexOf(' ');
-                  if (spaceIdx === -1) spaceIdx = rowTag.indexOf('　');
-                  if (spaceIdx > 0) {
-                    var baseTag = rowTag.substring(0, spaceIdx);
-                    if (tagToPromptMap[baseTag]) {
-                      item.promptId = tagToPromptMap[baseTag];
-                    }
+                  var baseTag = rowTag.split(/[\s　]/)[0];
+                  if (baseTag !== rowTag && tagToPromptMap[baseTag]) {
+                    item.promptId = tagToPromptMap[baseTag];
                   }
                 }
               }
