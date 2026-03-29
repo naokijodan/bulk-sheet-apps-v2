@@ -2183,6 +2183,9 @@ var IS_BRAND_DICT = [
   {name: 'Rotary', jp_names: ['ロータリー', 'ROTARY'], country: 'UK', category: ['Watches']},
   {name: 'Just Cavalli', jp_names: ['ジャストカヴァリ', 'ジャストカバリ', 'JUST CAVALLI', 'JUSTCAVALLI'], country: 'Italy', category: ['Watches']},
   {name: 'Gorilla', jp_names: ['ゴリラ', 'GORILLA'], country: 'Switzerland', category: ['Watches']},
+  {name: 'Mercedes-Benz', jp_names: ['メルセデスベンツ', 'MERCEDES-BENZ', 'MERCEDES BENZ'], country: 'Germany', category: ['Watches']},
+  {name: 'Maserati', jp_names: ['マセラティ', 'MASERATI'], country: 'Italy', category: ['Watches']},
+  {name: 'Porsche Design', jp_names: ['ポルシェデザイン', 'PORSCHE DESIGN'], country: 'Germany', category: ['Watches']},
 
   // === Fishing Reels ===
   {name: 'Ryobi', jp_names: ['リョービ', 'RYOBI'], country: 'Japan', category: ['Fishing Reels']},
