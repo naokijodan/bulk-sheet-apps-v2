@@ -3543,6 +3543,17 @@ function ensureTagShippingSheet_(ss) {
     var sheetName = CONFIG.TAG_SHIPPING.SHEET_NAME;
     var sheet = ss.getSheetByName(sheetName);
     if (sheet) {
+        // 既存シートの移行処理: F列ヘッダーが無ければ追加
+        var f1Value = sheet.getRange(1, 6).getValue();
+        if (!f1Value || String(f1Value).trim() === '') {
+            sheet.getRange(1, 6).setValue('SKU略称')
+                .setFontWeight('bold')
+                .setBackground(CONFIG.TAG_SHIPPING.HEADER_BG_COLOR)
+                .setFontColor(CONFIG.TAG_SHIPPING.HEADER_FONT_COLOR)
+                .setHorizontalAlignment('center');
+            sheet.setColumnWidth(6, 100);
+            Logger.log('[ensureTagShippingSheet_] 既存TagShippingシートにSKU略称列を追加しました');
+        }
         return sheet;
     }
 
@@ -3564,6 +3575,7 @@ function ensureTagShippingSheet_(ss) {
     sheet.setColumnWidth(3, 100);  // CE送料
     sheet.setColumnWidth(4, 120);  // CF/CD送料
     sheet.setColumnWidth(5, 200);  // 参考eBay ID
+    sheet.setColumnWidth(6, 100);  // SKU略称
 
     // B〜D列を数値書式に設定（2行目以降）
     var maxRows = sheet.getMaxRows();

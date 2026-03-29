@@ -1349,3 +1349,173 @@ function buildShippingFormulas_(row, shippingCalcMethod) {
     refEbayFormula: null
   };
 }
+
+/**
+ * SKU自動生成（値として書き込み）
+ * TagShippingシートのF列（SKU略称）とD列（タグ）・A列（日付）を使用
+ * C列が空の行にのみSKUを生成する。選択行のみを対象とし、非選択行は一切触らない。
+ *
+ * @param {Sheet} sheet - 作業シート
+ * @param {number[]} targetRows - 対象行番号の配列（例: [5, 7, 10]）
+ * @return {Object} { generated: number, skipped: number, warnings: string[] }
+ */
+function generateSkuForRows_(sheet, targetRows) {
+  var result = { generated: 0, skipped: 0, warnings: [] };
+
+  if (!targetRows || targetRows.length === 0) {
+    return result;
+  }
+
+  // 1. TagShippingシートからタグ→略称マップを作成
+  var ss = sheet.getParent();
+  var tsSheet = ss.getSheetByName(CONFIG.TAG_SHIPPING.SHEET_NAME);
+  if (!tsSheet) {
+    Logger.log('[generateSkuForRows_] TagShippingシートが存在しません。SKU生成をスキップします。');
+    return result;
+  }
+
+  var tsLastRow = tsSheet.getLastRow();
+  if (tsLastRow < 2) {
+    Logger.log('[generateSkuForRows_] TagShippingシートにデータがありません。SKU生成をスキップします。');
+    return result;
+  }
+
+  // A列（タグ名）とF列（SKU略称）を一括取得
+  var tsColCount = CONFIG.TAG_SHIPPING.HEADERS.length;
+  var tsData = tsSheet.getRange(2, 1, tsLastRow - 1, tsColCount).getValues();
+  var tagToCode = {};
+  var hasAnyCode = false;
+  for (var t = 0; t < tsData.length; t++) {
+    var tagName = String(tsData[t][0] || '').trim();
+    var skuCode = String(tsData[t][tsColCount - 1] || '').trim();
+    if (tagName && skuCode) {
+      // バリデーション: 半角英数字のみ
+      if (/^[A-Za-z0-9]+$/.test(skuCode)) {
+        tagToCode[tagName] = skuCode.toLowerCase();
+        hasAnyCode = true;
+      } else {
+        result.warnings.push('SKU略称に無効な文字: 「' + tagName + '」→「' + skuCode + '」（半角英数字のみ使用可）');
+      }
+    }
+  }
+
+  // 暗黙OFF: F列に略称が1つもなければスキップ
+  if (!hasAnyCode) {
+    Logger.log('[generateSkuForRows_] TagShippingシートにSKU略称が設定されていません。SKU生成をスキップします。');
+    return result;
+  }
+
+  // 2. C列の既存SKU値を全行走査（最大連番取得用）
+  var dataLastRow = sheet.getLastRow();
+  var existingSkus = {};  // key: 略称+yymmdd, value: 最大連番
+  var SKU_PATTERN = /^([a-z0-9]+)(\d{6})(\d{3,})$/;
+
+  if (dataLastRow >= 5) {
+    var allCValues = sheet.getRange(5, CONFIG.COLUMNS.LABEL, dataLastRow - 4, 1).getValues();
+    for (var c = 0; c < allCValues.length; c++) {
+      var existingSku = String(allCValues[c][0] || '').trim().toLowerCase();
+      var match = existingSku.match(SKU_PATTERN);
+      if (match) {
+        var key = match[1] + match[2];  // 略称+日付
+        var seq = parseInt(match[3], 10);
+        if (!existingSkus[key] || seq > existingSkus[key]) {
+          existingSkus[key] = seq;
+        }
+      }
+    }
+  }
+
+  // 3. 対象行のデータをバルク取得（範囲を1回で読み、対象行のみ処理）
+  var minRow = targetRows[0];
+  var maxRow = targetRows[targetRows.length - 1];
+  var numRows = maxRow - minRow + 1;
+  var rowData = sheet.getRange(minRow, 1, numRows, CONFIG.COLUMNS.TAG).getValues(); // A〜D列
+
+  // 対象行を高速検索するためのマップ
+  var targetRowSet = {};
+  for (var r = 0; r < targetRows.length; r++) {
+    targetRowSet[targetRows[r]] = true;
+  }
+
+  var today = new Date();
+  var warningTags = {};
+  var writeOperations = [];  // { row: number, sku: string }
+
+  for (var i = 0; i < numRows; i++) {
+    var actualRow = minRow + i;
+
+    // 対象行でなければスキップ（非選択行は一切触らない）
+    if (!targetRowSet[actualRow] || actualRow < 5) {
+      continue;
+    }
+
+    var cValue = String(rowData[i][CONFIG.COLUMNS.LABEL - 1] || '').trim();
+    var dValue = String(rowData[i][CONFIG.COLUMNS.TAG - 1] || '').trim();
+
+    // a. C列が空でなければスキップ
+    if (cValue !== '') {
+      result.skipped++;
+      continue;
+    }
+
+    // b. D列が空ならスキップ
+    if (dValue === '') {
+      result.skipped++;
+      continue;
+    }
+
+    // c. 略称を取得
+    var code = tagToCode[dValue];
+    if (!code) {
+      result.skipped++;
+      if (!warningTags[dValue]) {
+        warningTags[dValue] = true;
+        result.warnings.push('SKU略称未設定: 「' + dValue + '」');
+      }
+      continue;
+    }
+
+    // d. A列の日付を取得（空/無効なら今日の日付）
+    var dateVal = rowData[i][CONFIG.COLUMNS.DATE - 1];
+    var dateObj;
+    if (dateVal instanceof Date && !isNaN(dateVal.getTime())) {
+      dateObj = dateVal;
+    } else if (dateVal) {
+      dateObj = new Date(dateVal);
+      if (isNaN(dateObj.getTime())) {
+        dateObj = today;
+      }
+    } else {
+      dateObj = today;
+    }
+
+    // e. yymmddフォーマット
+    var yy = String(dateObj.getFullYear()).slice(-2);
+    var mm = ('0' + (dateObj.getMonth() + 1)).slice(-2);
+    var dd = ('0' + dateObj.getDate()).slice(-2);
+    var dateStr = yy + mm + dd;
+
+    // f. 最大連番+1
+    var seqKey = code + dateStr;
+    var nextSeq = (existingSkus[seqKey] || 0) + 1;
+    existingSkus[seqKey] = nextSeq;  // 次の行のために更新
+
+    // g. SKU生成
+    var sku = code + dateStr + ('000' + nextSeq).slice(-3);
+    writeOperations.push({ row: actualRow, sku: sku });
+    result.generated++;
+  }
+
+  // 4. 対象行のみに書き込み（非選択行は一切触らない）
+  for (var w = 0; w < writeOperations.length; w++) {
+    sheet.getRange(writeOperations[w].row, CONFIG.COLUMNS.LABEL).setValue(writeOperations[w].sku);
+  }
+
+  // 5. ログ出力
+  Logger.log('[generateSkuForRows_] SKU生成完了: 生成=' + result.generated + ', スキップ=' + result.skipped + ', 警告=' + result.warnings.length);
+  if (result.warnings.length > 0) {
+    Logger.log('[generateSkuForRows_] 警告: ' + result.warnings.join(' / '));
+  }
+
+  return result;
+}

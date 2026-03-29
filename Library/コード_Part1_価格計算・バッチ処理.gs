@@ -1401,6 +1401,16 @@ function runSelectedRows() {
       props.setProperty('lastProcessedRowIndex', '0');
       startRowIndex = 0;
 
+      // SKU自動生成（C列が空の行にのみ値を書き込む）
+      try {
+        var skuResult = generateSkuForRows_(sheet, selectedRows);
+        if (skuResult.generated > 0) {
+          Logger.log('[runSelectedRows] SKU自動生成: ' + skuResult.generated + '件');
+        }
+      } catch (skuErr) {
+        Logger.log('[runSelectedRows] SKU生成エラー（処理は続行）: ' + skuErr.message);
+      }
+
       // サイドバー更新: 処理対象を検出
       updateProgressSidebar_({
         currentBatch: 0,
@@ -2001,6 +2011,16 @@ function runSelectedRowsComplete() {
       props.setProperty('lastProcessedRowIndex_complete', '0');
       startRowIndex = 0;
       phase = 'PHASE1';
+
+      // SKU自動生成（C列が空の行にのみ値を書き込む）
+      try {
+        var skuResult = generateSkuForRows_(sheet, selectedRows);
+        if (skuResult.generated > 0) {
+          Logger.log('[runSelectedRowsComplete] SKU自動生成: ' + skuResult.generated + '件');
+        }
+      } catch (skuErr) {
+        Logger.log('[runSelectedRowsComplete] SKU生成エラー（処理は続行）: ' + skuErr.message);
+      }
 
       // サイドバー更新: 処理対象を検出
       updateProgressSidebar_({

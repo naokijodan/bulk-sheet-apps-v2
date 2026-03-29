@@ -199,7 +199,7 @@ var CONFIG = {
   // タグ別送料管理
   TAG_SHIPPING: {
     SHEET_NAME: 'TagShipping',
-    HEADERS: ['タグ名', 'EP送料', 'CE送料', 'CF/CD送料', '参考eBay ID'],
+    HEADERS: ['タグ名', 'EP送料', 'CE送料', 'CF/CD送料', '参考eBay ID', 'SKU略称'],
     HEADER_BG_COLOR: '#4285F4',
     HEADER_FONT_COLOR: '#FFFFFF'
   }
