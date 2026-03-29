@@ -1148,15 +1148,6 @@ function extractSelectedRows() {
       // Step1で既に書き込まれたデータを読み取る
       var existingData = readExistingSpecifics_(sheet, row);
 
-      // 交通整理の確定値を別オブジェクトとして取得（existingDataには混ぜない）
-      var confirmedData = null;
-      if (desc && category && typeof extractConfirmedFields_ === 'function') {
-        var cJp = extractConfirmedFields_(desc, category);
-        if (cJp && Object.keys(cJp).length > 0 && typeof convertConfirmedToEnglish_ === 'function') {
-          confirmedData = convertConfirmedToEnglish_(cJp);
-        }
-      }
-
       requests.push({
         row: row,
         tag: tag,
@@ -1166,13 +1157,6 @@ function extractSelectedRows() {
         fields: fields,
         existingData: existingData
       });
-
-      // 直前に追加したリクエストにconfirmedDataを付与（追加のみで対応）
-      try {
-        if (requests && requests.length > 0) {
-          requests[requests.length - 1].confirmedData = confirmedData;
-        }
-      } catch (e) {}
     }
 
     if (requests.length === 0) {
@@ -1191,27 +1175,6 @@ function extractSelectedRows() {
     writeItemSpecificsToSheet_(sheet, results);
 
     SpreadsheetApp.getActiveSpreadsheet().toast('完了: ' + results.length + ' 行のItem Specificsを抽出しました', toastTitle, 5);
-
-    // バリデーション: 必須フィールドの空チェック
-    try {
-      // requestsから行番号→カテゴリのマッピングを構築
-      var rowCatMap = {};
-      for (var ri = 0; ri < requests.length; ri++) {
-        if (requests[ri].row && requests[ri].category) {
-          rowCatMap[requests[ri].row] = requests[ri].category;
-        }
-      }
-      var validationWarnings = validateItemSpecificsResults_(results, rowCatMap);
-      if (validationWarnings.length > 0) {
-        var warnMsg = validationWarnings.slice(0, 10).join('\n');
-        if (validationWarnings.length > 10) {
-          warnMsg += '\n...他 ' + (validationWarnings.length - 10) + ' 件';
-        }
-        ui.alert('Item Specifics 警告\n\n' + warnMsg);
-      }
-    } catch (ve) {
-      Logger.log('[extractSelectedRows] validation error: ' + ve);
-    }
   } catch (e) {
     Logger.log('[extractSelectedRows] error: ' + (e && e.stack ? e.stack : e));
     ui.alert('エラー: ' + e);
@@ -1290,15 +1253,6 @@ function extractAllRows() {
       
       var existingData2 = readExistingSpecifics_(sheet, r);
 
-      // 交通整理の確定値を別オブジェクトとして取得（existingDataには混ぜない）
-      var confirmedData2 = null;
-      if (desc && category && typeof extractConfirmedFields_ === 'function') {
-        var cJp2 = extractConfirmedFields_(desc, category);
-        if (cJp2 && Object.keys(cJp2).length > 0 && typeof convertConfirmedToEnglish_ === 'function') {
-          confirmedData2 = convertConfirmedToEnglish_(cJp2);
-        }
-      }
-
       requests.push({
         row: r,
         tag: tag,
@@ -1308,13 +1262,6 @@ function extractAllRows() {
         fields: fields,
         existingData: existingData2
       });
-
-      // 直前に追加したリクエストにconfirmedDataを付与（追加のみで対応）
-      try {
-        if (requests && requests.length > 0) {
-          requests[requests.length - 1].confirmedData = confirmedData2;
-        }
-      } catch (e) {}
 
       if (requests.length % 20 === 0) {
         SpreadsheetApp.getActiveSpreadsheet().toast('準備中... ' + requests.length + ' 行を収集', toastTitle, 5);
@@ -1332,26 +1279,6 @@ function extractAllRows() {
     if (results && results.length > 0) {
       writeItemSpecificsToSheet_(sheet, results);
       SpreadsheetApp.getActiveSpreadsheet().toast('完了: ' + results.length + ' 行のItem Specificsを抽出しました', toastTitle, 5);
-
-      // バリデーション: 必須フィールドの空チェック
-      try {
-        var rowCatMap2 = {};
-        for (var ri2 = 0; ri2 < requests.length; ri2++) {
-          if (requests[ri2].row && requests[ri2].category) {
-            rowCatMap2[requests[ri2].row] = requests[ri2].category;
-          }
-        }
-        var validationWarnings = validateItemSpecificsResults_(results, rowCatMap2);
-        if (validationWarnings.length > 0) {
-          var warnMsg = validationWarnings.slice(0, 10).join('\n');
-          if (validationWarnings.length > 10) {
-            warnMsg += '\n...他 ' + (validationWarnings.length - 10) + ' 件';
-          }
-          SpreadsheetApp.getUi().alert('Item Specifics 警告\n\n' + warnMsg);
-        }
-      } catch (ve) {
-        Logger.log('[extractAllRows] validation error: ' + ve);
-      }
     } else {
       ui.alert('抽出結果が得られませんでした。');
     }
@@ -2087,55 +2014,3 @@ function normalizeBatchResults_(chunk, batchRes) {
  * GASエディタから手動で実行して結果を確認する
  */
   // デバッグ用APIキー確認機能は廃止
-
-/**
- * ItemSpecifics抽出結果のバリデーション
- * IS_INITIAL_DATAのrequired/recommendedフィールド定義に基づいてチェック
- * @param {Array} rowResults - [{row, data: {field: value}, ...}]
- * @param {Object} rowCategoryMap - {行番号: カテゴリ名} のマッピング（requestsから構築）
- * @return {Array} 警告メッセージの配列（空なら問題なし）
- */
-function validateItemSpecificsResults_(rowResults, rowCategoryMap) {
-  var warnings = [];
-  if (!rowResults || !rowResults.length) return warnings;
-  if (!rowCategoryMap) return warnings;
-  if (typeof IS_INITIAL_DATA === 'undefined' || !IS_INITIAL_DATA) return warnings;
-
-  // IS_INITIAL_DATAからカテゴリ別のrequiredフィールドを構築
-  var requiredByCategory = {};
-  for (var i = 0; i < IS_INITIAL_DATA.length; i++) {
-    var def = IS_INITIAL_DATA[i];
-    if (!def || !def.category || !def.field_name) continue;
-    if (def.field_type === 'required') {
-      if (!requiredByCategory[def.category]) requiredByCategory[def.category] = [];
-      requiredByCategory[def.category].push(def.field_name);
-    }
-  }
-
-  for (var j = 0; j < rowResults.length; j++) {
-    var item = rowResults[j];
-    if (!item || !item.data) continue;
-    var data = item.data;
-    var row = item.row || '?';
-
-    // requestsから渡されたカテゴリマッピングを使用
-    var cat = rowCategoryMap[row] || '';
-    if (!cat) continue;
-
-    var requiredFields = requiredByCategory[cat];
-    if (!requiredFields || !requiredFields.length) continue;
-
-    for (var k = 0; k < requiredFields.length; k++) {
-      var fieldName = requiredFields[k];
-      var val = data[fieldName];
-      // 値がない、空、Does not applyの場合は警告
-      if (val === null || val === undefined || val === '' || val === 'Does not apply') {
-        // BrandがUnbrandedの場合は許容
-        if (fieldName.toLowerCase() === 'brand' && val === 'Unbranded') continue;
-        warnings.push('行' + row + ': ' + fieldName + 'が未設定です（' + cat + '）');
-      }
-    }
-  }
-
-  return warnings;
-}

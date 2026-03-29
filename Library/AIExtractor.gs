@@ -127,7 +127,7 @@ function extractItemSpecificsBatch(items) {
           var idx = slice[j];
           var it = items[idx];
           try {
-            prompts.push(buildExtractionPrompt_(it.title, it.description, it.category, it.fields, it.tag, it.existingData, it.confirmedData));
+            prompts.push(buildExtractionPrompt_(it.title, it.description, it.category, it.fields, it.tag, it.existingData));
             meta.push(idx);
           } catch (e) {
             outcomes[idx] = { row: it && it.row, success: false, error: 'プロンプト生成エラー: ' + (e.message || e) };
@@ -172,7 +172,7 @@ function extractItemSpecificsBatch(items) {
               nextQueue.push(itemIndex);
               continue;
             }
-            var data = parseExtractionResponse_(content, item.fields, item.existingData, item.confirmedData);
+            var data = parseExtractionResponse_(content, item.fields, item.existingData);
             outcomes[itemIndex] = { row: item.row, success: true, data: data };
           } catch (e2) {
             nextQueue.push(itemIndex);
@@ -217,9 +217,6 @@ function extractItemSpecificsBatch(items) {
 // プロンプト構築
 function buildExtractionPrompt_(title, description, category, fields, tag, existingData) {
   var lines = [];
-
-  // 追加: 第7引数（confirmedData）をargumentsから取得（既存シグネチャは変更しない）
-  var confirmedData = (arguments.length > 6) ? arguments[6] : null;
 
   // === 1. ロール定義 ===
   lines.push('You are an expert eBay Item Specifics extractor for Japanese sellers.');
@@ -378,23 +375,6 @@ function buildExtractionPrompt_(title, description, category, fields, tag, exist
   lines.push('');
 
   // === 6.5. 既存データ（Step 1結果）===
-  // 交通整理の確定値をexistingDataのコピーに追加（AIプロンプトへのヒント用のみ）
-  var mergedExisting = {};
-  if (existingData && typeof existingData === 'object') {
-    var ek;
-    for (ek in existingData) {
-      if (existingData.hasOwnProperty(ek)) mergedExisting[ek] = existingData[ek];
-    }
-  }
-  if (confirmedData && typeof confirmedData === 'object') {
-    var ck;
-    for (ck in confirmedData) {
-      if (confirmedData.hasOwnProperty(ck) && confirmedData[ck]) mergedExisting[ck] = confirmedData[ck];
-    }
-  }
-  var __origExistingForPrompt = existingData;
-  existingData = mergedExisting;
-
   if (existingData && typeof existingData === 'object') {
     var existingKeys = Object.keys(existingData);
     if (existingKeys.length > 0) {
@@ -411,9 +391,6 @@ function buildExtractionPrompt_(title, description, category, fields, tag, exist
       lines.push('');
     }
   }
-
-  // 元のexistingData参照を復元
-  existingData = __origExistingForPrompt;
 
   // === 7. 出力ルール ===
   lines.push('### OUTPUT RULES');
@@ -610,9 +587,6 @@ function parseExtractionResponse_(responseText, fields, existingData) {
   // _category はメタデータなので除外
   var result = {};
 
-  // 追加: 第4引数（confirmedData）をargumentsから取得
-  var confirmedData = (arguments.length > 3) ? arguments[3] : null;
-
   if (fields && fields.length > 0) {
     // フィールド定義がある場合: 定義に沿ってマッピング
     for (var i = 0; i < fields.length; i++) {
@@ -677,18 +651,6 @@ function parseExtractionResponse_(responseText, fields, existingData) {
       }
       if (isAiBad) {
         result[eKey] = eVal;
-      }
-    }
-  }
-
-  // 交通整理の確定値によるハードオーバーライド（confirmedDataのみ対象）
-  if (confirmedData && typeof confirmedData === 'object') {
-    var cKeys = Object.keys(confirmedData);
-    for (var ci = 0; ci < cKeys.length; ci++) {
-      var cKey = cKeys[ci];
-      var cVal = confirmedData[cKey];
-      if (cVal && cVal !== '') {
-        result[cKey] = cVal;
       }
     }
   }
