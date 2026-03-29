@@ -40,6 +40,16 @@ var SANITIZE_FIELDS_ = {
     'メーカー', 'モデル名', '型番', 'リールタイプ',
     '巻き方向', 'ギア比', 'サイズ/番手', '対象魚種',
     '付属品', 'コンディション', '故障・不具合'
+  ],
+  'Golf': [
+    'ブランド', 'クラブタイプ', 'ロフト角', 'モデル名',
+    '利き手', 'フレックス', 'シャフト素材', 'クラブ番号',
+    'セット構成', '付属品', 'コンディション', '故障・不具合', '製造国'
+  ],
+  'Golf Heads': [
+    'ブランド', 'クラブタイプ', 'ロフト角', 'モデル名',
+    '利き手', '素材', 'ライ角', 'ヘッド形状',
+    'バウンス', '付属品', 'コンディション', '故障・不具合', '製造国'
   ]
 };
 
@@ -779,6 +789,77 @@ function parseSanitizedFields_(content, category) {
     if (descMatch) {
       result.description = descMatch[1].replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
     }
+  }
+
+  return result;
+}
+
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  交通整理結果からの確定値抽出
+  K列の説明文から「フィールド名: 値」形式の構造化データを
+  オブジェクトとして抽出する（ItemSpecificsの確定値ロック用）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+/**
+ * 交通整理済みの説明文（K列）から構造化データをパースしてオブジェクト化する
+ * @param {string} description - K列の交通整理済み説明文
+ * @param {string} category - ISカテゴリ名（例: 'Golf', 'Watches'）
+ * @return {Object} フィールド名(日本語)→値のオブジェクト。該当データがなければ空オブジェクト
+ */
+function extractConfirmedFields_(description, category) {
+  var result = {};
+  if (!description || typeof description !== 'string') return result;
+
+  // カテゴリ別フィールド定義を取得
+  var fields = getSanitizeFields_(category);
+  if (!fields || fields.length === 0) return result;
+
+  for (var i = 0; i < fields.length; i++) {
+    var fieldName = fields[i];
+    // 「フィールド名: 値」または「フィールド名：値」のパターンを検索
+    var re = new RegExp('^' + fieldName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '[：:]\\s*(.+)$', 'm');
+    var match = description.match(re);
+    if (match) {
+      var value = match[1].replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+      // NA/空/不明はスキップ
+      if (value && !/^N\/?A$/i.test(value) && value !== '-' && value !== 'なし' && value !== '不明') {
+        result[fieldName] = value;
+      }
+    }
+  }
+
+  return result;
+}
+
+/**
+ * 日本語フィールド名のオブジェクトを英語フィールド名に変換する
+ * FIELD_EN_TO_JP_の逆引き（JP→EN）を使用
+ * @param {Object} confirmedData - extractConfirmedFields_()の出力（日本語キー→値）
+ * @return {Object} 英語フィールド名→値のオブジェクト。逆引きできないフィールドはスキップ
+ */
+function convertConfirmedToEnglish_(confirmedData) {
+  var result = {};
+  if (!confirmedData || typeof confirmedData !== 'object') return result;
+
+  // FIELD_EN_TO_JP_の逆引きテーブルを構築（JP→EN）
+  var jpToEn = {};
+  var enKeys = Object.keys(FIELD_EN_TO_JP_);
+  for (var i = 0; i < enKeys.length; i++) {
+    var en = enKeys[i];
+    var jp = FIELD_EN_TO_JP_[en];
+    jpToEn[jp] = en;
+  }
+
+  // 日本語キーを英語に変換
+  var jpKeys = Object.keys(confirmedData);
+  for (var j = 0; j < jpKeys.length; j++) {
+    var jpKey = jpKeys[j];
+    var enKey = jpToEn[jpKey];
+    if (enKey) {
+      result[enKey] = confirmedData[jpKey];
+    }
+    // 逆引きできないフィールドはスキップ（AI補完に委ねる）
   }
 
   return result;

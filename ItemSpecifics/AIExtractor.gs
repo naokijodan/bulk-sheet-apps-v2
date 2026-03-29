@@ -127,7 +127,7 @@ function extractItemSpecificsBatch(items) {
           var idx = slice[j];
           var it = items[idx];
           try {
-            prompts.push(buildExtractionPrompt_(it.title, it.description, it.category, it.fields, it.tag, it.existingData));
+            prompts.push(buildExtractionPrompt_(it.title, it.description, it.category, it.fields, it.tag, it.existingData, it.confirmedData));
             meta.push(idx);
           } catch (e) {
             outcomes[idx] = { row: it && it.row, success: false, error: 'プロンプト生成エラー: ' + (e.message || e) };
@@ -172,7 +172,7 @@ function extractItemSpecificsBatch(items) {
               nextQueue.push(itemIndex);
               continue;
             }
-            var data = parseExtractionResponse_(content, item.fields, item.existingData);
+            var data = parseExtractionResponse_(content, item.fields, item.existingData, item.confirmedData);
             outcomes[itemIndex] = { row: item.row, success: true, data: data };
           } catch (e2) {
             nextQueue.push(itemIndex);
@@ -217,6 +217,9 @@ function extractItemSpecificsBatch(items) {
 // プロンプト構築
 function buildExtractionPrompt_(title, description, category, fields, tag, existingData) {
   var lines = [];
+
+  // 追加: 第7引数（confirmedData）をargumentsから取得（既存シグネチャは変更しない）
+  var confirmedData = (arguments.length > 6) ? arguments[6] : null;
 
   // === 1. ロール定義 ===
   lines.push('You are an expert eBay Item Specifics extractor for Japanese sellers.');
@@ -338,6 +341,17 @@ function buildExtractionPrompt_(title, description, category, fields, tag, exist
   lines.push('- Instant cameras (Polaroid, Instax) → "Built-in" or "AA"');
   lines.push('- If specific battery model is mentioned (LP-E6, EN-EL15, NP-FW50 etc.) → "Lithium-Ion"');
   lines.push('');
+  lines.push('### GOLF RULES');
+  lines.push('Loft (golf): Extract degree value. Patterns: "10°", "10deg", "10度", "9.5°", "ロフト10". Format as "X°" (e.g., "10°", "9.5°"). If range like "24-28°", use the primary loft.');
+  lines.push('Golf Club Type (golf): Use eBay standard values: Driver, Fairway Wood, Hybrid, Iron, Iron Set, Putter, Wedge, Utility. Japanese mapping: ドライバー→Driver, アイアン→Iron, アイアンセット→Iron Set, パター→Putter, ウェッジ→Wedge, フェアウェイウッド/FW→Fairway Wood, ユーティリティ/UT→Hybrid.');
+  lines.push('Handedness (golf): "Right-Handed" or "Left-Handed". Japanese: 右利き/右→Right-Handed, 左利き/左→Left-Handed. Default to "Right-Handed" only if no indication at all (most clubs are right-handed).');
+  lines.push('Flex (golf): Use standard values: Regular (R), Stiff (S), Senior (A), Ladies (L), X-Stiff (X). Map: R/レギュラー→Regular, S/スティッフ→Stiff, SR→Stiff, A/シニア→Senior, L/レディース→Ladies, X/エックス→X-Stiff.');
+  lines.push('Shaft Material (golf): "Graphite" or "Steel". Japanese: カーボン→Graphite, スチール→Steel. NS Pro/Dynamic Gold/Project X→Steel. Tour AD/Speeder/Diamana/ATTAS→Graphite.');
+  lines.push('Head Shape (golf): For putters/wedges: Blade, Mallet, Mid-mallet. Japanese: ブレード→Blade, マレット→Mallet, ミッドマレット→Mid-mallet.');
+  lines.push('Set Makeup (golf): Use the set composition as-is. Examples: "5-PW", "3W,5W", "5,6,7,8,9,PW". Normalize Japanese: 番→number only.');
+  lines.push('Bounce (golf): Extract degree value for wedges. Format as "X°" (e.g., "12°", "8°").');
+  lines.push('Club Number (golf): Extract the club number. Examples: "3" (3-wood), "5" (5-iron), "56" (56-degree wedge). For drivers, leave empty.');
+  lines.push('');
   lines.push('### SOAP RULES');
   lines.push('Type (soap): ALWAYS set to "Bar Soap". Do not use other values.');
   lines.push('Scent (soap): Extract fragrance/scent from title/description. Common scents: Rose, Lavender, Citrus, Orange, Honey, Jasmine, Verbena, Green Tea, Sandalwood, Vanilla, Coconut, Herbal, Floral, Unscented. Use English.');
@@ -364,6 +378,23 @@ function buildExtractionPrompt_(title, description, category, fields, tag, exist
   lines.push('');
 
   // === 6.5. 既存データ（Step 1結果）===
+  // 交通整理の確定値をexistingDataのコピーに追加（AIプロンプトへのヒント用のみ）
+  var mergedExisting = {};
+  if (existingData && typeof existingData === 'object') {
+    var ek;
+    for (ek in existingData) {
+      if (existingData.hasOwnProperty(ek)) mergedExisting[ek] = existingData[ek];
+    }
+  }
+  if (confirmedData && typeof confirmedData === 'object') {
+    var ck;
+    for (ck in confirmedData) {
+      if (confirmedData.hasOwnProperty(ck) && confirmedData[ck]) mergedExisting[ck] = confirmedData[ck];
+    }
+  }
+  var __origExistingForPrompt = existingData;
+  existingData = mergedExisting;
+
   if (existingData && typeof existingData === 'object') {
     var existingKeys = Object.keys(existingData);
     if (existingKeys.length > 0) {
@@ -380,6 +411,9 @@ function buildExtractionPrompt_(title, description, category, fields, tag, exist
       lines.push('');
     }
   }
+
+  // 元のexistingData参照を復元
+  existingData = __origExistingForPrompt;
 
   // === 7. 出力ルール ===
   lines.push('### OUTPUT RULES');
@@ -576,6 +610,9 @@ function parseExtractionResponse_(responseText, fields, existingData) {
   // _category はメタデータなので除外
   var result = {};
 
+  // 追加: 第4引数（confirmedData）をargumentsから取得
+  var confirmedData = (arguments.length > 3) ? arguments[3] : null;
+
   if (fields && fields.length > 0) {
     // フィールド定義がある場合: 定義に沿ってマッピング
     for (var i = 0; i < fields.length; i++) {
@@ -640,6 +677,18 @@ function parseExtractionResponse_(responseText, fields, existingData) {
       }
       if (isAiBad) {
         result[eKey] = eVal;
+      }
+    }
+  }
+
+  // 交通整理の確定値によるハードオーバーライド（confirmedDataのみ対象）
+  if (confirmedData && typeof confirmedData === 'object') {
+    var cKeys = Object.keys(confirmedData);
+    for (var ci = 0; ci < cKeys.length; ci++) {
+      var cKey = cKeys[ci];
+      var cVal = confirmedData[cKey];
+      if (cVal && cVal !== '') {
+        result[cKey] = cVal;
       }
     }
   }

@@ -64,25 +64,27 @@
 
 | ファイル | 修正内容 |
 |----------|----------|
-| `ItemSpecifics.gs` | 交通整理済みの説明文（K列）から構造化データをパースする関数を追加 |
+| `Sanitize.gs` | 交通整理済みの説明文（K列）から構造化データをパースする関数を追加 |
 
 ```
-新規関数: parseSanitizedData_(description)
+新規関数: extractConfirmedFields_(description)
 - K列の「フィールド名: 値」形式をパースしてオブジェクト化
 - 例: "ブランド: PING\nロフト角: 10°" → {ブランド: "PING", ロフト角: "10°"}
+- 配置先: Sanitize.gs（交通整理の出力をパースする責務はSanitizeドメイン）
 ```
 
 #### 1-B: 日本語→英語フィールド名変換
 
 | ファイル | 修正内容 |
 |----------|----------|
-| `ItemSpecifics.gs` | FIELD_EN_TO_JP_の逆引きで英語フィールド名に変換する関数を追加 |
+| `Sanitize.gs` | FIELD_EN_TO_JP_の逆引きで英語フィールド名に変換する関数を追加 |
 
 ```
-新規関数: convertSanitizedToEnglish_(sanitizedData)
+新規関数: convertConfirmedToEnglish_(confirmedData)
 - FIELD_EN_TO_JP_を逆引き（JP→EN）してキー名を英語化
 - 例: {ブランド: "PING", ロフト角: "10°"} → {Brand: "PING", Loft: "10°"}
 - 値はそのまま（ブランド名・数値等は英語/英数字のため）
+- 配置先: Sanitize.gs（extractConfirmedFields_と同じモジュール）
 ```
 
 #### 1-C: マージロジック
@@ -202,7 +204,7 @@
 | # | ファイル | 改修 | 変更内容 |
 |---|---------|------|----------|
 | 1 | `Sanitize.gs` | 3 | SANITIZE_FIELDS_にGolf/Golf Heads追加 |
-| 2 | `ItemSpecifics.gs` | 1 | parseSanitizedData_(), convertSanitizedToEnglish_() 追加 |
+| 2 | `Sanitize.gs` | 1 | extractConfirmedFields_(), convertConfirmedToEnglish_() 追加 |
 | 3 | `ItemSpecifics.gs` | 2 | validateItemSpecifics_() 追加 |
 | 4 | `AIExtractor.gs` | 1 | マージロジックに確定値ロック追加 |
 | 5 | `AIExtractor.gs` | 4 | ゴルフ固有NORMALIZATION RULES追加 |
@@ -276,3 +278,15 @@
 - AIに渡す情報を最小化（空フィールドだけ） → ALREADY CONFIRMED DATAの仕組みで対応
 - プログラム側で合成時に上書き不能にする → マージロジックで実装
 - 売上構成比順に横展開 → Phase 2で対応
+
+### 2026-03-30 第2回3者協議（実装前検証）
+
+**設計書への反映事項（全員合意）:**
+1. `parseSanitizedData_` → `extractConfirmedFields_` に改名（既存parseSanitizedFields_との混同防止）
+2. `convertSanitizedToEnglish_` → `convertConfirmedToEnglish_` に改名
+3. 配置先を ItemSpecifics.gs → Sanitize.gs に変更（パース責務はSanitizeドメイン）
+
+**将来課題（Phase2以降）:**
+- 「AI確定」と「手動確定」のフラグ分離（Gemini提案）
+- ユーザー手動修正時のアンロック機能（GPT+Gemini提案）
+- 信頼度スコアによる仮確定/確定の二層化（GPT提案）
