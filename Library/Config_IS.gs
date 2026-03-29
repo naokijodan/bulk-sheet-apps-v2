@@ -2178,6 +2178,11 @@ var IS_BRAND_DICT = [
   {name: 'Movement In Motion', jp_names: ['ムーブメントインモーション', 'MOVEMENT IN MOTION'], country: 'Japan', category: ['Watches']},
   {name: 'Epos', jp_names: ['エポス', 'EPOS'], country: 'Switzerland', category: ['Watches']},
   {name: 'Renautus', jp_names: ['ルノータス', 'RENAUTUS'], country: 'Japan', category: ['Watches']},
+  {name: 'DEADMAN', jp_names: ['デッドマン', 'DEADMAN'], country: 'Japan', category: ['Watches']},
+  {name: 'GANT', jp_names: ['ガント', 'GANT'], country: 'Sweden', category: ['Watches']},
+  {name: 'Rotary', jp_names: ['ロータリー', 'ROTARY'], country: 'UK', category: ['Watches']},
+  {name: 'Just Cavalli', jp_names: ['ジャストカヴァリ', 'ジャストカバリ', 'JUST CAVALLI', 'JUSTCAVALLI'], country: 'Italy', category: ['Watches']},
+  {name: 'Gorilla', jp_names: ['ゴリラ', 'GORILLA'], country: 'Switzerland', category: ['Watches']},
 
   // === Fishing Reels ===
   {name: 'Ryobi', jp_names: ['リョービ', 'RYOBI'], country: 'Japan', category: ['Fishing Reels']},
