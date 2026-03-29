@@ -253,8 +253,20 @@ function runSelectedRowsTranslate() {
             // 自動選択モード: D列タグからプロンプトIDを判定
             if (autoPromptMode) {
               var rowTag = (batchValues[rowIndex][CONFIG.COLUMNS.TAG - 1] || '').toString().trim();
-              if (rowTag && tagToPromptMap[rowTag]) {
-                item.promptId = tagToPromptMap[rowTag];
+              if (rowTag) {
+                if (tagToPromptMap[rowTag]) {
+                  item.promptId = tagToPromptMap[rowTag];
+                } else {
+                  // スペース区切りの先頭部分で再検索（例: 「フィギュア 3000」→「フィギュア」）
+                  var spaceIdx = rowTag.indexOf(' ');
+                  if (spaceIdx === -1) spaceIdx = rowTag.indexOf('　');
+                  if (spaceIdx > 0) {
+                    var baseTag = rowTag.substring(0, spaceIdx);
+                    if (tagToPromptMap[baseTag]) {
+                      item.promptId = tagToPromptMap[baseTag];
+                    }
+                  }
+                }
               }
             }
             items.push(item);
