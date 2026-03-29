@@ -2191,6 +2191,7 @@ var IS_BRAND_DICT = [
   {name: 'JAM HOME MADE', jp_names: ['ジャムホームメイド', 'JAM HOME MADE', 'JAMHOMEMADE'], country: 'Japan', category: ['Watches']},
   {name: 'Nordgreen', jp_names: ['ノードグリーン', 'NORDGREEN'], country: 'Denmark', category: ['Watches']},
   {name: 'Bentley', jp_names: ['ベントレー', 'BENTLEY'], country: 'Japan', category: ['Watches']},
+  {name: 'Orfina', jp_names: ['オルフィナ', 'ORFINA'], country: 'Switzerland', category: ['Watches']},
 
   // === Fishing Reels ===
   {name: 'Ryobi', jp_names: ['リョービ', 'RYOBI'], country: 'Japan', category: ['Fishing Reels']},
