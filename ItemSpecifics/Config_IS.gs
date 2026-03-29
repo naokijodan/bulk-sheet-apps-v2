@@ -819,7 +819,7 @@ var IS_BRAND_DICT = [
   {name: 'ForeAthlete', jp_names: ['フォアアスリート', 'FOREATHLETE'], country: 'USA', parent_brand: 'Garmin', category: ['Watches']},
   {name: 'Forerunner', jp_names: ['フォアランナー', 'FORERUNNER'], country: 'USA', parent_brand: 'Garmin', category: ['Watches']},
   {name: 'Formula 1', jp_names: ['フォーミュラ1', 'FORMULA 1'], country: 'Switzerland', parent_brand: 'TAG Heuer', category: ['Watches']},
-  {name: 'Frederique Constant', jp_names: ['フレデリックコンスタント', 'FREDERIQUE CONSTANT'], country: 'Switzerland'},
+  {name: 'Frederique Constant', jp_names: ['フレデリックコンスタント', 'FREDERIQUE CONSTANT'], country: 'Switzerland', category: ['Watches']},
   {name: 'G-Chrono', jp_names: ['Gクロノ', 'G-CHRONO', 'G CHRONO'], country: 'Italy', parent_brand: 'Gucci', category: ['Watches']},
   {name: 'G-Frame', jp_names: ['Gフレーム', 'G-FRAME', 'G FRAME'], country: 'Italy', parent_brand: 'Gucci', category: ['Watches']},
   {name: 'Galante', jp_names: ['ガランテ', 'GALANTE'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
