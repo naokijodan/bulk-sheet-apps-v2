@@ -3555,6 +3555,12 @@ function ensureTagShippingSheet_(ss) {
             sheet.setColumnWidth(6, 100);
             Logger.log('[ensureTagShippingSheet_] 既存TagShippingシートにSKU略称列を追加しました');
         }
+        // 既存シートの移行処理: I1セルが空ならタグ一覧を出力
+        var i1Value = sheet.getRange(1, 9).getValue();
+        if (!i1Value || String(i1Value).trim() === '') {
+            writeTagListToSheet_(sheet);
+            Logger.log('[ensureTagShippingSheet_] 既存TagShippingシートにタグ一覧を出力しました');
+        }
         return sheet;
     }
 
