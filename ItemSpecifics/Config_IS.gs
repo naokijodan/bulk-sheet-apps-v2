@@ -1186,13 +1186,12 @@ var IS_BRAND_DICT = [
 
   // === Clothing & Fashion ===
   {name: '45rpm', jp_names: ['45アールピーエム', 'フォーティーファイブアールピーエム', '45RPM', '45R'], country: 'Japan'},
-  {name: 'A Bathing Ape', jp_names: ['ベイプ', 'BAPE', 'A BATHING APE', 'アベイシングエイプ'], country: 'Japan'},
+  {name: 'A Bathing Ape', jp_names: ['ベイプ', 'BAPE', 'A BATHING APE', 'アベイシングエイプ'], country: 'Japan', category: ['Watches']},
   {name: 'Agnes b.', jp_names: ['アニエスベー', 'AGNES B'], country: 'France'},
   {name: 'Alden', jp_names: ['オールデン', 'ALDEN'], country: 'USA'},
   {name: 'Alexander Wang', jp_names: ['アレキサンダーワン', 'ALEXANDER WANG'], country: 'USA'},
   {name: 'Anna Sui', jp_names: ['アナスイ', 'ANNA SUI'], country: 'USA'},
   {name: 'Aniplex', jp_names: ['アニプレックス', 'ANIPLEX'], country: 'Japan'},
-  {name: 'BAPE', jp_names: ['ア・ベイシング・エイプ', 'BAPE'], country: 'Japan'},
   {name: 'Bally', jp_names: ['バリー', 'BALLY'], country: 'Switzerland'},
   {name: 'Bang & Olufsen', jp_names: ['バング&オルフセン', 'BANG & OLUFSEN', 'B&O', 'BANG&OLUFSEN'], country: 'Denmark'},
   {name: 'Beams', jp_names: ['ビームス', 'BEAMS'], country: 'Japan'},
@@ -2192,6 +2191,7 @@ var IS_BRAND_DICT = [
   {name: 'Nordgreen', jp_names: ['ノードグリーン', 'NORDGREEN'], country: 'Denmark', category: ['Watches']},
   {name: 'Bentley', jp_names: ['ベントレー', 'BENTLEY'], country: 'Japan', category: ['Watches']},
   {name: 'Orfina', jp_names: ['オルフィナ', 'ORFINA'], country: 'Switzerland', category: ['Watches']},
+  {name: 'BAPEX', jp_names: ['ベイペックス', 'BAPEX'], country: 'Japan', parent_brand: 'A Bathing Ape', category: ['Watches']},
 
   // === Fishing Reels ===
   {name: 'Ryobi', jp_names: ['リョービ', 'RYOBI'], country: 'Japan', category: ['Fishing Reels']},
