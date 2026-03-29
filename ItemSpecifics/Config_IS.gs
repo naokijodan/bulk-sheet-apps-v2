@@ -1294,7 +1294,7 @@ var IS_BRAND_DICT = [
   {name: 'Rimowa', jp_names: ['リモワ', 'RIMOWA'], country: 'Germany'},
   {name: 'SABIAN', jp_names: ['セイビアン', 'SABIAN'], country: 'Canada'},
   {name: 'Salvatore Ferragamo', jp_names: ['サルヴァトーレ フェラガモ', 'フェラガモ', 'SALVATORE FERRAGAMO', 'Ferragamo', 'FERRAGAMO'], country: 'Italy'},
-  {name: 'Salvatore Marra', jp_names: ['サルバトーレマーラ', 'SALVATORE MARRA', 'サルバトーレ マーラ'], country: 'Italy'},
+  {name: 'Salvatore Marra', jp_names: ['サルバトーレマーラ', 'SALVATORE MARRA', 'サルバトーレ マーラ'], country: 'Italy', category: ['Watches']},
   {name: 'Samantha Tiara', jp_names: ['サマンサティアラ', 'SAMANTHA TIARA', 'サマンサ ティアラ'], country: 'Japan'},
   {name: 'Saint Laurent Paris', jp_names: ['サンローランパリ', 'SAINT LAURENT PARIS'], country: 'France'},
   {name: 'Salsa', jp_names: ['サルサ', 'SALSA'], country: 'USA'},
