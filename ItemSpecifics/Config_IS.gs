@@ -2173,6 +2173,11 @@ var IS_BRAND_DICT = [
   {name: 'Corniche', jp_names: ['コーニッシュ', 'CORNICHE'], country: 'Sweden', category: ['Watches']},
   {name: 'Olivia Burton', jp_names: ['オリビアバートン', 'オリビア・バートン', 'OLIVIA BURTON'], country: 'UK', category: ['Watches']},
   {name: 'OSSO ITALY', jp_names: ['オッソイタリー', 'オッソイタリィ', 'OSSO ITALY', 'OSSO'], country: 'Italy', category: ['Watches']},
+  {name: 'KUOE', jp_names: ['クオ', 'KUOE'], country: 'Japan', category: ['Watches']},
+  {name: 'Angel Clover', jp_names: ['エンジェルクローバー', 'ANGEL CLOVER', 'ANGELCLOVER'], country: 'Japan', category: ['Watches']},
+  {name: 'Movement In Motion', jp_names: ['ムーブメントインモーション', 'MOVEMENT IN MOTION'], country: 'Japan', category: ['Watches']},
+  {name: 'Epos', jp_names: ['エポス', 'EPOS'], country: 'Switzerland', category: ['Watches']},
+  {name: 'Renautus', jp_names: ['ルノータス', 'RENAUTUS'], country: 'Japan', category: ['Watches']},
 
   // === Fishing Reels ===
   {name: 'Ryobi', jp_names: ['リョービ', 'RYOBI'], country: 'Japan', category: ['Fishing Reels']},
