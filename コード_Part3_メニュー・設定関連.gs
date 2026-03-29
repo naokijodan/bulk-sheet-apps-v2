@@ -60,7 +60,6 @@ function onOpen() {
       .addSeparator()
       .addItem('🗑️ Policy_Masterキャッシュクリア', 'clearPolicyMasterCache')
       .addSeparator()
-      .addItem('🏷️ タグ一覧を更新（TagShipping）', 'updateTagList')
       .addSubMenu(ui.createMenu('📱 簡易版')
         .addItem('🎯 簡易版を開く', 'openSimpleMode')
         .addItem('🔄 簡易版を更新', 'updateSimpleMode'))
@@ -3587,92 +3586,7 @@ function ensureTagShippingSheet_(ss) {
     // シートを右端に配置（最後のシートの後ろ）
     Logger.log('[ensureTagShippingSheet_] TagShippingシートを新規作成しました');
 
-    // タグ名一覧をI-J列に出力
-    writeTagListToSheet_(sheet);
-
     return sheet;
-}
-
-/**
- * TagShippingシートのI-J列に使えるタグ名一覧を出力する
- * I列: タグ名、J列: 翻訳プロンプト名
- * PROMPT_TAG_MAPPINGからカテゴリ別にグループ化して表示
- * @param {Sheet} sheet - TagShippingシート
- */
-function writeTagListToSheet_(sheet) {
-  if (!sheet) return;
-
-  // I-J列をクリア
-  var lastRow = sheet.getLastRow();
-  if (lastRow > 0) {
-    sheet.getRange(1, 9, Math.max(lastRow, 1), 2).clearContent();
-  }
-
-  var rows = [];
-
-  // ヘッダー
-  rows.push(['使えるタグ名', '翻訳プロンプト']);
-
-  // 説明行
-  rows.push(['※ スペースで補足追加可', '']);
-  rows.push(['例: フィギュア 3000', '']);
-  rows.push(['', '']);
-
-  // PROMPT_TAG_MAPPINGからカテゴリ別に出力
-  for (var category in PROMPT_TAG_MAPPING) {
-    if (!PROMPT_TAG_MAPPING.hasOwnProperty(category)) continue;
-    var tags = PROMPT_TAG_MAPPING[category];
-    // カテゴリ見出し行
-    rows.push(['【' + category + '】', '']);
-    for (var i = 0; i < tags.length; i++) {
-      rows.push([tags[i], category]);
-    }
-  }
-
-  // 一括書き込み
-  if (rows.length > 0) {
-    sheet.getRange(1, 9, rows.length, 2).setValues(rows);
-  }
-
-  // ヘッダー行のスタイル
-  sheet.getRange(1, 9, 1, 2)
-    .setFontWeight('bold')
-    .setBackground('#4285F4')
-    .setFontColor('#FFFFFF')
-    .setHorizontalAlignment('center');
-
-  // 説明行のスタイル（2-3行目をグレー斜体に）
-  sheet.getRange(2, 9, 2, 2)
-    .setFontStyle('italic')
-    .setFontColor('#888888');
-
-  // カテゴリ見出し行を太字にする
-  for (var r = 5; r <= rows.length; r++) {
-    var val = rows[r - 1][0];
-    if (val && val.charAt(0) === '【') {
-      sheet.getRange(r, 9, 1, 2)
-        .setFontWeight('bold')
-        .setBackground('#E8F0FE');
-    }
-  }
-
-  // 列幅設定
-  sheet.setColumnWidth(9, 200);  // I列
-  sheet.setColumnWidth(10, 140); // J列
-}
-
-/**
- * メニューから呼ばれるタグ一覧更新関数
- */
-function updateTagList() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName(CONFIG.TAG_SHIPPING.SHEET_NAME);
-  if (!sheet) {
-    SpreadsheetApp.getUi().alert('TagShippingシートが見つかりません。先に初期設定を実行してください。');
-    return;
-  }
-  writeTagListToSheet_(sheet);
-  SpreadsheetApp.getUi().alert('タグ一覧を更新しました。');
 }
 
 /**
