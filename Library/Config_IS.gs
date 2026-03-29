@@ -1086,7 +1086,7 @@ var IS_BRAND_DICT = [
   {name: 'Vega', jp_names: ['ベガ', 'VEGA'], country: 'USA', parent_brand: 'Nixon', category: ['Watches']},
   {name: 'Ventura', jp_names: ['ベンチュラ', 'VENTURA'], country: 'USA', parent_brand: 'Hamilton', category: ['Watches']},
   {name: 'Venu', jp_names: ['ヴェニュー', 'VENU'], country: 'USA', parent_brand: 'Garmin', category: ['Watches']},
-  {name: 'Victorinox', jp_names: ['ビクトリノックス', 'ヴィクトリノックス', 'VICTORINOX'], country: 'Switzerland', category: ['Watches']},
+  {name: 'Victorinox', jp_names: ['ビクトリノックス', 'ヴィクトリノックス', 'VICTORINOX', 'スイスアーミー', 'SWISS ARMY', 'VICTORINOX SWISS ARMY'], country: 'Switzerland', category: ['Watches']},
   {name: 'Voyager', jp_names: ['ボイジャー', 'VOYAGER'], country: 'Switzerland', parent_brand: 'Rado', category: ['Watches']},
   {name: 'Wave Ceptor', jp_names: ['ウェーブセプター', 'WAVE CEPTOR'], country: 'Japan', parent_brand: 'Casio', category: ['Watches']},
   {name: 'Wicca', jp_names: ['ウィッカ', 'WICCA'], country: 'Japan', parent_brand: 'Citizen', category: ['Watches']},
