@@ -1178,7 +1178,7 @@ var IS_BRAND_DICT = [
   {name: 'Louis Vuitton', jp_names: ['ルイ・ヴィトン', 'LOUIS VUITTON'], country: 'France'},
   {name: 'Manhattan Portage', jp_names: ['マンハッタンポーテージ', 'MANHATTAN PORTAGE'], country: 'USA'},
   {name: '万双', jp_names: ['万双', 'マンソウ', 'MANSOU'], country: 'Japan'},
-  {name: 'Orobianco', jp_names: ['オロビアンコ', 'OROBIANCO'], country: 'Italy'},
+  {name: 'Orobianco', jp_names: ['オロビアンコ', 'OROBIANCO'], country: 'Italy', category: ['Watches']},
   {name: 'Porter', jp_names: ['ポーター', 'PORTER'], country: 'Japan'},
   {name: 'Prada', jp_names: ['プラダ', 'PRADA'], country: 'Italy'},
   {name: 'Saint Laurent', jp_names: ['サンローラン', 'SAINT LAURENT'], country: 'France'},
@@ -2186,6 +2186,8 @@ var IS_BRAND_DICT = [
   {name: 'Mercedes-Benz', jp_names: ['メルセデスベンツ', 'MERCEDES-BENZ', 'MERCEDES BENZ'], country: 'Germany', category: ['Watches']},
   {name: 'Maserati', jp_names: ['マセラティ', 'MASERATI'], country: 'Italy', category: ['Watches']},
   {name: 'Porsche Design', jp_names: ['ポルシェデザイン', 'PORSCHE DESIGN'], country: 'Germany', category: ['Watches']},
+  {name: 'B-Barrel', jp_names: ['ビーバレル', 'B-BARREL', 'BBARREL'], country: 'Japan', category: ['Watches']},
+  {name: 'Shellman', jp_names: ['シェルマン', 'SHELLMAN'], country: 'Japan', category: ['Watches']},
 
   // === Fishing Reels ===
   {name: 'Ryobi', jp_names: ['リョービ', 'RYOBI'], country: 'Japan', category: ['Fishing Reels']},
