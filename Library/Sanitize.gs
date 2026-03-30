@@ -267,10 +267,18 @@ function buildDefaultSanitizePrompt_(category) {
 
   lines.push('');
   lines.push('[EN]セクションのルール:');
-  lines.push('1. フィールド名は上記リストの英語名を正確に使用する。');
-  lines.push('2. 値は英語に翻訳する。ブランド名・モデル名はそのまま。');
-  lines.push('3. パイプ(|)で区切る。例: Brand: TaylorMade | Golf Club Type: Driver | Loft: 10.5°');
-  lines.push('4. ソースにない項目は出力しない。');
+  lines.push('1. 各項目を必ず「フィールド名: 値」の形式で出力する。フィールド名と値はコロン(:)で区切る。');
+  lines.push('2. フィールド名は上記リストの英語名を正確に使用する。');
+  lines.push('3. 値は英語に翻訳する。ブランド名・モデル名はそのまま。');
+  lines.push('4. 項目間はパイプ(|)で区切る。');
+  lines.push('5. ソースにない項目は出力しない。NAは出力しない。');
+  lines.push('6. フィールド名のリストだけを並べてはいけない。必ず「フィールド名: 値」のペアにする。');
+  lines.push('');
+  lines.push('[EN]の出力例（時計の場合）:');
+  lines.push('Brand: Seiko | Model: Presage | Display: Analog | Movement: Automatic | Case Material: Stainless Steel | Dial Color: Blue | Country of Origin: Japan | Accessories: Box, Manual | Condition: Used, Good');
+  lines.push('');
+  lines.push('[EN]の出力例（ゴルフの場合）:');
+  lines.push('Brand: TaylorMade | Golf Club Type: Driver | Loft: 10.5° | Model: SIM2 MAX | Handedness: Right-Handed | Accessories: Head Cover | Condition: Used');
 
   // カメラ用の補足ルール
   if (category === 'Cameras') {
