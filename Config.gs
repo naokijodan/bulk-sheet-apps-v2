@@ -70,7 +70,8 @@ var CONFIG = {
     // AU列: 使用プロンプト（翻訳時に自動記録）
     USED_PROMPT: 47,         // AU列: 使用プロンプトID
     // AV列: 交通整理バックアップ
-    JP_DESC_BACKUP: 48       // AV列: 商品説明バックアップ
+    JP_DESC_BACKUP: 48,      // AV列: 商品説明バックアップ
+    EN_DESC_SANITIZED: 49    // AW列: 交通整理英語版
   },
 
   // 交通整理: カテゴリ判定は IS_TAG_TO_CATEGORY（Config_IS.gs）に統合済み

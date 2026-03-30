@@ -1052,6 +1052,35 @@ function matchFranchise_(text) {
   return null;
 }
 
+/**
+ * 交通整理で確定した英語版（パイプ区切り）をパース
+ * 例: "Brand: Sony | Model: A7 | Color: Black"
+ * @param {string} enText
+ * @return {Object} 英語フィールド名→値
+ */
+function parseConfirmedEnglish_(enText) {
+  var result = {};
+  if (!enText || typeof enText !== 'string') return result;
+  try {
+    var pairs = enText.split('|');
+    for (var i = 0; i < pairs.length; i++) {
+      var pair = String(pairs[i] || '').trim();
+      if (!pair) continue;
+      var colonIdx = pair.indexOf(':');
+      if (colonIdx > 0) {
+        var key = pair.substring(0, colonIdx).trim();
+        var val = pair.substring(colonIdx + 1).trim();
+        if (val && !/^N\/?A$/i.test(val) && val !== '-') {
+          result[key] = val;
+        }
+      }
+    }
+  } catch (e) {
+    Logger.log('[parseConfirmedEnglish_] error: ' + e);
+  }
+  return result;
+}
+
 // =============================
 // 公開: 選択行の抽出
 // =============================
@@ -1117,13 +1146,16 @@ function extractSelectedRows() {
       // 辞書なしでも続行
     }
 
-    // データの読み取り (A:tag, G:title, L:description)
+    // データの読み取り (A:tag, G:title, L:description, AI:confirmed EN)
     var requests = [];
+    var confirmedCol = IS_CONFIG.COLUMNS.CONFIRMED_EN || 35;
+    var confirmedByRow = {};
     for (var i = 0; i < rows.length; i++) {
       var row = rows[i];
       var tag = getValue_(sheet, row, 1);      // A列
       var title = getValue_(sheet, row, 7);    // G列
       var desc = getValue_(sheet, row, 12);    // L列
+      var enConfirmedText = getValue_(sheet, row, confirmedCol); // AI列: 英語版確定値
 
       if (!title && !tag) {
         Logger.log('[extractSelectedRows] skip row ' + row + ' (tag/title empty)');
@@ -1147,6 +1179,8 @@ function extractSelectedRows() {
 
       // Step1で既に書き込まれたデータを読み取る
       var existingData = readExistingSpecifics_(sheet, row);
+      // 交通整理の英語確定値をパースして保持
+      confirmedByRow[row] = parseConfirmedEnglish_(String(enConfirmedText || ''));
 
       requests.push({
         row: row,
@@ -1172,7 +1206,30 @@ function extractSelectedRows() {
       return;
     }
 
-    writeItemSpecificsToSheet_(sheet, results);
+    // 確定値とAI抽出結果をマージ（確定値優先。Accessories/Condition/Defectsは除外）
+    var excluded = { 'Accessories': true, 'Condition': true, 'Defects': true };
+    var mergedResults = [];
+    for (var mr = 0; mr < results.length; mr++) {
+      var item = results[mr] || {};
+      var rowNum = item.row;
+      var aiData = item.data || {};
+      var conf = confirmedByRow[rowNum] || {};
+      var out = {};
+      var k;
+      for (k in aiData) {
+        if (aiData.hasOwnProperty(k) && !excluded[k]) {
+          out[k] = aiData[k];
+        }
+      }
+      for (k in conf) {
+        if (conf.hasOwnProperty(k) && !excluded[k]) {
+          out[k] = conf[k];
+        }
+      }
+      mergedResults.push({ row: rowNum, data: out });
+    }
+
+    writeItemSpecificsToSheet_(sheet, mergedResults);
 
     SpreadsheetApp.getActiveSpreadsheet().toast('完了: ' + results.length + ' 行のItem Specificsを抽出しました', toastTitle, 5);
   } catch (e) {
@@ -1227,11 +1284,14 @@ function extractAllRows() {
     }
 
     var requests = [];
+    var confirmedCol = IS_CONFIG.COLUMNS.CONFIRMED_EN || 35;
+    var confirmedByRow = {};
     var r;
     for (r = dataStartRow; r <= lastRow; r++) {
       var tag = getValue_(sheet, r, 1);   // A
       var title = getValue_(sheet, r, 7); // G
       var desc = getValue_(sheet, r, 12); // L
+      var enConfirmedText = getValue_(sheet, r, confirmedCol); // AI: 35
       if (!tag && !title) {
         continue; // スキップ
       }
@@ -1252,6 +1312,7 @@ function extractAllRows() {
       // category/fieldsがnull/空でもリクエストに含める（AIが自律判定する）
       
       var existingData2 = readExistingSpecifics_(sheet, r);
+      confirmedByRow[r] = parseConfirmedEnglish_(String(enConfirmedText || ''));
 
       requests.push({
         row: r,
@@ -1277,7 +1338,20 @@ function extractAllRows() {
     var results = runExtractionBatchWithRetry_(requests, settings, 2);
 
     if (results && results.length > 0) {
-      writeItemSpecificsToSheet_(sheet, results);
+      var excluded2 = { 'Accessories': true, 'Condition': true, 'Defects': true };
+      var mergedResults2 = [];
+      for (var nr = 0; nr < results.length; nr++) {
+        var it = results[nr] || {};
+        var rowNum2 = it.row;
+        var aiData2 = it.data || {};
+        var conf2 = confirmedByRow[rowNum2] || {};
+        var out2 = {};
+        var kk;
+        for (kk in aiData2) { if (aiData2.hasOwnProperty(kk) && !excluded2[kk]) { out2[kk] = aiData2[kk]; } }
+        for (kk in conf2) { if (conf2.hasOwnProperty(kk) && !excluded2[kk]) { out2[kk] = conf2[kk]; } }
+        mergedResults2.push({ row: rowNum2, data: out2 });
+      }
+      writeItemSpecificsToSheet_(sheet, mergedResults2);
       SpreadsheetApp.getActiveSpreadsheet().toast('完了: ' + results.length + ' 行のItem Specificsを抽出しました', toastTitle, 5);
     } else {
       ui.alert('抽出結果が得られませんでした。');

@@ -239,6 +239,39 @@ function buildDefaultSanitizePrompt_(category) {
     lines.push(brandList);
   }
 
+  // 出力フォーマット: [JA]/[EN] セクション指定と英語フィールド名リスト
+  lines.push('');
+  lines.push('出力フォーマット:');
+  lines.push('必ず[JA]と[EN]の2つのセクションに分けて出力してください。');
+  lines.push('');
+  lines.push('[JA]');
+  lines.push('各項目を「フィールド名: 値」形式で出力（現在と同じ）');
+  lines.push('');
+  lines.push('[EN]');
+  lines.push('各項目を英語フィールド名と英語値で出力。パイプ区切り。');
+  lines.push('英語フィールド名は以下のリストに従ってください（自分で決めない）。');
+  lines.push('');
+  try {
+    if (typeof IS_CATEGORY_FIELDS !== 'undefined') {
+      var enList = IS_CATEGORY_FIELDS[category] || [];
+      var enNames = [];
+      for (var ei = 0; ei < enList.length; ei++) { enNames.push(enList[ei]); }
+      enNames.push('Accessories');
+      enNames.push('Condition');
+      enNames.push('Defects');
+      if (enNames.length > 0) {
+        lines.push('英語フィールド名: ' + enNames.join(' | '));
+      }
+    }
+  } catch (e) {}
+
+  lines.push('');
+  lines.push('[EN]セクションのルール:');
+  lines.push('1. フィールド名は上記リストの英語名を正確に使用する。');
+  lines.push('2. 値は英語に翻訳する。ブランド名・モデル名はそのまま。');
+  lines.push('3. パイプ(|)で区切る。例: Brand: TaylorMade | Golf Club Type: Driver | Loft: 10.5°');
+  lines.push('4. ソースにない項目は出力しない。');
+
   // カメラ用の補足ルール
   if (category === 'Cameras') {
     lines.push('');
@@ -280,6 +313,19 @@ function buildDefaultSanitizePrompt_(category) {
     lines.push('- ストレージ容量: GB単位で記入（例: 32GB, 825GB）。不明ならNA。');
     lines.push('- エディション: 限定版/初期型/後期型/特別カラーモデル等。通常モデルならNA。');
     lines.push('  例: 限定版→限定版, 初期型/CUH-1000→初期型, 後期型/最終型→後期型, ピカチュウ版→ピカチュウエディション');
+  }
+
+  // ゴルフ用の補足ルール
+  if (category === 'Golf' || category === 'Golf Heads') {
+    lines.push('');
+    lines.push('ゴルフ用の補足ルール:');
+    lines.push('- クラブタイプ: ドライバー/フェアウェイウッド/ユーティリティ/アイアン/アイアンセット/ウェッジ/パター のいずれかで記入。英語で書かない。');
+    lines.push('- ロフト角: 数値+°で記入（例: 10.5°, 9°）。「度」は使わない。小数点以下がない場合も°を付ける。');
+    lines.push('- 利き手: 右利き/左利き のいずれかで記入。英語で書かない。記載がなければNA。');
+    lines.push('- モデル名: モデル名のみ記入。クラブタイプ（Driver, ドライバー等）を含めない。');
+    lines.push('- フレックス: R/S/SR/A/L/X のいずれかで記入。');
+    lines.push('- シャフト素材: カーボン/スチール のいずれかで記入。');
+    lines.push('- [EN]セクションでは: Golf Club Type は Driver/Fairway Wood/Hybrid/Iron/Iron Set/Wedge/Putter。Handedness は Right-Handed/Left-Handed。Shaft Material は Graphite/Steel。Loft は数値+°（例: 10.5°）。');
   }
 
   // リール用の補足ルール
@@ -483,6 +529,14 @@ function runSanitizeSelectedRows() {
         // K列のみ上書き（J列はノータッチ）
         sheet.getRange(batchItems[j].row, CONFIG.COLUMNS.JP_DESC)
           .setValue(parsed.description);
+        // AW列に英語版を書き込み（新規追加）
+        if (parsed.enDescription) {
+          sheet.getRange(batchItems[j].row, CONFIG.COLUMNS.EN_DESC_SANITIZED)
+            .setValue(parsed.enDescription);
+        } else if (parsed.description) {
+          // JAは成功したがENがない → パース失敗を記録
+          errorDetails.push('行' + batchItems[j].row + ': [EN]セクションの取得に失敗');
+        }
         successCount++;
 
       } catch (e) {
@@ -579,6 +633,12 @@ function restoreSanitizeSelectedRows() {
   // Step 2: AV列をクリア
   for (var i = 0; i < restoreItems.length; i++) {
     sheet.getRange(restoreItems[i].row, CONFIG.COLUMNS.JP_DESC_BACKUP)
+      .setValue('');
+  }
+
+  // AW列（英語版）もクリア
+  for (var i = 0; i < restoreItems.length; i++) {
+    sheet.getRange(restoreItems[i].row, CONFIG.COLUMNS.EN_DESC_SANITIZED)
       .setValue('');
   }
 
@@ -762,33 +822,67 @@ function parseSanitizeResponse_(platform, httpResp) {
   内部関数: AI出力からタイトル・説明を抽出
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function parseSanitizedFields_(content, category) {
-  var result = { description: '' };
+  var result = { description: '', enDescription: '' };
 
-  // カテゴリ別フィールド定義を取得
+  // [JA]と[EN]セクションを分離（順序非依存）
+  var jaSection = content;
+  var enSection = '';
+  var jaIdx = content.search(/\[JA\]/i);
+  var enIdx = content.search(/\[EN\]/i);
+
+  if (jaIdx >= 0 && enIdx >= 0) {
+    // 両方存在: 位置で切り分け
+    if (jaIdx < enIdx) {
+      jaSection = content.substring(jaIdx + 4, enIdx);
+      enSection = content.substring(enIdx + 4);
+    } else {
+      enSection = content.substring(enIdx + 4, jaIdx);
+      jaSection = content.substring(jaIdx + 4);
+    }
+  } else if (jaIdx >= 0) {
+    // [JA]のみ: [EN]なし（フォールバック）
+    jaSection = content.substring(jaIdx + 4);
+  } else if (enIdx >= 0) {
+    // [EN]のみ: [JA]なし（content全体をJAとして扱う）
+    jaSection = content.substring(0, enIdx);
+    enSection = content.substring(enIdx + 4);
+  }
+  // どちらもない場合: jaSection = content（既存動作と互換）
+
+  jaSection = jaSection.trim();
+  enSection = enSection.trim();
+
+  // 日本語セクション: 既存ロジック
   var fields = getSanitizeFields_(category || 'Watches');
-
   var parts = [];
   for (var i = 0; i < fields.length; i++) {
     var re = new RegExp('^' + fields[i] + '[：:]\\s*(.+)$', 'm');
-    var match = content.match(re);
+    var match = jaSection.match(re);
     if (match) {
       var value = match[1].replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
-      // NAや空の項目はスキップ
       if (value && !/^N\/?A$/i.test(value) && value !== '-' && value !== 'なし' && value !== '不明') {
         parts.push(fields[i] + ': ' + value);
       }
     }
   }
-
-  // 説明: 全項目を連結
   result.description = parts.join(' ');
 
-  // フォールバック: フォーマット形式でない場合は旧形式で試す
+  // フォールバック
   if (!result.description) {
-    var descMatch = content.match(/^説明[：:][\s]*([\s\S]*)$/m);
+    var descMatch = jaSection.match(/^説明[：:][\s]*([\s\S]*)$/m);
     if (descMatch) {
       result.description = descMatch[1].replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
     }
+  }
+
+  // 英語セクション: パイプ区切りの1行に正規化
+  if (enSection) {
+    result.enDescription = enSection
+      .replace(/[\r\n]+/g, ' | ')
+      .replace(/\s*\|\s*\|\s*/g, ' | ')
+      .replace(/^\s*\|\s*/, '')
+      .replace(/\s*\|\s*$/, '')
+      .trim();
   }
 
   return result;

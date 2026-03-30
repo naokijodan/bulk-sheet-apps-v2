@@ -1,57 +1,157 @@
 # 一括シートV3 引き継ぎ文
 
-一括シートV3（~/Desktop/ツール開発/一括シートApps_v3/）の続きをお願いする。
+一括シートV3（~/Desktop/ツール開発/一括シートApps_v3/）のItemSpecifics × 交通整理 統合改修の続き。
 
-## 前回のセッションでやったこと（2026-03-30）
+## セッション開始時の指示
 
-### 1. 既存TagShippingシートのI-J列タグ一覧出力修正
-- ensureTagShippingSheet_で既存シートのI1セルが空の場合にwriteTagListToSheet_を呼ぶ処理を追加
-- コミット: `2f3a242` / git push済み / clasp push済み / 動作確認済み
+前回、設計の前提が間違っていたため実装を巻き戻した。**コードに触る前に、以下を完了すること。**
 
-### 2. ItemSpecifics × 交通整理 統合改修の設計
-- ゴルフのLoftが「Does not apply」になる問題を発端に、全体フローの設計を3者協議
-- 設計書作成: `docs/itemspecifics-sanitize-integration-plan.md`
+1. このHANDOVER.mdを最後まで読む
+2. グローバルルール（~/.claude/CLAUDE.md + ~/.claude/rules/）を全て読む
+3. 開発ノートを**5つのエージェントを並列で立てて**全て読む（場所は以下）:
+   - ~/Desktop/開発ログ/V3開発ログ/ （14ファイル。V3の設計経緯・過去の変更・トラブル対応の詳細が書かれている）
+   - ~/Desktop/開発ログ/一括シートV3_ItemSpecifics_AI主導設計変更_2026-03-02.md（IS抽出の設計変更詳細）
+   - ~/Desktop/開発ログ/一括シートV3_Display・ブランド追加_2026-03-04.md（Display/Case Material問題の試行錯誤と教訓）
+   - ~/Desktop/ツール開発/一括シートApps_v3/docs/itemspecifics-sanitize-integration-plan.md（今回の設計書。**シート構成の前提に誤りがある**ので鵜呑みにしない）
+   - Obsidianノート検索: search_notes で「一括シート」「V3」「ItemSpecifics」「交通整理」「出品2」
+4. コードのデータフローを**5つのエージェントを並列で立てて**調査する:
+   - エージェント1: 作業シート→出品2シートへのデータ転記関数を特定する（コード_Part1〜Part5、Utils.gs、コード内の「出品2」「出品用」を検索）
+   - エージェント2: 翻訳（Translation.gs）の完全なデータフロー（入力列・出力列・翻訳後にK列がどうなるか）
+   - エージェント3: 交通整理（Sanitize.gs）の完全なデータフロー（入力列・出力列・バックアップ・parseSanitizedFields_の出力形式）
+   - エージェント4: ItemSpecifics抽出（ItemSpecifics/ItemSpecifics.gs, AIExtractor.gs）の完全なデータフロー（どのシートのどの列を読み書きするか、extractSelectedRows/extractAllRowsのsheet取得方法）
+   - エージェント5: Config.gs と Config_IS.gs の列定義の完全な対比、メニュー構成（コード_Part3）からユーザーの操作順序を把握
+5. 3と4の調査結果をユーザーに報告する。**報告前にコードに触らない**
+6. 報告後、3者協議で再設計。ユーザーの承認を得てから実装に入る
 
-## 現在のステータス
+---
+
+## 一括シートV3とは何か
+
+eBay輸出ビジネス用のGoogle Apps Scriptライブラリ。スプレッドシート上で商品データを管理し、以下の処理を順番に行う:
+
+1. **交通整理（Sanitize）** — 日本語の商品説明を構造化データに整理する（「ブランド: PING / ロフト角: 10°」のような形式）
+2. **翻訳（Translation）** — 日本語タイトル・説明文を英語に翻訳する
+3. **ItemSpecifics抽出** — AIで英語タイトル・説明文からeBayのItem Specifics（商品属性）を抽出する
+
+## 最重要: 2つのシートがある
+
+このツールには**列定義が異なる2つのシート**がある。これを理解しないと何も作れない。
+
+### 作業シート（Config.gs で定義）
+ユーザーが商品データを入力し、交通整理・翻訳を行うシート。
+
+| 列 | 番号 | 用途 |
+|---|------|------|
+| A | 1 | 日付 |
+| D | 4 | タグ（カテゴリ） |
+| G | 7 | 仕入先 |
+| I | 9 | 仕入価格 |
+| J | 10 | 日本語タイトル |
+| K | 11 | 商品説明（**交通整理がここに構造化データを書き込む**） |
+| L | 12 | セラーID |
+| M | 13 | 英語タイトル（翻訳出力先） |
+| N | 14 | 英語説明文（翻訳出力先） |
+| AV | 48 | 交通整理バックアップ（元のK列データ） |
+
+### 出品2シート（Config_IS.gs で定義）
+ItemSpecificsを抽出・書き込むシート。**列の意味が作業シートと全く違う。**
+
+| 列 | 番号 | 用途 |
+|---|------|------|
+| A | 1 | タグ（カテゴリ） |
+| B | 2 | テンプレ |
+| D | 4 | 仕入先 |
+| G | 7 | **英語タイトル** |
+| L | 12 | **英語説明文（Condition/Description）** |
+| N | 14〜 | ItemSpecifics開始（フラット形式: フィールド名, 値, フィールド名, 値...） |
+
+**同じ列番号でも意味が違う:**
+- 作業シートのG列(7) = 仕入先、出品2のG列(7) = 英語タイトル
+- 作業シートのK列(11) = 商品説明、出品2のK列(11) = private_listing
+- 作業シートのL列(12) = セラーID、出品2のL列(12) = 英語説明文
+
+## 今回やろうとしていること
+
+### 目的
+交通整理が抽出した確定値（ブランド名、ロフト角等）を、ItemSpecifics抽出に反映させたい。現状、交通整理が正しくデータを構造化しても、ItemSpecifics抽出はそれを全く参照せず、AIが独自に推論するため「Does not apply」になることがある。
+
+### 失敗した設計（revert済み）
+交通整理の構造化データ（作業シートK列、日本語）をパースする関数を作り、ItemSpecifics抽出時（出品2シート）に渡そうとした。しかし:
+- ItemSpecificsは出品2シートで動作し、L列(12)=英語説明文を読む
+- 交通整理は作業シートのK列(11)に日本語の構造化データを書く
+- **シートが違う、列が違う、言語が違う。3重に間違っていた**
+
+### 判明した事実（2026-03-30 ユーザー確認済み）
+- 作業シート→出品2シートへの転記は**スプレッドシートの数式**で自動的に行われる（コード内に転記関数は存在しない）
+- **作業シートのK列（交通整理の構造化データ）は出品2シートには転記されない**
+- 翻訳後もK列のデータは保持される（Translation.gsはM列・N列のみ書き込み、K列はノータッチ）
+- つまり、交通整理で抽出した確定値は、現状では出品2シートに渡る手段がない
+- **この制約を前提に、確定値をItemSpecificsに渡す方法を再設計する必要がある**
+
+## 現在のコード状態
+
+### 残っている変更（正しいもの）
+| ファイル | 内容 |
+|---------|------|
+| Sanitize.gs | SANITIZE_FIELDS_にGolf/Golf Heads追加（交通整理用のフィールド定義） |
+| Sanitize.gs | extractConfirmedFields_(description, category) — 「フィールド名: 値」形式の日本語テキストをパースしてオブジェクト化する関数 |
+| Sanitize.gs | convertConfirmedToEnglish_(confirmedData) — FIELD_EN_TO_JP_の逆引きで日本語→英語フィールド名に変換する関数 |
+| AIExtractor.gs | buildExtractionPrompt_にGOLF RULES追加（Loft/Flex/Club Type等の正規化ルール） |
+
+### revertしたもの（設計ミス）
+- ItemSpecifics.gsのconfirmedData取得・受け渡し全て
+- AIExtractor.gsのconfirmedData引数・マージ・ハードオーバーライド全て
+- バリデーション関数（validateItemSpecificsResults_）全て
+
+### gitステータス
 - ブランチ: main
-- 最終コミット: 設計書コミット（確認必要）
-- git push済み、clasp push済み（コード変更分）
+- 最終コミット: `70549b2` revert: ステップ4-5を巻き戻し
+- git push済み、clasp push済み
+- 既存機能への影響なし
 
-## 次にやること（設計書の実装順序に従う）
+## 次にやること（この順番を厳守）
 
-### Phase 1: ゴルフで全フロー検証（設計書参照）
+### ステップ1: 全ノート調査
+- ~/Desktop/開発ログ/ 配下の一括シートV3関連ノートを全て読む
+- Obsidianノートも検索（一括シート、V3、ItemSpecifics、交通整理）
+- 目的: このツールのデータフロー全体を深く理解する
 
-| ステップ | 内容 | 依存 |
-|---------|------|------|
-| 1 | SANITIZE_FIELDS_にゴルフ追加 | なし |
-| 2 | AIExtractorにゴルフ固有ルール追加 | なし |
-| 3 | parseSanitizedData_() + convertSanitizedToEnglish_() 実装 | なし |
-| 4 | マージロジックに確定値ロック実装 | ステップ3 |
-| 5 | バリデーション実装 | ステップ4 |
-| 6 | ゴルフ商品でE2Eテスト | ステップ1-5 |
-| 7 | Library同期 + コミット + clasp push | ステップ6 |
+### ステップ2: コードでデータフロー調査
+- 作業シート→出品2シートへのデータ転記関数を特定する
+- 転記時に何が渡されるか（交通整理のK列データは含まれるか？）
+- 翻訳後のK列の状態を確認する
+- メニュー構成から「ユーザーが実際にどの順番で操作するか」を把握する
 
-### Phase 2: 横展開（Phase 1完了後）
-- 残り57カテゴリのSANITIZE_FIELDS_追加
-- 各カテゴリの必須/推奨フィールド定義
+### ステップ3: 再設計
+- 調査結果に基づき、交通整理の確定値をItemSpecificsにどう渡すか設計する
+- 3者協議で設計を検証する
+- ユーザー承認を得てから実装する
 
-## 設計書
-- `docs/itemspecifics-sanitize-integration-plan.md` — ItemSpecifics × 交通整理 統合改修（3者協議の記録含む）
-- `docs/shipping-mode-refactor-plan.md` — 送料モード共通関数化
+### ステップ4: 実装
+- Codex CLIに委託する
+- Claude+Geminiの2者レビュー必須
+- Library同期、ScriptPropertiesチェック必須
+
+## 設計書（参考、ただし前提に誤りあり）
+- `docs/itemspecifics-sanitize-integration-plan.md`
+- 3者協議の記録も含む
+- **注意: 「K列の説明文からパース」という前提が誤り。出品2シートにK列の交通整理データは存在しない**
 
 ## 関連ファイル
-- 交通整理: `Sanitize.gs` SANITIZE_FIELDS_（L15）、FIELD_EN_TO_JP_（L50）
-- ItemSpecifics抽出: `ItemSpecifics/AIExtractor.gs` extractItemSpecifics()（L34）
-- IS定義: `ItemSpecifics/Config_IS.gs` IS_CATEGORY_FIELDS（L3050）
-- 翻訳プロンプト: `prompts/ゴルフ.txt`
-- タグマッピング: `Config.gs` L213 PROMPT_TAG_MAPPING
-- タグ一覧出力: `コード_Part3` L3602 writeTagListToSheet_
+| ファイル | 役割 | 動作シート |
+|---------|------|-----------|
+| Config.gs | 作業シートの列定義・全体設定 | 作業シート |
+| Config_IS.gs | 出品2シートの列定義・IS設定 | 出品2 |
+| Sanitize.gs | 交通整理（構造化） | 作業シート |
+| Translation.gs | 翻訳（日→英） | 作業シート |
+| ItemSpecifics/ItemSpecifics.gs | IS抽出メイン | 出品2 |
+| ItemSpecifics/AIExtractor.gs | AI抽出・プロンプト・パース | 出品2 |
+| コード_Part3_メニュー・設定関連.gs | メニュー定義 | - |
 
-## 共通の注意事項
-- コーディングはCodex CLIに委託する（L1-1）
-- Claude+Geminiの2者レビュー必須（E-02）
-- Library同期必須、ScriptProperties使用禁止
-- clasp push前にScriptPropertiesチェック必須
-- HtmlTemplates.gsの再生成はconvert_html_to_gs.pyで実行
-- PromptTemplates.gsの再生成はconvert_prompts_to_gs.pyで実行
-- 既存プロンプトは試行錯誤の結晶。構造は壊さないこと
+## 教訓（絶対に守ること）
+1. **調査が先。設計書・引き継ぎ書を鵜呑みにしない。コードとノートで事実確認する**
+2. ルールL0-2: 情報収集 → 会議 → 設計 → 委託
+3. ルールL1-3: Fact/Inference/Unknown を明記。推測で数値・仕様を報告しない
+4. コーディングはCodex CLIに委託する（L1-1）
+5. 承認を得てから実行する（L0-3）
+6. 同じ列番号でもシートによって意味が全く違う。必ずどのシートの話か明記する

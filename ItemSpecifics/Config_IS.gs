@@ -21,7 +21,8 @@ var IS_CONFIG = {
     PRIVATE: 11,     // K列: private_listing
     DESCRIPTION: 12, // L列: Condition/Description
     SHIPPING: 13,    // M列: shipping policy
-    ITEM_SPECIFICS_START: 14  // N列〜: Item Specifics開始列
+    ITEM_SPECIFICS_START: 14,  // N列〜: Item Specifics開始列
+    CONFIRMED_EN: 35  // AI列: 交通整理英語版（確定値）
   },
 
   // 出品2シートの設定
