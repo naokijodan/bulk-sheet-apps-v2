@@ -64,7 +64,9 @@ function step1BasicSelectedRows() {
 
     var results = runStep1Basic_(sheet, rows);
     if (results.length > 0) {
-      writeItemSpecificsToSheet_(sheet, results);
+      // 交通整理の英語確定値を読み取ってマージ（確定値優先）
+      var mergedResults = mergeConfirmedValues_(sheet, rows, results);
+      writeItemSpecificsToSheet_(sheet, mergedResults);
       ss.toast('Step1完了: ' + results.length + ' 行にItem Specificsを出力しました', 'Item Specifics', 5);
     } else {
       ui.alert('出力対象の行がありませんでした。');
@@ -108,7 +110,9 @@ function step1BasicAllRows() {
     ss.toast('Step1実行中... ' + rows.length + ' 行を処理します', 'Item Specifics', 5);
     var results = runStep1Basic_(sheet, rows);
     if (results.length > 0) {
-      writeItemSpecificsToSheet_(sheet, results);
+      // 交通整理の英語確定値を読み取ってマージ（確定値優先）
+      var mergedResults = mergeConfirmedValues_(sheet, rows, results);
+      writeItemSpecificsToSheet_(sheet, mergedResults);
       ss.toast('Step1完了: ' + results.length + ' 行にItem Specificsを出力しました', 'Item Specifics', 5);
     } else {
       ui.alert('出力対象の行がありませんでした。');
@@ -1081,6 +1085,49 @@ function parseConfirmedEnglish_(enText) {
   return result;
 }
 
+/**
+ * 交通整理の英語確定値を読み取り、IS抽出結果とマージする共通関数
+ * step1BasicSelectedRows / step1BasicAllRows / extractSelectedRows / extractAllRows から呼ばれる
+ * @param {Sheet} sheet - 出品2シート
+ * @param {Array<number>} rows - 処理対象の行番号配列
+ * @param {Array<{row: number, data: Object}>} results - IS抽出結果
+ * @return {Array<{row: number, data: Object}>} マージ済み結果
+ */
+function mergeConfirmedValues_(sheet, rows, results) {
+  var confirmedCol = IS_CONFIG.COLUMNS.CONFIRMED_EN || 35;
+  var excluded = { 'Accessories': true, 'Condition': true, 'Defects': true };
+
+  // 各行の確定値を読み取ってパース
+  var confirmedByRow = {};
+  for (var i = 0; i < rows.length; i++) {
+    var enText = getValue_(sheet, rows[i], confirmedCol);
+    confirmedByRow[rows[i]] = parseConfirmedEnglish_(String(enText || ''));
+  }
+
+  // IS結果と確定値をマージ（確定値優先）
+  var merged = [];
+  for (var mr = 0; mr < results.length; mr++) {
+    var item = results[mr] || {};
+    var rowNum = item.row;
+    var aiData = item.data || {};
+    var conf = confirmedByRow[rowNum] || {};
+    var out = {};
+    var k;
+    for (k in aiData) {
+      if (aiData.hasOwnProperty(k) && !excluded[k]) {
+        out[k] = aiData[k];
+      }
+    }
+    for (k in conf) {
+      if (conf.hasOwnProperty(k) && !excluded[k]) {
+        out[k] = conf[k];
+      }
+    }
+    merged.push({ row: rowNum, data: out });
+  }
+  return merged;
+}
+
 // =============================
 // 公開: 選択行の抽出
 // =============================
@@ -1206,29 +1253,8 @@ function extractSelectedRows() {
       return;
     }
 
-    // 確定値とAI抽出結果をマージ（確定値優先。Accessories/Condition/Defectsは除外）
-    var excluded = { 'Accessories': true, 'Condition': true, 'Defects': true };
-    var mergedResults = [];
-    for (var mr = 0; mr < results.length; mr++) {
-      var item = results[mr] || {};
-      var rowNum = item.row;
-      var aiData = item.data || {};
-      var conf = confirmedByRow[rowNum] || {};
-      var out = {};
-      var k;
-      for (k in aiData) {
-        if (aiData.hasOwnProperty(k) && !excluded[k]) {
-          out[k] = aiData[k];
-        }
-      }
-      for (k in conf) {
-        if (conf.hasOwnProperty(k) && !excluded[k]) {
-          out[k] = conf[k];
-        }
-      }
-      mergedResults.push({ row: rowNum, data: out });
-    }
-
+    // 交通整理の英語確定値とマージ（共通関数を使用）
+    var mergedResults = mergeConfirmedValues_(sheet, rows, results);
     writeItemSpecificsToSheet_(sheet, mergedResults);
 
     SpreadsheetApp.getActiveSpreadsheet().toast('完了: ' + results.length + ' 行のItem Specificsを抽出しました', toastTitle, 5);
@@ -1338,19 +1364,10 @@ function extractAllRows() {
     var results = runExtractionBatchWithRetry_(requests, settings, 2);
 
     if (results && results.length > 0) {
-      var excluded2 = { 'Accessories': true, 'Condition': true, 'Defects': true };
-      var mergedResults2 = [];
-      for (var nr = 0; nr < results.length; nr++) {
-        var it = results[nr] || {};
-        var rowNum2 = it.row;
-        var aiData2 = it.data || {};
-        var conf2 = confirmedByRow[rowNum2] || {};
-        var out2 = {};
-        var kk;
-        for (kk in aiData2) { if (aiData2.hasOwnProperty(kk) && !excluded2[kk]) { out2[kk] = aiData2[kk]; } }
-        for (kk in conf2) { if (conf2.hasOwnProperty(kk) && !excluded2[kk]) { out2[kk] = conf2[kk]; } }
-        mergedResults2.push({ row: rowNum2, data: out2 });
-      }
+      // 交通整理の英語確定値とマージ（共通関数を使用）
+      var allRows = [];
+      for (var ar = dataStartRow; ar <= lastRow; ar++) { allRows.push(ar); }
+      var mergedResults2 = mergeConfirmedValues_(sheet, allRows, results);
       writeItemSpecificsToSheet_(sheet, mergedResults2);
       SpreadsheetApp.getActiveSpreadsheet().toast('完了: ' + results.length + ' 行のItem Specificsを抽出しました', toastTitle, 5);
     } else {
