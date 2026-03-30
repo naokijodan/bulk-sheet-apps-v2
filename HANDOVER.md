@@ -1,132 +1,152 @@
 # 一括シートV3 引き継ぎ文
 
-一括シートV3（~/Desktop/ツール開発/一括シートApps_v3/）のItemSpecifics × 交通整理 統合改修の続き。
+一括シートV3（~/Desktop/ツール開発/一括シートApps_v3/）の軽量翻訳プロンプト実装。
 
 ## セッション開始時の指示
 
-**コードに触る前に、以下を全て読むこと。**
+**コードに触る前に、以下を全て読むこと。前回、事実確認せずに実装して失敗した。**
 
 1. このHANDOVER.mdを最後まで読む
 2. グローバルルール（~/.claude/CLAUDE.md + ~/.claude/rules/）を読む
 3. プロジェクトルール（~/Desktop/ツール開発/一括シートApps_v3/CLAUDE.md）を読む
 4. 開発ノートを確認する（場所は「参照すべきファイル」セクションに記載）
-5. gitログで最新の変更を確認する
+5. `git log --oneline b0538a4..HEAD` で前回以降の変更を確認する
+6. 設計書（このファイルの「次にやること」セクション）を読む
 
 ---
 
 ## 前回のセッションでやったこと
 
-### 実装済み（コミット・clasp push済み）
+### 1. 交通整理の2パス化（b0538a4、コミット・clasp push済み）
 
-1. **交通整理に[JA]/[EN]同時出力を追加**（4ef3660）
-   - プロンプトに[JA]と[EN]の2セクション出力指示を追加
-   - parseSanitizedFields_を[JA]/[EN]セクション分離に対応（順序非依存）
-   - AW列(49)に英語版構造化データを書き込み
-   - 復元時にAW列もクリア
-   - Config.gsにEN_DESC_SANITIZED: 49を追加
+1パスでJA+ENを同時出力していたプロンプトを2パスに分離した:
+- パス1: 日本語構造化のみ（[EN]指示を削除、軽量化）→ K列に書き込み
+- パス2: K列結果を英語化 → AW列(49)に書き込み
+- バリデーション追加（ブランド空チェック、フィールド数チェック）
+- 失敗行リトライ（MAX_RETRIES=3、指数バックオフ）
+- 経過時間監視（5分超過で新規バッチ停止）
+- parseSanitizedFields_簡素化（[EN]分離ロジック削除）
 
-2. **ISの確定値マージ**（1559947, 6dba1da）
-   - 出品2シートのAI列(35)から英語版確定値を読み取り
-   - parseConfirmedEnglish_（パイプ区切りパーサー）
-   - mergeConfirmedValues_（共通マージ関数、確定値優先）
-   - step1BasicSelectedRows / step1BasicAllRowsにマージを追加
-   - 日本語防波堤（確定値に日本語があればスキップ、半角カナ含む）
+レビューで発見・修正した4件:
+- CRITICAL: パス2のK列読み込みが非連続行で壊れる → 行ごと個別取得に変更
+- HIGH: パス1プロンプトにCATEGORY_RULES_の[EN]行が混入 → [EN]行をフィルタ
+- MEDIUM: validateSanitizedResult_の正規表現エスケープ不足 → 修正
+- MINOR: 未使用変数ui → 削除
 
-3. **全カテゴリの補足ルール追加**（9a7803b）
-   - 24カテゴリに交通整理用の補足ルールを追加（Watches, Rings, ジュエリー7種, ファッション系, 楽器, ゲーム, 着物, 刀剣, 美術, レコード等）
+### 2. リール13件のテスト結果確認
 
-4. **CATEGORY_RULES_へのリファクタリング**（b0ce362）
-   - 24カテゴリ分のif文を定数オブジェクトに切り出し
-   - buildDefaultSanitizePrompt_内を5行の参照コードに削減
+交通整理は高速化に成功。しかし翻訳が遅い問題が判明。
+調査の結果、以下が判明:
+- 交通整理でK列に構造化データ、AW列に英語版が入っているのに、翻訳はK列の構造化データに対して生テキスト前提の127行プロンプトを適用している（二重処理）
+- AW列の英語構造化データは翻訳で一切使われていない
 
-5. **製造国ルール追加**（8b63a33）
-   - ブランドの本国を記入、Made in ○○は無視するルールを共通ルールに追加
+### 3. 軽量翻訳プロンプトの設計（3者協議済み・承認済み・未実装）
 
-### 列配置（確定・数式設定済み）
+AW列（英語構造化データ）のみを入力とする軽量プロンプトを設計した。詳細は「次にやること」セクションに記載。
 
-| シート | 列 | 内容 |
-|--------|-----|------|
-| 作業シート AW(49) | 交通整理英語版 | コードが書き込み |
-| 出品用シート T | =ARRAYFORMULA('作業シート'!AW5:AW) | ユーザー設定済み |
-| 出品2シート AI(35) | =ARRAYFORMULA('出品用シート'!T3:T) | ユーザー設定済み |
+### リールの品質問題（未修正）
 
-### データチェーン（完全版）
-
-```
-作業シート → 出品用シート → 出品2シート
-
-作業シートD(タグ) → 出品用C → 出品2A
-作業シートE(テンプレ) → 出品用D → 出品2B
-作業シートF(参考eBay) → 出品用E → 出品2C
-作業シートG(仕入先) → 出品用F → 出品2D
-作業シートH(仕入先コード) → 出品用G → 出品2E
-作業シートAGorR(出品価格) → 出品用H → 出品2F
-作業シートM(英語タイトル) → 出品用I → 出品2G
-作業シートC(label) → 出品用J → 出品2H
-数式なし(Offer了承) → 出品用K → 出品2I
-数式なし(Offer拒否) → 出品用L → 出品2J
-TRUE固定(private) → 出品用M → 出品2K
-作業シートN(英語説明文) → 出品用N → 出品2L
-作業シートO(shipping) → 出品用O → 出品2M
-N列(14)〜: IS開始
-作業シートAW(交通整理EN) → 出品用T → 出品2AI(35)
-```
+テスト結果で以下の問題を発見（修正は軽量プロンプト実装後）:
+- リールタイプ誤判定: アンタレス・オシアコンクエストCT・SALTIGA 15HL-SJがスピニングになる（ベイトが正しい）
+- サイズ/番手→Line Capacityの誤マッピング: AW列で「Line Capacity: 8000」になる（サイズ/番手が正しい）
+- 原因: CATEGORY_RULES_['Fishing Reels']にベイト判定ヒントがない、[EN]タグ付きルールがない
 
 ---
 
-## 現在の問題（次にやるべきこと）
-
-### 最優先: 交通整理の2パス化
-
-**問題:** [JA]/[EN]同時出力でプロンプトが複雑になり、品質が低下した
-- 処理時間が数倍に増加
-- 失敗率上昇（59件中2件エラー、ブランド未抽出も複数）
-- AIの注意が分散
-
-**3者協議の結論（GPT+Claude合意、Gemini CLI障害で参加不可）:**
-
-交通整理を2パスに分ける:
-
-**1回目（軽量・日本語のみ）:**
-- 従来通り日本語の構造化のみ
-- [EN]セクションは出さない
-- カテゴリ別補足ルール（CATEGORY_RULES_）は残す
-- K列に書き込み
-
-**2回目（チェック+英語化+再試行）:**
-- 1回目のK列結果を入力として受け取る
-- GAS側で軽量チェック（APIを呼ばず）:
-  - ブランドが空でないか
-  - フィールド数が最低限あるか
-- チェックNG → 元データ（AV列）と1回目結果を渡してAIに再試行
-- チェックOK → AIに英語版を生成させてAW列に書き込み
-
-**リトライ:** 1回目失敗は1回リトライ、2回目失敗は1回リトライ（計最大4回）
-
-### 未実施: Geminiレビュー
-
-以下のコミットはGemini CLIの障害（429 + thinking_levelエラー）でGeminiレビューが未完了:
-- b0ce362 refactor: CATEGORY_RULES_切り出し → Geminiレビュー途中でPASS（ファイル読み込みまで完了、結論出た）
-- 6dba1da, 8b63a33, 0571887 → Codex(GPT)レビューのみ実施
-
-Gemini CLI復旧後に追加レビューを実施すること。
-
-### Gemini CLI設定問題
-
-- settings.jsonを元の状態に戻した（モデル指定なし）
-- 短い質問は動くが、エージェントモード（ファイル読み込み）で429が発生
-- Google側のインフラ変更が原因（公式アラート: トラフィック優先度変更中）
-- settings.jsonにモデル指定を追加するとthinking_levelエラーが発生するバグあり（v0.35.3）
-- **settings.jsonは触らないこと。** 元の状態が最も安定
-
----
-
-## gitステータス
+## 現在のステータス
 
 - ブランチ: main
-- 最終コミット: `0571887` fix: 日本語検出の正規表現に半角カナを追加
+- 最終コミット: `b0538a4` refactor: 交通整理を2パス化（日本語構造化+英語化を分離）
 - git push済み、clasp push済み
-- 既存機能への影響: 交通整理のプロンプト変更により品質低下あり（2パス化で解決予定）
+- Gemini CLI: 429障害中（settings.jsonは触らない）
+
+---
+
+## 次にやること
+
+### タスク1: 軽量翻訳プロンプトの実装（最優先）
+
+#### 設計（3者協議済み・ユーザー承認済み）
+
+**目的:** 交通整理済みの行に対して、AW列（英語構造化データ）のみを入力とする軽量プロンプトで翻訳を高速化する。
+
+**分岐ロジック:**
+```
+AW列に値あり → 軽量プロンプト（LightTranslation.gs）
+AW列が空     → 従来プロンプト（GPT_Promptsシートから取得）
+```
+
+**新規ファイル: LightTranslation.gs**
+
+データ駆動設計。LIGHT_TRANSLATION_RULES_（カテゴリ別SEOルール定数）+ buildLightTranslationPrompt_(category, sanitizedEN)関数。
+
+8グループ対応:
+- Fishing Reels（タグ: リール, 電動リール）
+- Watches（タグ: 時計, 腕時計, ウォッチ, 懐中時計）
+- Cameras（タグ: カメラ, デジカメ, 一眼レフ, ミラーレス）
+- Golf / Golf Heads（タグ: ゴルフ, ゴルフクラブ, ゴルフヘッド）
+- Jewelry = Rings, Necklaces, Bracelets, Earrings, Brooches, Cufflinks, Charms, Tie Accessories（タグ: ネックレス, リング, 指輪, ブレスレット, ピアス等）
+- Video Game Consoles（タグ: ゲーム機）
+- Clothing = Clothing, Shoes, Handbags, Wallets, Hats, Scarves, Neckties, Belts等（タグ: 衣類, 靴, バッグ, 財布等）
+- Trading Cards（タグ: ポケカ, 遊戯王, MTG, トレカ等）
+
+共通テンプレート部分（全カテゴリ共通）:
+- ロール定義: "You are a professional eBay listing expert specializing in {role} and SEO optimization."
+- GOALS: 構造化データからeBay出品文を生成。ASCII only。入力にない情報を追加しない
+- TITLE: 75-80文字（80文字にできるだけ近づける）、ブランド先頭30文字以内、禁止記号
+- DESCRIPTION: 1000文字以内、第1文にブランド+モデル+商品タイプ、Defectsは必ず記載
+- PRODUCTNAME, CATEGORY, OUTPUT FORMAT, VERIFICATION
+
+カテゴリ固有部分（LIGHT_TRANSLATION_RULES_から動的生成）:
+- SEOキーワード順序（リール: Brand→Model→Size→Reel Type→Gear...、時計: Brand→Collection→Movement→Watch Type...）
+- カテゴリ固有ルール（リール: ギアコード展開、時計: 腕周りcm/inch、カメラ: レンズルール等）
+- Descriptionに含めるスペック項目リスト
+- ProductNameフォーマット
+- Categoryの選択肢
+- VERIFICATION固有チェック項目
+
+**既存ファイルの変更:**
+
+| ファイル | 変更内容 |
+|---------|----------|
+| Translation.gs | batchValues範囲をAW列(49)まで拡張、itemにsanitizedEN/categoryプロパティ追加 |
+| AI.gs | buildRequestForProvider_に軽量プロンプト分岐追加（item.sanitizedENあれば軽量版、なければ従来） |
+| Library/LightTranslation.gs | 新規同期 |
+| Library/Translation.gs | 同期 |
+| Library/AI.gs | 同期 |
+
+**Condition判定（Translation.gsのapplyTranslationToRow_付近で実装）:**
+- AW列のConditionフィールドを正規表現で抽出: New/Unused→新品、Used/傷等→中古
+- Defectsフィールドあり→強制的に「中古」
+- Condition欠損→何も入れない（AE列を空のまま）
+- 実装箇所: Translation.gsでM列・N列・AE列に書き込む前に、AW列からConditionを解釈してAE列の値を決定する
+
+**重要な仕様:**
+- タイトル: 75-80文字（既存プロンプトの68-75文字とは異なる。ユーザー指示で変更）
+- Description: 1000文字以内（既存の480文字とは異なる。eBayの上限に合わせた）
+- sanitizeInputJP_: 交通整理済みならスキップ（AW列に不要情報はない）
+- sanitizeListingText_: 残す（Post-process最終防衛線）
+- 入力はAW列のみ。J列（日本語タイトル）、K列（日本語構造化）は使わない
+- J列タイトルは交通整理のパス1で参照済み（buildDefaultSanitizePrompt_の「タイトル（参考）: ${jpTitle}」）。構造化データにブランド・モデル等が含まれているので軽量翻訳では不要
+
+#### 実装手順（ステップごとにレビュー）
+
+1. LightTranslation.gs新規作成 → Codexに委託 → Claude+GPTレビュー
+2. Translation.gs変更 → Codexに委託 → Claude+GPTレビュー
+3. AI.gs変更 → Codexに委託 → Claude+GPTレビュー
+4. Library同期（`cp LightTranslation.gs Library/`, `cp Translation.gs Library/`, `cp AI.gs Library/` → `diff`で差分なし確認 → `grep -rn "getScriptProperties" Library/*.gs`でScriptProperties混入なし確認）
+5. 最終レビュー → コミット → clasp push → テスト
+6. 注意: 既存のvalidateTranslationResult_はタイトル68-75字/説明文480字で検証している。軽量翻訳の出力（75-80字/1000字）に合わせて検証ロジックの更新が必要か確認すること
+
+### タスク2: リールのCATEGORY_RULES_改善（タスク1の後）
+
+- ベイト/スピニング判定ヒントを追加（モデル名リスト: Antares→ベイト、Stella→スピニング等）
+- [EN]タグ付きルールを追加（サイズ/番手≠Line Capacity、リールタイプの英語変換等）
+- IS_BRAND_DICTの「Shimano Bait」「Shimano Spinning」分類を活用できるか検討
+
+### タスク3: Obsidianノート作成
+
+今回のセッションの記録をObsidianに作成。
 
 ---
 
@@ -137,42 +157,47 @@ Gemini CLI復旧後に追加レビューを実施すること。
 | ファイル | 内容 | 重要度 |
 |---------|------|--------|
 | `CLAUDE.md` | プロジェクトルール（Library同期、ScriptProperties禁止等） | 必読 |
-| `Sanitize.gs` | 交通整理メイン。CATEGORY_RULES_, buildDefaultSanitizePrompt_, parseSanitizedFields_, runSanitizeSelectedRows | 最重要 |
-| `ItemSpecifics/ItemSpecifics.gs` | IS抽出。mergeConfirmedValues_, parseConfirmedEnglish_, step1BasicSelectedRows, writeItemSpecificsToSheet_ | 重要 |
-| `ItemSpecifics/Config_IS.gs` | 出品2シートの列定義。CONFIRMED_EN: 35, IS_CATEGORY_FIELDS, IS_TAG_TO_CATEGORY | 重要 |
-| `Config.gs` | 作業シートの列定義。EN_DESC_SANITIZED: 49 | 参照 |
-| `ItemSpecifics/AIExtractor.gs` | AI抽出プロンプト。GOLF RULES, buildExtractionPrompt_ | 参照 |
-| `docs/itemspecifics-sanitize-integration-plan.md` | 元の設計書（前提に誤りあり、参考程度） | 参考 |
+| `Sanitize.gs` | 交通整理メイン。2パス化済み。CATEGORY_RULES_, buildDefaultSanitizePrompt_, buildEnglishizePrompt_, validateSanitizedResult_, parseSanitizedFields_, runSanitizeSelectedRows | 最重要 |
+| `Translation.gs` | 翻訳メイン。変更対象。検索用キーワード: `tagToPromptMap`（プロンプト自動選択マップ構築）、`var item =`（itemオブジェクト構築）、`batchDataRange`（読み込み範囲定義） | 最重要（変更対象） |
+| `AI.gs` | AI呼び出し。変更対象。検索用キーワード: `function createAIPrompt`、`function sanitizeInputJP_`、`function buildRequestForProvider_`、`function callAI_parallel_`、`function executeTranslationWithRetry_` | 最重要（変更対象） |
+| `Config.gs` | 列定義。検索: `COLUMNS:`。JP_TITLE:10, JP_DESC:11, EN_TITLE:13, EN_DESC:14, CONDITION:31, JP_DESC_BACKUP:48, EN_DESC_SANITIZED:49。`PROMPT_TAG_MAPPING`はドキュメント用のみ、実装上未使用 | 重要 |
+| `ItemSpecifics/Config_IS.gs` | 検索: `IS_CATEGORY_FIELDS`、`IS_BRAND_DICT`（Shimano Bait/Spinning等の分類あり）、`IS_TAG_TO_CATEGORY`、`function getBrandListForSanitize_` | 重要 |
+| `ItemSpecifics/AIExtractor.gs` | IS抽出プロンプト。検索: `function buildExtractionPrompt_`。リール正規化ルールは`Reel Type (fishing reels)`で検索 | 参照 |
+| `コード_Part1_価格計算・バッチ処理.gs` | 検索: `function getPromptContent`、`function validateTranslationResult_`。翻訳メインフローは`翻訳フェーズ`で検索 | 参照 |
+
+### 翻訳プロンプトファイル（軽量版設計の参考）
+
+| ファイル | 内容 |
+|---------|------|
+| `~/Desktop/ツール開発/プロンプト編集/リールプロンプトV1.txt` | リール翻訳プロンプト127行。SEOルール・故障用語辞書を含む |
+| `~/Desktop/ツール開発/プロンプト編集/時計プロンプトV10.txt` | 時計翻訳プロンプト108行。腕周りルール・Display推論ルール |
+| `~/Desktop/ツール開発/プロンプト編集/カメラプロンプトV1.txt` | カメラ翻訳プロンプト107行。レンズルール・シャッター回数ルール |
+| `~/Desktop/ツール開発/プロンプト編集/ゴルフプロンプトV1.txt` | ゴルフ翻訳プロンプト。ロフト角・シャフト情報ルール |
+| `~/Desktop/ツール開発/プロンプト編集/ジュエリー専用プロンプト_v4.txt` | ジュエリー翻訳プロンプト。素材変換・リングサイズ変換 |
+| `~/Desktop/ツール開発/プロンプト編集/ゲーム機プロンプトV1.txt` | ゲーム機翻訳プロンプト。コンソール名マッピング・NTSC-J |
+| `~/Desktop/ツール開発/プロンプト編集/アパレルプロンプト.txt` | アパレル翻訳プロンプト。サイズ変換・欠品表記 |
+| `~/Desktop/ツール開発/プロンプト編集/ポケカプロンプト_改善版V9.txt` | ポケカ翻訳プロンプト。グレード検出・レアリティコード |
 
 ### 開発ノート
 
 | ファイル | 内容 |
 |---------|------|
-| `~/Desktop/開発ログ/V3開発ログ/` | V3の設計経緯・過去の変更・トラブル対応（14ファイル） |
-| `~/Desktop/開発ログ/一括シートV3_ItemSpecifics_AI主導設計変更_2026-03-02.md` | IS抽出の設計変更詳細 |
-| `~/Desktop/開発ログ/一括シートV3_Display・ブランド追加_2026-03-04.md` | Display/Case Material問題の教訓 |
-| Obsidianノート「一括シートV3_ItemSpecifics交通整理統合.md」 | 今回の統合改修の記録 |
+| Obsidian「一括シートV3_ItemSpecifics交通整理統合.md」 | 今回の統合改修の記録 |
+| Obsidian「一括シートV3_時計プロンプト改善.md」 | 翻訳プロンプトの進化過程V2→V10、3層構造（Pre/AI/Post）の設計思想、GPT_Promptsシートの登録状況 |
+| `~/Desktop/開発ログ/V3開発ログ/` | V3の設計経緯・過去の変更・トラブル対応 |
 
-### Git履歴（重要コミット）
+### テスト結果
 
-```
-0571887 fix: 日本語検出の正規表現に半角カナを追加
-8b63a33 fix: 製造国はブランドの本国を記入するルールを追加
-6dba1da fix: マージ時に日本語を含む確定値をスキップする防波堤を追加
-1559947 fix: メニューから呼ばれる関数に確定値マージを追加
-b0ce362 refactor: カテゴリ別補足ルールをCATEGORY_RULES_に切り出し
-9a7803b feat: 全カテゴリの交通整理補足ルールを追加
-b72c749 fix: Library同期漏れ修正 + ENセクションプロンプト改善
-4ef3660 feat: 交通整理に英語版同時出力を追加、ISとの統合改修
-70549b2 revert: ステップ4-5を巻き戻し（シート構成の矛盾が判明）
-```
+| ファイル | 内容 |
+|---------|------|
+| `~/Desktop/結果確認_再テスト.csv` | リール13件のテスト結果（交通整理+翻訳）。Shift-JIS。品質問題の確認用 |
 
 ---
 
 ## 2つのシートの列定義（最重要）
 
 ### 作業シート（Config.gs）
-D(4)=タグ, J(10)=日本語タイトル, K(11)=商品説明, M(13)=英語タイトル, N(14)=英語説明文, AV(48)=交通整理バックアップ, AW(49)=交通整理英語版
+D(4)=タグ, J(10)=日本語タイトル, K(11)=商品説明, M(13)=英語タイトル, N(14)=英語説明文, AE(31)=商品状態, AV(48)=交通整理バックアップ, AW(49)=交通整理英語版
 
 ### 出品2シート（Config_IS.gs）
 A(1)=タグ, G(7)=英語タイトル, L(12)=英語説明文, N(14)〜=IS開始, AI(35)=交通整理英語版
@@ -192,12 +217,32 @@ A(1)=タグ, G(7)=英語タイトル, L(12)=英語説明文, N(14)〜=IS開始, 
 
 ---
 
+## 翻訳プロンプト自動選択の仕組み（重要）
+
+1. 作業シートAS3セルが「自動選択」→ Translation.gsがGPT_PromptsシートのE列（タグ）からtagToPromptMapを動的構築
+2. 行ごとにD列タグ → tagToPromptMapでプロンプトID判定 → GPT_Promptsシートからプロンプト本文取得
+3. Config.gsのPROMPT_TAG_MAPPINGは**ドキュメント用のみ、実装上未使用**。真のソースはGPT_Promptsシート
+4. 軽量翻訳では**この仕組みを迂回**する（AW列に値があればLightTranslation.gsのハードコードプロンプトを使用）
+
+---
+
+## データチェーン
+
+```
+作業シート → 出品用シート → 出品2シート
+
+作業シートK(交通整理済み日本語) → 翻訳AI → M(英語タイトル), N(英語説明文)
+作業シートAW(交通整理英語版) → 出品用シートT列（=ARRAYFORMULA('作業シート'!AW5:AW)） → 出品2シートAI列(35)
+```
+
+---
+
 ## 教訓（このセッションで学んだこと）
 
-1. **メニュー→関数の対応を必ず確認する。** マージロジックをextractSelectedRowsに入れたが、メニューはstep1BasicSelectedRowsを呼んでいた
-2. **Library同期を忘れない。** ItemSpecifics/フォルダのファイルはLibrary/直下に同期が必要
-3. **プロンプトを複雑にしすぎるとAIの品質が下がる。** JA+EN同時出力は改悪だった。2パス化で解決する
-4. **settings.jsonは触らない。** Gemini CLIのモデル指定を追加するとthinking_levelエラーが発生する
-5. **協議すべき判断を独断で下さない。** 「今はやらない」という判断も協議が必要
-6. **レビュー時はコードの品質だけでなく「正しい場所に入っているか」を確認する**
-7. **事実確認が先。** 出品2シートの数式を確認せずに実装して失敗した（前回セッション）。メニュー→関数の対応を確認せずに実装して失敗した（今回セッション）
+1. **情報収集はエージェントに並列で委託する。** 自分でGrep/Readを繰り返すとコンテキストを浪費する
+2. **ノートを先に確認する。** コードから探し回る前に開発ノートを見ればプロンプトの保管場所や設計思想がわかった
+3. **翻訳プロンプトの自動選択はGPT_PromptsシートのE列（タグ）から動的構築。** Config.gsのPROMPT_TAG_MAPPINGはドキュメント用のみ
+4. **交通整理の結果を翻訳に活用していなかった。** AW列の英語構造化データが翻訳で使われていなかった。これが翻訳速度低下の根本原因
+5. **カテゴリ別SEOルールは翻訳プロンプトに依存する。** 汎用プロンプトでは対応できない
+6. **eBayのタイトルは80文字以内、Descriptionは1000文字。** 既存プロンプトの68-75字/480字は保守的すぎた
+7. **Condition欠損時は何も入れない。** 安全側＝「中古」ではなく、安全側＝「空」
