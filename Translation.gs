@@ -240,6 +240,9 @@ function runSelectedRowsTranslate() {
         var batchDataRange = sheet.getRange(minRow, 1, maxRow - minRow + 1, CONFIG.COLUMNS.EN_TITLE);
         var batchValues = batchDataRange.getValues();
 
+        // AW列（交通整理英語版）を一括読み込み（軽量翻訳判定用）
+        var awValues = sheet.getRange(minRow, CONFIG.COLUMNS.EN_DESC_SANITIZED, maxRow - minRow + 1, 1).getValues();
+
         for (var k = 0; k < batch.length; k++) {
           var row = batch[k];
           var rowIndex = row - minRow;
@@ -250,18 +253,29 @@ function runSelectedRowsTranslate() {
 
           if (jpTitle && jpDesc && costYen > 0 && !enTitle) {
             var item = { row: row, jpTitle: jpTitle, jpDesc: jpDesc, costYen: costYen };
-            // 自動選択モード: D列タグからプロンプトIDを判定
-            if (autoPromptMode) {
-              var rowTag = (batchValues[rowIndex][CONFIG.COLUMNS.TAG - 1] || '').toString().trim();
-              if (rowTag) {
-                if (tagToPromptMap[rowTag]) {
-                  item.promptId = tagToPromptMap[rowTag];
-                } else {
-                  // スペース区切りの先頭部分で再検索（例: 「フィギュア 3000」→「フィギュア」）
-                  var baseTag = rowTag.split(/[\s　]/)[0];
-                  if (baseTag !== rowTag && tagToPromptMap[baseTag]) {
-                    item.promptId = tagToPromptMap[baseTag];
-                  }
+
+            // D列タグを取得（軽量翻訳判定 + 自動選択モードの両方で使用）
+            var rowTag = (batchValues[rowIndex][CONFIG.COLUMNS.TAG - 1] || '').toString().trim();
+
+            // AW列チェック: 交通整理済みデータがあれば軽量翻訳を使用
+            var awData = (awValues[rowIndex][0] || '').toString().trim();
+            if (awData && rowTag) {
+              var lightCat = getLightCategory_(rowTag);
+              if (lightCat) {
+                item.lightCategory = lightCat;
+                item.awData = awData;
+              }
+            }
+
+            // 軽量翻訳が適用されない場合、従来の自動選択モードでプロンプトID判定
+            if (!item.lightCategory && autoPromptMode && rowTag) {
+              if (tagToPromptMap[rowTag]) {
+                item.promptId = tagToPromptMap[rowTag];
+              } else {
+                // スペース区切りの先頭部分で再検索（例: 「フィギュア 3000」→「フィギュア」）
+                var baseTag = rowTag.split(/[\s　]/)[0];
+                if (baseTag !== rowTag && tagToPromptMap[baseTag]) {
+                  item.promptId = tagToPromptMap[baseTag];
                 }
               }
             }
@@ -289,7 +303,9 @@ function runSelectedRowsTranslate() {
         var res = par.results[idx];
 
         if (res.ok) {
-          res.usedPromptId = items[idx].promptId || settings.promptId;
+          res.usedPromptId = items[idx].lightCategory
+            ? ('light_' + items[idx].lightCategory)
+            : (items[idx].promptId || settings.promptId);
           validatedItems.push(res);
           totalPrompt += (res.usage && res.usage.in) || 0;
           totalCompletion += (res.usage && res.usage.out) || 0;
@@ -694,8 +710,8 @@ function validateTranslationResult_(sheet, row, fields) {
     var descLength = Number(sheet.getRange(row, CONFIG.COLUMNS.DESC_LENGTH).getValue());
     if (descLength === 0) {
       errors.push('Q列(説明文長さ)が0です');
-    } else if (descLength >= 799) {
-      errors.push('Q列(説明文長さ)が799以上です: ' + descLength);
+    } else if (descLength >= 1001) {
+      errors.push('Q列(説明文長さ)が1001以上です: ' + descLength);
     }
 
     return {
@@ -974,8 +990,8 @@ function validateTranslationBatch_(sheet, results) {
       // Q列(DESC_LENGTH)の検証
       if (descLength === 0) {
         errors.push('Q列(説明文長さ)が0です');
-      } else if (descLength >= 799) {
-        errors.push('Q列(説明文長さ)が799以上です: ' + descLength);
+      } else if (descLength >= 1001) {
+        errors.push('Q列(説明文長さ)が1001以上です: ' + descLength);
       }
 
       validationResults.push({
