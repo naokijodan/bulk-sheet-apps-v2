@@ -614,54 +614,15 @@ function buildDefaultSanitizePrompt_(category) {
     lines.push(brandList);
   }
 
-  // 出力フォーマット: [JA]/[EN] セクション指定と英語フィールド名リスト
-  lines.push('');
-  lines.push('出力フォーマット:');
-  lines.push('必ず[JA]と[EN]の2つのセクションに分けて出力してください。');
-  lines.push('');
-  lines.push('[JA]');
-  lines.push('各項目を「フィールド名: 値」形式で出力（現在と同じ）');
-  lines.push('');
-  lines.push('[EN]');
-  lines.push('各項目を英語フィールド名と英語値で出力。パイプ区切り。');
-  lines.push('英語フィールド名は以下のリストに従ってください（自分で決めない）。');
-  lines.push('');
-  try {
-    if (typeof IS_CATEGORY_FIELDS !== 'undefined') {
-      var enList = IS_CATEGORY_FIELDS[category] || [];
-      var enNames = [];
-      for (var ei = 0; ei < enList.length; ei++) { enNames.push(enList[ei]); }
-      enNames.push('Accessories');
-      enNames.push('Condition');
-      enNames.push('Defects');
-      if (enNames.length > 0) {
-        lines.push('英語フィールド名: ' + enNames.join(' | '));
-      }
-    }
-  } catch (e) {}
-
-  lines.push('');
-  lines.push('[EN]セクションのルール:');
-  lines.push('1. 各項目を必ず「フィールド名: 値」の形式で出力する。フィールド名と値はコロン(:)で区切る。');
-  lines.push('2. フィールド名は上記リストの英語名を正確に使用する。');
-  lines.push('3. 値は英語に翻訳する。ブランド名・モデル名はそのまま。');
-  lines.push('4. 項目間はパイプ(|)で区切る。');
-  lines.push('5. ソースにない項目は出力しない。NAは出力しない。');
-  lines.push('6. フィールド名のリストだけを並べてはいけない。必ず「フィールド名: 値」のペアにする。');
-  lines.push('');
-  lines.push('[EN]の出力例（時計の場合）:');
-  lines.push('Brand: Seiko | Model: Presage | Display: Analog | Movement: Automatic | Case Material: Stainless Steel | Dial Color: Blue | Country of Origin: Japan | Accessories: Box, Manual | Condition: Used, Good');
-  lines.push('');
-  lines.push('[EN]の出力例（ゴルフの場合）:');
-  lines.push('Brand: TaylorMade | Golf Club Type: Driver | Loft: 10.5° | Model: SIM2 MAX | Handedness: Right-Handed | Accessories: Head Cover | Condition: Used');
-
   // カテゴリ別補足ルール（データ駆動）
   var catRule = CATEGORY_RULES_[category];
   if (catRule) {
     lines.push('');
     lines.push(catRule.label + '用の補足ルール:');
     for (var ri = 0; ri < catRule.rules.length; ri++) {
-      lines.push(catRule.rules[ri]);
+      if (catRule.rules[ri].indexOf('[EN]') === -1) {
+        lines.push(catRule.rules[ri]);
+      }
     }
   }
 
@@ -699,10 +660,10 @@ function detectSanitizeCategory_(tag) {
 
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  メイン関数: 交通整理実行
+  メイン関数: 交通整理実行（2パス）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function runSanitizeSelectedRows() {
-  var ui = SpreadsheetApp.getUi();
+  var startTime = Date.now();
 
   // 設定とシート取得
   var settings = getSettings();
@@ -737,154 +698,249 @@ function runSanitizeSelectedRows() {
 
   // 対象行を特定（D列タグでカテゴリ判定）
   var items = [];
-  var skippedRows = [];  // スキップした行の情報
+  var skippedRows = [];
   for (var i = 0; i < numRows; i++) {
     var jpTitle = allData[i][CONFIG.COLUMNS.JP_TITLE - 1];
     var jpDesc  = allData[i][CONFIG.COLUMNS.JP_DESC - 1];
 
-    // ソースが空の行はスキップ
     if (!jpTitle && !jpDesc) continue;
 
-    // 既にバックアップがある行はスキップ（二重上書き防止）
     var backupDesc = allData[i][CONFIG.COLUMNS.JP_DESC_BACKUP - 1];
     if (backupDesc) continue;
 
-    // D列タグからカテゴリ判定
     var tag = String(allData[i][CONFIG.COLUMNS.TAG - 1] || '');
     var category = detectSanitizeCategory_(tag);
-
     if (!category) {
-      // カテゴリ不明 → スキップ
       skippedRows.push({ row: startRow + i, tag: tag || 'タグなし' });
       continue;
     }
 
-    items.push({
-      row: startRow + i,
-      jpTitle: String(jpTitle || ''),
-      jpDesc:  String(jpDesc || ''),
-      tag: tag,
-      category: category
-    });
+    items.push({ row: startRow + i, jpTitle: String(jpTitle || ''), jpDesc: String(jpDesc || ''), tag: tag, category: category });
   }
 
   if (items.length === 0) {
     var skipMsg = '交通整理する行がありません。\n（ソースが空、バックアップ済み、またはタグ未対応の行はスキップされます）';
-    if (skippedRows.length > 0) {
-      skipMsg += '\n\nスキップ: ' + skippedRows.map(function(s) { return '行' + s.row + '(' + s.tag + ')'; }).join(', ');
-    }
+    if (skippedRows.length > 0) { skipMsg += '\n\nスキップ: ' + skippedRows.map(function(s) { return '行' + s.row + '(' + s.tag + ')'; }).join(', '); }
     showAlert(skipMsg, 'info');
     return;
   }
 
-  // 開始通知（トースト）
   SpreadsheetApp.getActiveSpreadsheet().toast(items.length + '行の交通整理を開始します...', '🧹 交通整理', 3);
 
-  // ===== Step 1: K列の元データをAV列にバックアップし、K列を空にする（J列はノータッチ） =====
+  // Step 1: バックアップ（K→AV, Kクリア）
   for (var i = 0; i < items.length; i++) {
-    // AV列にK列のバックアップ
-    sheet.getRange(items[i].row, CONFIG.COLUMNS.JP_DESC_BACKUP)
-      .setValue(items[i].jpDesc);
-    // K列を空にする
-    sheet.getRange(items[i].row, CONFIG.COLUMNS.JP_DESC)
-      .setValue('');
+    sheet.getRange(items[i].row, CONFIG.COLUMNS.JP_DESC_BACKUP).setValue(items[i].jpDesc);
+    sheet.getRange(items[i].row, CONFIG.COLUMNS.JP_DESC).setValue('');
   }
   SpreadsheetApp.flush();
 
-  // ===== Step 2: カテゴリ別プロンプト取得（キャッシュ） =====
-  var promptCache = {};  // { category: promptTemplate }
-
-  // ===== Step 3 & 4: バッチでAI呼び出し + 書き込み =====
   var BATCH_SIZE = 50;
-  var successCount = 0;
-  var errorCount = 0;
   var errorDetails = [];
+  var timeoutSkipped = 0;
+  var promptCache = {};
+
+  // Pass 1: 日本語構造化
+  var pass2Items = [];
+  var validationFailedItems = [];
+  var apiFailedItems = [];
+  var jaSuccessCount = 0;
 
   for (var batchStart = 0; batchStart < items.length; batchStart += BATCH_SIZE) {
+    if (Date.now() - startTime > 300000) { timeoutSkipped += (items.length - batchStart); break; }
     var batchEnd = Math.min(batchStart + BATCH_SIZE, items.length);
     var batchItems = items.slice(batchStart, batchEnd);
 
-    // バッチ分のリクエストを構築（カテゴリ別プロンプト）
     var requests = [];
+    var prompts = [];
     for (var j = 0; j < batchItems.length; j++) {
       var cat = batchItems[j].category;
-
-      // プロンプトをキャッシュから取得、なければ生成
-      if (!promptCache[cat]) {
-        promptCache[cat] = buildDefaultSanitizePrompt_(cat);
-      }
-
-      var prompt = promptCache[cat]
-        .replace('${jpTitle}', batchItems[j].jpTitle)
-        .replace('${jpDesc}',  batchItems[j].jpDesc);
+      if (!promptCache[cat]) { promptCache[cat] = buildDefaultSanitizePrompt_(cat); }
+      var prompt = promptCache[cat].replace('${jpTitle}', batchItems[j].jpTitle).replace('${jpDesc}', batchItems[j].jpDesc);
+      prompts.push(prompt);
       requests.push(buildSanitizeRequest_(settings, prompt));
     }
 
-    // API呼び出し
     var responses;
-    try {
-      responses = UrlFetchApp.fetchAll(requests);
-    } catch (e) {
-      // バッチ全体が失敗した場合、残りのバッチも中断
-      for (var j = 0; j < batchItems.length; j++) {
-        errorCount++;
-        errorDetails.push('行' + batchItems[j].row + ': ' + e.message);
-      }
-      continue;
-    }
+    try { responses = UrlFetchApp.fetchAll(requests); }
+    catch (e) { for (var j = 0; j < batchItems.length; j++) { apiFailedItems.push({ item: batchItems[j], prompt: prompts[j], error: e.message }); } continue; }
 
-    // レスポンス解析 & 書き込み
     for (var j = 0; j < responses.length; j++) {
       try {
-        var result = parseSanitizeResponse_(settings.platform, responses[j]);
-        if (!result.ok) {
-          errorCount++;
-          errorDetails.push('行' + batchItems[j].row + ': ' + result.error);
-          continue;
-        }
-
-        var parsed = parseSanitizedFields_(result.content, batchItems[j].category);
-        if (!parsed.description) {
-          errorCount++;
-          errorDetails.push('行' + batchItems[j].row + ': AIの出力を解析できませんでした');
-          continue;
-        }
-
-        // K列のみ上書き（J列はノータッチ）
-        sheet.getRange(batchItems[j].row, CONFIG.COLUMNS.JP_DESC)
-          .setValue(parsed.description);
-        // AW列に英語版を書き込み（新規追加）
-        if (parsed.enDescription) {
-          sheet.getRange(batchItems[j].row, CONFIG.COLUMNS.EN_DESC_SANITIZED)
-            .setValue(parsed.enDescription);
-        } else if (parsed.description) {
-          // JAは成功したがENがない → パース失敗を記録
-          errorDetails.push('行' + batchItems[j].row + ': [EN]セクションの取得に失敗');
-        }
-        successCount++;
-
-      } catch (e) {
-        errorCount++;
-        errorDetails.push('行' + batchItems[j].row + ': ' + (e.message || String(e)));
-      }
+        var r = parseSanitizeResponse_(settings.platform, responses[j]);
+        if (!r.ok) { apiFailedItems.push({ item: batchItems[j], prompt: prompts[j], error: r.error }); continue; }
+        var parsed = parseSanitizedFields_(r.content, batchItems[j].category);
+        if (!parsed.description) { apiFailedItems.push({ item: batchItems[j], prompt: prompts[j], error: 'PARSE_ERROR' }); continue; }
+        sheet.getRange(batchItems[j].row, CONFIG.COLUMNS.JP_DESC).setValue(parsed.description);
+        var val = validateSanitizedResult_(parsed.description, batchItems[j].category);
+        if (val.valid) { pass2Items.push({ row: batchItems[j].row, category: batchItems[j].category }); jaSuccessCount++; }
+        else { validationFailedItems.push({ item: batchItems[j], errors: val.errors }); }
+      } catch (e) { apiFailedItems.push({ item: batchItems[j], prompt: prompts[j], error: e.message || String(e) }); }
     }
 
-    // 次のバッチまでスリープ（レート制限回避）
-    if (batchEnd < items.length) {
-      Utilities.sleep(CONFIG.SLEEP_BETWEEN_BATCHES || 3000);
+    if (batchEnd < items.length) { Utilities.sleep(CONFIG.SLEEP_BETWEEN_BATCHES || 3000); }
+  }
+
+  // Pass1: 失敗リトライ
+  var retry = 0;
+  while (apiFailedItems.length > 0 && retry < (CONFIG.MAX_RETRIES || 3)) {
+    if (Date.now() - startTime > 300000) { timeoutSkipped += apiFailedItems.length; break; }
+    retry++;
+    var next = [];
+    for (var i = 0; i < apiFailedItems.length; i += BATCH_SIZE) {
+      if (Date.now() - startTime > 300000) { timeoutSkipped += (apiFailedItems.length - i); break; }
+      var slice = apiFailedItems.slice(i, i + BATCH_SIZE);
+      var reqs = slice.map(function(x){ return buildSanitizeRequest_(settings, x.prompt); });
+      var resps;
+      try { resps = UrlFetchApp.fetchAll(reqs); }
+      catch (e) { for (var k = 0; k < slice.length; k++) next.push(slice[k]); continue; }
+      for (var r = 0; r < resps.length; r++) {
+        var x = slice[r];
+        var ok = parseSanitizeResponse_(settings.platform, resps[r]);
+        if (!ok.ok) { next.push(x); continue; }
+        var p = parseSanitizedFields_(ok.content, x.item.category);
+        if (!p.description) { next.push(x); continue; }
+        sheet.getRange(x.item.row, CONFIG.COLUMNS.JP_DESC).setValue(p.description);
+        var v = validateSanitizedResult_(p.description, x.item.category);
+        if (v.valid) { pass2Items.push({ row: x.item.row, category: x.item.category }); jaSuccessCount++; }
+        else { validationFailedItems.push({ item: x.item, errors: v.errors }); }
+      }
+      if (i + BATCH_SIZE < apiFailedItems.length) { Utilities.sleep(CONFIG.SLEEP_BETWEEN_BATCHES || 3000); }
+    }
+    apiFailedItems = next;
+    Utilities.sleep(Math.pow(2, retry) * 1000);
+  }
+  for (var i = 0; i < apiFailedItems.length; i++) { errorDetails.push('行' + apiFailedItems[i].item.row + ': API_ERROR ' + (apiFailedItems[i].error || '')); }
+
+  // Pass2.5: バリデーション再構造化（1回）
+  if (validationFailedItems.length > 0 && (Date.now() - startTime <= 300000)) {
+    var retryItems = validationFailedItems;
+    for (var i = 0; i < retryItems.length; i += BATCH_SIZE) {
+      if (Date.now() - startTime > 300000) { timeoutSkipped += (retryItems.length - i); break; }
+      var slice = retryItems.slice(i, i + BATCH_SIZE);
+      var reqs = [];
+      for (var s = 0; s < slice.length; s++) {
+        var it = slice[s].item;
+        var cat = it.category;
+        if (!promptCache[cat]) promptCache[cat] = buildDefaultSanitizePrompt_(cat);
+        var reason = slice[s].errors && slice[s].errors.length ? slice[s].errors.join('、') : '必須項目が不足しています';
+        var extra = '補足: 前回の出力では ' + reason + '。必ず抽出してください。';
+        var prompt = extra + '\n\n' + promptCache[cat].replace('${jpTitle}', it.jpTitle).replace('${jpDesc}', it.jpDesc);
+        reqs.push(buildSanitizeRequest_(settings, prompt));
+      }
+      var resps;
+      try { resps = UrlFetchApp.fetchAll(reqs); }
+      catch (e) { for (var s = 0; s < slice.length; s++) { errorDetails.push('行' + slice[s].item.row + ': VALIDATION_RETRY_HTTP ' + e.message); } continue; }
+      for (var s = 0; s < resps.length; s++) {
+        var ok = parseSanitizeResponse_(settings.platform, resps[s]);
+        if (!ok.ok) { errorDetails.push('行' + slice[s].item.row + ': VALIDATION_RETRY_API ' + ok.error); continue; }
+        var p = parseSanitizedFields_(ok.content, slice[s].item.category);
+        if (!p.description) { errorDetails.push('行' + slice[s].item.row + ': VALIDATION_RETRY_PARSE'); continue; }
+        sheet.getRange(slice[s].item.row, CONFIG.COLUMNS.JP_DESC).setValue(p.description);
+        var v = validateSanitizedResult_(p.description, slice[s].item.category);
+        if (v.valid) { pass2Items.push({ row: slice[s].item.row, category: slice[s].item.category }); jaSuccessCount++; }
+        else { errorDetails.push('行' + slice[s].item.row + ': VALIDATION_ERROR ' + (v.errors || []).join('、')); }
+      }
+      if (i + BATCH_SIZE < retryItems.length) { Utilities.sleep(CONFIG.SLEEP_BETWEEN_BATCHES || 3000); }
+    }
+  }
+
+  // Pass 2: 英語化
+  var enSuccessCount = 0;
+  var enApiFailedItems = [];
+  var enValidationFailedItems = [];
+  if (pass2Items.length > 0 && (Date.now() - startTime <= 300000)) {
+    for (var i = 0; i < pass2Items.length; i += BATCH_SIZE) {
+      if (Date.now() - startTime > 300000) { timeoutSkipped += (pass2Items.length - i); break; }
+      var slice = pass2Items.slice(i, i + BATCH_SIZE);
+      var reqs = [];
+      var prompts = [];
+      for (var s = 0; s < slice.length; s++) {
+        var jaStructured = String(sheet.getRange(slice[s].row, CONFIG.COLUMNS.JP_DESC).getValue() || '');
+        var prompt = buildEnglishizePrompt_(slice[s].category, jaStructured);
+        prompts.push(prompt);
+        reqs.push(buildSanitizeRequest_(settings, prompt));
+      }
+      var resps;
+      try { resps = UrlFetchApp.fetchAll(reqs); }
+      catch (e) { for (var s = 0; s < slice.length; s++) { enApiFailedItems.push({ item: slice[s], prompt: prompts[s], error: e.message }); } continue; }
+      for (var s = 0; s < resps.length; s++) {
+        var ok = parseSanitizeResponse_(settings.platform, resps[s]);
+        if (!ok.ok) { enApiFailedItems.push({ item: slice[s], prompt: prompts[s], error: ok.error }); continue; }
+        var out = (ok.content || '').replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+        if (!out) { enApiFailedItems.push({ item: slice[s], prompt: prompts[s], error: 'EMPTY_OUTPUT' }); continue; }
+        sheet.getRange(slice[s].row, CONFIG.COLUMNS.EN_DESC_SANITIZED).setValue(out);
+        if (typeof containsJapanese_ === 'function' && containsJapanese_(out)) { enValidationFailedItems.push({ item: slice[s], prompt: prompts[s] }); }
+        else { enSuccessCount++; }
+      }
+      if (i + BATCH_SIZE < pass2Items.length) { Utilities.sleep(CONFIG.SLEEP_BETWEEN_BATCHES || 3000); }
+    }
+  }
+
+  // Pass2: API失敗リトライ
+  retry = 0;
+  while (enApiFailedItems.length > 0 && retry < (CONFIG.MAX_RETRIES || 3)) {
+    if (Date.now() - startTime > 300000) { timeoutSkipped += enApiFailedItems.length; break; }
+    retry++;
+    var nextEn = [];
+    for (var i = 0; i < enApiFailedItems.length; i += BATCH_SIZE) {
+      if (Date.now() - startTime > 300000) { timeoutSkipped += (enApiFailedItems.length - i); break; }
+      var slice = enApiFailedItems.slice(i, i + BATCH_SIZE);
+      var reqs = slice.map(function(x){ return buildSanitizeRequest_(settings, x.prompt); });
+      var resps;
+      try { resps = UrlFetchApp.fetchAll(reqs); }
+      catch (e) { for (var k = 0; k < slice.length; k++) nextEn.push(slice[k]); continue; }
+      for (var r = 0; r < resps.length; r++) {
+        var x = slice[r];
+        var ok = parseSanitizeResponse_(settings.platform, resps[r]);
+        if (!ok.ok) { nextEn.push(x); continue; }
+        var out = (ok.content || '').replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+        if (!out) { nextEn.push(x); continue; }
+        sheet.getRange(x.item.row, CONFIG.COLUMNS.EN_DESC_SANITIZED).setValue(out);
+        if (typeof containsJapanese_ === 'function' && containsJapanese_(out)) { enValidationFailedItems.push({ item: x.item, prompt: x.prompt }); }
+        else { enSuccessCount++; }
+      }
+      if (i + BATCH_SIZE < enApiFailedItems.length) { Utilities.sleep(CONFIG.SLEEP_BETWEEN_BATCHES || 3000); }
+    }
+    enApiFailedItems = nextEn;
+    Utilities.sleep(Math.pow(2, retry) * 1000);
+  }
+  for (var i = 0; i < enApiFailedItems.length; i++) { errorDetails.push('行' + enApiFailedItems[i].item.row + ': EN_API_ERROR ' + (enApiFailedItems[i].error || '')); }
+
+  // Pass 3.5: 英語化の再試行（日本語混入）
+  if (enValidationFailedItems.length > 0 && (Date.now() - startTime <= 300000)) {
+    for (var i = 0; i < enValidationFailedItems.length; i += BATCH_SIZE) {
+      if (Date.now() - startTime > 300000) { timeoutSkipped += (enValidationFailedItems.length - i); break; }
+      var slice = enValidationFailedItems.slice(i, i + BATCH_SIZE);
+      var reqs = [];
+      for (var s = 0; s < slice.length; s++) {
+        var p = '補足: 出力に日本語が混入していました。全て英語で出力してください。\n\n' + slice[s].prompt;
+        reqs.push(buildSanitizeRequest_(settings, p));
+        slice[s].prompt = p;
+      }
+      var resps;
+      try { resps = UrlFetchApp.fetchAll(reqs); }
+      catch (e) { for (var s = 0; s < slice.length; s++) { errorDetails.push('行' + slice[s].item.row + ': EN_VALIDATION_RETRY_HTTP ' + e.message); } continue; }
+      for (var s = 0; s < resps.length; s++) {
+        var ok = parseSanitizeResponse_(settings.platform, resps[s]);
+        if (!ok.ok) { errorDetails.push('行' + slice[s].item.row + ': EN_VALIDATION_RETRY_API ' + ok.error); continue; }
+        var out = (ok.content || '').replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+        if (!out) { errorDetails.push('行' + slice[s].item.row + ': EN_VALIDATION_RETRY_EMPTY'); continue; }
+        sheet.getRange(slice[s].item.row, CONFIG.COLUMNS.EN_DESC_SANITIZED).setValue(out);
+        if (typeof containsJapanese_ === 'function' && containsJapanese_(out)) { errorDetails.push('行' + slice[s].item.row + ': EN_VALIDATION_ERROR(日本語混入)'); }
+        else { enSuccessCount++; }
+      }
+      if (i + BATCH_SIZE < enValidationFailedItems.length) { Utilities.sleep(CONFIG.SLEEP_BETWEEN_BATCHES || 3000); }
     }
   }
 
   // 結果報告
-  var message = '交通整理完了: ' + successCount + '件成功';
-  if (errorCount > 0) {
-    message += ', ' + errorCount + '件エラー\n\n' + errorDetails.join('\n');
-  }
-  if (skippedRows.length > 0) {
-    message += '\n\nスキップ(' + skippedRows.length + '件): '
-      + skippedRows.map(function(s) { return '行' + s.row + '(' + s.tag + ')'; }).join(', ');
-  }
-  showAlert(message, errorCount > 0 ? 'warning' : 'success');
+  var message = [];
+  message.push('構造化成功: ' + jaSuccessCount + '件 / 英語化成功: ' + enSuccessCount + '件');
+  if (errorDetails.length > 0) { message.push('構造化/英語化エラー: ' + errorDetails.length + '件'); }
+  if (timeoutSkipped > 0) { message.push('時間切れ未処理: ' + timeoutSkipped + '件'); }
+  if (skippedRows.length > 0) { message.push('スキップ: ' + skippedRows.length + '件 (' + skippedRows.map(function(s){ return '行' + s.row + '(' + s.tag + ')'; }).join(', ') + ')'); }
+  if (errorDetails.length > 0) { message.push('詳細:\n' + errorDetails.join('\n')); }
+  showAlert(message.join('\n'), errorDetails.length > 0 ? 'warning' : 'success');
 }
 
 
@@ -1145,43 +1201,115 @@ function parseSanitizeResponse_(platform, httpResp) {
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   内部関数: AI出力からタイトル・説明を抽出
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-function parseSanitizedFields_(content, category) {
-  var result = { description: '', enDescription: '' };
+// 英語化用プロンプト生成（パス2）
+function buildEnglishizePrompt_(category, jaStructured) {
+  var lines = [];
+  lines.push('以下の日本語の商品情報を英語に翻訳してください。');
+  lines.push('');
+  lines.push('ルール:');
+  lines.push('1. ブランド名・モデル名は英語の正式名称をそのまま使用する。');
+  lines.push('2. 値のみ英語に翻訳する。キー構造は変えない。');
+  lines.push('3. 出力は「英語フィールド名: 英語値」をパイプ(|)で区切った1行にする。');
+  lines.push('4. NAの項目は出力しない。');
+  lines.push('5. フィールド名は以下のリストの英語名を正確に使用する（自分で決めない）。');
+  lines.push('');
 
-  // [JA]と[EN]セクションを分離（順序非依存）
-  var jaSection = content;
-  var enSection = '';
-  var jaIdx = content.search(/\[JA\]/i);
-  var enIdx = content.search(/\[EN\]/i);
-
-  if (jaIdx >= 0 && enIdx >= 0) {
-    // 両方存在: 位置で切り分け
-    if (jaIdx < enIdx) {
-      jaSection = content.substring(jaIdx + 4, enIdx);
-      enSection = content.substring(enIdx + 4);
-    } else {
-      enSection = content.substring(enIdx + 4, jaIdx);
-      jaSection = content.substring(jaIdx + 4);
+  // CATEGORY_RULES_に[EN]セクションルールがあれば追加
+  var catRule = CATEGORY_RULES_[category];
+  if (catRule) {
+    for (var ri = 0; ri < catRule.rules.length; ri++) {
+      var rule = catRule.rules[ri];
+      if (rule.indexOf('[EN]') !== -1) {
+        lines.push(rule);
+      }
     }
-  } else if (jaIdx >= 0) {
-    // [JA]のみ: [EN]なし（フォールバック）
-    jaSection = content.substring(jaIdx + 4);
-  } else if (enIdx >= 0) {
-    // [EN]のみ: [JA]なし（content全体をJAとして扱う）
-    jaSection = content.substring(0, enIdx);
-    enSection = content.substring(enIdx + 4);
   }
-  // どちらもない場合: jaSection = content（既存動作と互換）
 
-  jaSection = jaSection.trim();
-  enSection = enSection.trim();
+  // IS_CATEGORY_FIELDSから英語フィールド名リストを取得
+  lines.push('');
+  try {
+    if (typeof IS_CATEGORY_FIELDS !== 'undefined') {
+      var enList = IS_CATEGORY_FIELDS[category] || [];
+      var enNames = enList.slice();
+      enNames.push('Accessories');
+      enNames.push('Condition');
+      enNames.push('Defects');
+      if (enNames.length > 0) {
+        lines.push('英語フィールド名: ' + enNames.join(' | '));
+      }
+    }
+  } catch (e) {}
 
-  // 日本語セクション: 既存ロジック
+  lines.push('');
+  lines.push('出力例（時計の場合）:');
+  lines.push('Brand: Seiko | Model: Presage | Display: Analog | Movement: Automatic | Case Material: Stainless Steel | Dial Color: Blue | Country of Origin: Japan | Accessories: Box, Manual | Condition: Used, Good');
+  lines.push('');
+  lines.push('入力（日本語構造化データ）:');
+  lines.push(jaStructured);
+
+  return lines.join('\n');
+}
+
+// 構造化結果の簡易バリデーション
+function validateSanitizedResult_(parsedDescription, category) {
+  var errors = [];
+  if (!parsedDescription || typeof parsedDescription !== 'string') {
+    return { valid: false, errors: ['パース結果が空です'] };
+  }
+
+  // ブランドチェック（カテゴリによっては「メーカー」の場合もある）
+  var hasBrand = /ブランド[：:]\s*.+/.test(parsedDescription) || /メーカー[：:]\s*.+/.test(parsedDescription);
+  // ブランド/メーカーがNAでないか
+  if (hasBrand) {
+    var brandMatch = parsedDescription.match(/(?:ブランド|メーカー)[：:]\s*(.+?)(?:\s|$)/);
+    if (brandMatch && /^N\/?A$/i.test(brandMatch[1].trim())) {
+      hasBrand = false;
+    }
+  }
+  if (!hasBrand) {
+    errors.push('ブランド/メーカーが抽出されていません');
+  }
+
+  // フィールド数チェック（「フィールド名: 値」のペア数）
+  var fieldCount = 0;
+  var fields = getSanitizeFields_(category);
+  for (var i = 0; i < fields.length; i++) {
+    var escaped = fields[i].replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
+    var re = new RegExp(escaped + '[：:]\\s*.+');
+    if (re.test(parsedDescription)) {
+      fieldCount++;
+    }
+  }
+  if (fieldCount < 2) {
+    errors.push('抽出フィールド数が不足しています(' + fieldCount + '個)');
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors: errors
+  };
+}
+
+function parseSanitizedFields_(content, category) {
+  var result = { description: '' };
+
+  // [JA]タグがあれば除去して本体を使う
+  var jaIdx = content.search(/\[JA\]/i);
+  var section = (jaIdx >= 0) ? content.substring(jaIdx + 4) : content;
+
+  // [EN]タグが混じっていたらそこまでで切る
+  var enIdx = section.search(/\[EN\]/i);
+  if (enIdx >= 0) {
+    section = section.substring(0, enIdx);
+  }
+  section = section.trim();
+
+  // 日本語セクション: 既存ロジック（変更なし）
   var fields = getSanitizeFields_(category || 'Watches');
   var parts = [];
   for (var i = 0; i < fields.length; i++) {
     var re = new RegExp('^' + fields[i] + '[：:]\\s*(.+)$', 'm');
-    var match = jaSection.match(re);
+    var match = section.match(re);
     if (match) {
       var value = match[1].replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
       if (value && !/^N\/?A$/i.test(value) && value !== '-' && value !== 'なし' && value !== '不明') {
@@ -1193,20 +1321,10 @@ function parseSanitizedFields_(content, category) {
 
   // フォールバック
   if (!result.description) {
-    var descMatch = jaSection.match(/^説明[：:][\s]*([\s\S]*)$/m);
+    var descMatch = section.match(/^説明[：:][\s]*([\s\S]*)$/m);
     if (descMatch) {
       result.description = descMatch[1].replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
     }
-  }
-
-  // 英語セクション: パイプ区切りの1行に正規化
-  if (enSection) {
-    result.enDescription = enSection
-      .replace(/[\r\n]+/g, ' | ')
-      .replace(/\s*\|\s*\|\s*/g, ' | ')
-      .replace(/^\s*\|\s*/, '')
-      .replace(/\s*\|\s*$/, '')
-      .trim();
   }
 
   return result;
