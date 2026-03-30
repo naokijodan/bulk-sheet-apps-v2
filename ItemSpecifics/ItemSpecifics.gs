@@ -1120,6 +1120,12 @@ function mergeConfirmedValues_(sheet, rows, results) {
     }
     for (k in conf) {
       if (conf.hasOwnProperty(k) && !excluded[k]) {
+        // 日本語が含まれている値はスキップ（交通整理の翻訳漏れ防止）
+        var confVal = String(conf[k] || '');
+        if (/[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]/.test(confVal)) {
+          Logger.log('[mergeConfirmedValues_] skip JP value: ' + k + ' = ' + confVal);
+          continue;
+        }
         out[k] = conf[k];
       }
     }
