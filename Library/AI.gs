@@ -820,18 +820,8 @@ function callGemini(prompt, settings) {
   並列AI処理用ヘルパー（統一版・完全版）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function buildRequestForProvider_(settings, item) {
-  var prompt;
-
-  // 軽量翻訳パス: AW列の英語構造化データを使用（sanitizeInputJP_をスキップ）
-  if (item.lightCategory && item.awData) {
-    prompt = buildLightTranslationPrompt_(item.lightCategory, item.awData);
-  }
-
-  // 従来パス: J列+K列から翻訳プロンプト生成
-  if (!prompt) {
-    var fullText = 'Japanese Title: ' + item.jpTitle + '\nJapanese Description: ' + item.jpDesc;
-    prompt = createAIPrompt(fullText, item.promptId || settings.promptId);
-  }
+  var fullText = 'Japanese Title: ' + item.jpTitle + '\nJapanese Description: ' + item.jpDesc;
+  var prompt = createAIPrompt(fullText, item.promptId || settings.promptId);
 
   var platform = settings.platform;
   var model = settings.model;
@@ -987,24 +977,6 @@ function parseProviderResponse_(platform, httpResp) {
   // usage はどちらのAPIでもここで正規化
   inTok  = u.input_tokens      || u.prompt_tokens     || 0;
   outTok = u.output_tokens     || u.completion_tokens || 0;
-    } else if (platform === 'claude') {
-      // Claude Messages API: content配列からtext型ブロックを探す
-      if (!data.content || !Array.isArray(data.content) || data.content.length === 0)
-        return { ok:false, error:'Invalid Claude response: no content' };
-      var foundText = '';
-      for (var ci = 0; ci < data.content.length; ci++) {
-        if (data.content[ci] && data.content[ci].type === 'text' && data.content[ci].text) {
-          foundText = data.content[ci].text;
-          break;
-        }
-      }
-      if (!foundText)
-        return { ok:false, error:'No text content in Claude response' };
-      content = foundText;
-      var uc = data.usage || {};
-      inTok  = uc.input_tokens  || 0;
-      outTok = uc.output_tokens || 0;
-
     } else if (platform === 'gemini') {
       if (!data.candidates || !data.candidates[0] || !data.candidates[0].content)
         return { ok:false, error:'Invalid Gemini response' };
