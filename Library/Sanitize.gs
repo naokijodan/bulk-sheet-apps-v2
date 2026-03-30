@@ -595,6 +595,7 @@ function buildDefaultSanitizePrompt_(category) {
   lines.push('2. ソースにない情報は書かない。NAにする。');
   lines.push('3. 出力は日本語のまま。ただしブランド名とモデル名は英語の正式名称で出力する。');
   lines.push('4. ブランド名は下記リストにあればそのスペルを正確に使用する。リストにない場合は正式な英語表記で出力する。');
+  lines.push('5. 製造国はブランドの本国を記入する。工場の所在地（Made in China等）ではない。例: Seiko→日本、Canon→日本、Rolex→スイス、Leica→ドイツ、Casio→日本、Nikon→日本、Olympus→日本、Fujifilm→日本、Sony→日本、Panasonic→日本、TaylorMade→アメリカ、Titleist→アメリカ、Callaway→アメリカ、PING→アメリカ。ソースに「Made in ○○」と書いてあっても無視する。');
 
   // ブランド辞書リスト（カテゴリ別）
   var brandList = '';
