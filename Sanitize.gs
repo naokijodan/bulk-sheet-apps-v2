@@ -336,6 +336,191 @@ function buildDefaultSanitizePrompt_(category) {
     lines.push('- [EN]セクションでは: Golf Club Type は Driver/Fairway Wood/Hybrid/Iron/Iron Set/Wedge/Putter。Handedness は Right-Handed/Left-Handed。Shaft Material は Graphite/Steel。Loft は数値+°（例: 10.5°）。');
   }
 
+  // 時計用の補足ルール
+  if (category === 'Watches') {
+    lines.push('');
+    lines.push('時計用の補足ルール:');
+    lines.push('- ムーブメント: 自動巻き/手巻き/クオーツ/ソーラー/キネティック のいずれかで記入。');
+    lines.push('- 表示方式: アナログ/デジタル/アナログ&デジタル のいずれかで記入。');
+    lines.push('- ケース素材: ステンレススチール/チタン/ゴールド/プラチナ/セラミック/プラスチック/レジン のいずれかで記入。金メッキはゴールドプレート、金張りはゴールドフィルドと記入。');
+    lines.push('- ケースサイズ: mm単位で記入（例: 40mm）。「約」は付けてもよい。');
+    lines.push('- 文字盤色: 色名を日本語で記入（例: ブラック、ホワイト、ブルー、グリーン）。');
+    lines.push('- 腕周り: cm単位で記入（例: 18cm）。');
+    lines.push('- 対象: メンズ/レディース/ユニセックス のいずれかで記入。');
+    lines.push('- [EN]セクションでは: Movement は Automatic/Manual Wind/Quartz/Solar/Kinetic。Display は Analog/Digital/Analog & Digital。Case Material は Stainless Steel/Titanium/Gold/Platinum/Ceramic/Plastic/Resin/Gold Plated/Gold Filled。Department は Men/Women/Unisex。');
+  }
+
+  // リング用の補足ルール
+  if (category === 'Rings') {
+    lines.push('');
+    lines.push('リング用の補足ルール:');
+    lines.push('- 金属: ゴールド/シルバー/プラチナ/ステンレススチール のいずれかで記入。');
+    lines.push('- 金属純度: K18/K14/K10/K9/925/950/999 等で記入。不明ならNA。');
+    lines.push('- 主石: ダイヤモンド/ルビー/サファイア/エメラルド/パール 等。石なしならNA。');
+    lines.push('- [EN]セクションでは: Metal は Gold/Silver/Platinum/Stainless Steel/Base Metal。Metal Purity は 18k/14k/10k/9k/925/950/999。金メッキ・銀メッキの場合は Metal: Base Metal, Metal Purity: Does not apply。');
+  }
+
+  // ジュエリー用の補足ルール（ネックレス/ブレスレット/イヤリング/ブローチ/カフリンクス/チャーム/タイアクセサリー）
+  var jewelryCategories = ['Necklaces', 'Bracelets', 'Earrings', 'Brooches', 'Cufflinks', 'Charms', 'Tie Accessories'];
+  if (jewelryCategories.indexOf(category) !== -1) {
+    lines.push('');
+    lines.push('ジュエリー用の補足ルール:');
+    lines.push('- 金属/素材: ゴールド/シルバー/プラチナ/ステンレススチール/レザー 等で記入。');
+    lines.push('- 金属純度: K18/K14/K10/925/950 等で記入。不明ならNA。');
+    lines.push('- 主石: ダイヤモンド/ルビー/サファイア/パール 等。石なしならNA。');
+    lines.push('- [EN]セクションでは: Metal は Gold/Silver/Platinum/Stainless Steel/Base Metal/Leather。Metal Purity は 18k/14k/10k/925/950。金メッキの場合は Metal: Base Metal, Metal Purity: Does not apply。');
+  }
+
+  // バッグ・財布用の補足ルール
+  if (category === 'Handbags' || category === 'Wallets') {
+    lines.push('');
+    lines.push('バッグ・財布用の補足ルール:');
+    lines.push('- 外装素材: レザー/キャンバス/ナイロン/PVC/合皮 のいずれかで記入。');
+    lines.push('- 対象: メンズ/レディース/ユニセックス のいずれかで記入。');
+    lines.push('- [EN]セクションでは: Exterior Material は Leather/Canvas/Nylon/PVC/Synthetic Leather/Coated Canvas。Department は Men/Women/Unisex。');
+  }
+
+  // 衣類・靴用の補足ルール
+  if (category === 'Clothing' || category === 'Shoes') {
+    lines.push('');
+    lines.push('衣類・靴用の補足ルール:');
+    lines.push('- 対象: メンズ/レディース/キッズ/ユニセックス のいずれかで記入。');
+    lines.push('- [EN]セクションでは: Department は Men/Women/Kids/Unisex。');
+  }
+
+  // 帽子用の補足ルール
+  if (category === 'Hats') {
+    lines.push('');
+    lines.push('帽子用の補足ルール:');
+    lines.push('- スタイル: キャップ/バケットハット/ベレー帽/ニット帽/ハット/バイザー 等で記入。');
+    lines.push('- 対象: メンズ/レディース/ユニセックス のいずれかで記入。');
+    lines.push('- [EN]セクションでは: Style は Baseball Cap/Bucket Hat/Beret/Beanie/Fedora/Visor/Sun Hat。Department は Men/Women/Unisex。');
+  }
+
+  // 服飾小物用の補足ルール（スカーフ/ネクタイ/ハンカチ）
+  if (category === 'Scarves' || category === 'Neckties' || category === 'Handkerchiefs') {
+    lines.push('');
+    lines.push('服飾小物用の補足ルール:');
+    lines.push('- 素材: シルク/カシミヤ/ウール/コットン/ポリエステル 等で記入。');
+    lines.push('- [EN]セクションでは: Material は Silk/Cashmere/Wool/Cotton/Polyester/Linen。');
+  }
+
+  // ベルト用の補足ルール
+  if (category === 'Belts' || category === 'Belt Buckles') {
+    lines.push('');
+    lines.push('ベルト用の補足ルール:');
+    lines.push('- 素材: レザー/合皮/キャンバス/金属 等で記入。');
+    lines.push('- 対象: メンズ/レディース/ユニセックス のいずれかで記入。');
+    lines.push('- [EN]セクションでは: Material は Leather/Synthetic Leather/Canvas/Metal。Department は Men/Women/Unisex。');
+  }
+
+  // サングラス用の補足ルール
+  if (category === 'Sunglasses') {
+    lines.push('');
+    lines.push('サングラス用の補足ルール:');
+    lines.push('- フレーム素材: メタル/プラスチック/チタン/アセテート 等で記入。');
+    lines.push('- 対象: メンズ/レディース/ユニセックス のいずれかで記入。');
+    lines.push('- [EN]セクションでは: Frame Material は Metal/Plastic/Titanium/Acetate。Department は Men/Women/Unisex。');
+  }
+
+  // 楽器用の補足ルール
+  if (category === 'Musical Instruments') {
+    lines.push('');
+    lines.push('楽器用の補足ルール:');
+    lines.push('- タイプ: エレキギター/アコースティックギター/ベース/ウクレレ/バイオリン/フルート/サックス 等で記入。');
+    lines.push('- 利き手: 右利き/左利き のいずれかで記入。');
+    lines.push('- [EN]セクションでは: Type は Electric Guitar/Acoustic Guitar/Bass Guitar/Ukulele/Violin/Flute/Saxophone 等。Handedness は Right-Handed/Left-Handed。');
+  }
+
+  // 筆記具用の補足ルール
+  if (category === 'Pens') {
+    lines.push('');
+    lines.push('筆記具用の補足ルール:');
+    lines.push('- タイプ: 万年筆/ボールペン/ローラーボール/シャープペンシル 等で記入。');
+    lines.push('- [EN]セクションでは: Type は Fountain Pen/Ballpoint Pen/Rollerball Pen/Mechanical Pencil。');
+  }
+
+  // ゲームソフト用の補足ルール
+  if (category === 'Video Games') {
+    lines.push('');
+    lines.push('ゲームソフト用の補足ルール:');
+    lines.push('- プラットフォーム: 正式名称で記入。例: PlayStation 5, Nintendo Switch, Xbox Series X。');
+    lines.push('- リージョン: NTSC-J(日本)/NTSC-U(北米)/PAL(欧州) のいずれか。日本製はNTSC-J。');
+    lines.push('- [EN]セクションでは: Platform は正式英語名。Region Code は NTSC-J (Japan)/NTSC-U/C (North America)/PAL。');
+  }
+
+  // ロッド用の補足ルール
+  if (category === 'Fishing Rods') {
+    lines.push('');
+    lines.push('ロッド用の補足ルール:');
+    lines.push('- ロッドタイプ: スピニング/ベイト/フライ/テレスコピック/ジギング のいずれかで記入。');
+    lines.push('- パワー: UL/L/ML/M/MH/H/XH のいずれかで記入。');
+    lines.push('- アクション: スロー/ミディアム/ファスト/エクストラファスト のいずれかで記入。');
+    lines.push('- [EN]セクションでは: Rod Type は Spinning/Casting/Fly/Telescopic/Jigging。Rod Power は Ultra Light/Light/Medium Light/Medium/Medium Heavy/Heavy/Extra Heavy。Rod Action は Slow/Moderate/Fast/Extra Fast。');
+  }
+
+  // 着物用の補足ルール
+  if (category === 'Kimono') {
+    lines.push('');
+    lines.push('着物用の補足ルール:');
+    lines.push('- タイプ: 振袖/留袖/訪問着/付下げ/小紋/紬/色無地/浴衣/羽織/帯/帯締め/帯揚げ 等で記入。');
+    lines.push('- 素材: 正絹/化繊/木綿/麻/ウール 等で記入。');
+    lines.push('- [EN]セクションでは: Type は Furisode/Tomesode/Houmongi/Tsukesage/Komon/Tsumugi/Iromuji/Yukata/Haori/Obi/Obijime/Obiage 等。Material は Silk/Synthetic/Cotton/Linen/Wool。');
+  }
+
+  // 刀剣用の補足ルール
+  if (category === 'Japanese Swords') {
+    lines.push('');
+    lines.push('刀剣用の補足ルール:');
+    lines.push('- タイプ: 刀/太刀/脇差/短刀/薙刀/槍 等で記入。');
+    lines.push('- [EN]セクションでは: Type は Katana/Tachi/Wakizashi/Tanto/Naginata/Yari。Blade Material は Carbon Steel/Tamahagane。');
+  }
+
+  // 美術品用の補足ルール
+  if (category === 'Art' || category === 'Prints') {
+    lines.push('');
+    lines.push('美術品用の補足ルール:');
+    lines.push('- 制作技法: 油彩/水彩/版画/木版画/リトグラフ/シルクスクリーン/エッチング/写真 等で記入。');
+    lines.push('- [EN]セクションでは: Production Technique / Medium は Oil Painting/Watercolor/Print/Woodblock Print/Lithograph/Screen Print/Etching/Photograph。Original/Licensed Reproduction は Original/Reproduction。');
+  }
+
+  // レコード用の補足ルール
+  if (category === 'Records') {
+    lines.push('');
+    lines.push('レコード用の補足ルール:');
+    lines.push('- フォーマット: LP/EP/シングル のいずれかで記入。');
+    lines.push('- レコードサイズ: 12インチ/10インチ/7インチ のいずれかで記入。');
+    lines.push('- レコード評価: Mint/Near Mint/VG+/VG/G+/G/Fair/Poor のいずれかで記入（Goldmine基準）。');
+    lines.push('- [EN]セクションでは: Format は LP/EP/Single。Record Size は 12"/10"/7"。Record Grading/Sleeve Grading は Mint (M)/Near Mint (NM)/Very Good Plus (VG+)/Very Good (VG)/Good Plus (G+)/Good (G)/Fair (F)/Poor (P)。');
+  }
+
+  // 切手・コイン用の補足ルール
+  if (category === 'Stamps' || category === 'Coins') {
+    lines.push('');
+    lines.push('切手・コイン用の補足ルール:');
+    lines.push('- 鑑定: PSA/NGC/PCGS/CGC 等で記入。鑑定なしならNA。');
+    lines.push('- [EN]セクションでは: Certification は PSA/NGC/PCGS/CGC/Uncertified。');
+  }
+
+  // コレクティブル用の補足ルール（コレクティブル/ドール&プラッシュ/アニメ/フィギュア）
+  var collectibleCategories = ['Collectibles', 'Dolls & Plush', 'Anime', 'Figures'];
+  if (collectibleCategories.indexOf(category) !== -1) {
+    lines.push('');
+    lines.push('コレクティブル用の補足ルール:');
+    lines.push('- キャラクター: 正式名称で記入。');
+    lines.push('- フランチャイズ: シリーズ名で記入（例: ドラゴンボール、ワンピース、ガンダム）。');
+    lines.push('- [EN]セクションでは: Character / Franchise は英語の公式名称で記入。例: Dragon Ball/One Piece/Gundam/Evangelion/Sailor Moon。');
+  }
+
+  // RC・模型用の補足ルール
+  if (category === 'RC & Models') {
+    lines.push('');
+    lines.push('RC・模型用の補足ルール:');
+    lines.push('- スケール: 1/10, 1/24, 1/350 等で記入。');
+    lines.push('- 動力源: 電動/エンジン/ガソリン のいずれかで記入。');
+    lines.push('- [EN]セクションでは: Fuel Type は Electric/Nitro/Gas。');
+  }
+
   // リール用の補足ルール
   if (category === 'Fishing Reels') {
     lines.push('');
