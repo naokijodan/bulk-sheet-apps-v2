@@ -220,6 +220,26 @@ DESCRIPTION (SEO Priority)
 - Avoid evaluative adjectives (excellent, good, mint, beautiful).
 - NEVER include shipping information or seller opinions.
 
+- DEFECT/ISSUE REPORTING (CRITICAL):
+  If the source mentions ANY defect, malfunction, or issue, you MUST describe it in the Description.
+  DEFECT KEYWORDS AND TRANSLATIONS:
+    - 石取れ / 石落ち -> "missing stone"
+    - 石欠け -> "chipped stone"
+    - 石のグラつき -> "loose stone"
+    - 変色 / 黒ずみ -> "tarnished" or "discoloration"
+    - 歪み / 曲がり -> "bent" or "misshapen"
+    - 刻印薄れ -> "faded hallmark"
+    - ロジウムコーティング剥がれ -> "rhodium plating wear"
+    - サイズ直し跡 -> "visible resizing marks"
+    - 石の曇り -> "cloudy stone"
+
+- MISSING PARTS/ACCESSORIES (JEWELRY-SPECIFIC):
+  If source mentions any of the following, reflect in BOTH Title (at end) and Description:
+    - 保証書なし / 鑑定書なし / 鑑別書なし -> "No Papers" (Title), "Certificate/appraisal not included" (Description)
+    - ケースなし / 箱なし -> treat as No Box (handled by common MISSING ACCESSORIES RULE)
+    - ギャランティなし -> "No Papers" (Title)
+  Priority in Title: No Papers > No Box > No Accessories
+
 PRODUCTNAME
 - Format: [Brand] [Collection] [Product Type], English ASCII only.
 - Examples:

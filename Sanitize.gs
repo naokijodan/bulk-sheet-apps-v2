@@ -142,10 +142,15 @@ var CATEGORY_RULES_ = {
   'Rings': {
     label: 'リング',
     rules: [
-      '- 金属: ゴールド/シルバー/プラチナ/ステンレススチール のいずれかで記入。',
-      '- 金属純度: K18/K14/K10/K9/925/950/999 等で記入。不明ならNA。',
-      '- 主石: ダイヤモンド/ルビー/サファイア/エメラルド/パール 等。石なしならNA。',
-      '- [EN]セクションでは: Metal は Gold/Silver/Platinum/Stainless Steel/Base Metal。Metal Purity は 18k/14k/10k/9k/925/950/999。金メッキ・銀メッキの場合は Metal: Base Metal, Metal Purity: Does not apply。'
+      '- 金属: ゴールド/シルバー/プラチナ/ステンレススチール/真鍮 のいずれかで記入。',
+      '- 金属純度: K18/K14/K10/K9/Pt900/Pt950/SV925/SV950 等で記入。不明ならNA。',
+      '- 金属色: イエローゴールド/ホワイトゴールド/ピンクゴールド/コンビ 等。不明ならNA。',
+      '- 主石: ダイヤモンド/ルビー/サファイア/エメラルド/オパール/パール/ガーネット/アメジスト/トルマリン/ジルコニア 等。石なしならNA。',
+      '- 脇石: メレダイヤ/ルビー 等。なければNA。',
+      '- リングサイズ: 号数で記入（例: 12号）。',
+      '- タイプ: エタニティ/シグネット/印台/甲丸/平打ち/エンゲージ/マリッジ 等。',
+      '- セッティング: 爪留め/覆輪留め/パヴェ/チャネル 等。わかれば記入。',
+      '- [EN]セクションでは: Metal は Gold/Silver/Platinum/Stainless Steel/Brass/Base Metal。Metal Purity は 18k/14k/10k/9k/Pt900/Pt950/925/950。金メッキ・銀メッキの場合は Metal: Base Metal, Metal Purity: Gold Plated/Silver Plated。Main Stone は Diamond/Ruby/Sapphire/Emerald/Opal/Pearl/Garnet/Amethyst/Tourmaline/Cubic Zirconia。Type は Eternity/Signet/Dome(甲丸)/Flat Band(平打ち)/Engagement/Wedding Band。Setting は Prong/Bezel/Pave/Channel。'
     ]
   },
   'Necklaces': {
