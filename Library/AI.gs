@@ -137,6 +137,26 @@ function createAIPrompt(fullText, promptId) {
     tmpl = tmpl + cardHints.join('\n');
   }
 
+  // 箱なし・付属品なしルール（全カテゴリ共通で注入）
+  if (tmpl.indexOf('MISSING ACCESSORIES RULE') === -1) {
+    var noBoxRule = [
+      '',
+      '### MISSING ACCESSORIES RULE (MANDATORY - applies to ALL categories)',
+      'If input contains (NO_BOX) marker:',
+      '  - Title MUST end with "No Box"',
+      '  - Description MUST mention "Original box is not included"',
+      'If input contains (NO_ACCESSORIES) marker:',
+      '  - Title MUST end with "No Accessories"',
+      '  - Description MUST mention "No accessories included"',
+      'If BOTH (NO_BOX) and (NO_ACCESSORIES) markers are present:',
+      '  - Title MUST end with "No Box/Accessories"',
+      '  - Description MUST mention "Original box and accessories are not included"',
+      'If title exceeds max length with these additions, abbreviate: No Box -> NB, No Accessories -> NA, No Box/Accessories -> NB/NA',
+      ''
+    ].join('\n');
+    tmpl = tmpl + noBoxRule;
+  }
+
   // AIに渡す前に日本語ソーステキストから不要情報を除去
   fullText = sanitizeInputJP_(fullText);
 
@@ -189,6 +209,28 @@ function sanitizeInputJP_(text) {
   text = text.replace(/発送致します/g, '丁寧な梱包で発送します。');
   // 重複した「丁寧な梱包で発送します。」を1つに
   text = text.replace(/(丁寧な梱包で発送します。)+/g, '丁寧な梱包で発送します。');
+
+  // === 1.6 箱なし・付属品なしマーカー（タイトル反映用） ===
+  // 注意: 長いパターンから先にマッチさせること（「箱・付属品なし」→「箱なし」の順）
+  text = text.replace(/箱・付属品[なは]し/g, '(NO_BOX)(NO_ACCESSORIES)');
+  text = text.replace(/箱・付属品無し/g, '(NO_BOX)(NO_ACCESSORIES)');
+  text = text.replace(/外箱[なは]し/g, '(NO_BOX)');
+  text = text.replace(/外箱無し/g, '(NO_BOX)');
+  text = text.replace(/箱[なは]し/g, '(NO_BOX)');
+  text = text.replace(/箱無し/g, '(NO_BOX)');
+  text = text.replace(/箱欠品/g, '(NO_BOX)');
+  text = text.replace(/付属品[なは]し/g, '(NO_ACCESSORIES)');
+  text = text.replace(/付属品無し/g, '(NO_ACCESSORIES)');
+  text = text.replace(/付属品欠品/g, '(NO_ACCESSORIES)');
+  text = text.replace(/本体のみ/g, '(NO_BOX)(NO_ACCESSORIES)');
+  // 交通整理後の構造化データ対応（K列が「付属品: なし」等の場合）
+  text = text.replace(/付属品:\s*なし/g, '(NO_ACCESSORIES)');
+  text = text.replace(/付属品:\s*無し/g, '(NO_ACCESSORIES)');
+  text = text.replace(/付属品:\s*特になし/g, '(NO_ACCESSORIES)');
+  text = text.replace(/付属品:\s*箱なし/g, '(NO_BOX)');
+  // 重複マーカーの除去
+  text = text.replace(/(\(NO_BOX\))+/g, '(NO_BOX)');
+  text = text.replace(/(\(NO_ACCESSORIES\))+/g, '(NO_ACCESSORIES)');
 
   // === 1.5 故障・不具合の英語マーカー付加（AIの誤訳防止） ===
   text = text.replace(/操作できず/g, '操作できず(DEFECT: not operational)');

@@ -124,14 +124,19 @@ var CATEGORY_RULES_ = {
   'Watches': {
     label: '時計',
     rules: [
-      '- ムーブメント: 自動巻き/手巻き/クオーツ/ソーラー/キネティック のいずれかで記入。',
+      '- ムーブメント: 自動巻き/手巻き/クオーツ/ソーラー/キネティック/スプリングドライブ/電波ソーラー のいずれかで記入。',
       '- 表示方式: アナログ/デジタル/アナログ&デジタル のいずれかで記入。',
+      '- 風防素材: サファイアガラス/ミネラルガラス/ハードレックス/プラスチック/アクリル のいずれかで記入。',
+      '- 防水性能: 数値で記入（例: 10気圧, 100m, 200m）。日常生活防水の場合は「日常生活防水」と記入。気圧→m変換: 3気圧=30m, 5気圧=50m, 10気圧=100m, 20気圧=200m。',
       '- ケース素材: ステンレススチール/チタン/ゴールド/プラチナ/セラミック/プラスチック/レジン のいずれかで記入。金メッキはゴールドプレート、金張りはゴールドフィルドと記入。',
       '- ケースサイズ: mm単位で記入（例: 40mm）。「約」は付けてもよい。',
       '- 文字盤色: 色名を日本語で記入（例: ブラック、ホワイト、ブルー、グリーン）。',
       '- 腕周り: cm単位で記入（例: 18cm）。',
+      '- ベルト素材: ステンレス/チタン/レザー/ラバー/シリコン/ナイロン/メッシュ のいずれかで記入。',
+      '- 型番(Ref): わかる場合は必ず記入（例: SBGA211, 16610, SPB143）。',
+      '- キャリバー(Cal): わかる場合は記入（例: 9R65, 3135, 7S26）。',
       '- 対象: メンズ/レディース/ユニセックス のいずれかで記入。',
-      '- [EN]セクションでは: Movement は Automatic/Manual Wind/Quartz/Solar/Kinetic。Display は Analog/Digital/Analog & Digital。Case Material は Stainless Steel/Titanium/Gold/Platinum/Ceramic/Plastic/Resin/Gold Plated/Gold Filled。Department は Men/Women/Unisex。'
+      '- [EN]セクションでは: Movement は Automatic/Manual Wind/Quartz/Solar/Kinetic/Spring Drive/Radio Solar。Display は Analog/Digital/Analog & Digital。Case Material は Stainless Steel/Titanium/Gold/Platinum/Ceramic/Plastic/Resin/Gold Plated/Gold Filled。Crystal は Sapphire/Mineral/Hardlex/Acrylic。Band Material は Stainless Steel/Titanium/Leather/Rubber/Silicone/Nylon/Mesh。Department は Men/Women/Unisex。'
     ]
   },
   'Rings': {

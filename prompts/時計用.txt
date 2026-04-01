@@ -6,6 +6,102 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge (e.g., do NOT guess movement type, water resistance, case size, crystal type, or country of origin unless the source states it).
 
+WATCH TERMINOLOGY TRANSLATION DICTIONARY
+(Use these exact English terms when translating Japanese watch descriptions)
+
+Movement/Mechanism:
+- 自動巻き -> Automatic
+- 手巻き -> Manual Wind
+- クオーツ -> Quartz
+- 電池式 -> Quartz (Battery)
+- ソーラー -> Solar
+- エコドライブ -> Eco-Drive
+- キネティック -> Kinetic
+- スプリングドライブ -> Spring Drive
+- 電波時計 -> Radio Controlled
+- 電波ソーラー -> Radio Solar
+- ハイビート -> Hi-Beat
+- ハック機能 -> Hacking
+
+Case/Material:
+- ステンレス / SS -> Stainless Steel
+- チタン -> Titanium
+- ブライトチタン -> Bright Titanium
+- 金メッキ / GP -> Gold Plated
+- 金張り / GF -> Gold Filled
+- コンビ / ツートン -> Two-Tone
+- ピンクゴールド / PG -> Rose Gold / Pink Gold
+- イエローゴールド / YG -> Yellow Gold
+- ホワイトゴールド / WG -> White Gold
+- セラミック -> Ceramic
+- カーボン -> Carbon Fiber
+- プラチナ / Pt -> Platinum
+- PVD加工 -> PVD Coated
+- DLC加工 -> DLC Coated
+- レジン / 樹脂 -> Resin
+- ベークライト -> Bakelite
+
+Crystal/Window:
+- サファイアガラス / サファイヤ -> Sapphire Crystal
+- ミネラルガラス -> Mineral Crystal
+- ハードレックス -> Hardlex (Seiko)
+- プラスチック風防 / アクリル -> Acrylic Crystal
+- 無反射コーティング -> Anti-Reflective Coating
+- サイクロップレンズ -> Cyclops Lens
+
+Band/Bracelet:
+- 革ベルト / レザー -> Leather Strap
+- ステンレスブレス -> Stainless Steel Bracelet
+- チタンブレス -> Titanium Bracelet
+- NATOベルト -> NATO Strap
+- ラバーベルト -> Rubber Strap
+- シリコンベルト -> Silicone Strap
+- メッシュブレス -> Mesh Bracelet
+- ジュビリーブレス -> Jubilee Bracelet
+- オイスターブレス -> Oyster Bracelet
+- プレジデントブレス -> President Bracelet
+- 純正ベルト -> Original Strap
+- 社外ベルト -> Aftermarket Strap
+- 尾錠 -> Tang Buckle
+- Dバックル / 三つ折れ -> Deployment Clasp
+
+Function/Feature:
+- クロノグラフ -> Chronograph
+- GMT -> GMT
+- ワールドタイム -> World Time
+- パワーリザーブ -> Power Reserve
+- ムーンフェイズ -> Moon Phase
+- タキメーター -> Tachymeter
+- 回転ベゼル -> Rotating Bezel
+- デイト -> Date
+- デイデイト -> Day-Date
+- レトログラード -> Retrograde
+- トゥールビヨン -> Tourbillon
+- スケルトン / シースルー -> Skeleton / Open Heart
+- ルミナス / 夜光 -> Luminous
+
+Condition/Status:
+- 美品 -> Excellent Condition
+- 極美品 -> Near Mint
+- 未使用 -> Unused / New Old Stock (NOS)
+- 稼働品 -> Running / Working
+- 不動品 -> Not Working
+- 電池切れ -> Needs Battery
+- OH済み -> Serviced / Overhauled
+- ポリッシュ済み -> Polished
+- 日差 -> Daily Rate (e.g., +10 sec/day)
+
+Accessories:
+- 箱付き -> With Box
+- 内箱・外箱 -> Inner and Outer Boxes
+- 保証書付き -> With Papers
+- ギャランティカード -> Guarantee Card
+- 取扱説明書 -> With Manual
+- コマ / 予備コマ -> Extra Links
+- フルコマ -> All Links Included
+- 純正 -> Genuine / Original
+- 社外品 -> Aftermarket
+
 TITLE (SEO Priority)
 - Language: English ASCII only.
 - Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
@@ -65,12 +161,42 @@ DESCRIPTION (SEO Priority)
     - ガラス割れ -> "crystal has a crack"
     - 欠け -> "chip" or "chipped"
     - 傷 -> "scratch"
+    - 風防傷 / ガラス傷 -> "scratches on the crystal"
+    - ベゼル傷 -> "scratches on the bezel"
+    - ケース傷 -> "scratches on the case"
+    - 裏蓋傷 -> "scratches on the case back"
+    - 打痕 / へこみ -> "dents on the case"
+    - 文字盤焼け / 文字盤変色 -> "dial discoloration"
+    - 夜光劣化 -> "lume has faded"
+    - 針焼け / 針変色 -> "discoloration on hands"
+    - ベルト切れ -> "cracked strap"
+    - 尾錠破損 -> "broken buckle"
+    - バックル不良 -> "clasp does not lock properly"
+    - パッキン劣化 -> "gasket deterioration"
+    - ガラス内曇り / 曇り -> "condensation inside crystal"
+    - 埃混入 -> "dust under the crystal"
+    - 液漏れ -> "battery leakage"
+    - 針ズレ -> "hand misalignment"
+    - クロノグラフ不良 -> "chronograph malfunction"
+    - ローターガタつき -> "loose rotor"
+    - メッキ剥げ / メッキ剥がれ -> "plating wear"
+    - 秒針スムーズでない -> "stuttering second hand"
+    - 止まりやすい -> "stops frequently"
     - 〜できず / 〜不可 / 〜できません -> always means NOT possible. NEVER translate as "works" or "functional".
   If source contains "(DEFECT: ...)" markers, use the English text directly.
   Omitting known defects is a violation of eBay policy.
 - Describe operation/status only if clearly mentioned (tested/untested/issues).
 - Avoid evaluative adjectives (excellent, good, mint, used).
 - Exclude shipping/seller opinions/history/warranty.
+- MISSING PARTS/ACCESSORIES (WATCH-SPECIFIC):
+  If source mentions any of the following, reflect in BOTH Title (at end) and Description:
+    - 保証書なし / ギャランティなし / ペーパーなし -> "No Papers" (Title), "Papers/warranty card not included" (Description)
+    - ベルトなし / ストラップなし / バンドなし / ヘッドのみ -> "Head Only" (Title), "Watch head only, no strap/bracelet included" (Description)
+    - コマなし / コマ欠品 / 予備コマなし -> "Missing Links" (Description only, do NOT put in Title)
+    - ケースなし (when referring to storage/presentation case) -> treat same as "No Box"
+    - 説明書なし / マニュアルなし -> "No Manual" (Description only)
+  Priority in Title (space permitting): Head Only > No Papers > No Box > No Accessories
+  If multiple missing items and title is too long, combine: "No Box/Papers"
 
 PRODUCTNAME
 - Format: [Brand] [Collection/Model] [Watch Type], English ASCII only.
