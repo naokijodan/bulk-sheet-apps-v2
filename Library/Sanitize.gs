@@ -156,64 +156,78 @@ var CATEGORY_RULES_ = {
   'Necklaces': {
     label: 'ジュエリー',
     rules: [
-      '- 金属/素材: ゴールド/シルバー/プラチナ/ステンレススチール/レザー 等で記入。',
-      '- 金属純度: K18/K14/K10/925/950 等で記入。不明ならNA。',
-      '- 主石: ダイヤモンド/ルビー/サファイア/パール 等。石なしならNA。',
-      '- [EN]セクションでは: Metal は Gold/Silver/Platinum/Stainless Steel/Base Metal/Leather。Metal Purity は 18k/14k/10k/925/950。金メッキの場合は Metal: Base Metal, Metal Purity: Does not apply。'
+      '- 金属/素材: ゴールド/シルバー/プラチナ/ステンレススチール/真鍮/レザー 等で記入。',
+      '- 金属純度: K18/K14/K10/K9/Pt900/Pt950/SV925/SV950 等で記入。不明ならNA。',
+      '- 金属色: イエローゴールド/ホワイトゴールド/ピンクゴールド/コンビ 等。不明ならNA。',
+      '- 主石: ダイヤモンド/ルビー/サファイア/エメラルド/オパール/パール/ガーネット/アメジスト/トルマリン/ジルコニア 等。石なしならNA。',
+      '- 脇石: メレダイヤ/ルビー 等。なければNA。',
+      '- [EN]セクションでは: Metal は Gold/Silver/Platinum/Stainless Steel/Brass/Base Metal/Leather。Metal Purity は 18k/14k/10k/9k/Pt900/Pt950/925/950。金メッキ・銀メッキの場合は Metal: Base Metal, Metal Purity: Gold Plated/Silver Plated。Main Stone は Diamond/Ruby/Sapphire/Emerald/Opal/Pearl/Garnet/Amethyst/Tourmaline/Cubic Zirconia。'
     ]
   },
   'Bracelets': {
     label: 'ジュエリー',
     rules: [
-      '- 金属/素材: ゴールド/シルバー/プラチナ/ステンレススチール/レザー 等で記入。',
-      '- 金属純度: K18/K14/K10/925/950 等で記入。不明ならNA。',
-      '- 主石: ダイヤモンド/ルビー/サファイア/パール 等。石なしならNA。',
-      '- [EN]セクションでは: Metal は Gold/Silver/Platinum/Stainless Steel/Base Metal/Leather。Metal Purity は 18k/14k/10k/925/950。金メッキの場合は Metal: Base Metal, Metal Purity: Does not apply。'
+      '- 金属/素材: ゴールド/シルバー/プラチナ/ステンレススチール/真鍮/レザー 等で記入。',
+      '- 金属純度: K18/K14/K10/K9/Pt900/Pt950/SV925/SV950 等で記入。不明ならNA。',
+      '- 金属色: イエローゴールド/ホワイトゴールド/ピンクゴールド/コンビ 等。不明ならNA。',
+      '- 主石: ダイヤモンド/ルビー/サファイア/エメラルド/オパール/パール/ガーネット/アメジスト/トルマリン/ジルコニア 等。石なしならNA。',
+      '- 脇石: メレダイヤ/ルビー 等。なければNA。',
+      '- [EN]セクションでは: Metal は Gold/Silver/Platinum/Stainless Steel/Brass/Base Metal/Leather。Metal Purity は 18k/14k/10k/9k/Pt900/Pt950/925/950。金メッキ・銀メッキの場合は Metal: Base Metal, Metal Purity: Gold Plated/Silver Plated。Main Stone は Diamond/Ruby/Sapphire/Emerald/Opal/Pearl/Garnet/Amethyst/Tourmaline/Cubic Zirconia。'
     ]
   },
   'Earrings': {
     label: 'ジュエリー',
     rules: [
-      '- 金属/素材: ゴールド/シルバー/プラチナ/ステンレススチール/レザー 等で記入。',
-      '- 金属純度: K18/K14/K10/925/950 等で記入。不明ならNA。',
-      '- 主石: ダイヤモンド/ルビー/サファイア/パール 等。石なしならNA。',
-      '- [EN]セクションでは: Metal は Gold/Silver/Platinum/Stainless Steel/Base Metal/Leather。Metal Purity は 18k/14k/10k/925/950。金メッキの場合は Metal: Base Metal, Metal Purity: Does not apply。'
+      '- 金属/素材: ゴールド/シルバー/プラチナ/ステンレススチール/真鍮/レザー 等で記入。',
+      '- 金属純度: K18/K14/K10/K9/Pt900/Pt950/SV925/SV950 等で記入。不明ならNA。',
+      '- 金属色: イエローゴールド/ホワイトゴールド/ピンクゴールド/コンビ 等。不明ならNA。',
+      '- 主石: ダイヤモンド/ルビー/サファイア/エメラルド/オパール/パール/ガーネット/アメジスト/トルマリン/ジルコニア 等。石なしならNA。',
+      '- 脇石: メレダイヤ/ルビー 等。なければNA。',
+      '- [EN]セクションでは: Metal は Gold/Silver/Platinum/Stainless Steel/Brass/Base Metal/Leather。Metal Purity は 18k/14k/10k/9k/Pt900/Pt950/925/950。金メッキ・銀メッキの場合は Metal: Base Metal, Metal Purity: Gold Plated/Silver Plated。Main Stone は Diamond/Ruby/Sapphire/Emerald/Opal/Pearl/Garnet/Amethyst/Tourmaline/Cubic Zirconia。'
     ]
   },
   'Brooches': {
     label: 'ジュエリー',
     rules: [
-      '- 金属/素材: ゴールド/シルバー/プラチナ/ステンレススチール/レザー 等で記入。',
-      '- 金属純度: K18/K14/K10/925/950 等で記入。不明ならNA。',
-      '- 主石: ダイヤモンド/ルビー/サファイア/パール 等。石なしならNA。',
-      '- [EN]セクションでは: Metal は Gold/Silver/Platinum/Stainless Steel/Base Metal/Leather。Metal Purity は 18k/14k/10k/925/950。金メッキの場合は Metal: Base Metal, Metal Purity: Does not apply。'
+      '- 金属/素材: ゴールド/シルバー/プラチナ/ステンレススチール/真鍮/レザー 等で記入。',
+      '- 金属純度: K18/K14/K10/K9/Pt900/Pt950/SV925/SV950 等で記入。不明ならNA。',
+      '- 金属色: イエローゴールド/ホワイトゴールド/ピンクゴールド/コンビ 等。不明ならNA。',
+      '- 主石: ダイヤモンド/ルビー/サファイア/エメラルド/オパール/パール/ガーネット/アメジスト/トルマリン/ジルコニア 等。石なしならNA。',
+      '- 脇石: メレダイヤ/ルビー 等。なければNA。',
+      '- [EN]セクションでは: Metal は Gold/Silver/Platinum/Stainless Steel/Brass/Base Metal/Leather。Metal Purity は 18k/14k/10k/9k/Pt900/Pt950/925/950。金メッキ・銀メッキの場合は Metal: Base Metal, Metal Purity: Gold Plated/Silver Plated。Main Stone は Diamond/Ruby/Sapphire/Emerald/Opal/Pearl/Garnet/Amethyst/Tourmaline/Cubic Zirconia。'
     ]
   },
   'Cufflinks': {
     label: 'ジュエリー',
     rules: [
-      '- 金属/素材: ゴールド/シルバー/プラチナ/ステンレススチール/レザー 等で記入。',
-      '- 金属純度: K18/K14/K10/925/950 等で記入。不明ならNA。',
-      '- 主石: ダイヤモンド/ルビー/サファイア/パール 等。石なしならNA。',
-      '- [EN]セクションでは: Metal は Gold/Silver/Platinum/Stainless Steel/Base Metal/Leather。Metal Purity は 18k/14k/10k/925/950。金メッキの場合は Metal: Base Metal, Metal Purity: Does not apply。'
+      '- 金属/素材: ゴールド/シルバー/プラチナ/ステンレススチール/真鍮/レザー 等で記入。',
+      '- 金属純度: K18/K14/K10/K9/Pt900/Pt950/SV925/SV950 等で記入。不明ならNA。',
+      '- 金属色: イエローゴールド/ホワイトゴールド/ピンクゴールド/コンビ 等。不明ならNA。',
+      '- 主石: ダイヤモンド/ルビー/サファイア/エメラルド/オパール/パール/ガーネット/アメジスト/トルマリン/ジルコニア 等。石なしならNA。',
+      '- 脇石: メレダイヤ/ルビー 等。なければNA。',
+      '- [EN]セクションでは: Metal は Gold/Silver/Platinum/Stainless Steel/Brass/Base Metal/Leather。Metal Purity は 18k/14k/10k/9k/Pt900/Pt950/925/950。金メッキ・銀メッキの場合は Metal: Base Metal, Metal Purity: Gold Plated/Silver Plated。Main Stone は Diamond/Ruby/Sapphire/Emerald/Opal/Pearl/Garnet/Amethyst/Tourmaline/Cubic Zirconia。'
     ]
   },
   'Charms': {
     label: 'ジュエリー',
     rules: [
-      '- 金属/素材: ゴールド/シルバー/プラチナ/ステンレススチール/レザー 等で記入。',
-      '- 金属純度: K18/K14/K10/925/950 等で記入。不明ならNA。',
-      '- 主石: ダイヤモンド/ルビー/サファイア/パール 等。石なしならNA。',
-      '- [EN]セクションでは: Metal は Gold/Silver/Platinum/Stainless Steel/Base Metal/Leather。Metal Purity は 18k/14k/10k/925/950。金メッキの場合は Metal: Base Metal, Metal Purity: Does not apply。'
+      '- 金属/素材: ゴールド/シルバー/プラチナ/ステンレススチール/真鍮/レザー 等で記入。',
+      '- 金属純度: K18/K14/K10/K9/Pt900/Pt950/SV925/SV950 等で記入。不明ならNA。',
+      '- 金属色: イエローゴールド/ホワイトゴールド/ピンクゴールド/コンビ 等。不明ならNA。',
+      '- 主石: ダイヤモンド/ルビー/サファイア/エメラルド/オパール/パール/ガーネット/アメジスト/トルマリン/ジルコニア 等。石なしならNA。',
+      '- 脇石: メレダイヤ/ルビー 等。なければNA。',
+      '- [EN]セクションでは: Metal は Gold/Silver/Platinum/Stainless Steel/Brass/Base Metal/Leather。Metal Purity は 18k/14k/10k/9k/Pt900/Pt950/925/950。金メッキ・銀メッキの場合は Metal: Base Metal, Metal Purity: Gold Plated/Silver Plated。Main Stone は Diamond/Ruby/Sapphire/Emerald/Opal/Pearl/Garnet/Amethyst/Tourmaline/Cubic Zirconia。'
     ]
   },
   'Tie Accessories': {
     label: 'ジュエリー',
     rules: [
-      '- 金属/素材: ゴールド/シルバー/プラチナ/ステンレススチール/レザー 等で記入。',
-      '- 金属純度: K18/K14/K10/925/950 等で記入。不明ならNA。',
-      '- 主石: ダイヤモンド/ルビー/サファイア/パール 等。石なしならNA。',
-      '- [EN]セクションでは: Metal は Gold/Silver/Platinum/Stainless Steel/Base Metal/Leather。Metal Purity は 18k/14k/10k/925/950。金メッキの場合は Metal: Base Metal, Metal Purity: Does not apply。'
+      '- 金属/素材: ゴールド/シルバー/プラチナ/ステンレススチール/真鍮/レザー 等で記入。',
+      '- 金属純度: K18/K14/K10/K9/Pt900/Pt950/SV925/SV950 等で記入。不明ならNA。',
+      '- 金属色: イエローゴールド/ホワイトゴールド/ピンクゴールド/コンビ 等。不明ならNA。',
+      '- 主石: ダイヤモンド/ルビー/サファイア/エメラルド/オパール/パール/ガーネット/アメジスト/トルマリン/ジルコニア 等。石なしならNA。',
+      '- 脇石: メレダイヤ/ルビー 等。なければNA。',
+      '- [EN]セクションでは: Metal は Gold/Silver/Platinum/Stainless Steel/Brass/Base Metal/Leather。Metal Purity は 18k/14k/10k/9k/Pt900/Pt950/925/950。金メッキ・銀メッキの場合は Metal: Base Metal, Metal Purity: Gold Plated/Silver Plated。Main Stone は Diamond/Ruby/Sapphire/Emerald/Opal/Pearl/Garnet/Amethyst/Tourmaline/Cubic Zirconia。'
     ]
   },
   'Handbags': {
