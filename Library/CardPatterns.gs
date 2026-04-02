@@ -683,7 +683,31 @@ var CARD_MTG_CARDS = [
   // ========== 2024-2025 高額 ==========
   {jp: '黄金架のドラゴン', en: 'Goldspan Dragon', aliases: ['黄金架']},
   {jp: '残虐の執政官', en: 'Archon of Cruelty'},
-  {jp: '三本木市', en: 'Three Tree City', aliases: ['三本木']}
+  {jp: '三本木市', en: 'Three Tree City', aliases: ['三本木']},
+
+  // ========== 最新スタンダード人気 ==========
+  {jp: '婚礼の発表', en: 'Wedding Announcement', aliases: ['婚礼']},
+  {jp: '敵対するもの、オブニクシリス', en: 'Ob Nixilis, the Adversary', aliases: ['オブニクシリス']},
+  {jp: '街並みの地ならし屋', en: 'Cityscape Leveler'},
+
+  // ========== 統率者 追加 ==========
+  {jp: '太陽の指輪', en: 'Sol Ring'},
+  {jp: '魔力の墓所', en: 'Mana Crypt'},
+  {jp: '魔力の櫃', en: 'Mana Vault'},
+  {jp: 'リスティックの研究', en: 'Rhystic Study', aliases: ['リスティック']},
+  {jp: '神秘の教示者', en: 'Mystical Tutor'},
+  {jp: '悟りの教示者', en: 'Enlightened Tutor'},
+  {jp: '吸血の教示者', en: 'Vampiric Tutor'},
+  {jp: '悪魔の教示者', en: 'Demonic Tutor'},
+  {jp: '大修復家、カーン', en: 'Karn, the Great Creator', aliases: ['カーン']},
+  {jp: '溜め込み屋のアウフ', en: "Collector Ouphe"},
+
+  // ========== レガシー定番 ==========
+  {jp: '不毛の大地', en: 'Wasteland'},
+  {jp: 'カラカス', en: 'Karakas'},
+  {jp: 'ウルザの物語', en: "Urza's Saga", aliases: ['ウルザサガ']},
+  {jp: '虚空の杯', en: 'Chalice of the Void', aliases: ['虚空杯']},
+  {jp: '壌土からの生命', en: 'Life from the Loam'}
 ];
 
 var CARD_MTG_VARIANTS = [
@@ -903,7 +927,45 @@ var CARD_YUGIOH_CHARACTERS = [
   {jp: 'ティアラメンツキトカロス', en: 'Tearlaments Kitkallos', aliases: ['キトカロス']},
   {jp: 'ティアラメンツルルカロス', en: 'Tearlaments Rulkallos', aliases: ['ルルカロス']},
   {jp: 'ティアラメンツレイノハート', en: 'Tearlaments Reinoheart', aliases: ['レイノハート']},
-  {jp: 'ティアラメンツシェイレーン', en: 'Tearlaments Scheiren', aliases: ['シェイレーン']}
+  {jp: 'ティアラメンツシェイレーン', en: 'Tearlaments Scheiren', aliases: ['シェイレーン']},
+
+  // ========== スプライト 個別カード ==========
+  {jp: 'スプライトエルフ', en: 'Spright Elf', aliases: ['ギガンティックスプライト']},
+  {jp: 'スプライトブルー', en: 'Spright Blue', aliases: ['スプライト・ブルー']},
+  {jp: 'スプライトジェット', en: 'Spright Jet', aliases: ['スプライト・ジェット']},
+
+  // ========== クシャトリラ 個別カード ==========
+  {jp: 'クシャトリラユニコーン', en: 'Kashtira Unicorn', aliases: ['クシャトリラ・ユニコーン']},
+  {jp: 'クシャトリラアライズハート', en: 'Kashtira Arise-Heart', aliases: ['アライズハート']},
+  {jp: 'クシャトリラフェンリル', en: 'Kashtira Fenrir', aliases: ['フェンリル']},
+
+  // ========== ラビュリンス 個別カード ==========
+  {jp: '白銀の城のラビュリンス', en: 'Lady Labrynth of the Silver Castle', aliases: ['白銀ラビュリンス']},
+  {jp: '迷宮城の白銀姫', en: 'Labrynth Chandraglier'},
+  {jp: 'ビッグウェルカムラビュリンス', en: 'Big Welcome Labrynth'},
+
+  // ========== 粛声 (Voiceless Voice) ==========
+  {jp: '粛声の竜賢姫サフィラ', en: 'Saffira, Dragon Queen of the Voiceless Voice', aliases: ['サフィラ']},
+  {jp: '粛声なる威光', en: 'Radiance of the Voiceless Voice'},
+
+  // ========== 白き森 個別カード ==========
+  {jp: '白き森のルシエラ', en: 'Luciera of the White Forest', aliases: ['ルシエラ']},
+  {jp: '白き森のアステーリャ', en: 'Astelia of the White Forest', aliases: ['アステーリャ']},
+
+  // ========== その他人気エクストラ ==========
+  {jp: 'スプラッシュメイジ', en: 'Splash Mage'},
+  {jp: 'デコードトーカーヒートソウル', en: 'Decode Talker Heatsoul', aliases: ['ヒートソウル']},
+  {jp: '混沌魔龍カオスルーラー', en: 'Chaos Ruler the Chaotic Magical Dragon', aliases: ['カオスルーラー']},
+  {jp: 'バロネス', en: 'Baronne de Fleur', aliases: ['フルールドバロネス']},
+  {jp: '相剣大公ー承影', en: 'Swordsoul Grandmaster Chixiao', aliases: ['承影', 'チシャオ']},
+  {jp: 'アストラムリンク', en: 'Mekk-Knight Crusadia Avramax', aliases: ['アヴラマックス']},
+
+  // ========== 手札誘発 追加 ==========
+  {jp: 'PSYフレームギアγ', en: 'PSY-Framegear Gamma', aliases: ['ガンマ', 'γ']},
+  {jp: 'ディメンションアトラクター', en: 'Dimension Shifter', aliases: ['ディメンションシフター']},
+  {jp: 'アーティファクトロンギヌス', en: 'Artifact Lancea', aliases: ['ロンギヌス']},
+  {jp: 'トークンコレクター', en: 'Token Collector'},
+  {jp: 'ファンタズメイ', en: 'Fantastical Dragon Phantazmay', aliases: ['幻創龍ファンタズメイ']}
 ];
 
 // ==============================
@@ -1020,7 +1082,37 @@ var CARD_ONEPIECE_CHARACTERS = [
   {jp: 'カク', en: 'Kaku'},
   {jp: 'マゼラン', en: 'Magellan'},
   {jp: 'Mr.2 ボン・クレー', en: 'Mr. 2 Bon Clay', aliases: ['ボンクレー', 'ベンサム']},
-  {jp: 'ペローナ', en: 'Perona'}
+  {jp: 'ペローナ', en: 'Perona'},
+
+  // ========== エッグヘッド/最新 ==========
+  {jp: 'ステューシー', en: 'Stussy'},
+  {jp: 'サターン聖', en: 'Saint Saturn', aliases: ['ジェイガルシア・サターン聖', 'Saturn']},
+  {jp: 'くいな', en: 'Kuina'},
+  {jp: 'ウタ', en: 'Uta'},
+  {jp: 'フィルムレッド', en: 'Film Red', aliases: ['FILM RED']},
+
+  // ========== CP/世界政府 ==========
+  {jp: 'スパンダム', en: 'Spandam'},
+  {jp: 'カリファ', en: 'Kalifa'},
+  {jp: '戦桃丸', en: 'Sentomaru'},
+
+  // ========== 東の海/アーロンパーク ==========
+  {jp: 'アーロン', en: 'Arlong'},
+  {jp: 'クロ', en: 'Captain Kuro', aliases: ['キャプテン・クロ']},
+  {jp: 'クリーク', en: 'Don Krieg', aliases: ['ドン・クリーク']},
+
+  // ========== インペルダウン/ドレスローザ ==========
+  {jp: 'バルトロメオ', en: 'Bartolomeo'},
+  {jp: 'キャベンディッシュ', en: 'Cavendish'},
+  {jp: 'レベッカ', en: 'Rebecca'},
+  {jp: 'コラソン', en: 'Corazon', aliases: ['ドンキホーテ・ロシナンテ']},
+  {jp: 'シュガー', en: 'Sugar'},
+
+  // ========== ワノ国 ==========
+  {jp: 'モモの助', en: 'Momonosuke', aliases: ['光月モモの助']},
+  {jp: '日和', en: 'Hiyori', aliases: ['光月日和', '小紫']},
+  {jp: 'お菊', en: 'Okiku', aliases: ['イゾウ']},
+  {jp: '錦えもん', en: 'Kin-emon', aliases: ['錦えもん']}
 ];
 
 // ==============================
@@ -1261,7 +1353,25 @@ var CARD_SUMO_WRESTLERS = [
   {jp: '若乃花', en: 'Wakanohana'},
   {jp: '朝青龍', en: 'Asashoryu'},
   {jp: '稀勢の里', en: 'Kisenosato'},
-  {jp: '大の里', en: 'Onosato'}
+  {jp: '大の里', en: 'Onosato'},
+  
+  // ========== 現役・最近の力士 ==========
+  {jp: '琴櫻', en: 'Kotozakura', aliases: ['琴ノ若']},
+  {jp: '豊昇龍', en: 'Hoshoryu'},
+  {jp: '大の里', en: 'Onosato'},
+  {jp: '霧島', en: 'Kirishima', aliases: ['霧馬山']},
+  {jp: '若元春', en: 'Wakatakakage', aliases: ['若隆景']},
+  {jp: '貴景勝', en: 'Takakeisho'},
+  {jp: '正代', en: 'Shodai'},
+  {jp: '御嶽海', en: 'Mitakeumi'},
+  {jp: '阿炎', en: 'Abi'},
+  // ========== 伝説の力士 ==========
+  {jp: '大鵬', en: 'Taiho'},
+  {jp: '双葉山', en: 'Futabayama'},
+  {jp: '北の湖', en: 'Kitanoumi'},
+  {jp: '輪島', en: 'Wajima'},
+  {jp: '若乃花', en: 'Wakanohana'},
+  {jp: '栃東', en: 'Tochihigashi', aliases: ['栃東大裕']}
 ];
 
 // ==============================
@@ -1432,6 +1542,44 @@ var CARD_DUELM_CARDS = [
   {jp: '龍装者バルチュリス', en: 'Ryusousha Balchuris', aliases: ['バルチュリス']},
   {jp: '切札勝太', en: 'Katta Kirifuda'},
   {jp: '百獣聖拳バイソンクエスト', en: 'Bison Quest', aliases: ['バイソンクエスト']},
+  
+  // ========== 火文明 ==========
+  {jp: 'ボルシャック・スーパーヒーロー', en: 'Bolshack Super Hero', aliases: ['ボルスパ']},
+  {jp: 'ボルシャック・モモキングNEX', en: 'Bolshack Momoking NEX'},
+  {jp: 'メラビート・ザ・ジョニー', en: 'Merabeat the Johnny', aliases: ['メラビート']},
+  {jp: '超竜バジュラ', en: 'Super Dragon Bajula', aliases: ['バジュラ']},
+  {jp: 'ボルシャック・ドラゴン解', en: 'Bolshack Dragon Kai'},
+  // ========== 水文明 ==========
+  {jp: 'アクア・サーファー', en: 'Aqua Surfer'},
+  {jp: 'クリスタル・メモリー', en: 'Crystal Memory'},
+  {jp: 'エンペラー・キリコ', en: 'Emperor Kiriko', aliases: ['キリコ']},
+  {jp: 'サイバー・ブレイン', en: 'Cyber Brain'},
+  // ========== 闇文明 ==========
+  {jp: 'デスフェニックス', en: 'Death Phoenix', aliases: ['超神星ヴィーナス・ラ・セイントマザー']},
+  {jp: 'ドルバロム', en: 'Dorballom', aliases: ['悪魔神ドルバロム']},
+  {jp: 'デス・ザ・ロスト', en: 'Death the Lost'},
+  {jp: 'ヘルボロフ', en: 'Hellborof'},
+  {jp: 'ゼーロベン', en: 'Zeroben', aliases: ['零龍']},
+  // ========== 光文明 ==========
+  {jp: 'ヘブンズ・ゲート', en: 'Heavens Gate'},
+  {jp: 'アルカディアス', en: 'Alcadeias', aliases: ['聖霊王アルカディアス']},
+  {jp: 'ミラダンテXII', en: 'Miradante XII', aliases: ['ミラダンテ']},
+  {jp: 'ラフルル', en: 'Rafululu'},
+  // ========== 自然文明 ==========
+  {jp: 'ジュランペラー', en: 'Juranpeler'},
+  {jp: 'ナチュラルトラップ', en: 'Natural Trap'},
+  {jp: 'ガイアール・カイザー', en: 'Gaial Kaiser', aliases: ['ガイアール']},
+  // ========== 多色・ゼロ ==========
+  {jp: 'キングダム・オウ禍武斗', en: 'Kingdom Oukabuto', aliases: ['オウ禍武斗']},
+  {jp: 'ジョー星', en: 'Joe Star', aliases: ['ジョーカーズ']},
+  {jp: 'カツキングJr.', en: 'Katsuking Jr.'},
+  {jp: 'モモキング', en: 'Momoking'},
+  {jp: 'モモキングダムX', en: 'Momokingdom X'},
+  {jp: 'ドギラゴン剣', en: 'Dogiragon Buster', aliases: ['ドギラゴンバスター']},
+  {jp: 'デッドダムド', en: 'Deaddamned', aliases: ['SSS級天災デッドダムド']},
+  {jp: 'ドルマゲドン', en: 'Dormageddon', aliases: ['禁断']},
+  {jp: 'ジョリー・ザ・ジョニー', en: 'Jolly the Johnny', aliases: ['ジョリー']},
+  {jp: 'アダムスキー', en: 'Adamski'}
 ];
 
 var CARD_RARITY_DUELM = [
@@ -1485,6 +1633,36 @@ var CARD_DRAGONBALL_CHARACTERS = [
   {jp: '人造人間17号', en: 'Android 17', aliases: ['17号']},
   {jp: '人造人間18号', en: 'Android 18', aliases: ['18号']},
   {jp: 'バーダック', en: 'Bardock'},
+  
+  // ========== サイヤ人形態 ==========
+  {jp: '超サイヤ人悟空', en: 'Super Saiyan Son Goku', aliases: ['SSJ悟空', 'SS Goku']},
+  {jp: '超サイヤ人ゴッド悟空', en: 'Super Saiyan God Son Goku', aliases: ['SSG悟空', 'SSG Goku']},
+  {jp: '超サイヤ人ブルー悟空', en: 'Super Saiyan Blue Son Goku', aliases: ['SSB悟空', 'SSGSS Goku']},
+  {jp: '身勝手の極意悟空', en: 'Ultra Instinct Son Goku', aliases: ['身勝手悟空', 'UI Goku']},
+  {jp: '超サイヤ人ベジータ', en: 'Super Saiyan Vegeta', aliases: ['SSJベジータ']},
+  {jp: '超サイヤ人ブルーベジータ', en: 'Super Saiyan Blue Vegeta', aliases: ['SSBベジータ']},
+  {jp: '我儘の極意ベジータ', en: 'Ultra Ego Vegeta', aliases: ['UEベジータ']},
+  {jp: '超サイヤ人悟飯', en: 'Super Saiyan Son Gohan', aliases: ['SSJ悟飯']},
+  {jp: 'アルティメット悟飯', en: 'Ultimate Gohan', aliases: ['潜在能力解放悟飯']},
+  {jp: 'ビースト悟飯', en: 'Gohan Beast'},
+  // ========== 映画・GT ==========
+  {jp: 'ゴジータブルー', en: 'Gogeta Blue', aliases: ['超サイヤ人ブルーゴジータ', 'SSB Gogeta']},
+  {jp: 'ベジットブルー', en: 'Vegito Blue', aliases: ['超サイヤ人ブルーベジット', 'SSB Vegito']},
+  {jp: '超サイヤ人4悟空', en: 'Super Saiyan 4 Son Goku', aliases: ['SS4悟空']},
+  {jp: 'ゴールデンフリーザ', en: 'Golden Frieza'},
+  {jp: 'ブラックフリーザ', en: 'Black Frieza'},
+  // ========== 敵キャラ ==========
+  {jp: 'セルマックス', en: 'Cell Max'},
+  {jp: 'パーフェクトセル', en: 'Perfect Cell'},
+  {jp: '魔人ベジータ', en: 'Majin Vegeta'},
+  {jp: 'ザマス', en: 'Zamasu', aliases: ['合体ザマス']},
+  {jp: 'ギニュー', en: 'Captain Ginyu', aliases: ['ギニュー特戦隊']},
+  // ========== その他人気 ==========
+  {jp: 'クウラ', en: 'Cooler', aliases: ['メタルクウラ']},
+  {jp: 'ビーデル', en: 'Videl'},
+  {jp: '亀仙人', en: 'Master Roshi', aliases: ['武天老師']},
+  {jp: 'ミスターサタン', en: 'Hercule', aliases: ['Mr.サタン']},
+  {jp: 'ヤムチャ', en: 'Yamcha'}
 ];
 
 var CARD_RARITY_DRAGONBALL = [
