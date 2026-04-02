@@ -1819,14 +1819,20 @@ function writeItemSpecificsToSheet_(sheet, rowResults) {
           data['Wrist Size'] = wsCm + 'cm/' + wsInch + 'in';
         }
       }
-      // Case Size: inch表記がなければ自動付加（mm → inch変換）
+      // Case Size: inch表記がなければ自動付加（mm/cm → inch変換）
       if (data['Case Size'] && !/in/.test(String(data['Case Size']))) {
         var csVal = String(data['Case Size']);
-        var csMatch = csVal.match(/([\d.]+)\s*mm/i);
-        if (csMatch) {
-          var csMm = parseFloat(csMatch[1]);
+        var csMatchMm = csVal.match(/([\d.]+)\s*mm/i);
+        var csMatchCm = csVal.match(/([\d.]+)\s*cm/i);
+        if (csMatchMm) {
+          var csMm = parseFloat(csMatchMm[1]);
           var csInch = (csMm / 25.4).toFixed(2);
           data['Case Size'] = csMm + 'mm/' + csInch + 'in';
+        } else if (csMatchCm) {
+          var csCm = parseFloat(csMatchCm[1]);
+          var csMmFromCm = csCm * 10;
+          var csInchFromCm = (csMmFromCm / 25.4).toFixed(2);
+          data['Case Size'] = csMmFromCm + 'mm/' + csInchFromCm + 'in';
         }
       }
 
