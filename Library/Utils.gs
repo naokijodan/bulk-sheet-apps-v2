@@ -1075,6 +1075,66 @@ function GET_PRICE_BRACKET(price, shippingMethod) {
   }
 }
 
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  タグ自動判定ユーティリティ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+/**
+ * パーセント文字列を数値に変換（全角対応）
+ * 例: '15%' → 0.15、'3％' → 0.03、0.15 → 0.15、null/空 → null
+ * 変換失敗時はnull
+ * @param {*} val
+ * @return {number|null}
+ */
+function parsePercent_(val) {
+  if (val == null || val === '') return null;
+  var raw = String(val);
+  var hasPercent = /[％%]/.test(raw);
+  var s = raw
+    .replace(/[％%]/g, '')
+    .replace(/[０-９]/g, function(c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+    .trim();
+  var n = Number(s);
+  if (isNaN(n)) return null;
+  // '%'付き（例: '15%' → 0.15, '1%' → 0.01）は必ず/100
+  // '%'なし（例: 0.15 → 0.15）はそのまま
+  if (hasPercent) return n / 100;
+  return n;
+}
+
+/**
+ * TagShippingシートからタグ名→設定値のマップを構築
+ * settings.tagOverrideEnabled=false の場合はnull
+ * @param {Spreadsheet} ss
+ * @param {Object} settings
+ * @return {Object|null}
+ */
+function buildTagOverrideMap_(ss, settings) {
+  if (!settings || !settings.tagOverrideEnabled) return null;
+  var tsSheet = ss.getSheetByName(CONFIG.TAG_SHIPPING.SHEET_NAME);
+  if (!tsSheet) return null;
+  var lastRow = tsSheet.getLastRow();
+  if (lastRow < 2) return null;
+  var headers = CONFIG.TAG_SHIPPING.HEADERS;
+  var data = tsSheet.getRange(2, 1, lastRow - 1, headers.length).getValues();
+  var map = {};
+  for (var i = 0; i < data.length; i++) {
+    var tag = String(data[i][0] || '').trim();
+    if (!tag) continue;
+    map[tag] = {
+      template: data[i][headers.indexOf('テンプレート名')] || null,
+      shippingCat: data[i][headers.indexOf('送料上限カテゴリ')] || null,
+      profitRate: parsePercent_(data[i][headers.indexOf('利益率')]),
+      adRate: parsePercent_(data[i][headers.indexOf('広告費率')]),
+      feeRate: parsePercent_(data[i][headers.indexOf('手数料率')]),
+      lowShip: data[i][headers.indexOf('低価格配送')] || null,
+      highShip: data[i][headers.indexOf('高価格配送')] || null,
+      threshold: (function(v) { var n = Number(v); return isNaN(n) ? null : n; })(data[i][headers.indexOf('送料切替基準')])
+    };
+  }
+  return map;
+}
+
 /**
  * カテゴリーから送料上限を取得（カスタム関数用）
  * @private

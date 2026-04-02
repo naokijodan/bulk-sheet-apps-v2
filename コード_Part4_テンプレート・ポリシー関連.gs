@@ -676,6 +676,21 @@ function applyUnifiedSettingsBatch_(sheet, batchRows, category, templateName, te
     batchRowsSet[batchRows[i]] = true;
   }
 
+  // タグ設定の事前取得（タグ自動判定ON時のみ）
+  var ss = sheet.getParent();
+  var settings = getSettings();
+  var tagMap = buildTagOverrideMap_(ss, settings);
+  var tagValues = null;
+  if (tagMap) {
+    tagValues = sheet.getRange(minRow, CONFIG.COLUMNS.TAG, rowCount, 1).getValues();
+  }
+  function getTagVal_(rowNum, field) {
+    if (!tagMap || !tagValues) return null;
+    var tag = String(tagValues[rowNum - minRow][0] || '').split(/[\s\u3000]/)[0].trim();
+    var entry = tagMap[tag];
+    return entry ? entry[field] : null;
+  }
+
   // ========================================
   // ① 必要なデータを一括取得（最小〜最大行の範囲）
   // ========================================
@@ -737,7 +752,12 @@ function applyUnifiedSettingsBatch_(sheet, batchRows, category, templateName, te
     
     // テンプレート処理
     if (templateMode === 'auto') {
-      var standardName = generateNewTemplateName(templateName, condition, shippingType);
+      var rowTemplateName = templateName;
+      if (settings && settings.tagOverrideTemplate) {
+        var tagTpl = getTagVal_(row, 'template');
+        if (tagTpl != null) rowTemplateName = tagTpl;
+      }
+      var standardName = generateNewTemplateName(rowTemplateName, condition, shippingType);
       console.log('  テンプレート標準名: ' + standardName);
 
       if (!standardName) {
@@ -766,7 +786,12 @@ function applyUnifiedSettingsBatch_(sheet, batchRows, category, templateName, te
       console.log('  手動ポリシーID: ' + policyId);
     } else {
       // 自動判定
-      var policyCategory = getCategoryForShippingPolicy(category);
+      var rowCategory = category;
+      if (settings && settings.tagOverrideShippingCategory) {
+        var tagCat = getTagVal_(row, 'shippingCat');
+        if (tagCat != null) rowCategory = tagCat;
+      }
+      var policyCategory = getCategoryForShippingPolicy(rowCategory);
       // 🚀 キャッシュから検索（高速化）
       policyId = findShippingPolicyIdFromCache_(cache.policies, policyCategory, condition, shippingType, estimatedTax);
       console.log('  自動ポリシーID: ' + policyId);

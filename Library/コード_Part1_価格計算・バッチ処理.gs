@@ -160,19 +160,6 @@ function initialSetup() {
     tmpl.currentTagOverrideHighShipping = docProps.getProperty('TAG_OVERRIDE_HIGH_SHIPPING') || 'true';
     tmpl.currentTagOverrideThreshold = docProps.getProperty('TAG_OVERRIDE_THRESHOLD') || 'true';
 
-    // タグ自動判定設定
-    tmpl.currentTagOverrideEnabled = docProps.getProperty('TAG_OVERRIDE_ENABLED') || 'false';
-    tmpl.currentTagOverridePrompt = docProps.getProperty('TAG_OVERRIDE_PROMPT') || 'true';
-    tmpl.currentTagOverrideTemplate = docProps.getProperty('TAG_OVERRIDE_TEMPLATE') || 'true';
-    tmpl.currentTagOverrideShippingCategory = docProps.getProperty('TAG_OVERRIDE_SHIPPING_CATEGORY') || 'true';
-    tmpl.currentTagOverrideProfitRate = docProps.getProperty('TAG_OVERRIDE_PROFIT_RATE') || 'true';
-    tmpl.currentTagOverrideAdRate = docProps.getProperty('TAG_OVERRIDE_AD_RATE') || 'true';
-    tmpl.currentTagOverrideFeeRate = docProps.getProperty('TAG_OVERRIDE_FEE_RATE') || 'true';
-    tmpl.currentTagOverrideShipping = docProps.getProperty('TAG_OVERRIDE_SHIPPING') || 'true';
-    tmpl.currentTagOverrideLowShipping = docProps.getProperty('TAG_OVERRIDE_LOW_SHIPPING') || 'true';
-    tmpl.currentTagOverrideHighShipping = docProps.getProperty('TAG_OVERRIDE_HIGH_SHIPPING') || 'true';
-    tmpl.currentTagOverrideThreshold = docProps.getProperty('TAG_OVERRIDE_THRESHOLD') || 'true';
-
     // ===== ✅ 重複チェック設定の規定値を詳細に設定 =====
     var workSheetName = props.getProperty('SHEET_NAME') || '作業シート';
     
@@ -3220,6 +3207,20 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
       batchRowsSet[batchRows[i]] = true;
     }
     
+    // タグ設定の事前取得（タグ自動判定ON時のみ）
+    var ss = sheet.getParent();
+    var tagMap = buildTagOverrideMap_(ss, settings);
+    var tagValues = null;
+    if (tagMap) {
+      tagValues = sheet.getRange(minRow, CONFIG.COLUMNS.TAG, rowCount, 1).getValues();
+    }
+    function getTagVal_(rowNum, field) {
+      if (!tagMap || !tagValues) return null;
+      var tag = String(tagValues[rowNum - minRow][0] || '').split(/[\s\u3000]/)[0].trim();
+      var entry = tagMap[tag];
+      return entry ? entry[field] : null;
+    }
+    
     // ========================================
     // ① Y列・Z-AB列・X列設定
     // ========================================
@@ -3234,6 +3235,11 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
     // I列（COST_YEN）を一括読み取り
     var costYenRange = sheet.getRange(minRow, CONFIG.COLUMNS.COST_YEN, rowCount, 1);
     var costYenValues = costYenRange.getValues();
+
+    // 既定の低価格/高価格配送と基準（パフォーマンスのため1回だけ取得）
+    var defaultLowMethod = String(sheet.getRange('AQ2').getValue() || '');
+    var defaultHighMethod = String(sheet.getRange('AQ3').getValue() || '');
+    var defaultThreshold = Number(sheet.getRange('AJ4').getValue() || 0);
 
     for (var row = minRow; row <= maxRow; row++) {
       if (batchRowsSet[row]) {
@@ -3255,7 +3261,23 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
           var width = sizeParts[1] ? Number(sizeParts[1]) : '';
           var height = sizeParts[2] ? Number(sizeParts[2]) : '';
           var volWeight = weight;
-          var method = getSelectedShippingMethod(costYen, weight, volWeight, sizeStr);
+          var method;
+          // タグ判定ON（いずれかの上書きが有効）かつタグ設定がある場合
+          if ((settings.tagOverrideLowShipping || settings.tagOverrideHighShipping || settings.tagOverrideThreshold) && tagMap) {
+            var tagLow = getTagVal_(row, 'lowShip');
+            var tagHigh = getTagVal_(row, 'highShip');
+            var tagThresh = getTagVal_(row, 'threshold');
+            if (tagLow != null || tagHigh != null || tagThresh != null) {
+              var low = tagLow != null ? String(tagLow) : defaultLowMethod;
+              var high = tagHigh != null ? String(tagHigh) : defaultHighMethod;
+              var thresh = tagThresh != null ? Number(tagThresh) : defaultThreshold;
+              method = (low === 'NONE' || costYen >= thresh) ? high : low;
+            }
+          }
+          // タグ未設定/未該当は従来のロジック
+          if (!method) {
+            method = getSelectedShippingMethod(costYen, weight, volWeight, sizeStr);
+          }
 
           weightData.push([weight]);
           lengthData.push([length]);
@@ -3281,7 +3303,7 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
     SpreadsheetApp.flush();
     Utilities.sleep(300);
     
-    var feeRate = sheet.getRange("F1").getValue() || 0;
+    var defaultFeeRate = sheet.getRange("F1").getValue() || 0;
     
     // ========================================
     // ② V列（手数料率）設定
@@ -3290,7 +3312,12 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
     var feeData = [];
     for (var row = minRow; row <= maxRow; row++) {
       if (batchRowsSet[row]) {
-        feeData.push([feeRate]);
+        var rowFee = defaultFeeRate;
+        if (settings.tagOverrideFeeRate) {
+          var tagFee = getTagVal_(row, 'feeRate');
+          if (tagFee != null) rowFee = tagFee;
+        }
+        feeData.push([rowFee]);
       } else {
         feeData.push(['']);
       }
@@ -3307,10 +3334,15 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
     var profitData = [];
     
     if (settings.profitCalculationMethod === 'RATE') {
-      var profitRate = sheet.getRange("H2").getValue() || 0;
+      var defaultProfitRate = sheet.getRange("H2").getValue() || 0;
       for (var row = minRow; row <= maxRow; row++) {
         if (batchRowsSet[row]) {
-          rateData.push([profitRate]);
+          var rowProfit = defaultProfitRate;
+          if (settings.tagOverrideProfitRate) {
+            var tagProfit = getTagVal_(row, 'profitRate');
+            if (tagProfit != null) rowProfit = tagProfit;
+          }
+          rateData.push([rowProfit]);
         } else {
           rateData.push(['']);
         }
@@ -3383,7 +3415,11 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
       var hasRefFormulas = false;
       for (var row = minRow; row <= maxRow; row++) {
         if (batchRowsSet[row]) {
-          var formulas = buildShippingFormulas_(row, settings.shippingCalculationMethod);
+          var calcMethod = settings.shippingCalculationMethod;
+          if (settings.tagOverrideShipping && tagMap) {
+            calcMethod = 'TAG_SHIPPING';
+          }
+          var formulas = buildShippingFormulas_(row, calcMethod);
           shippingFormulas.push([formulas.shippingFormula]);
           if (formulas.refEbayFormula) {
             refFormulas.push([formulas.refEbayFormula]);
@@ -3409,16 +3445,23 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
     // ========================================
     console.log('⑥ R列（DDU価格）設定中...');
     var priceFormulas = [];
+    var defaultAdRate = sheet.getRange('F2').getValue() || 0; // 一度だけ取得
     
     for (var row = minRow; row <= maxRow; row++) {
       if (batchRowsSet[row]) {
+        var adRateVal = defaultAdRate;
+        if (settings.tagOverrideAdRate) {
+          var tagAd = getTagVal_(row, 'adRate');
+          if (tagAd != null) adRateVal = tagAd;
+        }
+        var adRateStr = String(Number(adRateVal) || 0);
         if (settings.profitCalculationMethod === 'RATE') {
           priceFormulas.push([
-            '=ROUND(((I' + row + '+T' + row + ')/(1-(V' + row + '+W' + row + '+$F$2+$Z$2))/$C$2)*100)/100'
+            '=ROUND(((I' + row + '+T' + row + ')/(1-(V' + row + '+W' + row + '+' + adRateStr + '+$Z$2))/$C$2)*100)/100'
           ]);
         } else {
           priceFormulas.push([
-            '=ROUND(((I' + row + '+T' + row + '+U' + row + ')/(1-(V' + row + '+$F$2+$Z$2))/$C$2)*100)/100'
+            '=ROUND(((I' + row + '+T' + row + '+U' + row + ')/(1-(V' + row + '+' + adRateStr + '+$Z$2))/$C$2)*100)/100'
           ]);
         }
       } else {
@@ -3437,8 +3480,14 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
       var profitFormulas = [];
       for (var row = minRow; row <= maxRow; row++) {
         if (batchRowsSet[row]) {
+          var adRateVal2 = defaultAdRate;
+          if (settings.tagOverrideAdRate) {
+            var tagAd2 = getTagVal_(row, 'adRate');
+            if (tagAd2 != null) adRateVal2 = tagAd2;
+          }
+          var adRateStr2 = String(Number(adRateVal2) || 0);
           profitFormulas.push([
-            '=ROUND(R' + row + '*$C$2*(1-(V' + row + '+$F$2+$Z$2)) - I' + row + ' - T' + row + ', 0)'
+            '=ROUND(R' + row + '*$C$2*(1-(V' + row + '+' + adRateStr2 + '+$Z$2)) - I' + row + ' - T' + row + ', 0)'
           ]);
         } else {
           profitFormulas.push(['']);
