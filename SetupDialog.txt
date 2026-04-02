@@ -627,6 +627,7 @@
             <label class="checkbox-label">
  <input type="checkbox" id="autoPromptSelect" name="autoPromptSelect" <?= currentAutoPromptSelect === '自動選択' ? 'checked' : '' ?>>
   D列タグに応じてプロンプトを自動選択する
+  <span id="promptOverrideNote" style="display:none;color:#1a73e8;font-size:12px;margin-left:8px;">※ タグ自動判定設定で管理中</span>
 </label>
           </div>
           <div class="help-text">
@@ -748,6 +749,7 @@
             <label><input type="radio" name="shippingCalcMethod" value="FIXED" <?= currentShippingCalculationMethod === 'FIXED' ? 'checked' : '' ?>> 固定金額</label>
             <label><input type="radio" name="shippingCalcMethod" value="TAG_SHIPPING" <?= currentShippingCalculationMethod === 'TAG_SHIPPING' ? 'checked' : '' ?>> タグ別送料</label>
           </div>
+          <div id="shippingOverrideNote" style="display:none;color:#1a73e8;font-size:13px;margin-top:4px;">※ タグ自動判定設定で管理中</div>
 
           <label for="shippingThreshold">送料計算切替基準金額（円） *</label>
           <input type="number" id="shippingThreshold" name="shippingThreshold" value="<?= currentShippingThreshold || '5500' ?>" min="1" step="1" required>
@@ -1130,10 +1132,53 @@
       });
     }
 
-    // タグ自動判定の表示切替
+    // タグ自動判定の表示切替 + 既存UI連動
     function toggleTagOverrideItems() {
       var enabled = document.getElementById('tagOverrideEnabled').checked;
       document.getElementById('tagOverrideItems').style.display = enabled ? 'block' : 'none';
+
+      // プロンプト自動選択との連動
+      var promptCb = document.getElementById('autoPromptSelect');
+      var promptNote = document.getElementById('promptOverrideNote');
+      if (enabled) {
+        // 現在の状態を保存してからON+disabled
+        promptCb.setAttribute('data-saved-state', promptCb.checked ? 'true' : 'false');
+        promptCb.checked = true;
+        promptCb.disabled = true;
+        promptNote.style.display = 'inline';
+      } else {
+        // 保存した状態を復元
+        var saved = promptCb.getAttribute('data-saved-state');
+        if (saved !== null) promptCb.checked = (saved === 'true');
+        promptCb.disabled = false;
+        promptNote.style.display = 'none';
+      }
+
+      // 送料計算方法との連動
+      var shippingRadios = document.querySelectorAll('input[name="shippingCalcMethod"]');
+      var shippingNote = document.getElementById('shippingOverrideNote');
+      if (enabled) {
+        // 現在の選択を保存
+        var currentMethod = '';
+        shippingRadios.forEach(function(r) {
+          if (r.checked) currentMethod = r.value;
+          r.setAttribute('data-saved-state', r.checked ? 'true' : 'false');
+        });
+        // TAG_SHIPPINGに切替+disabled
+        shippingRadios.forEach(function(r) {
+          r.checked = (r.value === 'TAG_SHIPPING');
+          r.disabled = true;
+        });
+        shippingNote.style.display = 'block';
+      } else {
+        // 保存した状態を復元
+        shippingRadios.forEach(function(r) {
+          var saved = r.getAttribute('data-saved-state');
+          if (saved !== null) r.checked = (saved === 'true');
+          r.disabled = false;
+        });
+        shippingNote.style.display = 'none';
+      }
     }
 
     // APIキー表示/入力切り替え
