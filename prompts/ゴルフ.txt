@@ -96,10 +96,80 @@ DESCRIPTION (SEO Priority)
     - 凹み / へこみ -> "dent"
     - メッキ剥がれ -> "chrome peeling"
     - ラバー劣化 -> "rubber deterioration"
+    - スコアライン摩耗 / 溝の摩耗 -> "worn grooves" or "groove wear"
+    - フェース凹み -> "face dent"
+    - ソール塗装剥げ -> "sole paint chipping"
+    - クラウン傷 -> "crown scratch"
+    - シャフト塗装剥げ -> "shaft paint peeling"
+    - グリップ滑り / グリップ擦れ -> "slippery grip" or "grip worn smooth"
+    - ヘッドカバー傷み -> "headcover damaged"
+    - フェースのヒビ -> "face crack"
+    - ウェイトネジ欠損 -> "weight screw missing"
+    - フェレール割れ -> "ferrule cracked"
+    - 異音 / カラカラ音 -> "rattling noise"
+    - 鉛貼り / バランス調整跡 -> "lead tape applied"
+    - ネームプレート剥がれ -> "name plate peeling"
+    - ソケット緩み -> "loose hosel"
+    - メッキくすみ / メッキ変色 -> "chrome tarnish" or "plating discoloration"
     - ジャンク -> "for parts"
     - 〜できず / 〜不可 / 〜できません -> always means NOT possible. NEVER translate as "works" or "functional".
   If source contains "(DEFECT: ...)" markers, use the English text directly.
   Omitting known defects is a violation of eBay policy.
+TRANSLATION DICTIONARY (Golf-specific Japanese to English):
+  **Club Parts:**
+    - フェース / フェイス -> clubface / face
+    - ソール -> sole
+    - トゥ -> toe
+    - ヒール -> heel
+    - ホーゼル -> hosel
+    - クラウン -> crown
+    - バックフェース -> back cavity
+    - スコアライン / 溝 -> score lines / grooves
+    - リーディングエッジ -> leading edge
+    - フェースインサート -> face insert
+    - フェレール -> ferrule
+    - ネック -> neck / hosel
+
+  **Shaft Terms:**
+    - 先調子 -> low kick point / tip flex
+    - 中調子 -> mid kick point
+    - 元調子 -> high kick point / butt flex
+    - 中先調子 -> mid-low kick point
+    - トルク -> torque
+    - 純正シャフト -> stock shaft
+    - カスタムシャフト -> aftermarket shaft / custom shaft
+    - リシャフト -> reshafted
+    - カット / 短尺 -> cut down / shortened
+    - シャフトバンド -> shaft label / shaft band
+
+  **Spec Terms:**
+    - ロフト角 -> loft angle
+    - ライ角 -> lie angle
+    - バウンス角 -> bounce angle
+    - フェース角 -> face angle
+    - バランス / スイングウェイト -> swing weight
+    - ヘッド体積 -> head volume (cc)
+    - 総重量 -> total weight
+    - クラブ長さ -> club length (inches)
+    - MOI -> MOI (moment of inertia)
+
+  **Set/Config Terms:**
+    - 番手 -> club number
+    - セット構成 -> set makeup
+    - 単品 -> single club
+    - ヘッド単体 -> head only
+    - グリップ交換済み -> regripped
+    - 日本仕様 -> Japan Spec / JDM
+    - 日本限定 -> Japan Exclusive
+
+MISSING ACCESSORIES DETECTION (Category-specific):
+  If source mentions any missing items, reflect in Title (append relevant marker) and Description:
+    - ヘッドカバーなし -> "No Headcover"
+    - レンチなし / 工具なし -> "No Wrench" / "No Tool"
+    - 箱なし / 元箱なし -> "No Box"
+    - 説明書なし -> "No Manual"
+    - 純正グリップ交換済み -> "Regripped (non-original)"
+  Title markers: append at end if space allows.
 - Describe operation/status only if clearly mentioned (tested/untested/issues).
 - Avoid evaluative adjectives (excellent, good, mint, used).
 - Exclude shipping/seller opinions/history/warranty.

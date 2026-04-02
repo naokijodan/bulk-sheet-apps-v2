@@ -109,7 +109,11 @@ var CATEGORY_RULES_ = {
       '- モデル名: モデル名のみ記入。クラブタイプ（Driver, ドライバー等）を含めない。',
       '- フレックス: R/S/SR/A/L/X のいずれかで記入。',
       '- シャフト素材: カーボン/スチール のいずれかで記入。',
-      '- [EN]セクションでは: Golf Club Type は Driver/Fairway Wood/Hybrid/Iron/Iron Set/Wedge/Putter。Handedness は Right-Handed/Left-Handed。Shaft Material は Graphite/Steel。Loft は数値+°（例: 10.5°）。'
+      '- シャフト名: メーカー名+モデル名で記入（例: Fujikura Speeder Evolution VII, Dynamic Gold S200）。不明ならNA。',
+      '- バランス: スイングウェイトを記入（例: D1, D2, C9）。不明ならNA。',
+      '- ヘッド体積（ドライバーの場合）: cc単位で記入（例: 460cc）。不明ならNA。',
+      '- クラブ長さ: インチ単位で記入（例: 45.5インチ）。不明ならNA。',
+      '- [EN]セクションでは: Golf Club Type は Driver/Fairway Wood/Hybrid/Iron/Iron Set/Wedge/Putter。Handedness は Right-Handed/Left-Handed。Shaft Material は Graphite/Steel。Loft は数値+°（例: 10.5°）。Flex は Regular/Stiff/Regular-Stiff/X-Stiff/Ladies/Senior。Swing Weight は D0/D1/D2/D3/D4/C8/C9等。'
     ]
   },
   'Golf Heads': {
@@ -119,9 +123,12 @@ var CATEGORY_RULES_ = {
       '- ロフト角: 数値+°で記入（例: 10.5°, 9°）。「度」は使わない。小数点以下がない場合も°を付ける。',
       '- 利き手: 右利き/左利き のいずれかで記入。英語で書かない。記載がなければNA。',
       '- モデル名: モデル名のみ記入。クラブタイプ（Driver, ドライバー等）を含めない。',
-      '- フレックス: R/S/SR/A/L/X のいずれかで記入。',
-      '- シャフト素材: カーボン/スチール のいずれかで記入。',
-      '- [EN]セクションでは: Golf Club Type は Driver/Fairway Wood/Hybrid/Iron/Iron Set/Wedge/Putter。Handedness は Right-Handed/Left-Handed。Shaft Material は Graphite/Steel。Loft は数値+°（例: 10.5°）。'
+      '- ヘッド素材: チタン/ステンレス/軟鉄/マレージング鋼/カーボンコンポジット のいずれかで記入。',
+      '- ライ角: 数値+°で記入（例: 60°）。不明ならNA。',
+      '- ヘッド形状（パターの場合）: ブレード/マレット/ミッドマレット のいずれかで記入。',
+      '- バウンス（ウェッジの場合）: 数値+°で記入（例: 12°）。不明ならNA。',
+      '- ヘッド体積（ドライバーの場合）: cc単位で記入（例: 460cc）。不明ならNA。',
+      '- [EN]セクションでは: Golf Club Type は Driver/Fairway Wood/Hybrid/Iron/Iron Set/Wedge/Putter。Handedness は Right-Handed/Left-Handed。Material は Titanium/Stainless Steel/Forged Carbon Steel/Maraging Steel/Carbon Composite。Head Shape は Blade/Mallet/Mid-Mallet。'
     ]
   },
   'Watches': {
