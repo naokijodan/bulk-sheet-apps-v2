@@ -1380,14 +1380,14 @@ function generateSkuForRows_(sheet, targetRows) {
     return result;
   }
 
-  // A列（タグ名）とF列（SKU略称）を一括取得
-  var tsColCount = CONFIG.TAG_SHIPPING.HEADERS.length;
-  var tsData = tsSheet.getRange(2, 1, tsLastRow - 1, tsColCount).getValues();
+  // ヘッダーに基づきA列（タグ名）と「SKU略称」列を取得
+  var skuColIndex = CONFIG.TAG_SHIPPING.HEADERS.indexOf('SKU略称');
+  var tsData = tsSheet.getRange(2, 1, tsLastRow - 1, CONFIG.TAG_SHIPPING.HEADERS.length).getValues();
   var tagToCode = {};
   var hasAnyCode = false;
   for (var t = 0; t < tsData.length; t++) {
     var tagName = String(tsData[t][0] || '').trim();
-    var skuCode = String(tsData[t][tsColCount - 1] || '').trim();
+    var skuCode = String(tsData[t][skuColIndex] || '').trim();
     if (tagName && skuCode) {
       // バリデーション: 半角英数字のみ
       if (/^[A-Za-z0-9]+$/.test(skuCode)) {

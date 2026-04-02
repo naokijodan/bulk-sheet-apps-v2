@@ -200,7 +200,10 @@ var CONFIG = {
   // タグ別送料管理
   TAG_SHIPPING: {
     SHEET_NAME: 'TagShipping',
-    HEADERS: ['タグ名', 'EP送料', 'CE送料', 'CF/CD送料', '参考eBay ID', 'SKU略称'],
+    HEADERS: ['タグ名', 'EP送料', 'CE送料', 'CF/CD送料', '参考eBay ID', 'SKU略称',
+              'テンプレート名', '送料上限カテゴリ', '利益率', '広告費率', '手数料率',
+              '低価格配送', '高価格配送', '送料切替基準'],
+    TAG_LIST_START_COL: 17,
     HEADER_BG_COLOR: '#4285F4',
     HEADER_FONT_COLOR: '#FFFFFF'
   }

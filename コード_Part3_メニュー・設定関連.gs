@@ -3555,12 +3555,29 @@ function ensureTagShippingSheet_(ss) {
             sheet.setColumnWidth(6, 100);
             Logger.log('[ensureTagShippingSheet_] 既存TagShippingシートにSKU略称列を追加しました');
         }
-        // 既存シートの移行処理: I1セルが空ならタグ一覧を出力
-        var i1Value = sheet.getRange(1, 9).getValue();
-        if (!i1Value || String(i1Value).trim() === '') {
+        // 既存シートの移行処理: G1が空ならG-N列の新ヘッダーを追加し、旧I-J列をクリア
+        var g1Value = sheet.getRange(1, 7).getValue();
+        if (!g1Value || String(g1Value).trim() === '') {
+            var newHeaders = CONFIG.TAG_SHIPPING.HEADERS.slice(6);
+            sheet.getRange(1, 7, 1, newHeaders.length).setValues([newHeaders])
+              .setFontWeight('bold')
+              .setBackground(CONFIG.TAG_SHIPPING.HEADER_BG_COLOR)
+              .setFontColor(CONFIG.TAG_SHIPPING.HEADER_FONT_COLOR);
+            // 旧I-J列の参照リストデータをクリア（Q-R列に再生成するため）
+            var oldLastRow = sheet.getLastRow();
+            if (oldLastRow > 0) {
+              sheet.getRange(1, 9, oldLastRow, 2).clearContent();
+            }
+        }
+        // 既存シートの移行処理: Q1セル相当が空ならタグ一覧を出力
+        var tagListCol = CONFIG.TAG_SHIPPING.TAG_LIST_START_COL;
+        var q1Value = sheet.getRange(1, tagListCol).getValue();
+        if (!q1Value || String(q1Value).trim() === '') {
             writeTagListToSheet_(sheet);
             Logger.log('[ensureTagShippingSheet_] 既存TagShippingシートにタグ一覧を出力しました');
         }
+        // バリデーション適用
+        applyTagShippingValidations_(sheet);
         return sheet;
     }
 
@@ -3583,6 +3600,16 @@ function ensureTagShippingSheet_(ss) {
     sheet.setColumnWidth(4, 120);  // CF/CD送料
     sheet.setColumnWidth(5, 200);  // 参考eBay ID
     sheet.setColumnWidth(6, 100);  // SKU略称
+    sheet.setColumnWidth(7, 160);   // G: テンプレート名
+    sheet.setColumnWidth(8, 180);   // H: 送料上限カテゴリ
+    sheet.setColumnWidth(9, 80);    // I: 利益率
+    sheet.setColumnWidth(10, 80);   // J: 広告費率
+    sheet.setColumnWidth(11, 80);   // K: 手数料率
+    sheet.setColumnWidth(12, 100);  // L: 低価格配送
+    sheet.setColumnWidth(13, 100);  // M: 高価格配送
+    sheet.setColumnWidth(14, 120);  // N: 送料切替基準
+    sheet.setColumnWidth(15, 30);   // O: 空き
+    sheet.setColumnWidth(16, 30);   // P: 空き
 
     // B〜D列を数値書式に設定（2行目以降）
     var maxRows = sheet.getMaxRows();
@@ -3593,25 +3620,29 @@ function ensureTagShippingSheet_(ss) {
     // シートを右端に配置（最後のシートの後ろ）
     Logger.log('[ensureTagShippingSheet_] TagShippingシートを新規作成しました');
 
-    // タグ名一覧をI-J列に出力
+    // タグ名一覧をQ-R列（タグ参照リスト）に出力
     writeTagListToSheet_(sheet);
+
+    // バリデーション適用
+    applyTagShippingValidations_(sheet);
 
     return sheet;
 }
 
 /**
- * TagShippingシートのI-J列に使えるタグ名一覧を出力する
- * I列: タグ名、J列: 翻訳プロンプト名
+ * TagShippingシートのQ-R列（タグ参照リスト）に使えるタグ名一覧を出力する
+ * Q列: タグ名、R列: 翻訳プロンプト名
  * PROMPT_TAG_MAPPINGからカテゴリ別にグループ化して表示
  * @param {Sheet} sheet - TagShippingシート
  */
 function writeTagListToSheet_(sheet) {
   if (!sheet) return;
+  var startCol = CONFIG.TAG_SHIPPING.TAG_LIST_START_COL;
 
-  // I-J列をクリア
+  // Q-R列をクリア
   var lastRow = sheet.getLastRow();
   if (lastRow > 0) {
-    sheet.getRange(1, 9, Math.max(lastRow, 1), 2).clearContent();
+    sheet.getRange(1, startCol, Math.max(lastRow, 1), 2).clearContent();
   }
 
   var rows = [];
@@ -3637,18 +3668,18 @@ function writeTagListToSheet_(sheet) {
 
   // 一括書き込み
   if (rows.length > 0) {
-    sheet.getRange(1, 9, rows.length, 2).setValues(rows);
+    sheet.getRange(1, startCol, rows.length, 2).setValues(rows);
   }
 
   // ヘッダー行のスタイル
-  sheet.getRange(1, 9, 1, 2)
+  sheet.getRange(1, startCol, 1, 2)
     .setFontWeight('bold')
     .setBackground('#4285F4')
     .setFontColor('#FFFFFF')
     .setHorizontalAlignment('center');
 
   // 説明行のスタイル（2-3行目をグレー斜体に）
-  sheet.getRange(2, 9, 2, 2)
+  sheet.getRange(2, startCol, 2, 2)
     .setFontStyle('italic')
     .setFontColor('#888888');
 
@@ -3656,15 +3687,114 @@ function writeTagListToSheet_(sheet) {
   for (var r = 5; r <= rows.length; r++) {
     var val = rows[r - 1][0];
     if (val && val.charAt(0) === '【') {
-      sheet.getRange(r, 9, 1, 2)
+      sheet.getRange(r, startCol, 1, 2)
         .setFontWeight('bold')
         .setBackground('#E8F0FE');
     }
   }
 
   // 列幅設定
-  sheet.setColumnWidth(9, 200);  // I列
-  sheet.setColumnWidth(10, 140); // J列
+  sheet.setColumnWidth(startCol, 200);      // Q列
+  sheet.setColumnWidth(startCol + 1, 140); // R列
+}
+
+/**
+ * TagShippingの各列にデータ検証と書式を適用する
+ * @param {Sheet} sheet
+ */
+function applyTagShippingValidations_(sheet) {
+  if (!sheet) return;
+  var ss = sheet.getParent();
+  var lastRow = Math.max(sheet.getLastRow(), 50);
+  var dataRows = lastRow - 1;
+  if (dataRows < 1) return;
+
+  // G列: テンプレート名（Policy_Masterから動的取得）
+  try {
+    var policyMaster = ss.getSheetByName('Policy_Master');
+    if (policyMaster) {
+      var pmLastRow = policyMaster.getLastRow();
+      var templateNames = [];
+      var pmData = policyMaster.getRange(1, 1, pmLastRow, 2).getValues();
+      for (var i = 0; i < pmData.length; i++) {
+        var name = String(pmData[i][1] || '');
+        if (name.indexOf('Template_') === 0) {
+          var match = name.match(/^Template_(.+?)_(?:new|used)_(?:eco|xp)$/);
+          if (match && match[1] && templateNames.indexOf(match[1]) === -1) {
+            templateNames.push(match[1]);
+          }
+        }
+      }
+      if (templateNames.length > 0) {
+        var templateRule = SpreadsheetApp.newDataValidation()
+          .requireValueInList(templateNames, true)
+          .setAllowInvalid(true)
+          .build();
+        sheet.getRange(2, 7, dataRows, 1).setDataValidation(templateRule);
+      }
+    }
+  } catch (e) {
+    console.log('Policy_Master未作成のためテンプレートドロップダウンをスキップ: ' + e.message);
+  }
+
+  // H列: 送料上限カテゴリ
+  var categories = [
+    '汎用（上限なし）',
+    'Video Games（$20）',
+    'Books（$20）',
+    'Movies & TV（$20）',
+    'Music（$25）',
+    'Game Consoles（$50）'
+  ];
+  var catRule = SpreadsheetApp.newDataValidation()
+    .requireValueInList(categories, true)
+    .setAllowInvalid(true)
+    .build();
+  sheet.getRange(2, 8, dataRows, 1).setDataValidation(catRule);
+
+  // I列: 利益率（0%〜45%）
+  var profitRates = [];
+  for (var p = 0; p <= 45; p++) { profitRates.push(p + '%'); }
+  var profitRule = SpreadsheetApp.newDataValidation()
+    .requireValueInList(profitRates, true)
+    .setAllowInvalid(true)
+    .build();
+  sheet.getRange(2, 9, dataRows, 1).setDataValidation(profitRule);
+
+  // J列: 広告費率（0%〜15%）
+  var adRates = [];
+  for (var a = 0; a <= 15; a++) { adRates.push(a + '%'); }
+  var adRule = SpreadsheetApp.newDataValidation()
+    .requireValueInList(adRates, true)
+    .setAllowInvalid(true)
+    .build();
+  sheet.getRange(2, 10, dataRows, 1).setDataValidation(adRule);
+
+  // K列: 手数料率（13%〜25%）
+  var feeRates = [];
+  for (var f = 13; f <= 25; f++) { feeRates.push(f + '%'); }
+  var feeRule = SpreadsheetApp.newDataValidation()
+    .requireValueInList(feeRates, true)
+    .setAllowInvalid(true)
+    .build();
+  sheet.getRange(2, 11, dataRows, 1).setDataValidation(feeRule);
+
+  // L列: 低価格配送（EP/CE/NONE）
+  var lowRule = SpreadsheetApp.newDataValidation()
+    .requireValueInList(['EP', 'CE', 'NONE'], true)
+    .setAllowInvalid(true)
+    .build();
+  sheet.getRange(2, 12, dataRows, 1).setDataValidation(lowRule);
+
+  // M列: 高価格配送（CF/CD/EL）
+  var highRule = SpreadsheetApp.newDataValidation()
+    .requireValueInList(['CF', 'CD', 'EL'], true)
+    .setAllowInvalid(true)
+    .build();
+  sheet.getRange(2, 13, dataRows, 1).setDataValidation(highRule);
+
+  // N列: 送料切替基準（数値書式）
+  sheet.getRange(2, 14, dataRows, 1).setNumberFormat('#,##0');
 }
 
 /**
