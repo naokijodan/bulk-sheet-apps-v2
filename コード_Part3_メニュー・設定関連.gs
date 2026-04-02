@@ -3898,6 +3898,7 @@ function applyCalculationFormulas(sheetName, settings) {
     }
 
     // デフォルト値の事前取得
+    var tsName = CONFIG.TAG_SHIPPING.SHEET_NAME;
     var defaultAdRate = Number(sheet.getRange('F2').getValue()) || 0;
     var defaultFeeRate = sheet.getRange('F1').getValue();
     var defaultProfitRate = sheet.getRange('H2').getValue();
@@ -4071,7 +4072,6 @@ function applyCalculationFormulas(sheetName, settings) {
 
     if (dataLastRow >= 5) {
       // V列: 手数料率（タグ判定ON: TagShippingのK列からINDEX/MATCH、フォールバック: $F$1）
-      var tsName = CONFIG.TAG_SHIPPING.SHEET_NAME;
       if (fullSettings && fullSettings.tagOverrideFeeRate && tagMap) {
         var vFormulas = [];
         for (var i = 5; i <= dataLastRow; i++) {
