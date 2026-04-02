@@ -81,17 +81,39 @@
 **Tier 3: プロンプトが汎用/共有で、個別プロンプトがないカテゴリ**
 （一般商品・汎用.txtまたは日本ブランド.txtで処理されている）
 
-| カテゴリ | 作業内容 |
-|---------|---------|
-| Hats, Scarves, Neckties, Handkerchiefs | アクセサリー系。ブランド追加+RULES確認 |
-| Belts, Belt Buckles | レザーグッズ.txtでカバー。ブランド追加 |
-| Coins, Stamps | コレクション系。RULES確認 |
-| Collectibles, Dolls & Plush, Snow Globes | 雑貨系。RULES確認 |
-| Pottery, Glassware, Dinnerware, Flatware, Tea Ceremony, Tetsubin | 日本伝統・骨董系。日本伝統・骨董.txtでカバー |
-| Bonsai, Buddhist Art, Combs, Boxes, Soap | ニッチ系。RULES確認のみ |
-| Baby, Hair Accessories, Key Chains, Lighters, Pipes | 小物系 |
-| Anime, Video Games | ブランド追加+RULES確認 |
-| Watch Parts | 時計パーツ。RULES確認 |
+| カテゴリ | プロンプト | 作業内容 |
+|---------|----------|---------|
+| Hats | 一般商品・汎用.txt | ブランド追加+RULES確認 |
+| Scarves | 一般商品・汎用.txt | ブランド追加+RULES確認 |
+| Neckties | 一般商品・汎用.txt | RULES確認 |
+| Handkerchiefs | 一般商品・汎用.txt | RULES確認 |
+| Belts | レザーグッズ.txt | ブランド追加（Handbags/Walletsと共通多い） |
+| Belt Buckles | 一般商品・汎用.txt | RULES確認 |
+| Coins | 一般商品・汎用.txt | RULES確認 |
+| Stamps | 一般商品・汎用.txt | RULES確認 |
+| Collectibles | 一般商品・汎用.txt | RULES確認 |
+| Dolls & Plush | フィギュア.txt共用? | RULES確認 |
+| Snow Globes | 一般商品・汎用.txt | RULES確認のみ |
+| Pottery | 日本伝統・骨董.txt/テーブルウェア.txt | RULES確認 |
+| Glassware | テーブルウェア.txt | RULES確認 |
+| Dinnerware | テーブルウェア.txt | RULES確認 |
+| Flatware | テーブルウェア.txt | RULES確認 |
+| Tea Ceremony | 日本伝統・骨董.txt | RULES確認 |
+| Tetsubin | 日本伝統・骨董.txt | RULES確認 |
+| Bonsai | 一般商品・汎用.txt | RULES確認のみ |
+| Buddhist Art | 日本伝統・骨董.txt | RULES確認のみ |
+| Combs | 一般商品・汎用.txt | RULES確認のみ |
+| Boxes | 一般商品・汎用.txt | RULES確認のみ |
+| Soap | 一般商品・汎用.txt | RULES確認のみ |
+| Baby | 一般商品・汎用.txt | RULES確認のみ |
+| Hair Accessories | 一般商品・汎用.txt | RULES確認のみ |
+| Key Chains | 一般商品・汎用.txt | RULES確認のみ |
+| Lighters | パイプ・喫煙具.txt | ブランド追加（Zippo等）+RULES確認 |
+| Pipes | パイプ・喫煙具.txt | ブランド追加+RULES確認 |
+| Anime | フィギュア.txt共用? | ブランド追加+RULES確認 |
+| Video Games | ゲーム用.txt | RULES確認 |
+| Watch Parts | 時計用.txt | RULES確認（時計のサブカテゴリ） |
+| Baseball | 野球.txt | ブランド追加+RULES確認 |
 
 ### 効率化のヒント
 - **Tier 1はRULES確認のみで完了できる**（5カテゴリ、30分程度）
