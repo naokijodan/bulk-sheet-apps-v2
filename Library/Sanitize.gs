@@ -356,16 +356,23 @@ var CATEGORY_RULES_ = {
   'Musical Instruments': {
     label: '楽器',
     rules: [
-      '- タイプ: エレキギター/アコースティックギター/ベース/ウクレレ/バイオリン/フルート/サックス 等で記入。',
-      '- 利き手: 右利き/左利き のいずれかで記入。',
-      '- [EN]セクションでは: Type は Electric Guitar/Acoustic Guitar/Bass Guitar/Ukulele/Violin/Flute/Saxophone 等。Handedness は Right-Handed/Left-Handed。'
+      '- タイプ: エレキギター/アコースティックギター/クラシックギター/ベース/ウクレレ/バイオリン/フルート/サックス/トランペット/クラリネット/キーボード/シンセサイザー/ドラム/エフェクター/アンプ のいずれかで記入。',
+      '- ボディタイプ（ギターの場合）: ソリッド/セミホロウ/ホロウ/ドレッドノート/OM/000/ジャンボ のいずれかで記入。不明ならNA。',
+      '- 弦数: 6弦/7弦/8弦/4弦/5弦/12弦 等。不明ならNA。',
+      '- 利き手: 右利き/左利き のいずれかで記入。記載がなければNA。',
+      '- 製造年: 西暦で記入（例: 2020）。不明ならNA。',
+      '- [EN]セクションでは: Type は Electric Guitar/Acoustic Guitar/Classical Guitar/Bass Guitar/Ukulele/Violin/Flute/Saxophone/Trumpet/Clarinet/Keyboard/Synthesizer/Drums/Effects Pedal/Amplifier。Body Type は Solid Body/Semi-Hollow/Hollow Body/Dreadnought/OM/000/Jumbo。Handedness は Right-Handed/Left-Handed。'
     ]
   },
   'Pens': {
     label: '筆記具',
     rules: [
-      '- タイプ: 万年筆/ボールペン/ローラーボール/シャープペンシル 等で記入。',
-      '- [EN]セクションでは: Type は Fountain Pen/Ballpoint Pen/Rollerball Pen/Mechanical Pencil。'
+      '- タイプ: 万年筆/ボールペン/ローラーボール/シャープペンシル/マルチペン のいずれかで記入。',
+      '- ペン先素材（万年筆の場合）: 金（14K/18K/21K）/ステンレス/スチール のいずれかで記入。不明ならNA。',
+      '- ペン先サイズ（万年筆の場合）: EF/F/FM/M/B/BB/Z のいずれかで記入。不明ならNA。',
+      '- ボディ素材: レジン/セルロイド/エボナイト/金属/木材/蒔絵 のいずれかで記入。不明ならNA。',
+      '- インク補充方式（万年筆の場合）: 吸入式/カートリッジ式/両用式/ピストン式 のいずれかで記入。不明ならNA。',
+      '- [EN]セクションでは: Type は Fountain Pen/Ballpoint Pen/Rollerball Pen/Mechanical Pencil/Multi Pen。Nib Material は Gold(14K/18K/21K)/Stainless Steel/Steel。Nib Size は EF/F/FM/M/B/BB/Z。Body Material は Resin/Celluloid/Ebonite/Metal/Wood/Maki-e(Japanese Lacquer)。Filling System は Piston Filler/Cartridge/Converter/Piston。'
     ]
   },
   'Video Games': {
@@ -379,10 +386,13 @@ var CATEGORY_RULES_ = {
   'Fishing Rods': {
     label: 'ロッド',
     rules: [
-      '- ロッドタイプ: スピニング/ベイト/フライ/テレスコピック/ジギング のいずれかで記入。',
+      '- ロッドタイプ: スピニング/ベイト/フライ/テレスコピック/ジギング/ショア/オフショア/渓流/へら/磯/投げ のいずれかで記入。',
       '- パワー: UL/L/ML/M/MH/H/XH のいずれかで記入。',
       '- アクション: スロー/ミディアム/ファスト/エクストラファスト のいずれかで記入。',
-      '- [EN]セクションでは: Rod Type は Spinning/Casting/Fly/Telescopic/Jigging。Rod Power は Ultra Light/Light/Medium Light/Medium/Medium Heavy/Heavy/Extra Heavy。Rod Action は Slow/Moderate/Fast/Extra Fast。'
+      '- 長さ: フィート表記で記入（例: 6\'6", 7\', 10\'6"）。不明ならNA。',
+      '- 継数: 1ピース/2ピース/3ピース/マルチピース/テレスコピック のいずれかで記入。不明ならNA。',
+      '- 対象魚種: バス/トラウト/シーバス/青物/タイ/アジ/メバル/ヒラメ 等。不明ならNA。',
+      '- [EN]セクションでは: Rod Type は Spinning/Casting/Fly/Telescopic/Jigging/Shore/Offshore/Stream/Hera/Surf。Rod Power は Ultra Light/Light/Medium Light/Medium/Medium Heavy/Heavy/Extra Heavy。Rod Action は Slow/Moderate/Fast/Extra Fast。Pieces は 1-Piece/2-Piece/3-Piece/Multi-Piece/Telescopic。'
     ]
   },
   'Kimono': {
