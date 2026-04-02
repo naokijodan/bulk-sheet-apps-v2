@@ -58,9 +58,6 @@ function onOpen() {
       .addItem('🔑 APIトークン管理', 'manageApiToken')
       .addItem('📋 現在の設定確認', 'showCurrentSetupStatus')
       .addSeparator()
-      .addItem('🗑️ Policy_Masterキャッシュクリア', 'clearPolicyMasterCache')
-      .addSeparator()
-      .addItem('🏷️ タグ一覧を更新（TagShipping）', 'updateTagList')
       .addSubMenu(ui.createMenu('📱 簡易版')
         .addItem('🎯 簡易版を開く', 'openSimpleMode')
         .addItem('🔄 簡易版を更新', 'updateSimpleMode'))
@@ -3555,19 +3552,20 @@ function ensureTagShippingSheet_(ss) {
             sheet.setColumnWidth(6, 100);
             Logger.log('[ensureTagShippingSheet_] 既存TagShippingシートにSKU略称列を追加しました');
         }
-        // 既存シートの移行処理: G1が空ならG-N列の新ヘッダーを追加し、旧I-J列をクリア
+        // 既存シートの移行処理: G1が空ならG-N列の新ヘッダーを追加し、旧I-J列データをクリア
         var g1Value = sheet.getRange(1, 7).getValue();
         if (!g1Value || String(g1Value).trim() === '') {
+            // 旧I-J列の参照リストデータをクリア（2行目以降のみ。ヘッダー行は保護）
+            var oldLastRow = sheet.getLastRow();
+            if (oldLastRow > 1) {
+              sheet.getRange(2, 9, oldLastRow - 1, 2).clearContent();
+            }
+            // G-N列にヘッダーを書き込む（I列ヘッダーも上書きされる）
             var newHeaders = CONFIG.TAG_SHIPPING.HEADERS.slice(6);
             sheet.getRange(1, 7, 1, newHeaders.length).setValues([newHeaders])
               .setFontWeight('bold')
               .setBackground(CONFIG.TAG_SHIPPING.HEADER_BG_COLOR)
               .setFontColor(CONFIG.TAG_SHIPPING.HEADER_FONT_COLOR);
-            // 旧I-J列の参照リストデータをクリア（Q-R列に再生成するため）
-            var oldLastRow = sheet.getLastRow();
-            if (oldLastRow > 0) {
-              sheet.getRange(1, 9, oldLastRow, 2).clearContent();
-            }
         }
         // 既存シートの移行処理: Q1セル相当が空ならタグ一覧を出力
         var tagListCol = CONFIG.TAG_SHIPPING.TAG_LIST_START_COL;
