@@ -3002,19 +3002,6 @@ function saveIntegratedSettings(formData) {
     docProps.setProperty('TAG_OVERRIDE_HIGH_SHIPPING', formData.tagOverrideHighShipping || 'true');
     docProps.setProperty('TAG_OVERRIDE_THRESHOLD', formData.tagOverrideThreshold || 'true');
     
-    // タグ自動判定設定の保存
-    docProps.setProperty('TAG_OVERRIDE_ENABLED', formData.tagOverrideEnabled || 'false');
-    docProps.setProperty('TAG_OVERRIDE_PROMPT', formData.tagOverridePrompt || 'true');
-    docProps.setProperty('TAG_OVERRIDE_TEMPLATE', formData.tagOverrideTemplate || 'true');
-    docProps.setProperty('TAG_OVERRIDE_SHIPPING_CATEGORY', formData.tagOverrideShippingCategory || 'true');
-    docProps.setProperty('TAG_OVERRIDE_PROFIT_RATE', formData.tagOverrideProfitRate || 'true');
-    docProps.setProperty('TAG_OVERRIDE_AD_RATE', formData.tagOverrideAdRate || 'true');
-    docProps.setProperty('TAG_OVERRIDE_FEE_RATE', formData.tagOverrideFeeRate || 'true');
-    docProps.setProperty('TAG_OVERRIDE_SHIPPING', formData.tagOverrideShipping || 'true');
-    docProps.setProperty('TAG_OVERRIDE_LOW_SHIPPING', formData.tagOverrideLowShipping || 'true');
-    docProps.setProperty('TAG_OVERRIDE_HIGH_SHIPPING', formData.tagOverrideHighShipping || 'true');
-    docProps.setProperty('TAG_OVERRIDE_THRESHOLD', formData.tagOverrideThreshold || 'true');
-    
     // 価格表示モードの保存
     setPriceDisplayMode(priceDisplayMode);
 
@@ -3852,6 +3839,21 @@ function applyCalculationFormulas(sheetName, settings) {
     var profitCalc = settings.profitCalc;  // 'RATE' or 'AMOUNT'
     var shippingCalc = settings.shippingCalcMethod;  // 'TABLE' or 'FIXED'
 
+    // タグ自動判定 前処理
+    var fullSettings = getSettings();
+    var tagMap = buildTagOverrideMap_(ss, fullSettings);
+    var effectiveShippingCalc = shippingCalc;
+    if (fullSettings && fullSettings.tagOverrideShipping && tagMap) {
+      effectiveShippingCalc = 'TAG_SHIPPING';
+    }
+    var tagValues = null;
+    function getTagVal_(rowNum, field) {
+      if (!tagMap || !tagValues) return null;
+      var tag = String(tagValues[rowNum - 5][0] || '').split(/[\s\u3000]/)[0].trim();
+      var entry = tagMap[tag];
+      return entry ? entry[field] : null;
+    }
+
     // ========================================
     // E列・O列・R列～AG列（5行目以降）を全てクリア（AE列は除外）
     // ARRAYFORMULAがエラーにならないよう、既存データを削除
@@ -3869,7 +3871,7 @@ function applyCalculationFormulas(sheetName, settings) {
       sheet.getRange(5, CONFIG.COLUMNS.BASE_SHIPPING, clearRowCount, 2).clearContent();
       // TAG_SHIPPINGモード時はF列（参考eBay ID）もクリアして式を再出力できるようにする
       // 他モードに切り替えた場合も古い式を除去する
-      if (shippingCalc === 'TAG_SHIPPING') {
+      if (effectiveShippingCalc === 'TAG_SHIPPING') {
         sheet.getRange(5, CONFIG.COLUMNS.REF_EBAY, clearRowCount, 1).clearContent();
         console.log('F列（参考eBay ID）もクリアしました（TAG_SHIPPINGモード）');
       }
@@ -3889,16 +3891,35 @@ function applyCalculationFormulas(sheetName, settings) {
     if (dataLastRow < 5) {
       dataLastRow = 50; // 最低50行は確保
     }
+    
+    // タグ列の値（D列）を事前取得
+    if (tagMap && dataLastRow >= 5) {
+      tagValues = sheet.getRange(5, CONFIG.COLUMNS.TAG, dataLastRow - 4, 1).getValues();
+    }
+
+    // デフォルト値の事前取得
+    var defaultAdRate = Number(sheet.getRange('F2').getValue()) || 0;
+    var defaultFeeRate = sheet.getRange('F1').getValue();
+    var defaultProfitRate = sheet.getRange('H2').getValue();
+    var defaultLowMethod = String(sheet.getRange('AQ2').getValue() || '');
+    var defaultHighMethod = String(sheet.getRange('AQ3').getValue() || '');
+    var defaultThreshold = Number(sheet.getRange('AJ4').getValue() || 0);
 
     // R列: 販売価格（個別行の式）
     sheet.getRange('R4').setValue('販売価格');
     var priceFormulas = [];
     for (var row = 5; row <= dataLastRow; row++) {
+      var adRateVal = defaultAdRate;
+      if (fullSettings && fullSettings.tagOverrideAdRate) {
+        var tagAd = getTagVal_(row, 'adRate');
+        if (tagAd != null) adRateVal = tagAd;
+      }
+      var adRateStr = String(Number(adRateVal) || 0);
       var formula = '';
       if (profitCalc === 'RATE') {
-        formula = '=IF(I' + row + '="","",ROUND(((I' + row + '+T' + row + ')/(1-(V' + row + '+W' + row + '+$F$2+$Z$2))/$C$2)*100)/100)';
+        formula = '=IF(I' + row + '="","",ROUND(((I' + row + '+T' + row + ')/(1-(V' + row + '+W' + row + '+' + adRateStr + '+$Z$2))/$C$2)*100)/100)';
       } else {
-        formula = '=IF(I' + row + '="","",ROUND(((I' + row + '+T' + row + '+U' + row + ')/(1-(V' + row + '+$F$2+$Z$2))/$C$2)*100)/100)';
+        formula = '=IF(I' + row + '="","",ROUND(((I' + row + '+T' + row + '+U' + row + ')/(1-(V' + row + '+' + adRateStr + '+$Z$2))/$C$2)*100)/100)';
       }
       priceFormulas.push([formula]);
     }
@@ -3914,11 +3935,14 @@ function applyCalculationFormulas(sheetName, settings) {
       sheet.getRange('E4').setValue('テンプレート');
       var templateFormulas = [];
       for (var row = 5; row <= dataLastRow; row++) {
-        // 標準名を生成: Template_テンプレート名_状態_配送タイプ
-        // 配送タイプ: SP/CE→eco, それ以外→xp
-        // 状態: 新品→new, 中古→used
-        // INDEX/MATCH: C列で標準名を探して、A列のTemplate IDを返す（範囲を50行に限定して高速化）
-        var formula = '=IF(OR(ISBLANK($O$2),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",IFERROR(INDEX(Import_Templates!$A$2:$A$50,MATCH("Template_"&$O$2&"_"&IF(AE' + row + '="新品","new","used")&"_"&IF(X' + row + '="EP","eco",IF(X' + row + '="CE","eco","xp")),Import_Templates!$C$2:$C$50,0)),"該当なし"))';
+        var tplName = '$O$2';
+        if (fullSettings && fullSettings.tagOverrideTemplate) {
+          var tagTpl = getTagVal_(row, 'template');
+          if (tagTpl != null) {
+            tplName = '"' + String(tagTpl).replace(/"/g, '""') + '"';
+          }
+        }
+        var formula = '=IF(OR(ISBLANK(' + tplName + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",IFERROR(INDEX(Import_Templates!$A$2:$A$50,MATCH("Template_"&' + tplName + '&"_"&IF(AE' + row + '="新品","new","used")&"_"&IF(X' + row + '="EP","eco",IF(X' + row + '="CE","eco","xp")),Import_Templates!$C$2:$C$50,0)),"該当なし"))';
         templateFormulas.push([formula]);
       }
       if (templateFormulas.length > 0) {
@@ -3935,10 +3959,14 @@ function applyCalculationFormulas(sheetName, settings) {
       sheet.getRange('O4').setValue('シッピングポリシー');
       var policyFormulas = [];
       for (var row = 5; row <= dataLastRow; row++) {
-        // GET_SHIPPING_POLICY_FROM_IMPORT関数を使用（Import_PoliciesのD-G列を活用した最適化版）
-        // 引数: カテゴリー表示名（O1）, 想定関税(AD列、DDU有効時は閾値で制限), 商品状態, 配送方法
-        // DDU調整が有効(AP2=ON)で想定関税が閾値(AP3)以上の場合、閾値を使用
-        var formula = '=IF(OR(ISBLANK($O$1),ISBLANK(AD' + row + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_SHIPPING_POLICY_FROM_IMPORT($O$1,IF(AND($AP$2="ON",AD' + row + '>=$AP$3),$AP$3,AD' + row + '),AE' + row + ',X' + row + '))';
+        var catRef = '$O$1';
+        if (fullSettings && fullSettings.tagOverrideShippingCategory) {
+          var tagCat = getTagVal_(row, 'shippingCat');
+          if (tagCat != null) {
+            catRef = '"' + String(tagCat).replace(/"/g, '""') + '"';
+          }
+        }
+        var formula = '=IF(OR(ISBLANK(' + catRef + '),ISBLANK(AD' + row + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_SHIPPING_POLICY_FROM_IMPORT(' + catRef + ',IF(AND($AP$2="ON",AD' + row + '>=$AP$3),$AP$3,AD' + row + '),AE' + row + ',X' + row + '))';
         policyFormulas.push([formula]);
       }
       if (policyFormulas.length > 0) {
@@ -3963,7 +3991,7 @@ function applyCalculationFormulas(sheetName, settings) {
 
     // TAG_SHIPPING以外のモードに切り替えた場合、F列の古いTAG_SHIPPING式を除去する
     // 注意: F5にINDEX(TagShipping!...)式がある場合のみクリア。手動入力の値は保護される
-    if (shippingCalc !== 'TAG_SHIPPING' && lastRow >= 5) {
+    if (effectiveShippingCalc !== 'TAG_SHIPPING' && lastRow >= 5) {
       var f5 = sheet.getRange(5, CONFIG.COLUMNS.REF_EBAY);
       if (f5.getFormula() !== '') {
         sheet.getRange(5, CONFIG.COLUMNS.REF_EBAY, lastRow - 4, 1).clearContent();
@@ -3998,9 +4026,24 @@ function applyCalculationFormulas(sheetName, settings) {
     // U列: 利益
     sheet.getRange('U4').setValue('利益');
     if (profitCalc === 'RATE') {
-      // 利益率モード：ARRAYFORMULA（計算式なので個別変更は想定しない）
-      var profitFormula = '=ARRAYFORMULA(IF(ROW(U4:U)=4,"利益",IF(R4:R="","",ROUND(R4:R*$C$2*(1-(V4:V+$F$2+$Z$2))-I4:I-T4:T,0))))';
-      sheet.getRange('U4').setFormula(profitFormula);
+      // タグ判定ON時はARRAYFORMULAが使えない（行ごとに広告費率が異なる場合）
+      if (fullSettings && fullSettings.tagOverrideAdRate && tagMap) {
+        var uFormulas = [];
+        for (var row = 5; row <= dataLastRow; row++) {
+          var adVal = defaultAdRate;
+          var tagAd = getTagVal_(row, 'adRate');
+          if (tagAd != null) adVal = tagAd;
+          var adStr = String(Number(adVal) || 0);
+          uFormulas.push(['=IF(R' + row + '="","",ROUND(R' + row + '*$C$2*(1-(V' + row + '+' + adStr + '+$Z$2))-I' + row + '-T' + row + ',0))']);
+        }
+        if (uFormulas.length > 0) {
+          sheet.getRange(5, CONFIG.COLUMNS.PROFIT, uFormulas.length, 1).setFormulas(uFormulas);
+        }
+      } else {
+        // 従来: ARRAYFORMULA
+        var profitFormula = '=ARRAYFORMULA(IF(ROW(U4:U)=4,"利益",IF(R4:R="","",ROUND(R4:R*$C$2*(1-(V4:V+$F$2+$Z$2))-I4:I-T4:T,0))))';
+        sheet.getRange('U4').setFormula(profitFormula);
+      }
     } else {
       // 利益額モード：個別行の式を設定（手動変更可能にする）
       var profitFormulas = [];
@@ -4031,20 +4074,40 @@ function applyCalculationFormulas(sheetName, settings) {
     // dataLastRowは既に上で定義済み
 
     if (dataLastRow >= 5) {
-      // V列: 手数料率 = $F$1
-      var vFormulas = [];
-      for (var i = 5; i <= dataLastRow; i++) {
-        vFormulas.push(['=$F$1']);
-      }
-      sheet.getRange(5, CONFIG.COLUMNS.FEE, dataLastRow - 4, 1).setFormulas(vFormulas);
-
-      // W列: 利益率 = $H$2（利益率モードのみ）
-      if (profitCalc === 'RATE') {
-        var wFormulas = [];
+      // V列: 手数料率
+      if (fullSettings && fullSettings.tagOverrideFeeRate && tagMap) {
+        var vValues = [];
         for (var i = 5; i <= dataLastRow; i++) {
-          wFormulas.push(['=$H$2']);
+          var tagFee = getTagVal_(i, 'feeRate');
+          var fee = tagFee != null ? tagFee : defaultFeeRate;
+          vValues.push([fee]);
         }
-        sheet.getRange(5, CONFIG.COLUMNS.RATE, dataLastRow - 4, 1).setFormulas(wFormulas);
+        sheet.getRange(5, CONFIG.COLUMNS.FEE, dataLastRow - 4, 1).setValues(vValues);
+      } else {
+        var vFormulas = [];
+        for (var i = 5; i <= dataLastRow; i++) {
+          vFormulas.push(['=$F$1']);
+        }
+        sheet.getRange(5, CONFIG.COLUMNS.FEE, dataLastRow - 4, 1).setFormulas(vFormulas);
+      }
+
+      // W列: 利益率（利益率モードのみ）
+      if (profitCalc === 'RATE') {
+        if (fullSettings && fullSettings.tagOverrideProfitRate && tagMap) {
+          var wValues = [];
+          for (var i = 5; i <= dataLastRow; i++) {
+            var tagProfit = getTagVal_(i, 'profitRate');
+            var profit = tagProfit != null ? tagProfit : (defaultProfitRate || 0);
+            wValues.push([profit]);
+          }
+          sheet.getRange(5, CONFIG.COLUMNS.RATE, dataLastRow - 4, 1).setValues(wValues);
+        } else {
+          var wFormulas = [];
+          for (var i = 5; i <= dataLastRow; i++) {
+            wFormulas.push(['=$H$2']);
+          }
+          sheet.getRange(5, CONFIG.COLUMNS.RATE, dataLastRow - 4, 1).setFormulas(wFormulas);
+        }
       }
 
       // Y列: 重量 = $J$2
@@ -4086,12 +4149,40 @@ function applyCalculationFormulas(sheetName, settings) {
       abRange.setFormulas(abFormulas);
       abRange.setNumberFormat('0'); // 整数形式
 
-      // X列: 配送方法 = IF(低価格配送が「NONE」または仕入れ価格>=切替基準, 高価格配送, 低価格配送)
-      var xFormulas = [];
-      for (var i = 5; i <= dataLastRow; i++) {
-        xFormulas.push(['=IF(OR($AQ$2="NONE",I' + i + '>=$AJ$4),$AQ$3,$AQ$2)']);
+      // X列: 配送方法
+      if (fullSettings && tagMap && (fullSettings.tagOverrideShipping || fullSettings.tagOverrideLowShipping || fullSettings.tagOverrideHighShipping || fullSettings.tagOverrideThreshold)) {
+        // タグ判定ON: 値として書き込む
+        var costValues = sheet.getRange(5, CONFIG.COLUMNS.COST_YEN, dataLastRow - 4, 1).getValues();
+        var xValues = [];
+        for (var i = 5; i <= dataLastRow; i++) {
+          var low = defaultLowMethod;
+          var high = defaultHighMethod;
+          var th = defaultThreshold;
+          if (fullSettings.tagOverrideLowShipping) {
+            var tagLow = getTagVal_(i, 'lowShip');
+            if (tagLow != null && String(tagLow)) low = String(tagLow);
+          }
+          if (fullSettings.tagOverrideHighShipping) {
+            var tagHigh = getTagVal_(i, 'highShip');
+            if (tagHigh != null && String(tagHigh)) high = String(tagHigh);
+          }
+          if (fullSettings.tagOverrideThreshold) {
+            var tagTh = getTagVal_(i, 'threshold');
+            if (tagTh != null) th = Number(tagTh);
+          }
+          var cost = Number(costValues[i - 5][0] || 0);
+          var method = (low === 'NONE' || cost >= th) ? high : low;
+          xValues.push([method]);
+        }
+        sheet.getRange(5, CONFIG.COLUMNS.METHOD, dataLastRow - 4, 1).setValues(xValues);
+      } else {
+        // 従来の数式
+        var xFormulas = [];
+        for (var i = 5; i <= dataLastRow; i++) {
+          xFormulas.push(['=IF(OR($AQ$2="NONE",I' + i + '>=$AJ$4),$AQ$3,$AQ$2)']);
+        }
+        sheet.getRange(5, CONFIG.COLUMNS.METHOD, dataLastRow - 4, 1).setFormulas(xFormulas);
       }
-      sheet.getRange(5, CONFIG.COLUMNS.METHOD, dataLastRow - 4, 1).setFormulas(xFormulas);
     }
 
     // AC列: 容積重量（ARRAYFORMULA）
