@@ -117,6 +117,35 @@ ACCESSORIES (only if explicitly mentioned):
 - Dust bag: 保存袋, 巾着
 - Tags: タグ付き, 下げ札付き
 
+DEFECT/ISSUE REPORTING (CRITICAL):
+  If the source mentions ANY defect, you MUST describe it in the Description.
+  DEFECT KEYWORDS AND TRANSLATIONS:
+    **SOLE DEFECTS:**
+      - ソール減り / 底減り -> "sole wear"
+      - ソール剥がれ -> "sole separation"
+      - ソール変色 / 黄ばみ -> "sole yellowing" or "sole discoloration"
+      - 加水分解 -> "sole crumbling" or "hydrolysis"
+      - ヒール減り -> "heel wear"
+    **UPPER DEFECTS:**
+      - 履きジワ / クリース -> "creasing"
+      - 汚れ / シミ -> "stain" or "dirt"
+      - 擦れ / スレ -> "scuff marks"
+      - 傷 -> "scratch"
+      - 色あせ / 退色 -> "fading" or "discoloration"
+      - メッシュ破れ -> "torn mesh"
+      - 塗装剥がれ -> "paint peeling"
+    **STRUCTURAL DEFECTS:**
+      - 型崩れ -> "loss of shape"
+      - インソール剥がれ -> "insole peeling"
+      - インソール汚れ -> "insole stains"
+      - 中敷き劣化 -> "insole deterioration"
+      - ほつれ -> "loose stitching"
+    **ODOR:**
+      - 臭い / カビ臭 -> "odor"
+    - 〜できず / 〜不可 / 〜できません -> always means NOT possible.
+    If source contains "(DEFECT: ...)" markers, use the English text directly.
+    Omitting known defects is a violation of eBay policy.
+
 TITLE (SEO Priority)
 - Language: English ASCII only.
 - Length: 68–75 chars. If >75, shorten but keep SEO value.

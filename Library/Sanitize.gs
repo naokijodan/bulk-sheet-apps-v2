@@ -272,7 +272,13 @@ var CATEGORY_RULES_ = {
     label: '衣類・靴',
     rules: [
       '- 対象: メンズ/レディース/キッズ/ユニセックス のいずれかで記入。',
-      '- [EN]セクションでは: Department は Men/Women/Kids/Unisex。'
+      '- タイプ: スニーカー/ブーツ/ローファー/オックスフォード/ダービー/サンダル/パンプス/モンクストラップ/ウィングチップ/チェルシーブーツ/ワークブーツ のいずれかで記入。',
+      '- 素材: レザー/スエード/キャンバス/メッシュ/シンセティック/コードバン/ヌバック のいずれかで記入。',
+      '- サイズ: cm単位で記入（例: 27.0cm）。タグ記載のサイズをそのまま使用。',
+      '- ワイズ: 2E/3E/4E/D/EE等。記載がなければNA。',
+      '- ソール: レザーソール/ラバーソール/ビブラム/ダイナイト/クレープソール のいずれか。不明ならNA。',
+      '- 製法: グッドイヤーウェルト/ブレイク/マッケイ/セメント のいずれか。不明ならNA。',
+      '- [EN]セクションでは: Department は Men/Women/Kids/Unisex。Type は Sneakers/Boots/Loafers/Oxfords/Derby/Sandals/Pumps/Monk Strap/Wingtip/Chelsea Boots/Work Boots。Upper Material は Leather/Suede/Canvas/Mesh/Synthetic/Cordovan/Nubuck。Sole は Leather/Rubber/Vibram/Dainite/Crepe。Construction は Goodyear Welt/Blake/McKay/Cemented。'
     ]
   },
   'Hats': {
