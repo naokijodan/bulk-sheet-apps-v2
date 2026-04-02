@@ -1374,7 +1374,19 @@ var CARD_RARITY_MTG = [
   {jp: '神話レア', en: 'Mythic Rare', aliases: ['Mythic']},
   {jp: 'レア', en: 'Rare'},
   {jp: 'アンコモン', en: 'Uncommon'},
-  {jp: 'コモン', en: 'Common'}
+  {jp: 'コモン', en: 'Common'},
+  // === 特殊レアリティ/バリアント ===
+  {jp: 'フォイル', en: 'Foil', aliases: ['Foil']},
+  {jp: 'エッチングフォイル', en: 'Etched Foil', aliases: ['Etched']},
+  {jp: 'ボーダーレス', en: 'Borderless'},
+  {jp: '拡張アート', en: 'Extended Art'},
+  {jp: 'ショーケース', en: 'Showcase'},
+  {jp: 'レトロフレーム', en: 'Retro Frame', aliases: ['旧枠', 'Old Border']},
+  {jp: 'シリアルナンバー', en: 'Serialized', aliases: ['Serial Numbered']},
+  {jp: 'テクスチャーフォイル', en: 'Textured Foil', aliases: ['テクスチャー']},
+  {jp: 'サージフォイル', en: 'Surge Foil'},
+  {jp: 'ギャラクシーフォイル', en: 'Galaxy Foil'},
+  {jp: 'コンフェッティフォイル', en: 'Confetti Foil'}
 ];
 
 var CARD_RARITY_ONEPIECE = [
@@ -1388,6 +1400,149 @@ var CARD_RARITY_ONEPIECE = [
   {jp: 'コモン', en: 'Common', code: 'C'},
   {jp: 'パラレル', en: 'Parallel', aliases: ['Alternate Art']}
 ];
+
+var CARD_DUELM_SETS = [
+  {jp: 'アビスレボリューション超誕', en: 'Abyss Revolution Transcend', aliases: ['ABRX']},
+  {jp: 'アビスレボリューション', en: 'Abyss Revolution', aliases: ['DM23']},
+  {jp: '王来MAX', en: 'Oulai MAX', aliases: ['DMRP']},
+  {jp: '王来篇', en: 'Oulai Chapter'},
+  {jp: '十王篇', en: 'Juo Chapter'},
+  {jp: '超天篇', en: 'Chouten Chapter'},
+  {jp: 'ゴッドオブアビス', en: 'God of Abyss'},
+  {jp: 'デュエキングMAX', en: 'Dueking MAX'},
+  {jp: 'デュエルマスターズWIN', en: 'Duel Masters WIN'},
+  {jp: 'メガデッキ', en: 'Mega Deck'},
+  {jp: 'クロニクルデッキ', en: 'Chronicle Deck'},
+  {jp: 'スタートデッキ', en: 'Start Deck'},
+  {jp: 'レジェンドスーパーデッキ', en: 'Legend Super Deck'},
+];
+
+var CARD_DUELM_CARDS = [
+  {jp: 'ボルメテウス・ホワイト・ドラゴン', en: 'Bolmeteus Steel Dragon', aliases: ['ボルメテウス']},
+  {jp: 'ボルシャック・ドラゴン', en: 'Bolshack Dragon', aliases: ['ボルシャック']},
+  {jp: 'ボルバルザーク', en: 'Bolbalzak', aliases: ['ボルバル']},
+  {jp: 'アルカディアスモモキング', en: 'Alcadeias Momo King'},
+  {jp: 'デッドマン', en: 'Deadman', aliases: ['The=デッドマン']},
+  {jp: 'モルトNEXT', en: 'Malt NEXT', aliases: ['モルトネクスト']},
+  {jp: 'ジョーカーズ', en: 'Jokers'},
+  {jp: 'バラギアラ', en: 'Baraghiara'},
+  {jp: 'カツキング', en: 'Katsuking'},
+  {jp: 'デュエランド', en: 'Dueland'},
+  {jp: '超神星マーキュリー・ギガブリザード', en: 'Super Astro Mercury Giga Blizzard', aliases: ['マーキュリー']},
+  {jp: '龍装者バルチュリス', en: 'Ryusousha Balchuris', aliases: ['バルチュリス']},
+  {jp: '切札勝太', en: 'Katta Kirifuda'},
+  {jp: '百獣聖拳バイソンクエスト', en: 'Bison Quest', aliases: ['バイソンクエスト']},
+];
+
+var CARD_RARITY_DUELM = [
+  {jp: 'マスターレア', en: 'Master Rare', aliases: ['MAS']},
+  {jp: 'オーバーレア', en: 'Over Rare', aliases: ['OR']},
+  {jp: 'スーパーレア', en: 'Super Rare', aliases: ['SR']},
+  {jp: 'ベリーレア', en: 'Very Rare', aliases: ['VR']},
+  {jp: 'レア', en: 'Rare', aliases: ['R']},
+  {jp: 'アンコモン', en: 'Uncommon', aliases: ['UC']},
+  {jp: 'コモン', en: 'Common', aliases: ['C']},
+  {jp: 'レジェンドカード', en: 'Legend Card', aliases: ['LEG']},
+  {jp: 'キングマスターカード', en: 'King Master Card', aliases: ['KGM']},
+  {jp: 'マスタードラゴンレア', en: 'Master Dragon Rare', aliases: ['MDR']},
+  {jp: 'ドリームレア', en: 'Dream Rare', aliases: ['DR']},
+  {jp: 'シークレットレア', en: 'Secret Rare', aliases: ['SEC']},
+  {jp: '20thレア', en: '20th Rare', aliases: ['20th']},
+];
+
+// ==============================
+// ドラゴンボールスーパーカードゲーム (Fusion World)
+// ==============================
+
+var CARD_DRAGONBALL_SETS = [
+  {jp: '覚醒の鼓動', en: 'Awakened Pulse', code: 'FB01'},
+  {jp: '烈火の闘気', en: 'Blazing Aura', code: 'FB02'},
+  {jp: '悪の脅威', en: 'Clash of Fates', code: 'FB03', aliases: ['Wicked Bloodline']},
+  {jp: '裁きの鉄槌', en: 'Hammer of Justice', code: 'FB04'},
+  {jp: '終わりなき進化', en: 'Endless Evolution', code: 'FB05'},
+  {jp: 'スタートデッキ', en: 'Starter Deck', aliases: ['SD', 'FS']},
+  {jp: 'ゼノバースセット', en: 'Xenoverse Set', aliases: ['XV']},
+];
+
+var CARD_DRAGONBALL_CHARACTERS = [
+  {jp: '孫悟空', en: 'Son Goku', aliases: ['悟空', 'Goku']},
+  {jp: 'ベジータ', en: 'Vegeta'},
+  {jp: 'フリーザ', en: 'Frieza', aliases: ['フリーザ様']},
+  {jp: 'セル', en: 'Cell'},
+  {jp: '魔人ブウ', en: 'Majin Buu', aliases: ['ブウ', 'Buu']},
+  {jp: 'ブロリー', en: 'Broly'},
+  {jp: '孫悟飯', en: 'Son Gohan', aliases: ['悟飯', 'Gohan']},
+  {jp: 'トランクス', en: 'Trunks'},
+  {jp: 'ピッコロ', en: 'Piccolo'},
+  {jp: 'クリリン', en: 'Krillin'},
+  {jp: 'ゴジータ', en: 'Gogeta'},
+  {jp: 'ベジット', en: 'Vegito'},
+  {jp: 'ビルス', en: 'Beerus'},
+  {jp: 'ウイス', en: 'Whis'},
+  {jp: '悟空ブラック', en: 'Goku Black', aliases: ['ゴクウブラック']},
+  {jp: 'ジレン', en: 'Jiren'},
+  {jp: 'ヒット', en: 'Hit'},
+  {jp: '人造人間17号', en: 'Android 17', aliases: ['17号']},
+  {jp: '人造人間18号', en: 'Android 18', aliases: ['18号']},
+  {jp: 'バーダック', en: 'Bardock'},
+];
+
+var CARD_RARITY_DRAGONBALL = [
+  {jp: 'シークレットレア', en: 'Secret Rare', code: 'SCR'},
+  {jp: 'スペシャルレア', en: 'Special Rare', code: 'SPR'},
+  {jp: 'スーパーレア', en: 'Super Rare', code: 'SR'},
+  {jp: 'レア', en: 'Rare', code: 'R'},
+  {jp: 'アンコモン', en: 'Uncommon', code: 'UC'},
+  {jp: 'コモン', en: 'Common', code: 'C'},
+  {jp: 'リーダー', en: 'Leader', code: 'L'},
+];
+
+// ==============================
+// ヴァイスシュヴァルツ マスター辞書
+// ==============================
+
+var CARD_WEISS_TITLES = [
+  {jp: 'ソードアートオンライン', en: 'Sword Art Online', aliases: ['SAO']},
+  {jp: 'ラブライブ', en: 'Love Live', aliases: ['ラブライブ！']},
+  {jp: 'Fate', en: 'Fate', aliases: ['Fate/stay night', 'Fate/Grand Order', 'FGO']},
+  {jp: 'ホロライブ', en: 'Hololive', aliases: ['ホロライブプロダクション']},
+  {jp: '魔法少女まどか☆マギカ', en: 'Puella Magi Madoka Magica', aliases: ['まどマギ']},
+  {jp: '進撃の巨人', en: 'Attack on Titan', aliases: ['進撃']},
+  {jp: '鬼滅の刃', en: 'Demon Slayer', aliases: ['鬼滅']},
+  {jp: '呪術廻戦', en: 'Jujutsu Kaisen'},
+  {jp: 'Re:ゼロ', en: 'Re:ZERO', aliases: ['リゼロ', 'Re:ゼロから始める異世界生活']},
+  {jp: '五等分の花嫁', en: 'The Quintessential Quintuplets', aliases: ['五等分']},
+  {jp: 'SPY×FAMILY', en: 'SPY x FAMILY', aliases: ['スパイファミリー']},
+  {jp: 'BanG Dream!', en: 'BanG Dream', aliases: ['バンドリ']},
+  {jp: 'プロジェクトセカイ', en: 'Project Sekai', aliases: ['プロセカ']},
+  {jp: 'Disney', en: 'Disney', aliases: ['ディズニー']},
+  {jp: 'ペルソナ', en: 'Persona', aliases: ['ペルソナ5', 'P5']},
+  {jp: 'チェンソーマン', en: 'Chainsaw Man'},
+  {jp: '推しの子', en: 'Oshi no Ko'},
+  {jp: 'ブルーアーカイブ', en: 'Blue Archive', aliases: ['ブルアカ']},
+  {jp: '転生したらスライムだった件', en: 'That Time I Got Reincarnated as a Slime', aliases: ['転スラ']},
+  {jp: 'ぼっちざろっく', en: 'Bocchi the Rock', aliases: ['ぼっち・ざ・ろっく！']},
+];
+
+var CARD_RARITY_WEISS = [
+  {jp: 'サインカード', en: 'Signed Card', aliases: ['SP', 'サイン']},
+  {jp: 'スーパースペシャル', en: 'Super Special', aliases: ['SSP']},
+  {jp: 'トリプルレア', en: 'Triple Rare', aliases: ['RRR']},
+  {jp: 'ダブルレア', en: 'Double Rare', aliases: ['RR']},
+  {jp: 'レア', en: 'Rare', aliases: ['R']},
+  {jp: 'アンコモン', en: 'Uncommon', aliases: ['U']},
+  {jp: 'コモン', en: 'Common', aliases: ['C']},
+  {jp: 'クライマックスレア', en: 'Climax Rare', aliases: ['CR']},
+  {jp: 'クライマックスコモン', en: 'Climax Common', aliases: ['CC']},
+  {jp: 'OFR', en: 'Over Frame Rare', aliases: ['OFR']},
+  {jp: 'SEC', en: 'Secret Rare', aliases: ['SEC', 'シークレット']},
+  {jp: 'BOX特典', en: 'Box Promo', aliases: ['BPR']},
+  {jp: 'プロモ', en: 'Promo', aliases: ['PR']},
+];
+
+// ==============================
+// 共通仕上げ辞書
+// ==============================
 
 // ==============================
 // 共通仕上げ辞書
@@ -1420,6 +1575,8 @@ function getCardSetPatterns_() {
   all = all.concat(buildISPatterns_(CARD_YUGIOH_SETS));
   all = all.concat(buildISPatterns_(CARD_ONEPIECE_SETS));
   all = all.concat(buildISPatterns_(CARD_BASEBALL_SETS));
+  all = all.concat(buildISPatterns_(CARD_DUELM_SETS));
+  all = all.concat(buildISPatterns_(CARD_DRAGONBALL_SETS));
   return all;
 }
 
@@ -1435,6 +1592,9 @@ function getCardCharacterPatterns_() {
   all = all.concat(buildISPatterns_(CARD_ONEPIECE_CHARACTERS));
   all = all.concat(buildISPatterns_(CARD_SUMO_WRESTLERS));
   all = all.concat(buildISPatterns_(CARD_BASEBALL_PLAYERS));
+  all = all.concat(buildISPatterns_(CARD_DUELM_CARDS));
+  all = all.concat(buildISPatterns_(CARD_DRAGONBALL_CHARACTERS));
+  all = all.concat(buildISPatterns_(CARD_WEISS_TITLES));
   return all;
 }
 
@@ -1458,6 +1618,12 @@ function getCardCharacterPatternsForGame_(game) {
       return buildISPatterns_(CARD_BASEBALL_PLAYERS);
     case 'Sumo Wrestling':
       return buildISPatterns_(CARD_SUMO_WRESTLERS);
+    case 'Duel Masters':
+      return buildISPatterns_(CARD_DUELM_CARDS);
+    case 'Dragon Ball Super Card Game':
+      return buildISPatterns_(CARD_DRAGONBALL_CHARACTERS);
+    case 'Weiss Schwarz':
+      return buildISPatterns_(CARD_WEISS_TITLES);
     default:
       return getCardCharacterPatterns_();
   }
@@ -1479,6 +1645,12 @@ function getCardRarityPatternsForGame_(game) {
       return buildISPatterns_(CARD_RARITY_MTG);
     case 'One Piece':
       return buildISPatterns_(CARD_RARITY_ONEPIECE);
+    case 'Duel Masters':
+      return buildISPatterns_(CARD_RARITY_DUELM);
+    case 'Dragon Ball Super Card Game':
+      return buildISPatterns_(CARD_RARITY_DRAGONBALL);
+    case 'Weiss Schwarz':
+      return buildISPatterns_(CARD_RARITY_WEISS);
     default:
       return [];
   }
@@ -1502,6 +1674,10 @@ function getCardSetPatternsForGame_(game) {
       return buildISPatterns_(CARD_ONEPIECE_SETS);
     case 'Baseball':
       return buildISPatterns_(CARD_BASEBALL_SETS);
+    case 'Duel Masters':
+      return buildISPatterns_(CARD_DUELM_SETS);
+    case 'Dragon Ball Super Card Game':
+      return buildISPatterns_(CARD_DRAGONBALL_SETS);
     default:
       return getCardSetPatterns_();
   }
@@ -1517,6 +1693,9 @@ function getCardRarityPatterns_() {
   all = all.concat(buildISPatterns_(CARD_RARITY_YUGIOH));
   all = all.concat(buildISPatterns_(CARD_RARITY_MTG));
   all = all.concat(buildISPatterns_(CARD_RARITY_ONEPIECE));
+  all = all.concat(buildISPatterns_(CARD_RARITY_DUELM));
+  all = all.concat(buildISPatterns_(CARD_RARITY_DRAGONBALL));
+  all = all.concat(buildISPatterns_(CARD_RARITY_WEISS));
   return all;
 }
 
@@ -1626,6 +1805,30 @@ function buildCardTranslationDict_(game) {
   } else if (game === 'Sumo' || game === 'Sumo Wrestling') {
     lines.push('[Wrestlers]');
     lines.push(buildPromptDict_(CARD_SUMO_WRESTLERS));
+  } else if (game === 'Duel Masters') {
+    lines.push('[Sets]');
+    lines.push(buildPromptDict_(CARD_DUELM_SETS));
+    lines.push('');
+    lines.push('[Cards]');
+    lines.push(buildPromptDict_(CARD_DUELM_CARDS));
+    lines.push('');
+    lines.push('[Rarity]');
+    lines.push(buildPromptDict_(CARD_RARITY_DUELM));
+  } else if (game === 'Dragon Ball' || game === 'Dragon Ball Super Card Game') {
+    lines.push('[Sets]');
+    lines.push(buildPromptDict_(CARD_DRAGONBALL_SETS));
+    lines.push('');
+    lines.push('[Characters]');
+    lines.push(buildPromptDict_(CARD_DRAGONBALL_CHARACTERS));
+    lines.push('');
+    lines.push('[Rarity]');
+    lines.push(buildPromptDict_(CARD_RARITY_DRAGONBALL));
+  } else if (game === 'Weiss Schwarz') {
+    lines.push('[Titles]');
+    lines.push(buildPromptDict_(CARD_WEISS_TITLES));
+    lines.push('');
+    lines.push('[Rarity]');
+    lines.push(buildPromptDict_(CARD_RARITY_WEISS));
   }
 
   return lines.join('\n');
