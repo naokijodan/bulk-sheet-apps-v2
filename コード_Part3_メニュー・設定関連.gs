@@ -4074,15 +4074,14 @@ function applyCalculationFormulas(sheetName, settings) {
     // dataLastRowは既に上で定義済み
 
     if (dataLastRow >= 5) {
-      // V列: 手数料率
+      // V列: 手数料率（タグ判定ON: TagShippingのK列からINDEX/MATCH、フォールバック: $F$1）
+      var tsName = CONFIG.TAG_SHIPPING.SHEET_NAME;
       if (fullSettings && fullSettings.tagOverrideFeeRate && tagMap) {
-        var vValues = [];
+        var vFormulas = [];
         for (var i = 5; i <= dataLastRow; i++) {
-          var tagFee = getTagVal_(i, 'feeRate');
-          var fee = tagFee != null ? tagFee : defaultFeeRate;
-          vValues.push([fee]);
+          vFormulas.push(['=IFERROR(VALUE(SUBSTITUTE(INDEX(' + tsName + '!K:K,MATCH(D' + i + ',' + tsName + '!A:A,0)),"%",""))/100,$F$1)']);
         }
-        sheet.getRange(5, CONFIG.COLUMNS.FEE, dataLastRow - 4, 1).setValues(vValues);
+        sheet.getRange(5, CONFIG.COLUMNS.FEE, dataLastRow - 4, 1).setFormulas(vFormulas);
       } else {
         var vFormulas = [];
         for (var i = 5; i <= dataLastRow; i++) {
@@ -4091,16 +4090,14 @@ function applyCalculationFormulas(sheetName, settings) {
         sheet.getRange(5, CONFIG.COLUMNS.FEE, dataLastRow - 4, 1).setFormulas(vFormulas);
       }
 
-      // W列: 利益率（利益率モードのみ）
+      // W列: 利益率（タグ判定ON: TagShippingのI列からINDEX/MATCH、フォールバック: $H$2）
       if (profitCalc === 'RATE') {
         if (fullSettings && fullSettings.tagOverrideProfitRate && tagMap) {
-          var wValues = [];
+          var wFormulas = [];
           for (var i = 5; i <= dataLastRow; i++) {
-            var tagProfit = getTagVal_(i, 'profitRate');
-            var profit = tagProfit != null ? tagProfit : (defaultProfitRate || 0);
-            wValues.push([profit]);
+            wFormulas.push(['=IFERROR(VALUE(SUBSTITUTE(INDEX(' + tsName + '!I:I,MATCH(D' + i + ',' + tsName + '!A:A,0)),"%",""))/100,$H$2)']);
           }
-          sheet.getRange(5, CONFIG.COLUMNS.RATE, dataLastRow - 4, 1).setValues(wValues);
+          sheet.getRange(5, CONFIG.COLUMNS.RATE, dataLastRow - 4, 1).setFormulas(wFormulas);
         } else {
           var wFormulas = [];
           for (var i = 5; i <= dataLastRow; i++) {
@@ -4149,32 +4146,20 @@ function applyCalculationFormulas(sheetName, settings) {
       abRange.setFormulas(abFormulas);
       abRange.setNumberFormat('0'); // 整数形式
 
-      // X列: 配送方法
-      if (fullSettings && tagMap && (fullSettings.tagOverrideShipping || fullSettings.tagOverrideLowShipping || fullSettings.tagOverrideHighShipping || fullSettings.tagOverrideThreshold)) {
-        // タグ判定ON: 値として書き込む
-        var costValues = sheet.getRange(5, CONFIG.COLUMNS.COST_YEN, dataLastRow - 4, 1).getValues();
-        var xValues = [];
+      // X列: 配送方法（タグ判定ON: TagShippingのL/M/N列からINDEX/MATCH数式、フォールバック: AQ2/AQ3/AJ4）
+      if (fullSettings && tagMap && (fullSettings.tagOverrideLowShipping || fullSettings.tagOverrideHighShipping || fullSettings.tagOverrideThreshold)) {
+        var xFormulas = [];
         for (var i = 5; i <= dataLastRow; i++) {
-          var low = defaultLowMethod;
-          var high = defaultHighMethod;
-          var th = defaultThreshold;
-          if (fullSettings.tagOverrideLowShipping) {
-            var tagLow = getTagVal_(i, 'lowShip');
-            if (tagLow != null && String(tagLow)) low = String(tagLow);
-          }
-          if (fullSettings.tagOverrideHighShipping) {
-            var tagHigh = getTagVal_(i, 'highShip');
-            if (tagHigh != null && String(tagHigh)) high = String(tagHigh);
-          }
-          if (fullSettings.tagOverrideThreshold) {
-            var tagTh = getTagVal_(i, 'threshold');
-            if (tagTh != null) th = Number(tagTh);
-          }
-          var cost = Number(costValues[i - 5][0] || 0);
-          var method = (low === 'NONE' || cost >= th) ? high : low;
-          xValues.push([method]);
+          // LET関数でタグ行を1回だけMATCHし、L/M/N列から値を取得。未設定時はAQ2/AQ3/AJ4にフォールバック
+          var formula = '=IF(D' + i + '="","",' +
+            'LET(idx,MATCH(D' + i + ',' + tsName + '!A:A,0),' +
+            'low,IF(ISERROR(idx),$AQ$2,IF(INDEX(' + tsName + '!L:L,idx)="",$AQ$2,INDEX(' + tsName + '!L:L,idx))),' +
+            'high,IF(ISERROR(idx),$AQ$3,IF(INDEX(' + tsName + '!M:M,idx)="",$AQ$3,INDEX(' + tsName + '!M:M,idx))),' +
+            'thresh,IF(ISERROR(idx),$AJ$4,IF(INDEX(' + tsName + '!N:N,idx)="",$AJ$4,INDEX(' + tsName + '!N:N,idx))),' +
+            'IF(OR(low="NONE",I' + i + '>=thresh),high,low)))';
+          xFormulas.push([formula]);
         }
-        sheet.getRange(5, CONFIG.COLUMNS.METHOD, dataLastRow - 4, 1).setValues(xValues);
+        sheet.getRange(5, CONFIG.COLUMNS.METHOD, dataLastRow - 4, 1).setFormulas(xFormulas);
       } else {
         // 従来の数式
         var xFormulas = [];
