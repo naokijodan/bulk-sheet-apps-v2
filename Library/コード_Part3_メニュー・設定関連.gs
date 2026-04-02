@@ -3906,20 +3906,20 @@ function applyCalculationFormulas(sheetName, settings) {
     var defaultThreshold = Number(sheet.getRange('AJ4').getValue() || 0);
 
     // R列: 販売価格（個別行の式）
+    // タグ判定ON: 広告費率をTagShipping J列からINDEX/MATCH、フォールバック: $F$2
     sheet.getRange('R4').setValue('販売価格');
+    var adRateRef = '$F$2';
+    if (fullSettings && fullSettings.tagOverrideAdRate && tagMap) {
+      adRateRef = 'IFERROR(VALUE(SUBSTITUTE(INDEX(' + tsName + '!J:J,MATCH(D{row},' + tsName + '!A:A,0)),"%",""))/100,$F$2)';
+    }
     var priceFormulas = [];
     for (var row = 5; row <= dataLastRow; row++) {
-      var adRateVal = defaultAdRate;
-      if (fullSettings && fullSettings.tagOverrideAdRate) {
-        var tagAd = getTagVal_(row, 'adRate');
-        if (tagAd != null) adRateVal = tagAd;
-      }
-      var adRateStr = String(Number(adRateVal) || 0);
+      var adRef = adRateRef.replace(/\{row\}/g, String(row));
       var formula = '';
       if (profitCalc === 'RATE') {
-        formula = '=IF(I' + row + '="","",ROUND(((I' + row + '+T' + row + ')/(1-(V' + row + '+W' + row + '+' + adRateStr + '+$Z$2))/$C$2)*100)/100)';
+        formula = '=IF(I' + row + '="","",ROUND(((I' + row + '+T' + row + ')/(1-(V' + row + '+W' + row + '+' + adRef + '+$Z$2))/$C$2)*100)/100)';
       } else {
-        formula = '=IF(I' + row + '="","",ROUND(((I' + row + '+T' + row + '+U' + row + ')/(1-(V' + row + '+' + adRateStr + '+$Z$2))/$C$2)*100)/100)';
+        formula = '=IF(I' + row + '="","",ROUND(((I' + row + '+T' + row + '+U' + row + ')/(1-(V' + row + '+' + adRef + '+$Z$2))/$C$2)*100)/100)';
       }
       priceFormulas.push([formula]);
     }
@@ -4028,13 +4028,11 @@ function applyCalculationFormulas(sheetName, settings) {
     if (profitCalc === 'RATE') {
       // タグ判定ON時はARRAYFORMULAが使えない（行ごとに広告費率が異なる場合）
       if (fullSettings && fullSettings.tagOverrideAdRate && tagMap) {
+        // タグ判定ON: 行ごとの数式（広告費率をINDEX/MATCHで参照）
         var uFormulas = [];
         for (var row = 5; row <= dataLastRow; row++) {
-          var adVal = defaultAdRate;
-          var tagAd = getTagVal_(row, 'adRate');
-          if (tagAd != null) adVal = tagAd;
-          var adStr = String(Number(adVal) || 0);
-          uFormulas.push(['=IF(R' + row + '="","",ROUND(R' + row + '*$C$2*(1-(V' + row + '+' + adStr + '+$Z$2))-I' + row + '-T' + row + ',0))']);
+          var uAdRef = adRateRef.replace(/\{row\}/g, String(row));
+          uFormulas.push(['=IF(R' + row + '="","",ROUND(R' + row + '*$C$2*(1-(V' + row + '+' + uAdRef + '+$Z$2))-I' + row + '-T' + row + ',0))']);
         }
         if (uFormulas.length > 0) {
           sheet.getRange(5, CONFIG.COLUMNS.PROFIT, uFormulas.length, 1).setFormulas(uFormulas);
