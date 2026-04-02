@@ -150,9 +150,37 @@ DESCRIPTION (SEO Priority)
     - 不具合 -> "defect"
     - 傷 -> "scratch"
     - サビ / 錆 -> "rust" or "corrosion"
+    - ハム音 / ブーン -> "hum" or "ground hum"
+    - 音割れ / 歪み -> "distorted sound"
+    - 左右音量差 / バランス不良 -> "imbalanced volume" or "channel imbalance"
+    - ポップノイズ -> "popping noise"
+    - ヘッドホンパッド劣化 / イヤーパッド劣化 -> "ear pad deterioration"
+    - バッテリー劣化 / 充電劣化 -> "battery degraded"
+    - Bluetooth接続不良 / ペアリング不良 -> "Bluetooth pairing issue"
+    - ボタン反応なし / ボタン不良 -> "button unresponsive"
+    - 端子酸化 / 端子くすみ -> "oxidized terminals"
+    - ジャック緩み -> "loose jack"
+    - ケーブル断線 / ケーブル劣化 -> "frayed cable" or "cable damage"
+    - 加水分解 / べたつき -> "sticky surface (hydrolysis)"
+    - 針飛び（ターンテーブル） -> "needle skipping"
+    - アーム不良（ターンテーブル） -> "tonearm malfunction"
+    - スピーカーコーン破れ -> "speaker cone damage"
     - 〜できず / 〜不可 / 〜できません -> always means NOT possible. NEVER translate as "works" or "functional".
   If source contains "(DEFECT: ...)" markers, use the English text directly.
   Omitting known defects is a violation of eBay policy.
+
+MISSING ACCESSORIES DETECTION (Category-specific):
+  If source mentions any missing items, reflect in Title (append relevant marker) and Description:
+    - リモコンなし -> "No Remote"
+    - 電源ケーブルなし / ACアダプターなし -> "No Power Cable" / "No AC Adapter"
+    - 箱なし / 元箱なし -> "No Box"
+    - 説明書なし -> "No Manual"
+    - イヤーパッドなし -> "No Ear Pads"
+    - イヤーピースなし / イヤーチップなし -> "No Ear Tips"
+    - ケーブルなし -> "No Cable"
+    - スタンドなし -> "No Stand"
+    - アンテナなし -> "No Antenna"
+  Title markers: append "No Remote" "No Box" etc. at end if space allows.
 - Describe operation/status only if clearly mentioned (tested/untested/issues).
 - Avoid evaluative adjectives (excellent, good, mint, used).
 - Exclude shipping/seller opinions/history/warranty.

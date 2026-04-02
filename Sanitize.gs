@@ -281,6 +281,18 @@ var CATEGORY_RULES_ = {
       '- [EN]セクションでは: Department は Men/Women/Kids/Unisex。Type は Sneakers/Boots/Loafers/Oxfords/Derby/Sandals/Pumps/Monk Strap/Wingtip/Chelsea Boots/Work Boots。Upper Material は Leather/Suede/Canvas/Mesh/Synthetic/Cordovan/Nubuck。Sole は Leather/Rubber/Vibram/Dainite/Crepe。Construction は Goodyear Welt/Blake/McKay/Cemented。'
     ]
   },
+  'Electronics': {
+    label: 'オーディオ・家電',
+    rules: [
+      '- タイプ: アンプ/プリアンプ/パワーアンプ/スピーカー/ヘッドホン/イヤホン/CDプレーヤー/カセットデッキ/ターンテーブル/DAC/ポータブルプレーヤー/ラジオ/チューナー/ミキサー/炊飯器/電子レンジ/掃除機/空気清浄機 のいずれかで記入。',
+      '- 接続: RCA/XLR/光デジタル/同軸/Bluetooth/USB/3.5mmジャック/6.3mmジャック のいずれか。複数ある場合はカンマ区切り。',
+      '- 電源: AC100V/電池/USB給電/充電式 のいずれかで記入。',
+      '- インピーダンス（ヘッドホン・スピーカーの場合）: Ω単位で記入（例: 32Ω, 300Ω, 8Ω）。不明ならNA。',
+      '- 出力（アンプの場合）: W単位で記入（例: 100W+100W）。不明ならNA。',
+      '- ドライバータイプ（ヘッドホン・イヤホンの場合）: ダイナミック/BA/平面駆動/静電型/ハイブリッド のいずれか。不明ならNA。',
+      '- [EN]セクションでは: Type は Integrated Amplifier/Preamplifier/Power Amplifier/Speakers/Headphones/Earphones/CD Player/Cassette Deck/Turntable/DAC/Portable Audio Player/Radio/Tuner/Mixer/Rice Cooker/Microwave/Vacuum Cleaner/Air Purifier。Connectivity は RCA/XLR/Optical/Coaxial/Bluetooth/USB/3.5mm/6.3mm。Power は AC 100V/Battery/USB Powered/Rechargeable。Driver Type は Dynamic/Balanced Armature/Planar Magnetic/Electrostatic/Hybrid。'
+    ]
+  },
   'Hats': {
     label: '帽子',
     rules: [
