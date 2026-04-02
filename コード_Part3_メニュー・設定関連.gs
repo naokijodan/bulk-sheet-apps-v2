@@ -3933,16 +3933,15 @@ function applyCalculationFormulas(sheetName, settings) {
     // E列: テンプレートID（Import_TemplatesのC列を使用したINDEX/MATCH）
     try {
       sheet.getRange('E4').setValue('テンプレート');
+      // タグ判定ON: テンプレート名をTagShipping G列からINDEX/MATCH、フォールバック: $O$2
+      var tplRef = '$O$2';
+      if (fullSettings && fullSettings.tagOverrideTemplate && tagMap) {
+        tplRef = 'IFERROR(INDEX(' + tsName + '!G:G,MATCH(D{row},' + tsName + '!A:A,0)),$O$2)';
+      }
       var templateFormulas = [];
       for (var row = 5; row <= dataLastRow; row++) {
-        var tplName = '$O$2';
-        if (fullSettings && fullSettings.tagOverrideTemplate) {
-          var tagTpl = getTagVal_(row, 'template');
-          if (tagTpl != null) {
-            tplName = '"' + String(tagTpl).replace(/"/g, '""') + '"';
-          }
-        }
-        var formula = '=IF(OR(ISBLANK(' + tplName + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",IFERROR(INDEX(Import_Templates!$A$2:$A$50,MATCH("Template_"&' + tplName + '&"_"&IF(AE' + row + '="新品","new","used")&"_"&IF(X' + row + '="EP","eco",IF(X' + row + '="CE","eco","xp")),Import_Templates!$C$2:$C$50,0)),"該当なし"))';
+        var rowTplRef = tplRef.replace(/\{row\}/g, String(row));
+        var formula = '=IF(OR(ISBLANK(' + rowTplRef + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",IFERROR(INDEX(Import_Templates!$A$2:$A$50,MATCH("Template_"&' + rowTplRef + '&"_"&IF(AE' + row + '="新品","new","used")&"_"&IF(X' + row + '="EP","eco",IF(X' + row + '="CE","eco","xp")),Import_Templates!$C$2:$C$50,0)),"該当なし"))';
         templateFormulas.push([formula]);
       }
       if (templateFormulas.length > 0) {
@@ -3957,16 +3956,15 @@ function applyCalculationFormulas(sheetName, settings) {
     // O列: シッピングポリシーID（初期設定用・Import_Policies参照版）
     try {
       sheet.getRange('O4').setValue('シッピングポリシー');
+      // タグ判定ON: 送料上限カテゴリをTagShipping H列からINDEX/MATCH、フォールバック: $O$1
+      var catRef = '$O$1';
+      if (fullSettings && fullSettings.tagOverrideShippingCategory && tagMap) {
+        catRef = 'IFERROR(INDEX(' + tsName + '!H:H,MATCH(D{row},' + tsName + '!A:A,0)),$O$1)';
+      }
       var policyFormulas = [];
       for (var row = 5; row <= dataLastRow; row++) {
-        var catRef = '$O$1';
-        if (fullSettings && fullSettings.tagOverrideShippingCategory) {
-          var tagCat = getTagVal_(row, 'shippingCat');
-          if (tagCat != null) {
-            catRef = '"' + String(tagCat).replace(/"/g, '""') + '"';
-          }
-        }
-        var formula = '=IF(OR(ISBLANK(' + catRef + '),ISBLANK(AD' + row + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_SHIPPING_POLICY_FROM_IMPORT(' + catRef + ',IF(AND($AP$2="ON",AD' + row + '>=$AP$3),$AP$3,AD' + row + '),AE' + row + ',X' + row + '))';
+        var rowCatRef = catRef.replace(/\{row\}/g, String(row));
+        var formula = '=IF(OR(ISBLANK(' + rowCatRef + '),ISBLANK(AD' + row + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_SHIPPING_POLICY_FROM_IMPORT(' + rowCatRef + ',IF(AND($AP$2="ON",AD' + row + '>=$AP$3),$AP$3,AD' + row + '),AE' + row + ',X' + row + '))';
         policyFormulas.push([formula]);
       }
       if (policyFormulas.length > 0) {
