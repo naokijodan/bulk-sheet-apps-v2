@@ -649,7 +649,41 @@ var CARD_MTG_CARDS = [
   {jp: 'ヴィンセントヴァレンタイン', en: 'Vincent Valentine', aliases: ['ヴィンセント・ヴァレンタイン']},
   {jp: 'シドハイウインド', en: 'Cid Highwind', aliases: ['シド・ハイウインド']},
   {jp: 'ケットシー', en: 'Cait Sith'},
-  {jp: 'ザックスフェア', en: 'Zack Fair', aliases: ['ザックス・フェア', 'ザックス']}
+  {jp: 'ザックスフェア', en: 'Zack Fair', aliases: ['ザックス・フェア', 'ザックス']},
+
+  // ========== プレインズウォーカー（高額・人気） ==========
+  {jp: 'ヴェールのリリアナ', en: 'Liliana of the Veil', aliases: ['ヴェリリ', 'リリアナ']},
+  {jp: '精神を刻む者ジェイス', en: 'Jace, the Mind Sculptor', aliases: ['精神を刻む者、ジェイス', '神ジェイス', 'JTMS']},
+  {jp: '王冠泥棒オーコ', en: 'Oko, Thief of Crowns', aliases: ['王冠泥棒、オーコ', 'オーコ']},
+  {jp: '放浪皇', en: 'The Wandering Emperor'},
+  {jp: '偉大なる統一者アトラクサ', en: 'Atraxa, Grand Unifier', aliases: ['偉大なる統一者、アトラクサ', 'アトラクサ']},
+  {jp: '灯の目覚めチャンドラ', en: 'Chandra Awakened Inferno', aliases: ['チャンドラ']},
+  {jp: 'ウギン', en: 'Ugin the Spirit Dragon', aliases: ['精霊龍ウギン', 'Ugin']},
+
+  // ========== 統率者(Commander)人気 ==========
+  {jp: '織り手のティムナ', en: 'Tymna the Weaver', aliases: ['ティムナ']},
+  {jp: 'クラウム', en: "Kraum, Ludevic's Opus", aliases: ['ルーデヴィックの名作、クラウム']},
+  {jp: 'エドガーマルコフ', en: 'Edgar Markov', aliases: ['マルコフ男爵、エドガー・マルコフ', 'エドガー']},
+  {jp: '虎の影百合子', en: "Yuriko, the Tiger's Shadow", aliases: ['虎の影、百合子', '百合子']},
+  {jp: '宝石の蓮', en: 'Jeweled Lotus'},
+  {jp: '波止場の恐喝者', en: 'Dockside Extortionist', aliases: ['波止場']},
+
+  // ========== レガシー/ヴィンテージ高額 ==========
+  {jp: null, en: 'Black Lotus', aliases: ['ブラックロータス']},
+  {jp: null, en: 'Mox Sapphire', aliases: ['モックスサファイア']},
+  {jp: null, en: 'Mox Ruby', aliases: ['モックスルビー']},
+  {jp: null, en: 'Mox Pearl', aliases: ['モックスパール']},
+  {jp: null, en: 'Mox Jet', aliases: ['モックスジェット']},
+  {jp: null, en: 'Mox Emerald', aliases: ['モックスエメラルド']},
+  {jp: null, en: 'Time Walk', aliases: ['タイムウォーク']},
+  {jp: null, en: 'Ancestral Recall', aliases: ['アンセストラルリコール']},
+  {jp: '再活性', en: 'Reanimate'},
+  {jp: '定業', en: 'Preordain'},
+
+  // ========== 2024-2025 高額 ==========
+  {jp: '黄金架のドラゴン', en: 'Goldspan Dragon', aliases: ['黄金架']},
+  {jp: '残虐の執政官', en: 'Archon of Cruelty'},
+  {jp: '三本木市', en: 'Three Tree City', aliases: ['三本木']}
 ];
 
 var CARD_MTG_VARIANTS = [
@@ -842,7 +876,34 @@ var CARD_YUGIOH_CHARACTERS = [
   {jp: '混沌帝龍', en: 'Chaos Emperor Dragon Envoy of the End', aliases: ['カオスエンペラードラゴン']},
   {jp: 'サイバードラゴン', en: 'Cyber Dragon', aliases: ['サイバー・ドラゴン']},
   {jp: 'E・HEROフレイムウィングマン', en: 'Elemental HERO Flame Wingman', aliases: ['フレイムウィングマン', 'フレウィン']},
-  {jp: 'E・HEROネオス', en: 'Elemental HERO Neos', aliases: ['ネオス']}
+  {jp: 'E・HEROネオス', en: 'Elemental HERO Neos', aliases: ['ネオス']},
+
+  // ========== 2024-2025 環境テーマ ==========
+  {jp: '蛇眼の炎燐', en: 'Snake-Eyes Poplar', aliases: ['ポプラ', 'スネークアイ']},
+  {jp: '蛇眼の炎龍', en: 'Snake-Eyes Flamberge Dragon', aliases: ['フランベルジュ']},
+  {jp: '黒魔女ディアベルスター', en: 'Diabellstar the Black Witch', aliases: ['ディアベルスター']},
+  {jp: '原罪宝スネークアイ', en: 'Original Sinful Spoils Snake-Eye', aliases: ['原罪宝']},
+  {jp: '重騎士プリメラ', en: 'Centur-Ion Primera', aliases: ['プリメラ', 'センチュリオン']},
+  {jp: '従騎士トゥルーデア', en: 'Centur-Ion Trudea', aliases: ['トゥルーデア']},
+  {jp: '騎士皇レガーティア', en: 'Centur-Ion Legatia', aliases: ['レガーティア']},
+  {jp: '篝火', en: 'Bonfire'},
+  {jp: 'S:Pリトルナイト', en: 'S:P Little Knight', aliases: ['リトルナイト']},
+  {jp: '賜炎の咎姫', en: 'Promethean Princess Bestower of Flames', aliases: ['咎姫']},
+  {jp: '粛声なる守護者ローガーディアン', en: 'Skull Guardian Protector of the Voiceless Voice', aliases: ['ローガーディアン', '粛声']},
+  {jp: 'ユベル', en: 'Yubel The Loving Defender Forever'},
+  {jp: '厄災の星ティフォン', en: 'Stellar Nemesis T-Phon Doomsday Star', aliases: ['ティフォン']},
+
+  // ========== 閃刀姫 個別カード ==========
+  {jp: '閃刀起動エンゲージ', en: 'Sky Striker Mobilize Engage', aliases: ['閃刀起動−エンゲージ', 'エンゲージ']},
+  {jp: '閃刀機ウィドウアンカー', en: 'Sky Striker Mecha Widow Anchor', aliases: ['閃刀機−ウィドウアンカー', 'アンカー']},
+  {jp: '閃刀姫アザレア', en: 'Sky Striker Ace Azalea', aliases: ['閃刀姫−アザレア', 'アザレア']},
+  {jp: '閃刀姫カメリア', en: 'Sky Striker Ace Camellia', aliases: ['閃刀姫−カメリア', 'カメリア']},
+
+  // ========== ティアラメンツ 個別カード ==========
+  {jp: 'ティアラメンツキトカロス', en: 'Tearlaments Kitkallos', aliases: ['キトカロス']},
+  {jp: 'ティアラメンツルルカロス', en: 'Tearlaments Rulkallos', aliases: ['ルルカロス']},
+  {jp: 'ティアラメンツレイノハート', en: 'Tearlaments Reinoheart', aliases: ['レイノハート']},
+  {jp: 'ティアラメンツシェイレーン', en: 'Tearlaments Scheiren', aliases: ['シェイレーン']}
 ];
 
 // ==============================
@@ -880,6 +941,7 @@ var CARD_ONEPIECE_SETS = [
 ];
 
 var CARD_ONEPIECE_CHARACTERS = [
+  // ========== 麦わらの一味 ==========
   {jp: 'ルフィ', en: 'Monkey D. Luffy', aliases: ['モンキー・D・ルフィ', 'Luffy']},
   {jp: 'ゾロ', en: 'Roronoa Zoro', aliases: ['ロロノア・ゾロ', 'Zoro']},
   {jp: 'ナミ', en: 'Nami'},
@@ -889,21 +951,76 @@ var CARD_ONEPIECE_CHARACTERS = [
   {jp: 'ロビン', en: 'Nico Robin', aliases: ['ニコ・ロビン', 'Robin']},
   {jp: 'フランキー', en: 'Franky'},
   {jp: 'ブルック', en: 'Brook'},
-  {jp: 'ジンベエ', en: 'Jinbe', aliases: ['ジンベイ']},
+  {jp: 'ジンベエ', en: 'Jinbe', aliases: ['ジンベイ', '海侠のジンベエ']},
+  {jp: 'ニカ', en: 'Nika', aliases: ['ギア5', 'Gear 5']},
+
+  // ========== 四皇 ==========
   {jp: 'シャンクス', en: 'Shanks', aliases: ['赤髪のシャンクス']},
-  {jp: 'エース', en: 'Portgas D. Ace', aliases: ['ポートガス・D・エース', 'Ace']},
-  {jp: 'ヤマト', en: 'Yamato'},
-  {jp: 'カイドウ', en: 'Kaido'},
-  {jp: 'ビッグマム', en: 'Big Mom', aliases: ['ビッグ・マム', 'リンリン']},
+  {jp: 'カイドウ', en: 'Kaido', aliases: ['百獣のカイドウ']},
+  {jp: 'ビッグマム', en: 'Big Mom', aliases: ['ビッグ・マム', 'リンリン', 'シャーロット・リンリン']},
+  {jp: '白ひげ', en: 'Whitebeard', aliases: ['エドワード・ニューゲート', 'Edward Newgate']},
+  {jp: 'ロジャー', en: 'Gol D. Roger', aliases: ['ゴール・D・ロジャー']},
+  {jp: 'バギー', en: 'Buggy', aliases: ['千両道化のバギー']},
+  {jp: '黒ひげ', en: 'Blackbeard', aliases: ['マーシャル・D・ティーチ', 'Marshall D. Teach']},
+
+  // ========== 最悪の世代 ==========
   {jp: 'ロー', en: 'Trafalgar Law', aliases: ['トラファルガー・ロー', 'Law']},
   {jp: 'キッド', en: 'Eustass Kid', aliases: ['ユースタス・キッド', 'Kid']},
+  {jp: 'ボニー', en: 'Jewelry Bonney', aliases: ['ジュエリー・ボニー']},
+  {jp: 'ホーキンス', en: 'Basil Hawkins', aliases: ['バジル・ホーキンス']},
+  {jp: 'アプー', en: 'Scratchmen Apoo', aliases: ['スクラッチメン・アプー']},
+  {jp: 'ベッジ', en: 'Capone Bege', aliases: ['カポネ・ベッジ']},
+  {jp: 'キラー', en: 'Killer', aliases: ['殺戮武人キラー']},
+  {jp: 'ウルージ', en: 'Urouge', aliases: ['怪僧ウルージ']},
+
+  // ========== 海軍 ==========
+  {jp: 'サカズキ', en: 'Sakazuki', aliases: ['赤犬', 'Akainu']},
+  {jp: 'クザン', en: 'Kuzan', aliases: ['青キジ', 'Aokiji']},
+  {jp: 'ボルサリーノ', en: 'Borsalino', aliases: ['黄猿', 'Kizaru']},
+  {jp: 'イッショウ', en: 'Issho', aliases: ['藤虎', 'Fujitora']},
+  {jp: 'ガープ', en: 'Monkey D. Garp', aliases: ['モンキー・D・ガープ']},
+  {jp: 'センゴク', en: 'Sengoku', aliases: ['仏のセンゴク']},
+  {jp: 'コビー', en: 'Koby'},
+  {jp: 'スモーカー', en: 'Smoker', aliases: ['白猟のスモーカー']},
+  {jp: 'たしぎ', en: 'Tashigi'},
+
+  // ========== 王下七武海 ==========
+  {jp: 'ミホーク', en: 'Dracule Mihawk', aliases: ['ジュラキュール・ミホーク', '鷹の目']},
+  {jp: 'くま', en: 'Bartholomew Kuma', aliases: ['バーソロミュー・くま']},
+  {jp: 'モリア', en: 'Gecko Moria', aliases: ['ゲッコー・モリア']},
   {jp: 'ドフラミンゴ', en: 'Donquixote Doflamingo', aliases: ['ドンキホーテ・ドフラミンゴ']},
-  {jp: 'クロコダイル', en: 'Crocodile'},
-  {jp: '白ひげ', en: 'Whitebeard', aliases: ['エドワード・ニューゲート', 'Edward Newgate']},
+  {jp: 'クロコダイル', en: 'Crocodile', aliases: ['サー・クロコダイル']},
   {jp: 'ボア・ハンコック', en: 'Boa Hancock', aliases: ['ハンコック']},
-  {jp: 'サボ', en: 'Sabo'},
-  {jp: 'ロジャー', en: 'Gol D. Roger', aliases: ['ゴール・D・ロジャー']},
-  {jp: 'ニカ', en: 'Nika', aliases: ['ギア5', 'Gear 5']}
+
+  // ========== 革命軍 ==========
+  {jp: 'エース', en: 'Portgas D. Ace', aliases: ['ポートガス・D・エース', 'Ace']},
+  {jp: 'サボ', en: 'Sabo', aliases: ['革命軍参謀総長']},
+  {jp: 'ドラゴン', en: 'Monkey D. Dragon', aliases: ['モンキー・D・ドラゴン']},
+  {jp: 'イワンコフ', en: 'Emporio Ivankov', aliases: ['エンポリオ・イワンコフ']},
+
+  // ========== ビッグマム海賊団 ==========
+  {jp: 'カタクリ', en: 'Charlotte Katakuri', aliases: ['シャーロット・カタクリ']},
+  {jp: 'プリン', en: 'Charlotte Pudding', aliases: ['シャーロット・プリン']},
+  {jp: 'ペロスペロー', en: 'Charlotte Perospero', aliases: ['シャーロット・ペロスペロー']},
+  {jp: 'クラッカー', en: 'Charlotte Cracker', aliases: ['シャーロット・クラッカー']},
+
+  // ========== 百獣海賊団 ==========
+  {jp: 'キング', en: 'King', aliases: ['火災のキング']},
+  {jp: 'クイーン', en: 'Queen', aliases: ['疫災のクイーン']},
+  {jp: 'ジャック', en: 'Jack', aliases: ['旱害のジャック']},
+  {jp: 'ヤマト', en: 'Yamato'},
+
+  // ========== その他人気 ==========
+  {jp: 'レイリー', en: 'Silvers Rayleigh', aliases: ['シルバーズ・レイリー', '冥王']},
+  {jp: 'ベガパンク', en: 'Vegapunk', aliases: ['Dr.ベガパンク']},
+  {jp: 'ビビ', en: 'Nefeltari Vivi', aliases: ['ネフェルタリ・ビビ']},
+  {jp: 'しらほし', en: 'Shirahoshi'},
+  {jp: 'おでん', en: 'Kozuki Oden', aliases: ['光月おでん']},
+  {jp: 'ルッチ', en: 'Rob Lucci', aliases: ['ロブ・ルッチ']},
+  {jp: 'カク', en: 'Kaku'},
+  {jp: 'マゼラン', en: 'Magellan'},
+  {jp: 'Mr.2 ボン・クレー', en: 'Mr. 2 Bon Clay', aliases: ['ボンクレー', 'ベンサム']},
+  {jp: 'ペローナ', en: 'Perona'}
 ];
 
 // ==============================
