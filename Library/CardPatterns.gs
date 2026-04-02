@@ -643,28 +643,183 @@ var CARD_MTG_VARIANTS = [
 // ==============================
 
 var CARD_YUGIOH_SETS = [
-  {jp: 'レアリティコレクション', en: 'Rarity Collection', aliases: ['RARITY COLLECTION']},
-  {jp: 'レジェンドデュエリスト', en: 'Legendary Duelists'},
-  {jp: 'デュエリストパック', en: 'Duelist Pack'},
+  // ============================================================
+  // 2025-2026 Core Boosters
+  // ============================================================
+  {jp: 'カオスオリジンズ', en: 'Chaos Origins', code: 'CROG'},
+  {jp: 'バーストプロトコル', en: 'Burst Protocol', code: 'BRPT'},
+  {jp: 'ドゥームオブディメンションズ', en: 'Doom of Dimensions', code: 'DODD'},
+  {jp: 'デュエリストアドバンス', en: 'Duelist Advance', code: 'DAAD'},
+  {jp: 'アライアンスインサイト', en: 'Alliance Insight', code: 'AINT'},
+
+  // ============================================================
+  // 2024 Core Boosters
+  // ============================================================
+  {jp: 'シュプリームダークネス', en: 'Supreme Darkness', code: 'SUDK'},
+  {jp: 'レイジオブジアビス', en: 'Rage of the Abyss', code: 'ROTA'},
+  {jp: 'インフィニットフォビドゥン', en: 'The Infinite Forbidden', code: 'INFO', aliases: ['ジ・インフィニット・フォビドゥン']},
+  {jp: 'レガシーオブデストラクション', en: 'Legacy of Destruction', code: 'LEDE'},
+
+  // ============================================================
+  // 2023 Core Boosters
+  // ============================================================
+  {jp: 'ファントムナイトメア', en: 'Phantom Nightmare', code: 'PHNI'},
+  {jp: 'エイジオブオーバーロード', en: 'Age of Overlord', code: 'AGOV'},
+  {jp: 'デュエリストネクサス', en: 'Duelist Nexus', code: 'DUNE'},
+  {jp: 'サイバーストームアクセス', en: 'Cyberstorm Access', code: 'CYAC'},
+
+  // ============================================================
+  // 2022 Core Boosters
+  // ============================================================
+  {jp: 'フォトンハイパーノヴァ', en: 'Photon Hypernova', code: 'PHHY'},
+  {jp: 'ダークウィングブラスト', en: 'Darkwing Blast', code: 'DABL'},
+  {jp: 'パワーオブジエレメンツ', en: 'Power of the Elements', code: 'POTE'},
+  {jp: 'ディメンションフォース', en: 'Dimension Force', code: 'DIFO'},
+
+  // ============================================================
+  // 2021 Core Boosters
+  // ============================================================
+  {jp: 'バトルオブカオス', en: 'Battle of Chaos', code: 'BACH'},
+  {jp: 'バーストオブデスティニー', en: 'Burst of Destiny', code: 'BODE'},
+  {jp: 'ドーンオブマジェスティ', en: 'Dawn of Majesty', code: 'DAMA'},
+  {jp: 'ライトニングオーバードライブ', en: 'Lightning Overdrive', code: 'LIOV'},
+
+  // ============================================================
+  // 2020 Core Boosters
+  // ============================================================
+  {jp: 'ブレイジングボルテックス', en: 'Blazing Vortex', code: 'BLVO'},
+  {jp: 'ファントムレイジ', en: 'Phantom Rage', code: 'PHRA'},
+  {jp: 'ライズオブザデュエリスト', en: 'Rise of the Duelist', code: 'ROTD'},
+  {jp: 'エターニティコード', en: 'Eternity Code', code: 'ETCO'},
+
+  // ============================================================
+  // 2018-2019 Core Boosters (人気セット)
+  // ============================================================
+  {jp: 'イグニッションアサルト', en: 'Ignition Assault', code: 'IGAS'},
+  {jp: 'カオスインパクト', en: 'Chaos Impact', code: 'CHIM'},
+  {jp: 'ライジングランペイジ', en: 'Rising Rampage', code: 'RIRA'},
+  {jp: 'ダークネオストーム', en: 'Dark Neostorm', code: 'DANE'},
+  {jp: 'サベージストライク', en: 'Savage Strike', code: 'SAST'},
+  {jp: 'ソウルフュージョン', en: 'Soul Fusion', code: 'SOFU'},
+  {jp: 'サイバネティックホライゾン', en: 'Cybernetic Horizon', code: 'CYHO'},
+  {jp: 'フレイムズオブデストラクション', en: 'Flames of Destruction', code: 'FLOD'},
+
+  // ============================================================
+  // 特別パック/コレクション
+  // ============================================================
+  {jp: 'レアリティコレクション', en: 'Rarity Collection', aliases: ['RARITY COLLECTION', 'レアコレ']},
+  {jp: 'レアリティコレクション25th', en: 'Rarity Collection Quarter Century Edition', aliases: ['レアコレ25th', 'RC04']},
+  {jp: 'プリズマティックアートコレクション', en: 'Prismatic Art Collection', aliases: ['PAC', 'アートコレクション']},
+  {jp: 'プリズマティックゴッドボックス', en: 'Prismatic God Box', aliases: ['GOD BOX']},
   {jp: 'プレミアムパック', en: 'Premium Pack', aliases: ['PREMIUM PACK']},
   {jp: 'レジェンダリーゴールドボックス', en: 'Legendary Gold Box'},
-  {jp: 'プリズマティックアートコレクション', en: 'Prismatic Art Collection'},
-  {jp: 'バトルオブカオス', en: 'Battle of Chaos'},
-  {jp: 'ファントムナイトメア', en: 'Phantom Nightmare'},
-  {jp: 'エイジオブオーバーロード', en: 'Age of Overlord'},
-  {jp: 'デュエルモンスターズ', en: 'Duel Monsters'}
+  {jp: 'ヒストリーアーカイブコレクション', en: 'History Archive Collection', aliases: ['HC01']},
+  {jp: 'セレクション5', en: 'Selection 5', aliases: ['SE5']},
+  {jp: 'セレクション10', en: 'Selection 10', aliases: ['SE10']},
+  {jp: 'ワールドプレミアパック', en: 'World Premiere Pack', aliases: ['WPP']},
+
+  // ============================================================
+  // デュエリストパック/レジェンドデュエリスト
+  // ============================================================
+  {jp: 'レジェンドデュエリスト', en: 'Legendary Duelists'},
+  {jp: 'デュエリストパック', en: 'Duelist Pack'},
+  {jp: 'デュエリストパック深淵のデュエリスト編', en: 'Duelist Pack Duelists of the Abyss', aliases: ['DP28']},
+  {jp: 'デュエリストパック輝光のデュエリスト編', en: 'Duelist Pack Duelists of Brilliance', aliases: ['DP29']},
+
+  // ============================================================
+  // ストラクチャーデッキ (人気の高いもの)
+  // ============================================================
+  {jp: 'ストラクチャーデッキ', en: 'Structure Deck', aliases: ['SD']},
+  {jp: 'デッキビルドパック', en: 'Deck Build Pack', aliases: ['DBAD', 'DBGI']},
+
+  // ============================================================
+  // クラシック / 初期
+  // ============================================================
+  {jp: 'デュエルモンスターズ', en: 'Duel Monsters'},
+  {jp: 'ビギナーズエディション', en: "Beginner's Edition"},
+  {jp: 'エキスパートエディション', en: 'Expert Edition'},
+  {jp: 'ゴールドシリーズ', en: 'Gold Series'},
+  {jp: 'トーナメントパック', en: 'Tournament Pack'}
 ];
 
 var CARD_YUGIOH_CHARACTERS = [
-  {jp: 'ブルーアイズ', en: 'Blue-Eyes White Dragon', aliases: ['青眼の白龍', 'Blue-Eyes']},
+  // ========== アイコニックモンスター ==========
+  {jp: 'ブルーアイズ', en: 'Blue-Eyes White Dragon', aliases: ['青眼の白龍', 'Blue-Eyes', '青眼']},
+  {jp: '青眼の亜白龍', en: 'Blue-Eyes Alternative White Dragon', aliases: ['オルタナティブ', 'Alternative']},
   {jp: 'ブラックマジシャン', en: 'Dark Magician', aliases: ['ブラック・マジシャン']},
+  {jp: 'ブラックマジシャンガール', en: 'Dark Magician Girl', aliases: ['ブラック・マジシャン・ガール', 'BMG']},
   {jp: 'レッドアイズ', en: 'Red-Eyes Black Dragon', aliases: ['真紅眼の黒竜', 'Red-Eyes']},
-  {jp: '灰流うらら', en: 'Ash Blossom & Joyous Spring'},
-  {jp: '増殖するG', en: 'Maxx C', aliases: ['増G']},
-  {jp: 'エクゾディア', en: 'Exodia'},
+  {jp: 'エクゾディア', en: 'Exodia', aliases: ['封印されしエクゾディア', 'Exodia the Forbidden One']},
   {jp: '死者蘇生', en: 'Monster Reborn'},
-  {jp: 'ハーピィ', en: 'Harpie'},
-  {jp: 'スターダスト', en: 'Stardust Dragon'}
+  {jp: 'ハーピィ', en: 'Harpie', aliases: ['ハーピィ・レディ', 'Harpie Lady']},
+
+  // ========== エクストラデッキ人気モンスター ==========
+  {jp: 'スターダスト', en: 'Stardust Dragon', aliases: ['スターダスト・ドラゴン']},
+  {jp: '天霆号アーゼウス', en: 'Divine Arsenal AA-ZEUS - Sky Thunder', aliases: ['アーゼウス', 'AA-ZEUS']},
+  {jp: 'アクセスコードトーカー', en: 'Accesscode Talker'},
+  {jp: 'I:Pマスカレーナ', en: 'I:P Masquerena', aliases: ['マスカレーナ']},
+  {jp: 'トロイメアユニコーン', en: 'Knightmare Unicorn', aliases: ['トロイメア・ユニコーン']},
+  {jp: 'クリスタルウィングシンクロドラゴン', en: 'Crystal Wing Synchro Dragon', aliases: ['クリスタルウィング']},
+  {jp: 'ヴァレルソードドラゴン', en: 'Borrelsword Dragon', aliases: ['ヴァレルソード']},
+  {jp: 'ヴァレルロードドラゴン', en: 'Borrload Dragon', aliases: ['ヴァレルロード']},
+  {jp: '召命の神弓アポロウーサ', en: 'Apollousa Bow of the Goddess', aliases: ['アポロウーサ']},
+  {jp: '超魔導竜騎士ドラグーンオブレッドアイズ', en: 'Red-Eyes Dark Dragoon', aliases: ['ドラグーン']},
+  {jp: 'No.39 希望皇ホープ', en: 'Number 39 Utopia', aliases: ['ホープ', 'Utopia']},
+
+  // ========== 汎用手札誘発（高額・必須カード） ==========
+  {jp: '灰流うらら', en: 'Ash Blossom & Joyous Spring', aliases: ['うらら']},
+  {jp: '増殖するG', en: 'Maxx C', aliases: ['増G', 'Maxx "C"']},
+  {jp: '屋敷わらし', en: 'Ghost Belle & Haunted Mansion', aliases: ['わらし']},
+  {jp: '浮幽さくら', en: 'Ghost Ogre & Snow Rabbit', aliases: ['さくら', 'うさぎ']},
+  {jp: '儚無みずき', en: 'Ghost Sister & Spooky Dogwood', aliases: ['みずき']},
+  {jp: 'エフェクトヴェーラー', en: 'Effect Veiler', aliases: ['エフェクト・ヴェーラー', 'ヴェーラー']},
+  {jp: '無限泡影', en: 'Infinite Impermanence'},
+  {jp: 'ドロール&ロックバード', en: 'Droll & Lock Bird', aliases: ['ドロール']},
+  {jp: 'D.D.クロウ', en: 'D.D. Crow'},
+  {jp: 'ニビル', en: 'Nibiru the Primal Being', aliases: ['原始生命態ニビル']},
+
+  // ========== 汎用魔法・罠（高額カード） ==========
+  {jp: '墓穴の指名者', en: 'Called by the Grave'},
+  {jp: '抹殺の指名者', en: 'Crossout Designator'},
+  {jp: '三戦の才', en: 'Triple Tactics Talent', aliases: ['三戦の才']},
+  {jp: '三戦の号', en: 'Triple Tactics Thrust'},
+  {jp: '金満で謙虚な壺', en: 'Pot of Prosperity', aliases: ['金謙']},
+  {jp: '強欲で貪欲な壺', en: 'Pot of Desires'},
+  {jp: '強欲で金満な壺', en: 'Pot of Extravagance', aliases: ['金満']},
+  {jp: '強欲な壺', en: 'Pot of Greed'},
+  {jp: 'ハーピィの羽根帚', en: "Harpie's Feather Duster", aliases: ['羽根帚']},
+  {jp: 'サンダーボルト', en: 'Raigeki', aliases: ['ライトニングボルト']},
+  {jp: '神の宣告', en: 'Solemn Judgment', aliases: ['宣告']},
+  {jp: '神の警告', en: 'Solemn Warning'},
+  {jp: '神の通告', en: 'Solemn Strike'},
+
+  // ========== 人気テーマ（高額プリシク・シクが多い） ==========
+  {jp: '閃刀姫', en: 'Sky Striker Ace', aliases: ['Sky Striker', 'せんとうき']},
+  {jp: '閃刀姫レイ', en: 'Sky Striker Ace - Raye', aliases: ['閃刀姫−レイ', 'レイ']},
+  {jp: '閃刀姫ロゼ', en: 'Sky Striker Ace - Roze', aliases: ['閃刀姫−ロゼ', 'ロゼ']},
+  {jp: '閃刀姫シズク', en: 'Sky Striker Ace - Shizuku', aliases: ['閃刀姫−シズク', 'シズク']},
+  {jp: 'Evil★Twinキスキル', en: 'Evil Twin Ki-sikil', aliases: ['キスキル', 'Evil Twin Ki-sikil']},
+  {jp: 'Evil★Twinリィラ', en: 'Evil Twin Lil-la', aliases: ['リィラ', 'Evil Twin Lil-la']},
+  {jp: '倶利伽羅天童', en: 'Kurikara Divincarnate', aliases: ['くりからてんどう']},
+  {jp: 'ティアラメンツ', en: 'Tearlaments', aliases: ['ティアラ']},
+  {jp: 'スプライト', en: 'Spright', aliases: ['スプライトエルフ']},
+  {jp: 'クシャトリラ', en: 'Kashtira'},
+  {jp: 'ラビュリンス', en: 'Labrynth', aliases: ['白銀の城のラビュリンス']},
+  {jp: '白き森', en: 'White Forest', aliases: ['白き森のルシエラ', '白き森のアステーリャ']},
+  {jp: 'デモンスミス', en: 'Fiendsmith'},
+  {jp: '深淵の獣', en: 'Bystial', aliases: ['ビーステッド']},
+  {jp: 'ふわんだりぃず', en: 'Floowandereeze'},
+  {jp: 'ドラゴンメイド', en: 'Dragonmaid', aliases: ['ドラメ']},
+
+  // ========== クラシック高額カード ==========
+  {jp: '万物創世龍', en: 'Ten Thousand Dragon', aliases: ['10000']},
+  {jp: 'ホーリーナイトドラゴン', en: 'Seiyaryu', aliases: ['ホーリー・ナイト・ドラゴン']},
+  {jp: 'カオスソルジャー', en: 'Black Luster Soldier', aliases: ['カオス・ソルジャー']},
+  {jp: 'カオスソルジャー開闢の使者', en: 'Black Luster Soldier Envoy of the Beginning', aliases: ['開闢']},
+  {jp: '混沌帝龍', en: 'Chaos Emperor Dragon Envoy of the End', aliases: ['カオスエンペラードラゴン']},
+  {jp: 'サイバードラゴン', en: 'Cyber Dragon', aliases: ['サイバー・ドラゴン']},
+  {jp: 'E・HEROフレイムウィングマン', en: 'Elemental HERO Flame Wingman', aliases: ['フレイムウィングマン', 'フレウィン']},
+  {jp: 'E・HEROネオス', en: 'Elemental HERO Neos', aliases: ['ネオス']}
 ];
 
 // ==============================
@@ -1019,16 +1174,47 @@ var CARD_RARITY_POKEMON = [
 ];
 
 var CARD_RARITY_YUGIOH = [
-  {jp: 'アルティメットレア', en: 'Ultimate Rare'},
-  {jp: 'ゴーストレア', en: 'Ghost Rare'},
-  {jp: 'スターライトレア', en: 'Starlight Rare'},
-  {jp: 'プリズマティックシークレット', en: 'Prismatic Secret Rare'},
-  {jp: '20thシークレット', en: '20th Secret Rare'},
-  {jp: 'コレクターズレア', en: "Collector's Rare"},
-  {jp: 'スーパーレア', en: 'Super Rare'},
-  {jp: 'ウルトラレア', en: 'Ultra Rare'},
-  {jp: 'シークレットレア', en: 'Secret Rare'},
-  {jp: 'ノーマル', en: 'Common'}
+  // === 最高レアリティ（高額順） ===
+  {jp: 'スターライトレア', en: 'Starlight Rare', aliases: ['Starlight', 'スタレア', 'STRL']},
+  {jp: 'プリズマティックシークレットレア', en: 'Prismatic Secret Rare', aliases: ['プリシク', 'プリズマ', 'Prismatic Secret']},
+  {jp: '25thシークレットレア', en: 'Quarter Century Secret Rare', aliases: ['25thシク', 'QCSE', 'Quarter Century Secret']},
+  {jp: '20thシークレットレア', en: '20th Secret Rare', aliases: ['20thシク', '20th Secret']},
+  {jp: 'ゴーストレア', en: 'Ghost Rare', aliases: ['ゴスレア', 'Ghost']},
+  {jp: 'アルティメットレア', en: 'Ultimate Rare', aliases: ['レリーフ', 'レリーフレア', 'Ultimate']},
+  {jp: 'コレクターズレア', en: "Collector's Rare", aliases: ['コレレア', "Collector's"]},
+  {jp: 'エクストラシークレットレア', en: 'Extra Secret Rare', aliases: ['エクシク', 'Extra Secret']},
+  {jp: 'ホログラフィックレア', en: 'Holographic Rare', aliases: ['ホロ', 'ホロレア', 'Holographic']},
+
+  // === 標準レアリティ ===
+  {jp: 'シークレットレア', en: 'Secret Rare', aliases: ['シク', 'Secret']},
+  {jp: 'ウルトラレア', en: 'Ultra Rare', aliases: ['ウルレア', 'Ultra']},
+  {jp: 'スーパーレア', en: 'Super Rare', aliases: ['スーレア', 'Super']},
+  {jp: 'レア', en: 'Rare'},
+  {jp: 'ノーマル', en: 'Common', aliases: ['Normal']},
+  {jp: 'ノーマルレア', en: 'Normal Rare', aliases: ['ノーレア']},
+  {jp: 'ノーマルパラレルレア', en: 'Normal Parallel Rare', aliases: ['ノーパラ']},
+
+  // === 特殊レアリティ ===
+  {jp: 'ミレニアムレア', en: 'Millennium Rare', aliases: ['ミレレア', 'Millennium']},
+  {jp: 'ミレニアムシークレットレア', en: 'Millennium Secret Rare', aliases: ['ミレシク']},
+  {jp: 'ミレニアムウルトラレア', en: 'Millennium Ultra Rare', aliases: ['ミレウル']},
+  {jp: 'ミレニアムゴールドレア', en: 'Millennium Gold Rare', aliases: ['ミレゴル']},
+  {jp: 'ゴールドレア', en: 'Gold Rare', aliases: ['ゴルレア', 'Gold']},
+  {jp: 'ゴールドシークレットレア', en: 'Gold Secret Rare', aliases: ['ゴルシク']},
+  {jp: 'パラレルレア', en: 'Parallel Rare', aliases: ['パラレル']},
+  {jp: 'KCレア', en: 'KC Rare', aliases: ['KC']},
+  {jp: 'KCウルトラレア', en: 'KC Ultra Rare', aliases: ['KCウル']},
+  {jp: 'プレミアムゴールドレア', en: 'Premium Gold Rare', aliases: ['PGL']}
+];
+
+var CARD_YUGIOH_EDITIONS = [
+  {jp: '初期', en: '1st Edition', aliases: ['1st Edition', 'First Edition', '初版']},
+  {jp: 'リミテッドエディション', en: 'Limited Edition', aliases: ['Limited']},
+  {jp: 'アンリミテッド', en: 'Unlimited', aliases: ['Unlimited Edition']},
+  {jp: 'アジア版', en: 'Asian English', aliases: ['Asia English', 'AE']},
+  {jp: '韓国版', en: 'Korean', aliases: ['KR']},
+  {jp: '日本語版', en: 'Japanese', aliases: ['JP', 'OCG']},
+  {jp: '英語版', en: 'English', aliases: ['EN', 'TCG']}
 ];
 
 var CARD_RARITY_MTG = [
