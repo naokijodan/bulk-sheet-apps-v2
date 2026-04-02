@@ -884,7 +884,7 @@
           <div style="margin-bottom:12px;">
             <strong>翻訳・出品</strong>
             <div class="checkbox-group" style="margin-left:16px;margin-top:4px;">
-              <label class="checkbox-label"><input type="checkbox" id="tagOverridePrompt" checked> プロンプト自動選択</label>
+              <label class="checkbox-label"><input type="checkbox" id="tagOverridePrompt" checked onchange="toggleTagOverrideItems()"> プロンプト自動選択</label>
               <label class="checkbox-label"><input type="checkbox" id="tagOverrideTemplate" checked> テンプレート名</label>
               <label class="checkbox-label"><input type="checkbox" id="tagOverrideShippingCategory" checked> 送料上限カテゴリ</label>
             </div>
@@ -900,7 +900,7 @@
           <div style="margin-bottom:12px;">
             <strong>配送</strong>
             <div class="checkbox-group" style="margin-left:16px;margin-top:4px;">
-              <label class="checkbox-label"><input type="checkbox" id="tagOverrideShipping" checked> 送料（タグ別送料）</label>
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideShipping" checked onchange="toggleTagOverrideItems()"> 送料（タグ別送料）</label>
               <label class="checkbox-label"><input type="checkbox" id="tagOverrideLowShipping" checked> 低価格配送方法</label>
               <label class="checkbox-label"><input type="checkbox" id="tagOverrideHighShipping" checked> 高価格配送方法</label>
               <label class="checkbox-label"><input type="checkbox" id="tagOverrideThreshold" checked> 送料切替基準</label>
@@ -1134,44 +1134,39 @@
 
     // タグ自動判定の表示切替 + 既存UI連動
     function toggleTagOverrideItems() {
-      var enabled = document.getElementById('tagOverrideEnabled').checked;
-      document.getElementById('tagOverrideItems').style.display = enabled ? 'block' : 'none';
+      var masterEnabled = document.getElementById('tagOverrideEnabled').checked;
+      document.getElementById('tagOverrideItems').style.display = masterEnabled ? 'block' : 'none';
 
-      // プロンプト自動選択との連動
+      // プロンプト自動選択との連動（マスターON + 個別トグルON時のみ）
       var promptCb = document.getElementById('autoPromptSelect');
       var promptNote = document.getElementById('promptOverrideNote');
-      if (enabled) {
-        // 現在の状態を保存してからON+disabled
+      var promptToggle = document.getElementById('tagOverridePrompt');
+      if (masterEnabled && promptToggle.checked) {
         promptCb.setAttribute('data-saved-state', promptCb.checked ? 'true' : 'false');
         promptCb.checked = true;
         promptCb.disabled = true;
         promptNote.style.display = 'inline';
       } else {
-        // 保存した状態を復元
         var saved = promptCb.getAttribute('data-saved-state');
         if (saved !== null) promptCb.checked = (saved === 'true');
         promptCb.disabled = false;
         promptNote.style.display = 'none';
       }
 
-      // 送料計算方法との連動
+      // 送料計算方法との連動（マスターON + 送料トグルON時のみ）
       var shippingRadios = document.querySelectorAll('input[name="shippingCalcMethod"]');
       var shippingNote = document.getElementById('shippingOverrideNote');
-      if (enabled) {
-        // 現在の選択を保存
-        var currentMethod = '';
+      var shippingToggle = document.getElementById('tagOverrideShipping');
+      if (masterEnabled && shippingToggle.checked) {
         shippingRadios.forEach(function(r) {
-          if (r.checked) currentMethod = r.value;
           r.setAttribute('data-saved-state', r.checked ? 'true' : 'false');
         });
-        // TAG_SHIPPINGに切替+disabled
         shippingRadios.forEach(function(r) {
           r.checked = (r.value === 'TAG_SHIPPING');
           r.disabled = true;
         });
         shippingNote.style.display = 'block';
       } else {
-        // 保存した状態を復元
         shippingRadios.forEach(function(r) {
           var saved = r.getAttribute('data-saved-state');
           if (saved !== null) r.checked = (saved === 'true');
