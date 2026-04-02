@@ -1809,6 +1809,27 @@ function writeItemSpecificsToSheet_(sheet, rowResults) {
 
       // Trading Cards: Language/Countryの自動注入はresolveFieldValue_のデフォルト値に委譲
 
+      // Wrist Size: inch表記がなければ自動付加（cm → inch変換）
+      if (data['Wrist Size'] && !/in/.test(String(data['Wrist Size']))) {
+        var wsVal = String(data['Wrist Size']);
+        var wsMatch = wsVal.match(/([\d.]+)\s*cm/i);
+        if (wsMatch) {
+          var wsCm = parseFloat(wsMatch[1]);
+          var wsInch = (wsCm / 2.54).toFixed(1);
+          data['Wrist Size'] = wsCm + 'cm/' + wsInch + 'in';
+        }
+      }
+      // Case Size: inch表記がなければ自動付加（mm → inch変換）
+      if (data['Case Size'] && !/in/.test(String(data['Case Size']))) {
+        var csVal = String(data['Case Size']);
+        var csMatch = csVal.match(/([\d.]+)\s*mm/i);
+        if (csMatch) {
+          var csMm = parseFloat(csMatch[1]);
+          var csInch = (csMm / 25.4).toFixed(2);
+          data['Case Size'] = csMm + 'mm/' + csInch + 'in';
+        }
+      }
+
       // JSON → フラット配列変換: {"Brand": "Seiko"} → ["C:Brand", "Seiko"]
       var flat = jsonToFlatArray_(data);
       if (flat.length === 0) {
