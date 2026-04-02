@@ -1809,32 +1809,8 @@ function writeItemSpecificsToSheet_(sheet, rowResults) {
 
       // Trading Cards: Language/Countryの自動注入はresolveFieldValue_のデフォルト値に委譲
 
-      // Wrist Size: inch表記がなければ自動付加（cm → inch変換）
-      if (data['Wrist Size'] && !/in/.test(String(data['Wrist Size']))) {
-        var wsVal = String(data['Wrist Size']);
-        var wsMatch = wsVal.match(/([\d.]+)\s*cm/i);
-        if (wsMatch) {
-          var wsCm = parseFloat(wsMatch[1]);
-          var wsInch = (wsCm / 2.54).toFixed(1);
-          data['Wrist Size'] = wsCm + 'cm/' + wsInch + 'in';
-        }
-      }
-      // Case Size: inch表記がなければ自動付加（mm/cm → inch変換）
-      if (data['Case Size'] && !/in/.test(String(data['Case Size']))) {
-        var csVal = String(data['Case Size']);
-        var csMatchMm = csVal.match(/([\d.]+)\s*mm/i);
-        var csMatchCm = csVal.match(/([\d.]+)\s*cm/i);
-        if (csMatchMm) {
-          var csMm = parseFloat(csMatchMm[1]);
-          var csInch = (csMm / 25.4).toFixed(2);
-          data['Case Size'] = csMm + 'mm/' + csInch + 'in';
-        } else if (csMatchCm) {
-          var csCm = parseFloat(csMatchCm[1]);
-          var csMmFromCm = csCm * 10;
-          var csInchFromCm = (csMmFromCm / 25.4).toFixed(2);
-          data['Case Size'] = csMmFromCm + 'mm/' + csInchFromCm + 'in';
-        }
-      }
+      // 全フィールドの単位変換後処理（cm/mm → inch自動付加）
+      appendInchToSizeFields_(data);
 
       // JSON → フラット配列変換: {"Brand": "Seiko"} → ["C:Brand", "Seiko"]
       var flat = jsonToFlatArray_(data);
@@ -1878,6 +1854,54 @@ function jsonToFlatArray_(data) {
     result.push(String(val));
   }
   return result;
+}
+
+/**
+ * サイズ系フィールドにinch表記がなければ自動付加する汎用後処理
+ * cm → inch、mm → inch の変換を全フィールドに適用
+ * スキップ条件:
+ * - 既にinch/ft/"が含まれている
+ * - 角度（°）が含まれている
+ * - 数値+cm/mmが含まれていない（S/M/L、Fine/Medium等のテキスト値）
+ * - Does not apply
+ * @param {Object} data - ISデータオブジェクト
+ */
+function appendInchToSizeFields_(data) {
+  if (!data || typeof data !== 'object') return;
+  var keys = Object.keys(data);
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    var val = String(data[key] || '');
+    
+    // スキップ条件
+    if (!val || val === 'Does not apply') continue;
+    if (/in\b|inch|ft\b|\bfoot|\bfeet|"/.test(val)) continue;  // 既にinch/ft表記あり
+    if (/°|degree/i.test(val)) continue;  // 角度
+    if (/^[A-Z]{1,3}$/i.test(val.trim())) continue;  // S, M, L, XL等
+    if (/^\d+\s*\/\s*\d+$/.test(val.trim())) continue;  // 分数（7/8等）
+    
+    // mm変換: 数値+mm → mm/inch
+    var mmMatch = val.match(/([\d.]+)\s*mm\b/i);
+    if (mmMatch) {
+      var mm = parseFloat(mmMatch[1]);
+      if (!isNaN(mm) && mm > 0) {
+        var inchFromMm = (mm / 25.4).toFixed(2);
+        data[key] = val.replace(mmMatch[0], mm + 'mm/' + inchFromMm + 'in');
+      }
+      continue;
+    }
+    
+    // cm変換: 数値+cm → cm/inch
+    var cmMatch = val.match(/([\d.]+)\s*cm\b/i);
+    if (cmMatch) {
+      var cm = parseFloat(cmMatch[1]);
+      if (!isNaN(cm) && cm > 0) {
+        var inchFromCm = (cm / 2.54).toFixed(1);
+        data[key] = val.replace(cmMatch[0], cm + 'cm/' + inchFromCm + 'in');
+      }
+      continue;
+    }
+  }
 }
 
 // (ヘッダー自動追加は不要: フラット配列を直接書き込むため)
