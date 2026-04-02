@@ -3580,6 +3580,26 @@ function ensureTagShippingSheet_(ss) {
               .setBackground(CONFIG.TAG_SHIPPING.HEADER_BG_COLOR)
               .setFontColor(CONFIG.TAG_SHIPPING.HEADER_FONT_COLOR);
         }
+        // 既存シートの移行処理: O列の設定（想定関税閾値）を追加（G1チェックの後、Q1チェックの前）
+        // O列: 想定関税閾値（H列の送料上限カテゴリから自動抽出）
+        var o1Value = sheet.getRange(1, 15).getValue();
+        if (!o1Value || String(o1Value).trim() === '') {
+          sheet.getRange(1, 15).setValue('想定関税閾値')
+            .setFontWeight('bold')
+            .setBackground(CONFIG.TAG_SHIPPING.HEADER_BG_COLOR)
+            .setFontColor(CONFIG.TAG_SHIPPING.HEADER_FONT_COLOR);
+        }
+        // O列2行目以降にH列から閾値を抽出する数式を設定
+        var tsLastRow = Math.max(sheet.getLastRow(), 50);
+        var oFormulas = [];
+        for (var r = 2; r <= tsLastRow; r++) {
+          oFormulas.push(['=IF(H' + r + '="","",IFERROR(VALUE(REGEXEXTRACT(H' + r + ',"\\$([0-9]+)")),""))']);
+        }
+        if (oFormulas.length > 0) {
+          sheet.getRange(2, 15, oFormulas.length, 1).setFormulas(oFormulas);
+        }
+        // 列幅調整: O列を100pxに
+        sheet.setColumnWidth(15, 100);
         // 既存シートの移行処理: Q1セル相当が空ならタグ一覧を出力
         var tagListCol = CONFIG.TAG_SHIPPING.TAG_LIST_START_COL;
         var q1Value = sheet.getRange(1, tagListCol).getValue();
@@ -3619,7 +3639,7 @@ function ensureTagShippingSheet_(ss) {
     sheet.setColumnWidth(12, 100);  // L: 低価格配送
     sheet.setColumnWidth(13, 100);  // M: 高価格配送
     sheet.setColumnWidth(14, 120);  // N: 送料切替基準
-    sheet.setColumnWidth(15, 30);   // O: 空き
+    sheet.setColumnWidth(15, 100);  // O: 想定関税閾値
     sheet.setColumnWidth(16, 30);   // P: 空き
 
     // B〜D列を数値書式に設定（2行目以降）
@@ -3636,6 +3656,23 @@ function ensureTagShippingSheet_(ss) {
 
     // バリデーション適用
     applyTagShippingValidations_(sheet);
+
+    // 新規作成時もO列設定（想定関税閾値）を追加
+    var o1ValueNew = sheet.getRange(1, 15).getValue();
+    if (!o1ValueNew || String(o1ValueNew).trim() === '') {
+      sheet.getRange(1, 15).setValue('想定関税閾値')
+        .setFontWeight('bold')
+        .setBackground(CONFIG.TAG_SHIPPING.HEADER_BG_COLOR)
+        .setFontColor(CONFIG.TAG_SHIPPING.HEADER_FONT_COLOR);
+    }
+    var tsLastRowNew = Math.max(sheet.getLastRow(), 50);
+    var oFormulasNew = [];
+    for (var rr = 2; rr <= tsLastRowNew; rr++) {
+      oFormulasNew.push(['=IF(H' + rr + '="","",IFERROR(VALUE(REGEXEXTRACT(H' + rr + ',"\\$([0-9]+)")),""))']);
+    }
+    if (oFormulasNew.length > 0) {
+      sheet.getRange(2, 15, oFormulasNew.length, 1).setFormulas(oFormulasNew);
+    }
 
     return sheet;
 }
@@ -3962,10 +3999,16 @@ function applyCalculationFormulas(sheetName, settings) {
       if (fullSettings && fullSettings.tagOverrideShippingCategory && tagMap) {
         catRef = 'IFERROR(INDEX(' + tsName + '!H:H,MATCH(D{row},' + tsName + '!A:A,0)),$O$1)';
       }
+      // タグ判定ON: 想定関税閾値をTagShipping O列からINDEX/MATCH、空セル時は$AP$3にフォールバック
+      var threshRef = '$AP$3';
+      if (fullSettings && fullSettings.tagOverrideShippingCategory && tagMap) {
+        threshRef = 'LET(___thr,IFERROR(INDEX(' + tsName + '!O:O,MATCH(D{row},' + tsName + '!A:A,0)),""),IF(___thr="",$AP$3,___thr))';
+      }
       var policyFormulas = [];
       for (var row = 5; row <= dataLastRow; row++) {
         var rowCatRef = catRef.replace(/\{row\}/g, String(row));
-        var formula = '=IF(OR(ISBLANK(' + rowCatRef + '),ISBLANK(AD' + row + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_SHIPPING_POLICY_FROM_IMPORT(' + rowCatRef + ',IF(AND($AP$2="ON",AD' + row + '>=$AP$3),$AP$3,AD' + row + '),AE' + row + ',X' + row + '))';
+        var rowThreshRef = threshRef.replace(/\{row\}/g, String(row));
+        var formula = '=IF(OR(ISBLANK(' + rowCatRef + '),ISBLANK(AD' + row + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_SHIPPING_POLICY_FROM_IMPORT(' + rowCatRef + ',IF(AND($AP$2="ON",AD' + row + '>=' + rowThreshRef + '),' + rowThreshRef + ',AD' + row + '),AE' + row + ',X' + row + '))';
         policyFormulas.push([formula]);
       }
       if (policyFormulas.length > 0) {
@@ -4202,10 +4245,15 @@ function applyCalculationFormulas(sheetName, settings) {
     sheet.getRange('AG4').setValue('DDU調整後価格');
     if (dataLastRow >= 5) {
       // AP2=ON/OFF, AP3=想定関税閾値
-      // 式: IF(AP2="ON", IF(AD>=AP3, S-AD, ""), "")
+      // タグ判定ON時はTagShipping!O:Oの閾値に置換（空セルは$AP$3にフォールバック）
+      var threshRef = '$AP$3';
+      if (fullSettings && fullSettings.tagOverrideShippingCategory && tagMap) {
+        threshRef = 'LET(___thr,IFERROR(INDEX(' + tsName + '!O:O,MATCH(D{row},' + tsName + '!A:A,0)),""),IF(___thr="",$AP$3,___thr))';
+      }
       var dduFormulas = [];
       for (var row = 5; row <= dataLastRow; row++) {
-        var formula = '=IF($AP$2="ON", IF(AD' + row + '>=$AP$3, S' + row + '-$AP$3, ""), "")';
+        var rowThreshRef = threshRef.replace(/\{row\}/g, String(row));
+        var formula = '=IF($AP$2="ON",IF(AD' + row + '>=' + rowThreshRef + ',S' + row + '-' + rowThreshRef + ',""),"")';
         dduFormulas.push([formula]);
       }
       sheet.getRange(5, CONFIG.COLUMNS.DDU_ADJUSTED_PRICE, dduFormulas.length, 1).setFormulas(dduFormulas);
