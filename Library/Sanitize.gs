@@ -260,7 +260,12 @@ var CATEGORY_RULES_ = {
     label: '衣類・靴',
     rules: [
       '- 対象: メンズ/レディース/キッズ/ユニセックス のいずれかで記入。',
-      '- [EN]セクションでは: Department は Men/Women/Kids/Unisex。'
+      '- タイプ: ジャケット/コート/ブレザー/シャツ/Tシャツ/ニット/セーター/パーカー/スウェット/パンツ/ジーンズ/スカート/ドレス/ワンピース/ベスト/カーディガン/スーツ のいずれかで記入。',
+      '- 素材: タグ記載の素材を日本語で記入（例: ウール、カシミヤ、シルク、コットン、ポリエステル、ナイロン、リネン、レーヨン、レザー）。混紡の場合は主素材を記入。',
+      '- サイズ: タグ記載のサイズ（例: S, M, L, XL, 38, 40, 42）。フリーサイズの場合は「フリー」と記入。',
+      '- 採寸: 平置き実寸をcm単位で記入。肩幅/身幅/着丈/袖丈（上衣）、ウエスト/股上/股下/裾幅（下衣）。',
+      '- 柄: 無地/チェック/ストライプ/花柄/ドット/迷彩/総柄 のいずれかで記入。不明ならNA。',
+      '- [EN]セクションでは: Department は Men/Women/Kids/Unisex。Style は Jacket/Coat/Blazer/Shirt/T-Shirt/Knit/Sweater/Hoodie/Sweatshirt/Pants/Jeans/Skirt/Dress/Vest/Cardigan/Suit。Material は Wool/Cashmere/Silk/Cotton/Polyester/Nylon/Linen/Rayon/Leather。Pattern は Solid/Check/Striped/Floral/Polka Dot/Camouflage/All Over Print。'
     ]
   },
   'Shoes': {

@@ -82,6 +82,39 @@
     * Fabric composition if stated
 
   - Use keyword variations where natural: ""bag"" ""purse"" / ""wallet"" ""billfold"" / ""coat"" ""jacket""
+  - DEFECT/ISSUE REPORTING (CRITICAL):
+    If the source mentions ANY defect, you MUST describe it in the Description.
+    DEFECT KEYWORDS AND TRANSLATIONS:
+    **FABRIC DEFECTS:**
+      - 毛玉 -> ""pilling""
+      - 毛羽立ち -> ""fuzzing"" or ""napping""
+      - 色あせ / 退色 -> ""fading"" or ""discoloration""
+      - シミ / 汚れ -> ""stain""
+      - 黄ばみ -> ""yellowing""
+      - 穴 / 虫食い -> ""hole"" or ""moth hole""
+      - テカリ -> ""shine"" or ""iron marks""
+      - 糸引き / ひっかけ -> ""snag"" or ""thread pull""
+      - 色移り -> ""color transfer""
+    **SEWING/STRUCTURAL DEFECTS:**
+      - ほつれ -> ""loose stitching"" or ""fraying""
+      - 縫い目の開き -> ""open seam""
+      - 伸び / ヨレ -> ""stretching"" or ""sagging""
+      - 縮み -> ""shrinkage""
+      - 裏地のほつれ -> ""lining fraying""
+    **HARDWARE/ATTACHMENT DEFECTS:**
+      - ボタン欠損 / ボタン取れ -> ""missing button""
+      - ボタンの緩み -> ""loose button""
+      - ファスナー故障 / ジッパー不良 -> ""broken zipper""
+      - ファスナー固い -> ""stiff zipper""
+      - 金具の傷 / 金具くすみ -> ""hardware scratches"" or ""hardware tarnish""
+    **ODOR/STORAGE DEFECTS:**
+      - カビ臭 / 保管臭 -> ""musty smell""
+      - タバコ臭 -> ""cigarette odor""
+      - 香水臭 -> ""perfume odor""
+      - ペットの毛 -> ""pet hair""
+    - 〜できず / 〜不可 / 〜できません -> always means NOT possible. NEVER translate as ""works"".
+    If source contains ""(DEFECT: ...)"" markers, use the English text directly.
+    Omitting known defects is a violation of eBay policy.
   - Describe operation/status only if clearly mentioned in source (stains, scratches, wear).
   - Avoid evaluative adjectives (excellent, good, mint, beautiful).
   - NEVER include shipping information (delivery times, packaging methods, shipping speed, carriers,
