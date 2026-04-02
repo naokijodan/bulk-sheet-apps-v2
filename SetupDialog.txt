@@ -859,6 +859,62 @@
         </div>
       </div>
 
+      <div class="section" data-section="tag-override">
+        <div class="section-header" onclick="toggleSection('tag-override')">
+          <div class="section-title">
+            <span class="badge optional">OPTIONAL</span>
+            タグ自動判定設定
+          </div>
+          <button type="button" class="collapse-btn">▼</button>
+        </div>
+      </div>
+      <div class="section-content" id="content-tag-override" style="display:none;">
+        <div class="checkbox-group" style="margin-bottom:16px;">
+          <label class="checkbox-label" style="font-weight:bold;font-size:15px;">
+            <input type="checkbox" id="tagOverrideEnabled" onchange="toggleTagOverrideItems()">
+            タグ自動判定を使用する
+          </label>
+        </div>
+        <div class="help-text" style="margin-bottom:16px;">
+          ONにすると、D列のタグに応じてTagShippingシートから各設定を自動で適用します。OFFの場合は従来通り全行共通の設定値を使用します。
+        </div>
+        <div id="tagOverrideItems" style="display:none;">
+          <div style="margin-bottom:12px;">
+            <strong>翻訳・出品</strong>
+            <div class="checkbox-group" style="margin-left:16px;margin-top:4px;">
+              <label class="checkbox-label"><input type="checkbox" id="tagOverridePrompt" checked> プロンプト自動選択</label>
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideTemplate" checked> テンプレート名</label>
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideShippingCategory" checked> 送料上限カテゴリ</label>
+            </div>
+          </div>
+          <div style="margin-bottom:12px;">
+            <strong>価格・手数料</strong>
+            <div class="checkbox-group" style="margin-left:16px;margin-top:4px;">
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideProfitRate" checked> 利益率</label>
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideAdRate" checked> 広告費率</label>
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideFeeRate" checked> 手数料率</label>
+            </div>
+          </div>
+          <div style="margin-bottom:12px;">
+            <strong>配送</strong>
+            <div class="checkbox-group" style="margin-left:16px;margin-top:4px;">
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideShipping" checked> 送料（タグ別送料）</label>
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideLowShipping" checked> 低価格配送方法</label>
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideHighShipping" checked> 高価格配送方法</label>
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideThreshold" checked> 送料切替基準</label>
+            </div>
+          </div>
+          <div class="info-box">
+            <div class="title">タグ自動判定について</div>
+            <div class="content">
+              各項目をONにすると、TagShippingシートの該当列の値がタグごとに適用されます。<br>
+              OFFの項目は従来通り作業シートの設定値が全行共通で使用されます。<br>
+              TagShippingシートに値が未設定のタグは、作業シートの設定値がフォールバックとして使用されます。
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- 5. 重複チェック設定 -->
       <div class="section" data-section="duplicate-check">
         <div class="section-header" onclick="toggleSection('duplicate-check')">
@@ -1020,6 +1076,19 @@
       loadSheetNames();
       setupEventListeners();
       updateSectionStates();
+
+      // タグ自動判定 初期化
+      if ('<?= currentTagOverrideEnabled ?>' === 'true') { document.getElementById('tagOverrideEnabled').checked = true; toggleTagOverrideItems(); }
+      if ('<?= currentTagOverridePrompt ?>' === 'false') document.getElementById('tagOverridePrompt').checked = false;
+      if ('<?= currentTagOverrideTemplate ?>' === 'false') document.getElementById('tagOverrideTemplate').checked = false;
+      if ('<?= currentTagOverrideShippingCategory ?>' === 'false') document.getElementById('tagOverrideShippingCategory').checked = false;
+      if ('<?= currentTagOverrideProfitRate ?>' === 'false') document.getElementById('tagOverrideProfitRate').checked = false;
+      if ('<?= currentTagOverrideAdRate ?>' === 'false') document.getElementById('tagOverrideAdRate').checked = false;
+      if ('<?= currentTagOverrideFeeRate ?>' === 'false') document.getElementById('tagOverrideFeeRate').checked = false;
+      if ('<?= currentTagOverrideShipping ?>' === 'false') document.getElementById('tagOverrideShipping').checked = false;
+      if ('<?= currentTagOverrideLowShipping ?>' === 'false') document.getElementById('tagOverrideLowShipping').checked = false;
+      if ('<?= currentTagOverrideHighShipping ?>' === 'false') document.getElementById('tagOverrideHighShipping').checked = false;
+      if ('<?= currentTagOverrideThreshold ?>' === 'false') document.getElementById('tagOverrideThreshold').checked = false;
     });
 
     // セクション管理
@@ -1059,6 +1128,12 @@
           }
         });
       });
+    }
+
+    // タグ自動判定の表示切替
+    function toggleTagOverrideItems() {
+      var enabled = document.getElementById('tagOverrideEnabled').checked;
+      document.getElementById('tagOverrideItems').style.display = enabled ? 'block' : 'none';
     }
 
     // APIキー表示/入力切り替え
@@ -1365,6 +1440,19 @@
         highPriceMethod: document.getElementById('highPriceMethod').value,
         updateShippingRates: document.getElementById('updateShippingRates').checked,
         outputTagList: document.getElementById('outputTagList').checked,
+        
+        // タグ自動判定
+        tagOverrideEnabled: document.getElementById('tagOverrideEnabled').checked ? 'true' : 'false',
+        tagOverridePrompt: document.getElementById('tagOverridePrompt').checked ? 'true' : 'false',
+        tagOverrideTemplate: document.getElementById('tagOverrideTemplate').checked ? 'true' : 'false',
+        tagOverrideShippingCategory: document.getElementById('tagOverrideShippingCategory').checked ? 'true' : 'false',
+        tagOverrideProfitRate: document.getElementById('tagOverrideProfitRate').checked ? 'true' : 'false',
+        tagOverrideAdRate: document.getElementById('tagOverrideAdRate').checked ? 'true' : 'false',
+        tagOverrideFeeRate: document.getElementById('tagOverrideFeeRate').checked ? 'true' : 'false',
+        tagOverrideShipping: document.getElementById('tagOverrideShipping').checked ? 'true' : 'false',
+        tagOverrideLowShipping: document.getElementById('tagOverrideLowShipping').checked ? 'true' : 'false',
+        tagOverrideHighShipping: document.getElementById('tagOverrideHighShipping').checked ? 'true' : 'false',
+        tagOverrideThreshold: document.getElementById('tagOverrideThreshold').checked ? 'true' : 'false',
 
         // プリセット設定
         presetGenre: document.querySelector('input[name="presetGenre"]:checked').value,

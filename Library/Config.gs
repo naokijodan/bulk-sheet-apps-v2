@@ -282,7 +282,20 @@ function getSettings() {
 
     priceDisplayMode: docProps.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL',
 
-    duplicateCheckEnabled: docProps.getProperty('DUPLICATE_CHECK_ENABLED') === 'true'
+    duplicateCheckEnabled: docProps.getProperty('DUPLICATE_CHECK_ENABLED') === 'true',
+
+    // タグ自動判定
+    tagOverrideEnabled: docProps.getProperty('TAG_OVERRIDE_ENABLED') === 'true',
+    tagOverridePrompt: docProps.getProperty('TAG_OVERRIDE_PROMPT') !== 'false',
+    tagOverrideTemplate: docProps.getProperty('TAG_OVERRIDE_TEMPLATE') !== 'false',
+    tagOverrideShippingCategory: docProps.getProperty('TAG_OVERRIDE_SHIPPING_CATEGORY') !== 'false',
+    tagOverrideProfitRate: docProps.getProperty('TAG_OVERRIDE_PROFIT_RATE') !== 'false',
+    tagOverrideAdRate: docProps.getProperty('TAG_OVERRIDE_AD_RATE') !== 'false',
+    tagOverrideFeeRate: docProps.getProperty('TAG_OVERRIDE_FEE_RATE') !== 'false',
+    tagOverrideShipping: docProps.getProperty('TAG_OVERRIDE_SHIPPING') !== 'false',
+    tagOverrideLowShipping: docProps.getProperty('TAG_OVERRIDE_LOW_SHIPPING') !== 'false',
+    tagOverrideHighShipping: docProps.getProperty('TAG_OVERRIDE_HIGH_SHIPPING') !== 'false',
+    tagOverrideThreshold: docProps.getProperty('TAG_OVERRIDE_THRESHOLD') !== 'false'
   };
 
   var missing = [];

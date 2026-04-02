@@ -147,6 +147,32 @@ function initialSetup() {
     // 価格表示モード設定
     tmpl.currentPriceDisplayMode = props.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL';
 
+    // タグ自動判定 設定（既定値）
+    tmpl.currentTagOverrideEnabled = docProps.getProperty('TAG_OVERRIDE_ENABLED') || 'false';
+    tmpl.currentTagOverridePrompt = docProps.getProperty('TAG_OVERRIDE_PROMPT') || 'true';
+    tmpl.currentTagOverrideTemplate = docProps.getProperty('TAG_OVERRIDE_TEMPLATE') || 'true';
+    tmpl.currentTagOverrideShippingCategory = docProps.getProperty('TAG_OVERRIDE_SHIPPING_CATEGORY') || 'true';
+    tmpl.currentTagOverrideProfitRate = docProps.getProperty('TAG_OVERRIDE_PROFIT_RATE') || 'true';
+    tmpl.currentTagOverrideAdRate = docProps.getProperty('TAG_OVERRIDE_AD_RATE') || 'true';
+    tmpl.currentTagOverrideFeeRate = docProps.getProperty('TAG_OVERRIDE_FEE_RATE') || 'true';
+    tmpl.currentTagOverrideShipping = docProps.getProperty('TAG_OVERRIDE_SHIPPING') || 'true';
+    tmpl.currentTagOverrideLowShipping = docProps.getProperty('TAG_OVERRIDE_LOW_SHIPPING') || 'true';
+    tmpl.currentTagOverrideHighShipping = docProps.getProperty('TAG_OVERRIDE_HIGH_SHIPPING') || 'true';
+    tmpl.currentTagOverrideThreshold = docProps.getProperty('TAG_OVERRIDE_THRESHOLD') || 'true';
+
+    // タグ自動判定設定
+    tmpl.currentTagOverrideEnabled = docProps.getProperty('TAG_OVERRIDE_ENABLED') || 'false';
+    tmpl.currentTagOverridePrompt = docProps.getProperty('TAG_OVERRIDE_PROMPT') || 'true';
+    tmpl.currentTagOverrideTemplate = docProps.getProperty('TAG_OVERRIDE_TEMPLATE') || 'true';
+    tmpl.currentTagOverrideShippingCategory = docProps.getProperty('TAG_OVERRIDE_SHIPPING_CATEGORY') || 'true';
+    tmpl.currentTagOverrideProfitRate = docProps.getProperty('TAG_OVERRIDE_PROFIT_RATE') || 'true';
+    tmpl.currentTagOverrideAdRate = docProps.getProperty('TAG_OVERRIDE_AD_RATE') || 'true';
+    tmpl.currentTagOverrideFeeRate = docProps.getProperty('TAG_OVERRIDE_FEE_RATE') || 'true';
+    tmpl.currentTagOverrideShipping = docProps.getProperty('TAG_OVERRIDE_SHIPPING') || 'true';
+    tmpl.currentTagOverrideLowShipping = docProps.getProperty('TAG_OVERRIDE_LOW_SHIPPING') || 'true';
+    tmpl.currentTagOverrideHighShipping = docProps.getProperty('TAG_OVERRIDE_HIGH_SHIPPING') || 'true';
+    tmpl.currentTagOverrideThreshold = docProps.getProperty('TAG_OVERRIDE_THRESHOLD') || 'true';
+
     // ===== ✅ 重複チェック設定の規定値を詳細に設定 =====
     var workSheetName = props.getProperty('SHEET_NAME') || '作業シート';
     
