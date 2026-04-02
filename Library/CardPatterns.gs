@@ -56,7 +56,21 @@ function buildPromptDict_(masterArray) {
 
 var CARD_POKEMON_SETS = [
   // ============================================================
-  // 2025 (Scarlet & Violet era - latest)
+  // 2026 (MEGA era)
+  // ============================================================
+  {jp: 'ニンジャスピナー', en: 'Ninja Spinner', code: 'M4'},
+  {jp: 'ムニキスゼロ', en: 'Munikis Zero', code: 'M3'},
+
+  // ============================================================
+  // 2025 (MEGA era)
+  // ============================================================
+  {jp: 'MEGAドリームex', en: 'MEGA Dream ex', code: 'M2a', aliases: ['メガドリームex']},
+  {jp: 'インフェルノX', en: 'Inferno X', code: 'M2'},
+  {jp: 'メガシンフォニア', en: 'Mega Symphonia', code: 'M1S'},
+  {jp: 'メガブレイブ', en: 'Mega Brave', code: 'M1L'},
+
+  // ============================================================
+  // 2025 (Scarlet & Violet era)
   // ============================================================
   {jp: 'ブラックボルト', en: 'Black Bolt', code: 'SV11B'},
   {jp: 'ホワイトフレア', en: 'White Flare', code: 'SV11W'},
@@ -556,7 +570,16 @@ var CARD_POKEMON_TRAINERS = [
 // ==============================
 
 var CARD_MTG_SETS = [
+  // 2026
+  {jp: 'ローウィンの昏明', en: 'Lorwyn Eclipsed', aliases: ['Lorwyn']},
+  {jp: 'ストリクスヘイヴンの秘密', en: 'Secrets of Strixhaven'},
+  // 2025
+  {jp: 'エッジオブエターニティーズ', en: 'Edge of Eternities'},
   {jp: 'ファイナルファンタジー', en: 'MTG FINAL FANTASY', aliases: ['FINAL FANTASY', 'FF']},
+  {jp: 'タルキールドラゴンストーム', en: 'Tarkir Dragonstorm', aliases: ['タルキール', 'Tarkir']},
+  {jp: 'エーテルドリフト', en: 'Aetherdrift'},
+  {jp: 'イニストラードリマスター', en: 'Innistrad Remastered', aliases: ['イニストラード']},
+  // 2024
   {jp: 'ファウンデーションズ', en: 'Foundations'},
   {jp: 'ダスクモーン', en: 'Duskmourn House of Horror'},
   {jp: 'ブルームバロウ', en: 'Bloomburrow'},
@@ -827,16 +850,29 @@ var CARD_YUGIOH_CHARACTERS = [
 // ==============================
 
 var CARD_ONEPIECE_SETS = [
-  {jp: 'ロマンスドーン', en: 'Romance Dawn', code: 'OP01'},
-  {jp: '頂上決戦', en: 'Paramount War', code: 'OP02'},
-  {jp: '強大な敵', en: 'Pillars of Strength', code: 'OP03'},
-  {jp: '謀略の王国', en: 'Kingdoms of Intrigue', code: 'OP04'},
-  {jp: '新時代の主役', en: 'Awakening of the New Era', code: 'OP05'},
-  {jp: '双璧の覇者', en: 'Wings of the Captain', code: 'OP06'},
-  {jp: '500年後の未来', en: '500 Years in the Future', code: 'OP07'},
-  {jp: '二つの伝説', en: 'Two Legends', code: 'OP08'},
-  {jp: '新たなる皇帝', en: 'Emperors in the New World', code: 'OP09'},
+  // 2026
+  {jp: '神の島の冒険', en: 'Adventure on the Isle of Gods', code: 'OP15'},
+  {jp: 'エッグヘッドクライシス', en: 'Egghead Crisis', code: 'EB05', aliases: ['EGGHEAD CRISIS']},
+  // 2025
+  {jp: '受け継がれる意志', en: 'Inherited Will', code: 'OP13'},
+  {jp: '師弟の絆', en: 'Bond of Master and Student', code: 'OP12'},
+  {jp: '神速の拳', en: 'Fists of Divine Speed', code: 'OP11'},
+  // 2024
   {jp: '王族の血統', en: 'Royal Bloodlines', code: 'OP10'},
+  {jp: '新たなる皇帝', en: 'Emperors in the New World', code: 'OP09'},
+  {jp: '二つの伝説', en: 'Two Legends', code: 'OP08'},
+  // 2023
+  {jp: '500年後の未来', en: '500 Years in the Future', code: 'OP07'},
+  {jp: '双璧の覇者', en: 'Wings of the Captain', code: 'OP06'},
+  {jp: '新時代の主役', en: 'Awakening of the New Era', code: 'OP05'},
+  {jp: '謀略の王国', en: 'Kingdoms of Intrigue', code: 'OP04'},
+  // 2022
+  {jp: '強大な敵', en: 'Pillars of Strength', code: 'OP03'},
+  {jp: '頂上決戦', en: 'Paramount War', code: 'OP02'},
+  {jp: 'ロマンスドーン', en: 'Romance Dawn', code: 'OP01'},
+  // Extra Boosters
+  {jp: 'メモリアルコレクション', en: 'Memorial Collection', code: 'EB01'},
+  {jp: 'エクストラブースター', en: 'Extra Booster', aliases: ['EB']},
   // Starter Decks
   {jp: 'スタートデッキ', en: 'Starter Deck', aliases: ['ST']},
   // Promo

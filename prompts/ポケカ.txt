@@ -23,27 +23,39 @@ Extract card name from source using these methods in order:
 TRANSLATION DICTIONARY
 Use these translations. Format: Japanese=English
 
-[Sets 2023-2025]
-スカーレットex=Scarlet ex
-バイオレットex=Violet ex
-トリプレットビート=Triplet Beat
-スノーハザード=Snow Hazard
-クレイバースト=Clay Burst
-ポケモンカード151=Pokemon Card 151
-黒炎の支配者=Ruler of the Black Flame
-レイジングサーフ=Raging Surf
-古代の咆哮=Ancient Roar
-未来の一閃=Future Flash
-シャイニートレジャーex=Shiny Treasure ex
-ワイルドフォース=Wild Force
-サイバージャッジ=Cyber Judge
-クリムゾンヘイズ=Crimson Haze
-変幻の仮面=Twilight Masquerade
-ステラミラクル=Stellar Miracle
-楽園ドラゴーナ=Paradise Dragona
-超電ブレイカー=Surging Sparks
+[Sets 2025-2026 MEGA era]
+ニンジャスピナー=Ninja Spinner
+ムニキスゼロ=Munikis Zero
+MEGAドリームex=MEGA Dream ex
+インフェルノX=Inferno X
+メガシンフォニア=Mega Symphonia
+メガブレイブ=Mega Brave
+
+[Sets 2023-2025 Scarlet & Violet era]
+ブラックボルト=Black Bolt
+ホワイトフレア=White Flare
+ロケット団の栄光=Destined Rivals
+熱風アリーナ=Hot Wind Arena
 バトルパートナーズ=Battle Partners
 テラスタルフェスex=Terastal Festival ex
+超電ブレイカー=Surging Sparks
+楽園ドラゴーナ=Paradise Dragona
+ステラミラクル=Stellar Miracle
+変幻の仮面=Twilight Masquerade
+クリムゾンヘイズ=Crimson Haze
+ワイルドフォース=Wild Force
+サイバージャッジ=Cyber Judge
+シャイニートレジャーex=Shiny Treasure ex
+未来の一閃=Future Flash
+古代の咆哮=Ancient Roar
+レイジングサーフ=Raging Surf
+黒炎の支配者=Ruler of the Black Flame
+ポケモンカード151=Pokemon Card 151
+クレイバースト=Clay Burst
+スノーハザード=Snow Hazard
+トリプレットビート=Triplet Beat
+バイオレットex=Violet ex
+スカーレットex=Scarlet ex
 
 [Sets 2019-2022]
 ソード&シールド=Sword & Shield
