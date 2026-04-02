@@ -196,6 +196,8 @@ function matchCategoryFromTag_(tag) {
 
 // フィールド名に応じた値を解決
 function resolveFieldValue_(fieldName, tag, title, brandInfo, category, description, data) {
+  // カードパターンの遅延初期化（カスタム関数のパフォーマンス対策）
+  if (typeof initCardPatterns_ === 'function') initCardPatterns_();
   switch (fieldName) {
     case 'Brand':
       return brandInfo ? brandInfo.name : '';

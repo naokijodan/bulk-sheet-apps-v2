@@ -1904,12 +1904,24 @@ function getCardGamePatterns_() {
   ];
 }
 
-// グローバル変数として生成（resolveFieldValue_から参照）
-var IS_CARD_SET_PATTERNS = getCardSetPatterns_();
-var IS_CARD_CHARACTER_PATTERNS = getCardCharacterPatterns_();
-var IS_CARD_RARITY_PATTERNS = getCardRarityPatterns_();
-var IS_CARD_FINISH_PATTERNS = getCardFinishPatterns_();
-var IS_GAME_PATTERNS = getCardGamePatterns_();
+// グローバル変数（遅延初期化 - カスタム関数のパフォーマンス対策）
+// GASのカスタム関数は呼ばれるたびにスクリプトを再読み込みする。
+// グローバル変数を即時初期化すると1293件の辞書を毎回処理するため重い。
+// 遅延初期化で、IS処理時にのみ初期化する。
+var IS_CARD_SET_PATTERNS = null;
+var IS_CARD_CHARACTER_PATTERNS = null;
+var IS_CARD_RARITY_PATTERNS = null;
+var IS_CARD_FINISH_PATTERNS = null;
+var IS_GAME_PATTERNS = null;
+
+function initCardPatterns_() {
+  if (IS_CARD_SET_PATTERNS !== null) return; // 初期化済み
+  IS_CARD_SET_PATTERNS = getCardSetPatterns_();
+  IS_CARD_CHARACTER_PATTERNS = getCardCharacterPatterns_();
+  IS_CARD_RARITY_PATTERNS = getCardRarityPatterns_();
+  IS_CARD_FINISH_PATTERNS = getCardFinishPatterns_();
+  IS_GAME_PATTERNS = getCardGamePatterns_();
+}
 
 // ==============================
 // 翻訳プロンプト用テキスト生成
