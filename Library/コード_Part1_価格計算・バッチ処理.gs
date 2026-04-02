@@ -3210,6 +3210,11 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
     // タグ設定の事前取得（タグ自動判定ON時のみ）
     var ss = sheet.getParent();
     var tagMap = buildTagOverrideMap_(ss, settings);
+    var tsName = CONFIG.TAG_SHIPPING.SHEET_NAME;
+    var adRateRef = '$F$2';
+    if (settings.tagOverrideAdRate && tagMap) {
+      adRateRef = 'IFERROR(VALUE(SUBSTITUTE(INDEX(' + tsName + '!J:J,MATCH(D{row},' + tsName + '!A:A,0)),"%",""))/100,$F$2)';
+    }
     var tagValues = null;
     if (tagMap) {
       tagValues = sheet.getRange(minRow, CONFIG.COLUMNS.TAG, rowCount, 1).getValues();
@@ -3261,29 +3266,25 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
           var width = sizeParts[1] ? Number(sizeParts[1]) : '';
           var height = sizeParts[2] ? Number(sizeParts[2]) : '';
           var volWeight = weight;
-          var method;
-          // タグ判定ON（いずれかの上書きが有効）かつタグ設定がある場合
-          if ((settings.tagOverrideLowShipping || settings.tagOverrideHighShipping || settings.tagOverrideThreshold) && tagMap) {
-            var tagLow = getTagVal_(row, 'lowShip');
-            var tagHigh = getTagVal_(row, 'highShip');
-            var tagThresh = getTagVal_(row, 'threshold');
-            if (tagLow != null || tagHigh != null || tagThresh != null) {
-              var low = tagLow != null ? String(tagLow) : defaultLowMethod;
-              var high = tagHigh != null ? String(tagHigh) : defaultHighMethod;
-              var thresh = tagThresh != null ? Number(tagThresh) : defaultThreshold;
-              method = (low === 'NONE' || costYen >= thresh) ? high : low;
-            }
-          }
-          // タグ未設定/未該当は従来のロジック
-          if (!method) {
-            method = getSelectedShippingMethod(costYen, weight, volWeight, sizeStr);
-          }
 
           weightData.push([weight]);
           lengthData.push([length]);
           widthData.push([width]);
           heightData.push([height]);
-          methodData.push([method]);
+
+          if ((settings.tagOverrideLowShipping || settings.tagOverrideHighShipping || settings.tagOverrideThreshold) && tagMap) {
+            var formula = '=IF(D' + row + '="",' +
+              '"",' +
+              'LET(idx,MATCH(D' + row + ',' + tsName + '!A:A,0),' +
+              'low,IF(ISERROR(idx),$AQ$2,IF(INDEX(' + tsName + '!L:L,idx)="",$AQ$2,INDEX(' + tsName + '!L:L,idx))),' +
+              'high,IF(ISERROR(idx),$AQ$3,IF(INDEX(' + tsName + '!M:M,idx)="",$AQ$3,INDEX(' + tsName + '!M:M,idx))),' +
+              'thresh,IF(ISERROR(idx),$AJ$4,IF(INDEX(' + tsName + '!N:N,idx)="",$AJ$4,INDEX(' + tsName + '!N:N,idx))),' +
+              'IF(OR(low="NONE",I' + row + '>=thresh),high,low)))';
+            methodData.push([formula]);
+          } else {
+            var method = getSelectedShippingMethod(costYen, weight, volWeight, sizeStr);
+            methodData.push([method]);
+          }
         }
       } else {
         // データなし（空欄）
@@ -3299,11 +3300,16 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
     sheet.getRange(minRow, CONFIG.COLUMNS.LENGTH, rowCount, 1).setValues(lengthData);
     sheet.getRange(minRow, CONFIG.COLUMNS.WIDTH, rowCount, 1).setValues(widthData);
     sheet.getRange(minRow, CONFIG.COLUMNS.HEIGHT, rowCount, 1).setValues(heightData);
-    sheet.getRange(minRow, CONFIG.COLUMNS.METHOD, rowCount, 1).setValues(methodData);
+    var useMethodFormulas = (settings.tagOverrideLowShipping || settings.tagOverrideHighShipping || settings.tagOverrideThreshold) && tagMap;
+    if (useMethodFormulas) {
+      sheet.getRange(minRow, CONFIG.COLUMNS.METHOD, rowCount, 1).setFormulas(methodData);
+    } else {
+      sheet.getRange(minRow, CONFIG.COLUMNS.METHOD, rowCount, 1).setValues(methodData);
+    }
     SpreadsheetApp.flush();
     Utilities.sleep(300);
     
-    var defaultFeeRate = sheet.getRange("F1").getValue() || 0;
+    var defaultFeeRate = sheet.getRange('F1').getValue() || 0;
     
     // ========================================
     // ② V列（手数料率）設定
@@ -3312,17 +3318,20 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
     var feeData = [];
     for (var row = minRow; row <= maxRow; row++) {
       if (batchRowsSet[row]) {
-        var rowFee = defaultFeeRate;
-        if (settings.tagOverrideFeeRate) {
-          var tagFee = getTagVal_(row, 'feeRate');
-          if (tagFee != null) rowFee = tagFee;
+        if (settings.tagOverrideFeeRate && tagMap) {
+          feeData.push(['=IFERROR(VALUE(SUBSTITUTE(INDEX(' + tsName + '!K:K,MATCH(D' + row + ',' + tsName + '!A:A,0)),"%",""))/100,$F$1)']);
+        } else {
+          feeData.push([defaultFeeRate]);
         }
-        feeData.push([rowFee]);
       } else {
         feeData.push(['']);
       }
     }
-    sheet.getRange(minRow, CONFIG.COLUMNS.FEE, rowCount, 1).setValues(feeData);
+    if (settings.tagOverrideFeeRate && tagMap) {
+      sheet.getRange(minRow, CONFIG.COLUMNS.FEE, rowCount, 1).setFormulas(feeData);
+    } else {
+      sheet.getRange(minRow, CONFIG.COLUMNS.FEE, rowCount, 1).setValues(feeData);
+    }
     SpreadsheetApp.flush();
     Utilities.sleep(300);
     
@@ -3334,20 +3343,23 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
     var profitData = [];
     
     if (settings.profitCalculationMethod === 'RATE') {
-      var defaultProfitRate = sheet.getRange("H2").getValue() || 0;
+      var defaultProfitRate = sheet.getRange('H2').getValue() || 0;
       for (var row = minRow; row <= maxRow; row++) {
         if (batchRowsSet[row]) {
-          var rowProfit = defaultProfitRate;
-          if (settings.tagOverrideProfitRate) {
-            var tagProfit = getTagVal_(row, 'profitRate');
-            if (tagProfit != null) rowProfit = tagProfit;
+          if (settings.tagOverrideProfitRate && tagMap) {
+            rateData.push(['=IFERROR(VALUE(SUBSTITUTE(INDEX(' + tsName + '!I:I,MATCH(D' + row + ',' + tsName + '!A:A,0)),"%",""))/100,$H$2)']);
+          } else {
+            rateData.push([defaultProfitRate]);
           }
-          rateData.push([rowProfit]);
         } else {
           rateData.push(['']);
         }
       }
-      sheet.getRange(minRow, CONFIG.COLUMNS.RATE, rowCount, 1).setValues(rateData);
+      if (settings.tagOverrideProfitRate && tagMap) {
+        sheet.getRange(minRow, CONFIG.COLUMNS.RATE, rowCount, 1).setFormulas(rateData);
+      } else {
+        sheet.getRange(minRow, CONFIG.COLUMNS.RATE, rowCount, 1).setValues(rateData);
+      }
     } else {
       var profitAmount = sheet.getRange("H1").getValue();
       
@@ -3445,23 +3457,16 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
     // ========================================
     console.log('⑥ R列（DDU価格）設定中...');
     var priceFormulas = [];
-    var defaultAdRate = sheet.getRange('F2').getValue() || 0; // 一度だけ取得
-    
     for (var row = minRow; row <= maxRow; row++) {
       if (batchRowsSet[row]) {
-        var adRateVal = defaultAdRate;
-        if (settings.tagOverrideAdRate) {
-          var tagAd = getTagVal_(row, 'adRate');
-          if (tagAd != null) adRateVal = tagAd;
-        }
-        var adRateStr = String(Number(adRateVal) || 0);
+        var adRef = adRateRef.replace(/\{row\}/g, String(row));
         if (settings.profitCalculationMethod === 'RATE') {
           priceFormulas.push([
-            '=ROUND(((I' + row + '+T' + row + ')/(1-(V' + row + '+W' + row + '+' + adRateStr + '+$Z$2))/$C$2)*100)/100'
+            '=ROUND(((I' + row + '+T' + row + ')/(1-(V' + row + '+W' + row + '+' + adRef + '+$Z$2))/$C$2)*100)/100'
           ]);
         } else {
           priceFormulas.push([
-            '=ROUND(((I' + row + '+T' + row + '+U' + row + ')/(1-(V' + row + '+' + adRateStr + '+$Z$2))/$C$2)*100)/100'
+            '=ROUND(((I' + row + '+T' + row + '+U' + row + ')/(1-(V' + row + '+' + adRef + '+$Z$2))/$C$2)*100)/100'
           ]);
         }
       } else {
@@ -3480,14 +3485,9 @@ function applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manual
       var profitFormulas = [];
       for (var row = minRow; row <= maxRow; row++) {
         if (batchRowsSet[row]) {
-          var adRateVal2 = defaultAdRate;
-          if (settings.tagOverrideAdRate) {
-            var tagAd2 = getTagVal_(row, 'adRate');
-            if (tagAd2 != null) adRateVal2 = tagAd2;
-          }
-          var adRateStr2 = String(Number(adRateVal2) || 0);
+          var uAdRef = adRateRef.replace(/\{row\}/g, String(row));
           profitFormulas.push([
-            '=ROUND(R' + row + '*$C$2*(1-(V' + row + '+' + adRateStr2 + '+$Z$2)) - I' + row + ' - T' + row + ', 0)'
+            '=ROUND(R' + row + '*$C$2*(1-(V' + row + '+' + uAdRef + '+$Z$2)) - I' + row + ' - T' + row + ', 0)'
           ]);
         } else {
           profitFormulas.push(['']);
