@@ -48,28 +48,149 @@ DESCRIPTION (SEO Priority)
   * Video capability if stated (4K, Full HD)
   * Color
   * Included accessories (charger, strap, body cap, memory card, box)
-- Use keyword variations: "digital camera" "camera body" in addition to specific type.
-- DEFECT/ISSUE REPORTING (CRITICAL):
+ - Use keyword variations: "digital camera" "camera body" in addition to specific type.
+ - DEFECT/ISSUE REPORTING (CRITICAL):
   If the source mentions ANY defect, malfunction, or issue, you MUST describe it in the Description.
-  DEFECT KEYWORDS AND TRANSLATIONS:
+
+  **LCD/DISPLAY DEFECTS (CRITICAL - must never be omitted):**
+    - 液晶焼け / 液晶の黄ばみ -> "LCD burn-in" or "LCD yellowing"
+    - 液晶の周辺が暗い / 四隅が暗い -> "dark edges on LCD" or "LCD corner shadowing"
+    - ドット抜け / 画素欠け -> "dead pixels on LCD"
+    - 液晶の色ムラ / 色被り -> "LCD color unevenness" or "color tint on screen"
+    - 液晶の傷 -> "scratches on LCD screen"
+    - バックライト漏れ / 光漏れ -> "backlight bleed on LCD"
+    - 液晶割れ / 液晶不良 -> "LCD screen damaged"
+    - 液晶の剥離 -> "LCD delamination"
+    - 液晶コーティング剥がれ -> "LCD coating peeling"
+    - タッチパネル不良 / タッチ反応なし -> "touch screen unresponsive"
+    - ヒンジの緩み / バリアングル不良 -> "loose LCD hinge" or "swivel screen malfunction"
+    - 液晶表示不良 / 表示おかしい -> "LCD display malfunction"
+
+  **VIEWFINDER DEFECTS:**
+    - ファインダー曇り -> "viewfinder haze"
+    - ファインダーにカビ -> "fungus in viewfinder"
+    - ファインダーにチリ -> "dust in viewfinder"
+    - プリズム腐食 / 銀蒸着劣化 -> "prism corrosion" or "silvering in prism"
+    - 二重像ズレ -> "rangefinder misalignment"
+    - 視度調整不良 -> "diopter adjustment malfunction"
+
+  **LENS DEFECTS:**
+    - カビ / カビあり -> "fungus"
+    - 曇り / クモリ -> "haze" (slight haze/heavy haze specify severity)
+    - バルサム切れ -> "balsam separation"
+    - 拭き傷 -> "cleaning marks" or "wipe marks"
+    - コーティング剥がれ / コーティング劣化 -> "coating deterioration"
+    - 絞り羽根の油染み -> "oil on aperture blades"
+    - 絞り羽根の粘り / 絞り不良 -> "sticky aperture blades"
+    - 絞り動作不良 -> "aperture malfunction"
+    - AF鳴き / AF異音 -> "squeaking noise during AF"
+    - フォーカスリング固い / 重い -> "stiff focus ring"
+    - フォーカスリング緩い -> "loose focus ring"
+    - 前玉の傷 -> "scratch on front element"
+    - 後玉の傷 -> "scratch on rear element"
+    - チリ混入 -> "internal dust"
+
+  **SENSOR DEFECTS:**
+    - センサー汚れ / 撮像素子汚れ -> "sensor has dust/spots"
+    - センサーに傷 -> "scratch on sensor"
+
+  **BODY/EXTERIOR DEFECTS:**
+    - グリップ劣化 / べたつき -> "grip deterioration" or "sticky rubber"
+    - 塗装剥げ -> "paint peeling" or "paint loss"
+    - 凹み / 打痕 -> "dents" or "impact marks"
+    - テカリ / 擦れ -> "signs of wear" or "glossy wear"
+    - 底面の擦れ -> "scuffs on bottom plate"
+    - 電池室の液漏れ / 腐食 -> "corroded battery compartment"
+    - アイカップ欠品 -> "eyecup missing"
+    - ストラップ金具の不良 -> "strap lug issue"
+
+  **FUNCTIONAL DEFECTS:**
     - 故障 / 動かない / 壊れ -> "malfunction" or "broken"
     - シャッター不良 -> "shutter malfunction"
     - AF不良 / AF不可 / ピントが合わない -> "autofocus not working"
-    - 液晶割れ / 液晶不良 -> "LCD screen damaged"
-    - ファインダー曇り -> "viewfinder haze"
-    - センサー汚れ / 撮像素子汚れ -> "sensor has dust/spots"
-    - グリップ劣化 / べたつき -> "grip deterioration/sticky"
+    - 手ぶれ補正不良 -> "image stabilization error"
+    - フラッシュ不良 / 発光しない -> "built-in flash not working"
+    - カードスロット不良 -> "memory card slot error"
     - 電源入らない -> "does not power on"
     - エラー表示 -> "shows error message"
     - ジャンク -> "for parts"
     - 不具合 -> "defect"
     - 傷 -> "scratch"
-    - 〜できず / 〜不可 / 〜できません -> always means NOT possible. NEVER translate as "works" or "functional".
+    - 〜できず / 〜不可 / 〜できません -> always means NOT possible
+
+  **FILM CAMERA SPECIFIC DEFECTS:**
+    - モルト劣化 / モルト交換要 -> "degraded light seals" or "light seals need replacement"
+    - 巻き上げ不良 -> "film advance issue"
+    - 巻き戻し不良 -> "film rewind issue"
+    - 露出計不良 / メーター不動 -> "light meter inaccurate" or "light meter not working"
+    - シャッター幕劣化 -> "shutter curtain deterioration"
+    - 低速シャッター粘り -> "slow shutter speeds sticky"
+    - 遮光不良 / 光線漏れ -> "light leak"
+
   If source contains "(DEFECT: ...)" markers, use the English text directly.
   Omitting known defects is a violation of eBay policy.
-- Describe operation/status only if clearly mentioned (tested/untested/issues).
-- Avoid evaluative adjectives (excellent, good, mint, used).
-- Exclude shipping/seller opinions/history/warranty.
+  - Describe operation/status only if clearly mentioned (tested/untested/issues).
+  - Avoid evaluative adjectives (excellent, good, mint, used).
+  - Exclude shipping/seller opinions/history/warranty.
+ 
+TRANSLATION DICTIONARY (Camera-specific Japanese to English):
+  **Camera Parts:**
+    - ボディ / 本体 -> body
+    - レンズ -> lens
+    - 前玉 -> front element
+    - 後玉 -> rear element
+    - 絞り羽根 -> aperture blades
+    - シャッター幕 -> shutter curtain
+    - ミラー -> mirror
+    - ペンタプリズム -> pentaprism
+    - ファインダー -> viewfinder
+    - 液晶 / 背面液晶 -> LCD screen / rear LCD
+    - ホットシュー -> hot shoe
+    - アイカップ -> eyecup
+    - バッテリーグリップ -> battery grip
+    - フィルム室 -> film chamber
+    - 裏蓋 -> back cover / film door
+    - 底蓋 -> bottom plate
+    - マウント部 -> lens mount
+    - 三脚穴 -> tripod socket
+
+  **Camera Types:**
+    - 一眼レフ -> DSLR / SLR
+    - ミラーレス -> Mirrorless
+    - コンパクト / コンデジ -> Compact / Point and Shoot
+    - フィルムカメラ -> Film Camera
+    - 中判カメラ -> Medium Format Camera
+    - 大判カメラ -> Large Format Camera
+    - レンジファインダー -> Rangefinder
+    - 二眼レフ -> Twin Lens Reflex (TLR)
+    - 蛇腹カメラ -> Bellows Camera / Folding Camera
+    - インスタントカメラ -> Instant Camera
+
+  **Condition Terms:**
+    - 動作品 / 動作確認済み -> tested, working
+    - 動作未確認 -> untested
+    - 完動品 -> fully functional
+    - 現状品 -> as-is condition
+    - 難あり -> has issues
+    - 美品 -> excellent condition (external)
+    - 極上品 -> near mint condition
+    - 並品 -> average condition
+    - 使用感あり -> shows signs of use
+    - 目立つ傷なし -> no noticeable scratches
+    - 実用品 -> usable condition
+    - ショット数 / シャッター回数 -> shutter count
+    - モルト交換済み -> light seals replaced
+    - OH済み / オーバーホール済み -> serviced / overhauled
+
+  **Lens Terms:**
+    - 単焦点レンズ -> prime lens
+    - ズームレンズ -> zoom lens
+    - マクロレンズ -> macro lens
+    - 望遠レンズ -> telephoto lens
+    - 広角レンズ -> wide-angle lens
+    - 標準レンズ -> standard lens / normal lens
+    - 開放F値 -> maximum aperture
+    - 焦点距離 -> focal length
 
 PRODUCTNAME
 - Format: [Brand] [Model] [Camera Type], English ASCII only.
@@ -86,6 +207,20 @@ Title: ...
 Description: ...
 ProductName: ...
 Category: ...
+ 
+MISSING ACCESSORIES DETECTION (Category-specific):
+  If source mentions any missing items, reflect in Title (append relevant marker) and Description:
+    - ボディキャップなし -> "No body cap"
+    - レンズキャップなし / 前キャップなし / 後キャップなし -> "No lens cap" / "No front cap" / "No rear cap"
+    - バッテリーなし / 充電器なし -> "No battery" / "No charger"
+    - ストラップなし -> "No strap"
+    - 箱なし / 元箱なし -> "No box"  (append "No Box" to Title)
+    - 説明書なし -> "No manual"
+    - メモリーカードなし -> "No memory card"
+    - ケースなし / ポーチなし -> "No case"
+    - レンズフードなし -> "No lens hood"
+    - アイカップなし -> "No eyecup"
+  Title markers: append "No Box" "No Battery" "No Charger" etc. at end if space allows.
 
 VERIFICATION (must pass before returning):
 1. Title length 68-75 chars.
@@ -100,7 +235,9 @@ VERIFICATION (must pass before returning):
 10. No forbidden symbols in Title (no " ' ( ) [ ]).
 11. If source mentions any defect/malfunction, Description MUST include it.
 12. Every spec in the output (resolution, sensor, shutter count) must have a corresponding source in the Japanese text. If not found in source, it must NOT appear in output.
-13. If shutter count keywords exist in source, include count in Description. If NO shutter count keywords in source, do NOT mention shutter count.
+ 13. If shutter count keywords exist in source, include count in Description. If NO shutter count keywords in source, do NOT mention shutter count.
+ 14. If source includes any LCD/display defect keywords (液晶焼け/黄ばみ/四隅が暗い/ドット抜け/色ムラ/液晶の傷/バックライト漏れ/液晶割れ/剥離/コーティング剥がれ/タッチ不良/ヒンジの緩み/表示不良), Description MUST include them. LCD defect terms must never be omitted.
+ 15. If source mentions sensor defects (センサー汚れ/撮像素子汚れ/センサーに傷), Description MUST include them.
 
 If any check fails, regenerate until all pass.
 
