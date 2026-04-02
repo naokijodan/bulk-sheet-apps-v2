@@ -3765,6 +3765,8 @@ function clearSelectedRowsValues(sheet, startRow, endRow, opt_method) {
     sheet.getRange(startRow, CONFIG.COLUMNS.USED_PROMPT, rowCount, 1).clearContent();
     // AV列（交通整理バックアップ）をクリア
     sheet.getRange(startRow, CONFIG.COLUMNS.JP_DESC_BACKUP, rowCount, 1).clearContent();
+    // AW列（交通整理英語版）をクリア
+    sheet.getRange(startRow, CONFIG.COLUMNS.EN_DESC_SANITIZED, rowCount, 1).clearContent();
 
   } catch(e) {
     throw new Error('行クリア中にエラー: ' + e.message);

@@ -171,7 +171,7 @@ function runStep1Basic_(sheet, rows) {
       if (country) data['Country of Origin'] = country;
     }
 
-    results.push({ row: row, data: data });
+    results.push({ row: row, data: data, category: category });
   }
   return results;
 }
@@ -1120,8 +1120,14 @@ function mergeConfirmedValues_(sheet, rows, results) {
         out[k] = aiData[k];
       }
     }
+    // IS_CATEGORY_FIELDSに定義されたフィールドのみマージ（10件制限対策）
+    var allowedFields = IS_CATEGORY_FIELDS[item.category] || [];
+    var allowedSet = {};
+    for (var af = 0; af < allowedFields.length; af++) {
+      allowedSet[allowedFields[af]] = true;
+    }
     for (k in conf) {
-      if (conf.hasOwnProperty(k) && !excluded[k]) {
+      if (conf.hasOwnProperty(k) && !excluded[k] && allowedSet[k]) {
         // 日本語が含まれている値はスキップ（交通整理の翻訳漏れ防止）
         var confVal = String(conf[k] || '');
         if (/[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF\uFF61-\uFF9F]/.test(confVal)) {
@@ -1130,6 +1136,20 @@ function mergeConfirmedValues_(sheet, rows, results) {
         }
         out[k] = conf[k];
       }
+    }
+    // 10件超過の安全弁（万が一のため）
+    var outKeys = Object.keys(out);
+    if (outKeys.length > 10) {
+      Logger.log('[mergeConfirmedValues_] row ' + rowNum + ': ' + outKeys.length + ' fields -> trimmed to 10');
+      var trimmed = {};
+      var count = 0;
+      for (var tf = 0; tf < allowedFields.length && count < 10; tf++) {
+        if (out.hasOwnProperty(allowedFields[tf])) {
+          trimmed[allowedFields[tf]] = out[allowedFields[tf]];
+          count++;
+        }
+      }
+      out = trimmed;
     }
     merged.push({ row: rowNum, data: out });
   }
