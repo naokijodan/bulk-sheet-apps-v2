@@ -2829,6 +2829,12 @@ function getBrandListForSanitize_(category) {
       targetCategories = ['Video Games'];
     } else if (category === 'Fishing Reels') {
       targetCategories = ['Fishing Reels'];
+    } else if (category === 'game') {
+      // Sanitize用の簡易カテゴリ対応（ゲーム機）
+      targetCategories = ['Video Games'];
+    } else if (category === 'reel') {
+      // Sanitize用の簡易カテゴリ対応（リール）
+      targetCategories = ['Fishing Reels'];
     } else {
       // 新規カテゴリ: ISカテゴリ名をそのままIS_BRAND_DICTのフィルタに使用
       targetCategories = [category];

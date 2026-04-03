@@ -209,6 +209,28 @@ var CONFIG = {
   }
 };
 
+// 交通整理キーワードカテゴリ（レガシー互換・拡張用）
+// 既存コードを壊さないよう、存在すれば拡張、なければ新規作成のみ行う
+if (typeof SANITIZE_CATEGORIES === 'undefined') {
+  var SANITIZE_CATEGORIES = {};
+}
+
+// 既存のcard定義の直後に追加する想定の拡張（存在しなくても追加のみ）
+// game: ゲーム機本体関連
+SANITIZE_CATEGORIES.game = {
+  keywords: ['ゲーム機', 'ゲーム本体', 'コンソール', 'ファミコン', 'スーファミ',
+    'ゲームボーイ', 'プレステ', 'PlayStation', 'PS5', 'PS4', 'PS3', 'PS2', 'PS1',
+    'Switch', 'Wii', 'Xbox', 'ドリームキャスト', 'サターン', 'メガドライブ',
+    'PCエンジン', 'ネオジオ', 'ゲームキューブ', 'Nintendo 64', 'N64',
+    'DS', '3DS', 'PSP', 'PSVita', 'Steam Deck']
+};
+
+// reel: 釣り用リール
+SANITIZE_CATEGORIES.reel = {
+  keywords: ['リール', 'スピニングリール', 'ベイトリール', 'フライリール',
+    '釣り', 'フィッシング', '両軸リール', '電動リール']
+};
+
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   プロンプト⇔タグ マッピング（翻訳プロンプト自動選択用）
   キー: GPT_PromptsシートのA列プロンプトID
