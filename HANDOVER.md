@@ -6,10 +6,8 @@
 
 ### やるべきこと（この順番で）
 1. グローバルルール（`~/.claude/CLAUDE.md` + `~/.claude/rules/`）を全て読む
-2. convert_html_to_gs.pyのパスを修正する（後述）
-3. HtmlTemplates.gsを更新 → clasp push
-4. ユーザーにテストを依頼する
-5. テスト完了後、辞書充実（Tier 1→2→3）に戻る
+2. ユーザーにテストを依頼する（テスト手順と成功条件に従う）
+3. テスト完了後、辞書充実（Tier 1→2→3）に戻る
 
 ### やってはいけないこと
 - ルールを読まずにコードに触る
@@ -31,39 +29,18 @@
 - 個別トグルのDocumentProperties保存・読み込み
 
 ### 動かないもの
-- **初期設定ダイアログのUI**: Library/HtmlTemplates.gsが旧バージョン（マスタースイッチあり）のため、旧UIが表示される
-- **原因**: SetupDialog.txtは最新（マスタースイッチ廃止済み）だが、HtmlTemplates.gsへの変換が未完了
-- **症状**: 初期設定を開くとマスタースイッチが表示される。設定自体は保存されるがUIが正しくない
+- なし（HtmlTemplates.gs更新済み、clasp push済み）
 
 ---
 
-## ■ HtmlTemplates.gs更新手順（最優先）
+## ■ HtmlTemplates.gs更新手順（参考: 完了済み）
 
-### 手順1: convert_html_to_gs.pyのパス修正
-ファイル: `Library/convert_html_to_gs.py` 95行目
-```
-変更前: base_dir = '/Users/naokijodan/Desktop/一括シートApps_v3'
-変更後: base_dir = '/Users/naokijodan/Desktop/ツール開発/一括シートApps_v3'
-```
-
-### 手順2: スクリプト実行
 ```bash
 cd ~/Desktop/ツール開発/一括シートApps_v3
 python3 Library/convert_html_to_gs.py
-```
-成功時の出力: `Converted: SetupDialog.txt (XXXXX bytes)` が含まれること
-
-### 手順3: clasp push
-```bash
 cd Library && /Users/naokijodan/.npm-global/bin/clasp push --force
 ```
-成功条件: `Pushed 24 files.` が表示され、`Syntax error` がないこと
-
-### 手順4: 検証
-スプレッドシートで初期設定を開き、タグ自動判定セクションに**マスタースイッチがなく、個別トグルが直接表示される**ことを確認
-
-### 過去の失敗と回避策
-前回セッションでHtmlTemplates.gsの手動エスケープに何度も失敗した（SyntaxError: Invalid or unexpected token line: 18）。原因はシングルクォートやバックスラッシュのエスケープ不備。**必ずconvert_html_to_gs.pyを使うこと。手動変換は禁止。**
+**手動エスケープは禁止。必ずconvert_html_to_gs.pyを使うこと。**
 
 ---
 
@@ -71,11 +48,11 @@ cd Library && /Users/naokijodan/.npm-global/bin/clasp push --force
 
 | # | テスト | 成功条件 |
 |---|--------|---------|
-| 1 | 初期設定を開く | マスタースイッチなし。個別トグルが▼展開で直接見える |
-| 2 | プロンプトトグルON | プロンプトセクションのチェックボックスがdisabled + 「タグ自動判定設定で管理中」表示 |
-| 3 | プロンプトトグルOFF | プロンプトセクションが通常操作可能に戻る |
-| 4 | 送料トグルON | 送料セクションが「タグ別送料」+disabled + アラート表示 |
-| 5 | 送料トグルOFF | 送料セクションが通常操作可能に戻る |
+| 1 | 初期設定を開く | マスタースイッチなし。タグ自動判定設定セクションに「推奨」バッジが表示される |
+| 2 | プロンプトトグルON→保存 | AS3セルが「自動選択」になる。プロンプトセクションに「自動選択」チェックボックスは存在しない（一元管理化済み） |
+| 3 | プロンプトトグルOFF→保存 | AS3セルが「手動」になる |
+| 4 | 送料トグルON | 送料セクションのラジオ（テーブル計算/固定金額）がdisabled + 注意メッセージ表示。「タグ別送料」ラジオは存在しない（一元管理化済み） |
+| 5 | 送料トグルOFF | 送料セクションのラジオが通常操作可能に戻る |
 | 6 | 保存→式の再出力 | V列に`=IFERROR(VALUE(SUBSTITUTE(INDEX(TagShipping!K:K,...`のような数式が入る |
 | 7 | TagShippingのI列変更 | W列（利益率）の値が即座に変わる |
 | 8 | TagShippingのH列に「Video Games（$20）」設定 | O列（想定関税閾値）に`20`が表示される |
@@ -102,6 +79,13 @@ cd Library && /Users/naokijodan/.npm-global/bin/clasp push --force
 - applyCalculationFormulas（コード_Part3）とapplyCalculationBatch_（コード_Part1）の両方に対応
 - applyUnifiedSettingsBatch_（コード_Part4）にテンプレート・ポリシーのタグ対応
 - AP3（想定関税閾値）をTagShipping O列から連動
+
+### フェーズ4: 一元管理化（2026-04-03）
+- プロンプトセクションの「自動選択」チェックボックスを削除 → tagOverridePromptに一元管理
+- 送料セクションの「タグ別送料」ラジオボタンを削除 → tagOverrideShippingに一元管理
+- 保存ロジック: tagOverridePrompt → AUTO_PROMPT_SELECT導出、tagOverrideShipping → SHIPPING_CALC_METHOD上書き
+- TAG_SHIPPING保存時のTABLEフォールバック追加
+- Claude + GPTレビュー実施済み
 
 #### 数式パターン（全列共通）:
 ```
@@ -152,10 +136,13 @@ cd Library && /Users/naokijodan/.npm-global/bin/clasp push --force
 | P | 空き | |
 | Q-R | 参照リスト | タグ名/翻訳プロンプト（自動生成） |
 
-### マスタースイッチは廃止済み
+### マスタースイッチは廃止済み + 一元管理化
 - tagOverrideEnabled（DocumentProperties: TAG_OVERRIDE_ENABLED）は削除済み
 - buildTagOverrideMap_（Utils.gs）は個別トグルのOR判定でマップ構築を決定
 - 全トグルOFFなら従来動作
+- **プロンプト自動選択チェックボックス（autoPromptSelect）は削除済み** → tagOverridePromptで一元管理
+- **送料「タグ別送料」ラジオ（TAG_SHIPPING）は削除済み** → tagOverrideShippingで一元管理
+- 保存時: tagOverridePrompt=true → AUTO_PROMPT_SELECT='自動選択'、tagOverrideShipping=true → SHIPPING_CALC_METHOD='TAG_SHIPPING'
 
 ### 値埋め込み禁止の理由
 前回セッションで値埋め込み（adRateStr等）で実装し、TagShippingの値を変えても反映されない問題が発生。INDEX/MATCH数式方式に全面書き換えた。**同じ失敗を繰り返さないこと。**

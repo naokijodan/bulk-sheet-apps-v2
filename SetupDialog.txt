@@ -622,18 +622,6 @@
             </div>
           </div>
 
-          <label>翻訳プロンプト自動選択</label>
-          <div class="checkbox-group">
-            <label class="checkbox-label">
- <input type="checkbox" id="autoPromptSelect" name="autoPromptSelect" <?= currentAutoPromptSelect === '自動選択' ? 'checked' : '' ?>>
-  D列タグに応じてプロンプトを自動選択する
-  <span id="promptOverrideNote" style="display:none;color:#1a73e8;font-size:12px;margin-left:8px;">※ タグ自動判定設定で管理中</span>
-</label>
-          </div>
-          <div class="help-text">
-            有効にすると、翻訳実行時にD列のタグからプロンプトを自動選択します。マッチしない場合は上記の手動選択プロンプトを使用します。
-          </div>
-
           <label>プロンプト同期</label>
           <div class="checkbox-group">
             <label class="checkbox-label">
@@ -745,11 +733,10 @@
         <div class="section-content" id="content-shipping">
           <label>送料計算方法 *</label>
           <div class="radio-group">
-            <label><input type="radio" name="shippingCalcMethod" value="TABLE" <?= currentShippingCalculationMethod === 'TABLE' ? 'checked' : '' ?>> テーブル計算</label>
+            <label><input type="radio" name="shippingCalcMethod" value="TABLE" <?= (currentShippingCalculationMethod === 'TABLE' || currentShippingCalculationMethod === 'TAG_SHIPPING') ? 'checked' : '' ?>> テーブル計算</label>
             <label><input type="radio" name="shippingCalcMethod" value="FIXED" <?= currentShippingCalculationMethod === 'FIXED' ? 'checked' : '' ?>> 固定金額</label>
-            <label><input type="radio" name="shippingCalcMethod" value="TAG_SHIPPING" <?= currentShippingCalculationMethod === 'TAG_SHIPPING' ? 'checked' : '' ?>> タグ別送料</label>
           </div>
-          <div id="shippingOverrideNote" style="display:none;color:#1a73e8;font-size:13px;margin-top:4px;">※ タグ自動判定設定で管理中</div>
+          <div id="shippingOverrideNote" style="display:none;color:#1a73e8;font-size:13px;margin-top:4px;">※ タグ自動判定の「送料（タグ別送料）」が有効のため、この設定は無効です</div>
 
           <label for="shippingThreshold">送料計算切替基準金額（円） *</label>
           <input type="number" id="shippingThreshold" name="shippingThreshold" value="<?= currentShippingThreshold || '5500' ?>" min="1" step="1" required>
@@ -773,8 +760,7 @@
             <div class="title">送料計算方法の説明</div>
             <div class="content">
               <strong>テーブル計算</strong>: 重量・サイズに基づいて自動計算（推奨）<br>
-              <strong>固定金額</strong>: J1 または Profit_Amounts!D から取得<br>
-              <strong>タグ別送料</strong>: D列タグからTagShippingシートを参照。参考eBay IDも自動セット<br><br>
+              <strong>固定金額</strong>: J1 または Profit_Amounts!D から取得<br><br>
               <strong>固定金額の設定</strong><br>
               • 全商品共通: J1 セルに金額を入力<br>
               • 仕入れ値別: Profit_Amounts!D列に各金額帯の送料
@@ -864,8 +850,11 @@
       <div class="section" data-section="tag-override">
         <div class="section-header" onclick="toggleSection('tag-override')">
           <div class="section-title">
-            <span class="badge optional">OPTIONAL</span>
-            タグ自動判定設定
+            <span class="priority-badge priority-recommended">推奨</span>
+            <div>
+              <div>タグ自動判定設定</div>
+              <div class="section-description">TagShippingシートのタグごとに各種設定を自動適用</div>
+            </div>
           </div>
           <button type="button" class="collapse-btn">▼</button>
         </div>
@@ -875,7 +864,7 @@
           <div style="margin-bottom:12px;">
             <strong>翻訳・出品</strong>
             <div class="checkbox-group" style="margin-left:16px;margin-top:4px;">
-              <label class="checkbox-label"><input type="checkbox" id="tagOverridePrompt" checked onchange="toggleTagOverrideItems()"> プロンプト自動選択</label>
+              <label class="checkbox-label"><input type="checkbox" id="tagOverridePrompt" checked> プロンプト自動選択</label>
               <label class="checkbox-label"><input type="checkbox" id="tagOverrideTemplate" checked> テンプレート名</label>
               <label class="checkbox-label"><input type="checkbox" id="tagOverrideShippingCategory" checked> 送料上限カテゴリ</label>
             </div>
@@ -1124,28 +1113,14 @@
       });
     }
 
-    // タグ自動判定の連動（個別トグルのみ）
+    // タグ自動判定の連動（送料セクションのみ）
     function toggleTagOverrideItems() {
-      // プロンプト自動選択との連動
-      var promptCb = document.getElementById('autoPromptSelect');
-      var promptNote = document.getElementById('promptOverrideNote');
-      var promptToggle = document.getElementById('tagOverridePrompt');
-      if (promptToggle.checked) {
-        promptCb.checked = true;
-        promptCb.disabled = true;
-        promptNote.style.display = 'inline';
-      } else {
-        promptCb.disabled = false;
-        promptNote.style.display = 'none';
-      }
-
-      // 送料計算方法との連動
+      // 送料計算方法との連動（tagOverrideShipping ON → ラジオ無効化）
       var shippingRadios = document.querySelectorAll('input[name="shippingCalcMethod"]');
       var shippingNote = document.getElementById('shippingOverrideNote');
       var shippingToggle = document.getElementById('tagOverrideShipping');
       if (shippingToggle.checked) {
         shippingRadios.forEach(function(r) {
-          r.checked = (r.value === 'TAG_SHIPPING');
           r.disabled = true;
         });
         shippingNote.style.display = 'block';
@@ -1444,7 +1419,6 @@
         
         // プロンプト設定
         promptId: document.getElementById('promptId').value,
-        autoPromptSelect: document.getElementById('autoPromptSelect').checked ? 'true' : 'false',
         syncPromptAdd: document.getElementById('syncPromptAdd').checked ? 'true' : 'false',
         syncPromptUpdate: document.getElementById('syncPromptUpdate').checked ? 'true' : 'false',
 

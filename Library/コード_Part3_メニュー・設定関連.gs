@@ -2907,7 +2907,8 @@ function saveIntegratedSettings(formData) {
     var profitCalc = formData.profitMethod;
     var promptId = formData.promptId;
     var shippingThreshold = parseFloat(formData.shippingThreshold);
-    var shippingCalcMethod = formData.shippingCalcMethod;
+    // tagOverrideShipping ON → TAG_SHIPPINGに上書き（一元管理）
+    var shippingCalcMethod = formData.tagOverrideShipping === 'true' ? 'TAG_SHIPPING' : formData.shippingCalcMethod;
     var lowPriceMethod = formData.lowPriceMethod;
     var highPriceMethod = formData.highPriceMethod;
     var showPopups = formData.showPopups || 'true';
@@ -2918,8 +2919,8 @@ function saveIntegratedSettings(formData) {
     var dduThreshold = parseFloat(formData.dduThreshold) || CONFIG.DDU_PRICE_ADJUSTMENT.DEFAULT_THRESHOLD;
     var dduAdjustment = parseFloat(formData.dduAdjustment) || CONFIG.DDU_PRICE_ADJUSTMENT.DEFAULT_ADJUSTMENT;
 
-    // プロンプト自動選択（デフォルト: 手動）
-    var autoPromptSelect = formData.autoPromptSelect === 'true' ? '自動選択' : '手動';
+    // プロンプト自動選択（tagOverridePromptから一元管理）
+    var autoPromptSelect = formData.tagOverridePrompt === 'true' ? '自動選択' : '手動';
 
     // プロンプト同期オプション
     var syncPromptAdd = formData.syncPromptAdd === 'true';
