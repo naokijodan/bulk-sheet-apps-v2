@@ -1104,7 +1104,7 @@ function parsePercent_(val) {
 
 /**
  * TagShippingシートからタグ名→設定値のマップを構築
- * settings.tagOverrideEnabled=false の場合はnull
+ * 個別トグルが全てOFFの場合はnull
  * @param {Spreadsheet} ss
  * @param {Object} settings
  * @return {Object|null}

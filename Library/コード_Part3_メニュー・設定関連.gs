@@ -2987,9 +2987,6 @@ function saveIntegratedSettings(formData) {
     docProps.setProperty('DDU_THRESHOLD', String(dduThreshold));
     docProps.setProperty('DDU_ADJUSTMENT_AMOUNT', String(dduAdjustment));
 
-    // プロンプト自動選択の保存
-    docProps.setProperty('AUTO_PROMPT_SELECT', autoPromptSelect);
-
     // タグ自動判定の保存
     docProps.setProperty('TAG_OVERRIDE_PROMPT', formData.tagOverridePrompt || 'true');
     docProps.setProperty('TAG_OVERRIDE_TEMPLATE', formData.tagOverrideTemplate || 'true');

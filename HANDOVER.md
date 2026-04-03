@@ -83,7 +83,7 @@ cd Library && /Users/naokijodan/.npm-global/bin/clasp push --force
 ### フェーズ4: 一元管理化（2026-04-03）
 - プロンプトセクションの「自動選択」チェックボックスを削除 → tagOverridePromptに一元管理
 - 送料セクションの「タグ別送料」ラジオボタンを削除 → tagOverrideShippingに一元管理
-- 保存ロジック: tagOverridePrompt → AUTO_PROMPT_SELECT導出、tagOverrideShipping → SHIPPING_CALC_METHOD上書き
+- 保存ロジック: tagOverridePrompt → AS3セルに'自動選択'/'手動'書き込み、tagOverrideShipping → SHIPPING_CALC_METHOD上書き
 - TAG_SHIPPING保存時のTABLEフォールバック追加
 - Claude + GPTレビュー実施済み
 
@@ -142,7 +142,8 @@ cd Library && /Users/naokijodan/.npm-global/bin/clasp push --force
 - 全トグルOFFなら従来動作
 - **プロンプト自動選択チェックボックス（autoPromptSelect）は削除済み** → tagOverridePromptで一元管理
 - **送料「タグ別送料」ラジオ（TAG_SHIPPING）は削除済み** → tagOverrideShippingで一元管理
-- 保存時: tagOverridePrompt=true → AUTO_PROMPT_SELECT='自動選択'、tagOverrideShipping=true → SHIPPING_CALC_METHOD='TAG_SHIPPING'
+- 保存時: tagOverridePrompt=true → AS3='自動選択'、tagOverrideShipping=true → SHIPPING_CALC_METHOD='TAG_SHIPPING'
+- AUTO_PROMPT_SELECTのDocumentProperties保存は廃止（AS3セルが唯一の参照元）
 
 ### 値埋め込み禁止の理由
 前回セッションで値埋め込み（adRateStr等）で実装し、TagShippingの値を変えても反映されない問題が発生。INDEX/MATCH数式方式に全面書き換えた。**同じ失敗を繰り返さないこと。**
