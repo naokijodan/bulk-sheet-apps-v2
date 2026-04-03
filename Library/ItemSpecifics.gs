@@ -16,6 +16,26 @@
  * 以降シートを開くたびにItem Specificsメニューが自動表示される。
  * 既存のonOpen関数には一切変更を加えない。
  */
+function setupItemSpecifics() {
+  // 既存のトリガーを確認（重複登録防止）
+  var triggers = ScriptApp.getProjectTriggers();
+  for (var i = 0; i < triggers.length; i++) {
+    if (triggers[i].getHandlerFunction() === 'addItemSpecificsMenu') {
+      SpreadsheetApp.getUi().alert('Item Specificsメニューは既にセットアップ済みです。');
+      return;
+    }
+  }
+  // インストール可能なonOpenトリガーを登録
+  ScriptApp.newTrigger('addItemSpecificsMenu')
+    .forSpreadsheet(SpreadsheetApp.getActive())
+    .onOpen()
+    .create();
+
+  // 今すぐメニューも表示
+  addItemSpecificsMenu();
+
+  SpreadsheetApp.getUi().alert('セットアップ完了！\n以降、シートを開くたびにItem Specificsメニューが自動表示されます。');
+}
 
 // =============================
 // 公開: メニュー追加
@@ -2178,9 +2198,37 @@ function normalizeBatchResults_(chunk, batchRes) {
   return { completed: completed, failed: failed };
 }
 
-// 設定ダイアログのフォールバックは削除（Config_IS.gs での実装に依存）
 /**
  * デバッグ用: DocumentPropertiesからAPIキー関連の値を確認する
- * GASエディタから手動で実行して結果を確認する
+ * GASエディタから手動で実行して結果を確認する（開発専用）
  */
-  // デバッグ用APIキー確認機能は廃止
+function debugISApiKey() {
+  var ui = SpreadsheetApp.getUi();
+  var lines = [];
+  try {
+    var docProps = PropertiesService.getDocumentProperties();
+    var allProps = docProps.getProperties();
+    var keys = Object.keys(allProps);
+    lines.push('DocumentProperties キー数: ' + keys.length);
+    lines.push('');
+    for (var i = 0; i < keys.length; i++) {
+      var k = keys[i];
+      if (k.indexOf('API_KEY') !== -1 || k.indexOf('api_key') !== -1 || k.indexOf('OPENAI') !== -1 || k.indexOf('AI_') !== -1) {
+        var v = allProps[k];
+        var masked;
+        if (!v) { masked = '(空)'; }
+        else if (v.length <= 10) { masked = v.substring(0, 3) + '***'; }
+        else { masked = v.substring(0, 6) + '...' + v.substring(v.length - 4); }
+        lines.push(k + ' = ' + masked);
+      }
+    }
+    if (lines.length === 2) {
+      lines.push('APIキー関連のプロパティは見つかりませんでした');
+    }
+    lines.push('');
+    lines.push('SpreadsheetID: ' + SpreadsheetApp.getActive().getId());
+  } catch (e) {
+    lines.push('エラー: ' + (e && e.message ? e.message : e));
+  }
+  ui.alert('API Key デバッグ', lines.join('\n'), ui.ButtonSet.OK);
+}
