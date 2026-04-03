@@ -15,7 +15,1551 @@ HTML_TEMPLATES['ProgressSidebar'] = '<!DOCTYPE html>\n<html>\n<head>\n  <base ta
 
 HTML_TEMPLATES['CategorySelectionDialog'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">\n<html>\n<head>\n  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">\n  <meta http-equiv="Content-Style-Type" content="text/css">\n  <title></title>\n  <meta name="Generator" content="Cocoa HTML Writer">\n  <meta name="CocoaVersion" content="2575.7">\n  <style type="text/css">\n    body {background-color: #f7f7f7}\n    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px \'Hiragino Sans\'; color: #175ae2; -webkit-text-stroke: #175ae2}\n    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px \'Hiragino Sans\'; color: #4d5055; -webkit-text-stroke: #4d5055}\n    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px \'Hiragino Sans\'; color: #202326; -webkit-text-stroke: #202326; background-color: #ffffff}\n    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px \'Helvetica Neue\'; -webkit-text-stroke: #000000; background-color: #ffffff}\n    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px \'Helvetica Neue\'; -webkit-text-stroke: #000000; background-color: #ffffff; min-height: 17.0px}\n    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px \'Hiragino Sans\'; color: #175ae2; -webkit-text-stroke: #175ae2}\n    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px \'Hiragino Sans\'; color: #4d5055; -webkit-text-stroke: #4d5055}\n    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Arial; color: #4d5055; -webkit-text-stroke: #4d5055; min-height: 14.0px}\n    p.p9 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 14.0px \'Hiragino Sans\'; color: #2e3133; -webkit-text-stroke: #2e3133; background-color: #eef0f1}\n    p.p10 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 14.0px \'Hiragino Sans\'; color: #ffffff; -webkit-text-stroke: #ffffff; background-color: #175ae2}\n    span.s1 {font: 18.0px \'Apple Color Emoji\'; font-kerning: none; background-color: #ffffff}\n    span.s2 {font: 18.0px Arial; font-kerning: none; background-color: #ffffff}\n    span.s3 {font-kerning: none; background-color: #ffffff}\n    span.s4 {font: 14.0px Arial; font-kerning: none; background-color: #ffffff}\n    span.s5 {font-kerning: none}\n    span.s6 {font: 12.0px Arial; font-kerning: none}\n    span.s7 {font: 14.0px \'Hiragino Mincho ProN\'; font-kerning: none}\n    span.s8 {font: 14.0px Times; font-kerning: none}\n    span.s9 {font: 13.0px \'Apple Color Emoji\'; font-kerning: none; background-color: #e3ecfe}\n    span.s10 {font: 13.0px Arial; font-kerning: none; background-color: #e3ecfe}\n    span.s11 {font-kerning: none; background-color: #e3ecfe}\n    span.s12 {font: 12.0px Arial; font-kerning: none; background-color: #e3ecfe}\n  </style>\n</head>\n<body>\n<p class="p1"><span class="s1">📂</span><span class="s2"><b> </b></span><span class="s3"><b>カテゴリー選択</b><b></b></span></p>\n<p class="p2"><span class="s3">テンプレート更新で使用する商品カテゴリーを選択してください。</span></p>\n<p class="p2"><span class="s3">選択後、各行の</span><span class="s4">Q</span><span class="s3">列（価格）、</span><span class="s4">AB</span><span class="s3">列（商品状態）、</span><span class="s4">W</span><span class="s3">列（配送方法）から自動的に条件を読み取り、</span><span class="s4">4</span><span class="s3">次元検索を実行します。</span></p>\n<p class="p3"><span class="s5"><b>商品カテゴリー</b></span><span class="s6"><b> *</b><b></b></span></p>\n<p class="p4"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s7">読み込み中</span><span class="s8">...</span></p>\n<p class="p5"><span class="s5"><span class="Apple-converted-space">      </span></span></p>\n<p class="p6"><span class="s9">💡</span><span class="s10"><b> 4</b></span><span class="s11"><b>次元検索について</b><b></b></span></p>\n<p class="p7"><span class="s11"><b>検索条件：</b><b></b></span></p>\n<p class="p7"><span class="s12">1. </span><span class="s11">カテゴリー（ここで選択）</span></p>\n<p class="p7"><span class="s12">2. </span><span class="s11">商品状態（</span><span class="s12">AB</span><span class="s11">列から自動取得）</span></p>\n<p class="p7"><span class="s12">3. </span><span class="s11">配送方法（</span><span class="s12">W</span><span class="s11">列から自動取得）</span></p>\n<p class="p7"><span class="s12">4. </span><span class="s11">販売価格（</span><span class="s12">Q</span><span class="s11">列から自動取得）</span></p>\n<p class="p8"><span class="s5"></span><br></p>\n<p class="p7"><span class="s11">参照データシートから該当するテンプレートを検索し、</span><span class="s12">E</span><span class="s11">列に設定します。</span></p>\n<p class="p9"><span class="s5">キャンセル</span></p>\n<p class="p10"><span class="s5">選択して更新開始</span></p>\n</body>\n</html>\n';
 
-HTML_TEMPLATES['SetupDialog'] = '<!DOCTYPE html>\n<html>\n<head>\n  <meta charset="utf-8">\n  <title>初期設定（統合版）</title>\n  <style>\n    :root {\n      --brand: #1a73e8;\n      --brand-600: #1557b0;\n      --text: #3c4043;\n      --muted: #5f6368;\n      --line: #e0e0e0;\n      --bg: #f9f9f9;\n      --card: #fff;\n      --required: #dc2626;\n      --recommended: #16a34a;\n      --optional: #2563eb;\n    }\n\n    * { box-sizing: border-box; }\n    \n    body {\n      font-family: \'Segoe UI\', Arial, sans-serif;\n      margin: 20px;\n      background-color: var(--bg);\n      color: var(--text);\n      max-height: 80vh;\n      overflow-y: auto;\n    }\n\n    .container {\n      background: var(--card);\n      padding: 20px;\n      border-radius: 12px;\n      box-shadow: 0 2px 12px rgba(0,0,0,0.08);\n    }\n\n    h2 {\n      color: var(--brand);\n      margin-bottom: 20px;\n      font-size: 18px;\n      display: flex;\n      align-items: center;\n      gap: 8px;\n    }\n\n    /* セクションスタイル */\n    .section {\n      margin-bottom: 16px;\n      border: 1px solid var(--line);\n      border-radius: 12px;\n      background: var(--card);\n      overflow: hidden;\n    }\n\n    .section-header {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      padding: 16px 20px;\n      background: #fafbfc;\n      border-bottom: 1px solid var(--line);\n      cursor: pointer;\n      user-select: none;\n    }\n\n    .section-header:hover {\n      background: #f1f3f4;\n    }\n\n    .section-title {\n      display: flex;\n      align-items: center;\n      gap: 12px;\n      font-weight: 600;\n      font-size: 16px;\n    }\n\n    .priority-badge {\n      padding: 4px 8px;\n      border-radius: 12px;\n      font-size: 12px;\n      font-weight: 700;\n      color: white;\n    }\n\n    .priority-required { background-color: var(--required); }\n    .priority-recommended { background-color: var(--recommended); }\n    .priority-optional { background-color: var(--optional); }\n\n    .section-description {\n      font-size: 14px;\n      color: var(--muted);\n      margin-top: 4px;\n    }\n\n    .section-controls {\n      display: flex;\n      align-items: center;\n      gap: 16px;\n    }\n\n    .edit-toggle {\n      display: flex;\n      align-items: center;\n      gap: 8px;\n      font-size: 14px;\n    }\n\n    .edit-toggle input[type="radio"] {\n      width: auto;\n      margin: 0;\n    }\n\n    .collapse-btn {\n      background: none;\n      border: none;\n      font-size: 20px;\n      cursor: pointer;\n      transition: transform 0.2s ease;\n    }\n\n    .collapse-btn.collapsed {\n      transform: rotate(-90deg);\n    }\n\n    .section-content {\n      padding: 20px;\n      display: none;\n    }\n\n    .section-content.expanded {\n      display: block;\n    }\n\n    /* フォーム要素 */\n    label {\n      display: block;\n      margin-top: 15px;\n      margin-bottom: 6px;\n      font-weight: 600;\n      color: #2b2f33;\n    }\n\n    input[type="text"], input[type="number"], select {\n      width: 100%;\n      padding: 10px 12px;\n      border: 1px solid #dadce0;\n      border-radius: 8px;\n      font-size: 14px;\n      transition: box-shadow .15s ease, border-color .15s ease;\n      background: #fff;\n    }\n\n    input[type="text"]:focus, input[type="number"]:focus, select:focus {\n      outline: none;\n      border-color: var(--brand);\n      box-shadow: 0 0 0 3px rgba(26,115,232,.18);\n    }\n\n    .radio-group {\n      margin: 8px 0 0;\n      display: flex;\n      flex-wrap: wrap;\n      gap: 12px;\n    }\n\n    .radio-group label {\n      display: inline-flex;\n      align-items: center;\n      gap: 6px;\n      margin: 0;\n      font-weight: 500;\n      color: #333;\n      cursor: pointer;\n    }\n\n    .radio-group input[type="radio"] {\n      width: auto;\n      margin: 0;\n    }\n\n    .checkbox-group {\n      margin: 10px 0;\n    }\n\n    .checkbox-label {\n      display: flex;\n      align-items: center;\n      cursor: pointer;\n      font-size: 14px;\n      font-weight: 500;\n    }\n\n    .checkbox-label input[type="checkbox"] {\n      margin-right: 8px;\n      width: auto;\n      transform: scale(1.1);\n    }\n\n    /* プラットフォームタブ */\n    .api-platform-section {\n      background-color: #fafafa;\n      border: 1px solid var(--line);\n      border-radius: 12px;\n      padding: 14px;\n      margin-top: 10px;\n    }\n\n    .platform-tabs {\n      display: flex;\n      margin-bottom: 14px;\n      border-bottom: 1px solid var(--line);\n      gap: 2px;\n    }\n\n    .platform-tab {\n      padding: 8px 14px;\n      cursor: pointer;\n      border: none;\n      background: none;\n      font-size: 14px;\n      border-bottom: 2px solid transparent;\n      border-radius: 8px 8px 0 0;\n      transition: background .15s ease, color .15s ease, border-color .15s ease;\n    }\n\n    .platform-tab:hover { background-color: #f1f3f4; }\n\n    .platform-tab.active {\n      color: var(--brand);\n      border-bottom-color: var(--brand);\n      font-weight: 700;\n      background: #eef4ff;\n    }\n\n    .platform-content { display: none; }\n    .platform-content.active { display: block; }\n\n    /* APIキー表示/入力切り替え */\n    .api-key-wrapper {\n      margin-top: 5px;\n    }\n    .api-key-display {\n      display: flex;\n      align-items: center;\n      gap: 12px;\n      padding: 10px 12px;\n      background: #f0f4f9;\n      border: 1px solid #dadce0;\n      border-radius: 8px;\n    }\n    .api-key-display.hidden {\n      display: none;\n    }\n    .masked-key {\n      font-family: monospace;\n      font-size: 14px;\n      color: #5f6368;\n      letter-spacing: 2px;\n    }\n    .key-status {\n      font-size: 13px;\n      color: #16a34a;\n      font-weight: 500;\n    }\n    .btn-change-key {\n      margin-left: auto;\n      padding: 6px 14px;\n      background: #fff;\n      border: 1px solid #dadce0;\n      border-radius: 6px;\n      font-size: 13px;\n      cursor: pointer;\n      transition: background .15s ease;\n    }\n    .btn-change-key:hover {\n      background: #f1f3f4;\n    }\n    .api-key-input {\n      display: flex;\n      gap: 8px;\n      align-items: center;\n    }\n    .api-key-input.hidden {\n      display: none;\n    }\n    .api-key-input input {\n      flex: 1;\n    }\n    .btn-cancel-key {\n      padding: 10px 14px;\n      background: #f1f3f4;\n      border: 1px solid #dadce0;\n      border-radius: 8px;\n      font-size: 13px;\n      cursor: pointer;\n      transition: background .15s ease;\n    }\n    .btn-cancel-key:hover {\n      background: #e0e0e0;\n    }\n    .btn-cancel-key.hidden {\n      display: none;\n    }\n\n    /* 重複チェック設定 */\n    .target-sheets-container {\n      border: 1px solid #ddd;\n      padding: 15px;\n      background: #f9f9f9;\n      border-radius: 4px;\n      min-height: 100px;\n      margin-top: 10px;\n    }\n\n    .target-sheet-item {\n      display: grid;\n      grid-template-columns: 1fr 100px 80px;\n      gap: 10px;\n      margin-bottom: 15px;\n      padding: 10px;\n      background: white;\n      border-radius: 4px;\n      border: 1px solid #ddd;\n    }\n\n    .input-row {\n      display: flex;\n      gap: 20px;\n      margin: 15px 0;\n    }\n\n    .input-group {\n      flex: 1;\n    }\n\n    .input-group label {\n      margin-top: 0;\n      font-size: 13px;\n    }\n\n    /* 情報ボックス */\n    .info-box, .warning-box {\n      border-radius: 10px;\n      padding: 12px;\n      margin-top: 10px;\n    }\n\n    .info-box {\n      background-color: #e8f0fe;\n      border: 1px solid #dadce0;\n    }\n\n    .warning-box {\n      background-color: #fee2e2;\n      border: 2px solid #dc2626;\n    }\n\n    .info-box .title, .warning-box .title {\n      font-weight: 700;\n      margin-bottom: 6px;\n    }\n\n    .info-box .title {\n      color: var(--brand);\n    }\n\n    .warning-box .title {\n      color: #dc2626;\n      font-size: 16px;\n    }\n\n    .info-box .content, .warning-box .content {\n      font-size: 12px;\n      line-height: 1.6;\n    }\n\n    .info-box .content {\n      color: var(--muted);\n    }\n\n    .warning-box .content {\n      color: #b91c1c;\n      font-size: 14px;\n      font-weight: 600;\n    }\n\n    .help-text {\n      font-size: 12px;\n      color: var(--muted);\n      margin-top: 4px;\n    }\n\n    .cost-info {\n      font-size: 12px;\n      color: #666;\n      font-style: italic;\n      margin-top: 6px;\n    }\n\n    /* ボタン */\n    .button-group {\n      margin-top: 26px;\n      display: flex;\n      justify-content: flex-end;\n      gap: 12px;\n    }\n\n    .btn {\n      position: relative;\n      overflow: hidden;\n      border: none;\n      padding: 10px 18px;\n      border-radius: 999px;\n      cursor: pointer;\n      font-size: 14px;\n      line-height: 1;\n      transition: transform .06s ease, box-shadow .2s ease, background-color .2s ease;\n      user-select: none;\n    }\n\n    .btn:active { transform: translateY(0.5px) scale(.99); }\n\n    .btn.primary {\n      background-color: var(--brand);\n      color: #fff;\n      box-shadow: 0 6px 16px rgba(26,115,232,.25);\n    }\n\n    .btn.primary:hover { background-color: var(--brand-600); }\n\n    .btn.secondary {\n      background-color: #edf2f7;\n      color: var(--text);\n    }\n\n    .btn.secondary:hover { background: #e2e8f0; }\n\n    .btn:disabled {\n      opacity: .65;\n      cursor: not-allowed;\n      box-shadow: none;\n    }\n\n    .spinner {\n      width: 16px;\n      height: 16px;\n      border-radius: 50%;\n      border: 2px solid rgba(255,255,255,.55);\n      border-top-color: #fff;\n      animation: spin .8s linear infinite;\n      display: inline-block;\n      vertical-align: middle;\n      margin-right: 8px;\n    }\n\n    @keyframes spin {\n      to { transform: rotate(360deg); }\n    }\n\n    .disabled-overlay {\n      opacity: 0.5;\n      pointer-events: none;\n    }\n  </style>\n</head>\n<body>\n  <div class="container">\n    <h2>初期設定（統合版）</h2>\n\n    <form id="setupForm">\n      <!-- 1. AI・基本設定 -->\n      <div class="section" data-section="ai-basic">\n        <div class="section-header" onclick="toggleSection(\'ai-basic\')">\n          <div class="section-title">\n            <span class="priority-badge priority-required">必須</span>\n            <div>\n              <div>AI・基本設定</div>\n              <div class="section-description">AIサービスと作業シートの基本的な設定</div>\n            </div>\n          </div>\n          <div class="section-controls">\n            <div class="edit-toggle">\n              <label><input type="radio" name="edit-ai-basic" value="maintain" checked> 維持</label>\n              <label><input type="radio" name="edit-ai-basic" value="edit"> 編集</label>\n            </div>\n            <button type="button" class="collapse-btn">▼</button>\n          </div>\n        </div>\n        <div class="section-content" id="content-ai-basic">\n          <label>AI プラットフォーム選択 *</label>\n          <div class="api-platform-section">\n            <div class="platform-tabs" id="platformTabs">\n              <button type="button" class="platform-tab" data-platform="openai">OpenAI</button>\n              <button type="button" class="platform-tab" data-platform="claude">Claude</button>\n              <button type="button" class="platform-tab" data-platform="gemini">Gemini</button>\n            </div>\n\n            <div class="platform-content" id="openai-content">\n              <label for="openaiApiKey">OpenAI APIキー *</label>\n              <div class="api-key-wrapper">\n                <div class="api-key-display <?= hasApiKey.openai ? \'\' : \'hidden\' ?>" id="openaiApiKeyDisplay">\n                  <span class="masked-key">••••••••••••••••</span>\n                  <span class="key-status">✅ 設定済み</span>\n                  <button type="button" class="btn-change-key" onclick="showApiKeyInput(\'openai\')">変更</button>\n                </div>\n                <div class="api-key-input <?= hasApiKey.openai ? \'hidden\' : \'\' ?>" id="openaiApiKeyInput">\n                  <input type="text" id="openaiApiKey" name="openaiApiKey" value="" placeholder="sk-...">\n                  <button type="button" class="btn-cancel-key <?= hasApiKey.openai ? \'\' : \'hidden\' ?>" onclick="cancelApiKeyChange(\'openai\')">キャンセル</button>\n                </div>\n              </div>\n              <div class="help-text">OpenAIのAPIキーを入力してください</div>\n\n              <label for="openaiModel">モデル選択 *</label>\n              <select id="openaiModel" name="openaiModel">\n                <option value="gpt-5-nano" <?= currentModel === \'gpt-5-nano\' ? \'selected\' : \'\' ?>>GPT-5-nano（最安・推奨）</option>\n                <option value="gpt-4o-mini" <?= currentModel === \'gpt-4o-mini\' ? \'selected\' : \'\' ?>>GPT-4o-mini（互換・低コスト）</option>\n                <option value="gpt-5-mini" <?= currentModel === \'gpt-5-mini\' ? \'selected\' : \'\' ?>>GPT-5-mini（やや高品質）</option>\n              </select>\n              <div class="cost-info">目安: GPT-5-nano ≈ ~$0.0003–0.0004 / 1K tokens</div>\n            </div>\n\n            <div class="platform-content" id="claude-content">\n              <label for="claudeApiKey">Claude APIキー *</label>\n              <div class="api-key-wrapper">\n                <div class="api-key-display <?= hasApiKey.claude ? \'\' : \'hidden\' ?>" id="claudeApiKeyDisplay">\n                  <span class="masked-key">••••••••••••••••</span>\n                  <span class="key-status">✅ 設定済み</span>\n                  <button type="button" class="btn-change-key" onclick="showApiKeyInput(\'claude\')">変更</button>\n                </div>\n                <div class="api-key-input <?= hasApiKey.claude ? \'hidden\' : \'\' ?>" id="claudeApiKeyInput">\n                  <input type="text" id="claudeApiKey" name="claudeApiKey" value="" placeholder="sk-ant-...">\n                  <button type="button" class="btn-cancel-key <?= hasApiKey.claude ? \'\' : \'hidden\' ?>" onclick="cancelApiKeyChange(\'claude\')">キャンセル</button>\n                </div>\n              </div>\n              <div class="help-text">AnthropicのAPIキーを入力してください</div>\n\n              <label for="claudeModel">モデル選択 *</label>\n              <select id="claudeModel" name="claudeModel">\n                <option value="claude-3-haiku-20240307" <?= currentModel === \'claude-3-haiku-20240307\' ? \'selected\' : \'\' ?>>Claude 3 Haiku（最安・推奨）</option>\n                <option value="claude-3-sonnet-20240229" <?= currentModel === \'claude-3-sonnet-20240229\' ? \'selected\' : \'\' ?>>Claude 3 Sonnet（バランス）</option>\n                <option value="claude-3-opus-20240229" <?= currentModel === \'claude-3-opus-20240229\' ? \'selected\' : \'\' ?>>Claude 3 Opus（高性能）</option>\n              </select>\n              <div class="cost-info">参考: Haiku ≈ ~$0.0015 / 1K tokens ほか</div>\n            </div>\n\n            <div class="platform-content" id="gemini-content">\n              <label for="geminiApiKey">Gemini APIキー *</label>\n              <div class="api-key-wrapper">\n                <div class="api-key-display <?= hasApiKey.gemini ? \'\' : \'hidden\' ?>" id="geminiApiKeyDisplay">\n                  <span class="masked-key">••••••••••••••••</span>\n                  <span class="key-status">✅ 設定済み</span>\n                  <button type="button" class="btn-change-key" onclick="showApiKeyInput(\'gemini\')">変更</button>\n                </div>\n                <div class="api-key-input <?= hasApiKey.gemini ? \'hidden\' : \'\' ?>" id="geminiApiKeyInput">\n                  <input type="text" id="geminiApiKey" name="geminiApiKey" value="" placeholder="AIza...">\n                  <button type="button" class="btn-cancel-key <?= hasApiKey.gemini ? \'\' : \'hidden\' ?>" onclick="cancelApiKeyChange(\'gemini\')">キャンセル</button>\n                </div>\n              </div>\n              <div class="help-text">Google AI StudioのAPIキーを入力してください</div>\n\n              <label for="geminiModel">モデル選択 *</label>\n              <select id="geminiModel" name="geminiModel">\n                <option value="gemini-1.5-flash" <?= currentModel === \'gemini-1.5-flash\' ? \'selected\' : \'\' ?>>Gemini 1.5 Flash（最安・推奨）</option>\n                <option value="gemini-1.5-pro" <?= currentModel === \'gemini-1.5-pro\' ? \'selected\' : \'\' ?>>Gemini 1.5 Pro（バランス）</option>\n                <option value="gemini-pro" <?= currentModel === \'gemini-pro\' ? \'selected\' : \'\' ?>>Gemini Pro（安定）</option>\n              </select>\n              <div class="cost-info">参考: Flash ≈ ~$0.0008 / 1K tokens ほか</div>\n            </div>\n          </div>\n\n          <label for="sheetName">作業シート名 *</label>\n          <input type="text" id="sheetName" name="sheetName" value="<?= currentSheetName ?>" required>\n          <div class="help-text">データ処理を行うシートの名前</div>\n\n          <div class="info-box">\n            <div class="title">コスト比較の目安（1K tokens）</div>\n            <div class="content">\n              最安: GPT-5-nano ≲ GPT-5-mini ≲ Gemini 1.5 Flash ≲ Claude 3 Haiku<br>\n              高性能: Claude 3 Opus / GPT-5-mini / GPT-4系 / Gemini 1.5 Pro（用途次第）<br>\n              まずは GPT-5-nano をお試しください（推奨）\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <!-- 2. プロンプト設定 -->\n      <div class="section" data-section="prompt">\n        <div class="section-header" onclick="toggleSection(\'prompt\')">\n          <div class="section-title">\n            <span class="priority-badge priority-recommended">推奨</span>\n            <div>\n              <div>プロンプト設定</div>\n              <div class="section-description">AI生成の品質を決定するプロンプト設定</div>\n            </div>\n          </div>\n          <div class="section-controls">\n            <div class="edit-toggle">\n              <label><input type="radio" name="edit-prompt" value="maintain" checked> 維持</label>\n              <label><input type="radio" name="edit-prompt" value="edit"> 編集</label>\n            </div>\n            <button type="button" class="collapse-btn">▼</button>\n          </div>\n        </div>\n        <div class="section-content" id="content-prompt">\n          <label for="promptId">使用プロンプト *</label>\n          <select id="promptId" name="promptId" required>\n            <? for (var i = 0; i < promptIds.length; i++) { ?>\n              <option value="<?= promptIds[i] ?>" <?= promptIds[i] === currentPromptId ? \'selected\' : \'\' ?>>\n                <?= promptIds[i] ?>\n              </option>\n            <? } ?>\n          </select>\n          <div class="help-text">GPT_Prompts シートから選択</div>\n\n          <div class="info-box">\n            <div class="title">プロンプト編集</div>\n            <div class="content">\n              プロンプトの内容は「プロンプト編集」サイドバーで変更できます。<br>\n              メニュー「AI翻訳・価格計算」→「プロンプト編集」から開けます。\n            </div>\n          </div>\n\n          <label>翻訳プロンプト自動選択</label>\n          <div class="checkbox-group">\n            <label class="checkbox-label">\n <input type="checkbox" id="autoPromptSelect" name="autoPromptSelect" <?= currentAutoPromptSelect === \'自動選択\' ? \'checked\' : \'\' ?>>\n  D列タグに応じてプロンプトを自動選択する\n  <span id="promptOverrideNote" style="display:none;color:#1a73e8;font-size:12px;margin-left:8px;">※ タグ自動判定設定で管理中</span>\n</label>\n          </div>\n          <div class="help-text">\n            有効にすると、翻訳実行時にD列のタグからプロンプトを自動選択します。マッチしない場合は上記の手動選択プロンプトを使用します。\n          </div>\n\n          <label>プロンプト同期</label>\n          <div class="checkbox-group">\n            <label class="checkbox-label">\n <input type="checkbox" id="syncPromptAdd" name="syncPromptAdd">\n  新しいプロンプトを追加\n</label>\n          </div>\n          <div class="checkbox-group">\n            <label class="checkbox-label">\n <input type="checkbox" id="syncPromptUpdate" name="syncPromptUpdate">\n  既存プロンプトを最新版に更新（バックアップ自動作成）\n</label>\n          </div>\n          <div class="help-text">\n            コードに組み込まれた最新プロンプトをGPT_Promptsシートに反映します。\n          </div>\n        </div>\n      </div>\n\n      <!-- 3. 利益・価格計算 -->\n      <div class="section" data-section="price-calc">\n        <div class="section-header" onclick="toggleSection(\'price-calc\')">\n          <div class="section-title">\n            <span class="priority-badge priority-required">必須</span>\n            <div>\n              <div>利益・価格計算</div>\n              <div class="section-description">利益計算と価格表示の設定</div>\n            </div>\n          </div>\n          <div class="section-controls">\n            <div class="edit-toggle">\n              <label><input type="radio" name="edit-price-calc" value="maintain" checked> 維持</label>\n              <label><input type="radio" name="edit-price-calc" value="edit"> 編集</label>\n            </div>\n            <button type="button" class="collapse-btn">▼</button>\n          </div>\n        </div>\n        <div class="section-content" id="content-price-calc">\n          <label>利益計算方法 *</label>\n          <div class="radio-group">\n            <label><input type="radio" name="profitMethod" value="RATE" <?= currentProfitCalculationMethod === \'RATE\' ? \'checked\' : \'\' ?>> 利益率で計算</label>\n            <label><input type="radio" name="profitMethod" value="AMOUNT" <?= currentProfitCalculationMethod === \'AMOUNT\' ? \'checked\' : \'\' ?>> 利益額で計算</label>\n          </div>\n\n          <label>価格表示モード *</label>\n          <div class="radio-group">\n            <label><input type="radio" name="priceDisplayMode" value="NORMAL" <?= currentPriceDisplayMode === \'NORMAL\' ? \'checked\' : \'\' ?>> 販売価格（DDU）</label>\n            <label><input type="radio" name="priceDisplayMode" value="TAX_INCLUDED" <?= currentPriceDisplayMode === \'TAX_INCLUDED\' ? \'checked\' : \'\' ?>> 関税込み価格（DDP）</label>\n          </div>\n\n          <label>DDU価格調整機能</label>\n          <div class="checkbox-group">\n            <label class="checkbox-label">\n <input type="checkbox" id="dduAdjustmentEnabled" name="dduAdjustmentEnabled" checked>\n  DDU価格調整機能を有効にする\n</label>\n          </div>\n          \n\n          <div id="dduSettingsGroup">\n            <div class="input-row">\n              <div class="input-group">\n                <label for="dduThreshold">想定関税閾値（ドル）:</label>\n                <input type="number" id="dduThreshold" name="dduThreshold"\n                       value="<?= currentDduThreshold || \'500\' ?>" min="1" step="1">\n              </div>\n            </div>\n            <div class="help-text">\n              想定関税（AD列）が閾値以上の場合、DDP価格（S列）から想定関税を引いた価格を計算します\n            </div>\n          </div>\n\n          <div class="info-box">\n            <div class="title">価格計算の設定箇所</div>\n            <div class="content">\n              • 手数料率: F1 / 広告費率: F2<br>\n              • 利益額: H1（利益額計算選択時）<br>\n              • 利益率: H2（利益率計算選択時）\n            </div>\n          </div>\n\n          <div class="warning-box">\n            <div class="title">DDU価格調整機能の注意事項</div>\n            <div class="content">\n              この機能はDDU商品専用です。DDPで出品する場合でも、実際の販売価格はDDU価格を使用し、関税分を送料として別途徴収するビジネスモデル向けです。\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <!-- 4. 送料・配送設定 -->\n      <div class="section" data-section="shipping">\n        <div class="section-header" onclick="toggleSection(\'shipping\')">\n          <div class="section-title">\n            <span class="priority-badge priority-required">必須</span>\n            <div>\n              <div>送料・配送設定</div>\n              <div class="section-description">送料計算と配送方法の設定</div>\n            </div>\n          </div>\n          <div class="section-controls">\n            <div class="edit-toggle">\n              <label><input type="radio" name="edit-shipping" value="maintain" checked> 維持</label>\n              <label><input type="radio" name="edit-shipping" value="edit"> 編集</label>\n            </div>\n            <button type="button" class="collapse-btn">▼</button>\n          </div>\n        </div>\n        <div class="section-content" id="content-shipping">\n          <label>送料計算方法 *</label>\n          <div class="radio-group">\n            <label><input type="radio" name="shippingCalcMethod" value="TABLE" <?= currentShippingCalculationMethod === \'TABLE\' ? \'checked\' : \'\' ?>> テーブル計算</label>\n            <label><input type="radio" name="shippingCalcMethod" value="FIXED" <?= currentShippingCalculationMethod === \'FIXED\' ? \'checked\' : \'\' ?>> 固定金額</label>\n            <label><input type="radio" name="shippingCalcMethod" value="TAG_SHIPPING" <?= currentShippingCalculationMethod === \'TAG_SHIPPING\' ? \'checked\' : \'\' ?>> タグ別送料</label>\n          </div>\n          <div id="shippingOverrideNote" style="display:none;color:#1a73e8;font-size:13px;margin-top:4px;">※ タグ自動判定設定で管理中</div>\n\n          <label for="shippingThreshold">送料計算切替基準金額（円） *</label>\n          <input type="number" id="shippingThreshold" name="shippingThreshold" value="<?= currentShippingThreshold || \'5500\' ?>" min="1" step="1" required>\n          <div class="help-text">この金額以上は高価格配送、未満の場合は低価格配送を使用</div>\n\n          <label for="lowPriceMethod">低価格商品配送方法 *</label>\n          <select id="lowPriceMethod" name="lowPriceMethod" required>\n            <option value="NONE" <?= currentLowPriceMethod === \'NONE\' ? \'selected\' : \'\' ?>>なし（高価格配送のみ使用）</option>\n            <option value="EP" <?= currentLowPriceMethod === \'EP\' ? \'selected\' : \'\' ?>>eパケット（重量・サイズ制限あり）</option>\n            <option value="CE" <?= currentLowPriceMethod === \'CE\' ? \'selected\' : \'\' ?>>Cpass Economy（重量制限なし）</option>\n          </select>\n\n          <label for="highPriceMethod">高価格商品配送方法 *</label>\n          <select id="highPriceMethod" name="highPriceMethod" required>\n            <option value="CF" <?= currentHighPriceMethod === \'CF\' ? \'selected\' : \'\' ?>>Cpass FedEx（燃油・割引・追加料金あり）</option>\n            <option value="CD" <?= currentHighPriceMethod === \'CD\' ? \'selected\' : \'\' ?>>Cpass DHL（燃油・割引・追加料金あり）</option>\n            <option value="EL" <?= currentHighPriceMethod === \'EL\' ? \'selected\' : \'\' ?>>eLogistics（追加料金なし）</option>\n          </select>\n\n          <div class="info-box">\n            <div class="title">送料計算方法の説明</div>\n            <div class="content">\n              <strong>テーブル計算</strong>: 重量・サイズに基づいて自動計算（推奨）<br>\n              <strong>固定金額</strong>: J1 または Profit_Amounts!D から取得<br>\n              <strong>タグ別送料</strong>: D列タグからTagShippingシートを参照。参考eBay IDも自動セット<br><br>\n              <strong>固定金額の設定</strong><br>\n              • 全商品共通: J1 セルに金額を入力<br>\n              • 仕入れ値別: Profit_Amounts!D列に各金額帯の送料\n            </div>\n          </div>\n\n          <div style="margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--line);">\n            <label>送料レート更新（2026年版）</label>\n            <div class="checkbox-group">\n              <label class="checkbox-label">\n                <input type="checkbox" id="updateShippingRates" name="updateShippingRates">\n                FedEx・DHLの送料レートを最新（2026年）に更新する\n              </label>\n            </div>\n            <div class="help-text">\n              Shipping_RatesシートのCF（FedEx）列とCD（DHL）列のみ更新されます。<br>\n              他の列（CE、EL等）やサーチャージ設定（V1、V2、W2、Y1、Y2）は変更されません。\n            </div>\n            <div class="warning-box" id="shippingUpdateWarning" style="display: none; margin-top: 10px;">\n              <div class="title">確認</div>\n              <div class="content">\n                保存時にShipping_RatesシートのF列（CF）とG列（CD）の値が2026年版に更新されます。<br>\n                この操作は元に戻せません。更新前にシートのバックアップを取ることをお勧めします。\n              </div>\n            </div>\n          </div>\n\n          <div style="margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--line);">\n            <label>タグ一覧出力</label>\n            <div class="checkbox-group">\n              <label class="checkbox-label">\n                <input type="checkbox" id="outputTagList" name="outputTagList">\n                対応カテゴリのタグ一覧をシートに出力する\n              </label>\n            </div>\n            <div class="help-text">\n              「Tag_List」シートに、使用可能なタグの一覧をジャンル別に出力します。<br>\n              A列のタグをコピーして出品シートのA列に貼り付けて使えます。\n            </div>\n          </div>\n\n          <div style="margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--line);">\n            <label>ゲーム・トレカ プリセット設定</label>\n            <div class="help-text" style="margin-bottom: 12px;">\n              ゲームソフトまたはトレーディングカードの出品に最適化された送料設定を一括適用します。\n            </div>\n\n            <div style="display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;">\n              <div style="flex: 1; min-width: 200px;">\n                <label style="margin-top: 0; font-size: 13px;">ジャンル選択</label>\n                <div class="radio-group">\n                  <label><input type="radio" name="presetGenre" value="none" checked> 指定なし</label>\n                  <label><input type="radio" name="presetGenre" value="game"> ゲームソフト</label>\n                  <label><input type="radio" name="presetGenre" value="card"> トレーディングカード</label>\n                </div>\n              </div>\n\n              <div style="flex: 1; min-width: 150px;" id="presetWeightGroup">\n                <label style="margin-top: 0; font-size: 13px;">想定重量</label>\n                <select id="presetWeight" name="presetWeight" style="width: 100%;">\n                  <option value="100">100g</option>\n                  <option value="200" selected>200g</option>\n                  <option value="300">300g</option>\n                </select>\n              </div>\n            </div>\n\n            <div class="info-box" style="margin-top: 12px;">\n              <div class="title">プリセットで設定される項目（保存時に適用）</div>\n              <div class="content">\n                <strong>ゲームソフト:</strong> O1=Video Games（$20）/ 関税閾値$20 / 送料計算=固定金額<br>\n                <strong>トレカ:</strong> O1=汎用（上限なし）/ 関税閾値$500 / 送料計算=固定金額<br>\n                <strong>共通:</strong> 低価格配送=Cpass Economy / 送料・EU差額は重量で自動設定\n              </div>\n            </div>\n\n            <div class="warning-box" style="margin-top: 10px;">\n              <div class="title">⚠ 重要</div>\n              <div class="content">\n                ゲームやカードなどの特定のジャンルは、O2セルに専用テンプレートの設定が必要です。\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class="section" data-section="tag-override">\n        <div class="section-header" onclick="toggleSection(\'tag-override\')">\n          <div class="section-title">\n            <span class="badge optional">OPTIONAL</span>\n            タグ自動判定設定\n          </div>\n          <button type="button" class="collapse-btn">▼</button>\n        </div>\n      </div>\n      <div class="section-content" id="content-tag-override">\n        <div class="checkbox-group" style="margin-bottom:16px;">\n          <label class="checkbox-label" style="font-weight:bold;font-size:15px;">\n            <input type="checkbox" id="tagOverrideEnabled" onchange="toggleTagOverrideItems()">\n            タグ自動判定を使用する\n          </label>\n        </div>\n        <div class="help-text" style="margin-bottom:16px;">\n          ONにすると、D列のタグに応じてTagShippingシートから各設定を自動で適用します。OFFの場合は従来通り全行共通の設定値を使用します。\n        </div>\n        <div id="tagOverrideItems" style="display:none;">\n          <div style="margin-bottom:12px;">\n            <strong>翻訳・出品</strong>\n            <div class="checkbox-group" style="margin-left:16px;margin-top:4px;">\n              <label class="checkbox-label"><input type="checkbox" id="tagOverridePrompt" checked onchange="toggleTagOverrideItems()"> プロンプト自動選択</label>\n              <label class="checkbox-label"><input type="checkbox" id="tagOverrideTemplate" checked> テンプレート名</label>\n              <label class="checkbox-label"><input type="checkbox" id="tagOverrideShippingCategory" checked> 送料上限カテゴリ</label>\n            </div>\n          </div>\n          <div style="margin-bottom:12px;">\n            <strong>価格・手数料</strong>\n            <div class="checkbox-group" style="margin-left:16px;margin-top:4px;">\n              <label class="checkbox-label"><input type="checkbox" id="tagOverrideProfitRate" checked> 利益率</label>\n              <label class="checkbox-label"><input type="checkbox" id="tagOverrideAdRate" checked> 広告費率</label>\n              <label class="checkbox-label"><input type="checkbox" id="tagOverrideFeeRate" checked> 手数料率</label>\n            </div>\n          </div>\n          <div style="margin-bottom:12px;">\n            <strong>配送</strong>\n            <div class="checkbox-group" style="margin-left:16px;margin-top:4px;">\n              <label class="checkbox-label"><input type="checkbox" id="tagOverrideShipping" checked onchange="toggleTagOverrideItems()"> 送料（タグ別送料）</label>\n              <label class="checkbox-label"><input type="checkbox" id="tagOverrideLowShipping" checked> 低価格配送方法</label>\n              <label class="checkbox-label"><input type="checkbox" id="tagOverrideHighShipping" checked> 高価格配送方法</label>\n              <label class="checkbox-label"><input type="checkbox" id="tagOverrideThreshold" checked> 送料切替基準</label>\n            </div>\n          </div>\n          <div class="info-box">\n            <div class="title">タグ自動判定について</div>\n            <div class="content">\n              各項目をONにすると、TagShippingシートの該当列の値がタグごとに適用されます。<br>\n              OFFの項目は従来通り作業シートの設定値が全行共通で使用されます。<br>\n              TagShippingシートに値が未設定のタグは、作業シートの設定値がフォールバックとして使用されます。\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <!-- 5. 重複チェック設定 -->\n      <div class="section" data-section="duplicate-check">\n        <div class="section-header" onclick="toggleSection(\'duplicate-check\')">\n          <div class="section-title">\n            <span class="priority-badge priority-optional">任意</span>\n            <div>\n              <div>重複チェック設定</div>\n              <div class="section-description">商品の重複を自動検出する機能</div>\n            </div>\n          </div>\n          <div class="section-controls">\n            <div class="edit-toggle">\n              <label><input type="radio" name="edit-duplicate-check" value="maintain" checked> 維持</label>\n              <label><input type="radio" name="edit-duplicate-check" value="edit"> 編集</label>\n            </div>\n            <button type="button" class="collapse-btn">▼</button>\n          </div>\n        </div>\n        <div class="section-content" id="content-duplicate-check">\n          <div class="checkbox-group">\n            <label class="checkbox-label">\n              <input type="checkbox" id="duplicateCheckEnabled" name="duplicateCheckEnabled" \n                     <?= currentDuplicateCheckEnabled === \'true\' ? \'checked\' : \'\' ?>>\n              重複チェック機能を有効にする\n            </label>\n          </div>\n\n          <div id="duplicateCheckSettings">\n            <label for="duplicateSourceSheet">作業シート（重複をチェックされる側）:</label>\n            <select id="duplicateSourceSheet" name="duplicateSourceSheet">\n              <option value="">シートを選択してください</option>\n            </select>\n\n            <label for="duplicateSourceColumn">作業シートの列:</label>\n            <select id="duplicateSourceColumn" name="duplicateSourceColumn">\n              <option value="">列を選択してください</option>\n              <option value="A">A列</option>\n              <option value="B">B列</option>\n              <option value="C">C列</option>\n              <option value="D">D列</option>\n              <option value="E">E列</option>\n              <option value="F">F列</option>\n              <option value="G">G列</option>\n              <option value="H">H列</option>\n              <option value="I">I列</option>\n              <option value="J">J列</option>\n            </select>\n\n            <label>チェック対象シート（重複元）:</label>\n            <div id="targetSheetsContainer" class="target-sheets-container">\n              <div id="noTargetSheetsMsg">参照シートを追加してください。</div>\n            </div>\n            <button type="button" onclick="addTargetSheetDropdown()">参照シート追加</button>\n\n            <div class="checkbox-group">\n              <label class="checkbox-label">\n                <input type="checkbox" id="applyToSheet" name="applyToSheet">\n                生成した式をシートに直接適用する\n              </label>\n            </div>\n\n            <div id="outputSettings" style="display: none;">\n              <label for="outputSheet">出力先シート:</label>\n              <select id="outputSheet" name="outputSheet">\n                <option value="">シートを選択...</option>\n              </select>\n\n              <div class="input-row">\n                <div class="input-group">\n                  <label for="outputColumn">出力先列:</label>\n                  <select id="outputColumn" name="outputColumn">\n                    <option value="">列を選択...</option>\n                  </select>\n                </div>\n                <div class="input-group">\n                  <label for="outputStartRow">開始行:</label>\n                  <input type="number" id="outputStartRow" name="outputStartRow" value="1" min="1">\n                </div>\n              </div>\n\n              <label for="outputRange">適用範囲:</label>\n              <select id="outputRange" name="outputRange">\n                <option value="DATA">データがある範囲まで</option>\n                <option value="CUSTOM">カスタム範囲（100行）</option>\n                <option value="ALL">シート全体（1000行）</option>\n              </select>\n            </div>\n          </div>\n\n          <div class="info-box">\n            <div class="title">重複チェック機能について</div>\n            <div class="content">\n              作業シートでの入力時に、既存の保存データと重複する商品を自動検出します。<br>\n              パターンマッチ（保存データ_*）も使用可能です。\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <!-- 6. 表示設定 -->\n      <div class="section" data-section="display">\n        <div class="section-header" onclick="toggleSection(\'display\')">\n          <div class="section-title">\n            <span class="priority-badge priority-optional">任意</span>\n            <div>\n              <div>表示設定</div>\n              <div class="section-description">ユーザーインターフェースに関する設定</div>\n            </div>\n          </div>\n          <div class="section-controls">\n            <div class="edit-toggle">\n              <label><input type="radio" name="edit-display" value="maintain" checked> 維持</label>\n              <label><input type="radio" name="edit-display" value="edit"> 編集</label>\n            </div>\n            <button type="button" class="collapse-btn">▼</button>\n          </div>\n        </div>\n        <div class="section-content" id="content-display">\n          <label>ポップアップ表示設定 *</label>\n          <div class="radio-group">\n            <label><input type="radio" name="showPopups" value="true" <?= currentShowPopups === \'true\' ? \'checked\' : \'\' ?>> ON（表示する）</label>\n            <label><input type="radio" name="showPopups" value="false" <?= currentShowPopups === \'false\' ? \'checked\' : \'\' ?>> OFF（表示しない）</label>\n          </div>\n          <div class="help-text">作業開始・完了時の確認ダイアログ表示を制御（エラーは常に表示）</div>\n\n          <div class="info-box">\n            <div class="title">ポップアップ表示の説明</div>\n            <div class="content">\n              • ON: 作業開始時に確認ダイアログ、完了時に結果表示<br>\n              • OFF: 確認なしで即座に実行開始、完了時も無通知<br>\n              • エラー: 設定に関係なく常に表示（安全のため）<br>\n              • 作業制御: D2セル（GO/STOP）での停止は別機能\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class="button-group">\n        <button type="button" class="btn secondary" id="cancelBtn">キャンセル</button>\n        <button type="submit" class="btn primary" id="saveBtn">\n          <span class="btn-label">保存</span>\n        </button>\n      </div>\n    </form>\n  </div>\n\n  <script>\n    // 初期設定\n    const CURRENT_PLATFORM = "<?= typeof currentPlatform !== \'undefined\' ? currentPlatform : \'openai\' ?>";\n    const DEFAULT_OPENAI_MODEL = "gpt-5-nano";\n    \n    var allSheetNames = [];\n    var targetSheetCounter = 0;\n\n    // 初期化\n    document.addEventListener(\'DOMContentLoaded\', function() {\n      initializeSections();\n      initializePlatformTabs();\n      loadSheetNames();\n      setupEventListeners();\n      updateSectionStates();\n\n      // タグ自動判定 初期化\n      if (\'<?= currentTagOverrideEnabled ?>\' === \'true\') { document.getElementById(\'tagOverrideEnabled\').checked = true; toggleTagOverrideItems(); }\n      if (\'<?= currentTagOverridePrompt ?>\' === \'false\') document.getElementById(\'tagOverridePrompt\').checked = false;\n      if (\'<?= currentTagOverrideTemplate ?>\' === \'false\') document.getElementById(\'tagOverrideTemplate\').checked = false;\n      if (\'<?= currentTagOverrideShippingCategory ?>\' === \'false\') document.getElementById(\'tagOverrideShippingCategory\').checked = false;\n      if (\'<?= currentTagOverrideProfitRate ?>\' === \'false\') document.getElementById(\'tagOverrideProfitRate\').checked = false;\n      if (\'<?= currentTagOverrideAdRate ?>\' === \'false\') document.getElementById(\'tagOverrideAdRate\').checked = false;\n      if (\'<?= currentTagOverrideFeeRate ?>\' === \'false\') document.getElementById(\'tagOverrideFeeRate\').checked = false;\n      if (\'<?= currentTagOverrideShipping ?>\' === \'false\') document.getElementById(\'tagOverrideShipping\').checked = false;\n      if (\'<?= currentTagOverrideLowShipping ?>\' === \'false\') document.getElementById(\'tagOverrideLowShipping\').checked = false;\n      if (\'<?= currentTagOverrideHighShipping ?>\' === \'false\') document.getElementById(\'tagOverrideHighShipping\').checked = false;\n      if (\'<?= currentTagOverrideThreshold ?>\' === \'false\') document.getElementById(\'tagOverrideThreshold\').checked = false;\n    });\n\n    // セクション管理\n    function toggleSection(sectionId) {\n      const content = document.getElementById(\'content-\' + sectionId);\n      const btn = document.querySelector(`[data-section="${sectionId}"] .collapse-btn`);\n      \n      if (content.classList.contains(\'expanded\')) {\n        content.classList.remove(\'expanded\');\n        btn.classList.add(\'collapsed\');\n      } else {\n        content.classList.add(\'expanded\');\n        btn.classList.remove(\'collapsed\');\n      }\n    }\n\n    function initializeSections() {\n      // 必須セクションは初期展開\n      const requiredSections = [\'ai-basic\', \'price-calc\', \'shipping\'];\n      requiredSections.forEach(sectionId => {\n        const content = document.getElementById(\'content-\' + sectionId);\n        content.classList.add(\'expanded\');\n      });\n    }\n\n    function updateSectionStates() {\n      document.querySelectorAll(\'[name^="edit-"]\').forEach(radio => {\n        radio.addEventListener(\'change\', function() {\n          const sectionId = this.name.replace(\'edit-\', \'\');\n          const content = document.getElementById(\'content-\' + sectionId);\n          const isEdit = this.value === \'edit\';\n\n          if (isEdit) {\n            content.classList.remove(\'disabled-overlay\');\n          } else {\n            content.classList.add(\'disabled-overlay\');\n          }\n        });\n      });\n    }\n\n    // タグ自動判定の表示切替 + 既存UI連動\n    function toggleTagOverrideItems() {\n      var masterEnabled = document.getElementById(\'tagOverrideEnabled\').checked;\n      document.getElementById(\'tagOverrideItems\').style.display = masterEnabled ? \'block\' : \'none\';\n\n      // プロンプト自動選択との連動（マスターON + 個別トグルON時のみ）\n      var promptCb = document.getElementById(\'autoPromptSelect\');\n      var promptNote = document.getElementById(\'promptOverrideNote\');\n      var promptToggle = document.getElementById(\'tagOverridePrompt\');\n      if (masterEnabled && promptToggle.checked) {\n        promptCb.setAttribute(\'data-saved-state\', promptCb.checked ? \'true\' : \'false\');\n        promptCb.checked = true;\n        promptCb.disabled = true;\n        promptNote.style.display = \'inline\';\n      } else {\n        var saved = promptCb.getAttribute(\'data-saved-state\');\n        if (saved !== null) promptCb.checked = (saved === \'true\');\n        promptCb.disabled = false;\n        promptNote.style.display = \'none\';\n      }\n\n      // 送料計算方法との連動（マスターON + 送料トグルON時のみ）\n      var shippingRadios = document.querySelectorAll(\'input[name="shippingCalcMethod"]\');\n      var shippingNote = document.getElementById(\'shippingOverrideNote\');\n      var shippingToggle = document.getElementById(\'tagOverrideShipping\');\n      if (masterEnabled && shippingToggle.checked) {\n        shippingRadios.forEach(function(r) {\n          r.setAttribute(\'data-saved-state\', r.checked ? \'true\' : \'false\');\n        });\n        shippingRadios.forEach(function(r) {\n          r.checked = (r.value === \'TAG_SHIPPING\');\n          r.disabled = true;\n        });\n        shippingNote.style.display = \'block\';\n      } else {\n        shippingRadios.forEach(function(r) {\n          var saved = r.getAttribute(\'data-saved-state\');\n          if (saved !== null) r.checked = (saved === \'true\');\n          r.disabled = false;\n        });\n        shippingNote.style.display = \'none\';\n      }\n    }\n\n    // APIキー表示/入力切り替え\n    function showApiKeyInput(platform) {\n      document.getElementById(platform + \'ApiKeyDisplay\').classList.add(\'hidden\');\n      document.getElementById(platform + \'ApiKeyInput\').classList.remove(\'hidden\');\n      document.getElementById(platform + \'ApiKey\').focus();\n    }\n\n    function cancelApiKeyChange(platform) {\n      document.getElementById(platform + \'ApiKeyInput\').classList.add(\'hidden\');\n      document.getElementById(platform + \'ApiKeyDisplay\').classList.remove(\'hidden\');\n      document.getElementById(platform + \'ApiKey\').value = \'\';\n    }\n\n    // プラットフォームタブ\n    function initializePlatformTabs() {\n      const tabs = document.querySelectorAll(\'.platform-tab\');\n      const contents = {\n        openai: document.getElementById(\'openai-content\'),\n        claude: document.getElementById(\'claude-content\'),\n        gemini: document.getElementById(\'gemini-content\')\n      };\n\n      function activatePlatform(platform) {\n        tabs.forEach(tab => tab.classList.toggle(\'active\', tab.dataset.platform === platform));\n        Object.keys(contents).forEach(key => contents[key].classList.toggle(\'active\', key === platform));\n      }\n\n      activatePlatform(CURRENT_PLATFORM || \'openai\');\n\n      tabs.forEach(tab => {\n        tab.addEventListener(\'click\', function() {\n          activatePlatform(this.dataset.platform);\n        });\n      });\n    }\n\n    // シート名取得\n    function loadSheetNames() {\n      google.script.run\n        .withSuccessHandler(function(sheetNames) {\n          allSheetNames = sheetNames;\n          populateSheetDropdowns();\n        })\n        .withFailureHandler(function(error) {\n          console.error(\'シート名取得エラー:\', error);\n        })\n        .getAllSheetNames();\n    }\n\n    function populateSheetDropdowns() {\n      const duplicateSourceSheet = document.getElementById(\'duplicateSourceSheet\');\n      const outputSheet = document.getElementById(\'outputSheet\');\n      \n      [duplicateSourceSheet, outputSheet].forEach(select => {\n        if (select) {\n          select.innerHTML = \'<option value="">シートを選択してください</option>\';\n          allSheetNames.forEach(name => {\n            const option = document.createElement(\'option\');\n            option.value = name;\n            option.textContent = name;\n            select.appendChild(option);\n          });\n        }\n      });\n\n      // 出力列の設定\n      const outputColumn = document.getElementById(\'outputColumn\');\n      if (outputColumn) {\n        outputColumn.innerHTML = \'<option value="">列を選択...</option>\';\n        // A～Z列\n        for (let i = 0; i < 26; i++) {\n          const col = String.fromCharCode(65 + i);\n          const option = document.createElement(\'option\');\n          option.value = col;\n          option.textContent = col + \'列\';\n          outputColumn.appendChild(option);\n        }\n        // AA～AZ列\n        for (let i = 0; i < 26; i++) {\n          const col = \'A\' + String.fromCharCode(65 + i);\n          const option = document.createElement(\'option\');\n          option.value = col;\n          option.textContent = col + \'列\';\n          outputColumn.appendChild(option);\n        }\n      }\n    }\n\n    // イベントリスナー設定\n    function setupEventListeners() {\n      // DDU価格調整機能\n      const dduCheckbox = document.getElementById(\'dduAdjustmentEnabled\');\n      const dduSettings = document.getElementById(\'dduSettingsGroup\');\n      \n      function toggleDduSettings() {\n        const enabled = dduCheckbox.checked;\n        dduSettings.style.display = enabled ? \'block\' : \'none\';\n        dduSettings.style.opacity = enabled ? \'1\' : \'0.5\';\n      }\n      \n      if (dduCheckbox) {\n        dduCheckbox.addEventListener(\'change\', toggleDduSettings);\n        toggleDduSettings();\n      }\n\n      // 重複チェック機能\n      const duplicateCheckbox = document.getElementById(\'duplicateCheckEnabled\');\n      const duplicateSettings = document.getElementById(\'duplicateCheckSettings\');\n      \n      function toggleDuplicateSettings() {\n        const enabled = duplicateCheckbox.checked;\n        duplicateSettings.style.display = enabled ? \'block\' : \'none\';\n        duplicateSettings.style.opacity = enabled ? \'1\' : \'0.5\';\n      }\n      \n      if (duplicateCheckbox) {\n        duplicateCheckbox.addEventListener(\'change\', toggleDuplicateSettings);\n        toggleDuplicateSettings();\n      }\n\n      // 出力設定表示制御\n      const applyCheckbox = document.getElementById(\'applyToSheet\');\n      const outputSettings = document.getElementById(\'outputSettings\');\n\n      if (applyCheckbox) {\n        applyCheckbox.addEventListener(\'change\', function() {\n          outputSettings.style.display = this.checked ? \'block\' : \'none\';\n        });\n      }\n\n      // 送料レート更新チェックボックス\n      const shippingUpdateCheckbox = document.getElementById(\'updateShippingRates\');\n      const shippingUpdateWarning = document.getElementById(\'shippingUpdateWarning\');\n\n      if (shippingUpdateCheckbox) {\n        shippingUpdateCheckbox.addEventListener(\'change\', function() {\n          shippingUpdateWarning.style.display = this.checked ? \'block\' : \'none\';\n        });\n      }\n\n      // フォーム送信\n      const form = document.getElementById(\'setupForm\');\n      const saveBtn = document.getElementById(\'saveBtn\');\n      const btnLabel = saveBtn.querySelector(\'.btn-label\');\n\n      form.addEventListener(\'submit\', function(e) {\n        e.preventDefault();\n        handleFormSubmit();\n      });\n\n      // キャンセル\n      document.getElementById(\'cancelBtn\').addEventListener(\'click\', function() {\n        google.script.host.close();\n      });\n    }\n\n    // 重複チェック: 参照シート追加\n    function addTargetSheetDropdown() {\n      const container = document.getElementById(\'targetSheetsContainer\');\n      const noMsgDiv = document.getElementById(\'noTargetSheetsMsg\');\n      if (noMsgDiv) noMsgDiv.style.display = \'none\';\n      \n      targetSheetCounter++;\n      const itemDiv = document.createElement(\'div\');\n      itemDiv.className = \'target-sheet-item\';\n      itemDiv.id = \'targetSheet_\' + targetSheetCounter;\n      \n      // シート選択\n      const sheetDiv = document.createElement(\'div\');\n      const sheetSelect = document.createElement(\'select\');\n      sheetSelect.className = \'target-sheet-select\';\n      sheetSelect.innerHTML = \'<option value="">参照シートを選択</option>\';\n      \n      allSheetNames.forEach(name => {\n        const option = document.createElement(\'option\');\n        option.value = name;\n        option.textContent = name;\n        sheetSelect.appendChild(option);\n      });\n      \n      const specialOption = document.createElement(\'option\');\n      specialOption.value = \'保存データ_*\';\n      specialOption.textContent = \'保存データ_* (パターンマッチ)\';\n      sheetSelect.appendChild(specialOption);\n      \n      sheetDiv.appendChild(sheetSelect);\n      \n      // 列選択\n      const columnDiv = document.createElement(\'div\');\n      const columnSelect = document.createElement(\'select\');\n      columnSelect.className = \'target-column-select\';\n      columnSelect.innerHTML = \'<option value="">列選択</option>\';\n      \n      [\'A\',\'B\',\'C\',\'D\',\'E\',\'F\',\'G\',\'H\',\'I\',\'J\'].forEach(col => {\n        const option = document.createElement(\'option\');\n        option.value = col;\n        option.textContent = col + \'列\';\n        if (col === \'H\') option.selected = true;\n        columnSelect.appendChild(option);\n      });\n      columnDiv.appendChild(columnSelect);\n      \n      // 削除ボタン\n      const removeBtn = document.createElement(\'button\');\n      removeBtn.textContent = \'削除\';\n      removeBtn.type = \'button\';\n      removeBtn.onclick = function() {\n        itemDiv.remove();\n        if (container.querySelectorAll(\'.target-sheet-item\').length === 0) {\n          if (noMsgDiv) noMsgDiv.style.display = \'block\';\n        }\n      };\n      \n      itemDiv.appendChild(sheetDiv);\n      itemDiv.appendChild(columnDiv);\n      itemDiv.appendChild(removeBtn);\n      container.appendChild(itemDiv);\n    }\n\n    // フォーム送信処理\n    function handleFormSubmit() {\n      const saveBtn = document.getElementById(\'saveBtn\');\n      const btnLabel = saveBtn.querySelector(\'.btn-label\');\n\n      function setLoading(isLoading) {\n        if (isLoading) {\n          saveBtn.disabled = true;\n          btnLabel.innerHTML = \'<span class="spinner"></span>保存中...\';\n        } else {\n          saveBtn.disabled = false;\n          btnLabel.textContent = \'保存\';\n        }\n      }\n\n      // アクティブプラットフォーム特定\n      const activeTab = document.querySelector(\'.platform-tab.active\');\n      const activePlatform = activeTab ? activeTab.getAttribute(\'data-platform\') : \'openai\';\n\n      let apiKey = \'\', model = \'\';\n      let hasExistingKey = false;\n      if (activePlatform === \'openai\') {\n        apiKey = document.getElementById(\'openaiApiKey\').value.trim();\n        model = document.getElementById(\'openaiModel\').value || DEFAULT_OPENAI_MODEL;\n        hasExistingKey = !document.getElementById(\'openaiApiKeyDisplay\').classList.contains(\'hidden\');\n      } else if (activePlatform === \'claude\') {\n        apiKey = document.getElementById(\'claudeApiKey\').value.trim();\n        model = document.getElementById(\'claudeModel\').value;\n        hasExistingKey = !document.getElementById(\'claudeApiKeyDisplay\').classList.contains(\'hidden\');\n      } else if (activePlatform === \'gemini\') {\n        apiKey = document.getElementById(\'geminiApiKey\').value.trim();\n        model = document.getElementById(\'geminiModel\').value;\n        hasExistingKey = !document.getElementById(\'geminiApiKeyDisplay\').classList.contains(\'hidden\');\n      }\n\n      // APIキーが空で既存キーもない場合はエラー\n      if (!apiKey && !hasExistingKey) {\n        alert(\'選択したプラットフォームのAPIキーを入力してください。\');\n        return;\n      }\n\n      // APIキーが空の場合は特別な値を送信（サーバー側で既存キーを維持）\n      const apiKeyToSend = apiKey || \'__KEEP_EXISTING__\';\n\n      // 重複チェックの対象シート収集\n      const targetSheets = [];\n      const targetItems = document.querySelectorAll(\'.target-sheet-item\');\n      targetItems.forEach(item => {\n        const sheetSelect = item.querySelector(\'.target-sheet-select\');\n        const columnSelect = item.querySelector(\'.target-column-select\');\n        \n        if (sheetSelect && sheetSelect.value && columnSelect && columnSelect.value) {\n          targetSheets.push({\n            sheet: sheetSelect.value,\n            column: columnSelect.value\n          });\n        }\n      });\n\n      const formData = {\n        // 基本設定\n        platform: activePlatform,\n        apiKey: apiKeyToSend,\n        model: model,\n        sheetName: document.getElementById(\'sheetName\').value,\n        \n        // プロンプト設定\n        promptId: document.getElementById(\'promptId\').value,\n        autoPromptSelect: document.getElementById(\'autoPromptSelect\').checked ? \'true\' : \'false\',\n        syncPromptAdd: document.getElementById(\'syncPromptAdd\').checked ? \'true\' : \'false\',\n        syncPromptUpdate: document.getElementById(\'syncPromptUpdate\').checked ? \'true\' : \'false\',\n\n        // 利益・価格計算\n        profitMethod: document.querySelector(\'input[name="profitMethod"]:checked\').value,\n        priceDisplayMode: document.querySelector(\'input[name="priceDisplayMode"]:checked\').value,\n        dduAdjustmentEnabled: document.getElementById(\'dduAdjustmentEnabled\').checked ? \'true\' : \'false\',\n        dduThreshold: document.getElementById(\'dduThreshold\').value,\n        \n        // 送料・配送設定\n        shippingCalcMethod: document.querySelector(\'input[name="shippingCalcMethod"]:checked\').value,\n        shippingThreshold: document.getElementById(\'shippingThreshold\').value,\n        lowPriceMethod: document.getElementById(\'lowPriceMethod\').value,\n        highPriceMethod: document.getElementById(\'highPriceMethod\').value,\n        updateShippingRates: document.getElementById(\'updateShippingRates\').checked,\n        outputTagList: document.getElementById(\'outputTagList\').checked,\n        \n        // タグ自動判定\n        tagOverrideEnabled: document.getElementById(\'tagOverrideEnabled\').checked ? \'true\' : \'false\',\n        tagOverridePrompt: document.getElementById(\'tagOverridePrompt\').checked ? \'true\' : \'false\',\n        tagOverrideTemplate: document.getElementById(\'tagOverrideTemplate\').checked ? \'true\' : \'false\',\n        tagOverrideShippingCategory: document.getElementById(\'tagOverrideShippingCategory\').checked ? \'true\' : \'false\',\n        tagOverrideProfitRate: document.getElementById(\'tagOverrideProfitRate\').checked ? \'true\' : \'false\',\n        tagOverrideAdRate: document.getElementById(\'tagOverrideAdRate\').checked ? \'true\' : \'false\',\n        tagOverrideFeeRate: document.getElementById(\'tagOverrideFeeRate\').checked ? \'true\' : \'false\',\n        tagOverrideShipping: document.getElementById(\'tagOverrideShipping\').checked ? \'true\' : \'false\',\n        tagOverrideLowShipping: document.getElementById(\'tagOverrideLowShipping\').checked ? \'true\' : \'false\',\n        tagOverrideHighShipping: document.getElementById(\'tagOverrideHighShipping\').checked ? \'true\' : \'false\',\n        tagOverrideThreshold: document.getElementById(\'tagOverrideThreshold\').checked ? \'true\' : \'false\',\n\n        // プリセット設定\n        presetGenre: document.querySelector(\'input[name="presetGenre"]:checked\').value,\n        presetWeight: document.getElementById(\'presetWeight\').value,\n\n        // 重複チェック設定\n        duplicateCheckEnabled: document.getElementById(\'duplicateCheckEnabled\').checked,\n        duplicateSourceSheet: document.getElementById(\'duplicateSourceSheet\').value,\n        duplicateSourceColumn: document.getElementById(\'duplicateSourceColumn\').value,\n        duplicateTargetSheets: targetSheets,\n        duplicateApplyToSheet: document.getElementById(\'applyToSheet\').checked,\n        duplicateOutputSheet: document.getElementById(\'outputSheet\').value,\n        duplicateOutputColumn: document.getElementById(\'outputColumn\').value,\n        duplicateOutputStartRow: document.getElementById(\'outputStartRow\').value,\n        duplicateOutputRange: document.getElementById(\'outputRange\').value,\n        \n        // 表示設定\n        showPopups: document.querySelector(\'input[name="showPopups"]:checked\').value\n      };\n\n      setLoading(true);\n      google.script.run\n        .withSuccessHandler(function(result) {\n          setLoading(false);\n          if (result.success) {\n            google.script.host.close();\n          } else {\n            alert(\'保存に失敗しました: \' + result.error);\n          }\n        })\n        .withFailureHandler(function(error) {\n          setLoading(false);\n          alert(\'エラーが発生しました: \' + (error && error.message ? error.message : error));\n        })\n        .saveIntegratedSettings(formData);\n    }\n  </script>\n</body>\n</html>\n';
+HTML_TEMPLATES['SetupDialog'] = '<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>初期設定（統合版）</title>
+  <style>
+    :root {
+      --brand: #1a73e8;
+      --brand-600: #1557b0;
+      --text: #3c4043;
+      --muted: #5f6368;
+      --line: #e0e0e0;
+      --bg: #f9f9f9;
+      --card: #fff;
+      --required: #dc2626;
+      --recommended: #16a34a;
+      --optional: #2563eb;
+    }
+
+    * { box-sizing: border-box; }
+    
+    body {
+      font-family: \'Segoe UI\', Arial, sans-serif;
+      margin: 20px;
+      background-color: var(--bg);
+      color: var(--text);
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .container {
+      background: var(--card);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      color: var(--brand);
+      margin-bottom: 20px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* セクションスタイル */
+    .section {
+      margin-bottom: 16px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--card);
+      overflow: hidden;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: #fafbfc;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .section-header:hover {
+      background: #f1f3f4;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .priority-badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .priority-required { background-color: var(--required); }
+    .priority-recommended { background-color: var(--recommended); }
+    .priority-optional { background-color: var(--optional); }
+
+    .section-description {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .section-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .edit-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .edit-toggle input[type="radio"] {
+      width: auto;
+      margin: 0;
+    }
+
+    .collapse-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .collapse-btn.collapsed {
+      transform: rotate(-90deg);
+    }
+
+    .section-content {
+      padding: 20px;
+      display: none;
+    }
+
+    .section-content.expanded {
+      display: block;
+    }
+
+    /* フォーム要素 */
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #2b2f33;
+    }
+
+    input[type="text"], input[type="number"], select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: box-shadow .15s ease, border-color .15s ease;
+      background: #fff;
+    }
+
+    input[type="text"]:focus, input[type="number"]:focus, select:focus {
+      outline: none;
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(26,115,232,.18);
+    }
+
+    .radio-group {
+      margin: 8px 0 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .radio-group label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0;
+      font-weight: 500;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .radio-group input[type="radio"] {
+      width: auto;
+      margin: 0;
+    }
+
+    .checkbox-group {
+      margin: 10px 0;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .checkbox-label input[type="checkbox"] {
+      margin-right: 8px;
+      width: auto;
+      transform: scale(1.1);
+    }
+
+    /* プラットフォームタブ */
+    .api-platform-section {
+      background-color: #fafafa;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 10px;
+    }
+
+    .platform-tabs {
+      display: flex;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+      gap: 2px;
+    }
+
+    .platform-tab {
+      padding: 8px 14px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-size: 14px;
+      border-bottom: 2px solid transparent;
+      border-radius: 8px 8px 0 0;
+      transition: background .15s ease, color .15s ease, border-color .15s ease;
+    }
+
+    .platform-tab:hover { background-color: #f1f3f4; }
+
+    .platform-tab.active {
+      color: var(--brand);
+      border-bottom-color: var(--brand);
+      font-weight: 700;
+      background: #eef4ff;
+    }
+
+    .platform-content { display: none; }
+    .platform-content.active { display: block; }
+
+    /* APIキー表示/入力切り替え */
+    .api-key-wrapper {
+      margin-top: 5px;
+    }
+    .api-key-display {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      background: #f0f4f9;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+    }
+    .api-key-display.hidden {
+      display: none;
+    }
+    .masked-key {
+      font-family: monospace;
+      font-size: 14px;
+      color: #5f6368;
+      letter-spacing: 2px;
+    }
+    .key-status {
+      font-size: 13px;
+      color: #16a34a;
+      font-weight: 500;
+    }
+    .btn-change-key {
+      margin-left: auto;
+      padding: 6px 14px;
+      background: #fff;
+      border: 1px solid #dadce0;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background .15s ease;
+    }
+    .btn-change-key:hover {
+      background: #f1f3f4;
+    }
+    .api-key-input {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .api-key-input.hidden {
+      display: none;
+    }
+    .api-key-input input {
+      flex: 1;
+    }
+    .btn-cancel-key {
+      padding: 10px 14px;
+      background: #f1f3f4;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background .15s ease;
+    }
+    .btn-cancel-key:hover {
+      background: #e0e0e0;
+    }
+    .btn-cancel-key.hidden {
+      display: none;
+    }
+
+    /* 重複チェック設定 */
+    .target-sheets-container {
+      border: 1px solid #ddd;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 4px;
+      min-height: 100px;
+      margin-top: 10px;
+    }
+
+    .target-sheet-item {
+      display: grid;
+      grid-template-columns: 1fr 100px 80px;
+      gap: 10px;
+      margin-bottom: 15px;
+      padding: 10px;
+      background: white;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 20px;
+      margin: 15px 0;
+    }
+
+    .input-group {
+      flex: 1;
+    }
+
+    .input-group label {
+      margin-top: 0;
+      font-size: 13px;
+    }
+
+    /* 情報ボックス */
+    .info-box, .warning-box {
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 10px;
+    }
+
+    .info-box {
+      background-color: #e8f0fe;
+      border: 1px solid #dadce0;
+    }
+
+    .warning-box {
+      background-color: #fee2e2;
+      border: 2px solid #dc2626;
+    }
+
+    .info-box .title, .warning-box .title {
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .info-box .title {
+      color: var(--brand);
+    }
+
+    .warning-box .title {
+      color: #dc2626;
+      font-size: 16px;
+    }
+
+    .info-box .content, .warning-box .content {
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .info-box .content {
+      color: var(--muted);
+    }
+
+    .warning-box .content {
+      color: #b91c1c;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .help-text {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .cost-info {
+      font-size: 12px;
+      color: #666;
+      font-style: italic;
+      margin-top: 6px;
+    }
+
+    /* ボタン */
+    .button-group {
+      margin-top: 26px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    .btn {
+      position: relative;
+      overflow: hidden;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      transition: transform .06s ease, box-shadow .2s ease, background-color .2s ease;
+      user-select: none;
+    }
+
+    .btn:active { transform: translateY(0.5px) scale(.99); }
+
+    .btn.primary {
+      background-color: var(--brand);
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(26,115,232,.25);
+    }
+
+    .btn.primary:hover { background-color: var(--brand-600); }
+
+    .btn.secondary {
+      background-color: #edf2f7;
+      color: var(--text);
+    }
+
+    .btn.secondary:hover { background: #e2e8f0; }
+
+    .btn:disabled {
+      opacity: .65;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.55);
+      border-top-color: #fff;
+      animation: spin .8s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .disabled-overlay {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>初期設定（統合版）</h2>
+
+    <form id="setupForm">
+      <!-- 1. AI・基本設定 -->
+      <div class="section" data-section="ai-basic">
+        <div class="section-header" onclick="toggleSection(\'ai-basic\')">
+          <div class="section-title">
+            <span class="priority-badge priority-required">必須</span>
+            <div>
+              <div>AI・基本設定</div>
+              <div class="section-description">AIサービスと作業シートの基本的な設定</div>
+            </div>
+          </div>
+          <div class="section-controls">
+            <div class="edit-toggle">
+              <label><input type="radio" name="edit-ai-basic" value="maintain" checked> 維持</label>
+              <label><input type="radio" name="edit-ai-basic" value="edit"> 編集</label>
+            </div>
+            <button type="button" class="collapse-btn">▼</button>
+          </div>
+        </div>
+        <div class="section-content" id="content-ai-basic">
+          <label>AI プラットフォーム選択 *</label>
+          <div class="api-platform-section">
+            <div class="platform-tabs" id="platformTabs">
+              <button type="button" class="platform-tab" data-platform="openai">OpenAI</button>
+              <button type="button" class="platform-tab" data-platform="claude">Claude</button>
+              <button type="button" class="platform-tab" data-platform="gemini">Gemini</button>
+            </div>
+
+            <div class="platform-content" id="openai-content">
+              <label for="openaiApiKey">OpenAI APIキー *</label>
+              <div class="api-key-wrapper">
+                <div class="api-key-display <?= hasApiKey.openai ? \'\' : \'hidden\' ?>" id="openaiApiKeyDisplay">
+                  <span class="masked-key">••••••••••••••••</span>
+                  <span class="key-status">✅ 設定済み</span>
+                  <button type="button" class="btn-change-key" onclick="showApiKeyInput(\'openai\')">変更</button>
+                </div>
+                <div class="api-key-input <?= hasApiKey.openai ? \'hidden\' : \'\' ?>" id="openaiApiKeyInput">
+                  <input type="text" id="openaiApiKey" name="openaiApiKey" value="" placeholder="sk-...">
+                  <button type="button" class="btn-cancel-key <?= hasApiKey.openai ? \'\' : \'hidden\' ?>" onclick="cancelApiKeyChange(\'openai\')">キャンセル</button>
+                </div>
+              </div>
+              <div class="help-text">OpenAIのAPIキーを入力してください</div>
+
+              <label for="openaiModel">モデル選択 *</label>
+              <select id="openaiModel" name="openaiModel">
+                <option value="gpt-5-nano" <?= currentModel === \'gpt-5-nano\' ? \'selected\' : \'\' ?>>GPT-5-nano（最安・推奨）</option>
+                <option value="gpt-4o-mini" <?= currentModel === \'gpt-4o-mini\' ? \'selected\' : \'\' ?>>GPT-4o-mini（互換・低コスト）</option>
+                <option value="gpt-5-mini" <?= currentModel === \'gpt-5-mini\' ? \'selected\' : \'\' ?>>GPT-5-mini（やや高品質）</option>
+              </select>
+              <div class="cost-info">目安: GPT-5-nano ≈ ~$0.0003–0.0004 / 1K tokens</div>
+            </div>
+
+            <div class="platform-content" id="claude-content">
+              <label for="claudeApiKey">Claude APIキー *</label>
+              <div class="api-key-wrapper">
+                <div class="api-key-display <?= hasApiKey.claude ? \'\' : \'hidden\' ?>" id="claudeApiKeyDisplay">
+                  <span class="masked-key">••••••••••••••••</span>
+                  <span class="key-status">✅ 設定済み</span>
+                  <button type="button" class="btn-change-key" onclick="showApiKeyInput(\'claude\')">変更</button>
+                </div>
+                <div class="api-key-input <?= hasApiKey.claude ? \'hidden\' : \'\' ?>" id="claudeApiKeyInput">
+                  <input type="text" id="claudeApiKey" name="claudeApiKey" value="" placeholder="sk-ant-...">
+                  <button type="button" class="btn-cancel-key <?= hasApiKey.claude ? \'\' : \'hidden\' ?>" onclick="cancelApiKeyChange(\'claude\')">キャンセル</button>
+                </div>
+              </div>
+              <div class="help-text">AnthropicのAPIキーを入力してください</div>
+
+              <label for="claudeModel">モデル選択 *</label>
+              <select id="claudeModel" name="claudeModel">
+                <option value="claude-3-haiku-20240307" <?= currentModel === \'claude-3-haiku-20240307\' ? \'selected\' : \'\' ?>>Claude 3 Haiku（最安・推奨）</option>
+                <option value="claude-3-sonnet-20240229" <?= currentModel === \'claude-3-sonnet-20240229\' ? \'selected\' : \'\' ?>>Claude 3 Sonnet（バランス）</option>
+                <option value="claude-3-opus-20240229" <?= currentModel === \'claude-3-opus-20240229\' ? \'selected\' : \'\' ?>>Claude 3 Opus（高性能）</option>
+              </select>
+              <div class="cost-info">参考: Haiku ≈ ~$0.0015 / 1K tokens ほか</div>
+            </div>
+
+            <div class="platform-content" id="gemini-content">
+              <label for="geminiApiKey">Gemini APIキー *</label>
+              <div class="api-key-wrapper">
+                <div class="api-key-display <?= hasApiKey.gemini ? \'\' : \'hidden\' ?>" id="geminiApiKeyDisplay">
+                  <span class="masked-key">••••••••••••••••</span>
+                  <span class="key-status">✅ 設定済み</span>
+                  <button type="button" class="btn-change-key" onclick="showApiKeyInput(\'gemini\')">変更</button>
+                </div>
+                <div class="api-key-input <?= hasApiKey.gemini ? \'hidden\' : \'\' ?>" id="geminiApiKeyInput">
+                  <input type="text" id="geminiApiKey" name="geminiApiKey" value="" placeholder="AIza...">
+                  <button type="button" class="btn-cancel-key <?= hasApiKey.gemini ? \'\' : \'hidden\' ?>" onclick="cancelApiKeyChange(\'gemini\')">キャンセル</button>
+                </div>
+              </div>
+              <div class="help-text">Google AI StudioのAPIキーを入力してください</div>
+
+              <label for="geminiModel">モデル選択 *</label>
+              <select id="geminiModel" name="geminiModel">
+                <option value="gemini-1.5-flash" <?= currentModel === \'gemini-1.5-flash\' ? \'selected\' : \'\' ?>>Gemini 1.5 Flash（最安・推奨）</option>
+                <option value="gemini-1.5-pro" <?= currentModel === \'gemini-1.5-pro\' ? \'selected\' : \'\' ?>>Gemini 1.5 Pro（バランス）</option>
+                <option value="gemini-pro" <?= currentModel === \'gemini-pro\' ? \'selected\' : \'\' ?>>Gemini Pro（安定）</option>
+              </select>
+              <div class="cost-info">参考: Flash ≈ ~$0.0008 / 1K tokens ほか</div>
+            </div>
+          </div>
+
+          <label for="sheetName">作業シート名 *</label>
+          <input type="text" id="sheetName" name="sheetName" value="<?= currentSheetName ?>" required>
+          <div class="help-text">データ処理を行うシートの名前</div>
+
+          <div class="info-box">
+            <div class="title">コスト比較の目安（1K tokens）</div>
+            <div class="content">
+              最安: GPT-5-nano ≲ GPT-5-mini ≲ Gemini 1.5 Flash ≲ Claude 3 Haiku<br>
+              高性能: Claude 3 Opus / GPT-5-mini / GPT-4系 / Gemini 1.5 Pro（用途次第）<br>
+              まずは GPT-5-nano をお試しください（推奨）
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. プロンプト設定 -->
+      <div class="section" data-section="prompt">
+        <div class="section-header" onclick="toggleSection(\'prompt\')">
+          <div class="section-title">
+            <span class="priority-badge priority-recommended">推奨</span>
+            <div>
+              <div>プロンプト設定</div>
+              <div class="section-description">AI生成の品質を決定するプロンプト設定</div>
+            </div>
+          </div>
+          <div class="section-controls">
+            <div class="edit-toggle">
+              <label><input type="radio" name="edit-prompt" value="maintain" checked> 維持</label>
+              <label><input type="radio" name="edit-prompt" value="edit"> 編集</label>
+            </div>
+            <button type="button" class="collapse-btn">▼</button>
+          </div>
+        </div>
+        <div class="section-content" id="content-prompt">
+          <label for="promptId">使用プロンプト *</label>
+          <select id="promptId" name="promptId" required>
+            <? for (var i = 0; i < promptIds.length; i++) { ?>
+              <option value="<?= promptIds[i] ?>" <?= promptIds[i] === currentPromptId ? \'selected\' : \'\' ?>>
+                <?= promptIds[i] ?>
+              </option>
+            <? } ?>
+          </select>
+          <div class="help-text">GPT_Prompts シートから選択</div>
+
+          <div class="info-box">
+            <div class="title">プロンプト編集</div>
+            <div class="content">
+              プロンプトの内容は「プロンプト編集」サイドバーで変更できます。<br>
+              メニュー「AI翻訳・価格計算」→「プロンプト編集」から開けます。
+            </div>
+          </div>
+
+          <label>翻訳プロンプト自動選択</label>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+ <input type="checkbox" id="autoPromptSelect" name="autoPromptSelect" <?= currentAutoPromptSelect === \'自動選択\' ? \'checked\' : \'\' ?>>
+  D列タグに応じてプロンプトを自動選択する
+  <span id="promptOverrideNote" style="display:none;color:#1a73e8;font-size:12px;margin-left:8px;">※ タグ自動判定設定で管理中</span>
+</label>
+          </div>
+          <div class="help-text">
+            有効にすると、翻訳実行時にD列のタグからプロンプトを自動選択します。マッチしない場合は上記の手動選択プロンプトを使用します。
+          </div>
+
+          <label>プロンプト同期</label>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+ <input type="checkbox" id="syncPromptAdd" name="syncPromptAdd">
+  新しいプロンプトを追加
+</label>
+          </div>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+ <input type="checkbox" id="syncPromptUpdate" name="syncPromptUpdate">
+  既存プロンプトを最新版に更新（バックアップ自動作成）
+</label>
+          </div>
+          <div class="help-text">
+            コードに組み込まれた最新プロンプトをGPT_Promptsシートに反映します。
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 利益・価格計算 -->
+      <div class="section" data-section="price-calc">
+        <div class="section-header" onclick="toggleSection(\'price-calc\')">
+          <div class="section-title">
+            <span class="priority-badge priority-required">必須</span>
+            <div>
+              <div>利益・価格計算</div>
+              <div class="section-description">利益計算と価格表示の設定</div>
+            </div>
+          </div>
+          <div class="section-controls">
+            <div class="edit-toggle">
+              <label><input type="radio" name="edit-price-calc" value="maintain" checked> 維持</label>
+              <label><input type="radio" name="edit-price-calc" value="edit"> 編集</label>
+            </div>
+            <button type="button" class="collapse-btn">▼</button>
+          </div>
+        </div>
+        <div class="section-content" id="content-price-calc">
+          <label>利益計算方法 *</label>
+          <div class="radio-group">
+            <label><input type="radio" name="profitMethod" value="RATE" <?= currentProfitCalculationMethod === \'RATE\' ? \'checked\' : \'\' ?>> 利益率で計算</label>
+            <label><input type="radio" name="profitMethod" value="AMOUNT" <?= currentProfitCalculationMethod === \'AMOUNT\' ? \'checked\' : \'\' ?>> 利益額で計算</label>
+          </div>
+
+          <label>価格表示モード *</label>
+          <div class="radio-group">
+            <label><input type="radio" name="priceDisplayMode" value="NORMAL" <?= currentPriceDisplayMode === \'NORMAL\' ? \'checked\' : \'\' ?>> 販売価格（DDU）</label>
+            <label><input type="radio" name="priceDisplayMode" value="TAX_INCLUDED" <?= currentPriceDisplayMode === \'TAX_INCLUDED\' ? \'checked\' : \'\' ?>> 関税込み価格（DDP）</label>
+          </div>
+
+          <label>DDU価格調整機能</label>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+ <input type="checkbox" id="dduAdjustmentEnabled" name="dduAdjustmentEnabled" checked>
+  DDU価格調整機能を有効にする
+</label>
+          </div>
+          
+
+          <div id="dduSettingsGroup">
+            <div class="input-row">
+              <div class="input-group">
+                <label for="dduThreshold">想定関税閾値（ドル）:</label>
+                <input type="number" id="dduThreshold" name="dduThreshold"
+                       value="<?= currentDduThreshold || \'500\' ?>" min="1" step="1">
+              </div>
+            </div>
+            <div class="help-text">
+              想定関税（AD列）が閾値以上の場合、DDP価格（S列）から想定関税を引いた価格を計算します
+            </div>
+          </div>
+
+          <div class="info-box">
+            <div class="title">価格計算の設定箇所</div>
+            <div class="content">
+              • 手数料率: F1 / 広告費率: F2<br>
+              • 利益額: H1（利益額計算選択時）<br>
+              • 利益率: H2（利益率計算選択時）
+            </div>
+          </div>
+
+          <div class="warning-box">
+            <div class="title">DDU価格調整機能の注意事項</div>
+            <div class="content">
+              この機能はDDU商品専用です。DDPで出品する場合でも、実際の販売価格はDDU価格を使用し、関税分を送料として別途徴収するビジネスモデル向けです。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. 送料・配送設定 -->
+      <div class="section" data-section="shipping">
+        <div class="section-header" onclick="toggleSection(\'shipping\')">
+          <div class="section-title">
+            <span class="priority-badge priority-required">必須</span>
+            <div>
+              <div>送料・配送設定</div>
+              <div class="section-description">送料計算と配送方法の設定</div>
+            </div>
+          </div>
+          <div class="section-controls">
+            <div class="edit-toggle">
+              <label><input type="radio" name="edit-shipping" value="maintain" checked> 維持</label>
+              <label><input type="radio" name="edit-shipping" value="edit"> 編集</label>
+            </div>
+            <button type="button" class="collapse-btn">▼</button>
+          </div>
+        </div>
+        <div class="section-content" id="content-shipping">
+          <label>送料計算方法 *</label>
+          <div class="radio-group">
+            <label><input type="radio" name="shippingCalcMethod" value="TABLE" <?= currentShippingCalculationMethod === \'TABLE\' ? \'checked\' : \'\' ?>> テーブル計算</label>
+            <label><input type="radio" name="shippingCalcMethod" value="FIXED" <?= currentShippingCalculationMethod === \'FIXED\' ? \'checked\' : \'\' ?>> 固定金額</label>
+            <label><input type="radio" name="shippingCalcMethod" value="TAG_SHIPPING" <?= currentShippingCalculationMethod === \'TAG_SHIPPING\' ? \'checked\' : \'\' ?>> タグ別送料</label>
+          </div>
+          <div id="shippingOverrideNote" style="display:none;color:#1a73e8;font-size:13px;margin-top:4px;">※ タグ自動判定設定で管理中</div>
+
+          <label for="shippingThreshold">送料計算切替基準金額（円） *</label>
+          <input type="number" id="shippingThreshold" name="shippingThreshold" value="<?= currentShippingThreshold || \'5500\' ?>" min="1" step="1" required>
+          <div class="help-text">この金額以上は高価格配送、未満の場合は低価格配送を使用</div>
+
+          <label for="lowPriceMethod">低価格商品配送方法 *</label>
+          <select id="lowPriceMethod" name="lowPriceMethod" required>
+            <option value="NONE" <?= currentLowPriceMethod === \'NONE\' ? \'selected\' : \'\' ?>>なし（高価格配送のみ使用）</option>
+            <option value="EP" <?= currentLowPriceMethod === \'EP\' ? \'selected\' : \'\' ?>>eパケット（重量・サイズ制限あり）</option>
+            <option value="CE" <?= currentLowPriceMethod === \'CE\' ? \'selected\' : \'\' ?>>Cpass Economy（重量制限なし）</option>
+          </select>
+
+          <label for="highPriceMethod">高価格商品配送方法 *</label>
+          <select id="highPriceMethod" name="highPriceMethod" required>
+            <option value="CF" <?= currentHighPriceMethod === \'CF\' ? \'selected\' : \'\' ?>>Cpass FedEx（燃油・割引・追加料金あり）</option>
+            <option value="CD" <?= currentHighPriceMethod === \'CD\' ? \'selected\' : \'\' ?>>Cpass DHL（燃油・割引・追加料金あり）</option>
+            <option value="EL" <?= currentHighPriceMethod === \'EL\' ? \'selected\' : \'\' ?>>eLogistics（追加料金なし）</option>
+          </select>
+
+          <div class="info-box">
+            <div class="title">送料計算方法の説明</div>
+            <div class="content">
+              <strong>テーブル計算</strong>: 重量・サイズに基づいて自動計算（推奨）<br>
+              <strong>固定金額</strong>: J1 または Profit_Amounts!D から取得<br>
+              <strong>タグ別送料</strong>: D列タグからTagShippingシートを参照。参考eBay IDも自動セット<br><br>
+              <strong>固定金額の設定</strong><br>
+              • 全商品共通: J1 セルに金額を入力<br>
+              • 仕入れ値別: Profit_Amounts!D列に各金額帯の送料
+            </div>
+          </div>
+
+          <div style="margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--line);">
+            <label>送料レート更新（2026年版）</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="updateShippingRates" name="updateShippingRates">
+                FedEx・DHLの送料レートを最新（2026年）に更新する
+              </label>
+            </div>
+            <div class="help-text">
+              Shipping_RatesシートのCF（FedEx）列とCD（DHL）列のみ更新されます。<br>
+              他の列（CE、EL等）やサーチャージ設定（V1、V2、W2、Y1、Y2）は変更されません。
+            </div>
+            <div class="warning-box" id="shippingUpdateWarning" style="display: none; margin-top: 10px;">
+              <div class="title">確認</div>
+              <div class="content">
+                保存時にShipping_RatesシートのF列（CF）とG列（CD）の値が2026年版に更新されます。<br>
+                この操作は元に戻せません。更新前にシートのバックアップを取ることをお勧めします。
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--line);">
+            <label>タグ一覧出力</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="outputTagList" name="outputTagList">
+                対応カテゴリのタグ一覧をシートに出力する
+              </label>
+            </div>
+            <div class="help-text">
+              「Tag_List」シートに、使用可能なタグの一覧をジャンル別に出力します。<br>
+              A列のタグをコピーして出品シートのA列に貼り付けて使えます。
+            </div>
+          </div>
+
+          <div style="margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--line);">
+            <label>ゲーム・トレカ プリセット設定</label>
+            <div class="help-text" style="margin-bottom: 12px;">
+              ゲームソフトまたはトレーディングカードの出品に最適化された送料設定を一括適用します。
+            </div>
+
+            <div style="display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;">
+              <div style="flex: 1; min-width: 200px;">
+                <label style="margin-top: 0; font-size: 13px;">ジャンル選択</label>
+                <div class="radio-group">
+                  <label><input type="radio" name="presetGenre" value="none" checked> 指定なし</label>
+                  <label><input type="radio" name="presetGenre" value="game"> ゲームソフト</label>
+                  <label><input type="radio" name="presetGenre" value="card"> トレーディングカード</label>
+                </div>
+              </div>
+
+              <div style="flex: 1; min-width: 150px;" id="presetWeightGroup">
+                <label style="margin-top: 0; font-size: 13px;">想定重量</label>
+                <select id="presetWeight" name="presetWeight" style="width: 100%;">
+                  <option value="100">100g</option>
+                  <option value="200" selected>200g</option>
+                  <option value="300">300g</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="info-box" style="margin-top: 12px;">
+              <div class="title">プリセットで設定される項目（保存時に適用）</div>
+              <div class="content">
+                <strong>ゲームソフト:</strong> O1=Video Games（$20）/ 関税閾値$20 / 送料計算=固定金額<br>
+                <strong>トレカ:</strong> O1=汎用（上限なし）/ 関税閾値$500 / 送料計算=固定金額<br>
+                <strong>共通:</strong> 低価格配送=Cpass Economy / 送料・EU差額は重量で自動設定
+              </div>
+            </div>
+
+            <div class="warning-box" style="margin-top: 10px;">
+              <div class="title">⚠ 重要</div>
+              <div class="content">
+                ゲームやカードなどの特定のジャンルは、O2セルに専用テンプレートの設定が必要です。
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section" data-section="tag-override">
+        <div class="section-header" onclick="toggleSection(\'tag-override\')">
+          <div class="section-title">
+            <span class="badge optional">OPTIONAL</span>
+            タグ自動判定設定
+          </div>
+          <button type="button" class="collapse-btn">▼</button>
+        </div>
+      </div>
+      <div class="section-content" id="content-tag-override">
+        <div class="checkbox-group" style="margin-bottom:16px;">
+          <label class="checkbox-label" style="font-weight:bold;font-size:15px;">
+            <input type="checkbox" id="tagOverrideEnabled" onchange="toggleTagOverrideItems()">
+            タグ自動判定を使用する
+          </label>
+        </div>
+        <div class="help-text" style="margin-bottom:16px;">
+          ONにすると、D列のタグに応じてTagShippingシートから各設定を自動で適用します。OFFの場合は従来通り全行共通の設定値を使用します。
+        </div>
+        <div id="tagOverrideItems" style="display:none;">
+          <div style="margin-bottom:12px;">
+            <strong>翻訳・出品</strong>
+            <div class="checkbox-group" style="margin-left:16px;margin-top:4px;">
+              <label class="checkbox-label"><input type="checkbox" id="tagOverridePrompt" checked onchange="toggleTagOverrideItems()"> プロンプト自動選択</label>
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideTemplate" checked> テンプレート名</label>
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideShippingCategory" checked> 送料上限カテゴリ</label>
+            </div>
+          </div>
+          <div style="margin-bottom:12px;">
+            <strong>価格・手数料</strong>
+            <div class="checkbox-group" style="margin-left:16px;margin-top:4px;">
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideProfitRate" checked> 利益率</label>
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideAdRate" checked> 広告費率</label>
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideFeeRate" checked> 手数料率</label>
+            </div>
+          </div>
+          <div style="margin-bottom:12px;">
+            <strong>配送</strong>
+            <div class="checkbox-group" style="margin-left:16px;margin-top:4px;">
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideShipping" checked onchange="toggleTagOverrideItems()"> 送料（タグ別送料）</label>
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideLowShipping" checked> 低価格配送方法</label>
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideHighShipping" checked> 高価格配送方法</label>
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideThreshold" checked> 送料切替基準</label>
+            </div>
+          </div>
+          <div class="info-box">
+            <div class="title">タグ自動判定について</div>
+            <div class="content">
+              各項目をONにすると、TagShippingシートの該当列の値がタグごとに適用されます。<br>
+              OFFの項目は従来通り作業シートの設定値が全行共通で使用されます。<br>
+              TagShippingシートに値が未設定のタグは、作業シートの設定値がフォールバックとして使用されます。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. 重複チェック設定 -->
+      <div class="section" data-section="duplicate-check">
+        <div class="section-header" onclick="toggleSection(\'duplicate-check\')">
+          <div class="section-title">
+            <span class="priority-badge priority-optional">任意</span>
+            <div>
+              <div>重複チェック設定</div>
+              <div class="section-description">商品の重複を自動検出する機能</div>
+            </div>
+          </div>
+          <div class="section-controls">
+            <div class="edit-toggle">
+              <label><input type="radio" name="edit-duplicate-check" value="maintain" checked> 維持</label>
+              <label><input type="radio" name="edit-duplicate-check" value="edit"> 編集</label>
+            </div>
+            <button type="button" class="collapse-btn">▼</button>
+          </div>
+        </div>
+        <div class="section-content" id="content-duplicate-check">
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="duplicateCheckEnabled" name="duplicateCheckEnabled" 
+                     <?= currentDuplicateCheckEnabled === \'true\' ? \'checked\' : \'\' ?>>
+              重複チェック機能を有効にする
+            </label>
+          </div>
+
+          <div id="duplicateCheckSettings">
+            <label for="duplicateSourceSheet">作業シート（重複をチェックされる側）:</label>
+            <select id="duplicateSourceSheet" name="duplicateSourceSheet">
+              <option value="">シートを選択してください</option>
+            </select>
+
+            <label for="duplicateSourceColumn">作業シートの列:</label>
+            <select id="duplicateSourceColumn" name="duplicateSourceColumn">
+              <option value="">列を選択してください</option>
+              <option value="A">A列</option>
+              <option value="B">B列</option>
+              <option value="C">C列</option>
+              <option value="D">D列</option>
+              <option value="E">E列</option>
+              <option value="F">F列</option>
+              <option value="G">G列</option>
+              <option value="H">H列</option>
+              <option value="I">I列</option>
+              <option value="J">J列</option>
+            </select>
+
+            <label>チェック対象シート（重複元）:</label>
+            <div id="targetSheetsContainer" class="target-sheets-container">
+              <div id="noTargetSheetsMsg">参照シートを追加してください。</div>
+            </div>
+            <button type="button" onclick="addTargetSheetDropdown()">参照シート追加</button>
+
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="applyToSheet" name="applyToSheet">
+                生成した式をシートに直接適用する
+              </label>
+            </div>
+
+            <div id="outputSettings" style="display: none;">
+              <label for="outputSheet">出力先シート:</label>
+              <select id="outputSheet" name="outputSheet">
+                <option value="">シートを選択...</option>
+              </select>
+
+              <div class="input-row">
+                <div class="input-group">
+                  <label for="outputColumn">出力先列:</label>
+                  <select id="outputColumn" name="outputColumn">
+                    <option value="">列を選択...</option>
+                  </select>
+                </div>
+                <div class="input-group">
+                  <label for="outputStartRow">開始行:</label>
+                  <input type="number" id="outputStartRow" name="outputStartRow" value="1" min="1">
+                </div>
+              </div>
+
+              <label for="outputRange">適用範囲:</label>
+              <select id="outputRange" name="outputRange">
+                <option value="DATA">データがある範囲まで</option>
+                <option value="CUSTOM">カスタム範囲（100行）</option>
+                <option value="ALL">シート全体（1000行）</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="info-box">
+            <div class="title">重複チェック機能について</div>
+            <div class="content">
+              作業シートでの入力時に、既存の保存データと重複する商品を自動検出します。<br>
+              パターンマッチ（保存データ_*）も使用可能です。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. 表示設定 -->
+      <div class="section" data-section="display">
+        <div class="section-header" onclick="toggleSection(\'display\')">
+          <div class="section-title">
+            <span class="priority-badge priority-optional">任意</span>
+            <div>
+              <div>表示設定</div>
+              <div class="section-description">ユーザーインターフェースに関する設定</div>
+            </div>
+          </div>
+          <div class="section-controls">
+            <div class="edit-toggle">
+              <label><input type="radio" name="edit-display" value="maintain" checked> 維持</label>
+              <label><input type="radio" name="edit-display" value="edit"> 編集</label>
+            </div>
+            <button type="button" class="collapse-btn">▼</button>
+          </div>
+        </div>
+        <div class="section-content" id="content-display">
+          <label>ポップアップ表示設定 *</label>
+          <div class="radio-group">
+            <label><input type="radio" name="showPopups" value="true" <?= currentShowPopups === \'true\' ? \'checked\' : \'\' ?>> ON（表示する）</label>
+            <label><input type="radio" name="showPopups" value="false" <?= currentShowPopups === \'false\' ? \'checked\' : \'\' ?>> OFF（表示しない）</label>
+          </div>
+          <div class="help-text">作業開始・完了時の確認ダイアログ表示を制御（エラーは常に表示）</div>
+
+          <div class="info-box">
+            <div class="title">ポップアップ表示の説明</div>
+            <div class="content">
+              • ON: 作業開始時に確認ダイアログ、完了時に結果表示<br>
+              • OFF: 確認なしで即座に実行開始、完了時も無通知<br>
+              • エラー: 設定に関係なく常に表示（安全のため）<br>
+              • 作業制御: D2セル（GO/STOP）での停止は別機能
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" class="btn secondary" id="cancelBtn">キャンセル</button>
+        <button type="submit" class="btn primary" id="saveBtn">
+          <span class="btn-label">保存</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // 初期設定
+    const CURRENT_PLATFORM = "<?= typeof currentPlatform !== \'undefined\' ? currentPlatform : \'openai\' ?>";
+    const DEFAULT_OPENAI_MODEL = "gpt-5-nano";
+    
+    var allSheetNames = [];
+    var targetSheetCounter = 0;
+
+    // 初期化
+    document.addEventListener(\'DOMContentLoaded\', function() {
+      initializeSections();
+      initializePlatformTabs();
+      loadSheetNames();
+      setupEventListeners();
+      updateSectionStates();
+
+      // タグ自動判定 初期化
+      if (\'<?= currentTagOverrideEnabled ?>\' === \'true\') { document.getElementById(\'tagOverrideEnabled\').checked = true; toggleTagOverrideItems(); }
+      if (\'<?= currentTagOverridePrompt ?>\' === \'false\') document.getElementById(\'tagOverridePrompt\').checked = false;
+      if (\'<?= currentTagOverrideTemplate ?>\' === \'false\') document.getElementById(\'tagOverrideTemplate\').checked = false;
+      if (\'<?= currentTagOverrideShippingCategory ?>\' === \'false\') document.getElementById(\'tagOverrideShippingCategory\').checked = false;
+      if (\'<?= currentTagOverrideProfitRate ?>\' === \'false\') document.getElementById(\'tagOverrideProfitRate\').checked = false;
+      if (\'<?= currentTagOverrideAdRate ?>\' === \'false\') document.getElementById(\'tagOverrideAdRate\').checked = false;
+      if (\'<?= currentTagOverrideFeeRate ?>\' === \'false\') document.getElementById(\'tagOverrideFeeRate\').checked = false;
+      if (\'<?= currentTagOverrideShipping ?>\' === \'false\') document.getElementById(\'tagOverrideShipping\').checked = false;
+      if (\'<?= currentTagOverrideLowShipping ?>\' === \'false\') document.getElementById(\'tagOverrideLowShipping\').checked = false;
+      if (\'<?= currentTagOverrideHighShipping ?>\' === \'false\') document.getElementById(\'tagOverrideHighShipping\').checked = false;
+      if (\'<?= currentTagOverrideThreshold ?>\' === \'false\') document.getElementById(\'tagOverrideThreshold\').checked = false;
+    });
+
+    // セクション管理
+    function toggleSection(sectionId) {
+      const content = document.getElementById(\'content-\' + sectionId);
+      const btn = document.querySelector(`[data-section="${sectionId}"] .collapse-btn`);
+      
+      if (content.classList.contains(\'expanded\')) {
+        content.classList.remove(\'expanded\');
+        btn.classList.add(\'collapsed\');
+      } else {
+        content.classList.add(\'expanded\');
+        btn.classList.remove(\'collapsed\');
+      }
+    }
+
+    function initializeSections() {
+      // 必須セクションは初期展開
+      const requiredSections = [\'ai-basic\', \'price-calc\', \'shipping\'];
+      requiredSections.forEach(sectionId => {
+        const content = document.getElementById(\'content-\' + sectionId);
+        content.classList.add(\'expanded\');
+      });
+    }
+
+    function updateSectionStates() {
+      document.querySelectorAll(\'[name^="edit-"]\').forEach(radio => {
+        radio.addEventListener(\'change\', function() {
+          const sectionId = this.name.replace(\'edit-\', \'\');
+          const content = document.getElementById(\'content-\' + sectionId);
+          const isEdit = this.value === \'edit\';
+
+          if (isEdit) {
+            content.classList.remove(\'disabled-overlay\');
+          } else {
+            content.classList.add(\'disabled-overlay\');
+          }
+        });
+      });
+    }
+
+    // タグ自動判定の表示切替 + 既存UI連動
+    function toggleTagOverrideItems() {
+      var masterEnabled = document.getElementById(\'tagOverrideEnabled\').checked;
+      document.getElementById(\'tagOverrideItems\').style.display = masterEnabled ? \'block\' : \'none\';
+
+      // プロンプト自動選択との連動（マスターON + 個別トグルON時のみ）
+      var promptCb = document.getElementById(\'autoPromptSelect\');
+      var promptNote = document.getElementById(\'promptOverrideNote\');
+      var promptToggle = document.getElementById(\'tagOverridePrompt\');
+      if (masterEnabled && promptToggle.checked) {
+        if (!promptCb.hasAttribute(\'data-saved-state\')) {
+          promptCb.setAttribute(\'data-saved-state\', promptCb.checked ? \'true\' : \'false\');
+        }
+        promptCb.checked = true;
+        promptCb.disabled = true;
+        promptNote.style.display = \'inline\';
+      } else {
+        var saved = promptCb.getAttribute(\'data-saved-state\');
+        if (saved !== null) {
+          promptCb.checked = (saved === \'true\');
+          promptCb.removeAttribute(\'data-saved-state\');
+        }
+        promptCb.disabled = false;
+        promptNote.style.display = \'none\';
+      }
+
+      // 送料計算方法との連動（マスターON + 送料トグルON時のみ）
+      var shippingRadios = document.querySelectorAll(\'input[name="shippingCalcMethod"]\');
+      var shippingNote = document.getElementById(\'shippingOverrideNote\');
+      var shippingToggle = document.getElementById(\'tagOverrideShipping\');
+      if (masterEnabled && shippingToggle.checked) {
+        shippingRadios.forEach(function(r) {
+          if (!r.hasAttribute(\'data-saved-state\')) {
+            r.setAttribute(\'data-saved-state\', r.checked ? \'true\' : \'false\');
+          }
+        });
+        shippingRadios.forEach(function(r) {
+          r.checked = (r.value === \'TAG_SHIPPING\');
+          r.disabled = true;
+        });
+        shippingNote.style.display = \'block\';
+      } else {
+        shippingRadios.forEach(function(r) {
+          var saved = r.getAttribute(\'data-saved-state\');
+          if (saved !== null) {
+            r.checked = (saved === \'true\');
+            r.removeAttribute(\'data-saved-state\');
+          }
+          r.disabled = false;
+        });
+        shippingNote.style.display = \'none\';
+      }
+    }
+
+    // APIキー表示/入力切り替え
+    function showApiKeyInput(platform) {
+      document.getElementById(platform + \'ApiKeyDisplay\').classList.add(\'hidden\');
+      document.getElementById(platform + \'ApiKeyInput\').classList.remove(\'hidden\');
+      document.getElementById(platform + \'ApiKey\').focus();
+    }
+
+    function cancelApiKeyChange(platform) {
+      document.getElementById(platform + \'ApiKeyInput\').classList.add(\'hidden\');
+      document.getElementById(platform + \'ApiKeyDisplay\').classList.remove(\'hidden\');
+      document.getElementById(platform + \'ApiKey\').value = \'\';
+    }
+
+    // プラットフォームタブ
+    function initializePlatformTabs() {
+      const tabs = document.querySelectorAll(\'.platform-tab\');
+      const contents = {
+        openai: document.getElementById(\'openai-content\'),
+        claude: document.getElementById(\'claude-content\'),
+        gemini: document.getElementById(\'gemini-content\')
+      };
+
+      function activatePlatform(platform) {
+        tabs.forEach(tab => tab.classList.toggle(\'active\', tab.dataset.platform === platform));
+        Object.keys(contents).forEach(key => contents[key].classList.toggle(\'active\', key === platform));
+      }
+
+      activatePlatform(CURRENT_PLATFORM || \'openai\');
+
+      tabs.forEach(tab => {
+        tab.addEventListener(\'click\', function() {
+          activatePlatform(this.dataset.platform);
+        });
+      });
+    }
+
+    // シート名取得
+    function loadSheetNames() {
+      google.script.run
+        .withSuccessHandler(function(sheetNames) {
+          allSheetNames = sheetNames;
+          populateSheetDropdowns();
+        })
+        .withFailureHandler(function(error) {
+          console.error(\'シート名取得エラー:\', error);
+        })
+        .getAllSheetNames();
+    }
+
+    function populateSheetDropdowns() {
+      const duplicateSourceSheet = document.getElementById(\'duplicateSourceSheet\');
+      const outputSheet = document.getElementById(\'outputSheet\');
+      
+      [duplicateSourceSheet, outputSheet].forEach(select => {
+        if (select) {
+          select.innerHTML = \'<option value="">シートを選択してください</option>\';
+          allSheetNames.forEach(name => {
+            const option = document.createElement(\'option\');
+            option.value = name;
+            option.textContent = name;
+            select.appendChild(option);
+          });
+        }
+      });
+
+      // 出力列の設定
+      const outputColumn = document.getElementById(\'outputColumn\');
+      if (outputColumn) {
+        outputColumn.innerHTML = \'<option value="">列を選択...</option>\';
+        // A～Z列
+        for (let i = 0; i < 26; i++) {
+          const col = String.fromCharCode(65 + i);
+          const option = document.createElement(\'option\');
+          option.value = col;
+          option.textContent = col + \'列\';
+          outputColumn.appendChild(option);
+        }
+        // AA～AZ列
+        for (let i = 0; i < 26; i++) {
+          const col = \'A\' + String.fromCharCode(65 + i);
+          const option = document.createElement(\'option\');
+          option.value = col;
+          option.textContent = col + \'列\';
+          outputColumn.appendChild(option);
+        }
+      }
+    }
+
+    // イベントリスナー設定
+    function setupEventListeners() {
+      // DDU価格調整機能
+      const dduCheckbox = document.getElementById(\'dduAdjustmentEnabled\');
+      const dduSettings = document.getElementById(\'dduSettingsGroup\');
+      
+      function toggleDduSettings() {
+        const enabled = dduCheckbox.checked;
+        dduSettings.style.display = enabled ? \'block\' : \'none\';
+        dduSettings.style.opacity = enabled ? \'1\' : \'0.5\';
+      }
+      
+      if (dduCheckbox) {
+        dduCheckbox.addEventListener(\'change\', toggleDduSettings);
+        toggleDduSettings();
+      }
+
+      // 重複チェック機能
+      const duplicateCheckbox = document.getElementById(\'duplicateCheckEnabled\');
+      const duplicateSettings = document.getElementById(\'duplicateCheckSettings\');
+      
+      function toggleDuplicateSettings() {
+        const enabled = duplicateCheckbox.checked;
+        duplicateSettings.style.display = enabled ? \'block\' : \'none\';
+        duplicateSettings.style.opacity = enabled ? \'1\' : \'0.5\';
+      }
+      
+      if (duplicateCheckbox) {
+        duplicateCheckbox.addEventListener(\'change\', toggleDuplicateSettings);
+        toggleDuplicateSettings();
+      }
+
+      // 出力設定表示制御
+      const applyCheckbox = document.getElementById(\'applyToSheet\');
+      const outputSettings = document.getElementById(\'outputSettings\');
+
+      if (applyCheckbox) {
+        applyCheckbox.addEventListener(\'change\', function() {
+          outputSettings.style.display = this.checked ? \'block\' : \'none\';
+        });
+      }
+
+      // 送料レート更新チェックボックス
+      const shippingUpdateCheckbox = document.getElementById(\'updateShippingRates\');
+      const shippingUpdateWarning = document.getElementById(\'shippingUpdateWarning\');
+
+      if (shippingUpdateCheckbox) {
+        shippingUpdateCheckbox.addEventListener(\'change\', function() {
+          shippingUpdateWarning.style.display = this.checked ? \'block\' : \'none\';
+        });
+      }
+
+      // フォーム送信
+      const form = document.getElementById(\'setupForm\');
+      const saveBtn = document.getElementById(\'saveBtn\');
+      const btnLabel = saveBtn.querySelector(\'.btn-label\');
+
+      form.addEventListener(\'submit\', function(e) {
+        e.preventDefault();
+        handleFormSubmit();
+      });
+
+      // キャンセル
+      document.getElementById(\'cancelBtn\').addEventListener(\'click\', function() {
+        google.script.host.close();
+      });
+    }
+
+    // 重複チェック: 参照シート追加
+    function addTargetSheetDropdown() {
+      const container = document.getElementById(\'targetSheetsContainer\');
+      const noMsgDiv = document.getElementById(\'noTargetSheetsMsg\');
+      if (noMsgDiv) noMsgDiv.style.display = \'none\';
+      
+      targetSheetCounter++;
+      const itemDiv = document.createElement(\'div\');
+      itemDiv.className = \'target-sheet-item\';
+      itemDiv.id = \'targetSheet_\' + targetSheetCounter;
+      
+      // シート選択
+      const sheetDiv = document.createElement(\'div\');
+      const sheetSelect = document.createElement(\'select\');
+      sheetSelect.className = \'target-sheet-select\';
+      sheetSelect.innerHTML = \'<option value="">参照シートを選択</option>\';
+      
+      allSheetNames.forEach(name => {
+        const option = document.createElement(\'option\');
+        option.value = name;
+        option.textContent = name;
+        sheetSelect.appendChild(option);
+      });
+      
+      const specialOption = document.createElement(\'option\');
+      specialOption.value = \'保存データ_*\';
+      specialOption.textContent = \'保存データ_* (パターンマッチ)\';
+      sheetSelect.appendChild(specialOption);
+      
+      sheetDiv.appendChild(sheetSelect);
+      
+      // 列選択
+      const columnDiv = document.createElement(\'div\');
+      const columnSelect = document.createElement(\'select\');
+      columnSelect.className = \'target-column-select\';
+      columnSelect.innerHTML = \'<option value="">列選択</option>\';
+      
+      [\'A\',\'B\',\'C\',\'D\',\'E\',\'F\',\'G\',\'H\',\'I\',\'J\'].forEach(col => {
+        const option = document.createElement(\'option\');
+        option.value = col;
+        option.textContent = col + \'列\';
+        if (col === \'H\') option.selected = true;
+        columnSelect.appendChild(option);
+      });
+      columnDiv.appendChild(columnSelect);
+      
+      // 削除ボタン
+      const removeBtn = document.createElement(\'button\');
+      removeBtn.textContent = \'削除\';
+      removeBtn.type = \'button\';
+      removeBtn.onclick = function() {
+        itemDiv.remove();
+        if (container.querySelectorAll(\'.target-sheet-item\').length === 0) {
+          if (noMsgDiv) noMsgDiv.style.display = \'block\';
+        }
+      };
+      
+      itemDiv.appendChild(sheetDiv);
+      itemDiv.appendChild(columnDiv);
+      itemDiv.appendChild(removeBtn);
+      container.appendChild(itemDiv);
+    }
+
+    // フォーム送信処理
+    function handleFormSubmit() {
+      const saveBtn = document.getElementById(\'saveBtn\');
+      const btnLabel = saveBtn.querySelector(\'.btn-label\');
+
+      function setLoading(isLoading) {
+        if (isLoading) {
+          saveBtn.disabled = true;
+          btnLabel.innerHTML = \'<span class="spinner"></span>保存中...\';
+        } else {
+          saveBtn.disabled = false;
+          btnLabel.textContent = \'保存\';
+        }
+      }
+
+      // アクティブプラットフォーム特定
+      const activeTab = document.querySelector(\'.platform-tab.active\');
+      const activePlatform = activeTab ? activeTab.getAttribute(\'data-platform\') : \'openai\';
+
+      let apiKey = \'\', model = \'\';
+      let hasExistingKey = false;
+      if (activePlatform === \'openai\') {
+        apiKey = document.getElementById(\'openaiApiKey\').value.trim();
+        model = document.getElementById(\'openaiModel\').value || DEFAULT_OPENAI_MODEL;
+        hasExistingKey = !document.getElementById(\'openaiApiKeyDisplay\').classList.contains(\'hidden\');
+      } else if (activePlatform === \'claude\') {
+        apiKey = document.getElementById(\'claudeApiKey\').value.trim();
+        model = document.getElementById(\'claudeModel\').value;
+        hasExistingKey = !document.getElementById(\'claudeApiKeyDisplay\').classList.contains(\'hidden\');
+      } else if (activePlatform === \'gemini\') {
+        apiKey = document.getElementById(\'geminiApiKey\').value.trim();
+        model = document.getElementById(\'geminiModel\').value;
+        hasExistingKey = !document.getElementById(\'geminiApiKeyDisplay\').classList.contains(\'hidden\');
+      }
+
+      // APIキーが空で既存キーもない場合はエラー
+      if (!apiKey && !hasExistingKey) {
+        alert(\'選択したプラットフォームのAPIキーを入力してください。\');
+        return;
+      }
+
+      // APIキーが空の場合は特別な値を送信（サーバー側で既存キーを維持）
+      const apiKeyToSend = apiKey || \'__KEEP_EXISTING__\';
+
+      // 重複チェックの対象シート収集
+      const targetSheets = [];
+      const targetItems = document.querySelectorAll(\'.target-sheet-item\');
+      targetItems.forEach(item => {
+        const sheetSelect = item.querySelector(\'.target-sheet-select\');
+        const columnSelect = item.querySelector(\'.target-column-select\');
+        
+        if (sheetSelect && sheetSelect.value && columnSelect && columnSelect.value) {
+          targetSheets.push({
+            sheet: sheetSelect.value,
+            column: columnSelect.value
+          });
+        }
+      });
+
+      const formData = {
+        // 基本設定
+        platform: activePlatform,
+        apiKey: apiKeyToSend,
+        model: model,
+        sheetName: document.getElementById(\'sheetName\').value,
+        
+        // プロンプト設定
+        promptId: document.getElementById(\'promptId\').value,
+        autoPromptSelect: document.getElementById(\'autoPromptSelect\').checked ? \'true\' : \'false\',
+        syncPromptAdd: document.getElementById(\'syncPromptAdd\').checked ? \'true\' : \'false\',
+        syncPromptUpdate: document.getElementById(\'syncPromptUpdate\').checked ? \'true\' : \'false\',
+
+        // 利益・価格計算
+        profitMethod: document.querySelector(\'input[name="profitMethod"]:checked\').value,
+        priceDisplayMode: document.querySelector(\'input[name="priceDisplayMode"]:checked\').value,
+        dduAdjustmentEnabled: document.getElementById(\'dduAdjustmentEnabled\').checked ? \'true\' : \'false\',
+        dduThreshold: document.getElementById(\'dduThreshold\').value,
+        
+        // 送料・配送設定
+        shippingCalcMethod: document.querySelector(\'input[name="shippingCalcMethod"]:checked\').value,
+        shippingThreshold: document.getElementById(\'shippingThreshold\').value,
+        lowPriceMethod: document.getElementById(\'lowPriceMethod\').value,
+        highPriceMethod: document.getElementById(\'highPriceMethod\').value,
+        updateShippingRates: document.getElementById(\'updateShippingRates\').checked,
+        outputTagList: document.getElementById(\'outputTagList\').checked,
+        
+        // タグ自動判定
+        tagOverrideEnabled: document.getElementById(\'tagOverrideEnabled\').checked ? \'true\' : \'false\',
+        tagOverridePrompt: document.getElementById(\'tagOverridePrompt\').checked ? \'true\' : \'false\',
+        tagOverrideTemplate: document.getElementById(\'tagOverrideTemplate\').checked ? \'true\' : \'false\',
+        tagOverrideShippingCategory: document.getElementById(\'tagOverrideShippingCategory\').checked ? \'true\' : \'false\',
+        tagOverrideProfitRate: document.getElementById(\'tagOverrideProfitRate\').checked ? \'true\' : \'false\',
+        tagOverrideAdRate: document.getElementById(\'tagOverrideAdRate\').checked ? \'true\' : \'false\',
+        tagOverrideFeeRate: document.getElementById(\'tagOverrideFeeRate\').checked ? \'true\' : \'false\',
+        tagOverrideShipping: document.getElementById(\'tagOverrideShipping\').checked ? \'true\' : \'false\',
+        tagOverrideLowShipping: document.getElementById(\'tagOverrideLowShipping\').checked ? \'true\' : \'false\',
+        tagOverrideHighShipping: document.getElementById(\'tagOverrideHighShipping\').checked ? \'true\' : \'false\',
+        tagOverrideThreshold: document.getElementById(\'tagOverrideThreshold\').checked ? \'true\' : \'false\',
+
+        // プリセット設定
+        presetGenre: document.querySelector(\'input[name="presetGenre"]:checked\').value,
+        presetWeight: document.getElementById(\'presetWeight\').value,
+
+        // 重複チェック設定
+        duplicateCheckEnabled: document.getElementById(\'duplicateCheckEnabled\').checked,
+        duplicateSourceSheet: document.getElementById(\'duplicateSourceSheet\').value,
+        duplicateSourceColumn: document.getElementById(\'duplicateSourceColumn\').value,
+        duplicateTargetSheets: targetSheets,
+        duplicateApplyToSheet: document.getElementById(\'applyToSheet\').checked,
+        duplicateOutputSheet: document.getElementById(\'outputSheet\').value,
+        duplicateOutputColumn: document.getElementById(\'outputColumn\').value,
+        duplicateOutputStartRow: document.getElementById(\'outputStartRow\').value,
+        duplicateOutputRange: document.getElementById(\'outputRange\').value,
+        
+        // 表示設定
+        showPopups: document.querySelector(\'input[name="showPopups"]:checked\').value
+      };
+
+      setLoading(true);
+      google.script.run
+        .withSuccessHandler(function(result) {
+          setLoading(false);
+          if (result.success) {
+            google.script.host.close();
+          } else {
+            alert(\'保存に失敗しました: \' + result.error);
+          }
+        })
+        .withFailureHandler(function(error) {
+          setLoading(false);
+          alert(\'エラーが発生しました: \' + (error && error.message ? error.message : error));
+        })
+        .saveIntegratedSettings(formData);
+    }
+  </script>
+</body>
+</html>
+';\n\n          if (isEdit) {\n            content.classList.remove(\'disabled-overlay\');\n          } else {\n            content.classList.add(\'disabled-overlay\');\n          }\n        });\n      });\n    }\n\n    // タグ自動判定の表示切替 + 既存UI連動\n    function toggleTagOverrideItems() {\n      var masterEnabled = document.getElementById(\'tagOverrideEnabled\').checked;\n      document.getElementById(\'tagOverrideItems\').style.display = masterEnabled ? \'block\' : \'none\';\n\n      // プロンプト自動選択との連動（マスターON + 個別トグルON時のみ）\n      var promptCb = document.getElementById(\'autoPromptSelect\');\n      var promptNote = document.getElementById(\'promptOverrideNote\');\n      var promptToggle = document.getElementById(\'tagOverridePrompt\');\n      if (masterEnabled && promptToggle.checked) {\n        promptCb.setAttribute(\'data-saved-state\', promptCb.checked ? \'true\' : \'false\');\n        promptCb.checked = true;\n        promptCb.disabled = true;\n        promptNote.style.display = \'inline\';\n      } else {\n        var saved = promptCb.getAttribute(\'data-saved-state\');\n        if (saved !== null) promptCb.checked = (saved === \'true\');\n        promptCb.disabled = false;\n        promptNote.style.display = \'none\';\n      }\n\n      // 送料計算方法との連動（マスターON + 送料トグルON時のみ）\n      var shippingRadios = document.querySelectorAll(\'input[name="shippingCalcMethod"]\');\n      var shippingNote = document.getElementById(\'shippingOverrideNote\');\n      var shippingToggle = document.getElementById(\'tagOverrideShipping\');\n      if (masterEnabled && shippingToggle.checked) {\n        shippingRadios.forEach(function(r) {\n          r.setAttribute(\'data-saved-state\', r.checked ? \'true\' : \'false\');\n        });\n        shippingRadios.forEach(function(r) {\n          r.checked = (r.value === \'TAG_SHIPPING\');\n          r.disabled = true;\n        });\n        shippingNote.style.display = \'block\';\n      } else {\n        shippingRadios.forEach(function(r) {\n          var saved = r.getAttribute(\'data-saved-state\');\n          if (saved !== null) r.checked = (saved === \'true\');\n          r.disabled = false;\n        });\n        shippingNote.style.display = \'none\';\n      }\n    }\n\n    // APIキー表示/入力切り替え\n    function showApiKeyInput(platform) {\n      document.getElementById(platform + \'ApiKeyDisplay\').classList.add(\'hidden\');\n      document.getElementById(platform + \'ApiKeyInput\').classList.remove(\'hidden\');\n      document.getElementById(platform + \'ApiKey\').focus();\n    }\n\n    function cancelApiKeyChange(platform) {\n      document.getElementById(platform + \'ApiKeyInput\').classList.add(\'hidden\');\n      document.getElementById(platform + \'ApiKeyDisplay\').classList.remove(\'hidden\');\n      document.getElementById(platform + \'ApiKey\').value = \'\';\n    }\n\n    // プラットフォームタブ\n    function initializePlatformTabs() {\n      const tabs = document.querySelectorAll(\'.platform-tab\');\n      const contents = {\n        openai: document.getElementById(\'openai-content\'),\n        claude: document.getElementById(\'claude-content\'),\n        gemini: document.getElementById(\'gemini-content\')\n      };\n\n      function activatePlatform(platform) {\n        tabs.forEach(tab => tab.classList.toggle(\'active\', tab.dataset.platform === platform));\n        Object.keys(contents).forEach(key => contents[key].classList.toggle(\'active\', key === platform));\n      }\n\n      activatePlatform(CURRENT_PLATFORM || \'openai\');\n\n      tabs.forEach(tab => {\n        tab.addEventListener(\'click\', function() {\n          activatePlatform(this.dataset.platform);\n        });\n      });\n    }\n\n    // シート名取得\n    function loadSheetNames() {\n      google.script.run\n        .withSuccessHandler(function(sheetNames) {\n          allSheetNames = sheetNames;\n          populateSheetDropdowns();\n        })\n        .withFailureHandler(function(error) {\n          console.error(\'シート名取得エラー:\', error);\n        })\n        .getAllSheetNames();\n    }\n\n    function populateSheetDropdowns() {\n      const duplicateSourceSheet = document.getElementById(\'duplicateSourceSheet\');\n      const outputSheet = document.getElementById(\'outputSheet\');\n      \n      [duplicateSourceSheet, outputSheet].forEach(select => {\n        if (select) {\n          select.innerHTML = \'<option value="">シートを選択してください</option>\';\n          allSheetNames.forEach(name => {\n            const option = document.createElement(\'option\');\n            option.value = name;\n            option.textContent = name;\n            select.appendChild(option);\n          });\n        }\n      });\n\n      // 出力列の設定\n      const outputColumn = document.getElementById(\'outputColumn\');\n      if (outputColumn) {\n        outputColumn.innerHTML = \'<option value="">列を選択...</option>\';\n        // A～Z列\n        for (let i = 0; i < 26; i++) {\n          const col = String.fromCharCode(65 + i);\n          const option = document.createElement(\'option\');\n          option.value = col;\n          option.textContent = col + \'列\';\n          outputColumn.appendChild(option);\n        }\n        // AA～AZ列\n        for (let i = 0; i < 26; i++) {\n          const col = \'A\' + String.fromCharCode(65 + i);\n          const option = document.createElement(\'option\');\n          option.value = col;\n          option.textContent = col + \'列\';\n          outputColumn.appendChild(option);\n        }\n      }\n    }\n\n    // イベントリスナー設定\n    function setupEventListeners() {\n      // DDU価格調整機能\n      const dduCheckbox = document.getElementById(\'dduAdjustmentEnabled\');\n      const dduSettings = document.getElementById(\'dduSettingsGroup\');\n      \n      function toggleDduSettings() {\n        const enabled = dduCheckbox.checked;\n        dduSettings.style.display = enabled ? \'block\' : \'none\';\n        dduSettings.style.opacity = enabled ? \'1\' : \'0.5\';\n      }\n      \n      if (dduCheckbox) {\n        dduCheckbox.addEventListener(\'change\', toggleDduSettings);\n        toggleDduSettings();\n      }\n\n      // 重複チェック機能\n      const duplicateCheckbox = document.getElementById(\'duplicateCheckEnabled\');\n      const duplicateSettings = document.getElementById(\'duplicateCheckSettings\');\n      \n      function toggleDuplicateSettings() {\n        const enabled = duplicateCheckbox.checked;\n        duplicateSettings.style.display = enabled ? \'block\' : \'none\';\n        duplicateSettings.style.opacity = enabled ? \'1\' : \'0.5\';\n      }\n      \n      if (duplicateCheckbox) {\n        duplicateCheckbox.addEventListener(\'change\', toggleDuplicateSettings);\n        toggleDuplicateSettings();\n      }\n\n      // 出力設定表示制御\n      const applyCheckbox = document.getElementById(\'applyToSheet\');\n      const outputSettings = document.getElementById(\'outputSettings\');\n\n      if (applyCheckbox) {\n        applyCheckbox.addEventListener(\'change\', function() {\n          outputSettings.style.display = this.checked ? \'block\' : \'none\';\n        });\n      }\n\n      // 送料レート更新チェックボックス\n      const shippingUpdateCheckbox = document.getElementById(\'updateShippingRates\');\n      const shippingUpdateWarning = document.getElementById(\'shippingUpdateWarning\');\n\n      if (shippingUpdateCheckbox) {\n        shippingUpdateCheckbox.addEventListener(\'change\', function() {\n          shippingUpdateWarning.style.display = this.checked ? \'block\' : \'none\';\n        });\n      }\n\n      // フォーム送信\n      const form = document.getElementById(\'setupForm\');\n      const saveBtn = document.getElementById(\'saveBtn\');\n      const btnLabel = saveBtn.querySelector(\'.btn-label\');\n\n      form.addEventListener(\'submit\', function(e) {\n        e.preventDefault();\n        handleFormSubmit();\n      });\n\n      // キャンセル\n      document.getElementById(\'cancelBtn\').addEventListener(\'click\', function() {\n        google.script.host.close();\n      });\n    }\n\n    // 重複チェック: 参照シート追加\n    function addTargetSheetDropdown() {\n      const container = document.getElementById(\'targetSheetsContainer\');\n      const noMsgDiv = document.getElementById(\'noTargetSheetsMsg\');\n      if (noMsgDiv) noMsgDiv.style.display = \'none\';\n      \n      targetSheetCounter++;\n      const itemDiv = document.createElement(\'div\');\n      itemDiv.className = \'target-sheet-item\';\n      itemDiv.id = \'targetSheet_\' + targetSheetCounter;\n      \n      // シート選択\n      const sheetDiv = document.createElement(\'div\');\n      const sheetSelect = document.createElement(\'select\');\n      sheetSelect.className = \'target-sheet-select\';\n      sheetSelect.innerHTML = \'<option value="">参照シートを選択</option>\';\n      \n      allSheetNames.forEach(name => {\n        const option = document.createElement(\'option\');\n        option.value = name;\n        option.textContent = name;\n        sheetSelect.appendChild(option);\n      });\n      \n      const specialOption = document.createElement(\'option\');\n      specialOption.value = \'保存データ_*\';\n      specialOption.textContent = \'保存データ_* (パターンマッチ)\';\n      sheetSelect.appendChild(specialOption);\n      \n      sheetDiv.appendChild(sheetSelect);\n      \n      // 列選択\n      const columnDiv = document.createElement(\'div\');\n      const columnSelect = document.createElement(\'select\');\n      columnSelect.className = \'target-column-select\';\n      columnSelect.innerHTML = \'<option value="">列選択</option>\';\n      \n      [\'A\',\'B\',\'C\',\'D\',\'E\',\'F\',\'G\',\'H\',\'I\',\'J\'].forEach(col => {\n        const option = document.createElement(\'option\');\n        option.value = col;\n        option.textContent = col + \'列\';\n        if (col === \'H\') option.selected = true;\n        columnSelect.appendChild(option);\n      });\n      columnDiv.appendChild(columnSelect);\n      \n      // 削除ボタン\n      const removeBtn = document.createElement(\'button\');\n      removeBtn.textContent = \'削除\';\n      removeBtn.type = \'button\';\n      removeBtn.onclick = function() {\n        itemDiv.remove();\n        if (container.querySelectorAll(\'.target-sheet-item\').length === 0) {\n          if (noMsgDiv) noMsgDiv.style.display = \'block\';\n        }\n      };\n      \n      itemDiv.appendChild(sheetDiv);\n      itemDiv.appendChild(columnDiv);\n      itemDiv.appendChild(removeBtn);\n      container.appendChild(itemDiv);\n    }\n\n    // フォーム送信処理\n    function handleFormSubmit() {\n      const saveBtn = document.getElementById(\'saveBtn\');\n      const btnLabel = saveBtn.querySelector(\'.btn-label\');\n\n      function setLoading(isLoading) {\n        if (isLoading) {\n          saveBtn.disabled = true;\n          btnLabel.innerHTML = \'<span class="spinner"></span>保存中...\';\n        } else {\n          saveBtn.disabled = false;\n          btnLabel.textContent = \'保存\';\n        }\n      }\n\n      // アクティブプラットフォーム特定\n      const activeTab = document.querySelector(\'.platform-tab.active\');\n      const activePlatform = activeTab ? activeTab.getAttribute(\'data-platform\') : \'openai\';\n\n      let apiKey = \'\', model = \'\';\n      let hasExistingKey = false;\n      if (activePlatform === \'openai\') {\n        apiKey = document.getElementById(\'openaiApiKey\').value.trim();\n        model = document.getElementById(\'openaiModel\').value || DEFAULT_OPENAI_MODEL;\n        hasExistingKey = !document.getElementById(\'openaiApiKeyDisplay\').classList.contains(\'hidden\');\n      } else if (activePlatform === \'claude\') {\n        apiKey = document.getElementById(\'claudeApiKey\').value.trim();\n        model = document.getElementById(\'claudeModel\').value;\n        hasExistingKey = !document.getElementById(\'claudeApiKeyDisplay\').classList.contains(\'hidden\');\n      } else if (activePlatform === \'gemini\') {\n        apiKey = document.getElementById(\'geminiApiKey\').value.trim();\n        model = document.getElementById(\'geminiModel\').value;\n        hasExistingKey = !document.getElementById(\'geminiApiKeyDisplay\').classList.contains(\'hidden\');\n      }\n\n      // APIキーが空で既存キーもない場合はエラー\n      if (!apiKey && !hasExistingKey) {\n        alert(\'選択したプラットフォームのAPIキーを入力してください。\');\n        return;\n      }\n\n      // APIキーが空の場合は特別な値を送信（サーバー側で既存キーを維持）\n      const apiKeyToSend = apiKey || \'__KEEP_EXISTING__\';\n\n      // 重複チェックの対象シート収集\n      const targetSheets = [];\n      const targetItems = document.querySelectorAll(\'.target-sheet-item\');\n      targetItems.forEach(item => {\n        const sheetSelect = item.querySelector(\'.target-sheet-select\');\n        const columnSelect = item.querySelector(\'.target-column-select\');\n        \n        if (sheetSelect && sheetSelect.value && columnSelect && columnSelect.value) {\n          targetSheets.push({\n            sheet: sheetSelect.value,\n            column: columnSelect.value\n          });\n        }\n      });\n\n      const formData = {\n        // 基本設定\n        platform: activePlatform,\n        apiKey: apiKeyToSend,\n        model: model,\n        sheetName: document.getElementById(\'sheetName\').value,\n        \n        // プロンプト設定\n        promptId: document.getElementById(\'promptId\').value,\n        autoPromptSelect: document.getElementById(\'autoPromptSelect\').checked ? \'true\' : \'false\',\n        syncPromptAdd: document.getElementById(\'syncPromptAdd\').checked ? \'true\' : \'false\',\n        syncPromptUpdate: document.getElementById(\'syncPromptUpdate\').checked ? \'true\' : \'false\',\n\n        // 利益・価格計算\n        profitMethod: document.querySelector(\'input[name="profitMethod"]:checked\').value,\n        priceDisplayMode: document.querySelector(\'input[name="priceDisplayMode"]:checked\').value,\n        dduAdjustmentEnabled: document.getElementById(\'dduAdjustmentEnabled\').checked ? \'true\' : \'false\',\n        dduThreshold: document.getElementById(\'dduThreshold\').value,\n        \n        // 送料・配送設定\n        shippingCalcMethod: document.querySelector(\'input[name="shippingCalcMethod"]:checked\').value,\n        shippingThreshold: document.getElementById(\'shippingThreshold\').value,\n        lowPriceMethod: document.getElementById(\'lowPriceMethod\').value,\n        highPriceMethod: document.getElementById(\'highPriceMethod\').value,\n        updateShippingRates: document.getElementById(\'updateShippingRates\').checked,\n        outputTagList: document.getElementById(\'outputTagList\').checked,\n        \n        // タグ自動判定\n        tagOverrideEnabled: document.getElementById(\'tagOverrideEnabled\').checked ? \'true\' : \'false\',\n        tagOverridePrompt: document.getElementById(\'tagOverridePrompt\').checked ? \'true\' : \'false\',\n        tagOverrideTemplate: document.getElementById(\'tagOverrideTemplate\').checked ? \'true\' : \'false\',\n        tagOverrideShippingCategory: document.getElementById(\'tagOverrideShippingCategory\').checked ? \'true\' : \'false\',\n        tagOverrideProfitRate: document.getElementById(\'tagOverrideProfitRate\').checked ? \'true\' : \'false\',\n        tagOverrideAdRate: document.getElementById(\'tagOverrideAdRate\').checked ? \'true\' : \'false\',\n        tagOverrideFeeRate: document.getElementById(\'tagOverrideFeeRate\').checked ? \'true\' : \'false\',\n        tagOverrideShipping: document.getElementById(\'tagOverrideShipping\').checked ? \'true\' : \'false\',\n        tagOverrideLowShipping: document.getElementById(\'tagOverrideLowShipping\').checked ? \'true\' : \'false\',\n        tagOverrideHighShipping: document.getElementById(\'tagOverrideHighShipping\').checked ? \'true\' : \'false\',\n        tagOverrideThreshold: document.getElementById(\'tagOverrideThreshold\').checked ? \'true\' : \'false\',\n\n        // プリセット設定\n        presetGenre: document.querySelector(\'input[name="presetGenre"]:checked\').value,\n        presetWeight: document.getElementById(\'presetWeight\').value,\n\n        // 重複チェック設定\n        duplicateCheckEnabled: document.getElementById(\'duplicateCheckEnabled\').checked,\n        duplicateSourceSheet: document.getElementById(\'duplicateSourceSheet\').value,\n        duplicateSourceColumn: document.getElementById(\'duplicateSourceColumn\').value,\n        duplicateTargetSheets: targetSheets,\n        duplicateApplyToSheet: document.getElementById(\'applyToSheet\').checked,\n        duplicateOutputSheet: document.getElementById(\'outputSheet\').value,\n        duplicateOutputColumn: document.getElementById(\'outputColumn\').value,\n        duplicateOutputStartRow: document.getElementById(\'outputStartRow\').value,\n        duplicateOutputRange: document.getElementById(\'outputRange\').value,\n        \n        // 表示設定\n        showPopups: document.querySelector(\'input[name="showPopups"]:checked\').value\n      };\n\n      setLoading(true);\n      google.script.run\n        .withSuccessHandler(function(result) {\n          setLoading(false);\n          if (result.success) {\n            google.script.host.close();\n          } else {\n            alert(\'保存に失敗しました: \' + result.error);\n          }\n        })\n        .withFailureHandler(function(error) {\n          setLoading(false);\n          alert(\'エラーが発生しました: \' + (error && error.message ? error.message : error));\n        })\n        .saveIntegratedSettings(formData);\n    }\n  </script>\n</body>\n</html>\n';
 
 
 /**

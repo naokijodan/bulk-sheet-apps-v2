@@ -1142,13 +1142,18 @@
       var promptNote = document.getElementById('promptOverrideNote');
       var promptToggle = document.getElementById('tagOverridePrompt');
       if (masterEnabled && promptToggle.checked) {
-        promptCb.setAttribute('data-saved-state', promptCb.checked ? 'true' : 'false');
+        if (!promptCb.hasAttribute('data-saved-state')) {
+          promptCb.setAttribute('data-saved-state', promptCb.checked ? 'true' : 'false');
+        }
         promptCb.checked = true;
         promptCb.disabled = true;
         promptNote.style.display = 'inline';
       } else {
         var saved = promptCb.getAttribute('data-saved-state');
-        if (saved !== null) promptCb.checked = (saved === 'true');
+        if (saved !== null) {
+          promptCb.checked = (saved === 'true');
+          promptCb.removeAttribute('data-saved-state');
+        }
         promptCb.disabled = false;
         promptNote.style.display = 'none';
       }
@@ -1159,7 +1164,9 @@
       var shippingToggle = document.getElementById('tagOverrideShipping');
       if (masterEnabled && shippingToggle.checked) {
         shippingRadios.forEach(function(r) {
-          r.setAttribute('data-saved-state', r.checked ? 'true' : 'false');
+          if (!r.hasAttribute('data-saved-state')) {
+            r.setAttribute('data-saved-state', r.checked ? 'true' : 'false');
+          }
         });
         shippingRadios.forEach(function(r) {
           r.checked = (r.value === 'TAG_SHIPPING');
@@ -1169,7 +1176,10 @@
       } else {
         shippingRadios.forEach(function(r) {
           var saved = r.getAttribute('data-saved-state');
-          if (saved !== null) r.checked = (saved === 'true');
+          if (saved !== null) {
+            r.checked = (saved === 'true');
+            r.removeAttribute('data-saved-state');
+          }
           r.disabled = false;
         });
         shippingNote.style.display = 'none';
