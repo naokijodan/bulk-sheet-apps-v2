@@ -1,0 +1,297 @@
+以下の2ファイルを作成してください。Google Apps Script（GAS）のコードです。
+
+## 出力先
+- /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/Config_IS.gs
+- /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/Dictionary.gs
+
+---
+
+## ファイル1: Config_IS.gs — 設定ファイル
+
+Item Specifics自動抽出スクリプト専用の設定ファイル。
+
+```javascript
+/******************************************************
+ * Config_IS.gs - Item Specifics 設定
+ * - 辞書スプレッドシートID
+ * - OpenAI API設定
+ * - 出品2シートの列マッピング
+ ******************************************************/
+```
+
+### 含める設定:
+
+```javascript
+var IS_CONFIG = {
+  // 辞書シートID（後でユーザーが設定）
+  DICTIONARY_SHEET_ID: '',
+
+  // 出品2シートの列マッピング（1-based）
+  COLUMNS: {
+    TAG: 1,          // A列: タグ（日本語カテゴリ: 時計, リング等）
+    TEMPLATE: 2,     // B列: テンプレ
+    REF_EBAY: 3,     // C列: 参考ebayID
+    SUPPLIER: 4,     // D列: 仕入先
+    SUPPLIER_CODE: 5,// E列: 仕入先コード
+    PRICE: 6,        // F列: 出品価格
+    TITLE: 7,        // G列: title（英語）
+    LABEL: 8,        // H列: label
+    OFFER_ACCEPT: 9, // I列: offer了承金額
+    OFFER_DECLINE: 10,// J列: offer拒否金額
+    PRIVATE: 11,     // K列: private_listing
+    DESCRIPTION: 12, // L列: Condition/Description
+    SHIPPING: 13,    // M列: shipping policy
+    ITEM_SPECIFICS_START: 14  // N列〜: Item Specifics開始列
+  },
+
+  // 出品2シートの設定
+  SHEET_NAME: '出品2',
+  HEADER_ROW: 2,      // ヘッダーは2行目
+  DATA_START_ROW: 3,   // データは3行目から
+
+  // AI設定
+  AI: {
+    MODEL: 'gpt-5-nano',
+    MAX_TOKENS: 2000,
+    TEMPERATURE: 0.1,   // 低温で正確な抽出
+    TIMEOUT: 60000,
+    BATCH_SIZE: 5,
+    SLEEP_BETWEEN_CALLS: 1500,
+    SLEEP_BETWEEN_BATCHES: 3000,
+    MAX_RETRIES: 3,
+    PARALLEL_REQUESTS: 5
+  }
+};
+```
+
+### 設定の保存・読み込み関数:
+
+- `getISSettings()` — DocumentPropertiesから設定を読み込み、IS_CONFIGとマージして返す
+  - 辞書シートID: `docProps.getProperty('IS_DICTIONARY_SHEET_ID')`
+  - APIキー: `docProps.getProperty('OPENAI_API_KEY')` （既存と共有）
+  - AIモデル: `docProps.getProperty('IS_AI_MODEL')` || IS_CONFIG.AI.MODEL
+- `saveISSettings(settings)` — DocumentPropertiesに設定を保存
+- `showISSettingsDialog()` — 設定ダイアログ表示（HTMLは使わず、SpreadsheetApp.getUi().prompt()で簡易入力）
+  - 辞書シートIDの設定
+  - AIモデルの選択
+
+---
+
+## ファイル2: Dictionary.gs — 辞書シート管理
+
+辞書スプレッドシートの読み込み・管理機能。
+
+### 辞書シートの構造（テーブル）:
+シート名: "Dictionary"
+| Column A | Column B | Column C | Column D | Column E | Column F |
+|----------|----------|----------|----------|----------|----------|
+| Category | Tag_JP | Field_Name | Field_Type | Priority | Notes |
+| Watches | 時計,腕時計,ウォッチ,懐中時計 | Brand | required | 1 | |
+| Watches | 時計,腕時計,ウォッチ,懐中時計 | Reference Number | required | 2 | |
+| ... | ... | ... | ... | ... | ... |
+
+### 関数一覧:
+
+1. `loadDictionary()` — 辞書シートから全データを読み込み、カテゴリごとにグループ化して返す
+   - 戻り値: `{ "Watches": { tag_jp: ["時計","腕時計",...], fields: [{name:"Brand", type:"required", priority:1, notes:""},...] }, ... }`
+   - キャッシュ: CacheServiceで6時間キャッシュ
+
+2. `getCategoryByTag(tag, dictionary)` — 日本語タグからeBayカテゴリ名を返す
+   - 完全一致を優先、なければ部分一致
+   - 見つからなければnullを返す（AIマッピングにフォールバック）
+
+3. `getFieldsForCategory(category, dictionary)` — カテゴリのItem Specificsフィールドリストを返す
+   - requiredを先に、recommendedを後に、Priority順にソート
+   - 戻り値: [{name, type, priority, notes}, ...]
+
+4. `addCategoryToDictionary(category, tagJp, fields)` — 辞書にカテゴリを追加
+   - fields: [{name, type, priority, notes}, ...]
+   - 辞書シートに行を追加
+
+5. `updateFieldInDictionary(category, fieldName, updates)` — 特定フィールドの更新
+
+6. `deleteCategoryFromDictionary(category)` — カテゴリごと削除
+
+7. `showDictionaryManager()` — 辞書管理UI
+   - サイドバーではなく、SpreadsheetApp.getUi()のalert/promptを使ったシンプルなGUI
+   - カテゴリ一覧表示 → 選択 → フィールド一覧表示 → 追加/編集/削除
+
+8. `initializeDictionary()` — 辞書シートに初期データを一括投入
+   - IS_INITIAL_DATA（後述のConfig_IS.gsに定義）から読み込み
+   - 既存データがある場合は確認してから上書き
+
+### 初期データ（IS_INITIAL_DATA）:
+
+Config_IS.gs の末尾に以下の初期データ定数を追加:
+
+```javascript
+var IS_INITIAL_DATA = [
+  // === Watches ===
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Reference Number', field_type: 'required', priority: 2, notes: 'モデル番号・型番' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Model', field_type: 'required', priority: 3, notes: '' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Type', field_type: 'required', priority: 4, notes: 'Wristwatch / Pocket Watch' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Case Material', field_type: 'required', priority: 5, notes: '' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Band Material', field_type: 'required', priority: 6, notes: '' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Department', field_type: 'required', priority: 7, notes: "Men's / Women's / Unisex" },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Movement', field_type: 'recommended', priority: 8, notes: 'Mechanical / Automatic / Quartz' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Dial Color', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Case Size', field_type: 'recommended', priority: 10, notes: 'mm単位' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Year Manufactured', field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Water Resistance', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Country of Origin', field_type: 'recommended', priority: 13, notes: '製造国（本社所在国ではない）。フルネーム英語: Japan, Switzerland等' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'With Papers', field_type: 'recommended', priority: 14, notes: 'Yes / No' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'With Original Box', field_type: 'recommended', priority: 15, notes: 'Yes / No' },
+
+  // === Rings ===
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Metal', field_type: 'required', priority: 2, notes: 'Gold, Silver, Platinum等' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Metal Purity', field_type: 'required', priority: 3, notes: '18K, 14K, 925等' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Main Stone', field_type: 'required', priority: 4, notes: '' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Type', field_type: 'required', priority: 5, notes: '' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Ring Size', field_type: 'required', priority: 6, notes: '' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Cut Grade', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Main Stone Color', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Main Stone Creation', field_type: 'recommended', priority: 9, notes: 'Natural / Lab-Created' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Setting Style', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Country of Origin', field_type: 'recommended', priority: 11, notes: '製造国。フルネーム英語' },
+
+  // === Necklaces & Pendants ===
+  { category: 'Necklaces & Pendants', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Necklaces & Pendants', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Metal', field_type: 'required', priority: 2, notes: '' },
+  { category: 'Necklaces & Pendants', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Metal Purity', field_type: 'required', priority: 3, notes: '' },
+  { category: 'Necklaces & Pendants', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Main Stone', field_type: 'required', priority: 4, notes: '' },
+  { category: 'Necklaces & Pendants', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Type', field_type: 'required', priority: 5, notes: '' },
+  { category: 'Necklaces & Pendants', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Chain Length', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Necklaces & Pendants', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Chain Type', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Necklaces & Pendants', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Setting Style', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Necklaces & Pendants', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Country of Origin', field_type: 'recommended', priority: 9, notes: '製造国。フルネーム英語' },
+
+  // === Bracelets ===
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Metal', field_type: 'required', priority: 2, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Metal Purity', field_type: 'required', priority: 3, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Main Stone', field_type: 'required', priority: 4, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Type', field_type: 'required', priority: 5, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Length', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Closure', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Setting Style', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Country of Origin', field_type: 'recommended', priority: 9, notes: '製造国。フルネーム英語' },
+
+  // === Earrings ===
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Metal', field_type: 'required', priority: 2, notes: '' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Metal Purity', field_type: 'required', priority: 3, notes: '' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Main Stone', field_type: 'required', priority: 4, notes: '' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Type', field_type: 'required', priority: 5, notes: '' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Fastening', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Setting Style', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Country of Origin', field_type: 'recommended', priority: 8, notes: '製造国。フルネーム英語' },
+
+  // === Handbags ===
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Exterior Color', field_type: 'required', priority: 2, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Exterior Material', field_type: 'required', priority: 3, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Style', field_type: 'required', priority: 4, notes: 'Tote, Shoulder Bag, Crossbody等' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Department', field_type: 'required', priority: 5, notes: "Women / Men / Unisex" },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Pattern', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Handle/Strap Material', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Lining Material', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Hardware Color', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Bag Width', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Bag Height', field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Bag Depth', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Country of Origin', field_type: 'recommended', priority: 13, notes: '製造国。フルネーム英語' },
+
+  // === Clothing ===
+  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Size', field_type: 'required', priority: 2, notes: '' },
+  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Size Type', field_type: 'required', priority: 3, notes: 'Regular, Plus, Petite等' },
+  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Color', field_type: 'required', priority: 4, notes: '' },
+  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Department', field_type: 'required', priority: 5, notes: '' },
+  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Type', field_type: 'required', priority: 6, notes: '' },
+  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Style', field_type: 'required', priority: 7, notes: '' },
+  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Material', field_type: 'recommended', priority: 8, notes: 'メイン素材のみ' },
+  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Pattern', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Sleeve Length', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Closure', field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Fabric Type', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Country of Origin', field_type: 'recommended', priority: 13, notes: '製造国。フルネーム英語' },
+
+  // === Cameras ===
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Model', field_type: 'required', priority: 2, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Type', field_type: 'required', priority: 3, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Series', field_type: 'required', priority: 4, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Color', field_type: 'required', priority: 5, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Maximum Resolution', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Connectivity', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Battery Type', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Features', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Lens Mount', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Country of Origin', field_type: 'recommended', priority: 11, notes: '製造国。フルネーム英語' },
+
+  // === Electronics ===
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー', field_name: 'Model', field_type: 'required', priority: 2, notes: '' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー', field_name: 'Type', field_type: 'required', priority: 3, notes: '' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー', field_name: 'Color', field_type: 'required', priority: 4, notes: '' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー', field_name: 'Connectivity', field_type: 'recommended', priority: 5, notes: '' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー', field_name: 'Features', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー', field_name: 'Screen Size', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー', field_name: 'Country of Origin', field_type: 'recommended', priority: 8, notes: '製造国。フルネーム英語' },
+
+  // === Trading Cards ===
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Game', field_type: 'required', priority: 1, notes: 'Pokemon, Yu-Gi-Oh!, Magic: The Gathering等' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Set', field_type: 'required', priority: 2, notes: '' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Character', field_type: 'required', priority: 3, notes: '' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Card Name', field_type: 'required', priority: 4, notes: '' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Specialty', field_type: 'required', priority: 5, notes: '' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Card Number', field_type: 'required', priority: 6, notes: '' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Finish', field_type: 'required', priority: 7, notes: 'Holo, Reverse Holo, Non-Holo等' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Language', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Graded', field_type: 'recommended', priority: 9, notes: 'Yes / No' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Grade', field_type: 'recommended', priority: 10, notes: 'PSA 10, BGS 9.5等' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Professional Grader', field_type: 'recommended', priority: 11, notes: 'PSA, BGS, CGC等' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Rarity', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Features', field_type: 'recommended', priority: 13, notes: '' },
+
+  // === Shoes ===
+  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'US Shoe Size', field_type: 'required', priority: 2, notes: '' },
+  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Color', field_type: 'required', priority: 3, notes: '' },
+  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Type', field_type: 'required', priority: 4, notes: '' },
+  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Department', field_type: 'required', priority: 5, notes: '' },
+  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Style', field_type: 'required', priority: 6, notes: '' },
+  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Material', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Width', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Pattern', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' },
+
+  // === Collectibles ===
+  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Type', field_type: 'required', priority: 2, notes: '' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Theme', field_type: 'recommended', priority: 3, notes: '' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Material', field_type: 'recommended', priority: 4, notes: '' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Country of Origin', field_type: 'recommended', priority: 5, notes: '製造国。フルネーム英語' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Year', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品,人形', field_name: 'Features', field_type: 'recommended', priority: 7, notes: '' }
+];
+```
+
+### コードスタイル:
+- GAS（ES5互換）: const/let不可、var使用
+- アロー関数不可、function宣言を使用
+- テンプレートリテラル不可、文字列連結使用
+- 関数名はキャメルケース
+- プライベート関数は末尾に `_` を付ける（GAS慣習）
+- エラーハンドリングは必須
+- コメントは日本語OK、変数名・関数名は英語
+
+### 禁止:
+- ScriptProperties（DocumentPropertiesを使用）
+- const / let
+- アロー関数 () => {}
+- テンプレートリテラル ``
+- for...of（GASのV8ランタイムでは動くが安全のため避ける）
+- spread演算子

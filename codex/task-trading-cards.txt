@@ -1,0 +1,29 @@
+ファイル: ItemSpecifics/Config_IS.gs
+
+## タスク: Trading Cards IS_CATEGORY_FIELDS 最適化
+
+### 変更箇所1: IS_CATEGORY_FIELDS の Trading Cards エントリ（1128行目付近）
+
+現状:
+  'Trading Cards': ['Game', 'Language', 'Graded', 'Country/Region of Manufacture'],
+
+変更後:
+  'Trading Cards': ['Game', 'Set', 'Character', 'Card Name', 'Card Number', 'Rarity', 'Finish', 'Language', 'Graded', 'Country/Region of Manufacture'],
+
+### 理由
+- 現状4項目ではSEO効果が低い
+- IS_INITIAL_DATAには既に13フィールドが定義済み（190-203行目）
+- 最も重要な10項目を選定:
+  - Game: ゲーム名（Pokemon等）- 最重要
+  - Set: シリーズ/セット名 - SEO効果大
+  - Character: キャラクター名 - 検索需要高
+  - Card Name: カード名 - 個別カード特定
+  - Card Number: カード番号 - コレクター必須
+  - Rarity: レアリティ - 価値判断基準
+  - Finish: ホロ等の加工 - 価値判断基準
+  - Language: 言語 - 日本語カードは特に重要
+  - Graded: グレーディング有無
+  - Country/Region of Manufacture: eBay必須項目
+
+### 注意
+- この1行のみ変更する。他は触らない。

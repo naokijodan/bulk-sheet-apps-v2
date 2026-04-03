@@ -1,0 +1,179 @@
+以下の3ファイルの統合バグを修正してください。
+
+## 修正対象
+
+### 修正1: AIExtractor.gs — isRequiredField_ の判定ロジック
+
+ファイル: /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/AIExtractor.gs
+
+現在のコード（バグ）:
+```javascript
+function isRequiredField_(fieldDef) {
+  if (!fieldDef) return false;
+  if (fieldDef.required === true) return true;
+  var p = (fieldDef.priority || '').toLowerCase();
+  return p === 'required' || p === 'high' || p === 'must';
+}
+```
+
+問題: `fieldDef.priority` は数値（1, 2, 3...）なので `.toLowerCase()` でエラーになる。
+必須判定は `fieldDef.type` が 'required' かどうかで判定すべき。
+
+修正後:
+```javascript
+function isRequiredField_(fieldDef) {
+  if (!fieldDef) return false;
+  var t = String(fieldDef.type || '').toLowerCase();
+  return t === 'required';
+}
+```
+
+---
+
+### 修正2: ItemSpecifics.gs — mapTagToCategory の呼び出しを修正
+
+ファイル: /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/ItemSpecifics.gs
+
+現在のコード（バグ、2箇所）:
+```javascript
+category = mapTagToCategory(tag, title, desc, settings);
+```
+
+問題: AIExtractor.gs の mapTagToCategory は `(tag, categories)` を受け取る。
+`categories` は辞書に登録されたカテゴリ名の配列。
+
+修正: 辞書からカテゴリ名一覧を取得して渡す。
+
+extractSelectedRows 内（約119-126行目）と extractAllRows 内（約239-246行目）の2箇所を修正:
+
+```javascript
+      if (!category) {
+        try {
+          if (typeof mapTagToCategory === 'function') {
+            var catNames = [];
+            if (dict) {
+              for (var cn in dict) {
+                if (dict.hasOwnProperty(cn)) { catNames.push(cn); }
+              }
+            }
+            category = mapTagToCategory(tag, catNames);
+          }
+        } catch (mapErr) {
+          Logger.log('[extractSelectedRows] mapTagToCategory error row ' + row + ': ' + mapErr);
+        }
+      }
+```
+
+（extractAllRows側も同じように修正。ただしログメッセージは extractAllRows のままにする。変数名 row は r に変更。）
+
+---
+
+### 修正3: ItemSpecifics.gs — ensureHeaders_ のフィールド処理を修正
+
+ファイル: /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/ItemSpecifics.gs
+
+現在のコード（バグ、ensureHeaders_関数内、約423行目）:
+```javascript
+      var f = String(fields[i] || '').trim();
+```
+
+問題: fields[i] はオブジェクト {name: 'Brand', type: 'required', ...} なので、
+String() すると "[object Object]" になる。
+
+修正:
+```javascript
+      var fObj = fields[i] || {};
+      var f = (typeof fObj === 'string') ? fObj.trim() : String(fObj.name || '').trim();
+```
+
+---
+
+### 修正4: ItemSpecifics.gs — getActiveISSettings_ のプロパティ名マッピング
+
+ファイル: /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/ItemSpecifics.gs
+
+現在のコード:
+```javascript
+function getActiveISSettings_() {
+  var settings = {};
+  try {
+    if (typeof getISSettings === 'function') {
+      var s = getISSettings();
+      if (s && typeof s === 'object') {
+        settings = s;
+      }
+    }
+  } catch (e) {
+    Logger.log('[getActiveISSettings_] error: ' + e);
+  }
+  // デフォルト補完
+  if (!settings.targetSheetName) { settings.targetSheetName = '出品2'; }
+  if (!settings.dataStartRow) { settings.dataStartRow = 3; }
+  return settings;
+}
+```
+
+問題: Config_IS.gs の getISSettings() は以下のキー名を使う:
+- SHEET_NAME ('出品2')
+- HEADER_ROW (2)
+- DATA_START_ROW (3)
+- DICTIONARY_SHEET_ID
+- OPENAI_API_KEY
+
+しかし ItemSpecifics.gs では別のキー名を期待している:
+- targetSheetName
+- dataStartRow
+- dictionarySpreadsheetId
+- apiKey
+
+修正: Config_IS.gs のキー名に統一する。
+
+```javascript
+function getActiveISSettings_() {
+  var settings = {};
+  try {
+    if (typeof getISSettings === 'function') {
+      var s = getISSettings();
+      if (s && typeof s === 'object') {
+        settings = s;
+      }
+    }
+  } catch (e) {
+    Logger.log('[getActiveISSettings_] error: ' + e);
+  }
+  // Config_IS.gs のキー名でデフォルト補完
+  if (!settings.SHEET_NAME) { settings.SHEET_NAME = '出品2'; }
+  if (!settings.DATA_START_ROW) { settings.DATA_START_ROW = 3; }
+  // 互換エイリアス
+  settings.targetSheetName = settings.SHEET_NAME;
+  settings.dataStartRow = settings.DATA_START_ROW;
+  settings.dictionarySpreadsheetId = settings.DICTIONARY_SHEET_ID || '';
+  settings.apiKey = settings.OPENAI_API_KEY || '';
+  return settings;
+}
+```
+
+---
+
+### 修正5: ItemSpecifics.gs — validateSetup_ の辞書シートID参照修正
+
+validateSetup_ 関数内:
+
+現在:
+```javascript
+var dictId = settings.dictionarySpreadsheetId || settings.dictionaryId || settings.dictSpreadsheetId;
+```
+
+修正（getActiveISSettings_でエイリアスを設定済みなのでそのままでOKだが、念のため DICTIONARY_SHEET_ID も追加）:
+```javascript
+var dictId = settings.DICTIONARY_SHEET_ID || settings.dictionarySpreadsheetId || '';
+```
+
+---
+
+## コードスタイル（変更時に厳守）:
+- GAS（ES5互換）: const/let不可、var使用
+- アロー関数不可、function宣言
+- テンプレートリテラル不可
+- for...of不可
+- spread不可

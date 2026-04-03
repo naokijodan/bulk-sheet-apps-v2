@@ -871,16 +871,7 @@
         </div>
       </div>
       <div class="section-content" id="content-tag-override">
-        <div class="checkbox-group" style="margin-bottom:16px;">
-          <label class="checkbox-label" style="font-weight:bold;font-size:15px;">
-            <input type="checkbox" id="tagOverrideEnabled" onchange="toggleTagOverrideItems()">
-            タグ自動判定を使用する
-          </label>
-        </div>
-        <div class="help-text" style="margin-bottom:16px;">
-          ONにすると、D列のタグに応じてTagShippingシートから各設定を自動で適用します。OFFの場合は従来通り全行共通の設定値を使用します。
-        </div>
-        <div id="tagOverrideItems" style="display:none;">
+        <div id="tagOverrideItems">
           <div style="margin-bottom:12px;">
             <strong>翻訳・出品</strong>
             <div class="checkbox-group" style="margin-left:16px;margin-top:4px;">
@@ -1079,8 +1070,7 @@
       setupEventListeners();
       updateSectionStates();
 
-      // タグ自動判定 初期化
-      if ('<?= currentTagOverrideEnabled ?>' === 'true') { document.getElementById('tagOverrideEnabled').checked = true; toggleTagOverrideItems(); }
+    // タグ自動判定 初期化（マスタースイッチ廃止）
       if ('<?= currentTagOverridePrompt ?>' === 'false') document.getElementById('tagOverridePrompt').checked = false;
       if ('<?= currentTagOverrideTemplate ?>' === 'false') document.getElementById('tagOverrideTemplate').checked = false;
       if ('<?= currentTagOverrideShippingCategory ?>' === 'false') document.getElementById('tagOverrideShippingCategory').checked = false;
@@ -1091,6 +1081,8 @@
       if ('<?= currentTagOverrideLowShipping ?>' === 'false') document.getElementById('tagOverrideLowShipping').checked = false;
       if ('<?= currentTagOverrideHighShipping ?>' === 'false') document.getElementById('tagOverrideHighShipping').checked = false;
       if ('<?= currentTagOverrideThreshold ?>' === 'false') document.getElementById('tagOverrideThreshold').checked = false;
+      // 個別トグルに基づきUI連動を初期化
+      toggleTagOverrideItems();
     });
 
     // セクション管理
@@ -1132,42 +1124,26 @@
       });
     }
 
-    // タグ自動判定の表示切替 + 既存UI連動
+    // タグ自動判定の連動（個別トグルのみ）
     function toggleTagOverrideItems() {
-      var masterEnabled = document.getElementById('tagOverrideEnabled').checked;
-      document.getElementById('tagOverrideItems').style.display = masterEnabled ? 'block' : 'none';
-
-      // プロンプト自動選択との連動（マスターON + 個別トグルON時のみ）
+      // プロンプト自動選択との連動
       var promptCb = document.getElementById('autoPromptSelect');
       var promptNote = document.getElementById('promptOverrideNote');
       var promptToggle = document.getElementById('tagOverridePrompt');
-      if (masterEnabled && promptToggle.checked) {
-        if (!promptCb.hasAttribute('data-saved-state')) {
-          promptCb.setAttribute('data-saved-state', promptCb.checked ? 'true' : 'false');
-        }
+      if (promptToggle.checked) {
         promptCb.checked = true;
         promptCb.disabled = true;
         promptNote.style.display = 'inline';
       } else {
-        var saved = promptCb.getAttribute('data-saved-state');
-        if (saved !== null) {
-          promptCb.checked = (saved === 'true');
-          promptCb.removeAttribute('data-saved-state');
-        }
         promptCb.disabled = false;
         promptNote.style.display = 'none';
       }
 
-      // 送料計算方法との連動（マスターON + 送料トグルON時のみ）
+      // 送料計算方法との連動
       var shippingRadios = document.querySelectorAll('input[name="shippingCalcMethod"]');
       var shippingNote = document.getElementById('shippingOverrideNote');
       var shippingToggle = document.getElementById('tagOverrideShipping');
-      if (masterEnabled && shippingToggle.checked) {
-        shippingRadios.forEach(function(r) {
-          if (!r.hasAttribute('data-saved-state')) {
-            r.setAttribute('data-saved-state', r.checked ? 'true' : 'false');
-          }
-        });
+      if (shippingToggle.checked) {
         shippingRadios.forEach(function(r) {
           r.checked = (r.value === 'TAG_SHIPPING');
           r.disabled = true;
@@ -1175,11 +1151,6 @@
         shippingNote.style.display = 'block';
       } else {
         shippingRadios.forEach(function(r) {
-          var saved = r.getAttribute('data-saved-state');
-          if (saved !== null) {
-            r.checked = (saved === 'true');
-            r.removeAttribute('data-saved-state');
-          }
           r.disabled = false;
         });
         shippingNote.style.display = 'none';
@@ -1492,7 +1463,6 @@
         outputTagList: document.getElementById('outputTagList').checked,
         
         // タグ自動判定
-        tagOverrideEnabled: document.getElementById('tagOverrideEnabled').checked ? 'true' : 'false',
         tagOverridePrompt: document.getElementById('tagOverridePrompt').checked ? 'true' : 'false',
         tagOverrideTemplate: document.getElementById('tagOverrideTemplate').checked ? 'true' : 'false',
         tagOverrideShippingCategory: document.getElementById('tagOverrideShippingCategory').checked ? 'true' : 'false',

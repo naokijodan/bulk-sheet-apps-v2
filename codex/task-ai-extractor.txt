@@ -1,0 +1,259 @@
+以下のファイルを作成してください。Google Apps Script（GAS）のコードです。
+
+## 出力先
+- /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/AIExtractor.gs
+
+---
+
+## AIExtractor.gs — OpenAI API呼び出し・プロンプト生成・レスポンス解析
+
+Item Specifics抽出に特化したAI APIクライアント。
+既存のAI.gsには依存しない、完全に独立したモジュール。
+
+### APIキー取得方法:
+```javascript
+var docProps = PropertiesService.getDocumentProperties();
+var apiKey = docProps.getProperty('OPENAI_API_KEY');
+```
+
+### 関数一覧:
+
+#### 1. `extractItemSpecifics(title, description, category, fields)`
+メインの抽出関数。
+
+パラメータ:
+- title: 商品タイトル（英語）
+- description: Condition/Description（英語）
+- category: eBayカテゴリ名（"Watches", "Rings"等）
+- fields: 抽出対象フィールドの配列 [{name, type, priority, notes}, ...]
+
+戻り値:
+```javascript
+{
+  success: true/false,
+  data: {
+    "Brand": "Rolex",
+    "Reference Number": "116500LN",
+    "Model": "Daytona",
+    "Movement": "Automatic",
+    "Country of Origin": "Switzerland",
+    ...
+  },
+  error: null // or エラーメッセージ
+}
+```
+
+処理:
+1. プロンプトを生成（buildExtractionPrompt_）
+2. OpenAI API呼び出し（callOpenAI_）
+3. レスポンス解析（parseExtractionResponse_）
+
+#### 2. `mapTagToCategory(tag, categories)`
+AIを使ってA列の日本語タグをeBayカテゴリにマッピング。
+
+パラメータ:
+- tag: 日本語タグ（"時計", "リング"等）
+- categories: 辞書に登録されたカテゴリ名の配列
+
+プロンプト例:
+```
+以下の日本語商品カテゴリタグを、最も適切なeBayカテゴリに分類してください。
+タグ: {tag}
+選択肢: {categories}
+回答はカテゴリ名のみを返してください。該当なしの場合は "Unknown" を返してください。
+```
+
+戻り値: カテゴリ名（文字列）or "Unknown"
+
+#### 3. `extractItemSpecificsBatch(items)`
+バッチ処理。複数行を一括で処理。
+
+パラメータ:
+- items: [{row, title, description, category, fields}, ...]
+
+処理:
+- IS_CONFIG.AI.PARALLEL_REQUESTS 件ずつ並列実行（UrlFetchApp.fetchAll）
+- バッチ間で IS_CONFIG.AI.SLEEP_BETWEEN_BATCHES ミリ秒待機
+- リトライロジック付き（IS_CONFIG.AI.MAX_RETRIES回まで）
+
+戻り値:
+```javascript
+[
+  { row: 3, success: true, data: {...} },
+  { row: 4, success: true, data: {...} },
+  { row: 5, success: false, error: "API error" },
+  ...
+]
+```
+
+### プライベート関数:
+
+#### `buildExtractionPrompt_(title, description, category, fields)`
+
+プロンプトを構築する。
+
+```
+You are an expert eBay Item Specifics extractor.
+
+Category: {category}
+
+Extract the following Item Specifics from the title and description below.
+Return a JSON object with the field names as keys.
+
+Fields to extract:
+{fields.map(f => "- " + f.name + " (" + f.type + ")" + (f.notes ? " [Note: " + f.notes + "]" : "")).join("\n")}
+
+Rules:
+- Return ONLY a valid JSON object, no markdown, no explanation.
+- For each field, extract the value from the title/description.
+- If a value cannot be determined with confidence, return null for that field.
+- For required fields where the value is unknown, use "Does not apply" (except Brand which should use "Unbranded" if unknown).
+- Normalize values to eBay's recommended values (e.g., use "Blue" instead of "Navy Blue").
+- Country of Origin = manufacturing country (NOT brand headquarters). Use full English name (e.g., "Japan", "Switzerland").
+- Units must be accurate (don't confuse mm and cm).
+- For boolean-like fields (With Papers, Graded), use "Yes" or "No".
+
+Title: {title}
+Description: {description}
+```
+
+#### `callOpenAI_(prompt)`
+
+OpenAI APIを呼び出す。
+
+```javascript
+function callOpenAI_(prompt) {
+  var docProps = PropertiesService.getDocumentProperties();
+  var apiKey = docProps.getProperty('OPENAI_API_KEY');
+  if (!apiKey) {
+    throw new Error('OpenAI APIキーが設定されていません。メニュー > Item Specifics > 設定 から設定してください。');
+  }
+
+  var model = docProps.getProperty('IS_AI_MODEL') || IS_CONFIG.AI.MODEL;
+
+  var payload = {
+    model: model,
+    messages: [
+      { role: 'system', content: 'You are an expert eBay Item Specifics extractor. Always respond with valid JSON only.' },
+      { role: 'user', content: prompt }
+    ],
+    temperature: IS_CONFIG.AI.TEMPERATURE,
+    max_tokens: IS_CONFIG.AI.MAX_TOKENS,
+    response_format: { type: 'json_object' }
+  };
+
+  var options = {
+    method: 'post',
+    contentType: 'application/json',
+    headers: {
+      'Authorization': 'Bearer ' + apiKey
+    },
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true,
+    timeout: IS_CONFIG.AI.TIMEOUT  // Note: GASのfetchでは効かないが将来用
+  };
+
+  var response = UrlFetchApp.fetch('https://api.openai.com/v1/chat/completions', options);
+  var code = response.getResponseCode();
+  var body = response.getContentText();
+
+  if (code !== 200) {
+    var errMsg = 'OpenAI API error (HTTP ' + code + ')';
+    try {
+      var errObj = JSON.parse(body);
+      errMsg += ': ' + (errObj.error && errObj.error.message || body);
+    } catch (_) {}
+    throw new Error(errMsg);
+  }
+
+  var result = JSON.parse(body);
+  return result.choices[0].message.content;
+}
+```
+
+#### `callOpenAIBatch_(prompts)`
+
+複数プロンプトを並列で呼び出す（UrlFetchApp.fetchAll使用）。
+
+```javascript
+function callOpenAIBatch_(prompts) {
+  var docProps = PropertiesService.getDocumentProperties();
+  var apiKey = docProps.getProperty('OPENAI_API_KEY');
+  if (!apiKey) {
+    throw new Error('OpenAI APIキーが設定されていません');
+  }
+
+  var model = docProps.getProperty('IS_AI_MODEL') || IS_CONFIG.AI.MODEL;
+  var requests = [];
+
+  for (var i = 0; i < prompts.length; i++) {
+    requests.push({
+      url: 'https://api.openai.com/v1/chat/completions',
+      method: 'post',
+      contentType: 'application/json',
+      headers: { 'Authorization': 'Bearer ' + apiKey },
+      payload: JSON.stringify({
+        model: model,
+        messages: [
+          { role: 'system', content: 'You are an expert eBay Item Specifics extractor. Always respond with valid JSON only.' },
+          { role: 'user', content: prompts[i] }
+        ],
+        temperature: IS_CONFIG.AI.TEMPERATURE,
+        max_tokens: IS_CONFIG.AI.MAX_TOKENS,
+        response_format: { type: 'json_object' }
+      }),
+      muteHttpExceptions: true
+    });
+  }
+
+  return UrlFetchApp.fetchAll(requests);
+}
+```
+
+#### `parseExtractionResponse_(responseText, fields)`
+
+AIレスポンスをパースしてItem Specificsオブジェクトに変換。
+
+処理:
+1. JSONをパース（```jsonフェンス対応、生JSON対応）
+2. 各フィールドの値を検証
+3. nullでない値のみ残す
+4. requiredでnullの場合は "Does not apply"（Brandなら "Unbranded"）に変換
+
+戻り値: { "Brand": "Rolex", "Model": "Daytona", ... }
+
+### 並列処理のフロー:
+
+```
+items配列（例: 50行分）
+    ↓
+PARALLEL_REQUESTS件（5件）ずつチャンクに分割
+    ↓
+各チャンク:
+  1. callOpenAIBatch_(5件のプロンプト)
+  2. レスポンス解析
+  3. 失敗したものはretryQueueに追加
+  4. SLEEP_BETWEEN_BATCHES待機
+    ↓
+retryQueueがあれば再試行（MAX_RETRIES回まで）
+    ↓
+全結果を返す
+```
+
+### コードスタイル:
+- GAS（ES5互換）: const/let不可、var使用
+- アロー関数不可、function宣言を使用
+- テンプレートリテラル不可、文字列連結使用
+- 関数名はキャメルケース
+- プライベート関数は末尾に `_` を付ける
+- エラーハンドリングは必須
+- コメントは日本語OK、変数名・関数名は英語
+
+### 禁止:
+- ScriptProperties（DocumentPropertiesを使用）
+- const / let
+- アロー関数 () => {}
+- テンプレートリテラル ``
+- for...of
+- spread演算子
+- 既存のAI.gsへの依存

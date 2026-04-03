@@ -1,0 +1,80 @@
+# タスク: ゲーム機の機種名をサブブランドとして追加 + 親ブランド追加漏れ
+
+## 作業ディレクトリ
+~/Desktop/ツール開発/一括シートApps_v3/
+
+## ルール
+- IS_BRAND_DICTの閉じ括弧 ]; の直前にまとめて追加
+- サブブランドは parent_brand を付ける
+- 全て category: ['Video Games'] を付ける
+- 既存のコードを削除・変更しない（追加のみ）
+- 変更後 Library/Config_IS.gs にコピーして同期
+
+## 新規親ブランド追加（漏れていたもの）
+  {name: 'Bandai', jp_names: ['バンダイ', 'BANDAI'], country: 'Japan', category: ['Video Games', 'Dolls & Plush']},
+
+注意: Bandaiは既にDolls & Plushカテゴリで登録されている可能性がある。その場合は既存エントリのcategoryに'Video Games'を追加するだけ。新規追加しない。
+
+  {name: 'Magnavox', jp_names: ['マグナボックス', 'MAGNAVOX'], country: 'USA', category: ['Video Games']},
+  {name: 'AYANEO', jp_names: ['アヤネオ', 'AYANEO'], country: 'China', category: ['Video Games']},
+  {name: 'GPD', jp_names: ['ジーピーディー', 'GPD'], country: 'China', category: ['Video Games']},
+  {name: 'Retroid', jp_names: ['レトロイド', 'RETROID'], country: 'China', category: ['Video Games']},
+  {name: 'Powkiddy', jp_names: ['パウキッディ', 'POWKIDDY'], country: 'China', category: ['Video Games']},
+  {name: 'Playdate', jp_names: ['プレイデート', 'PLAYDATE'], country: 'USA', category: ['Video Games']},
+  {name: 'Evercade', jp_names: ['エバーケード', 'EVERCADE'], country: 'UK', category: ['Video Games']},
+
+## サブブランド（機種名）追加
+
+### Nintendo系
+  {name: 'Famicom', jp_names: ['ファミコン', 'ファミリーコンピュータ', 'FC'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Super Famicom', jp_names: ['スーパーファミコン', 'スーファミ', 'SFC'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Nintendo 64', jp_names: ['ニンテンドー64', 'N64', 'ニンテンドウ64'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Nintendo GameCube', jp_names: ['ゲームキューブ', 'GC', 'GAMECUBE'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Wii', jp_names: ['ウィー', 'Wii'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Wii U', jp_names: ['ウィーユー', 'WiiU'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Nintendo Switch', jp_names: ['ニンテンドースイッチ', 'スイッチ', 'SWITCH'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Game Boy', jp_names: ['ゲームボーイ', 'GB', 'GAMEBOY'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Game Boy Advance', jp_names: ['ゲームボーイアドバンス', 'GBA', 'GAMEBOY ADVANCE'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Nintendo DS', jp_names: ['ニンテンドーDS', 'DS', 'NDS'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Nintendo 3DS', jp_names: ['ニンテンドー3DS', '3DS'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Virtual Boy', jp_names: ['バーチャルボーイ', 'VIRTUAL BOY'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+  {name: 'Game & Watch', jp_names: ['ゲームアンドウォッチ', 'ゲーム&ウオッチ', 'GAME & WATCH'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games']},
+
+### Sony系
+  {name: 'PlayStation', jp_names: ['プレイステーション', 'プレステ', 'PS1', 'PS ONE'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games']},
+  {name: 'PlayStation 2', jp_names: ['プレイステーション2', 'PS2', 'プレステ2'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games']},
+  {name: 'PlayStation 3', jp_names: ['プレイステーション3', 'PS3', 'プレステ3'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games']},
+  {name: 'PlayStation 4', jp_names: ['プレイステーション4', 'PS4', 'プレステ4'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games']},
+  {name: 'PlayStation 5', jp_names: ['プレイステーション5', 'PS5', 'プレステ5'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games']},
+  {name: 'PSP', jp_names: ['PSP', 'プレイステーションポータブル', 'PLAYSTATION PORTABLE'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games']},
+  {name: 'PS Vita', jp_names: ['ヴィータ', 'PSVITA', 'PS VITA', 'プレイステーションヴィータ'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games']},
+
+### Sega系
+  {name: 'Mega Drive', jp_names: ['メガドライブ', 'MEGA DRIVE', 'GENESIS', 'ジェネシス'], country: 'Japan', parent_brand: 'Sega', category: ['Video Games']},
+  {name: 'Sega Saturn', jp_names: ['セガサターン', 'サターン', 'SATURN'], country: 'Japan', parent_brand: 'Sega', category: ['Video Games']},
+  {name: 'Dreamcast', jp_names: ['ドリームキャスト', 'DREAMCAST', 'DC'], country: 'Japan', parent_brand: 'Sega', category: ['Video Games']},
+  {name: 'Game Gear', jp_names: ['ゲームギア', 'GAME GEAR'], country: 'Japan', parent_brand: 'Sega', category: ['Video Games']},
+  {name: 'Sega Mark III', jp_names: ['マークIII', 'セガマークIII', 'MASTER SYSTEM', 'マスターシステム'], country: 'Japan', parent_brand: 'Sega', category: ['Video Games']},
+
+### SNK系
+  {name: 'Neo Geo AES', jp_names: ['ネオジオ', 'ネオジオAES', 'NEO GEO AES', 'NEOGEO'], country: 'Japan', parent_brand: 'SNK', category: ['Video Games']},
+  {name: 'Neo Geo CD', jp_names: ['ネオジオCD', 'NEO GEO CD'], country: 'Japan', parent_brand: 'SNK', category: ['Video Games']},
+  {name: 'Neo Geo Pocket', jp_names: ['ネオジオポケット', 'NEO GEO POCKET'], country: 'Japan', parent_brand: 'SNK', category: ['Video Games']},
+
+### NEC系
+  {name: 'PC Engine', jp_names: ['PCエンジン', 'PC ENGINE', 'TURBOGRAFX-16', 'ターボグラフィックス'], country: 'Japan', parent_brand: 'NEC', category: ['Video Games']},
+  {name: 'PC-FX', jp_names: ['PC-FX', 'PCFX'], country: 'Japan', parent_brand: 'NEC', category: ['Video Games']},
+
+### Bandai系
+  {name: 'WonderSwan', jp_names: ['ワンダースワン', 'WONDERSWAN', 'WONDER SWAN'], country: 'Japan', parent_brand: 'Bandai', category: ['Video Games']},
+
+### その他
+  {name: 'Cassette Vision', jp_names: ['カセットビジョン', 'CASSETTE VISION'], country: 'Japan', parent_brand: 'Epoch', category: ['Video Games']},
+
+## 同期
+変更後、ItemSpecifics/Config_IS.gs を Library/Config_IS.gs にコピー
+
+## 禁事項
+- 既存コード削除禁止（Bandaiのcategory修正は例外）
+- ScriptProperties禁止
+- .jsファイル禁止

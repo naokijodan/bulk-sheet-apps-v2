@@ -1,0 +1,162 @@
+# タスク: IS_BRAND_DICTに大量の時計ブランドを追加
+
+## 作業ディレクトリ
+~/Desktop/ツール開発/一括シートApps_v3/
+
+## 概要
+ItemSpecifics/Config_IS.gs の IS_BRAND_DICT に以下のブランドを全て追加する。
+追加後、Library/Config_IS.gs にもコピーして同期する。
+
+## ルール
+- 既存エントリの形式に合わせる: {name: '...', jp_names: [...], country: '...', category: ['Watches']}
+- 全てのエントリに category: ['Watches'] を付ける
+- 既存のコードを削除・変更しない（追加のみ）
+- IS_BRAND_DICTの閉じ括弧 ]; の直前に、まとめて追加してよい（アルファベット順は不要）
+- parent_brand は付けない（全て親ブランドとして追加）
+
+## 既存ブランドのcategory修正（5件）
+以下のブランドは既に登録済みだがcategoryにWatchesがない。category追加する：
+1. Kentex → category: ['Watches'] 追加
+2. Knot → category: ['Watches'] 追加
+3. Minase → category: ['Watches'] 追加
+4. Kurono Tokyo → category: ['Watches'] 追加
+5. KARL-LEIMON → category: ['Watches'] 追加
+
+以下は既に登録済みだが他カテゴリのみ。Watchesを追加する：
+6. Issey Miyake → category に 'Watches' 追加
+7. Paul Smith → category に 'Watches' 追加（なければ新規追加）
+8. Ricoh → category に 'Watches' 追加（なければ新規追加）
+
+## 新規追加ブランド一覧
+
+### スイス高級・中堅
+{name: 'Jaquet Droz', jp_names: ['ジャケドロー', 'ジャケ・ドロー', 'JAQUET DROZ'], country: 'Switzerland', category: ['Watches']},
+{name: 'Roger Dubuis', jp_names: ['ロジェデュブイ', 'ロジェ・デュブイ', 'ROGER DUBUIS'], country: 'Switzerland', category: ['Watches']},
+{name: 'Parmigiani Fleurier', jp_names: ['パルミジャーニフルリエ', 'パルミジャーニ', 'PARMIGIANI FLEURIER', 'PARMIGIANI'], country: 'Switzerland', category: ['Watches']},
+{name: 'H. Moser & Cie.', jp_names: ['モーザー', 'H.モーザー', 'H. MOSER', 'MOSER'], country: 'Switzerland', category: ['Watches']},
+{name: 'MB&F', jp_names: ['MB&F', 'エムビーアンドエフ'], country: 'Switzerland', category: ['Watches']},
+{name: 'Urwerk', jp_names: ['ウルベルク', 'URWERK'], country: 'Switzerland', category: ['Watches']},
+{name: 'F.P. Journe', jp_names: ['ジュルヌ', 'F.P.ジュルヌ', 'FP JOURNE', 'F.P. JOURNE'], country: 'Switzerland', category: ['Watches']},
+{name: 'Bovet', jp_names: ['ボヴェ', 'BOVET'], country: 'Switzerland', category: ['Watches']},
+{name: 'Greubel Forsey', jp_names: ['グルーベルフォルセイ', 'GREUBEL FORSEY'], country: 'Switzerland', category: ['Watches']},
+{name: 'Armand Nicolet', jp_names: ['アルマンニコレ', 'ARMAND NICOLET'], country: 'Switzerland', category: ['Watches']},
+{name: 'Arnold & Son', jp_names: ['アーノルドアンドサン', 'ARNOLD & SON'], country: 'Switzerland', category: ['Watches']},
+{name: 'Baume & Mercier', jp_names: ['ボームアンドメルシエ', 'ボーム＆メルシエ', 'BAUME & MERCIER', 'BAUME&MERCIER'], country: 'Switzerland', category: ['Watches']},
+{name: 'Carl F. Bucherer', jp_names: ['カールFブヘラ', 'ブヘラ', 'CARL F. BUCHERER', 'BUCHERER'], country: 'Switzerland', category: ['Watches']},
+{name: 'Certina', jp_names: ['サーチナ', 'セルティナ', 'CERTINA'], country: 'Switzerland', category: ['Watches']},
+{name: 'Cuervo y Sobrinos', jp_names: ['クエルボイソブリノス', 'CUERVO Y SOBRINOS'], country: 'Switzerland', category: ['Watches']},
+{name: 'Czapek', jp_names: ['チャペック', 'CZAPEK'], country: 'Switzerland', category: ['Watches']},
+{name: 'Delma', jp_names: ['デルマ', 'DELMA'], country: 'Switzerland', category: ['Watches']},
+{name: 'Doxa', jp_names: ['ドクサ', 'DOXA'], country: 'Switzerland', category: ['Watches']},
+{name: 'Eberhard & Co.', jp_names: ['エベラール', 'EBERHARD', 'EBERHARD & CO'], country: 'Switzerland', category: ['Watches']},
+{name: 'Favre-Leuba', jp_names: ['ファーブルルーバ', 'ファーブル・ルーバ', 'FAVRE-LEUBA', 'FAVRE LEUBA'], country: 'Switzerland', category: ['Watches']},
+{name: 'Ferdinand Berthoud', jp_names: ['フェルディナンベルトゥー', 'FERDINAND BERTHOUD'], country: 'Switzerland', category: ['Watches']},
+{name: 'Fortis', jp_names: ['フォルティス', 'FORTIS'], country: 'Switzerland', category: ['Watches']},
+{name: 'Glycine', jp_names: ['グリシン', 'グライシン', 'GLYCINE'], country: 'Switzerland', category: ['Watches']},
+{name: 'Graham', jp_names: ['グラハム', 'GRAHAM'], country: 'Switzerland', category: ['Watches']},
+{name: 'Hautlence', jp_names: ['オートランス', 'HAUTLENCE'], country: 'Switzerland', category: ['Watches']},
+{name: 'Hysek', jp_names: ['ハイゼック', 'HYSEK'], country: 'Switzerland', category: ['Watches']},
+{name: 'JeanRichard', jp_names: ['ジャンリシャール', 'JEANRICHARD'], country: 'Switzerland', category: ['Watches']},
+{name: 'Louis Moinet', jp_names: ['ルイモワネ', 'LOUIS MOINET'], country: 'Switzerland', category: ['Watches']},
+{name: 'MCT', jp_names: ['MCT', 'エムシーティー'], country: 'Switzerland', category: ['Watches']},
+{name: 'Paul Picot', jp_names: ['ポールピコ', 'PAUL PICOT'], country: 'Switzerland', category: ['Watches']},
+{name: 'Perrelet', jp_names: ['ペルレ', 'PERRELET'], country: 'Switzerland', category: ['Watches']},
+{name: 'Romain Gauthier', jp_names: ['ロマンゴティエ', 'ROMAIN GAUTHIER'], country: 'Switzerland', category: ['Watches']},
+{name: 'Speake-Marin', jp_names: ['スピークマリン', 'SPEAKE-MARIN', 'SPEAKE MARIN'], country: 'Switzerland', category: ['Watches']},
+{name: 'Squale', jp_names: ['スクワーレ', 'SQUALE'], country: 'Switzerland', category: ['Watches']},
+{name: 'Titoni', jp_names: ['チトニ', 'TITONI'], country: 'Switzerland', category: ['Watches']},
+{name: 'Vulcain', jp_names: ['バルカン', 'ヴァルカン', 'VULCAIN'], country: 'Switzerland', category: ['Watches']},
+{name: 'Zodiac', jp_names: ['ゾディアック', 'ZODIAC'], country: 'Switzerland', category: ['Watches']},
+{name: 'Claude Meylan', jp_names: ['クロードメイラン', 'CLAUDE MEYLAN'], country: 'Switzerland', category: ['Watches']},
+{name: 'Aerowatch', jp_names: ['エアロウォッチ', 'AEROWATCH'], country: 'Switzerland', category: ['Watches']},
+{name: 'Adriatica', jp_names: ['アドリアティカ', 'ADRIATICA'], country: 'Switzerland', category: ['Watches']},
+
+### ドイツ
+{name: 'A. Lange & Söhne', jp_names: ['ランゲアンドゾーネ', 'A.ランゲ＆ゾーネ', 'A. LANGE & SOHNE', 'LANGE & SOHNE', 'ランゲ'], country: 'Germany', category: ['Watches']},
+{name: 'Sinn', jp_names: ['ジン', 'SINN'], country: 'Germany', category: ['Watches']},
+{name: 'Stowa', jp_names: ['ストーワ', 'STOWA'], country: 'Germany', category: ['Watches']},
+{name: 'MeisterSinger', jp_names: ['マイスタージンガー', 'MEISTERSINGER'], country: 'Germany', category: ['Watches']},
+{name: 'Tutima', jp_names: ['チュチマ', 'TUTIMA'], country: 'Germany', category: ['Watches']},
+{name: 'Mühle-Glashütte', jp_names: ['ミューレグラスヒュッテ', 'MUHLE GLASHUTTE', 'MUHLE'], country: 'Germany', category: ['Watches']},
+{name: 'Glashütte Original', jp_names: ['グラスヒュッテオリジナル', 'GLASHUTTE ORIGINAL', 'GO'], country: 'Germany', category: ['Watches']},
+{name: 'Union Glashütte', jp_names: ['ウニオングラスヒュッテ', 'UNION GLASHUTTE'], country: 'Germany', category: ['Watches']},
+{name: 'Archimede', jp_names: ['アルキメデ', 'ARCHIMEDE'], country: 'Germany', category: ['Watches']},
+{name: 'Damasko', jp_names: ['ダマスコ', 'DAMASKO'], country: 'Germany', category: ['Watches']},
+{name: 'Junkers', jp_names: ['ユンカース', 'JUNKERS'], country: 'Germany', category: ['Watches']},
+{name: 'Dugena', jp_names: ['デュゲナ', 'DUGENA'], country: 'Germany', category: ['Watches']},
+{name: 'Wempe', jp_names: ['ヴェンペ', 'WEMPE'], country: 'Germany', category: ['Watches']},
+
+### イタリア
+{name: 'Anonimo', jp_names: ['アノーニモ', 'ANONIMO'], country: 'Italy', category: ['Watches']},
+{name: 'Meccaniche Veneziane', jp_names: ['メカニケヴェネチアーネ', 'MECCANICHE VENEZIANE'], country: 'Italy', category: ['Watches']},
+{name: 'Officine del Tempo', jp_names: ['オフィチーネデルテンポ', 'OFFICINE DEL TEMPO'], country: 'Italy', category: ['Watches']},
+{name: 'Visconti', jp_names: ['ヴィスコンティ', 'VISCONTI'], country: 'Italy', category: ['Watches']},
+
+### フランス
+{name: 'Michel Herbelin', jp_names: ['ミッシェルエルブラン', 'エルブラン', 'MICHEL HERBELIN', 'HERBELIN'], country: 'France', category: ['Watches']},
+{name: 'Pequignet', jp_names: ['ペキニエ', 'PEQUIGNET'], country: 'France', category: ['Watches']},
+{name: 'Yema', jp_names: ['イエマ', 'YEMA'], country: 'France', category: ['Watches']},
+{name: 'Dodane', jp_names: ['ドダーヌ', 'DODANE'], country: 'France', category: ['Watches']},
+{name: 'B.R.M', jp_names: ['BRM', 'B.R.M', 'ビーアールエム'], country: 'France', category: ['Watches']},
+
+### アメリカ
+{name: 'Fossil', jp_names: ['フォッシル', 'FOSSIL'], country: 'USA', category: ['Watches']},
+{name: 'Invicta', jp_names: ['インビクタ', 'インヴィクタ', 'INVICTA'], country: 'USA', category: ['Watches']},
+{name: 'Movado', jp_names: ['モバード', 'MOVADO'], country: 'USA', category: ['Watches']},
+{name: 'Marathon', jp_names: ['マラソン', 'MARATHON'], country: 'USA', category: ['Watches']},
+{name: 'DKNY', jp_names: ['ダナキャラン', 'DKNY'], country: 'USA', category: ['Watches']},
+{name: 'Calvin Klein', jp_names: ['カルバンクライン', 'CALVIN KLEIN', 'CK'], country: 'USA', category: ['Watches']},
+{name: 'Armani Exchange', jp_names: ['アルマーニエクスチェンジ', 'ARMANI EXCHANGE', 'A|X'], country: 'USA', category: ['Watches']},
+
+### イギリス
+{name: 'Christopher Ward', jp_names: ['クリストファーウォード', 'CHRISTOPHER WARD'], country: 'UK', category: ['Watches']},
+{name: 'Smiths', jp_names: ['スミス', 'SMITHS'], country: 'UK', category: ['Watches']},
+{name: 'Pinion', jp_names: ['ピニオン', 'PINION'], country: 'UK', category: ['Watches']},
+
+### 北欧
+{name: 'Skagen', jp_names: ['スカーゲン', 'SKAGEN'], country: 'Denmark', category: ['Watches']},
+{name: 'Triwa', jp_names: ['トリワ', 'TRIWA'], country: 'Sweden', category: ['Watches']},
+{name: 'Komono', jp_names: ['コモノ', 'KOMONO'], country: 'Belgium', category: ['Watches']},
+
+### スポーツ・アウトドア
+{name: 'Suunto', jp_names: ['スント', 'SUUNTO'], country: 'Finland', category: ['Watches']},
+
+### ファッション
+{name: 'Hugo Boss', jp_names: ['ヒューゴボス', 'HUGO BOSS', 'BOSS'], country: 'Germany', category: ['Watches']},
+
+### 日本
+{name: 'Q&Q', jp_names: ['キューアンドキュー', 'Q&Q'], country: 'Japan', category: ['Watches']},
+{name: 'Lorus', jp_names: ['ローラス', 'LORUS'], country: 'Japan', category: ['Watches']},
+{name: 'GSX', jp_names: ['ジーエスエックス', 'GSX'], country: 'Japan', category: ['Watches']},
+{name: 'Takano', jp_names: ['タカノ', '高野精密', 'TAKANO'], country: 'Japan', category: ['Watches']},
+{name: 'SEALANE', jp_names: ['シーレーン', 'SEALANE'], country: 'Japan', category: ['Watches']},
+{name: 'Naoya Hida', jp_names: ['飛田直哉', 'ナオヤヒダ', 'NAOYA HIDA'], country: 'Japan', category: ['Watches']},
+{name: 'Hajime Asaoka', jp_names: ['浅岡肇', 'アサオカハジメ', 'HAJIME ASAOKA'], country: 'Japan', category: ['Watches']},
+{name: 'M.R.M.W.', jp_names: ['エムアールエムダブリュー', 'MRMW', 'M.R.M.W.', 'モントルロロイ'], country: 'Japan', category: ['Watches']},
+{name: 'Tokyoflash', jp_names: ['トーキョーフラッシュ', 'TOKYOFLASH'], country: 'Japan', category: ['Watches']},
+{name: 'Dedegumo', jp_names: ['デデグモ', 'DEDEGUMO'], country: 'Japan', category: ['Watches']},
+
+### ヴィンテージ
+{name: 'Enicar', jp_names: ['エニカー', 'ENICAR'], country: 'Switzerland', category: ['Watches']},
+{name: 'Nivada Grenchen', jp_names: ['ニバダグレンヒェン', 'NIVADA', 'NIVADA GRENCHEN'], country: 'Switzerland', category: ['Watches']},
+{name: 'Gruen', jp_names: ['グリューエン', 'GRUEN'], country: 'USA', category: ['Watches']},
+{name: 'Benrus', jp_names: ['ベンラス', 'BENRUS'], country: 'USA', category: ['Watches']},
+{name: 'Ingersoll', jp_names: ['インガーソル', 'INGERSOLL'], country: 'USA', category: ['Watches']},
+{name: 'Wittnauer', jp_names: ['ウィットナー', 'WITTNAUER'], country: 'USA', category: ['Watches']},
+{name: 'Rodania', jp_names: ['ロダニア', 'RODANIA'], country: 'Switzerland', category: ['Watches']},
+{name: 'Zeno Watch Basel', jp_names: ['ゼノウォッチバーゼル', 'ZENO', 'ZENO WATCH BASEL'], country: 'Switzerland', category: ['Watches']},
+
+### 中国（eBay流通あり）
+{name: 'Sea-Gull', jp_names: ['シーガル', 'SEA-GULL', 'SEAGULL'], country: 'China', category: ['Watches']},
+{name: 'Pagani Design', jp_names: ['パガーニデザイン', 'PAGANI DESIGN'], country: 'China', category: ['Watches']},
+{name: 'San Martin', jp_names: ['サンマーティン', 'SAN MARTIN'], country: 'China', category: ['Watches']},
+{name: 'Parnis', jp_names: ['パーニス', 'PARNIS'], country: 'China', category: ['Watches']},
+{name: 'CIGA Design', jp_names: ['シーガデザイン', 'CIGA DESIGN', 'CIGA'], country: 'China', category: ['Watches']},
+
+## 同期作業（必須）
+変更後、ItemSpecifics/Config_IS.gs を Library/Config_IS.gs にコピーして同期する。
+
+## 禁止事項
+- 既存のコードを削除・変更しない（category追加の8件は例外）
+- ScriptPropertiesを使わない
+- .jsファイルを作らない

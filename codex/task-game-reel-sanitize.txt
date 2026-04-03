@@ -1,0 +1,131 @@
+# タスク: ゲーム機ブランド追加 + 交通整理にgame/reelカテゴリ追加
+
+## 作業ディレクトリ
+~/Desktop/ツール開発/一括シートApps_v3/
+
+## 概要
+3つのファイルを変更する:
+1. ItemSpecifics/Config_IS.gs — ゲーム機ブランド追加 + 既存ゲーム機ブランドのcategory修正
+2. Config.gs — SANITIZE_CATEGORIESにgame/reelカテゴリ追加
+3. Sanitize.gs — SANITIZE_FIELDS_にgame/reelフィールド定義追加 + プロンプト補足ルール追加
+4. 全変更をLibrary/にも同期
+
+---
+
+## 変更1: ItemSpecifics/Config_IS.gs
+
+### 既存ブランドのcategory修正
+以下の既存ブランドにcategoryを追加する:
+1. Nintendo → category: ['Video Games'] 追加
+2. Sega → category: ['Video Games'] 追加
+3. Sony PlayStation → category: ['Video Games'] 追加
+4. Bandai Namco → category: ['Video Games'] 追加（存在すれば）
+5. Capcom → category: ['Video Games'] 追加（存在すれば）
+6. Konami → category: ['Video Games'] 追加（存在すれば）
+7. Square Enix → category: ['Video Games'] 追加（存在すれば）
+
+### 新規追加ブランド
+IS_BRAND_DICTの閉じ括弧の前に以下を追加:
+
+  {name: 'Microsoft Xbox', jp_names: ['エックスボックス', 'Xbox', 'XBOX', 'マイクロソフト'], country: 'USA', category: ['Video Games']},
+  {name: 'Atari', jp_names: ['アタリ', 'ATARI'], country: 'USA', category: ['Video Games']},
+  {name: 'SNK', jp_names: ['エスエヌケイ', 'SNK', 'ネオジオ', 'NEO GEO', 'NEOGEO'], country: 'Japan', category: ['Video Games']},
+  {name: 'NEC', jp_names: ['NEC', 'エヌイーシー', 'PCエンジン', 'PC ENGINE', 'PC-ENGINE'], country: 'Japan', category: ['Video Games']},
+  {name: 'Panasonic 3DO', jp_names: ['3DO', 'スリーディーオー'], country: 'Japan', category: ['Video Games']},
+  {name: 'Commodore', jp_names: ['コモドール', 'COMMODORE'], country: 'USA', category: ['Video Games']},
+  {name: 'Coleco', jp_names: ['コレコ', 'COLECO', 'COLECOVISION'], country: 'USA', category: ['Video Games']},
+  {name: 'Mattel', jp_names: ['マテル', 'MATTEL', 'INTELLIVISION'], country: 'USA', category: ['Video Games']},
+  {name: 'Valve', jp_names: ['バルブ', 'VALVE', 'STEAM DECK'], country: 'USA', category: ['Video Games']},
+  {name: 'Analogue', jp_names: ['アナログ', 'ANALOGUE'], country: 'USA', category: ['Video Games']},
+  {name: 'Retro-Bit', jp_names: ['レトロビット', 'RETRO-BIT', 'RETROBIT'], country: 'USA', category: ['Video Games']},
+  {name: 'Hyperkin', jp_names: ['ハイパーキン', 'HYPERKIN'], country: 'USA', category: ['Video Games']},
+  {name: 'Anbernic', jp_names: ['アンバーニック', 'ANBERNIC'], country: 'China', category: ['Video Games']},
+  {name: 'Miyoo', jp_names: ['ミヨー', 'MIYOO'], country: 'China', category: ['Video Games']},
+  {name: 'Epoch', jp_names: ['エポック', 'エポック社', 'EPOCH'], country: 'Japan', category: ['Video Games']},
+  {name: 'Sharp', jp_names: ['シャープ', 'SHARP', 'ツインファミコン'], country: 'Japan', category: ['Video Games']},
+
+---
+
+## 変更2: Config.gs — SANITIZE_CATEGORIES
+
+Config.gsの SANITIZE_CATEGORIES オブジェクト内の card の閉じ括弧 } の後に、以下を追加:
+
+    ,
+    game: {
+      keywords: ['ゲーム機', 'ゲーム本体', 'コンソール', 'ファミコン', 'スーファミ',
+        'ゲームボーイ', 'プレステ', 'PlayStation', 'PS5', 'PS4', 'PS3', 'PS2', 'PS1',
+        'Switch', 'Wii', 'Xbox', 'ドリームキャスト', 'サターン', 'メガドライブ',
+        'PCエンジン', 'ネオジオ', 'ゲームキューブ', 'Nintendo 64', 'N64',
+        'DS', '3DS', 'PSP', 'PSVita', 'Steam Deck']
+    },
+    reel: {
+      keywords: ['リール', 'スピニングリール', 'ベイトリール', 'フライリール',
+        '釣り', 'フィッシング', '両軸リール', '電動リール']
+    }
+
+---
+
+## 変更3: Sanitize.gs — SANITIZE_FIELDS_ と プロンプト
+
+### SANITIZE_FIELDS_ にgameとreelを追加
+var SANITIZE_FIELDS_ のcard の閉じ括弧 ] の後に以下を追加:
+
+  ,
+  game: [
+    'メーカー', '機種名', '型番', 'タイプ',
+    'ストレージ容量', '色', 'リージョン',
+    '付属品', 'コンディション', '故障・不具合'
+  ],
+  reel: [
+    'メーカー', 'モデル名', '型番', 'リールタイプ',
+    '巻き方向', 'ギア比', 'サイズ/番手',
+    '付属品', 'コンディション', '故障・不具合'
+  ]
+
+### buildDefaultSanitizePrompt_ にgame/reel用の補足ルールを追加
+カード補足ルールのif (category === 'card') ブロックの閉じ括弧 } の後に、以下を追加:
+
+  // ゲーム機用の補足ルール
+  if (category === 'game') {
+    lines.push('');
+    lines.push('ゲーム機用の補足ルール:');
+    lines.push('- メーカー: Nintendo/Sony/Sega/Microsoft/SNK/NEC/Atari のいずれかで記入。');
+    lines.push('- 機種名: 正式名称で記入。例: Nintendo Switch, PlayStation 5, Sega Mega Drive, Xbox Series X, PC Engine, Neo Geo AES');
+    lines.push('- タイプ: 据え置き/携帯機/ハイブリッド のいずれかで記入。');
+    lines.push('- リージョン: NTSC-J(日本)/NTSC-U(北米)/PAL(欧州) のいずれか。日本製はNTSC-J。');
+    lines.push('- ストレージ容量: GB単位で記入（例: 32GB, 825GB）。不明ならNA。');
+  }
+
+  // リール用の補足ルール
+  if (category === 'reel') {
+    lines.push('');
+    lines.push('リール用の補足ルール:');
+    lines.push('- リールタイプ: スピニング/ベイト(両軸)/フライ/電動/スピンキャスト のいずれかで記入。');
+    lines.push('- 巻き方向: 右巻き/左巻き/両対応 のいずれかで記入。ハンドル交換可能なら両対応。');
+    lines.push('- ギア比: ソースにある場合そのまま記入（例: 5.2:1, 6.4:1）。ない場合はNA。');
+    lines.push('- サイズ/番手: 型番に含まれる数字（例: 2500, C3000, 103）をそのまま記入。');
+  }
+
+### getBrandListForSanitize_のgame/reel対応
+Config_IS.gsのgetBrandListForSanitize_関数で、game/reelカテゴリの対応を追加する。
+
+現在のコードで、watch/cameraの分岐後のelse return '';の前に以下を追加:
+
+    } else if (category === 'game') {
+      targetCategories = ['Video Games'];
+    } else if (category === 'reel') {
+      targetCategories = ['Fishing Reels'];
+
+---
+
+## 同期作業（必須）
+変更後、以下のファイルをLibraryにコピーして同期:
+1. ItemSpecifics/Config_IS.gs → Library/Config_IS.gs
+2. Config.gs → Library/Config.gs
+3. Sanitize.gs → Library/Sanitize.gs
+
+## 禁止事項
+- 既存のコードを削除・変更しない（category追加の修正は例外）
+- ScriptPropertiesを使わない
+- .jsファイルを作らない
+- charLimitsに追加が必要なフィールドがあれば追加する（モデル名: 20, 付属品: 25, コンディション: 25, 故障・不具合: 25, 機種名: 25）

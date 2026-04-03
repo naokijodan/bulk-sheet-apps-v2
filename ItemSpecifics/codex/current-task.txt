@@ -1,0 +1,154 @@
+## タスク: IS専用APIキー設定を削除し、V3共有キーに戻す
+
+コミット `21b20e2` で導入された IS専用APIキー (`IS_OPENAI_API_KEY`) を削除し、
+コミット `4e7117c` の設計（V3メインの `OPENAI_API_KEY` を共有）に戻す。
+
+### 対象ファイル（6ファイル）
+
+ItemSpecifics/ と Library/ の両方を同一内容に修正すること。
+
+1. `ItemSpecifics/AIExtractor.gs` + `Library/AIExtractor.gs`
+2. `ItemSpecifics/Config_IS.gs` + `Library/Config_IS.gs`
+3. `ItemSpecifics/ItemSpecifics.gs` + `Library/ItemSpecifics.gs`
+4. `UserSheet/Main.gs`
+
+---
+
+### 変更1: AIExtractor.gs（ItemSpecifics/ と Library/ 両方）
+
+#### callOpenAI_() 関数内（現在394行目付近）:
+```
+// 変更前:
+  var apiKey = docProps.getProperty('IS_OPENAI_API_KEY');
+  if (!apiKey) {
+    throw new Error('OpenAI APIキーが設定されていません。メニュー > Item Specifics > APIキー設定 から設定してください。');
+  }
+
+// 変更後:
+  var apiKey = docProps.getProperty('OPENAI_API_KEY');
+  if (!apiKey) {
+    throw new Error('OpenAI APIキーが設定されていません。メニュー > 設定メニュー > 初期設定 から設定してください。');
+  }
+```
+
+#### callOpenAIBatch_() 関数内（現在444行目付近）:
+```
+// 変更前:
+  var apiKey = docProps.getProperty('IS_OPENAI_API_KEY');
+  if (!apiKey) {
+    throw new Error('OpenAI APIキーが設定されていません。メニュー > Item Specifics > APIキー設定 から設定してください。');
+  }
+
+// 変更後:
+  var apiKey = docProps.getProperty('OPENAI_API_KEY');
+  if (!apiKey) {
+    throw new Error('OpenAI APIキーが設定されていません。メニュー > 設定メニュー > 初期設定 から設定してください。');
+  }
+```
+
+---
+
+### 変更2: Config_IS.gs（ItemSpecifics/ と Library/ 両方）
+
+#### getISSettings() 関数内（現在57行目付近）:
+```
+// 変更前:
+    // Item Specifics専用のAPIキー
+    var apiKey = docProps.getProperty('IS_OPENAI_API_KEY');
+    settings.OPENAI_API_KEY = apiKey || '';
+
+// 変更後:
+    // 既存共有のAPIキー
+    var apiKey = docProps.getProperty('OPENAI_API_KEY');
+    if (apiKey) {
+      settings.OPENAI_API_KEY = apiKey;
+    } else {
+      settings.OPENAI_API_KEY = '';
+    }
+```
+
+#### saveISApiKey() 関数を完全削除（現在68-76行目付近）:
+```javascript
+// 以下を削除:
+/**
+ * Item Specifics専用のAPIキーを保存
+ * @param {string} apiKey
+ */
+function saveISApiKey(apiKey) {
+  if (!apiKey || !apiKey.trim()) {
+    throw new Error('APIキーが空です');
+  }
+  var docProps = PropertiesService.getDocumentProperties();
+  docProps.setProperty('IS_OPENAI_API_KEY', apiKey.trim());
+}
+```
+
+---
+
+### 変更3: ItemSpecifics.gs（ItemSpecifics/ と Library/ 両方）
+
+#### showISApiKeyDialog() 関数を完全削除（現在の行番号は要確認）:
+`function showISApiKeyDialog()` で始まる関数ブロック全体を削除。
+
+#### debugISApiKey() 関数を完全削除:
+`function debugISApiKey()` で始まる関数ブロック全体を削除。
+
+#### validateSetup_() 関数内のAPIキー読み取りを修正:
+```
+// 変更前:
+    // APIキー (IS専用)
+    var props = PropertiesService.getDocumentProperties();
+    var apiKey = null;
+    try { apiKey = props.getProperty('IS_OPENAI_API_KEY'); } catch (e1) {}
+    if (!apiKey && settings && settings.apiKey) { apiKey = settings.apiKey; }
+
+    if (!apiKey) {
+      res.ok = false;
+      res.message = 'OpenAI APIキーが未設定です。メニュー > Item Specifics > APIキー設定 から設定してください。';
+      return res;
+    }
+
+// 変更後:
+    // APIキー (DocumentProperties or settings)
+    var props = PropertiesService.getDocumentProperties();
+    var apiKey = null;
+    try { apiKey = props.getProperty('OPENAI_API_KEY'); } catch (e1) {}
+    if (!apiKey && settings && settings.apiKey) { apiKey = settings.apiKey; }
+
+    if (!apiKey) {
+      res.ok = false;
+      res.message = 'OpenAI APIキーが未設定です。設定画面でAPIキーを設定してください。';
+      return res;
+    }
+```
+
+---
+
+### 変更4: UserSheet/Main.gs
+
+#### onOpen() のメニュー定義から「APIキー設定」行を削除:
+```
+// 変更前:
+      .addItem('辞書を初期化', 'IS_initializeDictionaryWithConfirm')
+      .addSeparator()
+      .addItem('APIキー設定', 'IS_showISApiKeyDialog')
+      .addToUi();
+
+// 変更後:
+      .addItem('辞書を初期化', 'IS_initializeDictionaryWithConfirm')
+      .addToUi();
+```
+
+#### IS_showISApiKeyDialog ラッパー関数を削除:
+```
+// 以下の行を削除:
+function IS_showISApiKeyDialog() { LIB.showISApiKeyDialog(); }
+```
+
+---
+
+### 重要な注意事項
+- GAS互換（ES5）: var / function のみ使用
+- インデントはスペース2つ
+- ItemSpecifics/ と Library/ の対応ファイルは同一内容にすること
+- 他のファイルは一切変更しない

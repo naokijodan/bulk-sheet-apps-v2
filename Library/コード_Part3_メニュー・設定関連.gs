@@ -2990,7 +2990,6 @@ function saveIntegratedSettings(formData) {
     docProps.setProperty('AUTO_PROMPT_SELECT', autoPromptSelect);
 
     // タグ自動判定の保存
-    docProps.setProperty('TAG_OVERRIDE_ENABLED', formData.tagOverrideEnabled || 'false');
     docProps.setProperty('TAG_OVERRIDE_PROMPT', formData.tagOverridePrompt || 'true');
     docProps.setProperty('TAG_OVERRIDE_TEMPLATE', formData.tagOverrideTemplate || 'true');
     docProps.setProperty('TAG_OVERRIDE_SHIPPING_CATEGORY', formData.tagOverrideShippingCategory || 'true');

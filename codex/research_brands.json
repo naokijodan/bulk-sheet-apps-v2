@@ -1,0 +1,1351 @@
+{
+  "metadata": {
+    "description": "eBay Japan seller major brands by category - for bulk listing tool",
+    "last_updated": "2026-03-02",
+    "source": "WebSearch research on eBay listings, market reports, and brand databases"
+  },
+  "categories": {
+    "Watches": {
+      "category_id": "watches",
+      "display_name": "Watches",
+      "display_name_jp": "時計",
+      "brands": [
+        {
+          "name": "Seiko",
+          "jp_names": ["セイコー", "SEIKO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Casio",
+          "jp_names": ["カシオ", "CASIO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Citizen",
+          "jp_names": ["シチズン", "CITIZEN"],
+          "country": "Japan"
+        },
+        {
+          "name": "Orient",
+          "jp_names": ["オリエント", "ORIENT"],
+          "country": "Japan"
+        },
+        {
+          "name": "G-Shock",
+          "jp_names": ["ジーショック", "Gショック", "G-SHOCK"],
+          "country": "Japan"
+        },
+        {
+          "name": "Grand Seiko",
+          "jp_names": ["グランドセイコー", "GRAND SEIKO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Casio Pro Trek",
+          "jp_names": ["プロトレック", "PRO TREK"],
+          "country": "Japan"
+        },
+        {
+          "name": "Casio Oceanus",
+          "jp_names": ["オシアナス", "OCEANUS"],
+          "country": "Japan"
+        },
+        {
+          "name": "Seiko Prospex",
+          "jp_names": ["プロスペックス", "PROSPEX"],
+          "country": "Japan"
+        },
+        {
+          "name": "Seiko Presage",
+          "jp_names": ["プレザージュ", "PRESAGE"],
+          "country": "Japan"
+        },
+        {
+          "name": "Rolex",
+          "jp_names": ["ロレックス", "ROLEX"],
+          "country": "Switzerland"
+        },
+        {
+          "name": "Omega",
+          "jp_names": ["オメガ", "OMEGA"],
+          "country": "Switzerland"
+        },
+        {
+          "name": "TAG Heuer",
+          "jp_names": ["タグホイヤー", "タグ・ホイヤー", "TAG HEUER"],
+          "country": "Switzerland"
+        },
+        {
+          "name": "Cartier",
+          "jp_names": ["カルティエ", "CARTIER"],
+          "country": "France"
+        },
+        {
+          "name": "Breitling",
+          "jp_names": ["ブライトリング", "BREITLING"],
+          "country": "Switzerland"
+        },
+        {
+          "name": "IWC",
+          "jp_names": ["アイダブリューシー", "IWC"],
+          "country": "Switzerland"
+        },
+        {
+          "name": "Patek Philippe",
+          "jp_names": ["パテックフィリップ", "パテック・フィリップ", "PATEK PHILIPPE"],
+          "country": "Switzerland"
+        },
+        {
+          "name": "Audemars Piguet",
+          "jp_names": ["オーデマピゲ", "オーデマ・ピゲ", "AUDEMARS PIGUET"],
+          "country": "Switzerland"
+        },
+        {
+          "name": "Tudor",
+          "jp_names": ["チューダー", "チュードル", "TUDOR"],
+          "country": "Switzerland"
+        },
+        {
+          "name": "Longines",
+          "jp_names": ["ロンジン", "LONGINES"],
+          "country": "Switzerland"
+        },
+        {
+          "name": "Panerai",
+          "jp_names": ["パネライ", "PANERAI"],
+          "country": "Italy"
+        },
+        {
+          "name": "Hublot",
+          "jp_names": ["ウブロ", "HUBLOT"],
+          "country": "Switzerland"
+        },
+        {
+          "name": "Zenith",
+          "jp_names": ["ゼニス", "ZENITH"],
+          "country": "Switzerland"
+        },
+        {
+          "name": "Jaeger-LeCoultre",
+          "jp_names": ["ジャガールクルト", "ジャガー・ルクルト", "JAEGER-LECOULTRE"],
+          "country": "Switzerland"
+        },
+        {
+          "name": "Hamilton",
+          "jp_names": ["ハミルトン", "HAMILTON"],
+          "country": "Switzerland"
+        }
+      ]
+    },
+    "Jewelry": {
+      "category_id": "jewelry",
+      "display_name": "Jewelry",
+      "display_name_jp": "ジュエリー・アクセサリー",
+      "brands": [
+        {
+          "name": "Mikimoto",
+          "jp_names": ["ミキモト", "MIKIMOTO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Tasaki",
+          "jp_names": ["タサキ", "田崎真珠", "TASAKI"],
+          "country": "Japan"
+        },
+        {
+          "name": "Tiffany & Co.",
+          "jp_names": ["ティファニー", "TIFFANY"],
+          "country": "USA"
+        },
+        {
+          "name": "Cartier",
+          "jp_names": ["カルティエ", "CARTIER"],
+          "country": "France"
+        },
+        {
+          "name": "Bvlgari",
+          "jp_names": ["ブルガリ", "BVLGARI"],
+          "country": "Italy"
+        },
+        {
+          "name": "Van Cleef & Arpels",
+          "jp_names": ["ヴァンクリーフ＆アーペル", "ヴァンクリーフ", "VAN CLEEF & ARPELS"],
+          "country": "France"
+        },
+        {
+          "name": "Chrome Hearts",
+          "jp_names": ["クロムハーツ", "CHROME HEARTS"],
+          "country": "USA"
+        },
+        {
+          "name": "Vivienne Westwood",
+          "jp_names": ["ヴィヴィアンウエストウッド", "ヴィヴィアン", "VIVIENNE WESTWOOD"],
+          "country": "UK"
+        },
+        {
+          "name": "Harry Winston",
+          "jp_names": ["ハリーウィンストン", "HARRY WINSTON"],
+          "country": "USA"
+        },
+        {
+          "name": "Chopard",
+          "jp_names": ["ショパール", "CHOPARD"],
+          "country": "Switzerland"
+        },
+        {
+          "name": "Swarovski",
+          "jp_names": ["スワロフスキー", "SWAROVSKI"],
+          "country": "Austria"
+        },
+        {
+          "name": "Pandora",
+          "jp_names": ["パンドラ", "PANDORA"],
+          "country": "Denmark"
+        },
+        {
+          "name": "David Yurman",
+          "jp_names": ["デヴィッドヤーマン", "DAVID YURMAN"],
+          "country": "USA"
+        },
+        {
+          "name": "Gucci",
+          "jp_names": ["グッチ", "GUCCI"],
+          "country": "Italy"
+        },
+        {
+          "name": "Hermes",
+          "jp_names": ["エルメス", "HERMES"],
+          "country": "France"
+        }
+      ]
+    },
+    "Trading Cards": {
+      "category_id": "trading_cards",
+      "display_name": "Trading Cards",
+      "display_name_jp": "トレーディングカード",
+      "brands": [
+        {
+          "name": "Pokemon",
+          "jp_names": ["ポケモン", "ポケモンカード", "ポケカ", "POKEMON"],
+          "country": "Japan"
+        },
+        {
+          "name": "Yu-Gi-Oh!",
+          "jp_names": ["遊戯王", "ユウギオウ", "YU-GI-OH"],
+          "country": "Japan"
+        },
+        {
+          "name": "One Piece",
+          "jp_names": ["ワンピース", "ワンピースカード", "ONE PIECE"],
+          "country": "Japan"
+        },
+        {
+          "name": "Magic: The Gathering",
+          "jp_names": ["マジック・ザ・ギャザリング", "MTG", "マジックザギャザリング"],
+          "country": "USA"
+        },
+        {
+          "name": "Dragon Ball",
+          "jp_names": ["ドラゴンボール", "ドラゴンボールカード", "DRAGON BALL"],
+          "country": "Japan"
+        },
+        {
+          "name": "Weiss Schwarz",
+          "jp_names": ["ヴァイスシュヴァルツ", "ヴァイス", "WEISS SCHWARZ"],
+          "country": "Japan"
+        },
+        {
+          "name": "Cardfight!! Vanguard",
+          "jp_names": ["カードファイト!!ヴァンガード", "ヴァンガード", "VANGUARD"],
+          "country": "Japan"
+        },
+        {
+          "name": "Digimon",
+          "jp_names": ["デジモン", "デジモンカード", "DIGIMON"],
+          "country": "Japan"
+        },
+        {
+          "name": "Lorcana",
+          "jp_names": ["ロルカナ", "LORCANA"],
+          "country": "USA"
+        },
+        {
+          "name": "Naruto",
+          "jp_names": ["ナルト", "NARUTO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Gundam",
+          "jp_names": ["ガンダム", "ガンダムカード", "GUNDAM"],
+          "country": "Japan"
+        }
+      ]
+    },
+    "Video Games": {
+      "category_id": "video_games",
+      "display_name": "Video Games",
+      "display_name_jp": "テレビゲーム",
+      "brands": [
+        {
+          "name": "Nintendo",
+          "jp_names": ["任天堂", "ニンテンドー", "NINTENDO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Sony PlayStation",
+          "jp_names": ["ソニー", "プレイステーション", "プレステ", "PLAYSTATION", "PS5", "PS4"],
+          "country": "Japan"
+        },
+        {
+          "name": "Sega",
+          "jp_names": ["セガ", "SEGA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Xbox",
+          "jp_names": ["エックスボックス", "XBOX"],
+          "country": "USA"
+        },
+        {
+          "name": "Bandai Namco",
+          "jp_names": ["バンダイナムコ", "バンナム", "BANDAI NAMCO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Capcom",
+          "jp_names": ["カプコン", "CAPCOM"],
+          "country": "Japan"
+        },
+        {
+          "name": "Square Enix",
+          "jp_names": ["スクウェア・エニックス", "スクエニ", "SQUARE ENIX"],
+          "country": "Japan"
+        },
+        {
+          "name": "Konami",
+          "jp_names": ["コナミ", "KONAMI"],
+          "country": "Japan"
+        },
+        {
+          "name": "Atlus",
+          "jp_names": ["アトラス", "ATLUS"],
+          "country": "Japan"
+        },
+        {
+          "name": "SNK",
+          "jp_names": ["エスエヌケー", "SNK"],
+          "country": "Japan"
+        },
+        {
+          "name": "NEC",
+          "jp_names": ["NEC", "PCエンジン"],
+          "country": "Japan"
+        },
+        {
+          "name": "Game Boy",
+          "jp_names": ["ゲームボーイ", "GAME BOY"],
+          "country": "Japan"
+        },
+        {
+          "name": "Super Famicom",
+          "jp_names": ["スーパーファミコン", "スーファミ", "SUPER FAMICOM"],
+          "country": "Japan"
+        }
+      ]
+    },
+    "Figures & Collectibles": {
+      "category_id": "figures_collectibles",
+      "display_name": "Figures & Collectibles",
+      "display_name_jp": "フィギュア・コレクターズアイテム",
+      "brands": [
+        {
+          "name": "Bandai",
+          "jp_names": ["バンダイ", "BANDAI"],
+          "country": "Japan"
+        },
+        {
+          "name": "Good Smile Company",
+          "jp_names": ["グッドスマイルカンパニー", "グッスマ", "GOOD SMILE COMPANY"],
+          "country": "Japan"
+        },
+        {
+          "name": "MegaHouse",
+          "jp_names": ["メガハウス", "MEGAHOUSE"],
+          "country": "Japan"
+        },
+        {
+          "name": "Kotobukiya",
+          "jp_names": ["コトブキヤ", "壽屋", "KOTOBUKIYA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Medicom Toy",
+          "jp_names": ["メディコムトイ", "MEDICOM TOY"],
+          "country": "Japan"
+        },
+        {
+          "name": "Max Factory",
+          "jp_names": ["マックスファクトリー", "MAX FACTORY"],
+          "country": "Japan"
+        },
+        {
+          "name": "Kaiyodo",
+          "jp_names": ["海洋堂", "カイヨウドウ", "KAIYODO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Figma",
+          "jp_names": ["フィグマ", "figma"],
+          "country": "Japan"
+        },
+        {
+          "name": "Nendoroid",
+          "jp_names": ["ねんどろいど", "NENDOROID"],
+          "country": "Japan"
+        },
+        {
+          "name": "S.H.Figuarts",
+          "jp_names": ["フィギュアーツ", "S.H.FIGUARTS"],
+          "country": "Japan"
+        },
+        {
+          "name": "BE@RBRICK",
+          "jp_names": ["ベアブリック", "BEARBRICK"],
+          "country": "Japan"
+        },
+        {
+          "name": "Banpresto",
+          "jp_names": ["バンプレスト", "BANPRESTO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Alter",
+          "jp_names": ["アルター", "ALTER"],
+          "country": "Japan"
+        },
+        {
+          "name": "Tamashii Nations",
+          "jp_names": ["魂ネイションズ", "TAMASHII NATIONS"],
+          "country": "Japan"
+        },
+        {
+          "name": "Funko",
+          "jp_names": ["ファンコ", "FUNKO"],
+          "country": "USA"
+        }
+      ]
+    },
+    "Cameras": {
+      "category_id": "cameras",
+      "display_name": "Cameras",
+      "display_name_jp": "カメラ",
+      "brands": [
+        {
+          "name": "Canon",
+          "jp_names": ["キヤノン", "キャノン", "CANON"],
+          "country": "Japan"
+        },
+        {
+          "name": "Nikon",
+          "jp_names": ["ニコン", "NIKON"],
+          "country": "Japan"
+        },
+        {
+          "name": "Sony",
+          "jp_names": ["ソニー", "SONY"],
+          "country": "Japan"
+        },
+        {
+          "name": "Fujifilm",
+          "jp_names": ["富士フイルム", "フジフイルム", "FUJIFILM"],
+          "country": "Japan"
+        },
+        {
+          "name": "Olympus",
+          "jp_names": ["オリンパス", "OLYMPUS"],
+          "country": "Japan"
+        },
+        {
+          "name": "Pentax",
+          "jp_names": ["ペンタックス", "PENTAX"],
+          "country": "Japan"
+        },
+        {
+          "name": "Ricoh",
+          "jp_names": ["リコー", "RICOH"],
+          "country": "Japan"
+        },
+        {
+          "name": "Panasonic Lumix",
+          "jp_names": ["パナソニック", "ルミックス", "PANASONIC", "LUMIX"],
+          "country": "Japan"
+        },
+        {
+          "name": "Leica",
+          "jp_names": ["ライカ", "LEICA"],
+          "country": "Germany"
+        },
+        {
+          "name": "Hasselblad",
+          "jp_names": ["ハッセルブラッド", "HASSELBLAD"],
+          "country": "Sweden"
+        },
+        {
+          "name": "Mamiya",
+          "jp_names": ["マミヤ", "MAMIYA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Minolta",
+          "jp_names": ["ミノルタ", "MINOLTA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Sigma",
+          "jp_names": ["シグマ", "SIGMA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Tamron",
+          "jp_names": ["タムロン", "TAMRON"],
+          "country": "Japan"
+        },
+        {
+          "name": "Tokina",
+          "jp_names": ["トキナー", "TOKINA"],
+          "country": "Japan"
+        }
+      ]
+    },
+    "Cell Phones": {
+      "category_id": "cell_phones",
+      "display_name": "Cell Phones",
+      "display_name_jp": "携帯電話・スマートフォン",
+      "brands": [
+        {
+          "name": "Apple",
+          "jp_names": ["アップル", "APPLE", "iPhone", "アイフォン"],
+          "country": "USA"
+        },
+        {
+          "name": "Samsung",
+          "jp_names": ["サムスン", "SAMSUNG", "Galaxy", "ギャラクシー"],
+          "country": "South Korea"
+        },
+        {
+          "name": "Sony",
+          "jp_names": ["ソニー", "SONY", "Xperia", "エクスペリア"],
+          "country": "Japan"
+        },
+        {
+          "name": "Sharp",
+          "jp_names": ["シャープ", "SHARP", "AQUOS", "アクオス"],
+          "country": "Japan"
+        },
+        {
+          "name": "Huawei",
+          "jp_names": ["ファーウェイ", "HUAWEI"],
+          "country": "China"
+        },
+        {
+          "name": "Google",
+          "jp_names": ["グーグル", "GOOGLE", "Pixel", "ピクセル"],
+          "country": "USA"
+        },
+        {
+          "name": "Fujitsu",
+          "jp_names": ["富士通", "FUJITSU", "arrows", "アローズ"],
+          "country": "Japan"
+        },
+        {
+          "name": "Kyocera",
+          "jp_names": ["京セラ", "KYOCERA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Xiaomi",
+          "jp_names": ["シャオミ", "XIAOMI"],
+          "country": "China"
+        },
+        {
+          "name": "OPPO",
+          "jp_names": ["オッポ", "OPPO"],
+          "country": "China"
+        }
+      ]
+    },
+    "Clothing": {
+      "category_id": "clothing",
+      "display_name": "Clothing",
+      "display_name_jp": "衣類・ファッション",
+      "brands": [
+        {
+          "name": "Comme des Garcons",
+          "jp_names": ["コムデギャルソン", "コム・デ・ギャルソン", "COMME DES GARCONS", "CDG"],
+          "country": "Japan"
+        },
+        {
+          "name": "Issey Miyake",
+          "jp_names": ["イッセイミヤケ", "三宅一生", "ISSEY MIYAKE"],
+          "country": "Japan"
+        },
+        {
+          "name": "Yohji Yamamoto",
+          "jp_names": ["ヨウジヤマモト", "山本耀司", "YOHJI YAMAMOTO"],
+          "country": "Japan"
+        },
+        {
+          "name": "A Bathing Ape",
+          "jp_names": ["ア・ベイシング・エイプ", "ベイプ", "BAPE", "A BATHING APE"],
+          "country": "Japan"
+        },
+        {
+          "name": "Uniqlo",
+          "jp_names": ["ユニクロ", "UNIQLO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Supreme",
+          "jp_names": ["シュプリーム", "SUPREME"],
+          "country": "USA"
+        },
+        {
+          "name": "Neighborhood",
+          "jp_names": ["ネイバーフッド", "NEIGHBORHOOD"],
+          "country": "Japan"
+        },
+        {
+          "name": "WTAPS",
+          "jp_names": ["ダブルタップス", "WTAPS"],
+          "country": "Japan"
+        },
+        {
+          "name": "Visvim",
+          "jp_names": ["ビズビム", "VISVIM"],
+          "country": "Japan"
+        },
+        {
+          "name": "Human Made",
+          "jp_names": ["ヒューマンメイド", "HUMAN MADE"],
+          "country": "Japan"
+        },
+        {
+          "name": "Kapital",
+          "jp_names": ["キャピタル", "KAPITAL"],
+          "country": "Japan"
+        },
+        {
+          "name": "Undercover",
+          "jp_names": ["アンダーカバー", "UNDERCOVER"],
+          "country": "Japan"
+        },
+        {
+          "name": "Sacai",
+          "jp_names": ["サカイ", "SACAI"],
+          "country": "Japan"
+        },
+        {
+          "name": "Kenzo",
+          "jp_names": ["ケンゾー", "KENZO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Fragment Design",
+          "jp_names": ["フラグメントデザイン", "FRAGMENT DESIGN"],
+          "country": "Japan"
+        },
+        {
+          "name": "Evisu",
+          "jp_names": ["エヴィス", "エビス", "EVISU"],
+          "country": "Japan"
+        },
+        {
+          "name": "Mastermind Japan",
+          "jp_names": ["マスターマインド・ジャパン", "MASTERMIND JAPAN"],
+          "country": "Japan"
+        },
+        {
+          "name": "The North Face Purple Label",
+          "jp_names": ["ノースフェイスパープルレーベル", "THE NORTH FACE PURPLE LABEL"],
+          "country": "Japan"
+        }
+      ]
+    },
+    "Shoes": {
+      "category_id": "shoes",
+      "display_name": "Shoes",
+      "display_name_jp": "靴・スニーカー",
+      "brands": [
+        {
+          "name": "Nike",
+          "jp_names": ["ナイキ", "NIKE"],
+          "country": "USA"
+        },
+        {
+          "name": "Adidas",
+          "jp_names": ["アディダス", "ADIDAS"],
+          "country": "Germany"
+        },
+        {
+          "name": "New Balance",
+          "jp_names": ["ニューバランス", "NEW BALANCE"],
+          "country": "USA"
+        },
+        {
+          "name": "ASICS",
+          "jp_names": ["アシックス", "ASICS"],
+          "country": "Japan"
+        },
+        {
+          "name": "Onitsuka Tiger",
+          "jp_names": ["オニツカタイガー", "ONITSUKA TIGER"],
+          "country": "Japan"
+        },
+        {
+          "name": "Converse",
+          "jp_names": ["コンバース", "CONVERSE"],
+          "country": "USA"
+        },
+        {
+          "name": "Vans",
+          "jp_names": ["ヴァンズ", "バンズ", "VANS"],
+          "country": "USA"
+        },
+        {
+          "name": "Mizuno",
+          "jp_names": ["ミズノ", "MIZUNO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Puma",
+          "jp_names": ["プーマ", "PUMA"],
+          "country": "Germany"
+        },
+        {
+          "name": "Reebok",
+          "jp_names": ["リーボック", "REEBOK"],
+          "country": "USA"
+        },
+        {
+          "name": "Jordan",
+          "jp_names": ["ジョーダン", "JORDAN"],
+          "country": "USA"
+        },
+        {
+          "name": "Yeezy",
+          "jp_names": ["イージー", "YEEZY"],
+          "country": "USA"
+        },
+        {
+          "name": "Salomon",
+          "jp_names": ["サロモン", "SALOMON"],
+          "country": "France"
+        }
+      ]
+    },
+    "Bags": {
+      "category_id": "bags",
+      "display_name": "Bags",
+      "display_name_jp": "バッグ",
+      "brands": [
+        {
+          "name": "Louis Vuitton",
+          "jp_names": ["ルイヴィトン", "ルイ・ヴィトン", "LOUIS VUITTON", "LV"],
+          "country": "France"
+        },
+        {
+          "name": "Gucci",
+          "jp_names": ["グッチ", "GUCCI"],
+          "country": "Italy"
+        },
+        {
+          "name": "Chanel",
+          "jp_names": ["シャネル", "CHANEL"],
+          "country": "France"
+        },
+        {
+          "name": "Hermes",
+          "jp_names": ["エルメス", "HERMES"],
+          "country": "France"
+        },
+        {
+          "name": "Porter",
+          "jp_names": ["ポーター", "吉田カバン", "PORTER", "YOSHIDA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Coach",
+          "jp_names": ["コーチ", "COACH"],
+          "country": "USA"
+        },
+        {
+          "name": "Prada",
+          "jp_names": ["プラダ", "PRADA"],
+          "country": "Italy"
+        },
+        {
+          "name": "Celine",
+          "jp_names": ["セリーヌ", "CELINE"],
+          "country": "France"
+        },
+        {
+          "name": "Fendi",
+          "jp_names": ["フェンディ", "FENDI"],
+          "country": "Italy"
+        },
+        {
+          "name": "Balenciaga",
+          "jp_names": ["バレンシアガ", "BALENCIAGA"],
+          "country": "France"
+        },
+        {
+          "name": "Bottega Veneta",
+          "jp_names": ["ボッテガヴェネタ", "ボッテガ・ヴェネタ", "BOTTEGA VENETA"],
+          "country": "Italy"
+        },
+        {
+          "name": "Loewe",
+          "jp_names": ["ロエベ", "LOEWE"],
+          "country": "Spain"
+        },
+        {
+          "name": "Burberry",
+          "jp_names": ["バーバリー", "BURBERRY"],
+          "country": "UK"
+        },
+        {
+          "name": "Dior",
+          "jp_names": ["ディオール", "DIOR"],
+          "country": "France"
+        },
+        {
+          "name": "Saint Laurent",
+          "jp_names": ["サンローラン", "SAINT LAURENT", "YSL"],
+          "country": "France"
+        },
+        {
+          "name": "Goyard",
+          "jp_names": ["ゴヤール", "GOYARD"],
+          "country": "France"
+        }
+      ]
+    },
+    "Pottery": {
+      "category_id": "pottery",
+      "display_name": "Pottery & Ceramics",
+      "display_name_jp": "陶磁器・焼き物",
+      "brands": [
+        {
+          "name": "Arita",
+          "jp_names": ["有田焼", "ARITA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Kutani",
+          "jp_names": ["九谷焼", "KUTANI"],
+          "country": "Japan"
+        },
+        {
+          "name": "Mashiko",
+          "jp_names": ["益子焼", "MASHIKO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Satsuma",
+          "jp_names": ["薩摩焼", "SATSUMA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Imari",
+          "jp_names": ["伊万里焼", "IMARI"],
+          "country": "Japan"
+        },
+        {
+          "name": "Bizen",
+          "jp_names": ["備前焼", "BIZEN"],
+          "country": "Japan"
+        },
+        {
+          "name": "Mino",
+          "jp_names": ["美濃焼", "MINO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Shigaraki",
+          "jp_names": ["信楽焼", "SHIGARAKI"],
+          "country": "Japan"
+        },
+        {
+          "name": "Kakiemon",
+          "jp_names": ["柿右衛門", "KAKIEMON"],
+          "country": "Japan"
+        },
+        {
+          "name": "Nabeshima",
+          "jp_names": ["鍋島焼", "NABESHIMA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Hagi",
+          "jp_names": ["萩焼", "HAGI"],
+          "country": "Japan"
+        },
+        {
+          "name": "Raku",
+          "jp_names": ["楽焼", "RAKU"],
+          "country": "Japan"
+        },
+        {
+          "name": "Seto",
+          "jp_names": ["瀬戸焼", "SETO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Tokoname",
+          "jp_names": ["常滑焼", "TOKONAME"],
+          "country": "Japan"
+        },
+        {
+          "name": "Banko",
+          "jp_names": ["万古焼", "BANKO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Noritake",
+          "jp_names": ["ノリタケ", "NORITAKE"],
+          "country": "Japan"
+        }
+      ]
+    },
+    "Musical Instruments": {
+      "category_id": "musical_instruments",
+      "display_name": "Musical Instruments",
+      "display_name_jp": "楽器",
+      "brands": [
+        {
+          "name": "Yamaha",
+          "jp_names": ["ヤマハ", "YAMAHA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Roland",
+          "jp_names": ["ローランド", "ROLAND"],
+          "country": "Japan"
+        },
+        {
+          "name": "Korg",
+          "jp_names": ["コルグ", "KORG"],
+          "country": "Japan"
+        },
+        {
+          "name": "Ibanez",
+          "jp_names": ["アイバニーズ", "IBANEZ"],
+          "country": "Japan"
+        },
+        {
+          "name": "ESP",
+          "jp_names": ["イーエスピー", "ESP"],
+          "country": "Japan"
+        },
+        {
+          "name": "Fender Japan",
+          "jp_names": ["フェンダージャパン", "FENDER JAPAN"],
+          "country": "Japan"
+        },
+        {
+          "name": "Boss",
+          "jp_names": ["ボス", "BOSS"],
+          "country": "Japan"
+        },
+        {
+          "name": "Takamine",
+          "jp_names": ["タカミネ", "TAKAMINE"],
+          "country": "Japan"
+        },
+        {
+          "name": "Tokai",
+          "jp_names": ["トーカイ", "東海", "TOKAI"],
+          "country": "Japan"
+        },
+        {
+          "name": "Fujigen",
+          "jp_names": ["フジゲン", "FUJIGEN", "FGN"],
+          "country": "Japan"
+        },
+        {
+          "name": "Suzuki",
+          "jp_names": ["スズキ", "鈴木楽器", "SUZUKI"],
+          "country": "Japan"
+        },
+        {
+          "name": "Pearl",
+          "jp_names": ["パール", "PEARL"],
+          "country": "Japan"
+        },
+        {
+          "name": "Tama",
+          "jp_names": ["タマ", "TAMA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Akai",
+          "jp_names": ["アカイ", "AKAI"],
+          "country": "Japan"
+        },
+        {
+          "name": "Casio",
+          "jp_names": ["カシオ", "CASIO"],
+          "country": "Japan"
+        }
+      ]
+    },
+    "Automotive": {
+      "category_id": "automotive",
+      "display_name": "Automotive Parts & Accessories",
+      "display_name_jp": "自動車パーツ",
+      "brands": [
+        {
+          "name": "Toyota",
+          "jp_names": ["トヨタ", "TOYOTA"],
+          "country": "Japan"
+        },
+        {
+          "name": "TRD",
+          "jp_names": ["ティーアールディー", "TRD"],
+          "country": "Japan"
+        },
+        {
+          "name": "Honda",
+          "jp_names": ["ホンダ", "HONDA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Mugen",
+          "jp_names": ["無限", "ムゲン", "MUGEN"],
+          "country": "Japan"
+        },
+        {
+          "name": "Nissan",
+          "jp_names": ["日産", "ニッサン", "NISSAN"],
+          "country": "Japan"
+        },
+        {
+          "name": "Nismo",
+          "jp_names": ["ニスモ", "NISMO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Mazda",
+          "jp_names": ["マツダ", "MAZDA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Subaru",
+          "jp_names": ["スバル", "SUBARU"],
+          "country": "Japan"
+        },
+        {
+          "name": "STI",
+          "jp_names": ["エスティーアイ", "STI"],
+          "country": "Japan"
+        },
+        {
+          "name": "Mitsubishi",
+          "jp_names": ["三菱", "ミツビシ", "MITSUBISHI"],
+          "country": "Japan"
+        },
+        {
+          "name": "Suzuki",
+          "jp_names": ["スズキ", "SUZUKI"],
+          "country": "Japan"
+        },
+        {
+          "name": "Lexus",
+          "jp_names": ["レクサス", "LEXUS"],
+          "country": "Japan"
+        },
+        {
+          "name": "Daihatsu",
+          "jp_names": ["ダイハツ", "DAIHATSU"],
+          "country": "Japan"
+        },
+        {
+          "name": "HKS",
+          "jp_names": ["エイチケーエス", "HKS"],
+          "country": "Japan"
+        },
+        {
+          "name": "Cusco",
+          "jp_names": ["クスコ", "CUSCO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Rays",
+          "jp_names": ["レイズ", "RAYS"],
+          "country": "Japan"
+        },
+        {
+          "name": "Bride",
+          "jp_names": ["ブリッド", "BRIDE"],
+          "country": "Japan"
+        },
+        {
+          "name": "Recaro",
+          "jp_names": ["レカロ", "RECARO"],
+          "country": "Germany"
+        }
+      ]
+    },
+    "Toys": {
+      "category_id": "toys",
+      "display_name": "Toys",
+      "display_name_jp": "おもちゃ",
+      "brands": [
+        {
+          "name": "Takara Tomy",
+          "jp_names": ["タカラトミー", "TAKARA TOMY"],
+          "country": "Japan"
+        },
+        {
+          "name": "Bandai",
+          "jp_names": ["バンダイ", "BANDAI"],
+          "country": "Japan"
+        },
+        {
+          "name": "Tamiya",
+          "jp_names": ["タミヤ", "田宮模型", "TAMIYA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Tomica",
+          "jp_names": ["トミカ", "TOMICA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Plarail",
+          "jp_names": ["プラレール", "PLARAIL"],
+          "country": "Japan"
+        },
+        {
+          "name": "Beyblade",
+          "jp_names": ["ベイブレード", "BEYBLADE"],
+          "country": "Japan"
+        },
+        {
+          "name": "Transformers",
+          "jp_names": ["トランスフォーマー", "TRANSFORMERS"],
+          "country": "Japan"
+        },
+        {
+          "name": "Gundam (Gunpla)",
+          "jp_names": ["ガンダム", "ガンプラ", "GUNDAM", "GUNPLA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Sylvanian Families",
+          "jp_names": ["シルバニアファミリー", "SYLVANIAN FAMILIES"],
+          "country": "Japan"
+        },
+        {
+          "name": "Tamagotchi",
+          "jp_names": ["たまごっち", "TAMAGOTCHI"],
+          "country": "Japan"
+        },
+        {
+          "name": "Epoch",
+          "jp_names": ["エポック", "EPOCH"],
+          "country": "Japan"
+        },
+        {
+          "name": "Hasegawa",
+          "jp_names": ["ハセガワ", "長谷川", "HASEGAWA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Bandai Spirits",
+          "jp_names": ["バンダイスピリッツ", "BANDAI SPIRITS"],
+          "country": "Japan"
+        },
+        {
+          "name": "LEGO",
+          "jp_names": ["レゴ", "LEGO"],
+          "country": "Denmark"
+        }
+      ]
+    },
+    "Beauty": {
+      "category_id": "beauty",
+      "display_name": "Beauty & Skincare",
+      "display_name_jp": "美容・スキンケア",
+      "brands": [
+        {
+          "name": "Shiseido",
+          "jp_names": ["資生堂", "シセイドウ", "SHISEIDO"],
+          "country": "Japan"
+        },
+        {
+          "name": "SK-II",
+          "jp_names": ["エスケーツー", "SK-II", "SK2"],
+          "country": "Japan"
+        },
+        {
+          "name": "DHC",
+          "jp_names": ["ディーエイチシー", "DHC"],
+          "country": "Japan"
+        },
+        {
+          "name": "Kanebo",
+          "jp_names": ["カネボウ", "KANEBO"],
+          "country": "Japan"
+        },
+        {
+          "name": "KOSE",
+          "jp_names": ["コーセー", "KOSE"],
+          "country": "Japan"
+        },
+        {
+          "name": "Hada Labo",
+          "jp_names": ["肌ラボ", "ハダラボ", "HADA LABO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Fancl",
+          "jp_names": ["ファンケル", "FANCL"],
+          "country": "Japan"
+        },
+        {
+          "name": "POLA",
+          "jp_names": ["ポーラ", "POLA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Kao",
+          "jp_names": ["花王", "カオウ", "KAO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Decorte",
+          "jp_names": ["コスメデコルテ", "DECORTE", "COSME DECORTE"],
+          "country": "Japan"
+        },
+        {
+          "name": "Cle de Peau Beaute",
+          "jp_names": ["クレ・ド・ポーボーテ", "クレドポー", "CLE DE PEAU"],
+          "country": "Japan"
+        },
+        {
+          "name": "Canmake",
+          "jp_names": ["キャンメイク", "CANMAKE"],
+          "country": "Japan"
+        },
+        {
+          "name": "Shu Uemura",
+          "jp_names": ["シュウウエムラ", "SHU UEMURA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Muji",
+          "jp_names": ["無印良品", "ムジ", "MUJI"],
+          "country": "Japan"
+        },
+        {
+          "name": "Anessa",
+          "jp_names": ["アネッサ", "ANESSA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Biore",
+          "jp_names": ["ビオレ", "BIORE"],
+          "country": "Japan"
+        }
+      ]
+    },
+    "Sporting Goods": {
+      "category_id": "sporting_goods",
+      "display_name": "Sporting Goods",
+      "display_name_jp": "スポーツ用品",
+      "brands": [
+        {
+          "name": "Mizuno",
+          "jp_names": ["ミズノ", "MIZUNO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Yonex",
+          "jp_names": ["ヨネックス", "YONEX"],
+          "country": "Japan"
+        },
+        {
+          "name": "Shimano",
+          "jp_names": ["シマノ", "SHIMANO"],
+          "country": "Japan"
+        },
+        {
+          "name": "Daiwa",
+          "jp_names": ["ダイワ", "DAIWA"],
+          "country": "Japan"
+        },
+        {
+          "name": "Titleist",
+          "jp_names": ["タイトリスト", "TITLEIST"],
+          "country": "USA"
+        },
+        {
+          "name": "Callaway",
+          "jp_names": ["キャロウェイ", "CALLAWAY"],
+          "country": "USA"
+        },
+        {
+          "name": "Dunlop",
+          "jp_names": ["ダンロップ", "DUNLOP"],
+          "country": "Japan"
+        },
+        {
+          "name": "Butterfly",
+          "jp_names": ["バタフライ", "BUTTERFLY"],
+          "country": "Japan"
+        },
+        {
+          "name": "Gamakatsu",
+          "jp_names": ["がまかつ", "ガマカツ", "GAMAKATSU"],
+          "country": "Japan"
+        },
+        {
+          "name": "Asics",
+          "jp_names": ["アシックス", "ASICS"],
+          "country": "Japan"
+        },
+        {
+          "name": "Honma",
+          "jp_names": ["本間ゴルフ", "ホンマ", "HONMA"],
+          "country": "Japan"
+        },
+        {
+          "name": "TaylorMade",
+          "jp_names": ["テーラーメイド", "TAYLORMADE"],
+          "country": "USA"
+        },
+        {
+          "name": "Ping",
+          "jp_names": ["ピン", "PING"],
+          "country": "USA"
+        },
+        {
+          "name": "Bridgestone Golf",
+          "jp_names": ["ブリヂストンゴルフ", "BRIDGESTONE GOLF"],
+          "country": "Japan"
+        },
+        {
+          "name": "Megabass",
+          "jp_names": ["メガバス", "MEGABASS"],
+          "country": "Japan"
+        },
+        {
+          "name": "Evergreen",
+          "jp_names": ["エバーグリーン", "EVERGREEN"],
+          "country": "Japan"
+        }
+      ]
+    }
+  }
+}

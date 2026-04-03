@@ -1,0 +1,41 @@
+以下の関数を追加してください。
+
+ファイル: /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/ItemSpecifics.gs
+
+ファイル末尾に以下の関数を追加:
+
+```javascript
+/**
+ * デバッグ用: DocumentPropertiesからAPIキー関連の値を確認する
+ * GASエディタから手動で実行して結果を確認する
+ */
+function debugISApiKey() {
+  var ui = SpreadsheetApp.getUi();
+  var lines = [];
+  try {
+    var docProps = PropertiesService.getDocumentProperties();
+    var allProps = docProps.getProperties();
+    var keys = Object.keys(allProps);
+    lines.push('DocumentProperties キー数: ' + keys.length);
+    lines.push('');
+    for (var i = 0; i < keys.length; i++) {
+      var k = keys[i];
+      if (k.indexOf('API_KEY') !== -1 || k.indexOf('api_key') !== -1 || k.indexOf('OPENAI') !== -1 || k.indexOf('AI_') !== -1) {
+        var v = allProps[k];
+        var masked = v ? (v.substring(0, 6) + '...' + v.substring(v.length - 4)) : '(空)';
+        lines.push(k + ' = ' + masked);
+      }
+    }
+    if (lines.length === 2) {
+      lines.push('APIキー関連のプロパティは見つかりませんでした');
+    }
+    lines.push('');
+    lines.push('SpreadsheetID: ' + SpreadsheetApp.getActive().getId());
+  } catch (e) {
+    lines.push('エラー: ' + (e && e.message ? e.message : e));
+  }
+  ui.alert('API Key デバッグ', lines.join('\n'), ui.ButtonSet.OK);
+}
+```
+
+コードスタイル: var使用、アロー関数不可、テンプレートリテラル不可

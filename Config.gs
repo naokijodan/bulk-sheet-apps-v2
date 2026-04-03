@@ -285,7 +285,6 @@ function getSettings() {
     duplicateCheckEnabled: docProps.getProperty('DUPLICATE_CHECK_ENABLED') === 'true',
 
     // タグ自動判定
-    tagOverrideEnabled: docProps.getProperty('TAG_OVERRIDE_ENABLED') === 'true',
     tagOverridePrompt: docProps.getProperty('TAG_OVERRIDE_PROMPT') !== 'false',
     tagOverrideTemplate: docProps.getProperty('TAG_OVERRIDE_TEMPLATE') !== 'false',
     tagOverrideShippingCategory: docProps.getProperty('TAG_OVERRIDE_SHIPPING_CATEGORY') !== 'false',

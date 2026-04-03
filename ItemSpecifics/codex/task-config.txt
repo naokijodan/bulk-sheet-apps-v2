@@ -1,0 +1,77 @@
+## タスク: Config_IS.gs の修正
+
+ファイル: /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/Config_IS.gs
+
+### 1. IS_GEMSTONE_PATTERNS に Lapis Lazuli を追加
+
+既存の Garnet エントリの後（1017行目付近）に追加:
+```javascript
+  {keywords: ['ラピスラズリ', 'ラピス', 'Lapis Lazuli', 'Lapis'], value: 'Lapis Lazuli'},
+```
+
+### 2. IS_METAL_PATTERNS の最後尾に Silver 単体を追加
+
+既存の Base Metal エントリ（988行目）の後に追加:
+```javascript
+  {keywords: ['Silver', 'シルバー'], value: 'Sterling Silver'}
+```
+※ matchFromPatterns_ は先頭から検索するので、925/Sterling が先にマッチし、Silver 単体はフォールバックになる
+
+### 3. IS_BRAND_DICT に新しいモデル名（サブブランド）を追加
+
+時計ブランドのサブモデル部分（category: ['Watches'], parent_brand 付き）に以下を追加。
+アルファベット順に挿入すること。既存エントリと重複しないこと。
+
+TAG Heuer系:
+```javascript
+  {name: 'Link', jp_names: ['リンク', 'LINK'], country: 'Switzerland', parent_brand: 'TAG Heuer', category: ['Watches']},
+  {name: 'S/el', jp_names: ['セル', 'SEL', 'S/EL'], country: 'Switzerland', parent_brand: 'TAG Heuer', category: ['Watches']},
+  {name: 'Professional', jp_names: ['プロフェッショナル', 'PROFESSIONAL'], country: 'Switzerland', parent_brand: 'TAG Heuer', category: ['Watches']},
+  {name: 'Connected', jp_names: ['コネクテッド', 'CONNECTED'], country: 'Switzerland', parent_brand: 'TAG Heuer', category: ['Watches']},
+  {name: 'Senna', jp_names: ['セナ', 'SENNA'], country: 'Switzerland', parent_brand: 'TAG Heuer', category: ['Watches']},
+```
+
+Seiko系:
+```javascript
+  {name: 'King Quartz', jp_names: ['キングクォーツ', 'KING QUARTZ', 'キングクオーツ'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
+  {name: 'Seiko Diver', jp_names: ['セイコーダイバー', 'SEIKO DIVER', 'ダイバー'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
+  {name: 'Shario', jp_names: ['シャリオ', 'SHARIO', 'CHARIOT'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
+  {name: 'Seiko Business', jp_names: ['セイコービジネス', 'SEIKO BUSINESS', 'ビジネス'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
+  {name: 'Skyliner', jp_names: ['スカイライナー', 'SKYLINER'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
+  {name: 'Tisse', jp_names: ['ティセ', 'TISSE'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
+  {name: 'Seiko Selection', jp_names: ['セイコーセレクション', 'SEIKO SELECTION'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
+  {name: 'Delica', jp_names: ['デリカ', 'DELICA'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
+```
+
+Rado系:
+```javascript
+  {name: 'Balboa', jp_names: ['バルボア', 'BALBOA'], country: 'Switzerland', parent_brand: 'Rado', category: ['Watches']},
+  {name: 'Baltazar', jp_names: ['バルタザール', 'BALTAZAR'], country: 'Switzerland', parent_brand: 'Rado', category: ['Watches']},
+  {name: 'Jubile', jp_names: ['ジュビリー', 'JUBILE', 'JUBILÉ'], country: 'Switzerland', parent_brand: 'Rado', category: ['Watches']},
+```
+
+Tissot系:
+```javascript
+  {name: 'Quadrato', jp_names: ['クアドラート', 'QUADRATO'], country: 'Switzerland', parent_brand: 'Tissot', category: ['Watches']},
+```
+
+Oris系:
+```javascript
+  {name: 'Aquis', jp_names: ['アクイス', 'AQUIS'], country: 'Switzerland', parent_brand: 'Oris', category: ['Watches']},
+  {name: 'Big Crown', jp_names: ['ビッグクラウン', 'BIG CROWN'], country: 'Switzerland', parent_brand: 'Oris', category: ['Watches']},
+  {name: 'Oris Diver', jp_names: ['オリスダイバー', 'ORIS DIVER'], country: 'Switzerland', parent_brand: 'Oris', category: ['Watches']},
+```
+
+### 4. IS_BRAND_DICT に新ブランドを追加
+
+一般ブランドセクション（Clothing & Fashion等）に追加:
+```javascript
+  {name: 'Tommy Hilfiger', jp_names: ['トミーヒルフィガー', 'TOMMY HILFIGER', 'トミー ヒルフィガー'], country: 'USA'},
+  {name: 'Salvatore Marra', jp_names: ['サルバトーレマーラ', 'SALVATORE MARRA', 'サルバトーレ マーラ'], country: 'Italy'},
+```
+
+### 重要な注意事項
+- 既存コードの構造・インデント・スタイルを維持すること
+- 配列の最後の要素のカンマに注意（GASはES5互換）
+- 既存エントリは変更しない、新規追加のみ
+- アルファベット順に正しい位置に挿入すること

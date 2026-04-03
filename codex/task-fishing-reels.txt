@@ -1,0 +1,82 @@
+# タスク: IS_BRAND_DICTに釣りリールブランドを大量追加
+
+## 作業ディレクトリ
+~/Desktop/ツール開発/一括シートApps_v3/
+
+## 概要
+ItemSpecifics/Config_IS.gs の IS_BRAND_DICT に釣りリールブランドを追加する。
+追加後、Library/Config_IS.gs にもコピーして同期する。
+
+## ルール
+- 既存エントリの形式に合わせる
+- 全てのエントリに category: ['Fishing Reels'] を付ける
+- IS_BRAND_DICTの閉じ括弧 ]; の直前にまとめて追加
+- parent_brand は付けない（全て親ブランドとして追加）
+- 既存のコードを削除・変更しない（追加のみ）
+
+## 既存ブランドのcategory修正（3件）
+以下は既に登録済み。categoryに 'Fishing Reels' を追加する：
+1. Shimano（シマノ）→ 既存のcategory配列に 'Fishing Reels' を追加（categoryがなければ新規追加）
+2. Daiwa（ダイワ）→ 同上
+3. Gamakatsu（がまかつ）→ 同上
+
+## 新規追加ブランド一覧
+
+### 日本
+  {name: 'Ryobi', jp_names: ['リョービ', 'RYOBI'], country: 'Japan', category: ['Fishing Reels']},
+  {name: 'Megabass', jp_names: ['メガバス', 'MEGABASS'], country: 'Japan', category: ['Fishing Reels']},
+  {name: 'Prox', jp_names: ['プロックス', 'PROX'], country: 'Japan', category: ['Fishing Reels']},
+  {name: 'ZPI', jp_names: ['ZPI', 'ジーピーアイ'], country: 'Japan', category: ['Fishing Reels']},
+  {name: 'Nissin', jp_names: ['宇崎日新', 'ニッシン', 'NISSIN'], country: 'Japan', category: ['Fishing Reels']},
+
+### アメリカ
+  {name: 'Abu Garcia', jp_names: ['アブガルシア', 'アブ', 'ABU GARCIA', 'ABU'], country: 'Sweden', category: ['Fishing Reels']},
+  {name: 'Penn', jp_names: ['ペン', 'PENN'], country: 'USA', category: ['Fishing Reels']},
+  {name: 'Zebco', jp_names: ['ゼブコ', 'ZEBCO'], country: 'USA', category: ['Fishing Reels']},
+  {name: 'Pflueger', jp_names: ['プルーガー', 'プルーフガー', 'PFLUEGER'], country: 'USA', category: ['Fishing Reels']},
+  {name: 'Quantum', jp_names: ['クアンタム', 'QUANTUM'], country: 'USA', category: ['Fishing Reels']},
+  {name: "Lew's", jp_names: ['ルーズ', 'LEWS', "LEW'S"], country: 'USA', category: ['Fishing Reels']},
+  {name: '13 Fishing', jp_names: ['サーティーンフィッシング', '13 FISHING', '13FISHING'], country: 'USA', category: ['Fishing Reels']},
+  {name: 'Fin-Nor', jp_names: ['フィンノール', 'FIN-NOR', 'FINNOR'], country: 'USA', category: ['Fishing Reels']},
+  {name: 'Accurate', jp_names: ['アキュレート', 'ACCURATE'], country: 'USA', category: ['Fishing Reels']},
+  {name: 'Avet', jp_names: ['アベット', 'AVET'], country: 'USA', category: ['Fishing Reels']},
+  {name: 'Seigler', jp_names: ['セイグラー', 'SEIGLER'], country: 'USA', category: ['Fishing Reels']},
+  {name: 'Van Staal', jp_names: ['ヴァンスタール', 'VAN STAAL'], country: 'USA', category: ['Fishing Reels']},
+  {name: 'Shakespeare', jp_names: ['シェイクスピア', 'SHAKESPEARE'], country: 'USA', category: ['Fishing Reels']},
+  {name: 'Orvis', jp_names: ['オービス', 'ORVIS'], country: 'USA', category: ['Fishing Reels']},
+  {name: 'Lamson', jp_names: ['ラムソン', 'LAMSON'], country: 'USA', category: ['Fishing Reels']},
+  {name: 'Ross', jp_names: ['ロス', 'ROSS'], country: 'USA', category: ['Fishing Reels']},
+  {name: 'Sage', jp_names: ['セージ', 'SAGE'], country: 'USA', category: ['Fishing Reels']},
+  {name: 'Redington', jp_names: ['レディントン', 'REDINGTON'], country: 'USA', category: ['Fishing Reels']},
+  {name: 'Cortland', jp_names: ['コートランド', 'CORTLAND'], country: 'USA', category: ['Fishing Reels']},
+  {name: 'KastKing', jp_names: ['キャストキング', 'KASTKING'], country: 'China', category: ['Fishing Reels']},
+
+### ヨーロッパ
+  {name: 'Mitchell', jp_names: ['ミッチェル', 'MITCHELL'], country: 'France', category: ['Fishing Reels']},
+  {name: 'Hardy', jp_names: ['ハーディ', 'HARDY'], country: 'UK', category: ['Fishing Reels']},
+  {name: 'DAM', jp_names: ['ダム', 'DAM'], country: 'Germany', category: ['Fishing Reels']},
+  {name: 'Danielsson', jp_names: ['ダニエルソン', 'DANIELSSON'], country: 'Sweden', category: ['Fishing Reels']},
+  {name: 'Loop', jp_names: ['ループ', 'LOOP'], country: 'Sweden', category: ['Fishing Reels']},
+  {name: 'Greys', jp_names: ['グレイズ', 'GREYS'], country: 'UK', category: ['Fishing Reels']},
+  {name: 'Vision', jp_names: ['ビジョン', 'VISION'], country: 'Finland', category: ['Fishing Reels']},
+
+### 台湾
+  {name: 'Okuma', jp_names: ['オクマ', 'OKUMA'], country: 'Taiwan', category: ['Fishing Reels']},
+  {name: 'Tica', jp_names: ['ティカ', 'TICA'], country: 'Taiwan', category: ['Fishing Reels']},
+
+### ヴィンテージ
+  {name: 'Heddon', jp_names: ['ヘドン', 'HEDDON'], country: 'USA', category: ['Fishing Reels']},
+  {name: 'South Bend', jp_names: ['サウスベンド', 'SOUTH BEND'], country: 'USA', category: ['Fishing Reels']},
+  {name: 'Allcock', jp_names: ['オールコック', 'ALLCOCK'], country: 'UK', category: ['Fishing Reels']},
+  {name: 'J.W. Young', jp_names: ['J.W.ヤング', 'JW YOUNG', 'J.W. YOUNG'], country: 'UK', category: ['Fishing Reels']},
+  {name: 'Pezon et Michel', jp_names: ['ペゾンエミシェル', 'PEZON ET MICHEL'], country: 'France', category: ['Fishing Reels']},
+  {name: 'Ocean City', jp_names: ['オーシャンシティ', 'OCEAN CITY'], country: 'USA', category: ['Fishing Reels']},
+  {name: 'Langley', jp_names: ['ラングレー', 'LANGLEY'], country: 'USA', category: ['Fishing Reels']},
+
+## 同期作業（必須）
+変更後、ItemSpecifics/Config_IS.gs を Library/Config_IS.gs にコピーして同期する。
+
+## 禁止事項
+- 既存のコードを削除・変更しない（Shimano/Daiwa/Gamakatsuのcategory修正は例外）
+- ScriptPropertiesを使わない
+- .jsファイルを作らない

@@ -1,0 +1,133 @@
+## タスク: Config_IS.gs 辞書の大幅拡充
+
+### 対象ファイル
+`/Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/Config_IS.gs`
+
+### 注意事項（最重要）
+- GAS互換（ES5）: var / function のみ使用
+- インデントはスペース2つ
+- 既存エントリは指示がない限り変更しない（jp_names追加は例外）
+- アルファベット順に挿入
+- 他のファイルは一切変更しない
+- 重複チェック: name が同じエントリが既にあれば追加しない
+
+---
+
+## 1. SEIKO 既存モデルの jp_names 修正（スペースなし表記追加）
+
+### Seiko Silver Wave（440行目付近）
+現在: `jp_names: ['シルバーウェーブ', 'SILVER WAVE']`
+修正: `jp_names: ['シルバーウェーブ', 'SILVER WAVE', 'SilverWave', 'SILVERWAVE']`
+
+### King Seiko（347行目付近）
+現在: `jp_names: ['キングセイコー', 'KING SEIKO']`
+修正: `jp_names: ['キングセイコー', 'KING SEIKO', 'KingSeiko', 'KINGSEIKO', 'KS']`
+
+### 5 Actus（既存）
+現在: `jp_names: ['5アクタス', 'ファイブアクタス', '5 ACTUS', 'FIVE ACTUS']`
+修正: `jp_names: ['5アクタス', 'ファイブアクタス', '5 ACTUS', 'FIVE ACTUS', 'Actus', 'ACTUS', 'Fiveactus', 'FIVEACTUS']`
+
+### Seiko 5（423行目付近）
+現在: `jp_names: ['セイコー5', 'SEIKO 5', 'セイコーファイブ']`
+修正: `jp_names: ['セイコー5', 'SEIKO 5', 'セイコーファイブ', 'SEIKO5', 'Seiko Five']`
+
+### Vanac（既存）
+現在: `jp_names: ['バナック', 'VANAC']`
+修正: `jp_names: ['バナック', 'VANAC', 'Seiko Vanac', 'SEIKO VANAC']`
+
+### Seiko Lukia（434行目付近）
+現在: `jp_names: ['ルキア', 'LUKIA']`
+修正: `jp_names: ['ルキア', 'LUKIA', 'Seiko Lukia', 'SEIKO LUKIA']`
+
+---
+
+## 2. SEIKO 新規モデルライン追加
+
+```javascript
+{name: 'Seiko Advan', jp_names: ['アドバン', 'ADVAN', 'Advan'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
+{name: 'Seiko Alba', jp_names: ['アルバ', 'ALBA', 'Seiko Alba', 'SEIKO ALBA'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
+{name: 'Seiko Wired', jp_names: ['ワイアード', 'WIRED', 'Seiko Wired', 'SEIKO WIRED'], country: 'Japan', parent_brand: 'Seiko', category: ['Watches']},
+```
+
+挿入位置: アルファベット順に正しい位置。
+
+---
+
+## 3. LUMINOX モデルライン追加
+
+```javascript
+{name: 'Atacama Field', jp_names: ['アタカマフィールド', 'ATACAMA FIELD', 'ATACAMA'], country: 'USA', parent_brand: 'Luminox', category: ['Watches']},
+{name: 'Bear Grylls', jp_names: ['ベアグリルス', 'BEAR GRYLLS'], country: 'USA', parent_brand: 'Luminox', category: ['Watches']},
+{name: 'Black Ops', jp_names: ['ブラックオプス', 'BLACK OPS'], country: 'USA', parent_brand: 'Luminox', category: ['Watches']},
+{name: 'Leatherback Sea Turtle', jp_names: ['レザーバックシータートル', 'LEATHERBACK SEA TURTLE', 'LEATHERBACK'], country: 'USA', parent_brand: 'Luminox', category: ['Watches']},
+{name: 'Navy Seal', jp_names: ['ネイビーシールズ', 'NAVY SEAL', 'NAVY SEALS', 'Navy Seals'], country: 'USA', parent_brand: 'Luminox', category: ['Watches']},
+{name: 'Sea Turtle', jp_names: ['シータートル', 'SEA TURTLE'], country: 'USA', parent_brand: 'Luminox', category: ['Watches']},
+{name: 'Space Series', jp_names: ['スペースシリーズ', 'SPACE SERIES', 'SPACE'], country: 'USA', parent_brand: 'Luminox', category: ['Watches']},
+```
+
+---
+
+## 4. CITIZEN Independent の修正
+
+現在（332行目付近）:
+```javascript
+{name: 'Independent', jp_names: ['インディペンデント', 'INDEPENDENT'], country: 'Japan'},
+```
+
+修正:
+```javascript
+{name: 'Independent', jp_names: ['インディペンデント', 'INDEPENDENT'], country: 'Japan', parent_brand: 'Citizen', category: ['Watches']},
+```
+
+---
+
+## 5. GUCCI 時計モデルライン追加
+
+```javascript
+{name: 'G-Chrono', jp_names: ['Gクロノ', 'G-CHRONO', 'G CHRONO'], country: 'Italy', parent_brand: 'Gucci', category: ['Watches']},
+{name: 'G-Frame', jp_names: ['Gフレーム', 'G-FRAME', 'G FRAME'], country: 'Italy', parent_brand: 'Gucci', category: ['Watches']},
+{name: 'G-Timeless', jp_names: ['Gタイムレス', 'G-TIMELESS', 'G TIMELESS'], country: 'Italy', parent_brand: 'Gucci', category: ['Watches']},
+{name: 'Gucci Dive', jp_names: ['グッチダイブ', 'GUCCI DIVE'], country: 'Italy', parent_brand: 'Gucci', category: ['Watches']},
+{name: 'Gucci Grip', jp_names: ['グッチグリップ', 'GUCCI GRIP'], country: 'Italy', parent_brand: 'Gucci', category: ['Watches']},
+```
+
+---
+
+## 6. TIFFANY 時計モデルライン追加
+
+```javascript
+{name: 'Tiffany Atlas', jp_names: ['アトラス', 'ATLAS', 'Tiffany Atlas', 'TIFFANY ATLAS'], country: 'USA', parent_brand: 'Tiffany & Co.', category: ['Watches']},
+{name: 'Tiffany Classic', jp_names: ['ティファニークラシック', 'TIFFANY CLASSIC', 'Classic Round'], country: 'USA', parent_brand: 'Tiffany & Co.', category: ['Watches']},
+{name: 'Tiffany East West', jp_names: ['イーストウエスト', 'EAST WEST'], country: 'USA', parent_brand: 'Tiffany & Co.', category: ['Watches']},
+{name: 'Tiffany Cocktail', jp_names: ['カクテル', 'TIFFANY COCKTAIL'], country: 'USA', parent_brand: 'Tiffany & Co.', category: ['Watches']},
+{name: 'Intarsio', jp_names: ['インタルシオ', 'INTARSIO'], country: 'USA', parent_brand: 'Tiffany & Co.', category: ['Watches']},
+{name: 'Mark Coupe', jp_names: ['マーククーペ', 'MARK COUPE', 'Mark Coupe'], country: 'USA', parent_brand: 'Tiffany & Co.', category: ['Watches']},
+```
+
+---
+
+## 7. GAGA MILANO モデルライン追加
+
+```javascript
+{name: 'Manuale', jp_names: ['マヌアーレ', 'MANUALE', 'マニュアーレ'], country: 'Italy', parent_brand: 'GaGa Milano', category: ['Watches']},
+{name: 'Manuale Slim', jp_names: ['マヌアーレスリム', 'MANUALE SLIM'], country: 'Italy', parent_brand: 'GaGa Milano', category: ['Watches']},
+{name: 'Manuale Thin', jp_names: ['マヌアーレシン', 'MANUALE THIN'], country: 'Italy', parent_brand: 'GaGa Milano', category: ['Watches']},
+{name: 'Napoleone', jp_names: ['ナポレオーネ', 'NAPOLEONE'], country: 'Italy', parent_brand: 'GaGa Milano', category: ['Watches']},
+{name: 'Flat 42', jp_names: ['フラット42', 'FLAT 42'], country: 'Italy', parent_brand: 'GaGa Milano', category: ['Watches']},
+{name: 'Lady Sports', jp_names: ['レディスポーツ', 'LADY SPORTS'], country: 'Italy', parent_brand: 'GaGa Milano', category: ['Watches']},
+```
+
+---
+
+## 8. LONGINES Flagship 追加
+
+```javascript
+{name: 'Longines Flagship', jp_names: ['フラッグシップ', 'FLAGSHIP', 'Longines Flagship'], country: 'Switzerland', parent_brand: 'Longines', category: ['Watches']},
+```
+
+---
+
+## 挿入位置のルール
+- IS_BRAND_DICT 配列内、アルファベット順に正しい位置に挿入
+- 既存エントリとの重複チェック（name が同じなら追加しない）
+- parent_brand と category: ['Watches'] は必須

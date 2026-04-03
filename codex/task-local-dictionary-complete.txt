@@ -1,0 +1,263 @@
+以下の修正を4ファイルに対して行ってください。V3既存ファイルには一切触れないこと。
+
+目的: 辞書を外部スプレッドシートではなく、同じスプレッドシート内の「Dictionary」タブで管理する。外部スプレッドシートIDの設定は不要にする。また、メニューを自動表示するためのセットアップ関数を追加する。
+
+---
+
+## 修正1: Dictionary.gs — getDictionarySheet_ を変更
+
+ファイル: /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/Dictionary.gs
+
+現在のコード（524-539行目あたり）:
+```javascript
+function getDictionarySheet_(createIfMissing) {
+  var settings = getISSettings();
+  var id = (settings && settings.DICTIONARY_SHEET_ID) ? settings.DICTIONARY_SHEET_ID.toString().trim() : '';
+  if (!id) {
+    if (createIfMissing) {
+      throw new Error('辞書スプレッドシートIDが未設定です。showISSettingsDialog() で設定してください');
+    }
+    return null;
+  }
+  var ss = SpreadsheetApp.openById(id);
+  var sh = ss.getSheetByName(IS_DICTIONARY_SHEET_NAME);
+  if (!sh && createIfMissing) {
+    sh = ss.insertSheet(IS_DICTIONARY_SHEET_NAME);
+  }
+  return sh;
+}
+```
+
+修正後:
+```javascript
+function getDictionarySheet_(createIfMissing) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sh = ss.getSheetByName(IS_DICTIONARY_SHEET_NAME);
+  if (!sh && createIfMissing) {
+    sh = ss.insertSheet(IS_DICTIONARY_SHEET_NAME);
+  }
+  return sh;
+}
+```
+
+---
+
+## 修正2: Config_IS.gs — DICTIONARY_SHEET_ID関連を全て削除、設定ダイアログを簡素化
+
+ファイル: /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/Config_IS.gs
+
+### 2a: ファイル先頭コメントから「辞書スプレッドシートID」を削除
+
+現在:
+```
+ * Config_IS.gs - Item Specifics 設定
+ * - 辞書スプレッドシートID
+ * - OpenAI API設定
+```
+修正:
+```
+ * Config_IS.gs - Item Specifics 設定
+ * - OpenAI API設定
+```
+
+### 2b: IS_CONFIG から DICTIONARY_SHEET_ID を削除
+
+現在:
+```javascript
+var IS_CONFIG = {
+  // 辞書シートID（後でユーザーが設定）
+  DICTIONARY_SHEET_ID: '',
+
+  // 出品2シートの列マッピング（1-based）
+```
+修正:
+```javascript
+var IS_CONFIG = {
+  // 出品2シートの列マッピング（1-based）
+```
+（DICTIONARY_SHEET_ID の行とそのコメント行を削除）
+
+### 2c: getISSettings() のJSDocから辞書シートID記述を削除
+
+現在:
+```
+ * DocumentProperties から設定を読み込み、IS_CONFIGとマージして返す
+ * - IS_DICTIONARY_SHEET_ID
+ * - OPENAI_API_KEY（既存と共有）
+```
+修正:
+```
+ * DocumentProperties から設定を読み込み、IS_CONFIGとマージして返す
+ * - OPENAI_API_KEY（既存と共有）
+```
+
+### 2d: getISSettings() 関数内の辞書シートID取得部分を削除
+
+現在:
+```javascript
+    // 辞書シートID
+    var dictId = docProps.getProperty('IS_DICTIONARY_SHEET_ID');
+    if (dictId) {
+      settings.DICTIONARY_SHEET_ID = dictId;
+    }
+```
+この4行を削除。
+
+### 2e: saveISSettings() から辞書シートID保存部分を削除
+
+現在:
+```javascript
+    if (settings.DICTIONARY_SHEET_ID !== undefined && settings.DICTIONARY_SHEET_ID !== null) {
+      docProps.setProperty('IS_DICTIONARY_SHEET_ID', String(settings.DICTIONARY_SHEET_ID));
+    }
+```
+この3行を削除。
+
+### 2f: showISSettingsDialog() のJSDocから辞書シートID記述を削除
+
+現在:
+```
+ * 簡易設定ダイアログの表示（UIプロンプト）
+ * - 辞書シートID
+ * - AIモデル
+```
+修正:
+```
+ * 簡易設定ダイアログの表示（UIプロンプト）
+ * - AIモデル
+```
+
+### 2g: showISSettingsDialog() から辞書シートIDの入力プロンプトを削除
+
+現在の辞書シートID入力部分を全て削除し、AIモデルの設定だけ残す。
+
+修正後の showISSettingsDialog 全体:
+```javascript
+function showISSettingsDialog() {
+  var ui = SpreadsheetApp.getUi();
+  try {
+    var current = getISSettings();
+
+    // AIモデル
+    var modelPrompt = ui.prompt(
+      'Item Specifics 設定',
+      'AIモデル名を入力してください（現在: ' + (current.AI && current.AI.MODEL ? current.AI.MODEL : '未設定') + '）\n\n推奨: gpt-5-nano（安価・高速）',
+      ui.ButtonSet.OK_CANCEL
+    );
+    if (modelPrompt.getSelectedButton() !== ui.Button.OK) {
+      return;
+    }
+    var model = (modelPrompt.getResponseText() || '').trim();
+    if (model) {
+      current.AI.MODEL = model;
+    }
+
+    saveISSettings(current);
+    ui.alert('設定を保存しました');
+  } catch (e) {
+    ui.alert('設定エラー: ' + (e && e.message ? e.message : e));
+  }
+}
+```
+
+---
+
+## 修正3: ItemSpecifics.gs — validateSetup_ から辞書シートIDチェックを削除、getActiveISSettings_ からdictionarySpreadsheetIdを削除、setupItemSpecifics() を追加
+
+ファイル: /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/ItemSpecifics.gs
+
+### 3a: validateSetup_ 内の辞書シートIDチェック部分を削除
+
+現在（508-523行目あたり）:
+```javascript
+    // 辞書シートID (任意: 存在する場合はアクセス検証)
+    var dictId = settings.DICTIONARY_SHEET_ID || settings.dictionarySpreadsheetId || '';
+    if (dictId) {
+      try {
+        var dictSs = SpreadsheetApp.openById(dictId);
+        if (!dictSs) {
+          res.ok = false;
+          res.message = '辞書スプレッドシートにアクセスできません。設定のIDを確認してください。';
+          return res;
+        }
+      } catch (e2) {
+        res.ok = false;
+        res.message = '辞書スプレッドシートのオープンに失敗しました。IDや権限を確認してください。';
+        return res;
+      }
+    }
+```
+この部分を全て削除。
+
+### 3b: getActiveISSettings_ から dictionarySpreadsheetId を削除
+
+現在:
+```javascript
+  settings.dictionarySpreadsheetId = settings.DICTIONARY_SHEET_ID || '';
+```
+この1行を削除。
+
+### 3c: ファイル先頭（ヘッダーコメントの直後、addItemSpecificsMenu関数の直前）に setupItemSpecifics() を追加
+
+追加するコード:
+```javascript
+/**
+ * 初回セットアップ: GASエディタからこの関数を1回実行するだけで、
+ * 以降シートを開くたびにItem Specificsメニューが自動表示される。
+ * 既存のonOpen関数には一切変更を加えない。
+ */
+function setupItemSpecifics() {
+  // 既存のトリガーを確認（重複登録防止）
+  var triggers = ScriptApp.getProjectTriggers();
+  for (var i = 0; i < triggers.length; i++) {
+    if (triggers[i].getHandlerFunction() === 'addItemSpecificsMenu') {
+      SpreadsheetApp.getUi().alert('Item Specificsメニューは既にセットアップ済みです。');
+      return;
+    }
+  }
+  // インストール可能なonOpenトリガーを登録
+  ScriptApp.newTrigger('addItemSpecificsMenu')
+    .forSpreadsheet(SpreadsheetApp.getActive())
+    .onOpen()
+    .create();
+
+  // 今すぐメニューも表示
+  addItemSpecificsMenu();
+
+  SpreadsheetApp.getUi().alert('セットアップ完了！\n以降、シートを開くたびにItem Specificsメニューが自動表示されます。');
+}
+```
+
+### 3d: validateSetup_ のコメントから辞書関連を削除
+
+現在:
+```
+// 非公開: 実行前検証
+// - APIキー
+// - 辞書シートID
+// - 辞書アクセス
+// - アクティブシート名
+```
+修正:
+```
+// 非公開: 実行前検証
+// - APIキー
+// - アクティブシート名
+```
+
+---
+
+## 修正4: DESIGN.md のファイル構成説明を更新
+
+ファイル: /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/DESIGN.md
+
+「辞書シートID、API設定等」→「AI設定等」に変更。
+
+---
+
+## コードスタイル（厳守）:
+- GAS（ES5互換）: const/let不可、var使用
+- アロー関数不可
+- テンプレートリテラル不可
+- for...of不可
+- spread不可

@@ -1,0 +1,168 @@
+以下の修正を行ってください。辞書シートを外部スプレッドシートではなく、同じスプレッドシート内のタブとして管理するように変更します。
+
+## 修正方針
+
+辞書は同じスプレッドシート内に「Dictionary」タブを自動作成して使う。
+外部スプレッドシートIDの設定は不要にする。
+
+---
+
+## 修正1: Dictionary.gs — getDictionarySheet_ を変更
+
+ファイル: /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/Dictionary.gs
+
+現在のコード:
+```javascript
+function getDictionarySheet_(createIfMissing) {
+  var settings = getISSettings();
+  var id = (settings && settings.DICTIONARY_SHEET_ID) ? settings.DICTIONARY_SHEET_ID.toString().trim() : '';
+  if (!id) {
+    if (createIfMissing) {
+      throw new Error('辞書スプレッドシートIDが未設定です。showISSettingsDialog() で設定してください');
+    }
+    return null;
+  }
+  var ss = SpreadsheetApp.openById(id);
+  var sh = ss.getSheetByName(IS_DICTIONARY_SHEET_NAME);
+  if (!sh && createIfMissing) {
+    sh = ss.insertSheet(IS_DICTIONARY_SHEET_NAME);
+  }
+  return sh;
+}
+```
+
+修正後:
+```javascript
+function getDictionarySheet_(createIfMissing) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sh = ss.getSheetByName(IS_DICTIONARY_SHEET_NAME);
+  if (!sh && createIfMissing) {
+    sh = ss.insertSheet(IS_DICTIONARY_SHEET_NAME);
+  }
+  return sh;
+}
+```
+
+---
+
+## 修正2: Config_IS.gs — DICTIONARY_SHEET_ID を削除、設定ダイアログを簡素化
+
+ファイル: /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/Config_IS.gs
+
+### 2a: IS_CONFIG から DICTIONARY_SHEET_ID を削除
+
+現在:
+```javascript
+var IS_CONFIG = {
+  // 辞書シートID（後でユーザーが設定）
+  DICTIONARY_SHEET_ID: '',
+```
+
+修正:
+```javascript
+var IS_CONFIG = {
+```
+（DICTIONARY_SHEET_ID の行とそのコメント行を削除）
+
+### 2b: getISSettings() から辞書シートID関連を削除
+
+現在の辞書シートID取得部分を削除:
+```javascript
+    // 辞書シートID
+    var dictId = docProps.getProperty('IS_DICTIONARY_SHEET_ID');
+    if (dictId) {
+      settings.DICTIONARY_SHEET_ID = dictId;
+    }
+```
+この4行を削除。
+
+### 2c: saveISSettings() から辞書シートID関連を削除
+
+現在:
+```javascript
+    if (settings.DICTIONARY_SHEET_ID !== undefined && settings.DICTIONARY_SHEET_ID !== null) {
+      docProps.setProperty('IS_DICTIONARY_SHEET_ID', String(settings.DICTIONARY_SHEET_ID));
+    }
+```
+この3行を削除。
+
+### 2d: showISSettingsDialog() から辞書シートIDの入力を削除
+
+現在の辞書シートID入力プロンプト部分（dictPrompt 関連全体）を削除。
+AIモデルの設定だけ残す。
+
+修正後の showISSettingsDialog:
+```javascript
+function showISSettingsDialog() {
+  var ui = SpreadsheetApp.getUi();
+  try {
+    var current = getISSettings();
+
+    // AIモデル
+    var modelPrompt = ui.prompt(
+      'Item Specifics 設定',
+      'AIモデル名を入力してください（現在: ' + (current.AI && current.AI.MODEL ? current.AI.MODEL : '未設定') + '）\n\n推奨: gpt-5-nano（安価・高速）',
+      ui.ButtonSet.OK_CANCEL
+    );
+    if (modelPrompt.getSelectedButton() !== ui.Button.OK) {
+      return;
+    }
+    var model = (modelPrompt.getResponseText() || '').trim();
+    if (model) {
+      current.AI.MODEL = model;
+    }
+
+    saveISSettings(current);
+    ui.alert('設定を保存しました');
+  } catch (e) {
+    ui.alert('設定エラー: ' + (e && e.message ? e.message : e));
+  }
+}
+```
+
+---
+
+## 修正3: ItemSpecifics.gs — validateSetup_ から辞書シートIDチェックを削除
+
+ファイル: /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/ItemSpecifics.gs
+
+validateSetup_ 関数内の辞書シートIDチェック部分を削除:
+
+現在:
+```javascript
+    // 辞書シートID (任意: 存在する場合はアクセス検証)
+    var dictId = settings.DICTIONARY_SHEET_ID || settings.dictionarySpreadsheetId || '';
+    if (dictId) {
+      try {
+        var dictSs = SpreadsheetApp.openById(dictId);
+        if (!dictSs) {
+          res.ok = false;
+          res.message = '辞書スプレッドシートにアクセスできません。設定のIDを確認してください。';
+          return res;
+        }
+      } catch (e2) {
+        res.ok = false;
+        res.message = '辞書スプレッドシートのオープンに失敗しました。IDや権限を確認してください。';
+        return res;
+      }
+    }
+```
+
+この部分を全て削除。
+
+### getActiveISSettings_ から dictionarySpreadsheetId も削除
+
+現在:
+```javascript
+  settings.dictionarySpreadsheetId = settings.DICTIONARY_SHEET_ID || '';
+```
+この行を削除。
+
+---
+
+## コードスタイル（厳守）:
+- GAS（ES5互換）: const/let不可、var使用
+- アロー関数不可
+- テンプレートリテラル不可
+- for...of不可
+- spread不可

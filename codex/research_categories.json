@@ -1,0 +1,562 @@
+{
+  "metadata": {
+    "description": "eBay Item Specifics - Required and Recommended fields by category (for Japanese sellers)",
+    "source": "eBay Seller Center, eBay Developer API documentation, eBay community resources",
+    "last_updated": "2026-03-02",
+    "notes": [
+      "Required fields: eBay blocks listing publication if these are not filled",
+      "Recommended fields: Not mandatory but strongly recommended for SEO and buyer filtering",
+      "Fields may vary by specific leaf subcategory within each main category",
+      "eBay periodically adds new required fields based on buyer search trends",
+      "Condition is universally required across all categories but listed separately in eBay's system"
+    ]
+  },
+  "categories": [
+    {
+      "category": "Watches",
+      "category_ja": "腕時計",
+      "ebay_category_id": 31387,
+      "ebay_category_path": "Jewelry & Watches > Watches, Parts & Accessories > Watches > Wristwatches",
+      "required_fields": [
+        "Brand",
+        "Type",
+        "Department",
+        "Model",
+        "Movement",
+        "Case Size",
+        "Band Material"
+      ],
+      "recommended_fields": [
+        "Dial Color",
+        "Band Color",
+        "Case Material",
+        "Case Color",
+        "Display",
+        "Band Width",
+        "Case Finish",
+        "Water Resistance",
+        "Year of Manufacture",
+        "Reference Number",
+        "Style",
+        "Features",
+        "Country/Region of Manufacture",
+        "MPN",
+        "UPC"
+      ]
+    },
+    {
+      "category": "Jewelry",
+      "category_ja": "ジュエリー",
+      "ebay_category_id": 281,
+      "ebay_category_path": "Jewelry & Watches > Fine Jewelry / Fashion Jewelry",
+      "required_fields": [
+        "Brand",
+        "Type",
+        "Metal",
+        "Metal Purity",
+        "Main Stone",
+        "Main Stone Color"
+      ],
+      "recommended_fields": [
+        "Secondary Stone",
+        "Total Carat Weight",
+        "Style",
+        "Base Metal",
+        "Plating",
+        "Stone Creation",
+        "Stone Treatment",
+        "Cut",
+        "Clarity",
+        "Setting Style",
+        "Ring Size",
+        "Length",
+        "Country/Region of Manufacture",
+        "Vintage",
+        "Handmade",
+        "MPN",
+        "UPC"
+      ]
+    },
+    {
+      "category": "Trading Cards",
+      "category_ja": "トレカ",
+      "ebay_category_id": 261328,
+      "ebay_category_path": "Sports Mem, Cards & Fan Shop > Sports Trading Cards > Trading Card Singles",
+      "required_fields": [
+        "Graded",
+        "Sport",
+        "Player/Athlete",
+        "Card Number"
+      ],
+      "recommended_fields": [
+        "Team",
+        "Season",
+        "Set",
+        "Card Name",
+        "Type",
+        "Manufacturer",
+        "Parallel/Variety",
+        "Features",
+        "League",
+        "Autographed",
+        "Signed By",
+        "Autograph Format",
+        "Professional Grader",
+        "Certification Number",
+        "Card Condition",
+        "Year Manufactured",
+        "Language"
+      ]
+    },
+    {
+      "category": "Video Games",
+      "category_ja": "ゲーム",
+      "ebay_category_id": 139973,
+      "ebay_category_path": "Video Games & Consoles > Video Games",
+      "required_fields": [
+        "Platform",
+        "Game Name",
+        "Rating",
+        "Genre"
+      ],
+      "recommended_fields": [
+        "Publisher",
+        "Release Year",
+        "Region Code",
+        "Language",
+        "Features",
+        "Sub-Genre",
+        "UPC",
+        "MPN",
+        "Country/Region of Manufacture"
+      ]
+    },
+    {
+      "category": "Collectibles/Figures",
+      "category_ja": "フィギュア",
+      "ebay_category_id": 261068,
+      "ebay_category_path": "Collectibles & Art > Collectibles > Action Figures & Accessories > Action Figures",
+      "required_fields": [
+        "Brand",
+        "Type",
+        "Character",
+        "Franchise"
+      ],
+      "recommended_fields": [
+        "Year of Manufacture",
+        "Material",
+        "Size",
+        "Theme",
+        "Age Level",
+        "Packaging",
+        "Features",
+        "Character Family",
+        "Era",
+        "Country/Region of Manufacture",
+        "MPN",
+        "UPC",
+        "Vintage"
+      ]
+    },
+    {
+      "category": "Cameras & Photo",
+      "category_ja": "カメラ",
+      "ebay_category_id": 31388,
+      "ebay_category_path": "Cameras & Photo > Digital Cameras",
+      "required_fields": [
+        "Brand",
+        "Model",
+        "Type",
+        "Color"
+      ],
+      "recommended_fields": [
+        "Megapixels",
+        "Sensor Size",
+        "Maximum Resolution",
+        "Optical Zoom",
+        "Screen Size",
+        "Lens Mount",
+        "Image Stabilization",
+        "Connectivity",
+        "Focus Type",
+        "Features",
+        "Battery Type",
+        "Series",
+        "MPN",
+        "UPC",
+        "Country/Region of Manufacture"
+      ]
+    },
+    {
+      "category": "Cell Phones",
+      "category_ja": "スマホ",
+      "ebay_category_id": 9355,
+      "ebay_category_path": "Cell Phones & Accessories > Cell Phones & Smartphones",
+      "required_fields": [
+        "Brand",
+        "Model",
+        "Storage Capacity",
+        "Color",
+        "Network"
+      ],
+      "recommended_fields": [
+        "Camera Resolution",
+        "Screen Size",
+        "Operating System",
+        "Lock Status",
+        "Processor",
+        "Connectivity",
+        "RAM",
+        "SIM Card Slot",
+        "Contract",
+        "Features",
+        "IMEI Status",
+        "MPN",
+        "UPC"
+      ]
+    },
+    {
+      "category": "Clothing",
+      "category_ja": "衣類",
+      "ebay_category_id": 11450,
+      "ebay_category_path": "Clothing, Shoes & Accessories > Men's Clothing / Women's Clothing",
+      "required_fields": [
+        "Brand",
+        "Size",
+        "Size Type",
+        "Style",
+        "Department",
+        "Type",
+        "Color"
+      ],
+      "recommended_fields": [
+        "Material",
+        "Pattern",
+        "Theme",
+        "Neckline",
+        "Sleeve Length",
+        "Fit",
+        "Occasion",
+        "Season",
+        "Vintage",
+        "Handmade",
+        "Country/Region of Manufacture",
+        "MPN",
+        "UPC"
+      ]
+    },
+    {
+      "category": "Shoes",
+      "category_ja": "靴",
+      "ebay_category_id": 93427,
+      "ebay_category_path": "Clothing, Shoes & Accessories > Men's Shoes / Women's Shoes",
+      "required_fields": [
+        "Brand",
+        "US Shoe Size",
+        "Style",
+        "Size Type",
+        "Department",
+        "Color",
+        "Upper Material"
+      ],
+      "recommended_fields": [
+        "Width",
+        "Outsole Material",
+        "Heel Height",
+        "Heel Type",
+        "Toe Shape",
+        "Pattern",
+        "Occasion",
+        "Features",
+        "Theme",
+        "Vintage",
+        "Handmade",
+        "Country/Region of Manufacture",
+        "MPN",
+        "UPC"
+      ]
+    },
+    {
+      "category": "Bags & Handbags",
+      "category_ja": "バッグ",
+      "ebay_category_id": 169291,
+      "ebay_category_path": "Clothing, Shoes & Accessories > Women's Bags & Handbags",
+      "required_fields": [
+        "Brand",
+        "Style",
+        "Color",
+        "Type",
+        "Department"
+      ],
+      "recommended_fields": [
+        "Outer Material",
+        "Lining Material",
+        "Closure",
+        "Size",
+        "Pattern",
+        "Features",
+        "Theme",
+        "Occasion",
+        "Vintage",
+        "Handmade",
+        "Country/Region of Manufacture",
+        "MPN",
+        "UPC"
+      ]
+    },
+    {
+      "category": "Pottery & Glass",
+      "category_ja": "陶器",
+      "ebay_category_id": 870,
+      "ebay_category_path": "Collectibles & Art > Pottery & Glass",
+      "required_fields": [
+        "Brand",
+        "Type",
+        "Material",
+        "Color"
+      ],
+      "recommended_fields": [
+        "Original/Reproduction",
+        "Maker",
+        "Pattern",
+        "Style",
+        "Age",
+        "Country/Region of Manufacture",
+        "Production Style",
+        "Features",
+        "Theme",
+        "Size",
+        "MPN",
+        "UPC"
+      ]
+    },
+    {
+      "category": "Musical Instruments",
+      "category_ja": "楽器",
+      "ebay_category_id": 619,
+      "ebay_category_path": "Musical Instruments & Gear",
+      "required_fields": [
+        "Brand",
+        "Type",
+        "Model"
+      ],
+      "recommended_fields": [
+        "Body Color",
+        "Body Material",
+        "Number of Strings",
+        "Skill Level",
+        "Size",
+        "Features",
+        "Country/Region of Manufacture",
+        "Right-/Left-Handed",
+        "Year",
+        "MPN",
+        "UPC"
+      ]
+    },
+    {
+      "category": "Automotive Parts",
+      "category_ja": "自動車パーツ",
+      "ebay_category_id": 6030,
+      "ebay_category_path": "eBay Motors > Parts & Accessories > Car & Truck Parts & Accessories",
+      "required_fields": [
+        "Brand",
+        "Manufacturer Part Number",
+        "Placement on Vehicle",
+        "Type"
+      ],
+      "recommended_fields": [
+        "Fitment Type",
+        "OE/OEM Part Number",
+        "Warranty",
+        "Color",
+        "Material",
+        "Performance Part",
+        "Country/Region of Manufacture",
+        "UPC",
+        "Interchange Part Number",
+        "Other Part Number",
+        "Vehicle Compatibility (Year/Make/Model)"
+      ]
+    },
+    {
+      "category": "Books & Manga",
+      "category_ja": "書籍",
+      "ebay_category_id": 267,
+      "ebay_category_path": "Books & Magazines > Books / Manga / Comic Books",
+      "required_fields": [
+        "Language",
+        "Author",
+        "Title",
+        "Topic"
+      ],
+      "recommended_fields": [
+        "Publisher",
+        "Publication Year",
+        "Format",
+        "Features",
+        "Genre",
+        "Book Title",
+        "Edition",
+        "Narrative Type",
+        "ISBN",
+        "Country/Region of Manufacture",
+        "Signed",
+        "Vintage"
+      ]
+    },
+    {
+      "category": "Toys & Hobbies",
+      "category_ja": "おもちゃ",
+      "ebay_category_id": 220,
+      "ebay_category_path": "Toys & Hobbies",
+      "required_fields": [
+        "Brand",
+        "Type",
+        "Age Level",
+        "Character"
+      ],
+      "recommended_fields": [
+        "Theme",
+        "Franchise",
+        "Material",
+        "Year of Manufacture",
+        "Features",
+        "Packaging",
+        "Color",
+        "Recommended Age Range",
+        "Country/Region of Manufacture",
+        "MPN",
+        "UPC",
+        "Vintage"
+      ]
+    },
+    {
+      "category": "Health & Beauty",
+      "category_ja": "美容",
+      "ebay_category_id": 26395,
+      "ebay_category_path": "Health & Beauty",
+      "required_fields": [
+        "Brand",
+        "Type",
+        "Formulation",
+        "Department"
+      ],
+      "recommended_fields": [
+        "Skin Type",
+        "Area of Use",
+        "Scent",
+        "Size",
+        "Active Ingredients",
+        "Features",
+        "Shade",
+        "Volume",
+        "Expiration Date",
+        "Country/Region of Manufacture",
+        "MPN",
+        "UPC"
+      ]
+    },
+    {
+      "category": "Home & Garden",
+      "category_ja": "家庭用品",
+      "ebay_category_id": 11700,
+      "ebay_category_path": "Home & Garden",
+      "required_fields": [
+        "Brand",
+        "Type",
+        "Material",
+        "Color"
+      ],
+      "recommended_fields": [
+        "Room",
+        "Style",
+        "Item Height",
+        "Item Length",
+        "Item Width",
+        "Features",
+        "Pattern",
+        "Power Source",
+        "Theme",
+        "Country/Region of Manufacture",
+        "MPN",
+        "UPC"
+      ]
+    },
+    {
+      "category": "Sporting Goods",
+      "category_ja": "スポーツ",
+      "ebay_category_id": 888,
+      "ebay_category_path": "Sporting Goods",
+      "required_fields": [
+        "Brand",
+        "Type",
+        "Sport/Activity"
+      ],
+      "recommended_fields": [
+        "Model",
+        "Size",
+        "Color",
+        "Material",
+        "Gender",
+        "Age Group",
+        "Features",
+        "Skill Level",
+        "Country/Region of Manufacture",
+        "MPN",
+        "UPC"
+      ]
+    },
+    {
+      "category": "Art",
+      "category_ja": "美術品",
+      "ebay_category_id": 550,
+      "ebay_category_path": "Collectibles & Art > Art > Paintings / Art Prints",
+      "required_fields": [
+        "Medium",
+        "Subject",
+        "Style",
+        "Listed By"
+      ],
+      "recommended_fields": [
+        "Artist",
+        "Size",
+        "Original/Licensed Reproduction",
+        "Culture",
+        "Year",
+        "Features",
+        "Theme",
+        "Handmade",
+        "Signed",
+        "Frame Included",
+        "Height",
+        "Width",
+        "Country/Region of Manufacture"
+      ]
+    },
+    {
+      "category": "Antiques",
+      "category_ja": "アンティーク",
+      "ebay_category_id": 20081,
+      "ebay_category_path": "Antiques",
+      "required_fields": [
+        "Original/Reproduction",
+        "Type",
+        "Material",
+        "Age"
+      ],
+      "recommended_fields": [
+        "Maker",
+        "Region of Origin",
+        "Style",
+        "Color",
+        "Theme",
+        "Features",
+        "Primary Material",
+        "Sub-Type",
+        "Time Period Manufactured",
+        "Country/Region of Manufacture"
+      ]
+    }
+  ]
+}

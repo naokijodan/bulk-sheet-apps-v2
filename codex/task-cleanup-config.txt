@@ -1,0 +1,165 @@
+プロジェクト: ~/Desktop/ツール開発/一括シートApps_v3/
+対象ファイル: ItemSpecifics/Config_IS.gs, ItemSpecifics/ItemSpecifics.gs
+
+### GAS ES5制約【厳守】
+- const/let禁止 → varのみ
+
+==============================
+## タスク1: Config_IS.gs から旧カード辞書を削除
+==============================
+
+CardPatterns.gsで再定義されるため、以下の変数定義をConfig_IS.gsから**完全に削除**する：
+
+1. `var IS_GAME_PATTERNS = [...]` — トレカ ゲーム判定パターン（コメント行含む）
+   - 場所: 1293行目付近〜1307行目付近
+
+2. `var IS_CARD_RARITY_PATTERNS = [...]` — トレカ レアリティ判定パターン（コメント行含む）
+   - 場所: IS_GAME_PUBLISHER_PATTERNSの後
+
+3. `var IS_CARD_FINISH_PATTERNS = [...]` — トレカ 仕上げ判定パターン（コメント行含む）
+   - 場所: IS_CARD_RARITY_PATTERNSの後
+
+4. `var IS_CARD_SET_PATTERNS = [...]` — トレカ セット判定パターン（コメント行含む）
+   - 場所: IS_CARD_FINISH_PATTERNSの後
+
+**削除対象の見つけ方**: 以下のコメント行から始まるブロック全体を削除
+```
+// ==============================
+// トレカ ゲーム判定パターン
+// ==============================
+var IS_GAME_PATTERNS = [
+```
+
+```
+// ==============================
+// トレカ レアリティ判定パターン
+// ==============================
+var IS_CARD_RARITY_PATTERNS = [
+```
+
+```
+// ==============================
+// トレカ 仕上げ判定パターン
+// ==============================
+var IS_CARD_FINISH_PATTERNS = [
+```
+
+```
+// ==============================
+// トレカ セット判定パターン
+// ==============================
+var IS_CARD_SET_PATTERNS = [
+```
+
+各ブロックの終端は `];` の行まで含めて削除する。
+
+**絶対に削除してはいけないもの**:
+- IS_GAME_PUBLISHER_PATTERNS（ビデオゲーム用、残す）
+- IS_PLATFORM_PATTERNS（ビデオゲーム用、残す）
+- IS_REGION_CODE_PATTERNS（ビデオゲーム用、残す）
+- IS_GENRE_PATTERNS（ビデオゲーム用、残す）
+- IS_BRAND_DICT（ブランド辞書、残す）
+- IS_TAG_TO_CATEGORY（残す）
+- IS_CATEGORY_FIELDS（後で修正）
+- IS_INITIAL_DATA（残す）
+- その他全ての非カード辞書
+
+==============================
+## タスク2: Config_IS.gs IS_CATEGORY_FIELDS を更新
+==============================
+
+Trading Cardsの出力フィールドを変更する。
+
+現在:
+```javascript
+'Trading Cards': ['Game', 'Set', 'Character', 'Card Name', 'Card Number', 'Rarity', 'Finish', 'Language', 'Graded', 'Country/Region of Manufacture'],
+```
+
+変更後:
+```javascript
+'Trading Cards': ['Game', 'Set', 'Character', 'Card Name', 'Card Number', 'Rarity', 'Finish', 'Graded', 'Professional Grader', 'Grade'],
+```
+
+Language と Country/Region of Manufacture を外し、Professional Grader と Grade を追加。
+（Language と Country は resolveFieldValue_ でデフォルト値として自動注入する）
+
+==============================
+## タスク3: ItemSpecifics.gs resolveFieldValue_ 修正
+==============================
+
+### 3a. Character ケース追加
+
+resolveFieldValue_ の Trading Cards fields セクション（case 'Rarity' の前付近）に追加:
+
+```javascript
+    case 'Character':
+      if (category === 'Trading Cards') {
+        return matchFromPatterns_(title + ' ' + (description || ''), IS_CARD_CHARACTER_PATTERNS);
+      }
+      return '';
+```
+
+### 3b. Professional Grader / Grade ケース追加
+
+resolveFieldValue_ の case 'Graded' の後に追加:
+
+```javascript
+    case 'Professional Grader':
+      return matchGraderFromTitle_(title);
+    case 'Grade':
+      return matchGradeFromTitle_(title);
+```
+
+### 3c. matchGraderFromTitle_ 関数追加（extractCardNumber_ の後付近）
+
+```javascript
+// PSA/BGS等のグレーダー名を抽出
+function matchGraderFromTitle_(title) {
+  if (!title) return '';
+  var t = title.toString();
+  if (t.indexOf('PSA') !== -1) return 'PSA';
+  if (t.indexOf('BGS') !== -1) return 'BGS (Beckett)';
+  if (t.indexOf('CGC') !== -1) return 'CGC';
+  if (t.indexOf('SGC') !== -1) return 'SGC';
+  if (t.indexOf('ARS') !== -1) return 'ARS';
+  return '';
+}
+
+// PSA 10, BGS 9.5 等のグレード値を抽出
+function matchGradeFromTitle_(title) {
+  if (!title) return '';
+  var t = title.toString();
+  // PSA 10, PSA10, 【PSA10】等
+  var m = t.match(/PSA\s*(\d+(?:\.\d+)?)/i);
+  if (m) return 'PSA ' + m[1];
+  m = t.match(/BGS\s*(\d+(?:\.\d+)?)/i);
+  if (m) return 'BGS ' + m[1];
+  m = t.match(/CGC\s*(\d+(?:\.\d+)?)/i);
+  if (m) return 'CGC ' + m[1];
+  m = t.match(/SGC\s*(\d+(?:\.\d+)?)/i);
+  if (m) return 'SGC ' + m[1];
+  return '';
+}
+```
+
+### 3d. Language/Country 自動注入
+
+writeItemSpecificsToSheet_ 関数内の `var flat = jsonToFlatArray_(data);` の直前（line 1041付近）に追加:
+
+```javascript
+      // Trading Cards: Language/Country自動注入（IS_CATEGORY_FIELDS外で追加）
+      if (data['_category'] === 'Trading Cards' || data.hasOwnProperty('Game')) {
+        if (!data['Language'] || data['Language'] === '' || data['Language'] === 'Does not apply') {
+          data['Language'] = 'Japanese';
+        }
+        if (!data['Country/Region of Manufacture'] || data['Country/Region of Manufacture'] === '' || data['Country/Region of Manufacture'] === 'Does not apply') {
+          data['Country/Region of Manufacture'] = 'Japan';
+        }
+      }
+```
+
+### 重要な注意事項
+- IS_CARD_CHARACTER_PATTERNS は CardPatterns.gs でグローバル変数として定義されている
+- GASでは全.gsファイルのグローバル変数が同一スコープなので、CardPatterns.gsの変数を参照できる
+- 既存のcase文を壊さないこと
+- Library/ への同期は別タスクで行うので ItemSpecifics/ 配下のみ修正

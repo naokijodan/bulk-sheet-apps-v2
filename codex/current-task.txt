@@ -1,0 +1,86 @@
+## タスク: Pre-process強化 + Post-processクリーンアップ追加
+
+### 対象ファイル
+1. `AI.gs` （ルート）
+2. `Library/AI.gs` （ライブラリ同期 — 両方に完全同一の変更を入れること）
+
+---
+
+### 変更1: sanitizeInputJP_ に売り手指示系の日本語を追加
+
+`bannedJP` 配列に以下の日本語フレーズを追加する。
+既存の配列の末尾（「ご確認ください」の後）に追加。
+
+```javascript
+    // 売り手指示・写真確認系
+    '画像をご確認ください', '写真をご確認ください', '画像でご確認ください',
+    '画像をご覧ください', '写真をご覧ください', '画像で判断',
+    '写真にてご確認', '画像にてご確認', '写真を見て',
+    'お気軽にコメント', 'コメントください', 'コメントでご質問',
+    'コメントにてお問い合わせ', 'お問い合わせください', '質問ください',
+    'ご質問ください', 'ご不明な点', '不明な点は',
+    '入札前に', '落札後', '購入前に', '購入後',
+    'ご購入ください', 'お願いいたします', 'お願い致します',
+    'ご検討ください', 'よろしくお願い', 'フォロー割', 'おまとめ割',
+    '画像が全て', '写真が全て', '自己紹介', 'プロフィール',
+    '真贋', '鑑定済み', '鑑定済', '正規品', '本物',
+    '新品仕上げ済み', '新品仕上げ', '磨き直し',
+    'クリーニング済み', 'クリーニング済'
+```
+
+**重要**: 「新品仕上げ」は「新品」の汎用変換（新品→未使用）より前に変換する必要あり。
+sanitizeInputJP_ のセクション1（変換）に以下を追加（`新品未使用` の行の前に）：
+
+```javascript
+  // ジュエリー固有: 新品仕上げ → 研磨仕上げ済み（新品の汎用変換より前に）
+  text = text.replace(/新品仕上げ済[みめ]?/g, '研磨仕上げ済み');
+  text = text.replace(/新品仕上げ/g, '研磨仕上げ済み');
+```
+
+---
+
+### 変更2: sanitizeListingText_ のブラックリスト拡充 + guarantee修正
+
+#### 2a. セクション5.8 の guarantee パターンを修正
+既存: `text = text.replace(/\bguarantee\b/gi, '');`
+変更: `text = text.replace(/\bguaranteed?\b/gi, '');`
+（"guarantee" と "guaranteed" の両方にマッチするように）
+
+#### 2b. セクション5.13 のブラックリスト配列に追加
+既存の blacklist 配列に以下を追加：
+
+```javascript
+      'nice condition', 'nice',
+      'ships quickly', 'ships fast', 'ships with care',
+      'please request', 'please ask', 'please question',
+      'please contact', 'feel free to ask',
+      'before purchase', 'before bidding',
+      'ask any questions', 'any questions before',
+      'additional photos'
+```
+
+---
+
+### 変更3: sanitizeListingText_ にクリーンアップフェーズ追加
+
+セクション7（クリーンアップ）の中に、既存の連続ピリオド処理の後・trimの前に追加：
+
+```javascript
+    // 7.5 壊れた文末の修復（Post-processの副作用対策）
+    // 文末に孤立した前置詞・接続詞が残った場合を除去
+    text = text.replace(/\s+(?:in|at|on|with|and|or|from|for|by|to)\s*\./g, '.');
+    // "Condition:." や "Condition:," のような空のラベルを除去
+    text = text.replace(/\b(?:Condition|Color|Country)\s*:\s*[.,]\s*/gi, '');
+    // "Please." のような孤立した単語+ピリオドを除去
+    text = text.replace(/(?:^|\.\s*)(?:Please|Also|And|Or|But)\s*\.\s*/gi, function(m, offset) { return offset === 0 ? '' : '. '; });
+    // 文頭のピリオドを除去
+    text = text.replace(/^\.\s*/g, '');
+```
+
+---
+
+### 注意事項
+- `AI.gs` と `Library/AI.gs` の **両方** に同じ変更を入れること
+- 既存パターン（5.1〜5.11, 5.12のホワイトリスト保護方式）は変更しない
+- GAS ES5互換のコード（const/let/arrow function禁止）
+- 変更1のジュエリー固有変換は、`新品未使用` の行より前に配置すること

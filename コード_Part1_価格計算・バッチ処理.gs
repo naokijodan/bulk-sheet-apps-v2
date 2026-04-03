@@ -148,7 +148,6 @@ function initialSetup() {
     tmpl.currentPriceDisplayMode = props.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL';
 
     // タグ自動判定 設定（既定値）
-    tmpl.currentTagOverrideEnabled = docProps.getProperty('TAG_OVERRIDE_ENABLED') || 'false';
     tmpl.currentTagOverridePrompt = docProps.getProperty('TAG_OVERRIDE_PROMPT') || 'true';
     tmpl.currentTagOverrideTemplate = docProps.getProperty('TAG_OVERRIDE_TEMPLATE') || 'true';
     tmpl.currentTagOverrideShippingCategory = docProps.getProperty('TAG_OVERRIDE_SHIPPING_CATEGORY') || 'true';

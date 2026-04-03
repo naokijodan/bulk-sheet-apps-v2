@@ -1110,7 +1110,13 @@ function parsePercent_(val) {
  * @return {Object|null}
  */
 function buildTagOverrideMap_(ss, settings) {
-  if (!settings || !settings.tagOverrideEnabled) return null;
+  if (!settings) return null;
+  var anyOverride = settings.tagOverridePrompt || settings.tagOverrideTemplate ||
+    settings.tagOverrideShippingCategory || settings.tagOverrideProfitRate ||
+    settings.tagOverrideAdRate || settings.tagOverrideFeeRate ||
+    settings.tagOverrideShipping || settings.tagOverrideLowShipping ||
+    settings.tagOverrideHighShipping || settings.tagOverrideThreshold;
+  if (!anyOverride) return null;
   var tsSheet = ss.getSheetByName(CONFIG.TAG_SHIPPING.SHEET_NAME);
   if (!tsSheet) return null;
   var lastRow = tsSheet.getLastRow();

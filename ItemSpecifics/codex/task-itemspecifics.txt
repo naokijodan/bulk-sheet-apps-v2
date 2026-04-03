@@ -1,0 +1,140 @@
+## タスク: ItemSpecifics.gs の修正
+
+ファイル: /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/ItemSpecifics.gs
+
+### 1. matchBrandFromTitle_ 関数にノーマライズマッチングを追加（445行目〜）
+
+現在は `t.indexOf(b.name.toLowerCase())` で完全文字列一致のみ。
+スペース・ハイフン・スラッシュ・ドットを除去した正規化比較を追加する。
+
+修正方針:
+- 関数の冒頭で `var tNorm = t.replace(/[\s\-\.\/]/g, '');` を追加
+- 英語名チェック部分（472行目〜）を修正:
+
+```javascript
+    // 英語名チェック（通常 + ノーマライズ）
+    var nameLower = b.name.toLowerCase();
+    var nameNorm = nameLower.replace(/[\s\-\.\/]/g, '');
+    if (t.indexOf(nameLower) !== -1 || tNorm.indexOf(nameNorm) !== -1) {
+```
+
+- 日本語名チェック部分（490行目〜）も同様:
+
+```javascript
+        var jpLower = jp.toLowerCase();
+        var jpNorm = jpLower.replace(/[\s\-\.\/]/g, '');
+        if (t.indexOf(jpLower) !== -1 || tNorm.indexOf(jpNorm) !== -1) {
+```
+
+- bestLen の比較は b.name.length をそのまま使う（ノーマライズ前の長さで優先度を決める）
+
+### 2. writeItemSpecificsToSheet_ のMetal後処理を証拠ベースに修正（841行目〜）
+
+現在の問題: silver tone/gold platedを先にチェックして無条件でBase Metalにしている
+修正: 素材の証拠（925, K18等）を最優先にする
+
+841行目〜873行目の Metal/Metal Purity 後処理ブロックを以下のロジックに置き換え:
+
+```javascript
+      // ジュエリー用の Metal 後処理（証拠ベース判定）
+      if (data.hasOwnProperty('Metal') && data.hasOwnProperty('Metal Purity')) {
+        var jTitle = getValue_(sheet, row, 7) || '';
+        var jDesc = getValue_(sheet, row, 12) || '';
+        var jText = (jTitle + ' ' + jDesc);
+        var jTextLower = jText.toLowerCase();
+
+        // Step 1: 素材の物理的証拠をチェック（最優先）
+        var hasSilverEvidence = /\b(925|sv925|ag925|sterling\s*silver|sterling)\b/i.test(jText);
+        var hasGoldEvidence = /\b(k?(?:9|10|14|18|22|24)k?|750|585|375|999|916)\b/i.test(jText);
+        var hasPlatinumEvidence = /\b(pt(?:900|950|850)?|platinum)\b/i.test(jText);
+
+        if (hasSilverEvidence) {
+          // 925/Sterling の証拠あり → Sterling Silver 確定
+          data['Metal'] = 'Sterling Silver';
+          data['Metal Purity'] = '925';
+          // 混合素材（925 + Gold）の場合、Silverを主素材とする
+        } else if (hasGoldEvidence) {
+          // Gold の証拠あり → Gold 確定（purityはStep1の値を維持）
+          var metalVal = (data['Metal'] || '').toLowerCase();
+          if (metalVal.indexOf('gold') === -1) {
+            data['Metal'] = 'Yellow Gold';
+          }
+          // Metal Purity が空なら証拠から推定
+          if (!data['Metal Purity'] || data['Metal Purity'] === 'Does not apply') {
+            if (/\b(k?18k?|750)\b/i.test(jText)) data['Metal Purity'] = '18k';
+            else if (/\b(k?14k?|585)\b/i.test(jText)) data['Metal Purity'] = '14k';
+            else if (/\b(k?10k?)\b/i.test(jText)) data['Metal Purity'] = '10k';
+            else if (/\b(k?24k?|999)\b/i.test(jText)) data['Metal Purity'] = '24k';
+            else if (/\b(k?22k?|916)\b/i.test(jText)) data['Metal Purity'] = '22k';
+            else if (/\b(k?9k?|375)\b/i.test(jText)) data['Metal Purity'] = '9k';
+          }
+        } else if (hasPlatinumEvidence) {
+          data['Metal'] = 'Platinum';
+          // Purity は Step1 の値を維持
+        } else {
+          // 素材証拠なし → tone/plated チェック（フォールバック）
+          var isTonePlated = (jTextLower.indexOf('gold tone') !== -1 || jTextLower.indexOf('gold-tone') !== -1 ||
+                             jTextLower.indexOf('gold plated') !== -1 || jTextLower.indexOf('gold color') !== -1 ||
+                             jTextLower.indexOf('silver tone') !== -1 || jTextLower.indexOf('silver-tone') !== -1 ||
+                             jTextLower.indexOf('silver plated') !== -1 || jTextLower.indexOf('silver color') !== -1 ||
+                             jTextLower.indexOf('goldtone') !== -1 || jTextLower.indexOf('silvertone') !== -1);
+
+          if (isTonePlated) {
+            data['Metal'] = 'Base Metal';
+            data['Metal Purity'] = 'Does not apply';
+          } else {
+            // Metal が Gold/Silver 系だが証拠なし → Base Metal
+            var metalValFb = (data['Metal'] || '').toLowerCase();
+            if (metalValFb === 'gold' || metalValFb === 'yellow gold' || metalValFb === 'rose gold' || metalValFb === 'white gold' ||
+                metalValFb === 'silver' || metalValFb === 'sterling silver') {
+              data['Metal'] = 'Base Metal';
+              data['Metal Purity'] = 'Does not apply';
+            }
+          }
+        }
+      }
+```
+
+### 3. matchCaseSize_ 関数の改善（409行目〜）
+
+現在は title のみ検索。description も検索対象にする。
+また "Case diameter about XX mm" パターンを追加。
+
+#### 3a. resolveFieldValue_ のCase Size部分を修正（294行目付近）:
+
+現在:
+```javascript
+    case 'Case Size':
+      return matchCaseSize_(title);
+```
+
+修正:
+```javascript
+    case 'Case Size':
+      var cs = matchCaseSize_(title);
+      if (!cs && description) cs = matchCaseSize_(description);
+      return cs;
+```
+
+#### 3b. matchCaseSize_ 関数に新パターンを追加（409行目〜）:
+
+既存パターンの前に、Case diameter パターンを追加:
+
+```javascript
+function matchCaseSize_(title) {
+  if (!title) return '';
+  var t = title.toString();
+  // パターン0: "Case diameter about XX mm" / "case size XX mm"
+  var m0 = t.match(/[Cc]ase\s+(?:diameter|size)\s+(?:about\s+)?(?:approx\.?\s+)?(\d{2,3})\s*mm/i);
+  if (m0) {
+    var size0 = parseInt(m0[1], 10);
+    if (size0 >= 20 && size0 <= 60) return size0 + ' mm';
+  }
+  // 以下、既存パターン1〜4はそのまま維持
+```
+
+### 重要な注意事項
+- GAS の ES5 互換（var / function）に準拠すること
+- let/const/アロー関数は使わない
+- 既存コードのインデント・スタイルを維持
+- 変数名の衝突に注意（var宣言のスコープ）

@@ -1,0 +1,173 @@
+以下のファイルを作成してください。Google Apps Script（GAS）のコードです。
+
+## 出力先
+- /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/ItemSpecifics.gs
+
+---
+
+## ItemSpecifics.gs — メインスクリプト
+
+Item Specifics自動抽出のメインエントリーポイント。
+カスタムメニュー追加、実行ロジック、UI制御を担当。
+
+### 依存関係（同じプロジェクト内の他ファイル）:
+- Config_IS.gs: IS_CONFIG定数、getISSettings()、IS_INITIAL_DATA
+- Dictionary.gs: loadDictionary()、getCategoryByTag()、getFieldsForCategory()、initializeDictionary()、showDictionaryManager()
+- AIExtractor.gs: extractItemSpecifics()、mapTagToCategory()、extractItemSpecificsBatch()
+
+### 関数一覧:
+
+#### 1. `onOpen()` への追加（既存のonOpenに影響を与えない形）
+
+```javascript
+// GASでは1プロジェクトにonOpenは1つしか持てないため、
+// 既存のonOpenから呼び出すか、トリガーとして登録する関数を用意
+function addItemSpecificsMenu() {
+  var ui = SpreadsheetApp.getUi();
+  ui.createMenu('🏷️ Item Specifics')
+    .addItem('選択行のItem Specificsを抽出', 'extractSelectedRows')
+    .addItem('全行のItem Specificsを抽出', 'extractAllRows')
+    .addSeparator()
+    .addItem('辞書管理', 'showDictionaryManager')
+    .addItem('辞書を初期化', 'initializeDictionaryWithConfirm')
+    .addSeparator()
+    .addItem('設定', 'showISSettingsDialog')
+    .addToUi();
+}
+```
+
+#### 2. `extractSelectedRows()`
+
+選択中の行のItem Specificsを抽出。
+
+処理フロー:
+1. アクティブシートが '出品2' であることを確認
+2. 選択範囲の行番号を取得
+3. DATA_START_ROW以降の行のみ対象
+4. 各行のタグ（A列）、タイトル（G列）、説明文（L列）を読み取り
+5. 辞書を読み込み（loadDictionary）
+6. タグ → カテゴリマッピング
+   - まず辞書のTag_JPで完全一致/部分一致を試みる（getCategoryByTag）
+   - 見つからなければAIマッピング（mapTagToCategory）
+7. カテゴリからフィールドリスト取得（getFieldsForCategory）
+8. AI抽出実行（extractItemSpecifics or extractItemSpecificsBatch）
+9. 結果をシートに書き込み（writeItemSpecificsToSheet_）
+10. 完了通知（toast）
+
+#### 3. `extractAllRows()`
+
+全行のItem Specificsを抽出。
+
+処理フロー:
+1. アクティブシートが '出品2' であることを確認
+2. DATA_START_ROWから最終行まで
+3. タグまたはタイトルが空の行はスキップ
+4. バッチ処理（extractItemSpecificsBatch）
+5. 進捗表示（SpreadsheetApp.getActiveSpreadsheet().toast()）
+6. 結果をシートに書き込み
+
+#### 4. `writeItemSpecificsToSheet_(sheet, rowResults)`
+
+抽出結果をシートに書き込むプライベート関数。
+
+処理:
+1. ヘッダー行（2行目）のN列以降を読み取り
+2. ヘッダーは `C:Brand`, `C:Style` 等の形式（"C:" プレフィックス付き）
+3. 抽出データのキーとヘッダーをマッチング
+   - ヘッダーが "C:Brand" → キー "Brand" でマッチ
+   - ヘッダーが "C:Country of Origin" → キー "Country of Origin" でマッチ
+4. マッチしたセルに値を書き込み
+5. 書き込み前にセルが空かチェック（上書き確認）
+   - 既に値がある場合は上書きしない（安全策）
+   - ただし設定で上書きモードに変更可能
+
+ヘッダーマッチングロジック:
+```javascript
+function matchHeaderToField_(header) {
+  // "C:Brand" → "Brand"
+  // "C:Country of Origin" → "Country of Origin"
+  // "Brand" → "Brand" (C:プレフィックスなしも対応)
+  var cleaned = String(header || '').trim();
+  if (cleaned.indexOf('C:') === 0) {
+    cleaned = cleaned.substring(2);
+  }
+  // 末尾の = を除去（"C:Brand=" → "Brand"）
+  if (cleaned.charAt(cleaned.length - 1) === '=') {
+    cleaned = cleaned.substring(0, cleaned.length - 1);
+  }
+  return cleaned.trim();
+}
+```
+
+#### 5. `ensureHeaders_(sheet, fields)`
+
+必要なItem Specificsヘッダーがシートに存在することを確認し、なければ追加する。
+
+処理:
+1. 既存ヘッダー（N列以降）を読み取り
+2. fieldsの各フィールドが既存ヘッダーに存在するかチェック
+3. 存在しないフィールドは末尾に追加（"C:{FieldName}" 形式）
+4. 追加したヘッダーのリストを返す
+
+#### 6. `initializeDictionaryWithConfirm()`
+
+辞書初期化の確認付きラッパー。
+
+```javascript
+function initializeDictionaryWithConfirm() {
+  var ui = SpreadsheetApp.getUi();
+  var result = ui.alert(
+    '辞書を初期化',
+    '辞書シートに12カテゴリの初期データを投入します。\n既存データは上書きされます。続行しますか？',
+    ui.ButtonSet.YES_NO
+  );
+  if (result === ui.Button.YES) {
+    initializeDictionary();
+    ui.alert('辞書を初期化しました。');
+  }
+}
+```
+
+#### 7. `validateSetup_()`
+
+実行前のバリデーション。
+
+チェック項目:
+- OpenAI APIキーが設定されているか
+- 辞書シートIDが設定されているか
+- 辞書シートにアクセスできるか
+- アクティブシートが '出品2' か
+
+エラーがあれば適切なメッセージを表示して処理を中断。
+
+### UI/UX設計:
+
+- 進捗表示: `toast("処理中... 5/20行完了", "Item Specifics", 10)` を使用
+- エラー表示: `ui.alert()` を使用
+- 完了通知: `toast("完了: 20行のItem Specificsを抽出しました", "Item Specifics", 5)`
+- 処理中のロック: `LockService.getScriptLock()` で二重実行防止
+
+### エラーハンドリング:
+
+- API呼び出し失敗 → リトライ → 最終的に失敗した行はスキップして続行
+- 辞書未設定 → 設定ダイアログを案内
+- カテゴリマッピング失敗 → その行をスキップ（ログに記録）
+- 書き込みエラー → 次の行に続行
+
+### コードスタイル:
+- GAS（ES5互換）: const/let不可、var使用
+- アロー関数不可、function宣言を使用
+- テンプレートリテラル不可、文字列連結使用
+- 関数名はキャメルケース
+- プライベート関数は末尾に `_` を付ける
+- エラーハンドリングは必須
+- コメントは日本語OK、変数名・関数名は英語
+
+### 禁止:
+- ScriptProperties（DocumentPropertiesを使用）
+- const / let
+- アロー関数 () => {}
+- テンプレートリテラル ``
+- for...of
+- spread演算子
+- 既存の一般用V3ファイルの変更

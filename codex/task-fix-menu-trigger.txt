@@ -1,0 +1,48 @@
+以下の修正を行ってください。
+
+## 修正対象
+ファイル: /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/ItemSpecifics.gs
+
+## やること
+
+ItemSpecifics.gs の先頭（addItemSpecificsMenu関数の直前）に、インストール可能なトリガーでメニューを自動表示するセットアップ関数を追加する。
+
+追加するコード:
+
+```javascript
+/**
+ * 初回セットアップ: GASエディタからこの関数を1回実行するだけで、
+ * 以降シートを開くたびにItem Specificsメニューが自動表示される。
+ * 既存のonOpen関数には一切変更を加えない。
+ */
+function setupItemSpecifics() {
+  // 既存のトリガーを確認（重複登録防止）
+  var triggers = ScriptApp.getProjectTriggers();
+  for (var i = 0; i < triggers.length; i++) {
+    if (triggers[i].getHandlerFunction() === 'addItemSpecificsMenu') {
+      SpreadsheetApp.getUi().alert('Item Specificsメニューは既にセットアップ済みです。');
+      return;
+    }
+  }
+  // インストール可能なonOpenトリガーを登録
+  ScriptApp.newTrigger('addItemSpecificsMenu')
+    .forSpreadsheet(SpreadsheetApp.getActive())
+    .onOpen()
+    .create();
+
+  // 今すぐメニューも表示
+  addItemSpecificsMenu();
+
+  SpreadsheetApp.getUi().alert('セットアップ完了！\n以降、シートを開くたびにItem Specificsメニューが自動表示されます。');
+}
+```
+
+この関数を addItemSpecificsMenu() 関数の直前（ファイル先頭のコメントブロックの直後）に挿入する。
+
+## 既存コードの変更
+なし。追加のみ。
+
+## コードスタイル:
+- var使用（const/let不可）
+- アロー関数不可
+- テンプレートリテラル不可

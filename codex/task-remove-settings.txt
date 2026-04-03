@@ -1,0 +1,120 @@
+以下の修正を行ってください。Item Specificsの設定ダイアログを削除し、APIキーはV3の既存設定から読み取り専用にする。
+
+---
+
+## 修正1: Config_IS.gs
+
+ファイル: /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/Config_IS.gs
+
+### 1a: saveISSettings 関数を完全に削除
+
+以下の関数を丸ごと削除:
+```javascript
+/**
+ * 設定を DocumentProperties に保存
+ * @param {Object} settings
+ */
+function saveISSettings(settings) {
+  try {
+    if (!settings) {
+      throw new Error('settings が未定義です');
+    }
+    var docProps = PropertiesService.getDocumentProperties();
+    if (settings.OPENAI_API_KEY !== undefined && settings.OPENAI_API_KEY !== null) {
+      docProps.setProperty('OPENAI_API_KEY', String(settings.OPENAI_API_KEY));
+    }
+    if (settings.AI && settings.AI.MODEL !== undefined && settings.AI.MODEL !== null) {
+      docProps.setProperty('IS_AI_MODEL', String(settings.AI.MODEL));
+    }
+  } catch (e) {
+    throw new Error('saveISSettings エラー: ' + (e && e.message ? e.message : e));
+  }
+}
+```
+
+### 1b: showISSettingsDialog 関数を完全に削除
+
+以下の関数を丸ごと削除:
+```javascript
+/**
+ * 簡易設定ダイアログの表示（UIプロンプト）
+ * - AIモデル
+ */
+function showISSettingsDialog() {
+  var ui = SpreadsheetApp.getUi();
+  try {
+    var current = getISSettings();
+
+    // AIモデル
+    var modelPrompt = ui.prompt(
+      'Item Specifics 設定',
+      'AIモデル名を入力してください（現在: ' + (current.AI && current.AI.MODEL ? current.AI.MODEL : '未設定') + '）\n\n推奨: gpt-5-nano（安価・高速）',
+      ui.ButtonSet.OK_CANCEL
+    );
+    if (modelPrompt.getSelectedButton() !== ui.Button.OK) {
+      return;
+    }
+    var model = (modelPrompt.getResponseText() || '').trim();
+    if (model) {
+      current.AI.MODEL = model;
+    }
+
+    saveISSettings(current);
+    ui.alert('設定を保存しました');
+  } catch (e) {
+    ui.alert('設定エラー: ' + (e && e.message ? e.message : e));
+  }
+}
+```
+
+### 1c: getISSettings から IS_AI_MODEL の読み込みも削除
+
+現在:
+```javascript
+    // AIモデル
+    var model = docProps.getProperty('IS_AI_MODEL');
+    if (model) {
+      settings.AI.MODEL = model;
+    }
+```
+この4行を削除。AIモデルはIS_CONFIG.AI.MODELの固定値（gpt-5-nano）をそのまま使う。
+
+---
+
+## 修正2: ItemSpecifics.gs
+
+ファイル: /Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/ItemSpecifics.gs
+
+### 2a: メニューから「設定」を削除
+
+現在:
+```javascript
+    ui.createMenu('🏷️ Item Specifics')
+      .addItem('選択行のItem Specificsを抽出', 'extractSelectedRows')
+      .addItem('全行のItem Specificsを抽出', 'extractAllRows')
+      .addSeparator()
+      .addItem('辞書管理', 'showDictionaryManager')
+      .addItem('辞書を初期化', 'initializeDictionaryWithConfirm')
+      .addSeparator()
+      .addItem('設定', 'showISSettingsDialog')
+      .addToUi();
+```
+
+修正後:
+```javascript
+    ui.createMenu('🏷️ Item Specifics')
+      .addItem('選択行のItem Specificsを抽出', 'extractSelectedRows')
+      .addItem('全行のItem Specificsを抽出', 'extractAllRows')
+      .addSeparator()
+      .addItem('辞書管理', 'showDictionaryManager')
+      .addItem('辞書を初期化', 'initializeDictionaryWithConfirm')
+      .addToUi();
+```
+最後の .addSeparator() と .addItem('設定', 'showISSettingsDialog') を削除。
+
+---
+
+## コードスタイル（厳守）:
+- GAS（ES5互換）: const/let不可、var使用
+- アロー関数不可
+- テンプレートリテラル不可

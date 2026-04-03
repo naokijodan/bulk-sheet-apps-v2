@@ -1,0 +1,40 @@
+ファイル: ItemSpecifics/Config_IS.gs
+
+## タスク: Video Games カテゴリ新規作成
+
+### 変更箇所1: IS_INITIAL_DATA にVideo Gamesフィールド定義を追加
+
+203行目（Trading Cardsの最後のエントリ）の後に、以下を追加:
+
+  // === Video Games ===
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Platform', field_type: 'required', priority: 1, notes: 'Nintendo Switch, PlayStation 5, Xbox Series X等' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Game Name', field_type: 'required', priority: 2, notes: '' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Region Code', field_type: 'required', priority: 3, notes: 'NTSC-J, NTSC-U/C, PAL等' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Genre', field_type: 'required', priority: 4, notes: 'Action, RPG, Fighting等' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Character', field_type: 'recommended', priority: 5, notes: '' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Publisher', field_type: 'recommended', priority: 6, notes: 'Nintendo, Sony, Capcom等' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Rating', field_type: 'recommended', priority: 7, notes: 'CERO A, ESRB E, PEGI 3等' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Language', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Features', field_type: 'recommended', priority: 9, notes: 'Multiplayer, Online等' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Country/Region of Manufacture', field_type: 'recommended', priority: 10, notes: '' },
+
+### 変更箇所2: IS_TAG_TO_CATEGORY にVideo Gamesマッピングを追加
+
+1111行目（Sunglassesの後）に追加:
+
+  // Video Games
+  'ゲーム': 'Video Games', 'ゲームソフト': 'Video Games', 'テレビゲーム': 'Video Games',
+  'Switch': 'Video Games', 'PS5': 'Video Games', 'PS4': 'Video Games', 'PS3': 'Video Games', 'PS2': 'Video Games',
+  'Xbox': 'Video Games', 'ファミコン': 'Video Games', 'スーファミ': 'Video Games',
+  'ゲームボーイ': 'Video Games', 'Nintendo': 'Video Games', 'PlayStation': 'Video Games',
+
+### 変更箇所3: IS_CATEGORY_FIELDS にVideo Gamesを追加
+
+1148行目（Sunglassesの後）に追加:
+
+  'Video Games': ['Platform', 'Game Name', 'Region Code', 'Genre', 'Character', 'Publisher', 'Rating', 'Language', 'Country/Region of Manufacture'],
+
+### 注意
+- IS_TAG_TO_CATEGORYの最後のエントリにはカンマが必要。既存のSunglassesの行末を確認してカンマがあることを確認する。
+- IS_CATEGORY_FIELDSも同様に、Sunglassesの行末にカンマを追加する（現状カンマなし）。
+- IS_INITIAL_DATAへの追加は、Trading Cardsセクションの後に配置する。

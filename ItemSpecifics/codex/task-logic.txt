@@ -1,0 +1,54 @@
+## タスク: matchBrandFromTitle_ のlongest-matchロジック修正
+
+### 対象ファイル
+`/Users/naokijodan/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/ItemSpecifics.gs`
+
+### 注意事項（最重要）
+- GAS互換（ES5）: var / function のみ使用。const, let, arrow function 禁止
+- インデントはスペース2つ
+- 他のファイルは一切変更しない
+
+---
+
+## 問題
+parent_brand を持つエントリ（モデルライン）の jp_names が親ブランド名と同じ文字数の場合、
+`if (jp.length > bestLen)` の比較で `>` のため、先にマッチした親ブランドを上書きできない。
+
+例:
+- "Seiko"(5文字) が先にマッチ → bestLen = 5
+- "Vanac" の jp_name 'VANAC'(5文字) → `5 > 5` = false → スキップ
+- 結果: Brand=Seiko, Model=Does not apply（Vanacが拾えない）
+
+同様の問題が多数のSeikoモデルラインで発生:
+- LUKIA(5), DOLCE(5) の jp_names 版, VANAC(5) 等
+
+## 修正内容
+
+### 英語名チェック（490行目付近）
+現在:
+```javascript
+if (b.name.length > bestLen) {
+```
+
+修正: parent_brand を持つエントリの場合は `>=` に変更（より具体的なモデル名を優先）
+```javascript
+if (b.parent_brand ? (b.name.length >= bestLen) : (b.name.length > bestLen)) {
+```
+
+### 日本語名チェック（553行目付近）
+同様の修正。現在:
+```javascript
+if (jp.length > bestLen) {
+```
+
+修正:
+```javascript
+if (b.parent_brand ? (jp.length >= bestLen) : (jp.length > bestLen)) {
+```
+
+### 素材ブランド（materialMatch）側も同様
+現在の materialLen 比較にも同じ修正を適用:
+- `if (b.name.length > materialLen)` → `if (b.parent_brand ? (b.name.length >= materialLen) : (b.name.length > materialLen))`
+- `if (jp.length > materialLen)` → `if (b.parent_brand ? (jp.length >= materialLen) : (jp.length > materialLen))`
+
+### 修正箇所は合計4箇所（英語名bestLen, 英語名materialLen, 日本語名bestLen, 日本語名materialLen）

@@ -1,0 +1,188 @@
+# タスク: IS_BRAND_DICT ブランド追加 + 交通整理ブランド辞書参照
+
+## 作業ディレクトリ
+~/Desktop/ツール開発/一括シートApps_v3/
+
+## 概要
+3つの変更を行う:
+1. Config_IS.gsに8ブランド新規追加 + Sonyのcategory修正
+2. Config_IS.gsにgetBrandListForSanitize_()関数を追加
+3. Sanitize.gsのbuildDefaultSanitizePrompt_()でブランドリスト埋め込み
+
+---
+
+## 変更1: ItemSpecifics/Config_IS.gs — 8ブランド新規追加
+
+IS_BRAND_DICTにアルファベット順で以下を挿入する。既存エントリの形式に合わせること。
+
+### 挿入するエントリ（8件）
+
+(1) Alpina — 319行(Attesa)の後、320行(Audemars Piguet)の前に挿入
+  {name: 'Alpina', jp_names: ['アルピナ', 'ALPINA'], country: 'Switzerland'},
+
+(2) Bedat & Co — 335行(Big Bang)の前、334行(Beside)の後付近に挿入
+  {name: 'Bedat & Co', jp_names: ['ベダアンドカンパニー', 'ベダ＆カンパニー', 'BEDAT & CO', 'BEDAT&CO', 'BEDAT'], country: 'Switzerland'},
+
+(3) Louis Erard — 456行(Leatherback Sea Turtle)の後、457行(Legend Diver)の前に挿入
+  {name: 'Louis Erard', jp_names: ['ルイエラール', 'ルイ・エラール', 'LOUIS ERARD'], country: 'Switzerland'},
+
+(4) Mido — 841行(Montblanc)の後、842行(Moog)の前に挿入
+  {name: 'Mido', jp_names: ['ミドー', 'MIDO'], country: 'Switzerland'},
+
+(5) Revue Thommen — 550行(Ray)の後、552行(Roberto Cavalli)の前付近に挿入
+  {name: 'Revue Thommen', jp_names: ['レビュートーメン', 'REVUE THOMMEN'], country: 'Switzerland'},
+
+(6) RSW — 556行(Royal Orient)の後、557行(Royal Oak)の前に挿入
+  {name: 'RSW', jp_names: ['ラマスイスウォッチ', 'RSW', 'RAMA SWISS WATCH'], country: 'Switzerland'},
+
+(7) Terra Cielo Mare — 651行(True)の後、652行(Tudor)の前に挿入
+  {name: 'Terra Cielo Mare', jp_names: ['テッラチエロマーレ', 'TERRA CIELO MARE', 'TCM'], country: 'Italy'},
+
+(8) Universal Geneve — 653行(Ulysse Nardin)の後、654行(Vacheron Constantin)の前に挿入
+  {name: 'Universal Geneve', jp_names: ['ユニバーサルジュネーブ', 'UNIVERSAL GENEVE', 'UNIVERSAL GENÈVE'], country: 'Switzerland'},
+
+### Sony修正（新規追加ではない）
+1382行付近の既存Sonyエントリを修正。現在:
+  {name: 'Sony', jp_names: ['ソニー', 'SONY'], country: 'Japan'},
+修正後:
+  {name: 'Sony', jp_names: ['ソニー', 'SONY'], country: 'Japan', category: ['Cameras', 'Electronics']},
+
+注意: 行番号はおおよその目安。実際のファイルで該当ブランド名を検索して正確な位置を確認すること。
+
+---
+
+## 変更2: ItemSpecifics/Config_IS.gs — getBrandListForSanitize_() 関数追加
+
+IS_BRAND_DICTの定義の後（閉じ括弧 ]; の後）に以下の関数を追加する。
+
+```javascript
+/**
+ * 交通整理（Sanitize）用のブランドリストを生成する
+ * IS_BRAND_DICTからカテゴリに応じたブランドの英語名+日本語名をコンパクトな文字列で返す
+ * @param {string} category - Sanitizeカテゴリ ('watch', 'camera', 'card')
+ * @return {string} ブランドリスト文字列（例: "Seiko(セイコー), Omega(オメガ), ..."）
+ */
+function getBrandListForSanitize_(category) {
+  try {
+    // カードの場合はCardPatterns.gsのゲーム名を返す
+    if (category === 'card') {
+      var games = [
+        'Pokemon TCG(ポケモンカード)', 'Yu-Gi-Oh!(遊戯王)', 'Magic the Gathering(MTG)',
+        'Duel Masters(デュエルマスターズ)', 'Weiss Schwarz(ヴァイスシュヴァルツ)',
+        'Cardfight Vanguard(ヴァンガード)', 'Battle Spirits(バトルスピリッツ)',
+        'Dragon Ball(ドラゴンボール)', 'One Piece(ワンピース)',
+        'BBM(野球カード)', 'Sumo(大相撲カード)'
+      ];
+      return games.join(', ');
+    }
+
+    // watch/cameraの場合はIS_BRAND_DICTからフィルタ
+    if (typeof IS_BRAND_DICT === 'undefined' || !IS_BRAND_DICT) return '';
+
+    var targetCategories;
+    if (category === 'watch') {
+      targetCategories = ['Watches'];
+    } else if (category === 'camera') {
+      targetCategories = ['Cameras'];
+    } else {
+      return '';
+    }
+
+    var seen = {};
+    var results = [];
+
+    for (var i = 0; i < IS_BRAND_DICT.length; i++) {
+      var entry = IS_BRAND_DICT[i];
+      // parent_brandがあるエントリ（サブブランド）はスキップ — 親ブランドだけ収集
+      if (entry.parent_brand) continue;
+
+      // categoryフィールドがあるエントリはカテゴリでフィルタ
+      var isMatch = false;
+      if (entry.category && entry.category.length > 0) {
+        for (var j = 0; j < targetCategories.length; j++) {
+          if (entry.category.indexOf(targetCategories[j]) !== -1) {
+            isMatch = true;
+            break;
+          }
+        }
+      }
+
+      // categoryがないエントリ（親ブランド）は、そのサブブランドが対象カテゴリを持つか確認
+      if (!isMatch && !entry.category) {
+        for (var k = 0; k < IS_BRAND_DICT.length; k++) {
+          var sub = IS_BRAND_DICT[k];
+          if (sub.parent_brand === entry.name && sub.category) {
+            for (var j = 0; j < targetCategories.length; j++) {
+              if (sub.category.indexOf(targetCategories[j]) !== -1) {
+                isMatch = true;
+                break;
+              }
+            }
+            if (isMatch) break;
+          }
+        }
+      }
+
+      if (!isMatch) continue;
+      if (seen[entry.name]) continue;
+      seen[entry.name] = true;
+
+      // 日本語名の最初の1つを取得（カタカナ優先）
+      var jpName = '';
+      if (entry.jp_names && entry.jp_names.length > 0) {
+        jpName = entry.jp_names[0];
+      }
+
+      if (jpName && jpName !== entry.name.toUpperCase()) {
+        results.push(entry.name + '(' + jpName + ')');
+      } else {
+        results.push(entry.name);
+      }
+    }
+
+    return results.join(', ');
+  } catch (e) {
+    return '';
+  }
+}
+```
+
+---
+
+## 変更3: Sanitize.gs — buildDefaultSanitizePrompt_() にブランドリスト埋め込み
+
+Sanitize.gsの buildDefaultSanitizePrompt_ 関数内で、ルール部分の後（lines.push('3. 出力は日本語のまま。'); の後）に以下を追加:
+
+```javascript
+  // ブランド辞書リスト（カテゴリ別）
+  var brandList = '';
+  try {
+    brandList = getBrandListForSanitize_(category);
+  } catch (e) {
+    brandList = '';
+  }
+  if (brandList) {
+    lines.push('');
+    if (category === 'card') {
+      lines.push('参考: 主要ゲーム名一覧（該当するものがあればこの表記を使用してください）:');
+    } else {
+      lines.push('参考: 主要ブランド名一覧（該当するものがあればこの表記を使用してください）:');
+    }
+    lines.push(brandList);
+  }
+```
+
+この挿入位置は「3. 出力は日本語のまま。」の行の直後、かつカメラ用補足ルール（if (category === 'camera')）の前。
+
+---
+
+## 同期作業（必須）
+
+変更後、以下のファイルをLibraryに同期すること:
+1. ItemSpecifics/Config_IS.gs → Library/Config_IS.gs にコピー
+2. Sanitize.gs → Library/Sanitize.gs にコピー
+
+## 禁止事項
+- ScriptPropertiesを使わない
+- .jsファイルを作らない
+- 既存のコードを削除・変更しない（追加のみ。Sonyのcategory修正は例外）

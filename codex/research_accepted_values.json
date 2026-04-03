@@ -1,0 +1,1147 @@
+{
+  "_metadata": {
+    "description": "eBay Item Specifics Accepted Values - リサーチ結果",
+    "source": "eBay Seller Center, eBay Developer API Documentation, eBay Category Pages",
+    "lastUpdated": "2026-03-02",
+    "notes": "カテゴリによって使用可能な値が異なる場合がある。eBay Taxonomy APIで最新の値を確認推奨。"
+  },
+
+  "Color": {
+    "_description": "全カテゴリ共通の色名。カテゴリによって追加の色がある場合もある。",
+    "values": [
+      "Beige",
+      "Black",
+      "Blue",
+      "Bronze",
+      "Brown",
+      "Burgundy",
+      "Champagne",
+      "Clear",
+      "Cream",
+      "Gold",
+      "Gray",
+      "Green",
+      "Ivory",
+      "Maroon",
+      "Multicolor",
+      "Navy",
+      "Off-White",
+      "Orange",
+      "Pink",
+      "Purple",
+      "Red",
+      "Rose Gold",
+      "Silver",
+      "Tan",
+      "Teal",
+      "Turquoise",
+      "White",
+      "Yellow"
+    ]
+  },
+
+  "Material": {
+    "_description": "カテゴリ別の素材値。",
+    "Watches_CaseMaterial": {
+      "_description": "時計ケース素材",
+      "values": [
+        "Aluminum",
+        "Brass",
+        "Bronze",
+        "Carbon Fiber",
+        "Ceramic",
+        "Crystal",
+        "Gold",
+        "Gold Filled",
+        "Gold Plated",
+        "Plastic",
+        "Platinum",
+        "Resin",
+        "Rose Gold",
+        "Silver",
+        "Silver Plated",
+        "Stainless Steel",
+        "Sterling Silver",
+        "Stone",
+        "Titanium",
+        "White Gold",
+        "Yellow Gold"
+      ]
+    },
+    "Watches_BandMaterial": {
+      "_description": "時計バンド素材",
+      "values": [
+        "Alloy",
+        "Brass",
+        "Canvas",
+        "Ceramic",
+        "Cotton",
+        "Fabric",
+        "Faux Leather",
+        "Fluoroelastomer",
+        "Gold Plated",
+        "Leather",
+        "Metal",
+        "Microfiber",
+        "NATO/Nylon",
+        "Nylon",
+        "Plastic",
+        "Polyurethane",
+        "Resin",
+        "Rose Gold",
+        "Rubber",
+        "Silicone",
+        "Silver",
+        "Silver Plated",
+        "Stainless Steel",
+        "Titanium",
+        "White Gold",
+        "Yellow Gold"
+      ]
+    },
+    "Jewelry_Metal": {
+      "_description": "ジュエリー金属素材",
+      "values": [
+        "Alloy",
+        "Base Metal",
+        "Brass",
+        "Bronze",
+        "Copper",
+        "Fine Silver",
+        "Gold",
+        "Gold Filled",
+        "Gold Plated",
+        "Gunmetal",
+        "Iridium",
+        "Multi-Tone Gold",
+        "Palladium",
+        "Pewter",
+        "Platinum",
+        "Rhodium",
+        "Rhodium Plated",
+        "Rose Gold",
+        "Rose Gold Plated",
+        "Silver",
+        "Silver Plated",
+        "Stainless Steel",
+        "Sterling Silver",
+        "Titanium",
+        "Tungsten",
+        "Tungsten Carbide",
+        "Vermeil",
+        "White Gold",
+        "Yellow Gold"
+      ]
+    },
+    "Jewelry_MetalPurity": {
+      "_description": "ジュエリー金属純度",
+      "values": [
+        "333 (8k)",
+        "375 (9k)",
+        "417 (10k)",
+        "585 (14k)",
+        "750 (18k)",
+        "800",
+        "835",
+        "900",
+        "916 (22k)",
+        "925 Sterling Silver",
+        "950",
+        "999 (24k)",
+        "999.9",
+        "Not Applicable"
+      ]
+    },
+    "Clothing": {
+      "_description": "衣類素材",
+      "values": [
+        "Acrylic",
+        "Bamboo",
+        "Cashmere",
+        "Chiffon",
+        "Corduroy",
+        "Cotton",
+        "Cotton Blend",
+        "Denim",
+        "Faux Fur",
+        "Faux Leather",
+        "Flannel",
+        "Fleece",
+        "Fur",
+        "Gore-Tex",
+        "Jersey",
+        "Knit",
+        "Lace",
+        "Leather",
+        "Linen",
+        "Linen Blend",
+        "Lycra",
+        "Mesh",
+        "Modal",
+        "Neoprene",
+        "Nylon",
+        "Organic Cotton",
+        "Polyester",
+        "Polyester Blend",
+        "Rayon",
+        "Satin",
+        "Silk",
+        "Spandex",
+        "Suede",
+        "Synthetic",
+        "Tencel",
+        "Terry Cloth",
+        "Tweed",
+        "Velvet",
+        "Viscose",
+        "Wool",
+        "Wool Blend"
+      ]
+    },
+    "Bags": {
+      "_description": "バッグ外装素材",
+      "values": [
+        "Acetate",
+        "Acrylic",
+        "Canvas",
+        "Cotton",
+        "Cotton Blend",
+        "Denim",
+        "Faux Leather",
+        "Faux Suede",
+        "Fabric",
+        "Jacquard",
+        "Jute",
+        "Leather",
+        "Metal",
+        "Nylon",
+        "Patent Leather",
+        "Polyester",
+        "Polyurethane",
+        "PVC",
+        "Raffia",
+        "Satin",
+        "Straw",
+        "Suede",
+        "Vinyl",
+        "Wicker"
+      ]
+    },
+    "Shoes_UpperMaterial": {
+      "_description": "靴アッパー素材",
+      "values": [
+        "Canvas",
+        "Corduroy",
+        "Cotton",
+        "Cotton Blend",
+        "Denim",
+        "Fabric",
+        "Faux Fur",
+        "Faux Leather",
+        "Faux Suede",
+        "Fur",
+        "Hemp",
+        "Knit",
+        "Lace",
+        "Leather",
+        "Linen",
+        "Linen Blend",
+        "Mesh",
+        "Nubuck",
+        "Nylon",
+        "Patent Leather",
+        "Plastic",
+        "Polyester",
+        "Polyurethane",
+        "PVC",
+        "Rubber",
+        "Satin",
+        "Silk",
+        "Suede",
+        "Synthetic",
+        "Velvet",
+        "Vinyl",
+        "Wood",
+        "Wool"
+      ]
+    }
+  },
+
+  "Size": {
+    "_description": "カテゴリ別サイズ表記",
+    "Clothing_Regular": {
+      "_description": "衣類レギュラーサイズ",
+      "values": ["XXS", "XS", "S", "M", "L", "XL", "XXL", "XXXL", "4XL", "5XL"]
+    },
+    "Clothing_Numeric_US": {
+      "_description": "衣類数値サイズ（US）",
+      "values": ["0", "2", "4", "6", "8", "10", "12", "14", "16", "18", "20", "22", "24"]
+    },
+    "Clothing_SizeType": {
+      "_description": "サイズタイプ",
+      "values": ["Regular", "Petite", "Tall", "Plus", "Big & Tall", "Juniors", "Maternity"]
+    },
+    "Shoes_US_Men": {
+      "_description": "靴サイズ US メンズ",
+      "values": [
+        "5", "5.5", "6", "6.5", "7", "7.5", "8", "8.5", "9", "9.5",
+        "10", "10.5", "11", "11.5", "12", "12.5", "13", "13.5", "14", "15", "16"
+      ]
+    },
+    "Shoes_US_Women": {
+      "_description": "靴サイズ US ウィメンズ",
+      "values": [
+        "4", "4.5", "5", "5.5", "6", "6.5", "7", "7.5", "8", "8.5",
+        "9", "9.5", "10", "10.5", "11", "11.5", "12"
+      ]
+    },
+    "Shoes_UK": {
+      "_description": "靴サイズ UK",
+      "values": [
+        "3", "3.5", "4", "4.5", "5", "5.5", "6", "6.5", "7", "7.5",
+        "8", "8.5", "9", "9.5", "10", "10.5", "11", "11.5", "12", "13", "14"
+      ]
+    },
+    "Shoes_EU": {
+      "_description": "靴サイズ EU",
+      "values": [
+        "35", "35.5", "36", "36.5", "37", "37.5", "38", "38.5", "39", "39.5",
+        "40", "40.5", "41", "41.5", "42", "42.5", "43", "43.5", "44", "44.5",
+        "45", "45.5", "46", "46.5", "47", "48", "49", "50"
+      ]
+    },
+    "Shoes_Width": {
+      "_description": "靴幅",
+      "values": ["Narrow (AA, N)", "Medium (B, M)", "Wide (C, D, W)", "Extra Wide (E, EE)"]
+    },
+    "Rings_US": {
+      "_description": "リングサイズ US",
+      "values": [
+        "3", "3.5", "4", "4.5", "5", "5.5", "6", "6.5", "7", "7.5",
+        "8", "8.5", "9", "9.5", "10", "10.5", "11", "11.5", "12", "12.5", "13", "14", "15"
+      ]
+    },
+    "Watches_CaseSize": {
+      "_description": "時計ケースサイズ（mm）",
+      "values": [
+        "Under 28mm",
+        "28-31.9mm",
+        "32-35.9mm",
+        "36-39.9mm",
+        "40-43.9mm",
+        "44-47.9mm",
+        "48mm & Above"
+      ],
+      "commonExactSizes": [
+        "26mm", "28mm", "30mm", "31mm", "33mm", "34mm", "35mm", "36mm",
+        "37mm", "38mm", "39mm", "40mm", "41mm", "42mm", "43mm", "44mm",
+        "45mm", "46mm", "47mm", "48mm", "50mm", "52mm"
+      ]
+    },
+    "Watches_BandWidth": {
+      "_description": "時計バンド幅（mm）",
+      "values": [
+        "16mm", "17mm", "18mm", "19mm", "20mm", "21mm", "22mm", "23mm", "24mm", "26mm"
+      ]
+    }
+  },
+
+  "Condition": {
+    "_description": "商品の状態。Condition IDと表示名のマッピング。カテゴリにより使用できる値が異なる。",
+    "values": [
+      {
+        "id": 1000,
+        "displayNames": ["New", "Brand New", "New with box", "New with tags", "New/Factory Sealed"],
+        "enum": "NEW",
+        "description": "新品・未使用・未開封。元のパッケージに入っている。"
+      },
+      {
+        "id": 1500,
+        "displayNames": ["New other (see details)", "New without box", "New without tags", "Open box", "New – Open box"],
+        "enum": "NEW_OTHER",
+        "description": "新品・未使用だが、元のパッケージがない場合や封が切られている場合がある。"
+      },
+      {
+        "id": 1750,
+        "displayNames": ["New with defects"],
+        "enum": "NEW_WITH_DEFECTS",
+        "description": "新品・未使用だが、傷やボタン欠け等の欠陥がある。"
+      },
+      {
+        "id": 2000,
+        "displayNames": ["Certified Refurbished"],
+        "enum": "CERTIFIED_REFURBISHED",
+        "description": "メーカーまたは認定ベンダーによりプロフェッショナルに整備済み。"
+      },
+      {
+        "id": 2010,
+        "displayNames": ["Excellent - Refurbished"],
+        "enum": "EXCELLENT_REFURBISHED",
+        "description": "新品同様の状態に整備済み。"
+      },
+      {
+        "id": 2020,
+        "displayNames": ["Very Good - Refurbished"],
+        "enum": "VERY_GOOD_REFURBISHED",
+        "description": "最小限の使用感あり、整備済み。"
+      },
+      {
+        "id": 2030,
+        "displayNames": ["Good - Refurbished"],
+        "enum": "GOOD_REFURBISHED",
+        "description": "中程度の使用感あり、整備済み。"
+      },
+      {
+        "id": 2500,
+        "displayNames": ["Seller refurbished", "Remanufactured"],
+        "enum": "SELLER_REFURBISHED",
+        "description": "出品者または第三者により整備済み。"
+      },
+      {
+        "id": 2750,
+        "displayNames": ["Like New"],
+        "enum": "LIKE_NEW",
+        "description": "新品同様の状態。主に書籍・DVD・トレーディングカード向け。"
+      },
+      {
+        "id": 2990,
+        "displayNames": ["Pre-owned - Excellent"],
+        "enum": "PRE_OWNED_EXCELLENT",
+        "description": "中古だが優れた状態。主にアパレルカテゴリ向け。"
+      },
+      {
+        "id": 3000,
+        "displayNames": ["Used", "Pre-owned", "Pre-owned - Good"],
+        "enum": "USED_EXCELLENT",
+        "description": "使用済みだが正常に動作する。"
+      },
+      {
+        "id": 3010,
+        "displayNames": ["Pre-owned - Fair"],
+        "enum": "PRE_OWNED_FAIR",
+        "description": "使用感あり、重大な欠陥あり。主にアパレルカテゴリ向け。"
+      },
+      {
+        "id": 4000,
+        "displayNames": ["Very Good"],
+        "enum": "USED_VERY_GOOD",
+        "description": "使用済みだが非常に良い状態。"
+      },
+      {
+        "id": 5000,
+        "displayNames": ["Good"],
+        "enum": "USED_GOOD",
+        "description": "使用済みだが良い状態。"
+      },
+      {
+        "id": 6000,
+        "displayNames": ["Acceptable"],
+        "enum": "USED_ACCEPTABLE",
+        "description": "許容できる状態。"
+      },
+      {
+        "id": 7000,
+        "displayNames": ["For parts or not working"],
+        "enum": "FOR_PARTS_OR_NOT_WORKING",
+        "description": "完全に動作しない。修理またはパーツ取り用。"
+      }
+    ],
+    "commonByCategory": {
+      "Clothing": ["New with tags", "New without tags", "New with defects", "Pre-owned - Excellent", "Pre-owned", "Pre-owned - Fair"],
+      "Watches": ["New with tags", "New without tags", "New other (see details)", "Pre-owned", "For parts or not working"],
+      "Jewelry": ["New with tags", "New without tags", "Pre-owned"],
+      "Electronics": ["New", "Open box", "Certified Refurbished", "Seller refurbished", "Used", "For parts or not working"]
+    }
+  },
+
+  "CountryRegionOfManufacture": {
+    "_description": "製造国・地域。ISO 3166-1準拠。主要な値を記載。eBay APIのGeteBayDetailsで全リスト取得可能。",
+    "commonValues": [
+      "Australia",
+      "Austria",
+      "Belgium",
+      "Brazil",
+      "Cambodia",
+      "Canada",
+      "China",
+      "Czech Republic",
+      "Denmark",
+      "Finland",
+      "France",
+      "Germany",
+      "Hong Kong",
+      "Hungary",
+      "India",
+      "Indonesia",
+      "Ireland",
+      "Israel",
+      "Italy",
+      "Japan",
+      "Malaysia",
+      "Mexico",
+      "Netherlands",
+      "New Zealand",
+      "Norway",
+      "Pakistan",
+      "Philippines",
+      "Poland",
+      "Portugal",
+      "Republic of Korea",
+      "Romania",
+      "Russian Federation",
+      "Singapore",
+      "South Africa",
+      "Spain",
+      "Sri Lanka",
+      "Sweden",
+      "Switzerland",
+      "Taiwan",
+      "Thailand",
+      "Turkey",
+      "United Kingdom",
+      "United States",
+      "Vietnam"
+    ],
+    "notes": "2025年以降、'Unknown' オプションは削除された。England等の地域名は不可で、United Kingdomを使用する必要がある。"
+  },
+
+  "Department": {
+    "_description": "対象部門（性別・年齢層）。カテゴリによって利用可能な値が異なる。",
+    "values": [
+      "Baby",
+      "Boys",
+      "Girls",
+      "Men",
+      "Teens",
+      "Unisex",
+      "Unisex Adults",
+      "Unisex Kids",
+      "Women"
+    ],
+    "notesByCategory": {
+      "Watches": ["Men", "Women", "Unisex Adults", "Boys", "Girls"],
+      "Clothing": ["Men", "Women", "Boys", "Girls", "Unisex", "Baby"],
+      "Jewelry": ["Men", "Women", "Unisex Adults"]
+    }
+  },
+
+  "Type": {
+    "_description": "カテゴリ別の商品タイプ",
+    "Watches": {
+      "values": [
+        "Analog",
+        "Analog & Digital",
+        "Digital",
+        "Hybrid (Analog/Smart)",
+        "Mechanical",
+        "Not Specified"
+      ],
+      "fieldName": "Display"
+    },
+    "Jewelry_Fine": {
+      "values": [
+        "Anklet",
+        "Body Jewelry",
+        "Bracelet",
+        "Brooch/Pin",
+        "Chain",
+        "Charm",
+        "Cufflinks",
+        "Earrings",
+        "Jewelry Set",
+        "Necklace",
+        "Pendant",
+        "Ring",
+        "Tie Clip/Tack"
+      ]
+    },
+    "Jewelry_Fashion": {
+      "values": [
+        "Anklet",
+        "Bracelet",
+        "Brooch/Pin",
+        "Charm",
+        "Earrings",
+        "Hair Accessories",
+        "Jewelry Set",
+        "Necklace",
+        "Pendant",
+        "Ring",
+        "Toe Ring"
+      ]
+    },
+    "Clothing_Men": {
+      "values": [
+        "Activewear",
+        "Blazer",
+        "Cardigan",
+        "Coat",
+        "Dress Shirt",
+        "Hoodie",
+        "Jacket",
+        "Jeans",
+        "Pajamas",
+        "Pants",
+        "Polo Shirt",
+        "Pullover",
+        "Shirt",
+        "Shorts",
+        "Suit",
+        "Sweater",
+        "Sweatshirt",
+        "T-Shirt",
+        "Vest",
+        "Windbreaker"
+      ]
+    },
+    "Clothing_Women": {
+      "values": [
+        "Blouse",
+        "Bodysuit",
+        "Cardigan",
+        "Coat",
+        "Crop Top",
+        "Dress",
+        "Hoodie",
+        "Jacket",
+        "Jeans",
+        "Jumpsuit",
+        "Leggings",
+        "Pajamas",
+        "Pants",
+        "Romper",
+        "Shirt",
+        "Shorts",
+        "Skirt",
+        "Suit",
+        "Sweater",
+        "Sweatshirt",
+        "T-Shirt",
+        "Tank Top",
+        "Vest"
+      ]
+    },
+    "Bags": {
+      "values": [
+        "Backpack",
+        "Belt Bag/Fanny Pack",
+        "Briefcase",
+        "Bucket Bag",
+        "Clutch",
+        "Crossbody",
+        "Duffle/Gym Bag",
+        "Hobo",
+        "Laptop Bag",
+        "Messenger Bag",
+        "Mini Bag",
+        "Satchel",
+        "Shoulder Bag",
+        "Tote",
+        "Travel Bag",
+        "Wallet",
+        "Wristlet"
+      ]
+    },
+    "Shoes_Men": {
+      "values": [
+        "Athletic Shoes",
+        "Boat Shoes",
+        "Boots",
+        "Casual Shoes",
+        "Clogs",
+        "Dress Shoes",
+        "Loafers & Slip-Ons",
+        "Oxfords",
+        "Sandals",
+        "Slippers",
+        "Sneakers"
+      ]
+    },
+    "Shoes_Women": {
+      "values": [
+        "Athletic Shoes",
+        "Boots",
+        "Clogs & Mules",
+        "Comfort Shoes",
+        "Flats",
+        "Heels",
+        "Loafers",
+        "Oxfords",
+        "Platforms & Wedges",
+        "Sandals",
+        "Slippers",
+        "Sneakers"
+      ]
+    }
+  },
+
+  "Style": {
+    "_description": "カテゴリ別スタイル",
+    "Watches": {
+      "values": [
+        "Casual",
+        "Classic",
+        "Dress/Formal",
+        "Diver",
+        "Fashion",
+        "Field",
+        "Luxury",
+        "Military",
+        "Pilot/Aviator",
+        "Racing",
+        "Skeleton",
+        "Sport"
+      ]
+    },
+    "Jewelry": {
+      "values": [
+        "Art Deco",
+        "Art Nouveau",
+        "Bar",
+        "Bohemian",
+        "Celtic",
+        "Chain",
+        "Chain Link",
+        "Charm",
+        "Choker",
+        "Classic",
+        "Cluster",
+        "Cocktail",
+        "Contemporary",
+        "Drop/Dangle",
+        "Estate",
+        "Eternity",
+        "Fashion",
+        "Gothic",
+        "Halo",
+        "Hoop",
+        "Lariat",
+        "Minimalist",
+        "Modern",
+        "Pendant",
+        "Retro",
+        "Solitaire",
+        "Solitaire with Accents",
+        "Statement",
+        "Stud",
+        "Tennis",
+        "Three-Stone",
+        "Vintage",
+        "Wrap"
+      ]
+    },
+    "Clothing": {
+      "values": [
+        "Active",
+        "Athletic",
+        "Basic",
+        "Bohemian/Boho",
+        "Business",
+        "Casual",
+        "Classic",
+        "Country/Western",
+        "Formal",
+        "Golf",
+        "Grunge",
+        "Hawaiian",
+        "Hip Hop",
+        "Military",
+        "Outdoor",
+        "Preppy",
+        "Punk",
+        "Retro",
+        "Romantic",
+        "Sporty",
+        "Streetwear",
+        "Surf",
+        "Trendy",
+        "Vintage",
+        "Work/Office"
+      ]
+    },
+    "Bags": {
+      "values": [
+        "Bohemian",
+        "Business",
+        "Casual",
+        "Classic",
+        "Contemporary",
+        "Evening",
+        "Fashion",
+        "Luxury",
+        "Minimalist",
+        "Retro",
+        "Sport",
+        "Travel",
+        "Utility",
+        "Vintage"
+      ]
+    },
+    "Shoes": {
+      "values": [
+        "Ankle Boots",
+        "Athletic",
+        "Casual",
+        "Chelsea",
+        "Classic",
+        "Combat",
+        "Cowboy/Western",
+        "Formal/Dress",
+        "Hiking",
+        "Loafer",
+        "Mary Jane",
+        "Motorcycle",
+        "Mule",
+        "Platform",
+        "Running",
+        "Skateboarding",
+        "Slip-On",
+        "Sport",
+        "Work & Safety"
+      ]
+    }
+  },
+
+  "Movement": {
+    "_description": "時計用ムーブメント（駆動方式）",
+    "values": [
+      "Automatic Self-Wind",
+      "Kinetic (Automatic-Quartz)",
+      "Manual Wind",
+      "Mechanical (Automatic)",
+      "Mechanical (Hand-winding)",
+      "Mechanical (Manual)",
+      "Miyota Automatic",
+      "Miyota Quartz",
+      "Quartz",
+      "Quartz (Battery)",
+      "Seiko Automatic",
+      "Solar",
+      "Spring Drive",
+      "Swiss Automatic",
+      "Swiss Quartz"
+    ],
+    "primaryValues": {
+      "_description": "eBayの主要フィルターカテゴリ",
+      "values": [
+        "Mechanical (Automatic)",
+        "Mechanical (Manual)",
+        "Quartz (Battery)",
+        "Solar",
+        "Kinetic",
+        "Not Specified"
+      ]
+    }
+  },
+
+  "Features": {
+    "_description": "カテゴリ別の機能・特徴",
+    "Watches": {
+      "values": [
+        "12-Hour Dial",
+        "24-Hour Dial",
+        "Acrylic Crystal",
+        "Alarm",
+        "Annual Calendar",
+        "Backlight",
+        "Central Second",
+        "Chronograph",
+        "Chronometer",
+        "Compass",
+        "Date Indicator",
+        "Day/Date",
+        "Day Indicator",
+        "Day/Night Indicator",
+        "Depth Meter",
+        "Diamond Bezel",
+        "Dual Time Zones",
+        "Easy to Read/Large Numerals",
+        "Flyback",
+        "GMT",
+        "Helium-Release Valve",
+        "LCD Display",
+        "LED Display",
+        "Limited Edition",
+        "Luminous Hands",
+        "Luminous Indexes",
+        "Mineral Crystal",
+        "Month Indicator",
+        "Moon Phase",
+        "Multi-Dial",
+        "Multifunction",
+        "Perpetual Calendar",
+        "Power Reserve Indicator",
+        "Push/Pull Crown",
+        "Sapphire Crystal",
+        "Scratch-Resistant",
+        "Screwdown Crown",
+        "Seconds Hand",
+        "Self-Winding",
+        "Shock-Resistant",
+        "Skeleton",
+        "Splash Proof",
+        "Stop Watch",
+        "Swiss Made",
+        "Swiss Movement",
+        "Tachymeter",
+        "Timer",
+        "Tonneau Case",
+        "Tourbillon",
+        "Water-Resistant",
+        "World Time"
+      ]
+    },
+    "Watches_WaterResistance": {
+      "_description": "時計の防水性能",
+      "values": [
+        "Not Water Resistant",
+        "30m (3 ATM / 100ft)",
+        "50m (5 ATM / 165ft)",
+        "100m (10 ATM / 330ft)",
+        "200m (20 ATM / 660ft)",
+        "300m (30 ATM / 1000ft)",
+        "500m (50 ATM / 1650ft)",
+        "1000m (100 ATM / 3300ft)"
+      ]
+    },
+    "Jewelry": {
+      "values": [
+        "Adjustable",
+        "Artisan-Crafted",
+        "Certified",
+        "Conflict-Free",
+        "Customized",
+        "Engravable",
+        "Estate",
+        "Fair Trade",
+        "GIA Certified",
+        "Hallmarked",
+        "Handcrafted",
+        "Hypoallergenic",
+        "Lab-Created/Cultured",
+        "Limited Edition",
+        "Luxury",
+        "Magnetic Closure",
+        "Natural",
+        "Nickel-Free",
+        "Personalized",
+        "Recycled Materials",
+        "Resizable",
+        "Signed",
+        "Stackable",
+        "Unisex",
+        "Vintage",
+        "With Box",
+        "With Certificate",
+        "With Papers"
+      ]
+    },
+    "Clothing": {
+      "values": [
+        "Breathable",
+        "Convertible",
+        "Eco-Friendly",
+        "Embroidered",
+        "Fleece Lined",
+        "Fur Lined",
+        "Hooded",
+        "Insulated",
+        "Lightweight",
+        "Lined",
+        "Machine Washable",
+        "Moisture Wicking",
+        "Non-Iron",
+        "Organic",
+        "Pockets",
+        "Quick Dry",
+        "Recycled Materials",
+        "Reflective",
+        "Reversible",
+        "Stretch",
+        "Sustainable",
+        "UV Protection",
+        "Vintage",
+        "Water Resistant",
+        "Waterproof",
+        "Windproof",
+        "Wrinkle Resistant",
+        "Zip-Off"
+      ]
+    },
+    "Bags": {
+      "values": [
+        "Adjustable Strap",
+        "Anti-Theft",
+        "Convertible",
+        "Cross-Body Strap",
+        "Detachable Strap",
+        "Eco-Friendly",
+        "Inner Dividers",
+        "Inner Pockets",
+        "Key Holder",
+        "Laptop Compartment",
+        "Lightweight",
+        "Lockable",
+        "Mobile Phone Pocket",
+        "Organizer",
+        "Outer Pockets",
+        "RFID Protection",
+        "Stain-Resistant",
+        "Trolley Sleeve",
+        "Water Resistant",
+        "Waterproof",
+        "Zip-Around",
+        "Zip Closure"
+      ]
+    },
+    "Shoes": {
+      "values": [
+        "Adjustable Strap",
+        "Arch Support",
+        "Breathable",
+        "Buckle",
+        "Comfort",
+        "Cushioned",
+        "Gore-Tex",
+        "Insulated",
+        "Lace-Up",
+        "Lightweight",
+        "Memory Foam",
+        "Non-Slip",
+        "Orthopedic",
+        "Padded",
+        "Pull-On",
+        "Quick Dry",
+        "Reflective",
+        "Slip-On",
+        "Steel Toe",
+        "Waterproof",
+        "Wide Width",
+        "Zip"
+      ]
+    }
+  },
+
+  "AdditionalFields": {
+    "_description": "その他の重要なItem Specificsフィールド",
+    "Watches_BezelType": {
+      "values": [
+        "12-Hour",
+        "24-Hour",
+        "Bidirectional Rotating",
+        "Compass",
+        "Count-Up/Dive",
+        "Countdown",
+        "Diamond",
+        "Fixed",
+        "Fluted",
+        "Gem-Set",
+        "GMT/Dual Time",
+        "Smooth",
+        "Tachymeter",
+        "Unidirectional Rotating"
+      ]
+    },
+    "Watches_CrystalType": {
+      "values": [
+        "Acrylic",
+        "Mineral",
+        "Plexiglass",
+        "Sapphire",
+        "Sapphire Coated"
+      ]
+    },
+    "Watches_CaseShape": {
+      "values": [
+        "Barrel",
+        "Cushion",
+        "Irregular",
+        "Octagonal",
+        "Oval",
+        "Rectangle",
+        "Round",
+        "Square",
+        "Tonneau",
+        "Triangle"
+      ]
+    },
+    "Watches_DialColor": {
+      "values": [
+        "Black",
+        "Blue",
+        "Brown",
+        "Champagne",
+        "Gold",
+        "Gray",
+        "Green",
+        "Mother of Pearl",
+        "Multi-Color",
+        "Orange",
+        "Pink",
+        "Red",
+        "Silver",
+        "Skeleton",
+        "White",
+        "Yellow"
+      ]
+    },
+    "Jewelry_MainStone": {
+      "values": [
+        "Alexandrite",
+        "Amber",
+        "Amethyst",
+        "Aquamarine",
+        "Citrine",
+        "Coral",
+        "Crystal",
+        "Cubic Zirconia",
+        "Diamond",
+        "Emerald",
+        "Garnet",
+        "Jade",
+        "Lab-Created Diamond",
+        "Lapis Lazuli",
+        "Moissanite",
+        "Moonstone",
+        "Morganite",
+        "Mother of Pearl",
+        "No Stone",
+        "Onyx",
+        "Opal",
+        "Pearl",
+        "Peridot",
+        "Quartz",
+        "Ruby",
+        "Sapphire",
+        "Simulated",
+        "Spinel",
+        "Tanzanite",
+        "Tiger's Eye",
+        "Topaz",
+        "Tourmaline",
+        "Turquoise",
+        "Zircon"
+      ]
+    },
+    "Jewelry_StoneCut": {
+      "values": [
+        "Asscher",
+        "Baguette",
+        "Briolette",
+        "Cabochon",
+        "Cushion",
+        "Emerald",
+        "Heart",
+        "Marquise",
+        "Oval",
+        "Pear",
+        "Princess",
+        "Radiant",
+        "Round",
+        "Round Brilliant",
+        "Square",
+        "Trillion"
+      ]
+    }
+  }
+}
