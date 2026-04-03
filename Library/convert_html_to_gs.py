@@ -92,7 +92,7 @@ function getHtmlTemplate(templateName) {
     return '\n'.join(output)
 
 if __name__ == '__main__':
-    base_dir = '/Users/naokijodan/Desktop/一括シートApps_v3'
+    base_dir = '/Users/naokijodan/Desktop/ツール開発/一括シートApps_v3'
     result = convert_to_gs(base_dir)
 
     output_path = os.path.join(base_dir, 'Library', 'HtmlTemplates.gs')
