@@ -190,6 +190,9 @@ function sanitizeInputJP_(text) {
   text = text.replace(/ベルト新品/g, 'ベルト交換済み');
   text = text.replace(/バンド新品/g, 'バンド交換済み');
   text = text.replace(/ストラップ新品/g, 'ストラップ交換済み');
+  // ジュエリー固有: 新品仕上げ → 研磨仕上げ済み（新品の汎用変換より前に）
+  text = text.replace(/新品仕上げ済[みめ]?/g, '研磨仕上げ済み');
+  text = text.replace(/新品仕上げ/g, '研磨仕上げ済み');
   // 「新品」→「未使用」に正規化（AIがNewと翻訳する元を消す）
   text = text.replace(/新品未使用/g, '未使用');
   text = text.replace(/新品同様/g, '未使用に近い状態');
@@ -277,7 +280,21 @@ function sanitizeInputJP_(text) {
     '海外発送の都合上',
     '配送中に時計の稼働が停止する恐れがあります',
     '発送予定', '発送について', '発送方法',
-    'ご了承ください', 'ご理解ください', 'ご確認ください'
+    'ご了承ください', 'ご理解ください', 'ご確認ください',
+    // 売り手指示・写真確認系
+    '画像をご確認ください', '写真をご確認ください', '画像でご確認ください',
+    '画像をご覧ください', '写真をご覧ください', '画像で判断',
+    '写真にてご確認', '画像にてご確認', '写真を見て',
+    'お気軽にコメント', 'コメントください', 'コメントでご質問',
+    'コメントにてお問い合わせ', 'お問い合わせください', '質問ください',
+    'ご質問ください', 'ご不明な点', '不明な点は',
+    '入札前に', '落札後', '購入前に', '購入後',
+    'ご購入ください', 'お願いいたします', 'お願い致します',
+    'ご検討ください', 'よろしくお願い', 'フォロー割', 'おまとめ割',
+    '画像が全て', '写真が全て', '自己紹介', 'プロフィール',
+    '真贋', '鑑定済み', '鑑定済', '正規品', '本物',
+    '新品仕上げ済み', '新品仕上げ', '磨き直し',
+    'クリーニング済み', 'クリーニング済'
   ];
 
   // 長いフレーズから順にマッチさせるためソート（降順）
@@ -483,7 +500,7 @@ function sanitizeListingText_(text, isDescription) {
     // 5.8 追加パターン3: guarantee の削除（Title/Description）
     text = text.replace(/\bdoes\s+not\s+guarantee\b/gi, '');
     // 既存: /\bnot guaranteed\b/gi（確認済み）
-    text = text.replace(/\bguarantee\b/gi, '');
+    text = text.replace(/\bguaranteed?\b/gi, '');
 
     // 5.9 追加パターン4: 配送系（Title/Description）
     text = text.replace(/\bpacked\b/gi, '');
@@ -561,6 +578,25 @@ function sanitizeListingText_(text, isDescription) {
       text = text.replace(/\banalog\s+digital\s+display\b/gi, 'analog and digital display');
     }
 
+    // 5.13 追加ブラックリスト（汎用フレーズの削除）
+    // 既存パターンを壊さないよう配列で追加のみ
+    var blacklist = [
+      'nice condition', 'nice',
+      'ships quickly', 'ships fast', 'ships with care',
+      'please request', 'please ask', 'please question',
+      'please contact', 'feel free to ask',
+      'before purchase', 'before bidding',
+      'ask any questions', 'any questions before',
+      'additional photos'
+    ];
+    // 長いもの優先で削除
+    blacklist.sort(function(a,b){ return b.length - a.length; });
+    for (var bi = 0; bi < blacklist.length; bi++) {
+      var phrase = blacklist[bi].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      var re = new RegExp('(?:^|\\s)'+ phrase + '(?=\\s|[.!?,]|$)', 'gi');
+      text = text.replace(re, function(m, offset){ return offset === 0 ? '' : ' '; });
+    }
+
     // 6. CJK文字除去（非ASCIIを全除去）
     text = text.replace(/[^\x00-\x7F]/g, '');
 
@@ -581,6 +617,15 @@ function sanitizeListingText_(text, isDescription) {
     // 8. クリーンアップ
     text = text.replace(/ \/\./g, '.');     // ピリオド前の空白を除去（先に）
     text = text.replace(/\.{2,}/g, '.');     // 連続ピリオドを1つに
+    // 7.5 壊れた文末の修復（Post-processの副作用対策）
+    // 文末に孤立した前置詞・接続詞が残った場合を除去
+    text = text.replace(/\s+(?:in|at|on|with|and|or|from|for|by|to)\s*\./g, '.');
+    // "Condition:." や "Condition:," のような空のラベルを除去
+    text = text.replace(/\b(?:Condition|Color|Country)\s*:\s*[.,]\s*/gi, '');
+    // "Please." のような孤立した単語+ピリオドを除去
+    text = text.replace(/(?:^|\.\s*)(?:Please|Also|And|Or|But)\s*\.\s*/gi, function(m, offset){ return offset === 0 ? '' : '. '; });
+    // 文頭のピリオドを除去
+    text = text.replace(/^\.\s*/g, '');
     text = text.replace(/\s{2,}/g, ' ');     // 連続スペースを1つに
     text = text.replace(/\s+\./g, '.');     // 念のため再度ピリオド前空白
     text = text.replace(/^\s+|\s+$/g, '');  // trim
