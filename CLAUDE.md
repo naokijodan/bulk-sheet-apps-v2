@@ -207,7 +207,28 @@ grep -c "HTML_TEMPLATES\[" Library/HtmlTemplates.gs
 # 結果: 13（テンプレート数）であること
 ```
 
-### 4. 変更ファイルの最終確認
+### 4. PromptTemplates.gs 同期チェック（prompts/ 変更時）
+
+```bash
+# prompts/フォルダのファイルを変更・追加した場合、
+# Library/PromptTemplates.gs にも反映されているか確認
+python3 -c "
+import re, os, glob
+with open('Library/PromptTemplates.gs', 'r') as f:
+    pt = set(re.findall(r\"PROMPT_TEMPLATES\['([^']+)'\]\", f.read()))
+txts = set(os.path.splitext(os.path.basename(f))[0] for f in glob.glob('prompts/*.txt'))
+missing = txts - pt
+if missing:
+    print('PromptTemplates.gsに未反映: ' + ', '.join(missing))
+else:
+    print('OK: 全prompts/ファイルがPromptTemplates.gsに存在')
+"
+```
+
+**prompts/ にあって PromptTemplates.gs にないものがあれば追加必須。**
+**既存プロンプトの内容を変更した場合は version をインクリメントすること。**
+
+### 5. 変更ファイルの最終確認
 
 ```bash
 git status
