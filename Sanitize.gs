@@ -390,9 +390,12 @@ var CATEGORY_RULES_ = {
   'Video Games': {
     label: 'ゲームソフト',
     rules: [
-      '- プラットフォーム: 正式名称で記入。例: PlayStation 5, Nintendo Switch, Xbox Series X。',
-      '- リージョン: NTSC-J(日本)/NTSC-U(北米)/PAL(欧州) のいずれか。日本製はNTSC-J。',
-      '- [EN]セクションでは: Platform は正式英語名。Region Code は NTSC-J (Japan)/NTSC-U/C (North America)/PAL。'
+      '- プラットフォーム: 正式名称で記入。例: PlayStation 5, Nintendo Switch, Xbox Series X, Super Famicom, Mega Drive, PC Engine, Sega Saturn, Dreamcast, Game Boy Advance, Nintendo DS, PSP, PS Vita。',
+      '- リージョン: NTSC-J(日本)/NTSC-U(北米)/PAL(欧州) のいずれか。日本製品は必ずNTSC-J。リージョンフリーは明記がある場合のみ。',
+      '- コンプリートネス: CIB(完品:ゲーム+説明書+箱)/Game Only(ソフトのみ)/No Manual(説明書なし)/No Box(箱なし)/Box Only(空箱)/Manual Only(説明書のみ) のいずれかで記入。',
+      '- ジャンル: Action/RPG/Fighting/Simulation/Racing/Puzzle/Platformer/Horror/Sports/Strategy/Adventure/Shooter のいずれかで記入。',
+      '- レーティング: CERO A(全年齢)/CERO B(12歳以上)/CERO C(15歳以上)/CERO D(17歳以上)/CERO Z(18歳以上) で記入。不明ならNA。',
+      '- [EN]セクションでは: Platform は正式英語名。Region Code は NTSC-J (Japan)。Game Name は公式英語タイトル（日本独自タイトルはローマ字）。Genre は英語。Rating は CERO A/B/C/D/Z。'
     ]
   },
   'Fishing Rods': {
