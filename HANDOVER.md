@@ -20,6 +20,7 @@
 1. **prompts/フォルダを修正してもPromptTemplates.gsに反映し忘れた** → B-1/B-2でベースボール・大相撲のプロンプトを修正したが、PromptTemplates.gsの更新を見落とした。新規4件（Dragon Ball/Weiss/Digimon/トレカ汎用）も同様。ユーザーの指摘で発覚 → CLAUDE.mdのコミット前チェックリストに項目4「PromptTemplates.gs同期チェック」を追加して再発防止済み
 2. **初期設定でプロンプトが反映される仕組みを理解していなかった** → syncPromptsToSheet_()がPROMPT_TEMPLATESオブジェクト（Library/PromptTemplates.gs）から読み込んでGPT_Promptsシートに書き込む仕組み。prompts/フォルダの.txtファイルはGASから直接読み込まれない（ドキュメント・バージョン管理用）
 3. **eBay送料上限の数値を画像から誤読** → $20を$21と読み間違えた。正確さが最優先
+4. **Obsidianノートをユーザーに指摘されるまで書かなかった** → 完了ルール（C-03）違反。作業完了時にすぐ書く。次のセッションが迷う原因になる。2セッション連続の怠慢
 
 ### 必ず守るルール
 - **コードに触る前に**: ルールファイル（~/.claude/CLAUDE.md + rules/）、このHANDOVER.md、プロジェクトCLAUDE.md、Obsidianノートを全て読む。読むまでコードに触らない
