@@ -27,13 +27,13 @@ IGNORE: Seller policies, shipping info, opinions, Japanese condition terms, pric
 [Title Rules - 70-80 characters]
 - Allowed symbols: & / : #
 - FORBIDDEN: , . - ( ) [ ] "" _
-- Order: Year + Brand + Player + Card Type + Set + #Number + Serial + Grade
+- Order: Year + Brand + Player + Card Type + Set + #Number + Serial + Grade + Japanese
 
 [Title Formula]
-- Graded: [Year] [Brand] [Player] [Type] [Set] #XXX [Serial] PSA/BGS [Grade]
-- Raw Numbered: [Year] [Brand] [Player] [Type] [Set] #XXX [Serial] [Condition]
-- Raw Base/RC: [Year] [Brand] [Player] RC/Base [Set] #XXX [Condition]
-- Auto/Relic: [Year] [Brand] [Player] Auto/Relic [Set] #XXX [Serial] [Condition]
+- Graded: [Year] [Brand] [Player] [Type] [Set] #XXX [Serial] PSA/BGS [Grade] Japanese
+- Raw Numbered: [Year] [Brand] [Player] [Type] [Set] #XXX [Serial] Japanese [Condition]
+- Raw Base/RC: [Year] [Brand] [Player] RC/Base [Set] #XXX Japanese [Condition]
+- Auto/Relic: [Year] [Brand] [Player] Auto/Relic [Set] #XXX [Serial] Japanese [Condition]
 
 [Description Rules - Max 400 characters]
 - One paragraph, no bullets
@@ -51,6 +51,7 @@ Brand: ...
 SetName: ...
 CardNumber: ...
 CardType: ...
+Language: Japanese
 Condition: ...
 
 === BASEBALL CARD RULES ===
@@ -61,12 +62,14 @@ Condition: ...
 □ Player name within first 40 chars
 □ 1st Bowman = highly valuable, emphasize
 □ Auto cards: specify if on-card auto
+□ "Japanese" MUST appear in title (these are Japanese cards)
+□ Language field: always "Japanese"
 
 === EXAMPLE OUTPUTS ===
 
 Example 1 - Graded RC:
-Title: 2022 Topps Chrome Julio Rodriguez RC Refractor #180 PSA 10 Gem Mint
-Description: 2022 Topps Chrome Julio Rodriguez Rookie Card Refractor graded PSA 10 Gem Mint. Card number 180. Seattle Mariners AL ROY. Investment grade rookie in perfect condition.
+Title: 2022 Topps Chrome Julio Rodriguez RC Refractor #180 PSA 10 Japanese
+Description: 2022 Topps Chrome Julio Rodriguez Rookie Card Refractor graded PSA 10. Card number 180. Seattle Mariners AL ROY. Japanese version. Investment grade rookie in perfect condition.
 PlayerName: Julio Rodriguez
 Team: Seattle Mariners
 Year: 2022
@@ -74,11 +77,12 @@ Brand: Topps Chrome
 SetName: Topps Chrome
 CardNumber: 180
 CardType: RC Refractor
+Language: Japanese
 Condition: PSA 10
 
 Example 2 - Numbered Auto:
-Title: 2023 Bowman Chrome Elly De La Cruz 1st Auto Refractor #CDA/EDC /499 NM
-Description: 2023 Bowman Chrome Elly De La Cruz 1st Bowman Autograph Refractor. On-card auto serial numbered /499. Cincinnati Reds top prospect. Near Mint condition.
+Title: 2023 Bowman Chrome Elly De La Cruz 1st Auto Refractor #CDA/EDC /499 Japanese NM
+Description: 2023 Bowman Chrome Elly De La Cruz 1st Bowman Autograph Refractor. On-card auto serial numbered /499. Cincinnati Reds top prospect. Japanese version. Near Mint condition.
 PlayerName: Elly De La Cruz
 Team: Cincinnati Reds
 Year: 2023
@@ -86,6 +90,7 @@ Brand: Bowman Chrome
 SetName: Chrome Autographs
 CardNumber: CDA-EDC
 CardType: 1st Auto /499
+Language: Japanese
 Condition: NM
 
 Input: ${fullText}"

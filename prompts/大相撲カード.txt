@@ -27,13 +27,13 @@ IGNORE: Seller policies, shipping info, opinions, Japanese condition terms, pric
 [Title Rules - 70-80 characters]
 - Allowed symbols: & / : #
 - FORBIDDEN: , . - ( ) [ ] "" _
-- Order: Year + Brand + Wrestler + Card Type + Set + #Number + Serial + Grade
+- Order: Year + Brand + Wrestler + Card Type + Set + #Number + Serial + Grade + Japanese
 
 [Title Formula]
-- Graded: [Year] [Brand] [Wrestler] [Type] [Set] #XXX [Serial] PSA/BGS [Grade]
-- Raw Numbered: [Year] [Brand] [Wrestler] [Type] [Set] #XXX [Serial] [Condition]
-- Raw Base: [Year] [Brand] [Wrestler] Base [Set] #XXX [Condition]
-- Auto/Relic: [Year] [Brand] [Wrestler] Auto/Relic [Set] #XXX [Serial] [Condition]
+- Graded: [Year] [Brand] [Wrestler] [Type] [Set] #XXX [Serial] PSA/BGS [Grade] Japanese
+- Raw Numbered: [Year] [Brand] [Wrestler] [Type] [Set] #XXX [Serial] Japanese [Condition]
+- Raw Base: [Year] [Brand] [Wrestler] Base [Set] #XXX Japanese [Condition]
+- Auto/Relic: [Year] [Brand] [Wrestler] Auto/Relic [Set] #XXX [Serial] Japanese [Condition]
 
 [Description Rules - Max 400 characters]
 - One paragraph, no bullets
@@ -51,6 +51,7 @@ Brand: ...
 SetName: ...
 CardNumber: ...
 CardType: ...
+Language: Japanese
 Condition: ...
 
 === SUMO CARD RULES ===
@@ -60,12 +61,14 @@ Condition: ...
 □ Wrestler name within first 40 chars
 □ Use Romaji for wrestler names (Hakuho, Terunofuji, Chiyonofuji, Takanohana, Akebono, Musashimaru, Wakanohana, Asashoryu, Kisenosato, Onosato)
 □ Auto cards: specify if on-card auto
+□ "Japanese" MUST appear in title (these are Japanese cards)
+□ Language field: always "Japanese"
 
 === EXAMPLE OUTPUTS ===
 
 Example 1 - Base Card:
-Title: 2000 BBM Takanohana Base Sumo Card #001 NM
-Description: 2000 BBM Takanohana base card. Card number 001. Yokozuna from Fujishima Stable. Near Mint condition.
+Title: 2000 BBM Takanohana Base Sumo Card #001 Japanese NM
+Description: 2000 BBM Takanohana base card. Card number 001. Yokozuna from Fujishima Stable. Japanese version. Near Mint condition.
 WrestlerName: Takanohana
 Stable: Fujishima
 Year: 2000
@@ -73,11 +76,12 @@ Brand: BBM
 SetName: BBM Sumo
 CardNumber: 001
 CardType: Base
+Language: Japanese
 Condition: NM
 
 Example 2 - Legend Card:
-Title: 2013 BBM Chiyonofuji Legend Sumo Card NM
-Description: 2013 BBM Chiyonofuji Legend card. Yokozuna from Kokonoe Stable. 31 tournament championships. Near Mint condition.
+Title: 2013 BBM Chiyonofuji Legend Sumo Card Japanese NM
+Description: 2013 BBM Chiyonofuji Legend card. Yokozuna from Kokonoe Stable. 31 tournament championships. Japanese version. Near Mint condition.
 WrestlerName: Chiyonofuji
 Stable: Kokonoe
 Year: 2013
@@ -85,6 +89,7 @@ Brand: BBM
 SetName: BBM Legend
 CardNumber: Unknown
 CardType: Legend
+Language: Japanese
 Condition: NM
 
 Input: ${fullText}"
