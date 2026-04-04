@@ -69,6 +69,47 @@ function createAIPrompt(fullText, promptId) {
     tmpl = tmpl + cameraTranslationHints;
   }
 
+  // ビデオゲーム関連キーワード検出時に誤訳しやすいタイトル辞書を動的注入
+  var gameKeywords = ['ゲーム', 'ゲームソフト', 'テレビゲーム', 'Switch', 'PS5', 'PS4', 'PS3', 'PS2',
+    'Xbox', 'ファミコン', 'スーファミ', 'ゲームボーイ', 'Nintendo', 'PlayStation',
+    'バイオハザード', 'ロックマン', '逆転裁判', '悪魔城', '龍が如く'];
+  var isGame = false;
+  for (var gi = 0; gi < gameKeywords.length; gi++) {
+    if (fullTextLower.indexOf(gameKeywords[gi].toLowerCase()) !== -1) {
+      isGame = true;
+      break;
+    }
+  }
+  if (isGame && tmpl.indexOf('GAME TITLE TRANSLATION') === -1) {
+    var gameTranslationHints = [
+      '',
+      '### GAME TITLE TRANSLATION HINTS',
+      'This appears to be a video game product. These Japanese game titles have DIFFERENT English names:',
+      '- バイオハザード = Resident Evil (NOT "Biohazard")',
+      '- ロックマン = Mega Man (NOT "Rockman")',
+      '- 逆転裁判 = Ace Attorney / Phoenix Wright: Ace Attorney',
+      '- 悪魔城ドラキュラ = Castlevania',
+      '- 龍が如く = Yakuza / Like a Dragon',
+      '- MOTHER = EarthBound (MOTHER 2 = EarthBound)',
+      '- 聖剣伝説 = Mana / Secret of Mana / Trials of Mana',
+      '- 幻想水滸伝 = Suikoden',
+      '- ロマンシング サガ = Romancing SaGa',
+      '- ゼノブレイド = Xenoblade Chronicles',
+      '- デビルメイクライ = Devil May Cry',
+      '- モンスターハンター = Monster Hunter',
+      '- ペルソナ = Persona',
+      '- 桃太郎電鉄 = Momotaro Dentetsu (keep Japanese title)',
+      '- ときめきメモリアル = Tokimeki Memorial (keep Japanese title)',
+      '- パワフルプロ野球 = Power Pro Baseball',
+      '- 電車でGO! = Densha de Go!',
+      '- グラディウス = Gradius',
+      '- ツインビー = TwinBee',
+      '- パロディウス = Parodius',
+      '- IMPORTANT: Use the ENGLISH title for eBay listings. Keep "NTSC-J" or "Japan Import" in title for region identification.'
+    ].join('\n');
+    tmpl = tmpl + gameTranslationHints;
+  }
+
   // トレーディングカード関連キーワード検出時にカード用翻訳辞書を動的注入
   // IS_TAG_TO_CATEGORY の Trading Cards タグと同期すること
   var cardKeywords = ['ポケカ', 'ポケモンカード', 'トレカ', 'トレーディングカード',
