@@ -1819,16 +1819,16 @@ var IS_BRAND_DICT = [
   {name: 'Sony', jp_names: ['ソニー', 'SONY'], country: 'Japan', category: ['Cameras', 'Electronics']},
 
   // === Trading Cards ===
-  {name: 'Battle Spirits', jp_names: ['バトルスピリッツ', 'BATTLE SPIRITS'], country: 'Japan'},
-  {name: 'Cardfight!! Vanguard', jp_names: ['カードファイト!! ヴァンガード', 'VANGUARD', 'CARDFIGHT VANGUARD'], country: 'Japan'},
-  {name: 'Digimon', jp_names: ['デジモン', 'DIGIMON'], country: 'Japan'},
-  {name: 'Dragon Ball', jp_names: ['ドラゴンボール', 'DRAGON BALL'], country: 'Japan'},
-  {name: 'Duel Masters', jp_names: ['デュエルマスターズ', 'DUEL MASTERS'], country: 'United States'},
+  {name: 'Battle Spirits', jp_names: ['バトルスピリッツ', 'BATTLE SPIRITS'], country: 'Japan', category: ['Trading Cards']},
+  {name: 'Cardfight!! Vanguard', jp_names: ['カードファイト!! ヴァンガード', 'VANGUARD', 'CARDFIGHT VANGUARD'], country: 'Japan', category: ['Trading Cards']},
+  {name: 'Digimon', jp_names: ['デジモン', 'DIGIMON'], country: 'Japan', category: ['Trading Cards']},
+  {name: 'Dragon Ball', jp_names: ['ドラゴンボール', 'DRAGON BALL'], country: 'Japan', category: ['Trading Cards']},
+  {name: 'Duel Masters', jp_names: ['デュエルマスターズ', 'DUEL MASTERS'], country: 'United States', category: ['Trading Cards']},
   {name: 'Magic: The Gathering', jp_names: ['マジックザギャザリング', 'MAGIC THE GATHERING'], country: 'United States', category: ['Trading Cards']},
-  {name: 'One Piece', jp_names: ['ワンピース', 'ONE PIECE'], country: 'Japan'},
-  {name: 'Pokemon', jp_names: ['ポケモン', 'POKEMON'], country: 'Japan'},
-  {name: 'Weiss Schwarz', jp_names: ['ヴァイスシュヴァルツ', 'WEISS SCHWARZ'], country: 'Japan'},
-  {name: 'Yu-Gi-Oh', jp_names: ['遊戯王', 'YU-GI-OH', 'YUGIOH'], country: 'Japan'},
+  {name: 'One Piece', jp_names: ['ワンピース', 'ONE PIECE'], country: 'Japan', category: ['Trading Cards']},
+  {name: 'Pokemon', jp_names: ['ポケモン', 'POKEMON'], country: 'Japan', category: ['Trading Cards']},
+  {name: 'Weiss Schwarz', jp_names: ['ヴァイスシュヴァルツ', 'WEISS SCHWARZ'], country: 'Japan', category: ['Trading Cards']},
+  {name: 'Yu-Gi-Oh', jp_names: ['遊戯王', 'YU-GI-OH', 'YUGIOH'], country: 'Japan', category: ['Trading Cards']},
 
   // === Video Games ===
   {name: 'Bandai Namco', jp_names: ['バンダイナムコ', 'バンナム', 'BANDAI NAMCO'], country: 'Japan', category: ['Video Games']},
