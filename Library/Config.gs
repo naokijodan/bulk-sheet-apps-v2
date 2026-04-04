@@ -184,6 +184,7 @@ var CONFIG = {
   SHIPPING_POLICY_CATEGORIES: {
     'Video Games': { limit: 20, display: 'Video Games (上限$20)' },
     'Video Game Consoles': { limit: 50, display: 'Video Game Consoles (上限$50)' },
+    'Video Game Accessories': { limit: 25, display: 'Video Game Accessories (上限$25)' },
     'Books': { limit: 20, display: 'Books (上限$20)' },
     'Movies & TV': { limit: 20, display: 'Movies & TV (上限$20)' },
     'Music': { limit: 25, display: 'Music (上限$25)' },
