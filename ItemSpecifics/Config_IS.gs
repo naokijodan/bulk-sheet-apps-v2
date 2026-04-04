@@ -4254,7 +4254,8 @@ function outputTagListSheet_() {
       {cat: 'Tennis', desc: 'テニスラケット'},
       {cat: 'Baseball', desc: '野球グローブ・バット'},
       {cat: 'Fishing Rods', desc: '釣竿・ロッド'},
-      {cat: 'Fishing Reels', desc: '釣りリール'}
+      {cat: 'Fishing Reels', desc: '釣りリール'},
+      {cat: 'Fishing Lures', desc: 'ルアー・釣具・タックル'}
     ]},
     {group: 'Japanese Traditional（日本伝統）', categories: [
       {cat: 'Kimono', desc: '着物・和装・振袖・浴衣・帯'},
@@ -4284,10 +4285,10 @@ function outputTagListSheet_() {
   }
 
   // --- 交通整理/IS対応状況の判定 ---
-  var sanitizeCategories = ['watch', 'camera', 'card', 'game', 'reel'];
+  var sanitizeCategories = ['watch', 'camera', 'card', 'game', 'reel', 'lure'];
   var sanitizeMap = {
     'Watches': 'watch', 'Cameras': 'camera', 'Trading Cards': 'card',
-    'Video Games': 'game', 'Video Game Consoles': 'game', 'Video Game Accessories': 'game', 'Fishing Reels': 'reel'
+    'Video Games': 'game', 'Video Game Consoles': 'game', 'Video Game Accessories': 'game', 'Fishing Reels': 'reel', 'Fishing Lures': 'lure'
   };
 
   // --- ヘッダー ---

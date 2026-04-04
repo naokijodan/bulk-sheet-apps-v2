@@ -2225,7 +2225,7 @@ var IS_BRAND_DICT = [
   {name: 'Megabass', jp_names: ['メガバス', 'MEGABASS'], country: 'Japan', category: ['Fishing Reels']},
   {name: 'Prox', jp_names: ['プロックス', 'PROX'], country: 'Japan', category: ['Fishing Reels']},
   {name: 'ZPI', jp_names: ['ZPI', 'ジーピーアイ'], country: 'Japan', category: ['Fishing Reels']},
-  {name: 'Nissin', jp_names: ['宇崎日新', 'ニッシン', 'NISSIN'], country: 'Japan', category: ['Fishing Reels']},
+  {name: 'Nissin', jp_names: ['宇崎日新', 'ニッシン', 'NISSIN'], country: 'Japan', category: ['Fishing Reels', 'Fishing Rods']},
 
   {name: 'Abu Garcia', jp_names: ['アブガルシア', 'アブ', 'ABU GARCIA', 'ABU'], country: 'Sweden', category: ['Fishing Reels']},
   {name: 'Penn', jp_names: ['ペン', 'PENN'], country: 'United States', category: ['Fishing Reels']},
@@ -2939,12 +2939,12 @@ var IS_BRAND_DICT = [
   {name: 'Nakaya', jp_names: ['中屋', 'ナカヤ', 'NAKAYA'], country: 'Japan', category: ['Pens']},
 
   // === Fishing Rods ===
-  {name: 'Shimano', jp_names: ['シマノ', 'SHIMANO'], country: 'Japan', category: ['Fishing Rods', 'Fishing Reels']},
-  {name: 'Daiwa', jp_names: ['ダイワ', 'DAIWA'], country: 'Japan', category: ['Fishing Rods', 'Fishing Reels']},
-  {name: 'Gamakatsu', jp_names: ['がまかつ', 'ガマカツ', 'GAMAKATSU'], country: 'Japan', category: ['Fishing Rods']},
-  {name: 'Megabass', jp_names: ['メガバス', 'MEGABASS'], country: 'Japan', category: ['Fishing Rods']},
+  {name: 'Shimano', jp_names: ['シマノ', 'SHIMANO'], country: 'Japan', category: ['Fishing Rods', 'Fishing Reels', 'Fishing Lures']},
+  {name: 'Daiwa', jp_names: ['ダイワ', 'DAIWA'], country: 'Japan', category: ['Fishing Rods', 'Fishing Reels', 'Fishing Lures']},
+  {name: 'Gamakatsu', jp_names: ['がまかつ', 'ガマカツ', 'GAMAKATSU'], country: 'Japan', category: ['Fishing Rods', 'Fishing Lures']},
+  {name: 'Megabass', jp_names: ['メガバス', 'MEGABASS'], country: 'Japan', category: ['Fishing Rods', 'Fishing Reels', 'Fishing Lures']},
   {name: 'Major Craft', jp_names: ['メジャークラフト', 'MAJOR CRAFT'], country: 'Japan', category: ['Fishing Rods']},
-  {name: 'Evergreen', jp_names: ['エバーグリーン', 'EVERGREEN'], country: 'Japan', category: ['Fishing Rods']},
+  {name: 'Evergreen', jp_names: ['エバーグリーン', 'EVERGREEN'], country: 'Japan', category: ['Fishing Rods', 'Fishing Lures']},
   {name: 'Deps', jp_names: ['デプス', 'DEPS'], country: 'Japan', category: ['Fishing Rods', 'Fishing Lures']},
   {name: 'Jackall', jp_names: ['ジャッカル', 'JACKALL'], country: 'Japan', category: ['Fishing Rods', 'Fishing Lures']},
   {name: 'Tailwalk', jp_names: ['テイルウォーク', 'TAILWALK'], country: 'Japan', category: ['Fishing Rods']},
@@ -2957,8 +2957,50 @@ var IS_BRAND_DICT = [
   {name: 'G-Loomis', jp_names: ['Gルーミス', 'G-LOOMIS', 'G LOOMIS'], country: 'United States', category: ['Fishing Rods']},
   {name: 'St. Croix', jp_names: ['セントクロイ', 'ST. CROIX', 'ST CROIX'], country: 'United States', category: ['Fishing Rods']},
   {name: 'Zenaq', jp_names: ['ゼナック', 'ZENAQ'], country: 'Japan', category: ['Fishing Rods']},
-  {name: 'Smith', jp_names: ['スミス', 'SMITH'], country: 'Japan', category: ['Fishing Rods']},
-  {name: 'Nories', jp_names: ['ノリーズ', 'NORIES'], country: 'Japan', category: ['Fishing Rods']},
+  {name: 'Smith', jp_names: ['スミス', 'SMITH'], country: 'Japan', category: ['Fishing Rods', 'Fishing Lures']},
+  {name: 'Nories', jp_names: ['ノリーズ', 'NORIES'], country: 'Japan', category: ['Fishing Rods', 'Fishing Lures']},
+  // === Fishing Rods: 追加ブランド ===
+  {name: 'Olympic', jp_names: ['オリムピック', 'オリンピック', 'OLYMPIC', 'グラファイトリーダー', 'GRAPHITELEADER'], country: 'Japan', category: ['Fishing Rods']},
+  {name: 'Xesta', jp_names: ['ゼスタ', 'XESTA'], country: 'Japan', category: ['Fishing Rods']},
+  {name: 'Shimotsuke', jp_names: ['下野', 'シモツケ', 'SHIMOTSUKE'], country: 'Japan', category: ['Fishing Rods']},
+  {name: 'Suntech', jp_names: ['サンテック', 'SUNTECH'], country: 'Japan', category: ['Fishing Rods']},
+  {name: 'Yamashita', jp_names: ['ヤマシタ', 'YAMASHITA', 'ヤマリア', 'YAMARIA'], country: 'Japan', category: ['Fishing Rods', 'Fishing Lures']},
+
+  // === Fishing Lures ===
+  {name: 'DUO', jp_names: ['デュオ', 'DUO'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'O.S.P', jp_names: ['オーエスピー', 'OSP', 'O.S.P'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Lucky Craft', jp_names: ['ラッキークラフト', 'LUCKY CRAFT'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Imakatsu', jp_names: ['イマカツ', 'IMAKATSU'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Gan Craft', jp_names: ['ガンクラフト', 'GAN CRAFT', 'GANCRAFT'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Tiemco', jp_names: ['ティムコ', 'TIEMCO'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Raid Japan', jp_names: ['レイドジャパン', 'RAID JAPAN'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'BlueBlue', jp_names: ['ブルーブルー', 'BLUEBLUE'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'ima', jp_names: ['アイマ', 'IMA'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'ZipBaits', jp_names: ['ジップベイツ', 'ZIPBAITS', 'ZIP BAITS'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Maria', jp_names: ['マリア', 'MARIA'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Yo-Zuri', jp_names: ['ヨーヅリ', 'YO-ZURI', 'YOZURI'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Hayabusa', jp_names: ['ハヤブサ', 'HAYABUSA'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Owner', jp_names: ['オーナー', 'OWNER', 'カルティバ', 'CULTIVA'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Decoy', jp_names: ['デコイ', 'DECOY'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Varivas', jp_names: ['バリバス', 'VARIVAS'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'YGK', jp_names: ['よつあみ', 'YGK', 'ワイジーケー'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Sunline', jp_names: ['サンライン', 'SUNLINE'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Seaguar', jp_names: ['シーガー', 'SEAGUAR', 'クレハ', 'KUREHA'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Bassday', jp_names: ['バスデイ', 'BASSDAY'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Jackson', jp_names: ['ジャクソン', 'JACKSON'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Ecogear', jp_names: ['エコギア', 'ECOGEAR'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Geecrack', jp_names: ['ジークラック', 'GEECRACK'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Fish Arrow', jp_names: ['フィッシュアロー', 'FISH ARROW'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Gary Yamamoto', jp_names: ['ゲーリーヤマモト', 'GARY YAMAMOTO'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Keitech', jp_names: ['ケイテック', 'KEITECH'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'HMKL', jp_names: ['ハンクル', 'HMKL'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Meiho', jp_names: ['メイホウ', 'メイホー', 'MEIHO', 'VERSUS'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Ryugi', jp_names: ['リューギ', 'RYUGI'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Carpenter', jp_names: ['カーペンター', 'CARPENTER'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Breaden', jp_names: ['ブリーデン', 'BREADEN'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Roman Made', jp_names: ['ロマンメイド', 'ROMAN MADE'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Issei', jp_names: ['一誠', 'イッセイ', 'ISSEI'], country: 'Japan', category: ['Fishing Lures']},
+  {name: 'Valleyhill', jp_names: ['バレーヒル', 'VALLEYHILL'], country: 'Japan', category: ['Fishing Lures']},
 ];
 
 /**
@@ -4212,7 +4254,8 @@ function outputTagListSheet_() {
       {cat: 'Tennis', desc: 'テニスラケット'},
       {cat: 'Baseball', desc: '野球グローブ・バット'},
       {cat: 'Fishing Rods', desc: '釣竿・ロッド'},
-      {cat: 'Fishing Reels', desc: '釣りリール'}
+      {cat: 'Fishing Reels', desc: '釣りリール'},
+      {cat: 'Fishing Lures', desc: 'ルアー・釣具・タックル'}
     ]},
     {group: 'Japanese Traditional（日本伝統）', categories: [
       {cat: 'Kimono', desc: '着物・和装・振袖・浴衣・帯'},
@@ -4242,10 +4285,10 @@ function outputTagListSheet_() {
   }
 
   // --- 交通整理/IS対応状況の判定 ---
-  var sanitizeCategories = ['watch', 'camera', 'card', 'game', 'reel'];
+  var sanitizeCategories = ['watch', 'camera', 'card', 'game', 'reel', 'lure'];
   var sanitizeMap = {
     'Watches': 'watch', 'Cameras': 'camera', 'Trading Cards': 'card',
-    'Video Games': 'game', 'Video Game Consoles': 'game', 'Video Game Accessories': 'game', 'Fishing Reels': 'reel'
+    'Video Games': 'game', 'Video Game Consoles': 'game', 'Video Game Accessories': 'game', 'Fishing Reels': 'reel', 'Fishing Lures': 'lure'
   };
 
   // --- ヘッダー ---
