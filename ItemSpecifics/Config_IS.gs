@@ -186,6 +186,16 @@ var IS_INITIAL_DATA = [
   { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Edition', field_type: 'recommended', priority: 9, notes: '限定版, 初期型, 後期型等' },
   { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
 
+  // === Video Game Accessories ===
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Brand', field_type: 'required', priority: 1, notes: 'Nintendo, Sony, Sega, Hori, 8BitDo等' },
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Platform', field_type: 'required', priority: 2, notes: 'Nintendo Switch, PlayStation 5等' },
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Type', field_type: 'required', priority: 3, notes: 'Controller, Memory Card, Cable, Adapter, Case等' },
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Model', field_type: 'recommended', priority: 4, notes: 'DualShock 4, Pro Controller, Joy-Con等' },
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Color', field_type: 'recommended', priority: 5, notes: '' },
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Connectivity', field_type: 'recommended', priority: 6, notes: 'Wireless, Wired, Bluetooth, USB等' },
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Region Code', field_type: 'recommended', priority: 7, notes: 'NTSC-J (Japan)等' },
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Country of Origin', field_type: 'recommended', priority: 8, notes: '' },
+
   // === Fishing Reels ===
   { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Brand', field_type: 'required', priority: 1, notes: 'Shimano, Daiwa, Abu Garcia等' },
   { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Model', field_type: 'required', priority: 2, notes: '' },
@@ -1834,9 +1844,9 @@ var IS_BRAND_DICT = [
   {name: 'Bandai Namco', jp_names: ['バンダイナムコ', 'バンナム', 'BANDAI NAMCO'], country: 'Japan', category: ['Video Games']},
   {name: 'Capcom', jp_names: ['カプコン', 'CAPCOM'], country: 'Japan', category: ['Video Games']},
   {name: 'Konami', jp_names: ['コナミ', 'KONAMI'], country: 'Japan', category: ['Video Games']},
-  {name: 'Nintendo', jp_names: ['任天堂', 'ニンテンドー', 'NINTENDO'], country: 'Japan', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Sega', jp_names: ['セガ', 'SEGA'], country: 'Japan', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Sony PlayStation', jp_names: ['プレイステーション', 'プレステ', 'PLAYSTATION', 'PS5', 'PS4'], country: 'Japan', category: ['Video Games', 'Video Game Consoles']},
+  {name: 'Nintendo', jp_names: ['任天堂', 'ニンテンドー', 'NINTENDO'], country: 'Japan', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Sega', jp_names: ['セガ', 'SEGA'], country: 'Japan', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Sony PlayStation', jp_names: ['プレイステーション', 'プレステ', 'PLAYSTATION', 'PS5', 'PS4'], country: 'Japan', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
   {name: 'Square Enix', jp_names: ['スクウェア・エニックス', 'SQUARE ENIX'], country: 'Japan', category: ['Video Games']},
 
   // === Soap & Bath ===
@@ -2246,77 +2256,77 @@ var IS_BRAND_DICT = [
   {name: 'Langley', jp_names: ['ラングレー', 'LANGLEY'], country: 'United States', category: ['Fishing Reels']},
 
   // === Video Game Consoles & Related ===
-  {name: 'Microsoft Xbox', jp_names: ['エックスボックス', 'Xbox', 'XBOX', 'マイクロソフト'], country: 'United States', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Atari', jp_names: ['アタリ', 'ATARI'], country: 'United States', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'SNK', jp_names: ['エスエヌケイ', 'SNK', 'ネオジオ', 'NEO GEO', 'NEOGEO'], country: 'Japan', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'NEC', jp_names: ['NEC', 'エヌイーシー', 'PCエンジン', 'PC ENGINE', 'PC-ENGINE'], country: 'Japan', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Panasonic 3DO', jp_names: ['3DO', 'スリーディーオー'], country: 'Japan', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Commodore', jp_names: ['コモドール', 'COMMODORE'], country: 'United States', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Coleco', jp_names: ['コレコ', 'COLECO', 'COLECOVISION'], country: 'United States', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Mattel', jp_names: ['マテル', 'MATTEL', 'INTELLIVISION'], country: 'United States', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Valve', jp_names: ['バルブ', 'VALVE', 'STEAM DECK'], country: 'United States', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Analogue', jp_names: ['アナログ', 'ANALOGUE'], country: 'United States', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Retro-Bit', jp_names: ['レトロビット', 'RETRO-BIT', 'RETROBIT'], country: 'United States', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Hyperkin', jp_names: ['ハイパーキン', 'HYPERKIN'], country: 'United States', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Anbernic', jp_names: ['アンバーニック', 'ANBERNIC'], country: 'China', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Miyoo', jp_names: ['ミヨー', 'MIYOO'], country: 'China', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Epoch', jp_names: ['エポック', 'エポック社', 'EPOCH'], country: 'Japan', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Sharp', jp_names: ['シャープ', 'SHARP', 'ツインファミコン'], country: 'Japan', category: ['Video Games', 'Video Game Consoles']},
+  {name: 'Microsoft Xbox', jp_names: ['エックスボックス', 'Xbox', 'XBOX', 'マイクロソフト'], country: 'United States', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Atari', jp_names: ['アタリ', 'ATARI'], country: 'United States', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'SNK', jp_names: ['エスエヌケイ', 'SNK', 'ネオジオ', 'NEO GEO', 'NEOGEO'], country: 'Japan', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'NEC', jp_names: ['NEC', 'エヌイーシー', 'PCエンジン', 'PC ENGINE', 'PC-ENGINE'], country: 'Japan', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Panasonic 3DO', jp_names: ['3DO', 'スリーディーオー'], country: 'Japan', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Commodore', jp_names: ['コモドール', 'COMMODORE'], country: 'United States', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Coleco', jp_names: ['コレコ', 'COLECO', 'COLECOVISION'], country: 'United States', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Mattel', jp_names: ['マテル', 'MATTEL', 'INTELLIVISION'], country: 'United States', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Valve', jp_names: ['バルブ', 'VALVE', 'STEAM DECK'], country: 'United States', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Analogue', jp_names: ['アナログ', 'ANALOGUE'], country: 'United States', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Retro-Bit', jp_names: ['レトロビット', 'RETRO-BIT', 'RETROBIT'], country: 'United States', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Hyperkin', jp_names: ['ハイパーキン', 'HYPERKIN'], country: 'United States', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Anbernic', jp_names: ['アンバーニック', 'ANBERNIC'], country: 'China', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Miyoo', jp_names: ['ミヨー', 'MIYOO'], country: 'China', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Epoch', jp_names: ['エポック', 'エポック社', 'EPOCH'], country: 'Japan', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Sharp', jp_names: ['シャープ', 'SHARP', 'ツインファミコン'], country: 'Japan', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
   // Newly added parent brands for Video Games
-  {name: 'Magnavox', jp_names: ['マグナボックス', 'MAGNAVOX'], country: 'United States', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'AYANEO', jp_names: ['アヤネオ', 'AYANEO'], country: 'China', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'GPD', jp_names: ['ジーピーディー', 'GPD'], country: 'China', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Retroid', jp_names: ['レトロイド', 'RETROID'], country: 'China', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Powkiddy', jp_names: ['パウキッディ', 'POWKIDDY'], country: 'China', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Playdate', jp_names: ['プレイデート', 'PLAYDATE'], country: 'United States', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Evercade', jp_names: ['エバーケード', 'EVERCADE'], country: 'United Kingdom', category: ['Video Games', 'Video Game Consoles']},
+  {name: 'Magnavox', jp_names: ['マグナボックス', 'MAGNAVOX'], country: 'United States', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'AYANEO', jp_names: ['アヤネオ', 'AYANEO'], country: 'China', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'GPD', jp_names: ['ジーピーディー', 'GPD'], country: 'China', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Retroid', jp_names: ['レトロイド', 'RETROID'], country: 'China', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Powkiddy', jp_names: ['パウキッディ', 'POWKIDDY'], country: 'China', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Playdate', jp_names: ['プレイデート', 'PLAYDATE'], country: 'United States', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Evercade', jp_names: ['エバーケード', 'EVERCADE'], country: 'United Kingdom', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
 
   // Sub-brands (console models) with parent_brand
   // Nintendo
-  {name: 'Famicom', jp_names: ['ファミコン', 'ファミリーコンピュータ', 'FC'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Super Famicom', jp_names: ['スーパーファミコン', 'スーファミ', 'SFC'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Nintendo 64', jp_names: ['ニンテンドー64', 'N64', 'ニンテンドウ64'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Nintendo GameCube', jp_names: ['ゲームキューブ', 'GC', 'GAMECUBE'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Wii', jp_names: ['ウィー', 'Wii'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Wii U', jp_names: ['ウィーユー', 'WiiU'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Nintendo Switch', jp_names: ['ニンテンドースイッチ', 'スイッチ', 'SWITCH'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Game Boy', jp_names: ['ゲームボーイ', 'GB', 'GAMEBOY'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Game Boy Advance', jp_names: ['ゲームボーイアドバンス', 'GBA', 'GAMEBOY ADVANCE'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Nintendo DS', jp_names: ['ニンテンドーDS', 'DS', 'NDS'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Nintendo 3DS', jp_names: ['ニンテンドー3DS', '3DS'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Virtual Boy', jp_names: ['バーチャルボーイ', 'VIRTUAL BOY'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Game & Watch', jp_names: ['ゲームアンドウォッチ', 'ゲーム&ウオッチ', 'GAME & WATCH'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles']},
+  {name: 'Famicom', jp_names: ['ファミコン', 'ファミリーコンピュータ', 'FC'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Super Famicom', jp_names: ['スーパーファミコン', 'スーファミ', 'SFC'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Nintendo 64', jp_names: ['ニンテンドー64', 'N64', 'ニンテンドウ64'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Nintendo GameCube', jp_names: ['ゲームキューブ', 'GC', 'GAMECUBE'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Wii', jp_names: ['ウィー', 'Wii'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Wii U', jp_names: ['ウィーユー', 'WiiU'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Nintendo Switch', jp_names: ['ニンテンドースイッチ', 'スイッチ', 'SWITCH'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Game Boy', jp_names: ['ゲームボーイ', 'GB', 'GAMEBOY'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Game Boy Advance', jp_names: ['ゲームボーイアドバンス', 'GBA', 'GAMEBOY ADVANCE'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Nintendo DS', jp_names: ['ニンテンドーDS', 'DS', 'NDS'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Nintendo 3DS', jp_names: ['ニンテンドー3DS', '3DS'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Virtual Boy', jp_names: ['バーチャルボーイ', 'VIRTUAL BOY'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Game & Watch', jp_names: ['ゲームアンドウォッチ', 'ゲーム&ウオッチ', 'GAME & WATCH'], country: 'Japan', parent_brand: 'Nintendo', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
 
   // Sony PlayStation
-  {name: 'PlayStation', jp_names: ['プレイステーション', 'プレステ', 'PS1', 'PS ONE'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'PlayStation 2', jp_names: ['プレイステーション2', 'PS2', 'プレステ2'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'PlayStation 3', jp_names: ['プレイステーション3', 'PS3', 'プレステ3'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'PlayStation 4', jp_names: ['プレイステーション4', 'PS4', 'プレステ4'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'PlayStation 5', jp_names: ['プレイステーション5', 'PS5', 'プレステ5'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'PSP', jp_names: ['PSP', 'プレイステーションポータブル', 'PLAYSTATION PORTABLE'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'PS Vita', jp_names: ['ヴィータ', 'PSVITA', 'PS VITA', 'プレイステーションヴィータ'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games', 'Video Game Consoles']},
+  {name: 'PlayStation', jp_names: ['プレイステーション', 'プレステ', 'PS1', 'PS ONE'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'PlayStation 2', jp_names: ['プレイステーション2', 'PS2', 'プレステ2'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'PlayStation 3', jp_names: ['プレイステーション3', 'PS3', 'プレステ3'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'PlayStation 4', jp_names: ['プレイステーション4', 'PS4', 'プレステ4'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'PlayStation 5', jp_names: ['プレイステーション5', 'PS5', 'プレステ5'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'PSP', jp_names: ['PSP', 'プレイステーションポータブル', 'PLAYSTATION PORTABLE'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'PS Vita', jp_names: ['ヴィータ', 'PSVITA', 'PS VITA', 'プレイステーションヴィータ'], country: 'Japan', parent_brand: 'Sony PlayStation', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
 
   // Sega
-  {name: 'Mega Drive', jp_names: ['メガドライブ', 'MEGA DRIVE', 'GENESIS', 'ジェネシス'], country: 'Japan', parent_brand: 'Sega', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Sega Saturn', jp_names: ['セガサターン', 'サターン', 'SATURN'], country: 'Japan', parent_brand: 'Sega', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Dreamcast', jp_names: ['ドリームキャスト', 'DREAMCAST', 'DC'], country: 'Japan', parent_brand: 'Sega', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Game Gear', jp_names: ['ゲームギア', 'GAME GEAR'], country: 'Japan', parent_brand: 'Sega', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Sega Mark III', jp_names: ['マークIII', 'セガマークIII', 'MASTER SYSTEM', 'マスターシステム'], country: 'Japan', parent_brand: 'Sega', category: ['Video Games', 'Video Game Consoles']},
+  {name: 'Mega Drive', jp_names: ['メガドライブ', 'MEGA DRIVE', 'GENESIS', 'ジェネシス'], country: 'Japan', parent_brand: 'Sega', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Sega Saturn', jp_names: ['セガサターン', 'サターン', 'SATURN'], country: 'Japan', parent_brand: 'Sega', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Dreamcast', jp_names: ['ドリームキャスト', 'DREAMCAST', 'DC'], country: 'Japan', parent_brand: 'Sega', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Game Gear', jp_names: ['ゲームギア', 'GAME GEAR'], country: 'Japan', parent_brand: 'Sega', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Sega Mark III', jp_names: ['マークIII', 'セガマークIII', 'MASTER SYSTEM', 'マスターシステム'], country: 'Japan', parent_brand: 'Sega', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
 
   // SNK
-  {name: 'Neo Geo AES', jp_names: ['ネオジオ', 'ネオジオAES', 'NEO GEO AES', 'NEOGEO'], country: 'Japan', parent_brand: 'SNK', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Neo Geo CD', jp_names: ['ネオジオCD', 'NEO GEO CD'], country: 'Japan', parent_brand: 'SNK', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'Neo Geo Pocket', jp_names: ['ネオジオポケット', 'NEO GEO POCKET'], country: 'Japan', parent_brand: 'SNK', category: ['Video Games', 'Video Game Consoles']},
+  {name: 'Neo Geo AES', jp_names: ['ネオジオ', 'ネオジオAES', 'NEO GEO AES', 'NEOGEO'], country: 'Japan', parent_brand: 'SNK', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Neo Geo CD', jp_names: ['ネオジオCD', 'NEO GEO CD'], country: 'Japan', parent_brand: 'SNK', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'Neo Geo Pocket', jp_names: ['ネオジオポケット', 'NEO GEO POCKET'], country: 'Japan', parent_brand: 'SNK', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
 
   // NEC
-  {name: 'PC Engine', jp_names: ['PCエンジン', 'PC ENGINE', 'TURBOGRAFX-16', 'ターボグラフィックス'], country: 'Japan', parent_brand: 'NEC', category: ['Video Games', 'Video Game Consoles']},
-  {name: 'PC-FX', jp_names: ['PC-FX', 'PCFX'], country: 'Japan', parent_brand: 'NEC', category: ['Video Games', 'Video Game Consoles']},
+  {name: 'PC Engine', jp_names: ['PCエンジン', 'PC ENGINE', 'TURBOGRAFX-16', 'ターボグラフィックス'], country: 'Japan', parent_brand: 'NEC', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
+  {name: 'PC-FX', jp_names: ['PC-FX', 'PCFX'], country: 'Japan', parent_brand: 'NEC', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
 
   // Bandai
-  {name: 'WonderSwan', jp_names: ['ワンダースワン', 'WONDERSWAN', 'WONDER SWAN'], country: 'Japan', parent_brand: 'Bandai', category: ['Video Games', 'Video Game Consoles']},
+  {name: 'WonderSwan', jp_names: ['ワンダースワン', 'WONDERSWAN', 'WONDER SWAN'], country: 'Japan', parent_brand: 'Bandai', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
 
   // Other
-  {name: 'Cassette Vision', jp_names: ['カセットビジョン', 'CASSETTE VISION'], country: 'Japan', parent_brand: 'Epoch', category: ['Video Games', 'Video Game Consoles']},
+  {name: 'Cassette Vision', jp_names: ['カセットビジョン', 'CASSETTE VISION'], country: 'Japan', parent_brand: 'Epoch', category: ['Video Games', 'Video Game Consoles', 'Video Game Accessories']},
   
   // === Fishing Reels: New Parent Brands ===
   {name: 'Tailwalk', jp_names: ['テイルウォーク', 'TAILWALK'], country: 'Japan', category: ['Fishing Reels']},
@@ -3606,6 +3616,12 @@ IS_TAG_TO_CATEGORY['DS'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['3DS'] = 'V
 IS_TAG_TO_CATEGORY['PSP'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['PSVita'] = 'Video Game Consoles';
 IS_TAG_TO_CATEGORY['Steam Deck'] = 'Video Game Consoles';
 
+// Video Game Accessories 追加
+IS_TAG_TO_CATEGORY['コントローラー'] = 'Video Game Accessories'; IS_TAG_TO_CATEGORY['ジョイスティック'] = 'Video Game Accessories';
+IS_TAG_TO_CATEGORY['メモリーカード'] = 'Video Game Accessories'; IS_TAG_TO_CATEGORY['ゲーム周辺機器'] = 'Video Game Accessories';
+IS_TAG_TO_CATEGORY['アーケードスティック'] = 'Video Game Accessories'; IS_TAG_TO_CATEGORY['ゲームパッド'] = 'Video Game Accessories';
+IS_TAG_TO_CATEGORY['AVケーブル'] = 'Video Game Accessories'; IS_TAG_TO_CATEGORY['HDMIケーブル'] = 'Video Game Accessories';
+
 // Fishing Reels 追加
 IS_TAG_TO_CATEGORY['釣り'] = 'Fishing Reels'; IS_TAG_TO_CATEGORY['フィッシング'] = 'Fishing Reels';
 
@@ -3646,6 +3662,7 @@ var IS_CATEGORY_FIELDS = {
   'Sunglasses':  ['Brand', 'Model', 'Frame Color', 'Lens Color', 'Frame Material', 'Style', 'Department', 'Country of Origin'],
   'Video Games': ['Platform', 'Game Name', 'Region Code', 'Genre', 'Character', 'Publisher', 'Rating', 'Language', 'Country of Origin'],
   'Video Game Consoles': ['Brand', 'Platform', 'Model', 'Type', 'Storage Capacity', 'Color', 'Region Code', 'Connectivity', 'Edition', 'Country of Origin'],
+  'Video Game Accessories': ['Brand', 'Platform', 'Type', 'Model', 'Color', 'Connectivity', 'Region Code', 'Country of Origin'],
   'Fishing Reels': ['Brand', 'Model', 'Reel Type', 'Hand Retrieve', 'Gear Ratio', 'Ball Bearings', 'Line Capacity', 'Fishing Type', 'Fish Species', 'Country of Origin'],
   'Soap':        ['Brand', 'Type', 'Scent', 'Product Line', 'Color', 'Country of Origin'],
   'Dolls & Plush': ['Brand', 'Type', 'Character', 'Size', 'Color', 'Material', 'Country of Origin'],
@@ -4186,7 +4203,7 @@ function outputTagListSheet_() {
   var sanitizeCategories = ['watch', 'camera', 'card', 'game', 'reel'];
   var sanitizeMap = {
     'Watches': 'watch', 'Cameras': 'camera', 'Trading Cards': 'card',
-    'Video Games': 'game', 'Video Game Consoles': 'game', 'Fishing Reels': 'reel'
+    'Video Games': 'game', 'Video Game Consoles': 'game', 'Video Game Accessories': 'game', 'Fishing Reels': 'reel'
   };
 
   // --- ヘッダー ---

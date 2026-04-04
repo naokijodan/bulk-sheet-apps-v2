@@ -36,6 +36,11 @@ var SANITIZE_FIELDS_ = {
     'ストレージ容量', '色', 'リージョン', 'エディション',
     '付属品', 'コンディション', '故障・不具合'
   ],
+  'Video Game Accessories': [
+    'メーカー', '対応機種', 'タイプ', '型番',
+    '色', '接続方式', 'リージョン',
+    'コンディション', '故障・不具合'
+  ],
   'Fishing Reels': [
     'メーカー', 'モデル名', '型番', 'リールタイプ',
     '巻き方向', 'ギア比', 'サイズ/番手', '対象魚種',
@@ -98,6 +103,17 @@ var CATEGORY_RULES_ = {
       '- 枚数: まとめ売りの場合の枚数。単品ならNA。',
       '',
       '重要: カード名とキャラクター名を混同しない。キャラクター名は「ピカチュウ」、カード名は「ピカチュウVMAX SA」のように区別する。'
+    ]
+  },
+  'Video Game Accessories': {
+    label: 'ゲーム周辺機器',
+    rules: [
+      '- タイプ: Controller(コントローラー)/Joystick(ジョイスティック)/Arcade Stick(アケコン)/Memory Card(メモリーカード)/Cable(ケーブル)/Adapter(アダプター)/Case(ケース)/Charger(充電器) のいずれかで記入。',
+      '- メーカー: Nintendo/Sony/Sega/Hori/8BitDo/Mad Catz/Razer/Brook 等。純正品はゲーム機メーカー名、サードパーティは製造メーカー名。',
+      '- 対応機種: 正式名称で記入。例: Nintendo Switch, PlayStation 5, Super Famicom。',
+      '- 接続方式: Wireless(無線)/Wired(有線)/Bluetooth/USB/RF のいずれかで記入。',
+      '- リージョン: 日本製品はNTSC-J。リージョンフリーは明記がある場合のみ。',
+      '- [EN]セクションでは: Type は英語（Controller, Memory Card等）。Platform は正式英語名。Brand は英語名。'
     ]
   },
   'Video Game Consoles': {
