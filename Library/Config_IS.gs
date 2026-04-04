@@ -396,6 +396,18 @@ var IS_INITIAL_DATA = [
   { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Material', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' },
 
+  // === Fishing Lures ===
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Brand', field_type: 'required', priority: 1, notes: 'Megabass, Jackall, DUO, OSP等' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Type', field_type: 'required', priority: 2, notes: 'Crankbait, Minnow, Metal Jig, Soft Plastic, Spoon, Squid Jig等' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Model', field_type: 'required', priority: 3, notes: '' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Color', field_type: 'recommended', priority: 4, notes: '' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Weight', field_type: 'recommended', priority: 5, notes: 'g or oz' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Fishing Type', field_type: 'recommended', priority: 6, notes: 'Freshwater / Saltwater' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Fish Species', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Buoyancy', field_type: 'recommended', priority: 8, notes: 'Floating / Sinking / Suspending' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Item Length', field_type: 'recommended', priority: 9, notes: 'mm or inches' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+
   // === RC & Models ===
   { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
   { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆', field_name: 'Type', field_type: 'required', priority: 2, notes: 'Car / Aircraft / Boat / Tank / Gundam等' },
@@ -2345,6 +2357,10 @@ var IS_BRAND_DICT = [
   {name: 'Exsence', jp_names: ['エクスセンス', 'EXSENCE'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
   {name: 'Sephia', jp_names: ['セフィア', 'SEPHIA'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
   {name: 'Soare', jp_names: ['ソアレ', 'SOARE'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+  {name: 'Vanford', jp_names: ['ヴァンフォード', 'バンフォード', 'VANFORD'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+  {name: 'Nasci', jp_names: ['ナスキー', 'NASCI'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+  {name: 'Sustain', jp_names: ['サステイン', 'SUSTAIN'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+  {name: 'Saragosa', jp_names: ['サラゴサ', 'SARAGOSA'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
 
   // === Fishing Reels: Shimano Bait ===
   {name: 'Scorpion', jp_names: ['スコーピオン', 'SCORPION'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
@@ -2353,6 +2369,9 @@ var IS_BRAND_DICT = [
   {name: 'Calcutta', jp_names: ['カルカッタ', 'CALCUTTA'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
   {name: 'Bantam', jp_names: ['バンタム', 'BANTAM'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
   {name: 'Aldebaran', jp_names: ['アルデバラン', 'ALDEBARAN'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+  {name: 'Curado', jp_names: ['クラド', 'CURADO'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+  {name: 'SLX', jp_names: ['SLX', 'エスエルエックス'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
+  {name: 'Tranx', jp_names: ['トランクス', 'TRANX'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
 
   // === Fishing Reels: Shimano Electric ===
   {name: 'ForceMaster', jp_names: ['フォースマスター', 'FORCEMASTER'], country: 'Japan', parent_brand: 'Shimano', category: ['Fishing Reels']},
@@ -2366,6 +2385,10 @@ var IS_BRAND_DICT = [
   {name: 'Saltiga', jp_names: ['ソルティガ', 'SALTIGA'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
   {name: 'Caldia', jp_names: ['カルディア', 'CALDIA'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
   {name: 'Emeraldas', jp_names: ['エメラルダス', 'EMERALDAS'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
+  {name: 'BG', jp_names: ['BG', 'ビージー'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
+  {name: 'Saltist', jp_names: ['ソルティスト', 'SALTIST'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
+  {name: 'Legalis', jp_names: ['レガリス', 'LEGALIS'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
+  {name: 'Gekkabijin', jp_names: ['月下美人', 'ゲッカビジン', 'GEKKABIJIN'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
 
   // === Fishing Reels: Daiwa Bait ===
   {name: 'Steez', jp_names: ['スティーズ', 'STEEZ'], country: 'Japan', parent_brand: 'Daiwa', category: ['Fishing Reels']},
@@ -2493,6 +2516,7 @@ var IS_BRAND_DICT = [
   {name: 'Prada', jp_names: ['プラダ', 'PRADA'], country: 'Italy', category: ['Rings', 'Necklaces', 'Bracelets', 'Earrings', 'Brooches', 'Cufflinks', 'Hair Accessories']},
   {name: 'Saint Laurent', jp_names: ['サンローラン', 'SAINT LAURENT', 'YSL', 'イヴサンローラン'], country: 'France', category: ['Rings', 'Necklaces', 'Bracelets', 'Earrings', 'Brooches', 'Cufflinks', 'Hair Accessories']},
   {name: 'Maison Margiela', jp_names: ['メゾンマルジェラ', 'マルジェラ', 'MAISON MARGIELA', 'MARTIN MARGIELA', 'マルタンマルジェラ'], country: 'France', category: ['Rings', 'Necklaces', 'Bracelets', 'Earrings', 'Brooches', 'Cufflinks', 'Hair Accessories']},
+  {name: 'Servane Gaxotte', jp_names: ['セルバンギャゾット', 'SERVANE GAXOTTE'], country: 'France', category: ['Rings', 'Necklaces', 'Bracelets', 'Earrings', 'Brooches', 'Cufflinks', 'Hair Accessories']},
 
   // === Handbags & Wallets ===
   {name: 'Louis Vuitton', jp_names: ['ルイヴィトン', 'ルイ・ヴィトン', 'LOUIS VUITTON', 'LV'], country: 'France', category: ['Handbags', 'Wallets']},
@@ -2921,8 +2945,8 @@ var IS_BRAND_DICT = [
   {name: 'Megabass', jp_names: ['メガバス', 'MEGABASS'], country: 'Japan', category: ['Fishing Rods']},
   {name: 'Major Craft', jp_names: ['メジャークラフト', 'MAJOR CRAFT'], country: 'Japan', category: ['Fishing Rods']},
   {name: 'Evergreen', jp_names: ['エバーグリーン', 'EVERGREEN'], country: 'Japan', category: ['Fishing Rods']},
-  {name: 'Deps', jp_names: ['デプス', 'DEPS'], country: 'Japan', category: ['Fishing Rods']},
-  {name: 'Jackall', jp_names: ['ジャッカル', 'JACKALL'], country: 'Japan', category: ['Fishing Rods']},
+  {name: 'Deps', jp_names: ['デプス', 'DEPS'], country: 'Japan', category: ['Fishing Rods', 'Fishing Lures']},
+  {name: 'Jackall', jp_names: ['ジャッカル', 'JACKALL'], country: 'Japan', category: ['Fishing Rods', 'Fishing Lures']},
   {name: 'Tailwalk', jp_names: ['テイルウォーク', 'TAILWALK'], country: 'Japan', category: ['Fishing Rods']},
   {name: 'Abu Garcia', jp_names: ['アブガルシア', 'ABU GARCIA', 'ABU'], country: 'Sweden', category: ['Fishing Rods', 'Fishing Reels']},
   {name: 'Tenryu', jp_names: ['テンリュウ', '天龍', 'TENRYU'], country: 'Japan', category: ['Fishing Rods']},
@@ -3624,6 +3648,23 @@ IS_TAG_TO_CATEGORY['AVケーブル'] = 'Video Game Accessories'; IS_TAG_TO_CATEG
 
 // Fishing Reels 追加
 IS_TAG_TO_CATEGORY['釣り'] = 'Fishing Reels'; IS_TAG_TO_CATEGORY['フィッシング'] = 'Fishing Reels';
+IS_TAG_TO_CATEGORY['スピニングリール'] = 'Fishing Reels'; IS_TAG_TO_CATEGORY['ベイトリール'] = 'Fishing Reels';
+IS_TAG_TO_CATEGORY['両軸リール'] = 'Fishing Reels'; IS_TAG_TO_CATEGORY['フライリール'] = 'Fishing Reels';
+IS_TAG_TO_CATEGORY['電動リール'] = 'Fishing Reels'; IS_TAG_TO_CATEGORY['フィッシングリール'] = 'Fishing Reels';
+
+// Fishing Rods 追加
+IS_TAG_TO_CATEGORY['ジギングロッド'] = 'Fishing Rods'; IS_TAG_TO_CATEGORY['エギングロッド'] = 'Fishing Rods';
+IS_TAG_TO_CATEGORY['テンカラ'] = 'Fishing Rods'; IS_TAG_TO_CATEGORY['シーバスロッド'] = 'Fishing Rods';
+IS_TAG_TO_CATEGORY['アユロッド'] = 'Fishing Rods'; IS_TAG_TO_CATEGORY['渓流竿'] = 'Fishing Rods';
+
+// Fishing Lures
+IS_TAG_TO_CATEGORY['ルアー'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['ミノー'] = 'Fishing Lures';
+IS_TAG_TO_CATEGORY['クランクベイト'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['ワーム'] = 'Fishing Lures';
+IS_TAG_TO_CATEGORY['メタルジグ'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['エギ'] = 'Fishing Lures';
+IS_TAG_TO_CATEGORY['スプーン'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['ジグ'] = 'Fishing Lures';
+IS_TAG_TO_CATEGORY['トップウォーター'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['ソフトベイト'] = 'Fishing Lures';
+IS_TAG_TO_CATEGORY['スピナーベイト'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['バイブレーション'] = 'Fishing Lures';
+IS_TAG_TO_CATEGORY['フロッグ'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['タックル'] = 'Fishing Lures';
 
 // ==============================
 // カテゴリ別 出力フィールド定義（5-8フィールド、順序固定）
@@ -3688,6 +3729,7 @@ var IS_CATEGORY_FIELDS = {
   'Baseball':            ['Brand', 'Handedness', 'Player Position', 'Size', 'Type', 'Material', 'Color', 'Sport/Activity', 'Country of Origin', 'Model Year'],
   'Japanese Instruments': ['Type', 'Material', 'Size', 'Country of Origin'],
   'Fishing Rods':        ['Brand', 'Rod Type', 'Model', 'Item Length', 'Rod Power', 'Rod Action', 'Fish Species', 'Fishing Type', 'Material', 'Country of Origin'],
+  'Fishing Lures':       ['Brand', 'Type', 'Model', 'Color', 'Weight', 'Fishing Type', 'Fish Species', 'Buoyancy', 'Item Length', 'Country of Origin'],
   'RC & Models':         ['Brand', 'Type', 'Scale', 'Fuel Type', 'Color', 'Country of Origin'],
   'Anime':               ['Brand', 'Character', 'Franchise', 'Type', 'Material', 'Country of Origin'],
   'Figures':             ['Franchise', 'Character', 'Type', 'Brand', 'Scale', 'Material', 'Theme', 'Original/Licensed Reproduction', 'Series', 'Vintage'],
