@@ -154,9 +154,10 @@ Fishing Reels, Dinnerware, Scarves, Neckties, Handkerchiefs, Tie Accessories, Gl
 2. このHANDOVER.md
 3. `~/Desktop/ツール開発/一括シートApps_v3/CLAUDE.md`（プロジェクトルール — コミット前チェックリスト5項目が特に重要）
 4. Obsidian開発ノート（全文）:
-   - `~/Desktop/開発ログ/一括シートV3_ItemSpecifics_AI主導設計変更_2026-03-02.md`
-   - `~/Desktop/開発ログ/一括シートV3_Display・ブランド追加_2026-03-04.md`
-   - `~/Desktop/開発ログ/V3開発ログ/ゲーム設定修正ログ.txt`（大きいので分割読み）
+   - **`一括シートV3_辞書充実.md`** — 辞書充実プロジェクト全作業ログ（最重要。確認済みカテゴリ・新設カテゴリ・教訓が全て記載）
+   - `一括シートV3_ItemSpecifics_AI主導設計変更_2026-03-02.md` — IS機能の設計思想
+   - `一括シートV3_Display・ブランド追加_2026-03-04.md` — Display/CaseMaterial後処理
+   - `V3開発ログ/ゲーム設定修正ログ.txt`（大きいので分割読み）
 
 ### コード変更時に参照するファイル
 - `ItemSpecifics/Config_IS.gs` — IS_INITIAL_DATA, IS_BRAND_DICT, IS_TAG_TO_CATEGORY, IS_CATEGORY_FIELDS
