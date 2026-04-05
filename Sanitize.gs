@@ -550,6 +550,16 @@ var CATEGORY_RULES_ = {
       '  例: バス用→バス, トラウト用→トラウト, エギング→イカ, ジギング→青物'
     ]
   },
+  'Glassware': {
+    label: 'ガラス・クリスタル',
+    rules: [
+      '- 素材: クリスタル/ガラス/鉛クリスタル/ソーダガラス のいずれかで記入。',
+      '- 技法: 切子(カット)/吹きガラス(ブロウン)/プレス/エナメル/彫刻 等で記入。不明ならNA。',
+      '- タイプ: 花瓶/グラス/デキャンタ/ボウル/オブジェ/ペーパーウェイト/香水瓶 のいずれかで記入。',
+      '- 産地: 江戸切子/薩摩切子/津軽びいどろ/ムラーノ/ボヘミア/リモージュ 等、産地名がある場合は記入。',
+      '- [EN]セクションでは: Material は Crystal/Glass/Lead Crystal/Soda-Lime Glass。Production Technique は Cut/Blown/Pressed/Enameled/Engraved。Type は Vase/Glass/Decanter/Bowl/Figurine/Paperweight/Perfume Bottle。'
+    ]
+  },
   'Dinnerware': {
     label: '食器',
     rules: [

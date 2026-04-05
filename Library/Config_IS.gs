@@ -2967,7 +2967,7 @@ var IS_BRAND_DICT = [
   // === Dinnerware: 北欧デザイン（Arabia/Iittalaは既存エントリにcategoryなしで登録済み→全カテゴリマッチ） ===
   {name: 'Marimekko', jp_names: ['マリメッコ', 'MARIMEKKO'], country: 'Finland', category: ['Dinnerware']},
   // === Dinnerware: クリスタル ===
-  {name: 'Saint-Louis', jp_names: ['サンルイ', 'SAINT-LOUIS', 'SAINT LOUIS'], country: 'France', category: ['Dinnerware']},
+  {name: 'Saint-Louis', jp_names: ['サンルイ', 'SAINT-LOUIS', 'SAINT LOUIS'], country: 'France', category: ['Dinnerware', 'Glassware']},
   // === Dinnerware: その他 ===
   {name: 'Le Creuset', jp_names: ['ル・クルーゼ', 'ルクルーゼ', 'LE CREUSET'], country: 'France', category: ['Dinnerware']},
 
@@ -2990,6 +2990,28 @@ var IS_BRAND_DICT = [
   {name: 'Canali', jp_names: ['カナーリ', 'CANALI'], country: 'Italy', category: ['Neckties']},
   {name: 'Stefano Ricci', jp_names: ['ステファノリッチ', 'STEFANO RICCI'], country: 'Italy', category: ['Neckties']},
   {name: 'Fairfax', jp_names: ['フェアファクス', 'FAIRFAX'], country: 'Japan', category: ['Neckties']},
+
+  // === Glassware: チェコ ===
+  {name: 'Bohemia Crystal', jp_names: ['ボヘミア', 'ボヘミアクリスタル', 'BOHEMIA', 'BOHEMIA CRYSTAL'], country: 'Czech Republic', category: ['Glassware']},
+  {name: 'Moser', jp_names: ['モーゼル', 'MOSER'], country: 'Czech Republic', category: ['Glassware']},
+  // === Glassware: 北欧 ===
+  {name: 'Orrefors', jp_names: ['オレフォス', 'ORREFORS'], country: 'Sweden', category: ['Glassware']},
+  {name: 'Kosta Boda', jp_names: ['コスタボダ', 'KOSTA BODA'], country: 'Sweden', category: ['Glassware']},
+  {name: 'Holmegaard', jp_names: ['ホルムガード', 'HOLMEGAARD'], country: 'Denmark', category: ['Glassware']},
+  // === Glassware: イタリア ===
+  {name: 'Venini', jp_names: ['ヴェニーニ', 'VENINI'], country: 'Italy', category: ['Glassware']},
+  {name: 'Seguso', jp_names: ['セグーゾ', 'SEGUSO'], country: 'Italy', category: ['Glassware']},
+  // === Glassware: 独墺 ===
+  {name: 'Riedel', jp_names: ['リーデル', 'RIEDEL'], country: 'Austria', category: ['Glassware']},
+  {name: 'Nachtmann', jp_names: ['ナハトマン', 'NACHTMANN'], country: 'Germany', category: ['Glassware']},
+  {name: 'Lobmeyr', jp_names: ['ロブマイヤー', 'LOBMEYR'], country: 'Austria', category: ['Glassware']},
+  // === Glassware: 日本 ===
+  {name: 'Kagami Crystal', jp_names: ['カガミクリスタル', 'KAGAMI', 'KAGAMI CRYSTAL'], country: 'Japan', category: ['Glassware']},
+  {name: 'Tsugaru Vidro', jp_names: ['津軽びいどろ', 'ツガルビードロ', 'TSUGARU VIDRO'], country: 'Japan', category: ['Glassware']},
+  // === Glassware: その他 ===
+  {name: 'Waterford', jp_names: ['ウォーターフォード', 'WATERFORD'], country: 'Ireland', category: ['Glassware']},
+  {name: 'Steuben', jp_names: ['スチューベン', 'STEUBEN'], country: 'United States', category: ['Glassware']},
+  {name: 'Daum', jp_names: ['ドーム', 'DAUM'], country: 'France', category: ['Glassware']},
 
   // === Fishing Rods ===
   {name: 'Shimano', jp_names: ['シマノ', 'SHIMANO'], country: 'Japan', category: ['Fishing Rods', 'Fishing Reels', 'Fishing Lures']},
@@ -3522,7 +3544,7 @@ var IS_TAG_TO_CATEGORY = {
   'ネクタイ': 'Neckties', '蝶ネクタイ': 'Neckties', 'ボウタイ': 'Neckties', 'アスコットタイ': 'Neckties',
   'ハンカチ': 'Handkerchiefs', 'ポケットチーフ': 'Handkerchiefs', 'タオルハンカチ': 'Handkerchiefs',
   'ネクタイピン': 'Tie Accessories', 'タイピン': 'Tie Accessories', 'タイバー': 'Tie Accessories', 'スカーフリング': 'Tie Accessories',
-  'ガラス細工': 'Glassware', 'クリスタル': 'Glassware', '花瓶': 'Glassware', 'オブジェ': 'Glassware',
+  'ガラス細工': 'Glassware', 'クリスタル': 'Glassware', '花瓶': 'Glassware', 'オブジェ': 'Glassware', '切子': 'Glassware', '江戸切子': 'Glassware', '薩摩切子': 'Glassware', 'デキャンタ': 'Glassware', 'ペーパーウェイト': 'Glassware',
   'スノードーム': 'Snow Globes', 'ガラスドーム': 'Snow Globes',
   'ジュエリーボックス': 'Boxes', '時計ケース': 'Boxes', 'ウォッチボックス': 'Boxes', '宝石箱': 'Boxes',
   'カトラリー': 'Flatware', 'スプーン': 'Flatware', 'フォーク': 'Flatware', 'ナイフ': 'Flatware',
