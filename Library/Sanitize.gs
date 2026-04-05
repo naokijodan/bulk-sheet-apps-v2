@@ -512,11 +512,13 @@ var CATEGORY_RULES_ = {
     ]
   },
   'Dolls & Plush': {
-    label: 'コレクティブル',
+    label: 'ドール・ぬいぐるみ',
     rules: [
-      '- キャラクター: 正式名称で記入。',
-      '- フランチャイズ: シリーズ名で記入（例: ドラゴンボール、ワンピース、ガンダム）。',
-      '- [EN]セクションでは: Character / Franchise は英語の公式名称で記入。例: Dragon Ball/One Piece/Gundam/Evangelion/Sailor Moon。'
+      '- タイプ: ぬいぐるみ → Plush/Stuffed Animal、テディベア → Teddy Bear、ドール → Doll、BJD/球体関節 → Ball Jointed Doll (BJD)、ブライス → Blythe、リカちゃん → Licca。',
+      '- キャラクター: 正式名称で記入。キャラクター物でなければNA。',
+      '- 素材: モヘア → Mohair、ぬいぐるみ生地 → Plush、ビニール → Vinyl、ABS → ABS。',
+      '- サイズ: 高さcm表記。ドールはスケール（1/3, 1/6等）があれば記入。',
+      '- [EN]セクションでは: Type は Plush/Stuffed Animal/Teddy Bear/Doll/BJD/Fashion Doll/Art Toy。Material は Mohair/Plush/Vinyl/ABS/Porcelain。Character は英語公式名。'
     ]
   },
   'Anime': {
@@ -630,6 +632,14 @@ var CATEGORY_RULES_ = {
       '- タイプ: 櫛/くし → Comb、コーム/ヘアコーム → Hair Comb、かんざし型 → Decorative Comb。',
       '- 素材: つげ/黄楊/木 → Wood (Boxwood)、べっ甲/鼈甲 → Tortoiseshell、角/水牛 → Horn、プラスチック/アクリル → Plastic、金属 → Metal。',
       '- [EN]セクションでは: Type は Comb/Hair Comb/Decorative Comb/Pick。Material は Wood/Boxwood/Tortoiseshell/Horn/Plastic/Metal/Celluloid。'
+    ]
+  },
+  'Soap': {
+    label: '石鹸',
+    rules: [
+      '- タイプ: 固形石鹸 → Bar Soap。液体は対象外。',
+      '- 香り: ローズ/ラベンダー/柑橘/蜂蜜/無香料 等。不明ならNA。',
+      '- [EN]セクションでは: Type は Bar Soap。Scent は Rose/Lavender/Citrus/Honey/Unscented等。'
     ]
   },
   'Watch Parts': {
