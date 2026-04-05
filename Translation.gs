@@ -845,58 +845,66 @@ function applyTranslationBatch_(sheet, results, conditionMode) {
 
     // ========================================
     // Step 6: AE列（商品状態）のデータ配列を作成（既存値保持）
+    // tagOverrideCondition=ONの場合、AE列に数式が入っているため上書きしない
     // ========================================
-    var conditionData = [];
+    var docProps = PropertiesService.getDocumentProperties();
+    var tagOverrideCondition = docProps.getProperty('TAG_OVERRIDE_CONDITION') !== 'false';
     var conditionNotes = [];
 
-    for (var row = minRow; row <= maxRow; row++) {
-      var res = resultsMap[row];
-      var idx = row - minRow;
+    if (!tagOverrideCondition) {
+      // tagOverrideCondition=OFF: 従来通りAE列に値を書き込む
+      var conditionData = [];
 
-      if (res) {
-        // データあり：新しい商品状態で上書き
-        var fields = res.fields;
+      for (var row = minRow; row <= maxRow; row++) {
+        var res = resultsMap[row];
+        var idx = row - minRow;
 
-        // 商品状態の決定
-        var finalCondition;
-        if (conditionMode === '中古') {
-          finalCondition = '中古';
-        } else if (conditionMode === '新品') {
-          finalCondition = '新品';
-        } else {
-          finalCondition = fields.condition;
-        }
+        if (res) {
+          // データあり：新しい商品状態で上書き
+          var fields = res.fields;
 
-        // 商品状態のバリデーション
-        var validConditions = CONFIG.CONDITION_OPTIONS;
-        var conditionValue;
-        var conditionNote;
-
-        if (!finalCondition || !validConditions.includes(finalCondition)) {
-          conditionValue = "エラー";
-          conditionNote = "商品状態を判定できませんでした。手動で選択してください。";
-        } else {
-          conditionValue = finalCondition;
-          if (finalCondition === "エラー") {
-            conditionNote = "商品状態の判定が困難です。手動で選択してください。";
+          // 商品状態の決定
+          var finalCondition;
+          if (conditionMode === '中古') {
+            finalCondition = '中古';
+          } else if (conditionMode === '新品') {
+            finalCondition = '新品';
           } else {
-            conditionNote = "";
+            finalCondition = fields.condition;
           }
+
+          // 商品状態のバリデーション
+          var validConditions = CONFIG.CONDITION_OPTIONS;
+          var conditionValue;
+          var conditionNote;
+
+          if (!finalCondition || !validConditions.includes(finalCondition)) {
+            conditionValue = "エラー";
+            conditionNote = "商品状態を判定できませんでした。手動で選択してください。";
+          } else {
+            conditionValue = finalCondition;
+            if (finalCondition === "エラー") {
+              conditionNote = "商品状態の判定が困難です。手動で選択してください。";
+            } else {
+              conditionNote = "";
+            }
+          }
+
+          conditionData.push([conditionValue]);
+          conditionNotes.push({ row: row, note: conditionNote });
+        } else {
+          // データなし：既存の値を保持
+          conditionData.push([existingConditions[idx][0]]);
+          conditionNotes.push({ row: row, note: '' });
         }
-
-        conditionData.push([conditionValue]);
-        conditionNotes.push({ row: row, note: conditionNote });
-      } else {
-        // データなし：既存の値を保持
-        conditionData.push([existingConditions[idx][0]]);
-        conditionNotes.push({ row: row, note: '' });
       }
-    }
 
-    // ========================================
-    // Step 7: AE列（商品状態）を一括書き込み
-    // ========================================
-    sheet.getRange(minRow, CONFIG.COLUMNS.CONDITION, rowCount, 1).setValues(conditionData);
+      // ========================================
+      // Step 7: AE列（商品状態）を一括書き込み
+      // ========================================
+      sheet.getRange(minRow, CONFIG.COLUMNS.CONDITION, rowCount, 1).setValues(conditionData);
+    }
+    // tagOverrideCondition=ON: AE列は数式のまま維持（上書きしない）
 
     // ========================================
     // Step 7.5: AU列（使用プロンプトID）を一括書き込み

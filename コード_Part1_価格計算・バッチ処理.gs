@@ -3844,8 +3844,12 @@ function clearSelectedRowsValues(sheet, startRow, endRow, opt_method) {
       sheet.getRange(startRow, 6, rowCount, 9).clearContent();
     }
 
-    // AE列（31列目）をクリア
-    sheet.getRange(startRow, CONFIG.COLUMNS.CONDITION, rowCount, 1).clearContent();
+    // AE列（31列目）をクリア（tagOverrideCondition=ONの場合は数式を保持）
+    var docProps = PropertiesService.getDocumentProperties();
+    var tagOverrideCondition = docProps.getProperty('TAG_OVERRIDE_CONDITION') !== 'false';
+    if (!tagOverrideCondition) {
+      sheet.getRange(startRow, CONFIG.COLUMNS.CONDITION, rowCount, 1).clearContent();
+    }
 
     // AU列（使用プロンプト）をクリア
     sheet.getRange(startRow, CONFIG.COLUMNS.USED_PROMPT, rowCount, 1).clearContent();

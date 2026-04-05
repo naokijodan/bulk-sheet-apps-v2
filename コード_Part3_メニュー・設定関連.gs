@@ -3918,6 +3918,10 @@ function applyCalculationFormulas(sheetName, settings) {
       sheet.getRange(5, CONFIG.COLUMNS.SHIPPING_POLICY, clearRowCount, 1).clearContent();
       // R列(18)からAD列(30)まで = 13列（AE列の直前まで）
       sheet.getRange(5, CONFIG.COLUMNS.PRICE, clearRowCount, 13).clearContent();
+      // AE列(31): tagOverrideCondition=OFFの場合はクリア（残留数式を除去）
+      if (!(fullSettings && fullSettings.tagOverrideCondition && tagMap)) {
+        sheet.getRange(5, CONFIG.COLUMNS.CONDITION, clearRowCount, 1).clearContent();
+      }
       // AF列(32)からAG列(33)まで = 2列（AE列の直後から）
       sheet.getRange(5, CONFIG.COLUMNS.BASE_SHIPPING, clearRowCount, 2).clearContent();
       // TAG_SHIPPINGモード時はF列（参考eBay ID）もクリアして式を再出力できるようにする
