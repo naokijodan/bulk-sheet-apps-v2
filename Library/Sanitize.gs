@@ -590,27 +590,76 @@ var CATEGORY_RULES_ = {
       '- [EN]セクションでは: Type は Buddha Statue/Bodhisattva Statue/Wisdom King Statue/Buddhist Altar Tool/Ritual Object/Buddhist Painting/Sutra/Prayer Beads(Juzu)/Wooden Fish(Mokugyo)/Incense Burner/Candle Holder/Flower Vase。Material は Wood/Bronze/Brass/Iron/Ceramic/Lacquer/Stone/Paper/Fabric/Gold Leaf。Subject/Deity は Kannon(Avalokitesvara)/Amida(Amitabha)/Shaka(Shakyamuni)/Fudo Myoo(Acala)/Jizo(Ksitigarbha)/Yakushi(Bhaisajyaguru)/Dainichi(Vairocana)/Miroku(Maitreya)/Bishamonten(Vaisravana)。Technique は Carved Wood/Cast Bronze/Dry Lacquer(Kanshitsu)/Clay Sculpture(Sozo)/Gold Leaf/Polychrome/Cut Gold Leaf(Kirikane)。'
     ]
   },
-  'Records': {
+  'Tetsubin': {
+    label: '鉄瓶・銀瓶',
+    rules: [
+      '- タイプ: 鉄瓶/銀瓶/急須/茶釜 のいずれかで記入。',
+      '- 素材: 鋳鉄/銀/銅/砂鉄 等で記入。',
+      '- 作家名/工房名: ヘボン式ローマ字で記入。例: 龍文堂→Ryubundo、亀文堂→Kamebundo、大国寿朗→Okuni Juro。不明ならNA。',
+      '- 技法/模様: 霰/肌/象嵌/銀象嵌/浮彫/地紋 等で記入。',
+      '- 容量: ml単位で記入（例: 1400ml）。不明ならNA。',
+      '- 時代: 江戸/明治/大正/昭和 等で記入。不明ならNA。',
+      '- サイズ: 高さ×幅cmで記入（蓋・持ち手含む）。',
+      '- [EN]セクションでは: Type は Tetsubin(Iron Kettle)/Ginbin(Silver Kettle)/Kyusu(Teapot)/Chagama(Tea Kettle)。Material は Cast Iron/Silver/Copper/Sand Iron(Satetsu)。Technique は Arare(Hail Pattern)/Hada(Texture)/Inlay(Zogan)/Silver Inlay/Relief/Ground Pattern。'
+    ]
+  },
+  'Tennis': {
+    label: 'テニス',
+    rules: [
+      '- タイプ: ラケット/ボール/ストリング/グリップテープ/バッグ のいずれかで記入。',
+      '- ヘッドサイズ: 平方インチ（sq in）で記入（例: 100sq in）。',
+      '- グリップサイズ: G1/G2/G3/G4 または 4 1/8/4 1/4/4 3/8/4 1/2 で記入。',
+      '- 重量: グラム(g)で記入（例: 300g）。',
+      '- [EN]セクションでは: Type は Racquet/Ball/String/Grip Tape/Bag。Head Size は sq in。Grip Size は G1-G4 or 4 1/8-4 1/2。'
+    ]
+  },
+  'Baseball': {
+    label: '野球',
+    rules: [
+      '- タイプ: グローブ/バット/ボール/ヘルメット/プロテクター/バッグ のいずれかで記入。',
+      '- 利き手（グローブ）: 右投げ用/左投げ用 のいずれかで記入。',
+      '- ポジション（グローブ）: 投手用/内野手用/外野手用/捕手用/一塁手用 のいずれかで記入。',
+      '- 素材: 本革/合皮/木/金属/カーボン 等で記入。',
+      '- [EN]セクションでは: Type は Glove/Bat/Ball/Helmet/Protector/Bag。Handedness は Right-Hand Throw/Left-Hand Throw。Player Position は Pitcher/Infield/Outfield/Catcher/First Base。Material は Leather/Synthetic/Wood/Metal/Carbon。'
+    ]
+  },
+  'Japanese Instruments': {
+    label: '和楽器',
+    rules: [
+      '- 楽器名は必ず日本語名とローマ字名を併記する。三味線→Shamisen、尺八→Shakuhachi、琴/箏→Koto、篠笛→Shinobue、太鼓/和太鼓→Taiko、琵琶→Biwa、鼓→Tsuzumi、三線→Sanshin、笙→Sho、篳篥→Hichiriki、龍笛→Ryuteki。',
+      '- サブタイプ（三味線）: 細棹/中棹/太棹/津軽三味線 のいずれかで記入。',
+      '- サブタイプ（尺八）: 都山流/琴古流/明暗流 等で記入。',
+      '- サブタイプ（琴）: 箏/十七絃/大正琴 等で記入。',
+      '- 素材: 竹/木/桑/紫檀/花梨/絹/蛇皮/猫皮/犬皮 等で記入。',
+      '- サイズ: 尺八は尺寸（例: 1尺8寸）とcm併記。三味線は棹の長さcm。琴は弦数。',
+      '- [EN]セクションでは: Type は Shamisen/Shakuhachi/Koto/Shinobue/Taiko/Biwa/Tsuzumi/Sanshin/Sho/Hichiriki/Ryuteki。Subtype(Shamisen) は Hosozao(Thin Neck)/Chuzao(Medium Neck)/Futozao(Thick Neck)/Tsugaru Shamisen。Material は Bamboo/Wood/Mulberry(Kuwa)/Rosewood(Shitan)/Quince(Karin)/Silk/Snakeskin/Catskin/Dogskin。'
+    ]
+  },
+    'Records': {
     label: 'レコード',
     rules: [
-      '- フォーマット: LP/EP/シングル のいずれかで記入。',
+      '- フォーマット: LP/EP/シングル/CD/カセット のいずれかで記入。',
       '- レコードサイズ: 12インチ/10インチ/7インチ のいずれかで記入。',
       '- レコード評価: Mint/Near Mint/VG+/VG/G+/G/Fair/Poor のいずれかで記入（Goldmine基準）。',
       '- [EN]セクションでは: Format は LP/EP/Single。Record Size は 12"/10"/7"。Record Grading/Sleeve Grading は Mint (M)/Near Mint (NM)/Very Good Plus (VG+)/Very Good (VG)/Good Plus (G+)/Good (G)/Fair (F)/Poor (P)。'
     ]
   },
   'Stamps': {
-    label: '切手・コイン',
+    label: '切手',
     rules: [
-      '- 鑑定: PSA/NGC/PCGS/CGC 等で記入。鑑定なしならNA。',
-      '- [EN]セクションでは: Certification は PSA/NGC/PCGS/CGC/Uncertified。'
+      '- タイプ: 記念切手/普通切手/航空切手/特殊切手 等で記入。',
+      '- 品質: 未使用/使用済み/未使用美品（MNH） のいずれかで記入。',
+      '- 鑑定: PSE/BPA 等で記入。鑑定なしならNA。',
+      '- [EN]セクションでは: Type は Commemorative/Definitive/Airmail/Special。Quality は Mint Never Hinged(MNH)/Mint Hinged(MH)/Used/Cancelled to Order(CTO)。Certification は PSE/BPA/Uncertified。'
     ]
   },
   'Coins': {
-    label: '切手・コイン',
+    label: 'コイン・古銭',
     rules: [
-      '- 鑑定: PSA/NGC/PCGS/CGC 等で記入。鑑定なしならNA。',
-      '- [EN]セクションでは: Certification は PSA/NGC/PCGS/CGC/Uncertified。'
+      '- タイプ: 硬貨/記念硬貨/古銭/紙幣/メダル のいずれかで記入。',
+      '- 素材: 金/銀/銅/ニッケル/真鍮/アルミ 等で記入。',
+      '- 鑑定: NGC/PCGS/ANACS 等で記入。鑑定なしならNA。',
+      '- [EN]セクションでは: Type は Coin/Commemorative Coin/Antique Coin/Banknote/Medal。Composition は Gold/Silver/Copper/Nickel/Brass/Aluminum。Certification は NGC/PCGS/ANACS/Uncertified。'
     ]
   },
   'Collectibles': {
@@ -853,6 +902,9 @@ var FIELD_EN_TO_JP_ = {
   'Origin/Kiln': '産地/窯', 'Technique/Weave': '技法/産地',
   'Glaze/Finish': '釉薬/仕上げ', 'Drainage Holes': '水抜き穴', 'Maker/Kiln': '作家/窯元',
   'Subject/Deity': '尊格', 'Edition': 'エディション',
+  'Capacity': '容量', 'Flex': 'フレックス', 'Balance': 'バランス',
+  'Denomination': '額面', 'Composition': '素材構成',
+  'Subtype': 'サブタイプ', 'Set Includes': 'セット内容',
   'Subject': '題材', 'Original/Licensed Reproduction': 'オリジナル/複製',
   'Time Period Produced': '制作年代',
   'Listed By': '出品者区分', 'Medium': '技法', 'Maker': '作家',

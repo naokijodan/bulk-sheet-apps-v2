@@ -361,11 +361,16 @@ var IS_INITIAL_DATA = [
   { category: 'Buddhist Art', tag_jp: '仏像,仏具,仏教美術,神具,木彫,銅像,観音,如来,数珠,木魚', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
 
   // === Tetsubin ===
-  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Brand', field_type: 'recommended', priority: 1, notes: '' },
-  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Type', field_type: 'required', priority: 2, notes: 'Tetsubin / Kyusu / Chagama' },
+  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Brand', field_type: 'recommended', priority: 1, notes: '南部鉄器/龍文堂等' },
+  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Type', field_type: 'required', priority: 2, notes: 'Tetsubin / Ginbin / Kyusu / Chagama' },
   { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Material', field_type: 'required', priority: 3, notes: 'Cast Iron / Silver / Copper' },
-  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Size', field_type: 'recommended', priority: 4, notes: '' },
-  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Country of Origin', field_type: 'recommended', priority: 5, notes: '' },
+  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Maker/Kiln', field_type: 'recommended', priority: 4, notes: '' },
+  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Era/Period', field_type: 'recommended', priority: 5, notes: '' },
+  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Technique', field_type: 'recommended', priority: 6, notes: 'Arare / Hada / Inlay' },
+  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Pattern', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Size', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Capacity', field_type: 'recommended', priority: 9, notes: 'ml' },
+  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
 
   // === Golf ===
   { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -401,11 +406,16 @@ var IS_INITIAL_DATA = [
   { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Model Year', field_type: 'recommended', priority: 10, notes: '' },
 
   // === Japanese Instruments ===
-  { category: 'Japanese Instruments', tag_jp: '三味線,尺八,琴,篠笛,太鼓,和太鼓,雅楽', field_name: 'Type', field_type: 'required', priority: 1, notes: 'Shamisen / Shakuhachi / Koto / Shinobue / Taiko' },
-  { category: 'Japanese Instruments', tag_jp: '三味線,尺八,琴,篠笛,太鼓,和太鼓,雅楽', field_name: 'Material', field_type: 'recommended', priority: 2, notes: 'Bamboo / Wood / Silk / Skin' },
-  { category: 'Japanese Instruments', tag_jp: '三味線,尺八,琴,篠笛,太鼓,和太鼓,雅楽', field_name: 'Size', field_type: 'recommended', priority: 3, notes: '' },
-  { category: 'Japanese Instruments', tag_jp: '三味線,尺八,琴,篠笛,太鼓,和太鼓,雅楽', field_name: 'Country of Origin', field_type: 'recommended', priority: 4, notes: '' },
-
+  { category: 'Japanese Instruments', tag_jp: '三味線,尺八,琴,篠笛,太鼓,和太鼓,雅楽,琵琶,鼓,和楽器', field_name: 'Type', field_type: 'required', priority: 1, notes: 'Shamisen / Shakuhachi / Koto / Shinobue / Taiko' },
+  { category: 'Japanese Instruments', tag_jp: '三味線,尺八,琴,篠笛,太鼓,和太鼓,雅楽,琵琶,鼓,和楽器', field_name: 'Material', field_type: 'required', priority: 2, notes: 'Bamboo / Wood / Silk / Skin' },
+  { category: 'Japanese Instruments', tag_jp: '三味線,尺八,琴,篠笛,太鼓,和太鼓,雅楽,琵琶,鼓,和楽器', field_name: 'Maker', field_type: 'recommended', priority: 3, notes: '' },
+  { category: 'Japanese Instruments', tag_jp: '三味線,尺八,琴,篠笛,太鼓,和太鼓,雅楽,琵琶,鼓,和楽器', field_name: 'Subtype', field_type: 'recommended', priority: 4, notes: '' },
+  { category: 'Japanese Instruments', tag_jp: '三味線,尺八,琴,篠笛,太鼓,和太鼓,雅楽,琵琶,鼓,和楽器', field_name: 'Key/Pitch', field_type: 'recommended', priority: 5, notes: '' },
+  { category: 'Japanese Instruments', tag_jp: '三味線,尺八,琴,篠笛,太鼓,和太鼓,雅楽,琵琶,鼓,和楽器', field_name: 'Era/Period', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Japanese Instruments', tag_jp: '三味線,尺八,琴,篠笛,太鼓,和太鼓,雅楽,琵琶,鼓,和楽器', field_name: 'Size', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Japanese Instruments', tag_jp: '三味線,尺八,琴,篠笛,太鼓,和太鼓,雅楽,琵琶,鼓,和楽器', field_name: 'Color', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Japanese Instruments', tag_jp: '三味線,尺八,琴,篠笛,太鼓,和太鼓,雅楽,琵琶,鼓,和楽器', field_name: 'Set Includes', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Japanese Instruments', tag_jp: '三味線,尺八,琴,篠笛,太鼓,和太鼓,雅楽,琵琶,鼓,和楽器', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
   // === Fishing Rods ===
   { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
   { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Rod Type', field_type: 'required', priority: 2, notes: 'Spinning / Casting / Fly / Surf' },
@@ -3856,6 +3866,8 @@ IS_TAG_TO_CATEGORY['ミット'] = 'Baseball';
 IS_TAG_TO_CATEGORY['三味線'] = 'Japanese Instruments'; IS_TAG_TO_CATEGORY['尺八'] = 'Japanese Instruments';
 IS_TAG_TO_CATEGORY['琴'] = 'Japanese Instruments'; IS_TAG_TO_CATEGORY['篠笛'] = 'Japanese Instruments';
 IS_TAG_TO_CATEGORY['太鼓'] = 'Japanese Instruments'; IS_TAG_TO_CATEGORY['和太鼓'] = 'Japanese Instruments';
+IS_TAG_TO_CATEGORY['琵琶'] = 'Japanese Instruments'; IS_TAG_TO_CATEGORY['鼓'] = 'Japanese Instruments';
+IS_TAG_TO_CATEGORY['和楽器'] = 'Japanese Instruments'; IS_TAG_TO_CATEGORY['雅楽'] = 'Japanese Instruments';
 
 // Guitars（Musical Instrumentsから上書き）
 IS_TAG_TO_CATEGORY['ギター'] = 'Guitars'; IS_TAG_TO_CATEGORY['ベース'] = 'Guitars';
@@ -3905,7 +3917,7 @@ IS_TAG_TO_CATEGORY['フィギュア'] = 'Figures'; IS_TAG_TO_CATEGORY['アクシ
 IS_TAG_TO_CATEGORY['スタチュー'] = 'Figures';
 
 // Stamps
-IS_TAG_TO_CATEGORY['切手'] = 'Stamps'; IS_TAG_TO_CATEGORY['記念切手'] = 'Stamps';
+IS_TAG_TO_CATEGORY['切手'] = 'Stamps'; IS_TAG_TO_CATEGORY['記念切手'] = 'Stamps'; IS_TAG_TO_CATEGORY['普通切手'] = 'Stamps';
 
 // Coins
 IS_TAG_TO_CATEGORY['コイン'] = 'Coins'; IS_TAG_TO_CATEGORY['古銭'] = 'Coins';
@@ -4047,11 +4059,11 @@ var IS_CATEGORY_FIELDS = {
   'Bonsai':              ['Type', 'Material', 'Size', 'Color', 'Shape', 'Maker/Kiln', 'Era/Period', 'Glaze/Finish', 'Drainage Holes', 'Country of Origin'],
   'Prints':              ['Listed By', 'Medium', 'Subject', 'Maker', 'Style', 'Size', 'Era/Period', 'Original/Licensed Reproduction', 'Edition', 'Country of Origin'],
   'Buddhist Art':        ['Type', 'Material', 'Subject/Deity', 'Maker', 'Technique', 'Style', 'Size', 'Era', 'Original/Reproduction', 'Country of Origin'],
-  'Tetsubin':            ['Brand', 'Type', 'Material', 'Size', 'Country of Origin'],
+  'Tetsubin':            ['Brand', 'Type', 'Material', 'Maker/Kiln', 'Era/Period', 'Technique', 'Pattern', 'Size', 'Capacity', 'Country of Origin'],
   'Golf':                ['Brand', 'Golf Club Type', 'Handedness', 'Model', 'Flex', 'Shaft Material', 'Loft', 'Club Number', 'Set Makeup', 'Country of Origin'],
-  'Tennis':              ['Brand', 'Type', 'Head Size', 'Grip Size', 'String Pattern', 'Weight', 'Country of Origin'],
+  'Tennis':              ['Brand', 'Type', 'Model', 'Head Size', 'Grip Size', 'String Pattern', 'Weight', 'Flex', 'Balance', 'Country of Origin'],
   'Baseball':            ['Brand', 'Handedness', 'Player Position', 'Size', 'Type', 'Material', 'Color', 'Sport/Activity', 'Country of Origin', 'Model Year'],
-  'Japanese Instruments': ['Type', 'Material', 'Size', 'Country of Origin'],
+  'Japanese Instruments': ['Type', 'Material', 'Maker', 'Subtype', 'Key/Pitch', 'Era/Period', 'Size', 'Color', 'Set Includes', 'Country of Origin'],
   'Fishing Rods':        ['Brand', 'Rod Type', 'Model', 'Item Length', 'Rod Power', 'Rod Action', 'Fish Species', 'Fishing Type', 'Material', 'Country of Origin'],
   'Fishing Lures':       ['Brand', 'Type', 'Model', 'Color', 'Weight', 'Fishing Type', 'Fish Species', 'Buoyancy', 'Item Length', 'Country of Origin'],
   'RC & Models':         ['Brand', 'Type', 'Scale', 'Fuel Type', 'Color', 'Country of Origin'],
