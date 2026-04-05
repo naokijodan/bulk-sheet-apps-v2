@@ -2973,12 +2973,23 @@ var IS_BRAND_DICT = [
 
   // === Scarves ===
   {name: 'Begg x Co', jp_names: ['ベッグ', 'BEGG', 'BEGG X CO'], country: 'United Kingdom', category: ['Scarves']},
-  {name: 'Drake\'s', jp_names: ['ドレイクス', 'DRAKES', 'DRAKE\'S'], country: 'United Kingdom', category: ['Scarves']},
+  {name: 'Drake\'s', jp_names: ['ドレイクス', 'DRAKES', 'DRAKE\'S'], country: 'United Kingdom', category: ['Scarves', 'Neckties']},
   {name: 'Faliero Sarti', jp_names: ['ファリエロサルティ', 'FALIERO SARTI'], country: 'Italy', category: ['Scarves']},
   {name: 'Loro Piana', jp_names: ['ロロピアーナ', 'LORO PIANA'], country: 'Italy', category: ['Scarves']},
   {name: 'Brunello Cucinelli', jp_names: ['ブルネロクチネリ', 'BRUNELLO CUCINELLI'], country: 'Italy', category: ['Scarves']},
   {name: 'SOU SOU', jp_names: ['ソウソウ', 'SOU SOU', 'SOUSOU'], country: 'Japan', category: ['Scarves']},
   {name: 'Versace', jp_names: ['ヴェルサーチ', 'ヴェルサーチェ', 'VERSACE'], country: 'Italy', category: ['Scarves']},
+
+  // === Neckties ===
+  {name: 'E. Marinella', jp_names: ['マリネッラ', 'MARINELLA', 'E.MARINELLA'], country: 'Italy', category: ['Neckties']},
+  {name: 'Brioni', jp_names: ['ブリオーニ', 'BRIONI'], country: 'Italy', category: ['Neckties']},
+  {name: 'Kiton', jp_names: ['キートン', 'KITON'], country: 'Italy', category: ['Neckties']},
+  {name: 'Ermenegildo Zegna', jp_names: ['ゼニア', 'エルメネジルドゼニア', 'ERMENEGILDO ZEGNA', 'ZEGNA'], country: 'Italy', category: ['Neckties']},
+  {name: 'Charvet', jp_names: ['シャルベ', 'CHARVET'], country: 'France', category: ['Neckties']},
+  {name: 'Turnbull & Asser', jp_names: ['ターンブル&アッサー', 'ターンブルアンドアッサー', 'TURNBULL & ASSER', 'TURNBULL AND ASSER'], country: 'United Kingdom', category: ['Neckties']},
+  {name: 'Canali', jp_names: ['カナーリ', 'CANALI'], country: 'Italy', category: ['Neckties']},
+  {name: 'Stefano Ricci', jp_names: ['ステファノリッチ', 'STEFANO RICCI'], country: 'Italy', category: ['Neckties']},
+  {name: 'Fairfax', jp_names: ['フェアファクス', 'FAIRFAX'], country: 'Japan', category: ['Neckties']},
 
   // === Fishing Rods ===
   {name: 'Shimano', jp_names: ['シマノ', 'SHIMANO'], country: 'Japan', category: ['Fishing Rods', 'Fishing Reels', 'Fishing Lures']},
@@ -3508,7 +3519,8 @@ var IS_TAG_TO_CATEGORY = {
   '髪飾り': 'Hair Accessories', 'ヘアアクセサリー': 'Hair Accessories', 'かんざし': 'Hair Accessories', 'バレッタ': 'Hair Accessories',
   '皿': 'Dinnerware', 'プレート': 'Dinnerware', '食器': 'Dinnerware', '茶碗': 'Dinnerware', 'カップ': 'Dinnerware',
   'スカーフ': 'Scarves', 'マフラー': 'Scarves', 'ストール': 'Scarves', 'ショール': 'Scarves', 'バンダナ': 'Scarves', 'スヌード': 'Scarves', 'ネックウォーマー': 'Scarves',
-  'ネクタイ': 'Neckties', 'ハンカチ': 'Handkerchiefs',
+  'ネクタイ': 'Neckties', '蝶ネクタイ': 'Neckties', 'ボウタイ': 'Neckties', 'アスコットタイ': 'Neckties',
+  'ハンカチ': 'Handkerchiefs', 'ポケットチーフ': 'Handkerchiefs', 'タオルハンカチ': 'Handkerchiefs',
   'ネクタイピン': 'Tie Accessories', 'タイピン': 'Tie Accessories', 'タイバー': 'Tie Accessories', 'スカーフリング': 'Tie Accessories',
   'ガラス細工': 'Glassware', 'クリスタル': 'Glassware', '花瓶': 'Glassware', 'オブジェ': 'Glassware',
   'スノードーム': 'Snow Globes', 'ガラスドーム': 'Snow Globes',

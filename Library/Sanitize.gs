@@ -359,17 +359,22 @@ var CATEGORY_RULES_ = {
     ]
   },
   'Neckties': {
-    label: '服飾小物',
+    label: 'ネクタイ',
     rules: [
-      '- 素材: シルク/カシミヤ/ウール/コットン/ポリエステル 等で記入。',
-      '- [EN]セクションでは: Material は Silk/Cashmere/Wool/Cotton/Polyester/Linen。'
+      '- タイプ: ネクタイ/蝶ネクタイ/アスコットタイ のいずれかで記入。',
+      '- 素材: シルク/ウール/コットン/ポリエステル/リネン/混紡 等で記入。',
+      '- 幅: ナロー(3-5cm)/レギュラー(7-9cm)/ワイド(10cm以上) のいずれかで記入。不明ならNA。',
+      '- パターン: 無地/ストライプ/ドット/チェック/ペイズリー/織柄 等で記入。',
+      '- [EN]セクションでは: Type は Necktie/Bow Tie/Ascot。Material は Silk/Wool/Cotton/Polyester/Linen。Pattern は Solid/Striped/Dotted/Checked/Paisley/Jacquard。'
     ]
   },
   'Handkerchiefs': {
-    label: '服飾小物',
+    label: 'ハンカチ・チーフ',
     rules: [
-      '- 素材: シルク/カシミヤ/ウール/コットン/ポリエステル 等で記入。',
-      '- [EN]セクションでは: Material は Silk/Cashmere/Wool/Cotton/Polyester/Linen。'
+      '- タイプ: ハンカチ/ポケットチーフ/タオルハンカチ のいずれかで記入。',
+      '- 素材: コットン/リネン/シルク/タオル地 等で記入。',
+      '- パターン: 無地/チェック/ストライプ/刺繍/プリント 等で記入。',
+      '- [EN]セクションでは: Type は Handkerchief/Pocket Square/Towel Handkerchief。Material は Cotton/Linen/Silk/Terry Cloth。'
     ]
   },
   'Belts': {
