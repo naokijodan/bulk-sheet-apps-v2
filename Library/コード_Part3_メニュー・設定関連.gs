@@ -4022,7 +4022,7 @@ function applyCalculationFormulas(sheetName, settings) {
       for (var row = 5; row <= dataLastRow; row++) {
         var rowCatRef = catRef.replace(/\{row\}/g, String(row));
         var rowThreshRef = threshRef.replace(/\{row\}/g, String(row));
-        var formula = '=IF(OR(ISBLANK(' + rowCatRef + '),ISBLANK(AD' + row + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_SHIPPING_POLICY_FROM_IMPORT(' + rowCatRef + ',IF(AND($AP$2="ON",AD' + row + '>=' + rowThreshRef + '),' + rowThreshRef + ',AD' + row + '),AE' + row + ',X' + row + '))';
+        var formula = '=IF(OR(D' + row + '="",ISBLANK(' + rowCatRef + '),ISBLANK(AD' + row + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_SHIPPING_POLICY_FROM_IMPORT(' + rowCatRef + ',IF(AND($AP$2="ON",AD' + row + '>=' + rowThreshRef + '),' + rowThreshRef + ',AD' + row + '),AE' + row + ',X' + row + '))';
         policyFormulas.push([formula]);
       }
       if (policyFormulas.length > 0) {
