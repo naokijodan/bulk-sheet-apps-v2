@@ -2921,6 +2921,8 @@ var IS_BRAND_DICT = [
   {name: 'Geotech', jp_names: ['ジオテック', 'GEOTECH'], country: 'Japan', category: ['Golf', 'Golf Heads']},
   {name: 'Piretti', jp_names: ['ピレッティ', 'PIRETTI'], country: 'United States', category: ['Golf', 'Golf Heads']},
   {name: 'Toulon', jp_names: ['トゥーロン', 'TOULON'], country: 'United States', parent_brand: 'Odyssey', category: ['Golf', 'Golf Heads']},
+  {name: 'Wilson Staff', jp_names: ['ウィルソンスタッフ', 'ウイルソンスタッフ', 'WILSON STAFF', 'WILSON'], country: 'United States', category: ['Golf', 'Golf Heads']},
+  {name: 'Yonex', jp_names: ['ヨネックス', 'YONEX'], country: 'Japan', category: ['Golf', 'Golf Heads']},
 
   // === Guitars ===
   {name: 'Fender', jp_names: ['フェンダー', 'FENDER'], country: 'United States', category: ['Guitars', 'Effects & Amps']},
