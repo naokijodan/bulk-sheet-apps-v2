@@ -3752,7 +3752,8 @@ IS_TAG_TO_CATEGORY['急須'] = 'Pottery'; IS_TAG_TO_CATEGORY['壺'] = 'Pottery';
 
 // Belts
 IS_TAG_TO_CATEGORY['ベルト'] = 'Belts'; IS_TAG_TO_CATEGORY['レザーベルト'] = 'Belts';
-IS_TAG_TO_CATEGORY['ベルトバックル'] = 'Belt Buckles';
+IS_TAG_TO_CATEGORY['メッシュベルト'] = 'Belts';
+IS_TAG_TO_CATEGORY['ベルトバックル'] = 'Belt Buckles'; IS_TAG_TO_CATEGORY['バックル'] = 'Belt Buckles';
 
 // Golf Heads
 IS_TAG_TO_CATEGORY['ゴルフヘッド'] = 'Golf Heads';

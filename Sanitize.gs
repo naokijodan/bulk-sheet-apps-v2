@@ -380,17 +380,20 @@ var CATEGORY_RULES_ = {
   'Belts': {
     label: 'ベルト',
     rules: [
-      '- 素材: レザー/合皮/キャンバス/金属 等で記入。',
+      '- 素材: レザー/合皮/キャンバス/ナイロン/メッシュ/スエード/エキゾチックレザー 等で記入。',
+      '- タイプ: ドレス/カジュアル/ウエスタン/編み込み/メッシュ/リバーシブル/スタッズ のいずれかで記入。',
       '- 対象: メンズ/レディース/ユニセックス のいずれかで記入。',
-      '- [EN]セクションでは: Material は Leather/Synthetic Leather/Canvas/Metal。Department は Men/Women/Unisex。'
+      '- サイズ: ウエストcmまたはインチで記入。調節可能な場合は「フリー」。',
+      '- [EN]セクションでは: Material は Leather/Synthetic Leather/Canvas/Nylon/Mesh/Suede/Exotic Leather。Type は Dress/Casual/Western/Braided/Mesh/Reversible/Studded。Department は Men/Women/Unisex。Size は waist in cm or inches, or Adjustable。'
     ]
   },
   'Belt Buckles': {
-    label: 'ベルト',
+    label: 'ベルトバックル',
     rules: [
-      '- 素材: レザー/合皮/キャンバス/金属 等で記入。',
-      '- 対象: メンズ/レディース/ユニセックス のいずれかで記入。',
-      '- [EN]セクションでは: Material は Leather/Synthetic Leather/Canvas/Metal。Department は Men/Women/Unisex。'
+      '- 素材: 真鍮/シルバー/ステンレス/亜鉛合金/鉄/アルミ 等で記入。',
+      '- タイプ: フレーム/プレート/ローラー/Dリング/オートロック/ウエスタン のいずれかで記入。',
+      '- 対応ベルト幅: mm単位で記入（例: 35mm、40mm）。不明ならNA。',
+      '- [EN]セクションでは: Material は Brass/Silver/Stainless Steel/Zinc Alloy/Iron/Aluminum。Type は Frame/Plate/Roller/D-Ring/Automatic/Western。Fits Belt Width は width in mm。'
     ]
   },
   'Sunglasses': {
