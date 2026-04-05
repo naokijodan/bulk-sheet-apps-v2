@@ -3017,6 +3017,9 @@ var IS_BRAND_DICT = [
   {name: 'Hallmark', jp_names: ['ホールマーク', 'HALLMARK'], country: 'United States', category: ['Snow Globes']},
   {name: 'Enesco', jp_names: ['エネスコ', 'ENESCO'], country: 'United States', category: ['Snow Globes']},
 
+  // === Boxes ===
+  {name: 'Wolf', jp_names: ['ウルフ', 'WOLF', 'WOLF 1834'], country: 'United States', category: ['Boxes']},
+
   // === Fishing Rods ===
   {name: 'Shimano', jp_names: ['シマノ', 'SHIMANO'], country: 'Japan', category: ['Fishing Rods', 'Fishing Reels', 'Fishing Lures']},
   {name: 'Daiwa', jp_names: ['ダイワ', 'DAIWA'], country: 'Japan', category: ['Fishing Rods', 'Fishing Reels', 'Fishing Lures']},
@@ -3550,7 +3553,7 @@ var IS_TAG_TO_CATEGORY = {
   'ネクタイピン': 'Tie Accessories', 'タイピン': 'Tie Accessories', 'タイバー': 'Tie Accessories', 'スカーフリング': 'Tie Accessories',
   'ガラス細工': 'Glassware', 'クリスタル': 'Glassware', '花瓶': 'Glassware', 'オブジェ': 'Glassware', '切子': 'Glassware', '江戸切子': 'Glassware', '薩摩切子': 'Glassware', 'デキャンタ': 'Glassware', 'ペーパーウェイト': 'Glassware',
   'スノードーム': 'Snow Globes', 'ガラスドーム': 'Snow Globes', 'スノーグローブ': 'Snow Globes', 'ウォータードーム': 'Snow Globes',
-  'ジュエリーボックス': 'Boxes', '時計ケース': 'Boxes', 'ウォッチボックス': 'Boxes', '宝石箱': 'Boxes',
+  'ジュエリーボックス': 'Boxes', '時計ケース': 'Boxes', 'ウォッチボックス': 'Boxes', '宝石箱': 'Boxes', 'アクセサリーケース': 'Boxes', 'コレクションケース': 'Boxes', 'ディスプレイケース': 'Boxes',
   'カトラリー': 'Flatware', 'スプーン': 'Flatware', 'フォーク': 'Flatware', 'ナイフ': 'Flatware',
   'ベビー': 'Baby', 'ベビーシューズ': 'Baby', 'ラトル': 'Baby', 'ベビー用品': 'Baby',
   '櫛': 'Combs', 'くし': 'Combs', 'コーム': 'Combs',

@@ -592,6 +592,15 @@ var CATEGORY_RULES_ = {
       '- 用途: クリスマス/誕生日/結婚/バレンタイン/正月 等があれば記入。不明ならNA。',
       '- [EN]セクションでは: Type は Snow Globe/Musical Snow Globe/Lighted Snow Globe。Material は Glass/Resin/Plastic/Ceramic/Crystal。Subject はキャラクター名・テーマをそのまま英語で。'
     ]
+  },
+  'Boxes': {
+    label: 'ジュエリーボックス・時計ケース',
+    rules: [
+      '- タイプ: 時計用/ウォッチ → Watch Box、ジュエリー/宝石/アクセサリー → Jewelry Box、ガラス蓋/展示/ディスプレイ → Display Case、ブランド箱/化粧箱 → Presentation Box。',
+      '- 素材: 木/桐/ウォールナット → Wood、革/レザー → Leather、合皮 → Faux Leather、漆/漆器 → Lacquer、金属 → Metal、ガラス → Glass。複合素材は主素材で記入。',
+      '- 内張り: ベルベット/ビロード → Velvet、スエード → Suede、シルク/絹 → Silk、サテン → Satin。不明ならNA。',
+      '- [EN]セクションでは: Type は Jewelry Box/Watch Box/Display Case/Presentation Box/Travel Case/Ring Box。Material は Wood/Leather/Faux Leather/Lacquer/Metal/Glass。Lining Material は Velvet/Suede/Silk/Satin。Suitable For は Watches/Rings/Necklaces/Earrings/Bracelets。'
+    ]
   }
 };
 
