@@ -4162,6 +4162,8 @@ function applyCalculationFormulas(sheetName, settings) {
 
       // AE列: 商品状態（タグ判定ON: TagShippingのP列からINDEX/MATCH、フォールバック: $P$2）
       if (fullSettings && fullSettings.tagOverrideCondition && tagMap) {
+        // 既存のバリデーション（allowInvalid=false）をクリアしてから数式を設定
+        sheet.getRange(5, CONFIG.COLUMNS.CONDITION, dataLastRow - 4, 1).clearDataValidations();
         var condFormulas = [];
         for (var i = 5; i <= dataLastRow; i++) {
           condFormulas.push(['=IF(D' + i + '="","",IFERROR(LET(cond,INDEX(' + tsName + '!P:P,MATCH(D' + i + ',' + tsName + '!A:A,0)),IF(OR(cond="AI",cond=""),$P$2,cond)),$P$2))']);
