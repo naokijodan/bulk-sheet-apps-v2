@@ -2971,6 +2971,15 @@ var IS_BRAND_DICT = [
   // === Dinnerware: その他 ===
   {name: 'Le Creuset', jp_names: ['ル・クルーゼ', 'ルクルーゼ', 'LE CREUSET'], country: 'France', category: ['Dinnerware']},
 
+  // === Scarves ===
+  {name: 'Begg x Co', jp_names: ['ベッグ', 'BEGG', 'BEGG X CO'], country: 'United Kingdom', category: ['Scarves']},
+  {name: 'Drake\'s', jp_names: ['ドレイクス', 'DRAKES', 'DRAKE\'S'], country: 'United Kingdom', category: ['Scarves']},
+  {name: 'Faliero Sarti', jp_names: ['ファリエロサルティ', 'FALIERO SARTI'], country: 'Italy', category: ['Scarves']},
+  {name: 'Loro Piana', jp_names: ['ロロピアーナ', 'LORO PIANA'], country: 'Italy', category: ['Scarves']},
+  {name: 'Brunello Cucinelli', jp_names: ['ブルネロクチネリ', 'BRUNELLO CUCINELLI'], country: 'Italy', category: ['Scarves']},
+  {name: 'SOU SOU', jp_names: ['ソウソウ', 'SOU SOU', 'SOUSOU'], country: 'Japan', category: ['Scarves']},
+  {name: 'Versace', jp_names: ['ヴェルサーチ', 'ヴェルサーチェ', 'VERSACE'], country: 'Italy', category: ['Scarves']},
+
   // === Fishing Rods ===
   {name: 'Shimano', jp_names: ['シマノ', 'SHIMANO'], country: 'Japan', category: ['Fishing Rods', 'Fishing Reels', 'Fishing Lures']},
   {name: 'Daiwa', jp_names: ['ダイワ', 'DAIWA'], country: 'Japan', category: ['Fishing Rods', 'Fishing Reels', 'Fishing Lures']},
@@ -3498,7 +3507,7 @@ var IS_TAG_TO_CATEGORY = {
   'ブローチ': 'Brooches', 'カフリンクス': 'Cufflinks', 'カフリンク': 'Cufflinks', 'カフスボタン': 'Cufflinks',
   '髪飾り': 'Hair Accessories', 'ヘアアクセサリー': 'Hair Accessories', 'かんざし': 'Hair Accessories', 'バレッタ': 'Hair Accessories',
   '皿': 'Dinnerware', 'プレート': 'Dinnerware', '食器': 'Dinnerware', '茶碗': 'Dinnerware', 'カップ': 'Dinnerware',
-  'スカーフ': 'Scarves', 'マフラー': 'Scarves', 'ストール': 'Scarves',
+  'スカーフ': 'Scarves', 'マフラー': 'Scarves', 'ストール': 'Scarves', 'ショール': 'Scarves', 'バンダナ': 'Scarves', 'スヌード': 'Scarves', 'ネックウォーマー': 'Scarves',
   'ネクタイ': 'Neckties', 'ハンカチ': 'Handkerchiefs',
   'ネクタイピン': 'Tie Accessories', 'タイピン': 'Tie Accessories', 'タイバー': 'Tie Accessories', 'スカーフリング': 'Tie Accessories',
   'ガラス細工': 'Glassware', 'クリスタル': 'Glassware', '花瓶': 'Glassware', 'オブジェ': 'Glassware',

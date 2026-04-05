@@ -349,10 +349,13 @@ var CATEGORY_RULES_ = {
     ]
   },
   'Scarves': {
-    label: '服飾小物',
+    label: 'スカーフ・マフラー',
     rules: [
-      '- 素材: シルク/カシミヤ/ウール/コットン/ポリエステル 等で記入。',
-      '- [EN]セクションでは: Material は Silk/Cashmere/Wool/Cotton/Polyester/Linen。'
+      '- タイプ: スカーフ/ストール/ショール/マフラー/バンダナ/スヌード のいずれかで記入。',
+      '- 素材: シルク/カシミヤ/ウール/コットン/ポリエステル/リネン/シルクカシミヤ 等で記入。',
+      '- サイズ: ソースにある場合はcm表記で記入（例: 90×90, 70×180）。不明ならNA。',
+      '- パターン: 柄名がある場合はそのまま記入。無地なら「無地」。チェック/ストライプ/花柄/幾何学模様 等。',
+      '- [EN]セクションでは: Type は Scarf/Stole/Shawl/Muffler/Bandana/Snood。Material は Silk/Cashmere/Wool/Cotton/Polyester/Linen/Silk-Cashmere Blend。Pattern は Solid/Check/Stripe/Floral/Geometric/Paisley/Animal Print。'
     ]
   },
   'Neckties': {
