@@ -450,9 +450,9 @@ var CATEGORY_RULES_ = {
       '- タイプ: 万年筆/ボールペン/ローラーボール/シャープペンシル/マルチペン のいずれかで記入。',
       '- ペン先素材（万年筆の場合）: 金（14K/18K/21K）/ステンレス/スチール のいずれかで記入。不明ならNA。',
       '- ペン先サイズ（万年筆の場合）: EF/F/FM/M/B/BB/Z のいずれかで記入。不明ならNA。',
-      '- ボディ素材: レジン/セルロイド/エボナイト/金属/木材/蒔絵 のいずれかで記入。不明ならNA。',
+      '- ボディ素材: レジン/セルロイド/エボナイト/金属/木材/蒔絵/漆 のいずれかで記入。不明ならNA。',
       '- インク補充方式（万年筆の場合）: 吸入式/カートリッジ式/両用式/ピストン式 のいずれかで記入。不明ならNA。',
-      '- [EN]セクションでは: Type は Fountain Pen/Ballpoint Pen/Rollerball Pen/Mechanical Pencil/Multi Pen。Nib Material は Gold(14K/18K/21K)/Stainless Steel/Steel。Nib Size は EF/F/FM/M/B/BB/Z。Body Material は Resin/Celluloid/Ebonite/Metal/Wood/Maki-e(Japanese Lacquer)。Filling System は Piston Filler/Cartridge/Converter/Piston。'
+      '- [EN]セクションでは: Type は Fountain Pen/Ballpoint Pen/Rollerball Pen/Mechanical Pencil/Multi Pen。Nib Material は Gold(14K/18K/21K)/Stainless Steel/Steel。Nib Size は EF/F/FM/M/B/BB/Z。Body Material は Resin/Celluloid/Ebonite/Metal/Wood/Maki-e(Japanese Lacquer)/Urushi(Japanese Lacquer)。Filling System は Piston Filler/Cartridge/Cartridge-Converter/Eyedropper。'
     ]
   },
   'Video Games': {

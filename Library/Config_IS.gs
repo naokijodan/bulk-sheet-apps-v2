@@ -3004,6 +3004,9 @@ var IS_BRAND_DICT = [
   {name: 'Kaweco', jp_names: ['カヴェコ', 'KAWECO'], country: 'Germany', category: ['Pens']},
   {name: 'TWSBI', jp_names: ['ツイスビー', 'TWSBI'], country: 'Taiwan', category: ['Pens']},
   {name: 'Nakaya', jp_names: ['中屋', 'ナカヤ', 'NAKAYA'], country: 'Japan', category: ['Pens']},
+  {name: 'Rotring', jp_names: ['ロットリング', 'ROTRING'], country: 'Germany', category: ['Pens']},
+  {name: 'Montegrappa', jp_names: ['モンテグラッパ', 'MONTEGRAPPA'], country: 'Italy', category: ['Pens']},
+  {name: 'OMAS', jp_names: ['オマス', 'OMAS'], country: 'Italy', category: ['Pens']},
 
   // === Dinnerware: 日本テーブルウェア ===
   {name: 'Narumi', jp_names: ['ナルミ', 'NARUMI'], country: 'Japan', category: ['Dinnerware']},
