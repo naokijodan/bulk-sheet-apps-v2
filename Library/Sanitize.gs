@@ -632,6 +632,15 @@ var CATEGORY_RULES_ = {
       '- [EN]セクションでは: Type は Comb/Hair Comb/Decorative Comb/Pick。Material は Wood/Boxwood/Tortoiseshell/Horn/Plastic/Metal/Celluloid。'
     ]
   },
+  'Pipes': {
+    label: 'パイプ・喫煙具',
+    rules: [
+      '- 形状: ビリヤード/ベント/アップル/ブルドッグ/ダブリン/チャーチウォーデン/フリーハンド 等。煙管の場合は「煙管」と記入。',
+      '- 素材: ブライヤー → Briar、海泡石/メシャム → Meerschaum、コーンコブ → Corncob、木 → Wood、竹 → Bamboo、金属 → Metal。煙管は真鍮/銀/竹の組み合わせ。',
+      '- フィルター: 9mm/6mm/フィルターなし。不明ならNA。',
+      '- [EN]セクションでは: Body Shape は Billiard/Bent/Apple/Bulldog/Dublin/Churchwarden/Freehand/Kiseru。Material は Briar/Meerschaum/Corncob/Wood/Bamboo/Metal/Brass/Silver。'
+    ]
+  },
   'Key Chains': {
     label: 'キーリング・キーホルダー',
     rules: [
