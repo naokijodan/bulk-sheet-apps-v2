@@ -44,7 +44,7 @@
 ## ■ 現在のステータス
 
 - ブランチ: main
-- 最新コミット: `f27bc6a`
+- 最新コミット: `a4dd4fa`
 - clasp push: **実施済み**（全コミットでclasp push済み）
 - 動かないもの: なし
 
@@ -110,7 +110,7 @@
 - タグ競合に注意（「アンプ」はMusical Instrumentsに割当済み。「オーディオアンプ」で回避）
 - **新カテゴリ追加時はSHIPPING_POLICY_CATEGORIESも確認**する（送料上限が異なる場合がある）
 
-### 確認済みカテゴリ（20/64 + 新設2）
+### 確認済みカテゴリ（21/64 + 新設2）
 | # | カテゴリ | 状態 | 主な修正 |
 |---|---------|------|---------|
 | 1 | Watches | ✅ | — |
@@ -133,9 +133,10 @@
 | 18 | Fishing Rods | ✅ | タグ6件追加、ブランド6件追加（Olympic/Xesta等）、PROMPT_TAG_MAPPING拡充 |
 | 新設 | Video Game Accessories | ✅ | カテゴリ新設（全定義+送料$25） |
 | 新設 | Fishing Lures | ✅ | カテゴリ新設（10フィールド・32ブランド・14タグ・ルール7件） |
+| 19 | Dinnerware | ✅ | ブランド29件追加（日本窯元・欧州・北欧）、タグ6件、ルール6件 |
 
-### 未確認カテゴリ（44/64）— 次のセッションでDinnerwareから
-Dinnerware, Scarves, Neckties, Handkerchiefs, Tie Accessories, Glassware, Snow Globes, Boxes, Flatware, Baby, Combs, Key Chains, Charms, Collectibles, Pipes, Watch Parts, Sunglasses, Soap, Dolls & Plush, Hats, Musical Instruments, Pens, Wallets, Lighters, Art, Pottery, Belts, Belt Buckles, Golf Heads, Kimono, Japanese Swords, Tea Ceremony, Bonsai, Prints, Buddhist Art, Tetsubin, Golf, Tennis, Baseball, Japanese Instruments, RC & Models, Anime, Figures, Stamps, Coins, Records
+### 未確認カテゴリ（43/64）— 次のセッションでScarvesから
+Scarves, Neckties, Handkerchiefs, Tie Accessories, Glassware, Snow Globes, Boxes, Flatware, Baby, Combs, Key Chains, Charms, Collectibles, Pipes, Watch Parts, Sunglasses, Soap, Dolls & Plush, Hats, Musical Instruments, Pens, Wallets, Lighters, Art, Pottery, Belts, Belt Buckles, Golf Heads, Kimono, Japanese Swords, Tea Ceremony, Bonsai, Prints, Buddhist Art, Tetsubin, Golf, Tennis, Baseball, Japanese Instruments, RC & Models, Anime, Figures, Stamps, Coins, Records
 
 ---
 
