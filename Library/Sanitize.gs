@@ -632,6 +632,15 @@ var CATEGORY_RULES_ = {
       '- [EN]セクションでは: Type は Comb/Hair Comb/Decorative Comb/Pick。Material は Wood/Boxwood/Tortoiseshell/Horn/Plastic/Metal/Celluloid。'
     ]
   },
+  'Watch Parts': {
+    label: '時計パーツ',
+    rules: [
+      '- パーツ種類: ブレスレット/バンド/ベルト/コマ/バックル/クラスプ/ムーブメント/風防/リューズ/裏蓋/ダイアル/ベゼル/針/バネ棒 等、具体的に記入。',
+      '- 対応モデル: パーツが対応するモデル名を記入（サブマリーナ/スピードマスター等）。不明ならNA。',
+      '- サイズ: mm単位で記入（ラグ幅/ベルト幅/コマ幅/風防径等）。',
+      '- [EN]セクションでは: Part Type は Link/Bracelet/Band/Strap/Buckle/Clasp/Movement/Crystal/Crown/Case Back/Dial/Bezel/Hand/Spring Bar/Rotor/Stem。Material は Stainless Steel/Gold/Titanium/Leather/Rubber/Ceramic/Sapphire。'
+    ]
+  },
   'Pipes': {
     label: 'パイプ・喫煙具',
     rules: [
