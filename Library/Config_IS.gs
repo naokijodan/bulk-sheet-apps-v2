@@ -719,13 +719,6 @@ var IS_INITIAL_DATA = [
   { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Country of Origin', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Closure', field_type: 'recommended', priority: 10, notes: 'Zipper / Snap Button / Magnetic / Clasp' },
 
-  // === Lighters ===
-  { category: 'Lighters', tag_jp: 'ライター,Zippo,ジッポ,オイルライター,ガスライター', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
-  { category: 'Lighters', tag_jp: 'ライター,Zippo,ジッポ,オイルライター,ガスライター', field_name: 'Type', field_type: 'recommended', priority: 2, notes: 'Pocket / Table / Pipe等' },
-  { category: 'Lighters', tag_jp: 'ライター,Zippo,ジッポ,オイルライター,ガスライター', field_name: 'Material', field_type: 'recommended', priority: 3, notes: 'Metal / Chrome / Brass' },
-  { category: 'Lighters', tag_jp: 'ライター,Zippo,ジッポ,オイルライター,ガスライター', field_name: 'Color', field_type: 'recommended', priority: 4, notes: '' },
-  { category: 'Lighters', tag_jp: 'ライター,Zippo,ジッポ,オイルライター,ガスライター', field_name: 'Country of Origin', field_type: 'recommended', priority: 5, notes: '' },
-
   // === Art ===
   { category: 'Art', tag_jp: '絵画,油絵,水彩画,掛軸', field_name: 'Artist', field_type: 'required', priority: 1, notes: '' },
   { category: 'Art', tag_jp: '絵画,油絵,水彩画,掛軸', field_name: 'Production Technique', field_type: 'required', priority: 2, notes: 'Oil / Watercolor / Acrylic / Mixed Media等' },
@@ -3714,11 +3707,6 @@ IS_TAG_TO_CATEGORY['キーケース'] = 'Wallets'; IS_TAG_TO_CATEGORY['パスケ
 IS_TAG_TO_CATEGORY['三つ折り財布'] = 'Wallets'; IS_TAG_TO_CATEGORY['ミニ財布'] = 'Wallets';
 IS_TAG_TO_CATEGORY['札入れ'] = 'Wallets'; IS_TAG_TO_CATEGORY['がま口'] = 'Wallets';
 
-// Lighters
-IS_TAG_TO_CATEGORY['ライター'] = 'Lighters'; IS_TAG_TO_CATEGORY['Zippo'] = 'Lighters';
-IS_TAG_TO_CATEGORY['ジッポ'] = 'Lighters'; IS_TAG_TO_CATEGORY['オイルライター'] = 'Lighters';
-IS_TAG_TO_CATEGORY['ガスライター'] = 'Lighters';
-
 // Art
 IS_TAG_TO_CATEGORY['絵画'] = 'Art'; IS_TAG_TO_CATEGORY['版画'] = 'Art';
 IS_TAG_TO_CATEGORY['リトグラフ'] = 'Art'; IS_TAG_TO_CATEGORY['油絵'] = 'Art';
@@ -3974,7 +3962,6 @@ var IS_CATEGORY_FIELDS = {
   'Musical Instruments': ['Brand', 'Model', 'Type', 'Material', 'Color', 'Size', 'Key/Pitch', 'Features', 'Model Year', 'Country of Origin'],
   'Pens':          ['Brand', 'Material', 'Ink Color', 'Nib Size', 'Nib Material', 'Type', 'Vintage', 'Features', 'Country of Origin'],
   'Wallets':       ['Brand', 'Type', 'Material', 'Color', 'Style', 'Department', 'Features', 'Theme', 'Country of Origin', 'Closure'],
-  'Lighters':      ['Brand', 'Type', 'Material', 'Color', 'Country of Origin'],
   'Art':           ['Artist', 'Production Technique', 'Style', 'Subject', 'Theme', 'Size', 'Material', 'Original/Licensed Reproduction', 'Time Period Produced', 'Country of Origin'],
   'Pottery':       ['Brand', 'Type', 'Material', 'Color', 'Production Technique', 'Style', 'Pattern', 'Theme', 'Country of Origin'],
   'Belts':         ['Brand', 'Type', 'Material', 'Color', 'Size', 'Department', 'Style', 'Theme', 'Country of Origin'],
@@ -4493,7 +4480,6 @@ function outputTagListSheet_() {
     ]},
     {group: 'Writing & Smoking（筆記具・喫煙具）', categories: [
       {cat: 'Pens', desc: '万年筆・ボールペン・シャープペンシル'},
-      {cat: 'Lighters', desc: 'ライター・Zippo'},
       {cat: 'Pipes', desc: 'パイプ・キセル・煙管'}
     ]}
   ];
