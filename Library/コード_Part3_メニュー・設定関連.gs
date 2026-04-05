@@ -3993,7 +3993,7 @@ function applyCalculationFormulas(sheetName, settings) {
       var templateFormulas = [];
       for (var row = 5; row <= dataLastRow; row++) {
         var rowTplRef = tplRef.replace(/\{row\}/g, String(row));
-        var formula = '=IF(OR(ISBLANK(' + rowTplRef + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",IFERROR(INDEX(Import_Templates!$A$2:$A$50,MATCH("Template_"&' + rowTplRef + '&"_"&IF(AE' + row + '="新品","new","used")&"_"&IF(X' + row + '="EP","eco",IF(X' + row + '="CE","eco","xp")),Import_Templates!$C$2:$C$50,0)),"該当なし"))';
+        var formula = '=IF(OR(D' + row + '="",ISBLANK(' + rowTplRef + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",IFERROR(INDEX(Import_Templates!$A$2:$A$50,MATCH("Template_"&' + rowTplRef + '&"_"&IF(AE' + row + '="新品","new","used")&"_"&IF(X' + row + '="EP","eco",IF(X' + row + '="CE","eco","xp")),Import_Templates!$C$2:$C$50,0)),"該当なし"))';
         templateFormulas.push([formula]);
       }
       if (templateFormulas.length > 0) {
