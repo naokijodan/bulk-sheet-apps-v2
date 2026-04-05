@@ -4,159 +4,115 @@
 
 ## ■ 最重要: 過去セッションの教訓（繰り返すな）
 
-### 2026-04-03〜04-04セッション
+### 2026-04-03〜04-05セッション
 1. **ノートを読まずに作業開始** → 辞書充実の内容を理解しないまま突入
-2. **承認なしに3件push** → L0-3違反。確認の結果revert不要だったが信頼を毀損
+2. **承認なしにpush** → L0-3違反
 3. **完了済みタスクを「未実装」と誤認** → ノートを読んでいれば起きなかった
-4. **指摘を受けて仕事を放棄** → 「すみません」で止まるな。調べて解決しろ
-5. **ユーザーの言葉を自分の解釈で置き換えた** → 分からなければ聞け
+4. **Gemini MCPブリッジ「使えない」と報告** → MCPブリッジが使えた
+5. **prompts/変更してもPromptTemplates.gs反映忘れ** → チェックリストに追加済み
+6. **コミット前にE-02レビュー未完遂** → コミット前に2者PASS必須
 
-### 2026-04-04セッション
-1. **「Geminiは使えない」と報告** → MCPブリッジが使えた。「できない」と言う前にツールを確認
-2. **「実害は小さい」と根拠なく推測** → IS_BRAND_DICTのcategoryフィルタリングにより実害あり
-3. **コードレビューを忘れた** → 設計後・実装後に毎回レビュー必須
-
-### 2026-04-04〜05セッション
-1. **prompts/フォルダを修正してもPromptTemplates.gsに反映し忘れた** → CLAUDE.mdチェックリストに項目追加で再発防止済み
-2. **Obsidianノートをユーザーに指摘されるまで書かなかった** → 完了ルール（C-03）違反
-
-### 2026-04-05セッション（今回）で起きた問題
-1. **Dinnerwareのコミット前にE-02レビューを完遂しなかった** → GPTがエラー連発、Gemini未実施のままコミット。コミット後にレビューエージェントで実施→Arabia/Arita重複とWeight翻訳重複を発見→修正コミット。**コミット前に2者PASS必須**
-2. **Gemini MCPブリッジがAbortErrorで頻発** → 短い英語でも失敗。code_review_geminiは動作する場合あり。429以外のエラー（AbortError）も同じ対処（20秒待機→1回リトライ→ダメならClaude+GPTで進行+報告）
-3. **別セッションと同時編集でConfig_IS.gsの変更が意図しないコミットに混入** → 釣具変更の大部分がddf266d（Servane Gaxotteコミット）に含まれた。機能的には問題ないがコミット履歴が不正確
+### 2026-04-05〜06セッション（今回）で起きた問題と教訓
+1. **Musical Instrumentsを「充実済み」と即断** → フィールドがギター専用でエフェクター/シンセに不適切。ユーザーに指摘されて発覚。**表面的な数値（タグ数/ブランド数）で判断せず、フィールドの中身とカテゴリの実態を照合すること**
+2. **小カテゴリで設計提示を省略気味** → ルール追加のみのカテゴリでも、なぜそれで十分かを説明すべき
+3. **Sanitize.gsの文字化けを3箇所見逃し** → コミット後の再確認で発覚。`grep '��'`でチェックすること
+4. **Gemini MCPブリッジが全滅** → get_all_opinions/debate全て失敗。Claude+GPTの2者で進行（ユーザーに報告済み）
 
 ### 必ず守るルール
-- **コードに触る前に**: ルールファイル（~/.claude/CLAUDE.md + rules/）、このHANDOVER.md、プロジェクトCLAUDE.md、Obsidianノートを全て読む。読むまでコードに触らない
+- **コードに触る前に**: ルールファイル、HANDOVER.md、プロジェクトCLAUDE.md、Obsidianノートを全て読む
+- **カテゴリ確認時**: 7項目全てを実際にGrepで確認。表面的な数だけで「充実済み」と判断しない。フィールドの中身が商品の実態に合っているか検証する
 - **作業フロー**: 設計→**レビュー（Claude+GPT最低2者）**→承認→実装→**レビュー（Claude+GPT最低2者）**→コミット→git push→clasp push
-- **毎回のコミット後に必ずgit push + clasp pushを実行する**（まとめてやらない。ロールバックの安全のため）
-- **推測禁止**: 答える前にツール（Grep/Read/WebSearch/API）で事実確認する。確認できないなら「Unknown」と報告。推測で数値・仕様を言わない
-- 「できない」と言う前にToolSearchでツールを確認する
-- ユーザーの言葉をそのまま受け取る。解釈で置き換えない
-- prompts/を変更したら**PromptTemplates.gsにも反映**する（version インクリメント）
-- IS_CATEGORY_FIELDSは10件制限。変更提案禁止
-
-### 行き詰まったときの対処
-1. **コードの仕組みがわからない** → Grep/Readで実際のコードを確認する。推測しない
-2. **eBayの仕様がわからない** → WebSearch/RAKUDA API/GPTリサーチで確認。確認できなければユーザーに聞く
-3. **設計判断に迷う** → 3者協議（get_all_opinions）で意見を集める。それでも決まらなければユーザーに判断を仰ぐ
-4. **Geminiがエラー** → 短い英語でリトライ1回。それでもダメならClaude+GPTの2者で進める（ユーザーに報告）
-5. **レビューで指摘を受けた** → 各指摘をFact/設計意図/スコープ外に分類して判定。対応が必要なものだけ修正
+- **重要カテゴリ（出品数が多い/高単価）**: リサーチ→3者協議→設計→レビュー→承認→実装→レビュー
+- **毎回のコミット後に必ずgit push + clasp pushを実行する**
+- prompts/を変更したら**PromptTemplates.gsにも反映**（sync_prompts_to_gs.py使用）
+- IS_CATEGORY_FIELDSは10件制限。変更はユーザー承認が必要
+- 文字化けチェック: `grep '��' Sanitize.gs` をコミット前に実行
 
 ---
 
 ## ■ 現在のステータス
 
 - ブランチ: main
-- 最新コミット: `ba16f80`
-- clasp push: **実施済み**（全コミットでclasp push済み）
+- 最新コミット: `218b048`
+- clasp push: **実施済み**
 - 動かないもの: なし
 
-### 今回のセッション（2026-04-04〜05）で実施したコミット（14件）
+### 今回のセッション（2026-04-05〜06）で実施したコミット（9件）
 
-**Trading Cards改修:**
+**辞書充実（小〜中カテゴリ）:**
 | コミット | 内容 |
 |---------|------|
-| `a0a8c00` | PROMPT_TAG_MAPPINGに遊戯王・ワンピース追加 + IS_BRAND_DICT 9件category修正 |
-| `5cb332d` | ベースボール・大相撲プロンプトにJapanese指示追加 |
-| `f411abd` | 汎用TCGプロンプト新規作成 + PROMPT_TAG_MAPPING 4エントリ追加 |
-| `4f4b5bc` | Dragon Ball専用プロンプト作成 |
-| `1fd5966` | Weiss Schwarz専用プロンプト作成（SP/SSPサイン検出重視） |
-| `1c94e8b` | Digimon専用プロンプト作成（Alt Art検出重視） |
-| `ca8f785` | PromptTemplates.gsに新規4件追加+既存2件更新（初期設定で反映可能に） |
+| `798cc04` | Snow Globes: タグ+2、ブランド6件（Disney/Sanrio/Waterford等+Hallmark/Enesco）、ルール5件 |
+| `efc5d4c` | Boxes: タグ+3、ブランド1件（Wolf）、ルール4件 |
+| `950c597` | Flatware: タグ+2、ブランド3件（Christofle拡張+Sori Yanagi/Tsubame Shinko）、ルール4件、FIELD_EN_TO_JP_ Age追加 |
+| `310ead9` | Baby: タグ+1、ブランド1件（Miki House）、ルール3件 |
+| `550cc31` | Combs/Key Chains: タグ+3、ルール6件 + Snow Globes/Flatware文字化け修正3箇所 |
+| `3d9c410` | Pipes: ルール4件追加（タグ/ブランド/プロンプト既に充実） |
+| `20023b5` | Watch Parts: ルール4件追加（タグ/ブランド/プロンプト既に充実） |
+| `2560bd2` | Soap: ルール3件、Dolls & Plush: ルール3→5件 |
 
-**Video Games / Video Game Consoles / Accessories改修:**
+**大規模改修:**
 | コミット | 内容 |
 |---------|------|
-| `e8ddb16` | IS_BRAND_DICTのゲームブランド58件にVideo Game Consolesカテゴリ追加 |
-| `cc3079c` | PROMPT_TAG_MAPPING拡充（ゲーム用2→14タグ、ゲーム機1→19タグ） |
-| `d786aa2` | CATEGORY_RULES_ Video Games充実（3→6ルール: CIB/ジャンル/CERO追加） |
-| `35d1202` | AI.gsにゲームタイトル誤訳辞書の動的注入追加（20シリーズ） |
-| `6bcf6c0` | Video Game Accessoriesカテゴリ新設（全定義+ブランド58件category追加） |
-| `8705e76` | SHIPPING_POLICY_CATEGORIESにVideo Game Accessories（上限$25）追加 |
+| `99e5e18` | **Collectibles大幅充実**: フィールド変更（Color→Era）、タグ+14、ブランド8件（日本ヴィンテージ玩具）、ルール8件、専用プロンプト新規、PROMPT_TAG_MAPPING追加、AI.gs年号変換ヒント。3者協議でフィールド設計決定 |
+| `218b048` | **Musical Instruments 4カテゴリ分割**: Guitars/Effects & Amps（新設）/Synths & Digital（新設）/Musical Instruments（改修）。ブランド+30（日本エフェクター8: Maxon/Providence等）、タグ+35、ルール23件。3者協議で分割方針決定 |
 
-**再発防止:**
-| コミット | 内容 |
-|---------|------|
-| `cc48ecc` | CLAUDE.mdコミット前チェックリストにPromptTemplates.gs同期チェック追加 |
-
-**TagShipping P列コンディション管理（2026-04-05）:**
-| コミット | 内容 |
-|---------|------|
-| `9db0f50` | TagShipping P列で商品状態管理実装 |
-| `a4183a0` | HtmlTemplates.gs再生成 |
-| `44538f5` | AE列数式出力前にバリデーションクリア |
-| `5ca6409` | O列にD列空チェック追加 |
-| `cdf8e29` | E列にD列空チェック追加 |
-| `12569aa` | AE列数式保護3箇所修正（翻訳バッチ/行クリア/ON→OFF切替） |
+### 確認不要（変更なし）のカテゴリ
+- Sunglasses: 全項目充実（タグ3/ブランド57/ルール3/プロンプトあり）
+- Hats: 全項目充実（タグ10/ブランド9+/ルール3/フィールド10）
+- Charms: ジュエリー準拠で充実済み
 
 ### ユーザー操作（初期設定時）
-以下の操作で今回の変更がスプレッドシートに反映される:
-- 「新しいプロンプトを追加」にチェック → 4件（ドラゴンボール/ヴァイス/デジモン/トレカ汎用）追加
-- 「既存プロンプトを最新版に更新」にチェック → 2件（ベースボール/大相撲）v2に更新
-- TagShipping Q/R列→S/T列に移動。GPT_Prompts E列は自動更新
-- TagShipping H列ドロップダウンに「Video Game Accessories (上限$25)」が追加される
-- TagShipping P列に「商品状態」ドロップダウンが追加される
-- 「商品状態」チェックボックスONで、AE列にINDEX/MATCH数式が出力される
-
-### 保留事項
-- **ゲーム周辺機器の送料上限詳細** — eBayの各サブカテゴリ送料上限は確認済み（スクリーンショット）。$25で設定済み。eBay送料上限ページが変更される可能性はユーザーが確認する
+- 初期設定を実行するとTagShipping S-T列に新タグが反映される
+- 楽器系の新タグ（オーバードライブ/ディストーション/シンセ等）が追加される
+- Collectiblesの新タグ（昭和レトロ/ブリキ/ソフビ/ミリタリー等）が追加される
+- 「新しいプロンプトを追加」にチェック → コレクティブル専用プロンプト追加
 
 ---
 
-## ■ 次にやること: 辞書充実カテゴリ確認の続き（27/64〜64/64）
+## ■ 次にやること: 辞書充実カテゴリ確認の続き
 
-### 作業の目的
-64カテゴリの辞書を1つずつ確認し、バイヤーのニーズを満たすItem Specificsが正確に出力されるようにする。不足があればリサーチ→設計→レビュー→承認→実装→レビュー→コミット。
+### 確認済みカテゴリ（40/64 + 新設5）
+| # | カテゴリ | 状態 |
+|---|---------|------|
+| 1-24 | Watches〜Glassware | ✅ 前セッションまでに完了 |
+| 25 | Snow Globes | ✅ タグ+2、ブランド6、ルール5 |
+| 26 | Boxes | ✅ タグ+3、ブランド1、ルール4 |
+| 27 | Flatware | ✅ タグ+2、ブランド3、ルール4 |
+| 28 | Baby | ✅ タグ+1、ブランド1、ルール3 |
+| 29 | Combs | ✅ タグ+2、ルール3 |
+| 30 | Key Chains | ✅ タグ+1、ルール3 |
+| 31 | Charms | ✅ 変更不要 |
+| 32 | Collectibles | ✅ **大幅改修**（フィールド変更、プロンプト新規、AIヒント） |
+| 33 | Pipes | ✅ ルール4 |
+| 34 | Watch Parts | ✅ ルール4 |
+| 35 | Sunglasses | ✅ 変更不要 |
+| 36 | Soap | ✅ ルール3 |
+| 37 | Dolls & Plush | ✅ ルール3→5 |
+| 38 | Hats | ✅ 変更不要 |
+| 39 | Musical Instruments | ✅ **4カテゴリ分割** |
+| 新設 | Video Game Accessories | ✅ 前セッション |
+| 新設 | Fishing Lures | ✅ 前セッション |
+| 新設 | Guitars | ✅ MI分割で新設 |
+| 新設 | Effects & Amps | ✅ MI分割で新設（日本エフェクターブランド8件含む） |
+| 新設 | Synths & Digital | ✅ MI分割で新設 |
+
+### 未確認カテゴリ（24/64）— 次はPensから
+Pens, Wallets, Lighters, Art, Pottery, Belts, Belt Buckles, Golf Heads, Kimono, Japanese Swords, Tea Ceremony, Bonsai, Prints, Buddhist Art, Tetsubin, Golf, Tennis, Baseball, Japanese Instruments, RC & Models, Anime, Figures, Stamps, Coins, Records
 
 ### 各カテゴリで確認する7項目
-1. **IS_TAG_TO_CATEGORY**: タグが十分か（表記揺れを含む）
-2. **PROMPT_TAG_MAPPING**: 翻訳プロンプトが割り当てられるか（TagShipping Q/R列に反映されるか）
+1. **IS_TAG_TO_CATEGORY**: タグが十分か
+2. **PROMPT_TAG_MAPPING**: 翻訳プロンプトが割り当てられるか
 3. **IS_INITIAL_DATA**: フィールド定義が十分か
 4. **IS_CATEGORY_FIELDS**: 出力フィールドが十分か（10件上限）
-5. **IS_BRAND_DICT**: ブランドが十分か、**categoryフィルタが正しいか**（全ての該当カテゴリが含まれているか）
+5. **IS_BRAND_DICT**: ブランドが十分か、categoryフィルタが正しいか
 6. **CATEGORY_RULES_**: バリデーションルールがあるか
 7. **AI.gs**: カテゴリ固有のAIヒントが必要か
 
-### 見落としやすいポイント（過去のセッションで学んだこと）
-- IS_TAG_TO_CATEGORYに追加しても**PROMPT_TAG_MAPPINGに追加しなければ**翻訳プロンプトが使われない
-- IS_BRAND_DICTの**categoryフィルタ漏れ**はブランドがスキップされる実害がある（Trading Cardsで9件、Video Gamesで58件修正済み）
-- **prompts/フォルダを変更したらPromptTemplates.gsにも反映**する（version インクリメント）
-- IS_CATEGORY_FIELDSは**10件制限**。変更提案禁止
-- タグ競合に注意（「アンプ」はMusical Instrumentsに割当済み。「オーディオアンプ」で回避）
-- **新カテゴリ追加時はSHIPPING_POLICY_CATEGORIESも確認**する（送料上限が異なる場合がある）
-
-### 確認済みカテゴリ（27/64 + 新設2）
-| # | カテゴリ | 状態 | 主な修正 |
-|---|---------|------|---------|
-| 1 | Watches | ✅ | — |
-| 2 | Rings | ✅ | ブランド56件追加 |
-| 3 | Bracelets | ✅ | — |
-| 4 | Earrings | ✅ | — |
-| 5 | Necklaces | ✅ | — |
-| 6 | Brooches | ✅ | category修正 |
-| 7 | Cufflinks | ✅ | category修正 |
-| 8 | Hair Accessories | ✅ | category修正 |
-| 9 | Handbags | ✅ | ブランド12件追加 |
-| 10 | Clothing | ✅ | ブランド13件追加 |
-| 11 | Shoes | ✅ | ブランド27件追加 |
-| 12 | Cameras | ✅ | — |
-| 13 | Electronics | ✅ | タグ17件・フィールド4→8・ブランド15件 |
-| 14 | Trading Cards | ✅ | プロンプト6件追加、PROMPT_TAG_MAPPING修正、category修正 |
-| 15 | Video Games | ✅ | PROMPT_TAG_MAPPING拡充、CATEGORY_RULES充実、誤訳辞書追加 |
-| 16 | Video Game Consoles | ✅ | IS_BRAND_DICT 58件category修正 |
-| 17 | Fishing Reels | ✅ | タグ6件、Shimano 7モデル+Daiwa 4モデル追加 |
-| 18 | Fishing Rods | ✅ | タグ6件、ブランド6件追加（Olympic/Xesta等） |
-| 19 | Dinnerware | ✅ | ブランド29件（日本窯元・欧州・北欧）、タグ6件、ルール6件 |
-| 20 | Scarves | ✅ | ブランド7件、タグ4件、ルール5件 |
-| 21 | Neckties | ✅ | ブランド9件（Marinella/Brioni/Kiton等）、タグ3件、ルール5件 |
-| 22 | Handkerchiefs | ✅ | タグ2件、ルール4件 |
-| 23 | Tie Accessories | ✅ | 変更なし（既にジュエリー準拠で充実） |
-| 24 | Glassware | ✅ | ブランド15件（Bohemia/Riedel/Kagami等）、タグ5件、ルール5件 |
-| 新設 | Video Game Accessories | ✅ | カテゴリ新設（全定義+送料$25） |
-| 新設 | Fishing Lures | ✅ | カテゴリ新設（10フィールド・32ブランド・14タグ） |
-
-### 未確認カテゴリ（37/64）— 次のセッションでSnow Globesから
-Snow Globes, Boxes, Flatware, Baby, Combs, Key Chains, Charms, Collectibles, Pipes, Watch Parts, Sunglasses, Soap, Dolls & Plush, Hats, Musical Instruments, Pens, Wallets, Lighters, Art, Pottery, Belts, Belt Buckles, Golf Heads, Kimono, Japanese Swords, Tea Ceremony, Bonsai, Prints, Buddhist Art, Tetsubin, Golf, Tennis, Baseball, Japanese Instruments, RC & Models, Anime, Figures, Stamps, Coins, Records
+### 重要: カテゴリ確認時の注意
+- **表面的な数値で判断しない**: タグ数やブランド数だけでなく、フィールドの中身が商品の実態に合っているか検証する
+- **出品数が多いカテゴリは丁寧に**: リサーチ→3者協議→設計→レビューのフルプロセスで
+- **小カテゴリでもルール追加のみで十分な理由を説明する**
 
 ---
 
@@ -164,10 +120,10 @@ Snow Globes, Boxes, Flatware, Baby, Combs, Key Chains, Charms, Collectibles, Pip
 
 - **AI主導パターン（ポケカV9準拠）**: AIがカテゴリ自動判定 → 辞書で補完
 - **辞書はゲーティングではなく補完ツール**: 辞書にないカテゴリでもAIが処理する
-- **IS_BRAND_DICTのcategoryフィールド**: ItemSpecifics.gs:769-778でフィルタリングに使用。categoryに含まれないカテゴリではブランドがスキップされる
-- **getBrandDictForPrompt_()（AIExtractor.gs:422）**: categoryフィルタなしで全ブランドをプロンプトに渡す。AIへのブランド名提供にはcategoryは影響しないが、IS書き込み時のブランド検索には影響する
-- **prompts/フォルダとPromptTemplates.gsの関係**: prompts/はドキュメント・バージョン管理用。GASが読むのはPromptTemplates.gs（Library/）。syncPromptsToSheet_()がPROMPT_TEMPLATESからGPT_Promptsシートに書き込む。両方を同期する必要がある
-- **ブランド辞書のcategoryは網羅的に設定する**: 例えば任天堂はVideo Games + Video Game Consoles + Video Game Accessories。ソフト専業メーカー（Capcom等）はVideo Gamesのみ
+- **IS_BRAND_DICTのcategoryフィールド**: ItemSpecifics.gs:769-778でフィルタリングに使用
+- **タグ上書きパターン**: Figures→Collectibles、Guitars/Effects/Synths→Musical Instrumentsの上書きで段階的にカテゴリ分岐
+- **prompts/フォルダとPromptTemplates.gsの関係**: sync_prompts_to_gs.pyで同期。clasp push後、初期設定で反映
+- **ブランド辞書のcategoryは網羅的に設定**: Yamaha→Guitars+Synths & Digital+Musical Instruments、Fender→Guitars+Effects & Amps
 
 ---
 
@@ -176,58 +132,24 @@ Snow Globes, Boxes, Flatware, Baby, Combs, Key Chains, Charms, Collectibles, Pip
 ### セッション開始時に必ず読むもの
 1. `~/.claude/CLAUDE.md` + `~/.claude/rules/` 配下の全ルールファイル
 2. このHANDOVER.md
-3. `~/Desktop/ツール開発/一括シートApps_v3/CLAUDE.md`（プロジェクトルール — コミット前チェックリスト5項目が特に重要）
-4. Obsidian開発ノート（全文）:
-   - **`一括シートV3_辞書充実.md`** — 辞書充実プロジェクト全作業ログ（最重要。確認済みカテゴリ・新設カテゴリ・教訓が全て記載）
-   - `一括シートV3_ItemSpecifics_AI主導設計変更_2026-03-02.md` — IS機能の設計思想
-   - `一括シートV3_Display・ブランド追加_2026-03-04.md` — Display/CaseMaterial後処理
-   - `V3開発ログ/ゲーム設定修正ログ.txt`（大きいので分割読み）
+3. `~/Desktop/ツール開発/一括シートApps_v3/CLAUDE.md`（コミット前チェックリスト5項目）
+4. Obsidian開発ノート: `一括シートV3_辞書充実.md`（最重要）
 
 ### コード変更時に参照するファイル
 - `ItemSpecifics/Config_IS.gs` — IS_INITIAL_DATA, IS_BRAND_DICT, IS_TAG_TO_CATEGORY, IS_CATEGORY_FIELDS
 - `Config.gs` — PROMPT_TAG_MAPPING, SHIPPING_POLICY_CATEGORIES
 - `Sanitize.gs` — SANITIZE_FIELDS_, CATEGORY_RULES_, FIELD_EN_TO_JP_
-- `AI.gs` — カテゴリ固有AIヒント（カメラ、トレカ、ゲーム）、Pre/Post-process
-- `Library/PromptTemplates.gs` — プロンプトテンプレート（43件、prompts/と同期必須）
-- `ItemSpecifics/AIExtractor.gs` — getBrandDictForPrompt_(), getCategoryFieldsForPrompt_()
-- `ItemSpecifics/ItemSpecifics.gs` — ブランド検索ロジック（769-778行: categoryフィルタ）
+- `AI.gs` — カテゴリ固有AIヒント（カメラ、トレカ、ゲーム、コレクティブル）
+- `Library/PromptTemplates.gs` — プロンプトテンプレート（44件）
+- `prompts/` — プロンプトソースファイル（44件、コレクティブル.txt含む）
 
-### コミット前チェックリスト（CLAUDE.mdに記載、5項目）
+### コミット前チェックリスト（CLAUDE.mdに記載、5+1項目）
 1. ScriptPropertiesチェック
 2. ルートとLibraryの同期チェック
 3. HtmlTemplates.gsチェック（.txt変更時）
-4. **PromptTemplates.gs同期チェック**（prompts/変更時）← 今回追加
+4. PromptTemplates.gs同期チェック（prompts/変更時）
 5. 変更ファイルの最終確認
-
----
-
-## ■ 重要な設計ルール（変更なし）
-
-### UserSheet/Main.gsのラッパーパターン
-- 新メニュー項目を追加するとMain.gsにもラッパーが必要 → 既存ユーザーのGASを更新しないと動かない
-- 対策: 全ての設定は初期設定（initialSetup）から呼ぶ。新メニュー項目は追加しない
-
-### TagShippingシートの構造
-| 列 | 内容 | 備考 |
-|---|---|---|
-| A | タグ名 | |
-| B-D | EP/CE/CF送料 | 数値 |
-| E | 参考eBay ID | |
-| F | SKU略称 | |
-| G | テンプレート名 | ドロップダウン |
-| H | 送料上限カテゴリ | ドロップダウン（**7件**: Video Games/Video Game Consoles/Video Game Accessories/Books/Movies & TV/Music/Other） |
-| I | 利益率 | ドロップダウン（0%-45%） |
-| J | 広告費率 | ドロップダウン（0%-15%） |
-| K | 手数料率 | ドロップダウン（13%-25%） |
-| L | 低価格配送 | ドロップダウン（EP/CE/NONE） |
-| M | 高価格配送 | ドロップダウン（CF/CD/EL） |
-| N | 送料切替基準 | 数値（円） |
-| O | 想定関税閾値 | H列からREGEXEXTRACTで自動抽出 |
-| P | 商品状態 | ドロップダウン（新品/中古/AI）。AE列にINDEX/MATCHで参照。AI/空→P2フォールバック |
-| S-T | 参照リスト | **PROMPT_TAG_MAPPINGから自動生成**（writeTagListToSheet_関数）。旧Q-R列から移動 |
-
-### 値埋め込み禁止
-INDEX/MATCH数式で参照すること。
+6. **文字化けチェック**: `grep '��' Sanitize.gs`（今回追加）
 
 ---
 
@@ -237,7 +159,8 @@ INDEX/MATCH数式で参照すること。
 | Codex CLI | `/opt/homebrew/bin/codex exec --full-auto "指示"` |
 | GPTレビュー | `mcp__openai-bridge__code_review_gpt` |
 | GPT質問 | `mcp__openai-bridge__ask_gpt` |
-| Gemini（MCP） | `mcp__gemini-bridge__ask_gemini`。**Gemini CLIは未インストール。MCPブリッジ経由のみ。日本語の長文でタイムアウトしやすい。短い英語で聞く** |
+| Gemini（MCP） | `mcp__gemini-bridge__ask_gemini`（日本語長文でタイムアウトしやすい。短い英語で。今回は全滅だった） |
 | 3者協議 | `mcp__ai-discussion__get_all_opinions` / `multi_discuss` / `debate` / `consensus` |
+| プロンプト同期 | `python3 Library/sync_prompts_to_gs.py` |
 | HtmlTemplates更新 | `python3 Library/convert_html_to_gs.py` |
 | clasp push | `cd Library && /Users/naokijodan/.npm-global/bin/clasp push --force` |
