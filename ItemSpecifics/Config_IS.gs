@@ -337,20 +337,28 @@ var IS_INITIAL_DATA = [
   { category: 'Bonsai', tag_jp: '盆栽,盆栽鉢,盆器,水石,盆景,盆栽道具,盆栽ハサミ,飾台,卓,水盤', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
 
   // === Prints ===
-  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン', field_name: 'Listed By', field_type: 'required', priority: 1, notes: 'Dealer or Reseller / Private Listing' },
-  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン', field_name: 'Medium', field_type: 'required', priority: 2, notes: 'Woodblock / Lithograph / Screenprint' },
-  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン', field_name: 'Subject', field_type: 'recommended', priority: 3, notes: '' },
-  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン', field_name: 'Maker', field_type: 'recommended', priority: 4, notes: '作家名' },
-  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン', field_name: 'Style', field_type: 'recommended', priority: 5, notes: 'Ukiyo-e / Shin-hanga / Sosaku-hanga' },
-  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン', field_name: 'Size', field_type: 'recommended', priority: 6, notes: '' },
-  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン', field_name: 'Country of Origin', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Listed By', field_type: 'required', priority: 1, notes: 'Dealer or Reseller / Private Listing' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Medium', field_type: 'required', priority: 2, notes: 'Woodblock / Lithograph / Screenprint / Etching' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Subject', field_type: 'recommended', priority: 3, notes: '' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Maker', field_type: 'recommended', priority: 4, notes: '作家名' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Style', field_type: 'recommended', priority: 5, notes: 'Ukiyo-e / Shin-hanga / Sosaku-hanga' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Size', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Era/Period', field_type: 'recommended', priority: 7, notes: 'Edo / Meiji / Taisho / Showa' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Original/Licensed Reproduction', field_type: 'recommended', priority: 8, notes: 'Original / Reproduction / Later Printing' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Edition', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
 
   // === Buddhist Art ===
-  { category: 'Buddhist Art', tag_jp: '仏像,仏具,仏教美術,神具,木彫,銅像', field_name: 'Type', field_type: 'required', priority: 1, notes: 'Statue / Scroll / Altar / Incense Burner等' },
-  { category: 'Buddhist Art', tag_jp: '仏像,仏具,仏教美術,神具,木彫,銅像', field_name: 'Material', field_type: 'required', priority: 2, notes: 'Wood / Bronze / Stone / Gold Leaf' },
-  { category: 'Buddhist Art', tag_jp: '仏像,仏具,仏教美術,神具,木彫,銅像', field_name: 'Size', field_type: 'recommended', priority: 3, notes: '' },
-  { category: 'Buddhist Art', tag_jp: '仏像,仏具,仏教美術,神具,木彫,銅像', field_name: 'Era', field_type: 'recommended', priority: 4, notes: '' },
-  { category: 'Buddhist Art', tag_jp: '仏像,仏具,仏教美術,神具,木彫,銅像', field_name: 'Country of Origin', field_type: 'recommended', priority: 5, notes: '' },
+  { category: 'Buddhist Art', tag_jp: '仏像,仏具,仏教美術,神具,木彫,銅像,観音,如来,数珠,木魚', field_name: 'Type', field_type: 'required', priority: 1, notes: 'Statue / Scroll / Altar Tool / Prayer Beads等' },
+  { category: 'Buddhist Art', tag_jp: '仏像,仏具,仏教美術,神具,木彫,銅像,観音,如来,数珠,木魚', field_name: 'Material', field_type: 'required', priority: 2, notes: 'Wood / Bronze / Stone / Gold Leaf / Lacquer' },
+  { category: 'Buddhist Art', tag_jp: '仏像,仏具,仏教美術,神具,木彫,銅像,観音,如来,数珠,木魚', field_name: 'Subject/Deity', field_type: 'recommended', priority: 3, notes: 'Kannon / Amida / Shaka / Fudo / Jizo等' },
+  { category: 'Buddhist Art', tag_jp: '仏像,仏具,仏教美術,神具,木彫,銅像,観音,如来,数珠,木魚', field_name: 'Maker', field_type: 'recommended', priority: 4, notes: '' },
+  { category: 'Buddhist Art', tag_jp: '仏像,仏具,仏教美術,神具,木彫,銅像,観音,如来,数珠,木魚', field_name: 'Technique', field_type: 'recommended', priority: 5, notes: 'Carved / Cast / Lacquered / Gilt' },
+  { category: 'Buddhist Art', tag_jp: '仏像,仏具,仏教美術,神具,木彫,銅像,観音,如来,数珠,木魚', field_name: 'Style', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Buddhist Art', tag_jp: '仏像,仏具,仏教美術,神具,木彫,銅像,観音,如来,数珠,木魚', field_name: 'Size', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Buddhist Art', tag_jp: '仏像,仏具,仏教美術,神具,木彫,銅像,観音,如来,数珠,木魚', field_name: 'Era', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Buddhist Art', tag_jp: '仏像,仏具,仏教美術,神具,木彫,銅像,観音,如来,数珠,木魚', field_name: 'Original/Reproduction', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Buddhist Art', tag_jp: '仏像,仏具,仏教美術,神具,木彫,銅像,観音,如来,数珠,木魚', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
 
   // === Tetsubin ===
   { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Brand', field_type: 'recommended', priority: 1, notes: '' },
@@ -3814,11 +3822,16 @@ IS_TAG_TO_CATEGORY['水盤'] = 'Bonsai';
 // Prints（浮世絵・版画・木版画・リトグラフをArtから上書き）
 IS_TAG_TO_CATEGORY['浮世絵'] = 'Prints'; IS_TAG_TO_CATEGORY['版画'] = 'Prints';
 IS_TAG_TO_CATEGORY['木版画'] = 'Prints'; IS_TAG_TO_CATEGORY['リトグラフ'] = 'Prints';
-IS_TAG_TO_CATEGORY['シルクスクリーン'] = 'Prints';
+IS_TAG_TO_CATEGORY['シルクスクリーン'] = 'Prints'; IS_TAG_TO_CATEGORY['エッチング'] = 'Prints';
+IS_TAG_TO_CATEGORY['銅版画'] = 'Prints'; IS_TAG_TO_CATEGORY['新版画'] = 'Prints';
+IS_TAG_TO_CATEGORY['創作版画'] = 'Prints';
 
 // Buddhist Art
 IS_TAG_TO_CATEGORY['仏像'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['仏具'] = 'Buddhist Art';
 IS_TAG_TO_CATEGORY['仏教美術'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['神具'] = 'Buddhist Art';
+IS_TAG_TO_CATEGORY['木彫'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['銅像'] = 'Buddhist Art';
+IS_TAG_TO_CATEGORY['観音'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['如来'] = 'Buddhist Art';
+IS_TAG_TO_CATEGORY['数珠'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['木魚'] = 'Buddhist Art';
 
 // Tetsubin（急須をPotteryから上書き）
 IS_TAG_TO_CATEGORY['鉄瓶'] = 'Tetsubin'; IS_TAG_TO_CATEGORY['銀瓶'] = 'Tetsubin';
@@ -4032,8 +4045,8 @@ var IS_CATEGORY_FIELDS = {
   'Japanese Swords':     ['Type', 'Material', 'Technique', 'Era/Period', 'School/Maker', 'Motif/Subject', 'Size', 'Color', 'Original/Reproduction', 'Country of Origin'],
   'Tea Ceremony':        ['Type', 'Material', 'Maker', 'Origin/Kiln', 'Era/Period', 'Box Type', 'Size', 'Motif/Subject', 'Pattern', 'Country of Origin'],
   'Bonsai':              ['Type', 'Material', 'Size', 'Color', 'Shape', 'Maker/Kiln', 'Era/Period', 'Glaze/Finish', 'Drainage Holes', 'Country of Origin'],
-  'Prints':              ['Listed By', 'Medium', 'Subject', 'Maker', 'Style', 'Size', 'Country of Origin'],
-  'Buddhist Art':        ['Type', 'Material', 'Size', 'Era', 'Country of Origin'],
+  'Prints':              ['Listed By', 'Medium', 'Subject', 'Maker', 'Style', 'Size', 'Era/Period', 'Original/Licensed Reproduction', 'Edition', 'Country of Origin'],
+  'Buddhist Art':        ['Type', 'Material', 'Subject/Deity', 'Maker', 'Technique', 'Style', 'Size', 'Era', 'Original/Reproduction', 'Country of Origin'],
   'Tetsubin':            ['Brand', 'Type', 'Material', 'Size', 'Country of Origin'],
   'Golf':                ['Brand', 'Golf Club Type', 'Handedness', 'Model', 'Flex', 'Shaft Material', 'Loft', 'Club Number', 'Set Makeup', 'Country of Origin'],
   'Tennis':              ['Brand', 'Type', 'Head Size', 'Grip Size', 'String Pattern', 'Weight', 'Country of Origin'],

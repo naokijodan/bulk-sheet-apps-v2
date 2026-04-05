@@ -567,10 +567,27 @@ var CATEGORY_RULES_ = {
     ]
   },
   'Prints': {
-    label: '美術品',
+    label: '版画・浮世絵',
     rules: [
-      '- 制作技法: 油彩/水彩/版画/木版画/リトグラフ/シルクスクリーン/エッチング/写真 等で記入。',
-      '- [EN]セクションでは: Production Technique / Medium は Oil Painting/Watercolor/Print/Woodblock Print/Lithograph/Screen Print/Etching/Photograph。Original/Licensed Reproduction は Original/Reproduction。'
+      '- 作家名: 漢字の作家名はヘボン式ローマ字に変換する。例: 葛飾北斎→Katsushika Hokusai、歌川広重→Utagawa Hiroshige、喜多川歌麿→Kitagawa Utamaro、東洲斎写楽→Toshusai Sharaku、歌川国芳→Utagawa Kuniyoshi、川瀬巴水→Kawase Hasui、吉田博→Yoshida Hiroshi。[EN]では「Romanized Name (漢字名)」の形式で記入。',
+      '- 技法: 木版画/銅版画/石版画/リトグラフ/シルクスクリーン/エッチング/メゾチント/アクアチント 等で記入。',
+      '- 様式: 浮世絵/新版画/創作版画/現代版画 等で記入。',
+      '- 時代: 江戸/明治/大正/昭和/平成 等で記入。不明ならNA。',
+      '- エディション: 限定番号がある場合は記入（例: 150/200）。初摺/後摺の区別も記入。',
+      '- サイズ: 縦×横cmで記入。判型がわかる場合は併記（例: 大判 約39×26cm）。',
+      '- [EN]セクションでは: Medium は Woodblock Print/Copperplate Print/Lithograph/Screen Print/Etching/Mezzotint/Aquatint。Style は Ukiyo-e/Shin-hanga/Sosaku-hanga/Contemporary Print。Original/Licensed Reproduction は Original/Reproduction/Later Printing。Edition は numbered (e.g., 150/200) or First Printing(Shozuri)/Later Printing(Atozuri)。'
+    ]
+  },
+  'Buddhist Art': {
+    label: '仏教美術',
+    rules: [
+      '- タイプ: 仏像/菩薩像/明王像/仏具/法具/仏画/経典/数珠/木魚/香炉/燭台/花立 等で記入。',
+      '- 素材: 木/銅/真鍮/鉄/陶/漆/石/紙/布/金箔 等で記入。',
+      '- 尊格（仏像の場合）: 観音/阿弥陀/釈迦/不動明王/地蔵/薬師/大日/弥勒/毘沙門天 等で記入。',
+      '- 技法: 木彫/鋳造/乾漆/塑像/金箔押し/彩色/截金 等で記入。不明ならNA。',
+      '- 時代: 平安/鎌倉/室町/江戸/明治 等で記入。不明ならNA。',
+      '- サイズ: 高さ×幅×奥行をcmで記入。',
+      '- [EN]セクションでは: Type は Buddha Statue/Bodhisattva Statue/Wisdom King Statue/Buddhist Altar Tool/Ritual Object/Buddhist Painting/Sutra/Prayer Beads(Juzu)/Wooden Fish(Mokugyo)/Incense Burner/Candle Holder/Flower Vase。Material は Wood/Bronze/Brass/Iron/Ceramic/Lacquer/Stone/Paper/Fabric/Gold Leaf。Subject/Deity は Kannon(Avalokitesvara)/Amida(Amitabha)/Shaka(Shakyamuni)/Fudo Myoo(Acala)/Jizo(Ksitigarbha)/Yakushi(Bhaisajyaguru)/Dainichi(Vairocana)/Miroku(Maitreya)/Bishamonten(Vaisravana)。Technique は Carved Wood/Cast Bronze/Dry Lacquer(Kanshitsu)/Clay Sculpture(Sozo)/Gold Leaf/Polychrome/Cut Gold Leaf(Kirikane)。'
     ]
   },
   'Records': {
@@ -835,6 +852,7 @@ var FIELD_EN_TO_JP_ = {
   'Support': '本紙素材', 'Mounting Type': '表装', 'Scroll Rod Material': '軸先素材', 'Box Type': '箱',
   'Origin/Kiln': '産地/窯', 'Technique/Weave': '技法/産地',
   'Glaze/Finish': '釉薬/仕上げ', 'Drainage Holes': '水抜き穴', 'Maker/Kiln': '作家/窯元',
+  'Subject/Deity': '尊格', 'Edition': 'エディション',
   'Subject': '題材', 'Original/Licensed Reproduction': 'オリジナル/複製',
   'Time Period Produced': '制作年代',
   'Listed By': '出品者区分', 'Medium': '技法', 'Maker': '作家',
