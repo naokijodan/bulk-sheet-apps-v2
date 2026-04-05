@@ -2963,7 +2963,7 @@ var IS_BRAND_DICT = [
   {name: 'Royal Albert', jp_names: ['ロイヤルアルバート', 'ROYAL ALBERT'], country: 'United Kingdom', category: ['Dinnerware']},
   {name: 'Haviland', jp_names: ['アビランド', 'HAVILAND'], country: 'France', category: ['Dinnerware']},
   {name: 'Bernardaud', jp_names: ['ベルナルド', 'BERNARDAUD'], country: 'France', category: ['Dinnerware']},
-  {name: 'Christofle', jp_names: ['クリストフル', 'CHRISTOFLE'], country: 'France', category: ['Dinnerware']},
+  {name: 'Christofle', jp_names: ['クリストフル', 'CHRISTOFLE'], country: 'France', category: ['Dinnerware', 'Flatware']},
   // === Dinnerware: 北欧デザイン（Arabia/Iittalaは既存エントリにcategoryなしで登録済み→全カテゴリマッチ） ===
   {name: 'Marimekko', jp_names: ['マリメッコ', 'MARIMEKKO'], country: 'Finland', category: ['Dinnerware']},
   // === Dinnerware: クリスタル ===
@@ -3019,6 +3019,10 @@ var IS_BRAND_DICT = [
 
   // === Boxes ===
   {name: 'Wolf', jp_names: ['ウルフ', 'WOLF', 'WOLF 1834'], country: 'United States', category: ['Boxes']},
+
+  // === Flatware ===
+  {name: 'Sori Yanagi', jp_names: ['柳宗理', 'ヤナギソウリ', 'SORI YANAGI', 'YANAGI'], country: 'Japan', category: ['Flatware']},
+  {name: 'Tsubame Shinko', jp_names: ['燕振興工業', 'ツバメシンコウ', 'TSUBAME SHINKO'], country: 'Japan', category: ['Flatware']},
 
   // === Fishing Rods ===
   {name: 'Shimano', jp_names: ['シマノ', 'SHIMANO'], country: 'Japan', category: ['Fishing Rods', 'Fishing Reels', 'Fishing Lures']},
@@ -3554,7 +3558,7 @@ var IS_TAG_TO_CATEGORY = {
   'ガラス細工': 'Glassware', 'クリスタル': 'Glassware', '花瓶': 'Glassware', 'オブジェ': 'Glassware', '切子': 'Glassware', '江戸切子': 'Glassware', '薩摩切子': 'Glassware', 'デキャンタ': 'Glassware', 'ペーパーウェイト': 'Glassware',
   'スノードーム': 'Snow Globes', 'ガラスドーム': 'Snow Globes', 'スノーグローブ': 'Snow Globes', 'ウォータードーム': 'Snow Globes',
   'ジュエリーボックス': 'Boxes', '時計ケース': 'Boxes', 'ウォッチボックス': 'Boxes', '宝石箱': 'Boxes', 'アクセサリーケース': 'Boxes', 'コレクションケース': 'Boxes', 'ディスプレイケース': 'Boxes',
-  'カトラリー': 'Flatware', 'スプーン': 'Flatware', 'フォーク': 'Flatware', 'ナイフ': 'Flatware',
+  'カトラリー': 'Flatware', 'スプーン': 'Flatware', 'フォーク': 'Flatware', 'ナイフ': 'Flatware', '銀食器': 'Flatware', 'シルバーカトラリー': 'Flatware',
   'ベビー': 'Baby', 'ベビーシューズ': 'Baby', 'ラトル': 'Baby', 'ベビー用品': 'Baby',
   '櫛': 'Combs', 'くし': 'Combs', 'コーム': 'Combs',
   'キーリング': 'Key Chains', 'キーホルダー': 'Key Chains', 'キーケース': 'Key Chains',

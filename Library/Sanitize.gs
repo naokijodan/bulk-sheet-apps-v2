@@ -601,6 +601,15 @@ var CATEGORY_RULES_ = {
       '- 内張り: ベルベット/ビロード → Velvet、スエード → Suede、シルク/絹 → Silk、サテン → Satin。不明ならNA。',
       '- [EN]セクションでは: Type は Jewelry Box/Watch Box/Display Case/Presentation Box/Travel Case/Ring Box。Material は Wood/Leather/Faux Leather/Lacquer/Metal/Glass。Lining Material は Velvet/Suede/Silk/Satin。Suitable For は Watches/Rings/Necklaces/Earrings/Bracelets。'
     ]
+  },
+  'Flatware': {
+    label: 'カ��ラリー・銀食器',
+    rules: [
+      '- タイプ: スプーン/フォーク/ナイフ/サービングスプーン/バターナイフ 等。セット（2本以上）の場合は「Set」と記入。',
+      '- 素材: 純銀/925/STERLING → Sterling Silver、銀メッキ/EPNS/シルバープレート → Silverplate、ステンレス/18-8/18-10 → Stainless Steel。不明ならNA。',
+      '- パターン: メーカーの柄名があればそのまま記入（例: Marly, Perles）。無地なら「Plain」。',
+      '- [EN]セクションでは: Type は Spoon/Fork/Knife/Serving Spoon/Butter Knife/Set。Composition は Sterling Silver/Silverplate/Stainless Steel。'
+    ]
   }
 };
 
@@ -688,7 +697,7 @@ var FIELD_EN_TO_JP_ = {
   'Year of Issue': '発行年', 'Topic': 'テーマ', 'Quality': '品質',
   'Composition': '素材構成',
   // その他
-  'Scent': '香り', 'Product Line': '製品ライン',
+  'Age': '年代', 'Scent': '香り', 'Product Line': '製品ライン',
   'Suitable For': '用途', 'Lining Material': '裏地素材',
   'Character Family': 'キャラクターファミリー', 'Franchise': 'フランチャイズ',
   'Scale': 'スケール', 'Fuel Type': '動力源',
