@@ -204,6 +204,8 @@ var CATEGORY_RULES_ = {
   'Necklaces': {
     label: 'ジュエリー',
     rules: [
+      '- ブランド名は必ずタイトル・説明文から正確に読み取る。推測しない。以下は間違えやすいブランドの対応表:',
+      '  セルバンギャゾット=Servane Gaxotte, ショーメ=Chaumet, ブシュロン=Boucheron, ヴァンクリーフ=Van Cleef & Arpels, ミキモト=Mikimoto, タサキ=Tasaki, アガット=agete, エテ=ete, ゴローズ=goro\'s, クロムハーツ=Chrome Hearts',
       '- 金属/素材: ゴールド/シルバー/プラチナ/ステンレススチール/真鍮/レザー 等で記入。',
       '- 金属純度: K18/K14/K10/K9/Pt900/Pt950/SV925/SV950 等で記入。不明ならNA。',
       '- 金属色: イエローゴールド/ホワイトゴールド/ピンクゴールド/コンビ 等。不明ならNA。',

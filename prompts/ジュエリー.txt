@@ -62,6 +62,25 @@ Examples:
 
 When in doubt, EXCLUDE the number rather than include a wrong model number.
 
+BRAND NAME TRANSLATION (Japanese -> English)
+These brand names have different Japanese/English spellings. Use exact English spelling:
+- セルバンギャゾット = Servane Gaxotte (France, doll-themed jewelry)
+- ショーメ = Chaumet
+- ブシュロン = Boucheron
+- ヴァンクリーフ = Van Cleef & Arpels
+- ティファニー = Tiffany & Co.
+- カルティエ = Cartier
+- ブルガリ = Bvlgari
+- ミキモト = Mikimoto
+- タサキ = Tasaki
+- アガット = agete
+- エテ = ete
+- スタージュエリー = Star Jewelry
+- ヴィヴィアンウエストウッド = Vivienne Westwood
+- クロムハーツ = Chrome Hearts
+- ゴローズ = goro's
+IMPORTANT: Match the brand name from the source text EXACTLY against this list. Do NOT guess a different brand.
+
 UNBRANDED / UNKNOWN BRAND HANDLING
 If brand cannot be determined from source:
 - Do NOT guess or make up a brand name
