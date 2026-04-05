@@ -16,11 +16,14 @@
 2. **「実害は小さい」と根拠なく推測** → IS_BRAND_DICTのcategoryフィルタリングにより実害あり
 3. **コードレビューを忘れた** → 設計後・実装後に毎回レビュー必須
 
-### 2026-04-04〜05セッション（今回）で起きた問題
-1. **prompts/フォルダを修正してもPromptTemplates.gsに反映し忘れた** → B-1/B-2でベースボール・大相撲のプロンプトを修正したが、PromptTemplates.gsの更新を見落とした。新規4件（Dragon Ball/Weiss/Digimon/トレカ汎用）も同様。ユーザーの指摘で発覚 → CLAUDE.mdのコミット前チェックリストに項目4「PromptTemplates.gs同期チェック」を追加して再発防止済み
-2. **初期設定でプロンプトが反映される仕組みを理解していなかった** → syncPromptsToSheet_()がPROMPT_TEMPLATESオブジェクト（Library/PromptTemplates.gs）から読み込んでGPT_Promptsシートに書き込む仕組み。prompts/フォルダの.txtファイルはGASから直接読み込まれない（ドキュメント・バージョン管理用）
-3. **eBay送料上限の数値を画像から誤読** → $20を$21と読み間違えた。正確さが最優先
-4. **Obsidianノートをユーザーに指摘されるまで書かなかった** → 完了ルール（C-03）違反。作業完了時にすぐ書く。次のセッションが迷う原因になる。2セッション連続の怠慢
+### 2026-04-04〜05セッション
+1. **prompts/フォルダを修正してもPromptTemplates.gsに反映し忘れた** → CLAUDE.mdチェックリストに項目追加で再発防止済み
+2. **Obsidianノートをユーザーに指摘されるまで書かなかった** → 完了ルール（C-03）違反
+
+### 2026-04-05セッション（今回）で起きた問題
+1. **Dinnerwareのコミット前にE-02レビューを完遂しなかった** → GPTがエラー連発、Gemini未実施のままコミット。コミット後にレビューエージェントで実施→Arabia/Arita重複とWeight翻訳重複を発見→修正コミット。**コミット前に2者PASS必須**
+2. **Gemini MCPブリッジがAbortErrorで頻発** → 短い英語でも失敗。code_review_geminiは動作する場合あり。429以外のエラー（AbortError）も同じ対処（20秒待機→1回リトライ→ダメならClaude+GPTで進行+報告）
+3. **別セッションと同時編集でConfig_IS.gsの変更が意図しないコミットに混入** → 釣具変更の大部分がddf266d（Servane Gaxotteコミット）に含まれた。機能的には問題ないがコミット履歴が不正確
 
 ### 必ず守るルール
 - **コードに触る前に**: ルールファイル（~/.claude/CLAUDE.md + rules/）、このHANDOVER.md、プロジェクトCLAUDE.md、Obsidianノートを全て読む。読むまでコードに触らない
@@ -44,7 +47,7 @@
 ## ■ 現在のステータス
 
 - ブランチ: main
-- 最新コミット: `a4dd4fa`
+- 最新コミット: `ba16f80`
 - clasp push: **実施済み**（全コミットでclasp push済み）
 - 動かないもの: なし
 
@@ -100,7 +103,7 @@
 
 ---
 
-## ■ 次にやること: 辞書充実カテゴリ確認の続き（17/64〜64/64）
+## ■ 次にやること: 辞書充実カテゴリ確認の続き（27/64〜64/64）
 
 ### 作業の目的
 64カテゴリの辞書を1つずつ確認し、バイヤーのニーズを満たすItem Specificsが正確に出力されるようにする。不足があればリサーチ→設計→レビュー→承認→実装→レビュー→コミット。
@@ -122,7 +125,7 @@
 - タグ競合に注意（「アンプ」はMusical Instrumentsに割当済み。「オーディオアンプ」で回避）
 - **新カテゴリ追加時はSHIPPING_POLICY_CATEGORIESも確認**する（送料上限が異なる場合がある）
 
-### 確認済みカテゴリ（21/64 + 新設2）
+### 確認済みカテゴリ（27/64 + 新設2）
 | # | カテゴリ | 状態 | 主な修正 |
 |---|---------|------|---------|
 | 1 | Watches | ✅ | — |
@@ -138,17 +141,22 @@
 | 11 | Shoes | ✅ | ブランド27件追加 |
 | 12 | Cameras | ✅ | — |
 | 13 | Electronics | ✅ | タグ17件・フィールド4→8・ブランド15件 |
-| 14 | Trading Cards | ✅ | プロンプト6件追加、PROMPT_TAG_MAPPING修正、category修正、3者協議実施 |
+| 14 | Trading Cards | ✅ | プロンプト6件追加、PROMPT_TAG_MAPPING修正、category修正 |
 | 15 | Video Games | ✅ | PROMPT_TAG_MAPPING拡充、CATEGORY_RULES充実、誤訳辞書追加 |
 | 16 | Video Game Consoles | ✅ | IS_BRAND_DICT 58件category修正 |
-| 17 | Fishing Reels | ✅ | タグ6件追加、Shimano 7モデル+Daiwa 4モデル追加、PROMPT_TAG_MAPPING拡充 |
-| 18 | Fishing Rods | ✅ | タグ6件追加、ブランド6件追加（Olympic/Xesta等）、PROMPT_TAG_MAPPING拡充 |
+| 17 | Fishing Reels | ✅ | タグ6件、Shimano 7モデル+Daiwa 4モデル追加 |
+| 18 | Fishing Rods | ✅ | タグ6件、ブランド6件追加（Olympic/Xesta等） |
+| 19 | Dinnerware | ✅ | ブランド29件（日本窯元・欧州・北欧）、タグ6件、ルール6件 |
+| 20 | Scarves | ✅ | ブランド7件、タグ4件、ルール5件 |
+| 21 | Neckties | ✅ | ブランド9件（Marinella/Brioni/Kiton等）、タグ3件、ルール5件 |
+| 22 | Handkerchiefs | ✅ | タグ2件、ルール4件 |
+| 23 | Tie Accessories | ✅ | 変更なし（既にジュエリー準拠で充実） |
+| 24 | Glassware | ✅ | ブランド15件（Bohemia/Riedel/Kagami等）、タグ5件、ルール5件 |
 | 新設 | Video Game Accessories | ✅ | カテゴリ新設（全定義+送料$25） |
-| 新設 | Fishing Lures | ✅ | カテゴリ新設（10フィールド・32ブランド・14タグ・ルール7件） |
-| 19 | Dinnerware | ✅ | ブランド29件追加（日本窯元・欧州・北欧）、タグ6件、ルール6件 |
+| 新設 | Fishing Lures | ✅ | カテゴリ新設（10フィールド・32ブランド・14タグ） |
 
-### 未確認カテゴリ（43/64）— 次のセッションでScarvesから
-Scarves, Neckties, Handkerchiefs, Tie Accessories, Glassware, Snow Globes, Boxes, Flatware, Baby, Combs, Key Chains, Charms, Collectibles, Pipes, Watch Parts, Sunglasses, Soap, Dolls & Plush, Hats, Musical Instruments, Pens, Wallets, Lighters, Art, Pottery, Belts, Belt Buckles, Golf Heads, Kimono, Japanese Swords, Tea Ceremony, Bonsai, Prints, Buddhist Art, Tetsubin, Golf, Tennis, Baseball, Japanese Instruments, RC & Models, Anime, Figures, Stamps, Coins, Records
+### 未確認カテゴリ（37/64）— 次のセッションでSnow Globesから
+Snow Globes, Boxes, Flatware, Baby, Combs, Key Chains, Charms, Collectibles, Pipes, Watch Parts, Sunglasses, Soap, Dolls & Plush, Hats, Musical Instruments, Pens, Wallets, Lighters, Art, Pottery, Belts, Belt Buckles, Golf Heads, Kimono, Japanese Swords, Tea Ceremony, Bonsai, Prints, Buddhist Art, Tetsubin, Golf, Tennis, Baseball, Japanese Instruments, RC & Models, Anime, Figures, Stamps, Coins, Records
 
 ---
 
