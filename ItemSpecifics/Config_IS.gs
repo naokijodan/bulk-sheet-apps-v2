@@ -708,15 +708,16 @@ var IS_INITIAL_DATA = [
   { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Country of Origin', field_type: 'recommended', priority: 9, notes: '' },
 
   // === Wallets ===
-  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,コインケース,カードケース,マネークリップ', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
-  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,コインケース,カードケース,マネークリップ', field_name: 'Type', field_type: 'required', priority: 2, notes: 'Bifold / Trifold / Long / Card Case等' },
-  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,コインケース,カードケース,マネークリップ', field_name: 'Material', field_type: 'required', priority: 3, notes: 'Leather / Canvas等' },
-  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,コインケース,カードケース,マネークリップ', field_name: 'Color', field_type: 'recommended', priority: 4, notes: '' },
-  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,コインケース,カードケース,マネークリップ', field_name: 'Style', field_type: 'recommended', priority: 5, notes: '' },
-  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,コインケース,カードケース,マネークリップ', field_name: 'Department', field_type: 'recommended', priority: 6, notes: 'Men\'s / Women\'s' },
-  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,コインケース,カードケース,マネークリップ', field_name: 'Features', field_type: 'recommended', priority: 7, notes: '' },
-  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,コインケース,カードケース,マネークリップ', field_name: 'Theme', field_type: 'recommended', priority: 8, notes: '' },
-  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,コインケース,カードケース,マネークリップ', field_name: 'Country of Origin', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Type', field_type: 'required', priority: 2, notes: 'Bifold / Trifold / Long / Card Case等' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Material', field_type: 'required', priority: 3, notes: 'Leather / Canvas等' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Color', field_type: 'recommended', priority: 4, notes: '' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Style', field_type: 'recommended', priority: 5, notes: '' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Department', field_type: 'recommended', priority: 6, notes: 'Men\'s / Women\'s' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Features', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Theme', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Country of Origin', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Closure', field_type: 'recommended', priority: 10, notes: 'Zipper / Snap Button / Magnetic / Clasp' },
 
   // === Lighters ===
   { category: 'Lighters', tag_jp: 'ライター,Zippo,ジッポ,オイルライター,ガスライター', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -1234,7 +1235,7 @@ var IS_BRAND_DICT = [
   {name: 'Filson', jp_names: ['フィルソン', 'FILSON'], country: 'United States'},
   {name: 'Freitag', jp_names: ['フライターグ', 'FREITAG'], country: 'Switzerland'},
   {name: 'Goyard', jp_names: ['ゴヤール', 'GOYARD'], country: 'France'},
-  {name: 'HERZ', jp_names: ['ヘルツ', 'HERZ'], country: 'Japan'},
+  {name: 'HERZ', jp_names: ['ヘルツ', 'HERZ'], country: 'Japan', category: ['Handbags', 'Wallets']},
   {name: 'Hunting World', jp_names: ['ハンティングワールド', 'HUNTING WORLD'], country: 'United States'},
   {name: '印伝屋', jp_names: ['印伝屋', 'インデンヤ', 'INDEN-YA', 'INDENYA'], country: 'Japan'},
   {name: 'Loewe', jp_names: ['ロエベ', 'LOEWE'], country: 'Spain'},
@@ -2609,6 +2610,11 @@ var IS_BRAND_DICT = [
   {name: 'Kitamura', jp_names: ['キタムラ', 'KITAMURA'], country: 'Japan', category: ['Handbags', 'Wallets']},
   {name: 'Dakota', jp_names: ['ダコタ', 'DAKOTA'], country: 'Japan', category: ['Handbags', 'Wallets']},
   {name: 'GANZO', jp_names: ['ガンゾ', 'GANZO'], country: 'Japan', category: ['Handbags', 'Wallets']},
+  {name: 'Cocomeister', jp_names: ['ココマイスター', 'COCOMEISTER'], country: 'Japan', category: ['Wallets']},
+  {name: 'CYPRIS', jp_names: ['キプリス', 'CYPRIS'], country: 'Japan', category: ['Wallets']},
+  {name: 'WILDSWANS', jp_names: ['ワイルドスワンズ', 'WILDSWANS', 'WILD SWANS'], country: 'Japan', category: ['Wallets']},
+  {name: 'FUJITAKA', jp_names: ['フジタカ', 'FUJITAKA'], country: 'Japan', category: ['Wallets']},
+  {name: 'Sot', jp_names: ['ソット', 'SOT'], country: 'Japan', category: ['Wallets']},
   {name: 'Whitehouse Cox', jp_names: ['ホワイトハウスコックス', 'WHITEHOUSE COX'], country: 'United Kingdom', category: ['Handbags', 'Wallets']},
   {name: 'Anteprima', jp_names: ['アンテプリマ', 'ANTEPRIMA'], country: 'Italy', category: ['Handbags', 'Wallets']},
   {name: 'Anya Hindmarch', jp_names: ['アニヤハインドマーチ', 'ANYA HINDMARCH'], country: 'United Kingdom', category: ['Handbags', 'Wallets']},
@@ -3704,6 +3710,9 @@ IS_TAG_TO_CATEGORY['筆記具'] = 'Pens'; IS_TAG_TO_CATEGORY['メカニカルペ
 IS_TAG_TO_CATEGORY['財布'] = 'Wallets'; IS_TAG_TO_CATEGORY['長財布'] = 'Wallets';
 IS_TAG_TO_CATEGORY['二つ折り財布'] = 'Wallets'; IS_TAG_TO_CATEGORY['コインケース'] = 'Wallets';
 IS_TAG_TO_CATEGORY['カードケース'] = 'Wallets'; IS_TAG_TO_CATEGORY['マネークリップ'] = 'Wallets';
+IS_TAG_TO_CATEGORY['キーケース'] = 'Wallets'; IS_TAG_TO_CATEGORY['パスケース'] = 'Wallets';
+IS_TAG_TO_CATEGORY['三つ折り財布'] = 'Wallets'; IS_TAG_TO_CATEGORY['ミニ財布'] = 'Wallets';
+IS_TAG_TO_CATEGORY['札入れ'] = 'Wallets'; IS_TAG_TO_CATEGORY['がま口'] = 'Wallets';
 
 // Lighters
 IS_TAG_TO_CATEGORY['ライター'] = 'Lighters'; IS_TAG_TO_CATEGORY['Zippo'] = 'Lighters';
@@ -3964,7 +3973,7 @@ var IS_CATEGORY_FIELDS = {
   'Synths & Digital':    ['Brand', 'Model', 'Type', 'Number of Keys', 'Analog/Digital', 'Color', 'Connectivity', 'Features', 'Model Year', 'Country of Origin'],
   'Musical Instruments': ['Brand', 'Model', 'Type', 'Material', 'Color', 'Size', 'Key/Pitch', 'Features', 'Model Year', 'Country of Origin'],
   'Pens':          ['Brand', 'Material', 'Ink Color', 'Nib Size', 'Nib Material', 'Type', 'Vintage', 'Features', 'Country of Origin'],
-  'Wallets':       ['Brand', 'Type', 'Material', 'Color', 'Style', 'Department', 'Features', 'Theme', 'Country of Origin'],
+  'Wallets':       ['Brand', 'Type', 'Material', 'Color', 'Style', 'Department', 'Features', 'Theme', 'Country of Origin', 'Closure'],
   'Lighters':      ['Brand', 'Type', 'Material', 'Color', 'Country of Origin'],
   'Art':           ['Artist', 'Production Technique', 'Style', 'Subject', 'Theme', 'Size', 'Material', 'Original/Licensed Reproduction', 'Time Period Produced', 'Country of Origin'],
   'Pottery':       ['Brand', 'Type', 'Material', 'Color', 'Production Technique', 'Style', 'Pattern', 'Theme', 'Country of Origin'],

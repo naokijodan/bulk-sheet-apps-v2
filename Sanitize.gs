@@ -295,12 +295,12 @@ var CATEGORY_RULES_ = {
   'Wallets': {
     label: 'バッグ・財布',
     rules: [
-      '- 外装素材: レザー/キャンバス/ナイロン/PVC/合皮/コーティングキャンバス のいずれかで記入。素材が明記されていない場合はNA。',
+      '- 外装素材: レザー/キャンバス/ナイロン/PVC/合皮/コーティングキャンバス/エキゾチックレザー/パテントレザー のいずれかで記入。クロコダイル・リザード・パイソン等はエキゾチックレザー。素材が明記されていない場合はNA。',
       '- 対象: メンズ/レディース/ユニセックス のいずれかで記入。',
-      '- タイプ: 長財布/二つ折り財布/三つ折り財布/ラウンドファスナー財布/小銭入れ/カードケース/キーケース/パスケース のいずれかで記入。',
-      '- 金具色: ゴールド/シルバー/ガンメタル のいずれか。不明ならNA。',
-      '- 開閉: ファスナー/スナップボタン/フラップ のいずれかで記入。不明ならNA。',
-      '- [EN]セクションでは: Exterior Material は Leather/Canvas/Nylon/PVC/Synthetic Leather/Coated Canvas。Department は Men/Women/Unisex。Type は Long Wallet/Bifold Wallet/Trifold Wallet/Zip Around Wallet/Coin Purse/Card Case/Key Case/Pass Case。Closure は Zipper/Snap Button/Flap。Hardware Color は Gold/Silver/Gunmetal。'
+      '- タイプ: 長財布/二つ折り財布/三つ折り財布/ラウンドファスナー財布/L字ファスナー財布/コンパクト財布/ミニ財布/小銭入れ/札入れ/がま口/カードケース/キーケース/パスケース/チェーンウォレット/マネークリップ のいずれかで記入。',
+      '- 金具色: ゴールド/シルバー/ローズゴールド/ガンメタル/ブラック のいずれか。不明ならNA。',
+      '- 開閉: ファスナー/スナップボタン/フラップ/マグネット/がま口（口金） のいずれかで記入。不明ならNA。',
+      '- [EN]セクションでは: Exterior Material は Leather/Canvas/Nylon/PVC/Synthetic Leather/Coated Canvas/Exotic Leather/Patent Leather。Department は Men/Women/Unisex。Type は Long Wallet/Bifold Wallet/Trifold Wallet/Zip Around Wallet/L-zip Wallet/Compact Wallet/Mini Wallet/Coin Purse/Card Case/Key Case/Pass Case/Chain Wallet/Money Clip/Billfold/Frame Purse。Closure は Zipper/Snap Button/Flap/Magnetic/Clasp。Hardware Color は Gold/Silver/Rose Gold/Gunmetal/Black。'
     ]
   },
   'Clothing': {
@@ -721,7 +721,8 @@ var FIELD_EN_TO_JP_ = {
   'Main Stone Shape': '主石の形', 'Pendant Shape': 'ペンダントの形',
   'Secondary Stone': '副石',
   // ファッション
-  'Exterior Material': '外装素材', 'Exterior Color': '外装色',
+  'Exterior Material': '外装素材', 'Exterior Color': '外装色', 'Closure': '開閉',
+  'Hardware Color': '金具色',
   // 時計
   'Display': '表示方式', 'Movement': 'ムーブメント',
   'Case Material': 'ケース素材', 'Case Size': 'ケースサイズ',
