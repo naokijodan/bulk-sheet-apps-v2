@@ -494,10 +494,17 @@ var CATEGORY_RULES_ = {
     ]
   },
   'Japanese Swords': {
-    label: '刀剣',
+    label: '刀装具（※刀身は海外発送不可）',
     rules: [
-      '- タイプ: 刀/太刀/脇差/短刀/薙刀/槍 等で記入。',
-      '- [EN]セクションでは: Type は Katana/Tachi/Wakizashi/Tanto/Naginata/Yari。Blade Material は Carbon Steel/Tamahagane。'
+      '- 【重要】刀身（刀/脇差/短刀/太刀）は海外発送不可。鍔/拵え/刀装具のみ出品可能。タイプは必ず刀装具の種類を記入すること。',
+      '- タイプ: 鍔/拵え/縁頭/目貫/小柄/笄/鐺/鞘/柄/切羽/ハバキ のいずれかで記入。',
+      '- 素材: 鉄/赤銅/四分一/真鍮/銀/銅/金 等で記入。',
+      '- 技法: 象嵌/彫金/透かし/色絵/魚子地/高彫/平象嵌/布目象嵌 等で記入。不明ならNA。',
+      '- 時代: 室町/桃山/江戸初期/江戸中期/江戸後期/明治 等で記入。不明ならNA。',
+      '- 流派/作者: 正阿弥/後藤/肥後/奈良/美濃/赤坂 等の流派名、または作者名をヘボン式ローマ字で記入。不明ならNA。',
+      '- 図柄: 龍/波/牡丹/武者/鶴/虎/風景/幾何学 等で記入。',
+      '- サイズ: 鍔は直径×厚さmm。その他は長さ×幅mmで記入。',
+      '- [EN]セクションでは: Type は Tsuba(Sword Guard)/Koshirae(Full Mounting)/Fuchi-Kashira(Hilt Collar & Pommel)/Menuki(Hilt Ornament)/Kozuka(Utility Knife)/Kogai(Skewer)/Kojiri(Scabbard Tip)/Saya(Scabbard)/Tsuka(Handle)/Seppa(Spacer)/Habaki(Blade Collar)。Material は Iron/Shakudo/Shibuichi/Brass/Silver/Copper/Gold。Technique は Inlay(Zogan)/Metal Engraving(Chokin)/Openwork(Sukashi)/Polychrome Inlay(Iroe)/Nanako(Fish Roe Ground)/Takabori(High Relief)/Hira-Zogan(Flat Inlay)/Nunome-Zogan(Cloth Inlay)。Era は Muromachi/Momoyama/Early Edo/Mid Edo/Late Edo/Meiji。School は Shoami/Goto/Higo/Nara/Mino/Akasaka。'
     ]
   },
   'Art': {
@@ -814,8 +821,9 @@ var FIELD_EN_TO_JP_ = {
   'String Pattern': 'ストリングパターン', 'Weight': '重量',
   // 野球
   'Player Position': 'ポジション', 'Sport/Activity': 'スポーツ',
-  // 刀剣
-  'Blade Material': '刃の素材', 'Original/Reproduction': 'オリジナル/複製',
+  // 刀装具
+  'Technique': '技法', 'Era/Period': '時代', 'School/Maker': '流派/作者', 'Motif/Subject': '図柄',
+  'Original/Reproduction': 'オリジナル/複製',
   // レコード
   'Release Title': 'タイトル', 'Record Grading': 'レコード評価',
   'Record Label': 'レーベル', 'Format': 'フォーマット',

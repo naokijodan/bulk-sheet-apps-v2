@@ -301,12 +301,16 @@ var IS_INITIAL_DATA = [
   { category: 'Kimono', tag_jp: '着物,和装,振袖,留袖,訪問着,浴衣,帯,袴,小紋,紬,付下げ,羽織,色無地,反物,草履,下駄,名古屋帯,袋帯,半幅帯', field_name: 'Country of Origin', field_type: 'recommended', priority: 9, notes: '' },
 
   // === Japanese Swords ===
-  { category: 'Japanese Swords', tag_jp: '日本刀,刀,脇差,短刀,太刀,刀装具,鍔,目貫,縁頭', field_name: 'Type', field_type: 'required', priority: 1, notes: 'Katana / Wakizashi / Tanto / Tachi / Tsuba等' },
-  { category: 'Japanese Swords', tag_jp: '日本刀,刀,脇差,短刀,太刀,刀装具,鍔,目貫,縁頭', field_name: 'Blade Material', field_type: 'required', priority: 2, notes: 'Steel / Iron / Copper等' },
-  { category: 'Japanese Swords', tag_jp: '日本刀,刀,脇差,短刀,太刀,刀装具,鍔,目貫,縁頭', field_name: 'Original/Reproduction', field_type: 'recommended', priority: 3, notes: 'Antique Original / Vintage Original / Contemporary' },
-  { category: 'Japanese Swords', tag_jp: '日本刀,刀,脇差,短刀,太刀,刀装具,鍔,目貫,縁頭', field_name: 'Handedness', field_type: 'recommended', priority: 4, notes: '' },
-  { category: 'Japanese Swords', tag_jp: '日本刀,刀,脇差,短刀,太刀,刀装具,鍔,目貫,縁頭', field_name: 'Material', field_type: 'recommended', priority: 5, notes: 'Steel / Iron / Copper等' },
-  { category: 'Japanese Swords', tag_jp: '日本刀,刀,脇差,短刀,太刀,刀装具,鍔,目貫,縁頭', field_name: 'Country of Origin', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Japanese Swords', tag_jp: '日本刀,刀,脇差,短刀,太刀,刀装具,鍔,目貫,縁頭,拵え,小柄,笄', field_name: 'Type', field_type: 'required', priority: 1, notes: 'Tsuba / Koshirae / Fuchi-Kashira / Menuki / Kozuka / Kogai等' },
+  { category: 'Japanese Swords', tag_jp: '日本刀,刀,脇差,短刀,太刀,刀装具,鍔,目貫,縁頭,拵え,小柄,笄', field_name: 'Material', field_type: 'required', priority: 2, notes: 'Iron / Shakudo / Shibuichi / Brass / Silver' },
+  { category: 'Japanese Swords', tag_jp: '日本刀,刀,脇差,短刀,太刀,刀装具,鍔,目貫,縁頭,拵え,小柄,笄', field_name: 'Technique', field_type: 'recommended', priority: 3, notes: 'Inlay / Carving / Openwork(Sukashi)等' },
+  { category: 'Japanese Swords', tag_jp: '日本刀,刀,脇差,短刀,太刀,刀装具,鍔,目貫,縁頭,拵え,小柄,笄', field_name: 'Era/Period', field_type: 'recommended', priority: 4, notes: 'Muromachi / Momoyama / Edo / Meiji' },
+  { category: 'Japanese Swords', tag_jp: '日本刀,刀,脇差,短刀,太刀,刀装具,鍔,目貫,縁頭,拵え,小柄,笄', field_name: 'School/Maker', field_type: 'recommended', priority: 5, notes: 'Goto / Shoami / Higo / Nara / Mino' },
+  { category: 'Japanese Swords', tag_jp: '日本刀,刀,脇差,短刀,太刀,刀装具,鍔,目貫,縁頭,拵え,小柄,笄', field_name: 'Motif/Subject', field_type: 'recommended', priority: 6, notes: 'Dragon / Waves / Floral / Samurai等' },
+  { category: 'Japanese Swords', tag_jp: '日本刀,刀,脇差,短刀,太刀,刀装具,鍔,目貫,縁頭,拵え,小柄,笄', field_name: 'Size', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Japanese Swords', tag_jp: '日本刀,刀,脇差,短刀,太刀,刀装具,鍔,目貫,縁頭,拵え,小柄,笄', field_name: 'Color', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Japanese Swords', tag_jp: '日本刀,刀,脇差,短刀,太刀,刀装具,鍔,目貫,縁頭,拵え,小柄,笄', field_name: 'Original/Reproduction', field_type: 'recommended', priority: 9, notes: 'Antique Original / Contemporary' },
+  { category: 'Japanese Swords', tag_jp: '日本刀,刀,脇差,短刀,太刀,刀装具,鍔,目貫,縁頭,拵え,小柄,笄', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
 
   // === Tea Ceremony ===
   { category: 'Tea Ceremony', tag_jp: '茶道具,茶碗,茶入,棗,茶杓,水指,建水,風炉,釜', field_name: 'Type', field_type: 'required', priority: 1, notes: 'Tea Bowl / Natsume / Tea Caddy / Chasen等' },
@@ -3773,11 +3777,13 @@ IS_TAG_TO_CATEGORY['草履'] = 'Kimono'; IS_TAG_TO_CATEGORY['下駄'] = 'Kimono'
 IS_TAG_TO_CATEGORY['名古屋帯'] = 'Kimono'; IS_TAG_TO_CATEGORY['袋帯'] = 'Kimono';
 IS_TAG_TO_CATEGORY['半幅帯'] = 'Kimono';
 
-// Japanese Swords
+// Japanese Swords（刀身は海外発送不可。鍔/拵え等の刀装具のみ出品可能）
 IS_TAG_TO_CATEGORY['日本刀'] = 'Japanese Swords'; IS_TAG_TO_CATEGORY['刀'] = 'Japanese Swords';
 IS_TAG_TO_CATEGORY['脇差'] = 'Japanese Swords'; IS_TAG_TO_CATEGORY['短刀'] = 'Japanese Swords';
 IS_TAG_TO_CATEGORY['太刀'] = 'Japanese Swords'; IS_TAG_TO_CATEGORY['刀装具'] = 'Japanese Swords';
 IS_TAG_TO_CATEGORY['鍔'] = 'Japanese Swords'; IS_TAG_TO_CATEGORY['目貫'] = 'Japanese Swords';
+IS_TAG_TO_CATEGORY['拵え'] = 'Japanese Swords'; IS_TAG_TO_CATEGORY['縁頭'] = 'Japanese Swords';
+IS_TAG_TO_CATEGORY['小柄'] = 'Japanese Swords'; IS_TAG_TO_CATEGORY['笄'] = 'Japanese Swords';
 
 // Tea Ceremony（茶道具をPotteryから上書き）
 IS_TAG_TO_CATEGORY['茶道具'] = 'Tea Ceremony'; IS_TAG_TO_CATEGORY['茶入'] = 'Tea Ceremony';
@@ -4007,7 +4013,7 @@ var IS_CATEGORY_FIELDS = {
   'Belt Buckles':  ['Brand', 'Type', 'Material', 'Color', 'Style', 'Department', 'Fits Belt Width', 'Pattern', 'Theme', 'Country of Origin'],
   'Golf Heads':          ['Brand', 'Golf Club Type', 'Loft', 'Handedness', 'Material', 'Model', 'Lie Angle', 'Head Shape', 'Bounce', 'Country of Origin'],
   'Kimono':              ['Brand', 'Type', 'Material', 'Color', 'Pattern', 'Season', 'Size', 'Technique/Weave', 'Country of Origin'],
-  'Japanese Swords':     ['Type', 'Blade Material', 'Original/Reproduction', 'Handedness', 'Material', 'Country of Origin'],
+  'Japanese Swords':     ['Type', 'Material', 'Technique', 'Era/Period', 'School/Maker', 'Motif/Subject', 'Size', 'Color', 'Original/Reproduction', 'Country of Origin'],
   'Tea Ceremony':        ['Type', 'Material', 'Maker', 'Style', 'Country of Origin'],
   'Bonsai':              ['Type', 'Material', 'Size', 'Color', 'Shape', 'Country of Origin'],
   'Prints':              ['Listed By', 'Medium', 'Subject', 'Maker', 'Style', 'Size', 'Country of Origin'],
