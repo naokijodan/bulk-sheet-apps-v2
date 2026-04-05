@@ -155,6 +155,7 @@ function initialSetup() {
     tmpl.currentTagOverrideLowShipping = docProps.getProperty('TAG_OVERRIDE_LOW_SHIPPING') || 'true';
     tmpl.currentTagOverrideHighShipping = docProps.getProperty('TAG_OVERRIDE_HIGH_SHIPPING') || 'true';
     tmpl.currentTagOverrideThreshold = docProps.getProperty('TAG_OVERRIDE_THRESHOLD') || 'true';
+    tmpl.currentTagOverrideCondition = docProps.getProperty('TAG_OVERRIDE_CONDITION') || 'true';
 
     // ===== ✅ 重複チェック設定の規定値を詳細に設定 =====
     var workSheetName = props.getProperty('SHEET_NAME') || '作業シート';

@@ -886,6 +886,12 @@
               <label class="checkbox-label"><input type="checkbox" id="tagOverrideThreshold" checked> 送料切替基準</label>
             </div>
           </div>
+          <div style="margin-bottom:12px;">
+            <strong>商品状態</strong>
+            <div class="checkbox-group" style="margin-left:16px;margin-top:4px;">
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideCondition" checked> 商品状態（新品/中古/AI）</label>
+            </div>
+          </div>
           <div class="info-box">
             <div class="title">タグ自動判定について</div>
             <div class="content">
@@ -1070,6 +1076,7 @@
       if ('<?= currentTagOverrideLowShipping ?>' === 'false') document.getElementById('tagOverrideLowShipping').checked = false;
       if ('<?= currentTagOverrideHighShipping ?>' === 'false') document.getElementById('tagOverrideHighShipping').checked = false;
       if ('<?= currentTagOverrideThreshold ?>' === 'false') document.getElementById('tagOverrideThreshold').checked = false;
+      if ('<?= currentTagOverrideCondition ?>' === 'false') document.getElementById('tagOverrideCondition').checked = false;
       // 個別トグルに基づきUI連動を初期化
       toggleTagOverrideItems();
     });
@@ -1447,6 +1454,7 @@
         tagOverrideLowShipping: document.getElementById('tagOverrideLowShipping').checked ? 'true' : 'false',
         tagOverrideHighShipping: document.getElementById('tagOverrideHighShipping').checked ? 'true' : 'false',
         tagOverrideThreshold: document.getElementById('tagOverrideThreshold').checked ? 'true' : 'false',
+        tagOverrideCondition: document.getElementById('tagOverrideCondition').checked ? 'true' : 'false',
 
         // プリセット設定
         presetGenre: document.querySelector('input[name="presetGenre"]:checked').value,

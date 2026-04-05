@@ -2998,7 +2998,8 @@ function saveIntegratedSettings(formData) {
     docProps.setProperty('TAG_OVERRIDE_LOW_SHIPPING', formData.tagOverrideLowShipping || 'true');
     docProps.setProperty('TAG_OVERRIDE_HIGH_SHIPPING', formData.tagOverrideHighShipping || 'true');
     docProps.setProperty('TAG_OVERRIDE_THRESHOLD', formData.tagOverrideThreshold || 'true');
-    
+    docProps.setProperty('TAG_OVERRIDE_CONDITION', formData.tagOverrideCondition || 'true');
+
     // 価格表示モードの保存
     setPriceDisplayMode(priceDisplayMode);
 
@@ -3597,6 +3598,15 @@ function ensureTagShippingSheet_(ss) {
         }
         // 列幅調整: O列を100pxに
         sheet.setColumnWidth(15, 100);
+        // 既存シートの移行処理: P列（商品状態）ヘッダーが無ければ追加
+        var p1Value = sheet.getRange(1, 16).getValue();
+        if (!p1Value || String(p1Value).trim() === '') {
+          sheet.getRange(1, 16).setValue('商品状態')
+            .setFontWeight('bold')
+            .setBackground(CONFIG.TAG_SHIPPING.HEADER_BG_COLOR)
+            .setFontColor(CONFIG.TAG_SHIPPING.HEADER_FONT_COLOR);
+          sheet.setColumnWidth(16, 100);
+        }
         // 既存シートの移行処理: Q1セル相当が空ならタグ一覧を出力
         var tagListCol = CONFIG.TAG_SHIPPING.TAG_LIST_START_COL;
         var q1Value = sheet.getRange(1, tagListCol).getValue();
@@ -3637,7 +3647,7 @@ function ensureTagShippingSheet_(ss) {
     sheet.setColumnWidth(13, 100);  // M: 高価格配送
     sheet.setColumnWidth(14, 120);  // N: 送料切替基準
     sheet.setColumnWidth(15, 100);  // O: 想定関税閾値
-    sheet.setColumnWidth(16, 30);   // P: 空き
+    sheet.setColumnWidth(16, 100);  // P: 商品状態
 
     // B〜D列を数値書式に設定（2行目以降）
     var maxRows = sheet.getMaxRows();
@@ -3840,6 +3850,13 @@ function applyTagShippingValidations_(sheet) {
 
   // N列: 送料切替基準（数値書式）
   sheet.getRange(2, 14, dataRows, 1).setNumberFormat('#,##0');
+
+  // P列: 商品状態（新品/中古/AI）
+  var conditionRule = SpreadsheetApp.newDataValidation()
+    .requireValueInList(['新品', '中古', 'AI'], true)
+    .setAllowInvalid(true)
+    .build();
+  sheet.getRange(2, 16, dataRows, 1).setDataValidation(conditionRule);
 }
 
 /**
@@ -4141,6 +4158,15 @@ function applyCalculationFormulas(sheetName, settings) {
           }
           sheet.getRange(5, CONFIG.COLUMNS.RATE, dataLastRow - 4, 1).setFormulas(wFormulas);
         }
+      }
+
+      // AE列: 商品状態（タグ判定ON: TagShippingのP列からINDEX/MATCH、フォールバック: $P$2）
+      if (fullSettings && fullSettings.tagOverrideCondition && tagMap) {
+        var condFormulas = [];
+        for (var i = 5; i <= dataLastRow; i++) {
+          condFormulas.push(['=IFERROR(LET(cond,INDEX(' + tsName + '!P:P,MATCH(D' + i + ',' + tsName + '!A:A,0)),IF(OR(cond="AI",cond=""),$P$2,cond)),$P$2)']);
+        }
+        sheet.getRange(5, CONFIG.COLUMNS.CONDITION, dataLastRow - 4, 1).setFormulas(condFormulas);
       }
 
       // Y列: 重量 = $J$2

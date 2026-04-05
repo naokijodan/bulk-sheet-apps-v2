@@ -1115,7 +1115,8 @@ function buildTagOverrideMap_(ss, settings) {
     settings.tagOverrideShippingCategory || settings.tagOverrideProfitRate ||
     settings.tagOverrideAdRate || settings.tagOverrideFeeRate ||
     settings.tagOverrideShipping || settings.tagOverrideLowShipping ||
-    settings.tagOverrideHighShipping || settings.tagOverrideThreshold;
+    settings.tagOverrideHighShipping || settings.tagOverrideThreshold ||
+    settings.tagOverrideCondition;
   if (!anyOverride) return null;
   var tsSheet = ss.getSheetByName(CONFIG.TAG_SHIPPING.SHEET_NAME);
   if (!tsSheet) return null;
@@ -1135,7 +1136,8 @@ function buildTagOverrideMap_(ss, settings) {
       feeRate: parsePercent_(data[i][headers.indexOf('手数料率')]),
       lowShip: data[i][headers.indexOf('低価格配送')] || null,
       highShip: data[i][headers.indexOf('高価格配送')] || null,
-      threshold: (function(v) { var n = Number(v); return isNaN(n) ? null : n; })(data[i][headers.indexOf('送料切替基準')])
+      threshold: (function(v) { var n = Number(v); return isNaN(n) ? null : n; })(data[i][headers.indexOf('送料切替基準')]),
+      condition: data[i][headers.indexOf('商品状態')] || null
     };
   }
   return map;

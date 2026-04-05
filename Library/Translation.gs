@@ -611,35 +611,40 @@ function applyTranslationToRow_(sheet, row, fields, conditionMode) {
     sheet.getRange(row, CONFIG.COLUMNS.EN_TITLE).setValue(fields.title || '');
     sheet.getRange(row, CONFIG.COLUMNS.EN_DESC).setValue(fields.description || '');
 
-    // 商品状態の設定:P2セルの値に応じて判定
-    var finalCondition;
+    // 商品状態の設定
+    // AE列に既に値が入っている場合（TagShippingの数式で「新品」「中古」が設定済み）は上書きしない
+    var conditionCell = sheet.getRange(row, CONFIG.COLUMNS.CONDITION);
+    var existingCondition = String(conditionCell.getValue() || '').trim();
 
-    if (conditionMode === '中古') {
-      finalCondition = '中古';
-    } else if (conditionMode === '新品') {
-      finalCondition = '新品';
-    } else {
-      // P2が「AI」またはその他の場合:AIの判定結果を使用
-      finalCondition = fields.condition;
-    }
+    if (!existingCondition || existingCondition === '' || existingCondition === 'エラー') {
+      // AE列が空 or エラーの場合のみ書き込む（AI判定モード or フォールバック）
+      var finalCondition;
 
-    // 商品状態の出力(ハイライトなし版)
-    if (finalCondition) {
-      var conditionCell = sheet.getRange(row, CONFIG.COLUMNS.CONDITION);
-      var validConditions = CONFIG.CONDITION_OPTIONS;
-
-      if (!validConditions.includes(finalCondition)) {
-        conditionCell.setValue("エラー");
-        conditionCell.setNote("商品状態を判定できませんでした。手動で選択してください。");
+      if (conditionMode === '中古') {
+        finalCondition = '中古';
+      } else if (conditionMode === '新品') {
+        finalCondition = '新品';
       } else {
-        conditionCell.setValue(finalCondition);
-        if (finalCondition === "エラー") {
-          conditionCell.setNote("商品状態の判定が困難です。手動で選択してください。");
+        // P2が「AI」またはその他の場合:AIの判定結果を使用
+        finalCondition = fields.condition;
+      }
+
+      if (finalCondition) {
+        var validConditions = CONFIG.CONDITION_OPTIONS;
+        if (!validConditions.includes(finalCondition)) {
+          conditionCell.setValue("エラー");
+          conditionCell.setNote("商品状態を判定できませんでした。手動で選択してください。");
         } else {
-          conditionCell.setNote("");
+          conditionCell.setValue(finalCondition);
+          if (finalCondition === "エラー") {
+            conditionCell.setNote("商品状態の判定が困難です。手動で選択してください。");
+          } else {
+            conditionCell.setNote("");
+          }
         }
       }
     }
+    // existingConditionに「新品」「中古」が入っていれば何もしない（TagShippingの値を維持）
 
   } catch (e) {
     console.error('翻訳結果の反映エラー(行' + row + '): ' + e.message);
