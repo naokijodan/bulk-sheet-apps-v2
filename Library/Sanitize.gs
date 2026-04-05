@@ -610,6 +610,14 @@ var CATEGORY_RULES_ = {
       '- パターン: メーカーの柄名があればそのまま記入（例: Marly, Perles）。無地なら「Plain」。',
       '- [EN]セクションでは: Type は Spoon/Fork/Knife/Serving Spoon/Butter Knife/Set。Composition は Sterling Silver/Silverplate/Stainless Steel。'
     ]
+  },
+  'Baby': {
+    label: 'ベビー用品',
+    rules: [
+      '- タイプ: ラトル/ガラガラ → Rattle、スプーン → Baby Spoon、シューズ/靴 → Baby Shoes、食器 → Baby Tableware、おもちゃ → Baby Toy。',
+      '- 素材: 銀/シルバー/925 → Sterling Silver、木 → Wood、布/綿 → Cotton/Fabric、プラスチック → Plastic。',
+      '- [EN]セクションでは: Type は Rattle/Baby Spoon/Baby Shoes/Baby Tableware/Baby Toy。Material は Sterling Silver/Wood/Cotton/Fabric/Plastic。'
+    ]
   }
 };
 
