@@ -493,6 +493,32 @@ var CATEGORY_RULES_ = {
       '- [EN]セクションでは: Type は Furisode/Tomesode/Houmongi/Tsukesage/Komon/Tsumugi/Iromuji/Yukata/Haori/Tanmono(Bolt)/Hakama/Nagoya Obi/Fukuro Obi/Hanhaba Obi/Obijime/Obiage/Zori/Geta。Material は Silk/Synthetic/Cotton/Linen/Wool/Blended。Season は Awase(Lined)/Hitoe(Unlined)/Natsumono(Summer)/Yukata。Pattern は Floral/Geometric/Sarasa/Scenic/Auspicious/Stripe/Check/Solid/Shibori(Tie-dye)。Technique/Weave は Kyo-Yuzen/Kaga-Yuzen/Oshima Tsumugi/Yuki Tsumugi/Nishijin Ori/Hakata Ori/Ryukyu Bingata/Edo Komon/Arimatsu Shibori。'
     ]
   },
+  'Tea Ceremony': {
+    label: '茶道具',
+    rules: [
+      '- 作家名/窯元名: 漢字の作家名・窯元名はヘボン式ローマ字に変換する。[EN]では「Romanized Name (漢字名)」の形式で記入。例: 楽吉左衛門→Raku Kichizaemon、大樋長左衛門→Ohi Chozaemon。',
+      '- タイプ: 茶碗/茶入/棗/茶杓/水指/建水/風炉/釜/蓋置/香合/花入/茶筅/柄杓/菓子器/炉縁 等で記入。',
+      '- 素材: 陶器/磁器/漆/竹/木/鉄/銀/銅/真鍮 等で記入。',
+      '- 産地/窯: 楽焼/萩焼/備前焼/唐津焼/志野/織部/瀬戸/京焼 等で記入。不明ならNA。',
+      '- 時代: 室町/桃山/江戸/明治/大正/昭和 等で記入。不明ならNA。',
+      '- 箱: 共箱/書付箱/保証箱/紙箱/箱なし のいずれかで記入。',
+      '- サイズ: 直径×高さをcmで記入。',
+      '- [EN]セクションでは: Type は Tea Bowl(Chawan)/Tea Caddy(Chaire)/Natsume/Tea Scoop(Chashaku)/Fresh Water Jar(Mizusashi)/Waste Water Bowl(Kensui)/Brazier(Furo)/Kettle(Kama)/Lid Rest(Futaoki)/Incense Container(Kogo)/Flower Vase(Hanaire)/Tea Whisk(Chasen)/Ladle(Hishaku)/Sweets Dish(Kashiki)/Hearth Frame(Robuchi)。Material は Ceramic/Porcelain/Lacquer/Bamboo/Wood/Iron/Silver/Copper/Brass。Origin/Kiln は Raku Ware/Hagi Ware/Bizen Ware/Karatsu Ware/Shino Ware/Oribe Ware/Seto Ware/Kyo Ware。Box Type は Original Box(Tomobako)/Inscribed Box(Kakitsuke)/Certificate Box(Hoshobako)/Paper Box/No Box。'
+    ]
+  },
+  'Bonsai': {
+    label: '盆栽用品（※生きた木/植物は輸出不可）',
+    rules: [
+      '- 【重要】生きた盆栽（木/植物）は輸出不可。盆栽鉢・道具・水石・飾台等のみ出品可能。',
+      '- タイプ: 盆栽鉢/盆器/水石/飾台/卓/盆栽道具/盆栽ハサミ/針金/用土/水盤 等で記入。',
+      '- 鉢の形: 丸/楕円/長方/正方/六角/八角/木瓜/懸崖鉢 等で記入。',
+      '- 鉢の釉薬: 無釉/釉薬/焼締/彩色 等で記入。',
+      '- サイズ: 外寸 長さ×幅×高さcmで記入。',
+      '- 水抜き穴: 穴の数を記入（例: 1穴、2穴、多穴）。',
+      '- 作家名/窯元名: ヘボン式ローマ字で記入。不明ならNA。',
+      '- [EN]セクションでは: Type は Bonsai Pot/Tray(Bonki)/Suiseki(Viewing Stone)/Display Stand(Kazaridai)/Stand(Shoku)/Bonsai Tools/Bonsai Shears/Wire/Soil/Water Tray(Suiban)。Shape は Round/Oval/Rectangle/Square/Hexagonal/Octagonal/Mokko(Quatrefoil)/Cascade。Glaze/Finish は Unglazed/Glazed/Yakishime(Natural Ash)/Colored。'
+    ]
+  },
   'Japanese Swords': {
     label: '刀装具（※刀身は海外発送不可）',
     rules: [
@@ -808,6 +834,7 @@ var FIELD_EN_TO_JP_ = {
   'Artist': 'アーティスト', 'Production Technique': '制作技法',
   'Support': '本紙素材', 'Mounting Type': '表装', 'Scroll Rod Material': '軸先素材', 'Box Type': '箱',
   'Origin/Kiln': '産地/窯', 'Technique/Weave': '技法/産地',
+  'Glaze/Finish': '釉薬/仕上げ', 'Drainage Holes': '水抜き穴', 'Maker/Kiln': '作家/窯元',
   'Subject': '題材', 'Original/Licensed Reproduction': 'オリジナル/複製',
   'Time Period Produced': '制作年代',
   'Listed By': '出品者区分', 'Medium': '技法', 'Maker': '作家',
