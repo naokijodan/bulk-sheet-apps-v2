@@ -515,6 +515,17 @@ var CATEGORY_RULES_ = {
       '- [EN]セクションでは: Support は Silk/Paper。Mounting Type は Formal Mount(Hondeso)/Paper Mount/Silk Mount/Machine Mount。Scroll Rod Material は Wood/Faux Ivory/Bone/Horn/Lacquer/Ceramic。Box Type は Original Box(Tomobako)/Custom Box(Awasebako)/Period Box(Jidaibako)/No Box。Subject は Landscape(Sansui)/Flower & Bird(Kacho)/Figure・Portrait/Calligraphy(Sho)/Buddhist/Animal。'
     ]
   },
+  'Pottery': {
+    label: '陶磁器',
+    rules: [
+      '- 作家名/窯元名: 漢字の作家名・窯元名は必ずヘボン式ローマ字に変換する。[EN]では「Romanized Name (漢字名)」の形式で記入。例: 濱田庄司→Hamada Shoji、河井寛次郎→Kawai Kanjiro、北大路魯山人→Kitaoji Rosanjin。',
+      '- タイプ: 花瓶/壺/香炉/飾皿/鉢/ぐい呑/盃/置物/水差し/徳利 等で記入。',
+      '- 素材: 磁器/陶器/炻器 のいずれかで記入。不明ならNA。',
+      '- 産地: 有田焼/伊万里/古伊万里/九谷焼/備前焼/萩焼/信楽焼/瀬戸焼/美濃焼/唐津焼/京焼/清水焼/織部/志野/薩摩焼/益子焼/常滑焼/楽焼 等で記入。産地が特定できない場合はNA。',
+      '- サイズ: 高さ×幅×奥行をcmで記入。',
+      '- [EN]セクションでは: Type は Vase/Jar/Incense Burner/Decorative Plate/Bowl/Sake Cup(Guinomi)/Sake Cup(Sakazuki)/Figurine/Water Jar/Sake Bottle(Tokkuri)。Material は Porcelain/Stoneware/Earthenware。Origin/Kiln は Arita Ware/Imari/Old Imari(Ko-Imari)/Kutani Ware/Bizen Ware/Hagi Ware/Shigaraki Ware/Seto Ware/Mino Ware/Karatsu Ware/Kyo Ware/Kiyomizu Ware/Oribe Ware/Shino Ware/Satsuma Ware/Mashiko Ware/Tokoname Ware/Raku Ware。'
+    ]
+  },
   'Prints': {
     label: '美術品',
     rules: [
@@ -779,9 +790,10 @@ var FIELD_EN_TO_JP_ = {
   'Part Type': 'パーツタイプ', 'Compatible Model': '対応モデル',
   // サングラス
   'Frame Color': 'フレーム色', 'Lens Color': 'レンズ色', 'Frame Material': 'フレーム素材',
-  // 美術・版画・掛軸
+  // 美術・版画・掛軸・陶磁器
   'Artist': 'アーティスト', 'Production Technique': '制作技法',
   'Support': '本紙素材', 'Mounting Type': '表装', 'Scroll Rod Material': '軸先素材', 'Box Type': '箱',
+  'Origin/Kiln': '産地/窯',
   'Subject': '題材', 'Original/Licensed Reproduction': 'オリジナル/複製',
   'Time Period Produced': '制作年代',
   'Listed By': '出品者区分', 'Medium': '技法', 'Maker': '作家',

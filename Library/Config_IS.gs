@@ -744,15 +744,16 @@ var IS_INITIAL_DATA = [
   { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
 
   // === Pottery ===
-  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺', field_name: 'Brand', field_type: 'recommended', priority: 1, notes: '' },
-  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺', field_name: 'Type', field_type: 'required', priority: 2, notes: 'Vase / Bowl / Plate / Figurine等' },
-  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺', field_name: 'Material', field_type: 'required', priority: 3, notes: 'Porcelain / Stoneware / Earthenware等' },
-  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺', field_name: 'Color', field_type: 'recommended', priority: 4, notes: '' },
-  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺', field_name: 'Production Technique', field_type: 'recommended', priority: 5, notes: '' },
-  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺', field_name: 'Style', field_type: 'recommended', priority: 6, notes: '' },
-  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺', field_name: 'Pattern', field_type: 'recommended', priority: 7, notes: '' },
-  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺', field_name: 'Theme', field_type: 'recommended', priority: 8, notes: '' },
-  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺', field_name: 'Country of Origin', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Brand', field_type: 'recommended', priority: 1, notes: '窯元名（香蘭社/深川製磁/柿右衛門等）' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Type', field_type: 'required', priority: 2, notes: 'Vase / Bowl / Incense Burner / Plate / Figurine等' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Material', field_type: 'required', priority: 3, notes: 'Porcelain / Stoneware / Earthenware等' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Color', field_type: 'recommended', priority: 4, notes: '' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Production Technique', field_type: 'recommended', priority: 5, notes: '' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Origin/Kiln', field_type: 'recommended', priority: 6, notes: 'Arita / Kutani / Bizen / Hagi等' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Style', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Pattern', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Size', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
 
   // === Belts ===
   { category: 'Belts', tag_jp: 'ベルト,レザーベルト', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -3735,6 +3736,15 @@ IS_TAG_TO_CATEGORY['床掛け'] = 'Kakejiku';
 // Pottery & Ceramics（茶碗はDinnerwareから上書き: 陶器としての出品が主）
 IS_TAG_TO_CATEGORY['陶磁器'] = 'Pottery'; IS_TAG_TO_CATEGORY['陶器'] = 'Pottery';
 IS_TAG_TO_CATEGORY['磁器'] = 'Pottery'; IS_TAG_TO_CATEGORY['焼物'] = 'Pottery';
+IS_TAG_TO_CATEGORY['花瓶'] = 'Pottery'; IS_TAG_TO_CATEGORY['香炉'] = 'Pottery';
+IS_TAG_TO_CATEGORY['有田焼'] = 'Pottery'; IS_TAG_TO_CATEGORY['伊万里'] = 'Pottery';
+IS_TAG_TO_CATEGORY['古伊万里'] = 'Pottery'; IS_TAG_TO_CATEGORY['九谷焼'] = 'Pottery';
+IS_TAG_TO_CATEGORY['備前焼'] = 'Pottery'; IS_TAG_TO_CATEGORY['萩焼'] = 'Pottery';
+IS_TAG_TO_CATEGORY['信楽焼'] = 'Pottery'; IS_TAG_TO_CATEGORY['瀬戸焼'] = 'Pottery';
+IS_TAG_TO_CATEGORY['美濃焼'] = 'Pottery'; IS_TAG_TO_CATEGORY['唐津焼'] = 'Pottery';
+IS_TAG_TO_CATEGORY['京焼'] = 'Pottery'; IS_TAG_TO_CATEGORY['清水焼'] = 'Pottery';
+IS_TAG_TO_CATEGORY['織部'] = 'Pottery'; IS_TAG_TO_CATEGORY['志野'] = 'Pottery';
+IS_TAG_TO_CATEGORY['薩摩焼'] = 'Pottery';
 // 茶道具 → Tea Ceremonyで上書き
 IS_TAG_TO_CATEGORY['茶道具'] = 'Pottery'; IS_TAG_TO_CATEGORY['茶碗'] = 'Pottery';
 // 急須 → Tetsubinで上書き
@@ -3982,7 +3992,7 @@ var IS_CATEGORY_FIELDS = {
   'Wallets':       ['Brand', 'Type', 'Material', 'Color', 'Style', 'Department', 'Features', 'Theme', 'Country of Origin', 'Closure'],
   'Art':           ['Artist', 'Production Technique', 'Style', 'Subject', 'Theme', 'Size', 'Material', 'Original/Licensed Reproduction', 'Time Period Produced', 'Country of Origin'],
   'Kakejiku':      ['Artist', 'Production Technique', 'Support', 'Mounting Type', 'Scroll Rod Material', 'Box Type', 'Subject', 'Size', 'Time Period Produced', 'Country of Origin'],
-  'Pottery':       ['Brand', 'Type', 'Material', 'Color', 'Production Technique', 'Style', 'Pattern', 'Theme', 'Country of Origin'],
+  'Pottery':       ['Brand', 'Type', 'Material', 'Color', 'Production Technique', 'Origin/Kiln', 'Style', 'Pattern', 'Size', 'Country of Origin'],
   'Belts':         ['Brand', 'Type', 'Material', 'Color', 'Size', 'Department', 'Style', 'Theme', 'Country of Origin'],
   'Belt Buckles':  ['Brand', 'Type', 'Material', 'Color', 'Style', 'Department', 'Fits Belt Width', 'Pattern', 'Theme', 'Country of Origin'],
   'Golf Heads':          ['Brand', 'Golf Club Type', 'Loft', 'Handedness', 'Material', 'Model', 'Lie Angle', 'Head Shape', 'Bounce', 'Country of Origin'],
