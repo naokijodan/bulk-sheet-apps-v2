@@ -499,11 +499,16 @@ var CATEGORY_RULES_ = {
     ]
   },
   'Collectibles': {
-    label: 'コレクティブル',
+    label: 'コレクティブル・アンティーク・ヴィンテージ',
     rules: [
-      '- キャラクター: 正式名称で記入。',
-      '- フランチャイズ: シリーズ名で記入（例: ドラゴンボール、ワンピース、ガンダム）。',
-      '- [EN]セクションでは: Character / Franchise は英語の公式名称で記入。例: Dragon Ball/One Piece/Gundam/Evangelion/Sailor Moon。'
+      '- タイプ: 具体的な物の名前で記入（ブリキ玩具/ソフビ/ピンバッジ/看板/メダル/切符/ポスター/置物/販促品/チラシ等）。',
+      '- 年代: 昭和/大正/明治/戦前/戦後/1950年代 等。「当時物」「ヴィンテージ」があれば推定年代も記入。不明ならNA。',
+      '- 年代EN対応: 明治→Meiji(1868-1912)、大正→Taisho(1912-1926)、昭和→Showa(1926-1989)、平成→Heisei(1989-2019)。西暦→1950s/1960s/1970s。',
+      '- キャラクター: ペコちゃん/鉄腕アトム/ゴジラ等があればそのまま記入。キャラクター商品でなければNA。',
+      '- フランチャイズ: 作品名・シリーズ名があれば記入。なければNA。',
+      '- テーマ: 鉄道/軍事/企業広告/観光/祭り/スポーツ 等、商品の文脈を記入。',
+      '- 素材: ブリキ/金属/ホーロー/紙/木/ガラス/プラスチック/ソフトビニール/布 等。',
+      '- [EN]セクションでは: Type→Tin Toy/Sofubi/Pin Badge/Sign/Medal/Ticket/Poster/Figurine/Promotional Item。Era→Meiji/Taisho/Showa/Pre-war/Post-war/1950s。Character→英語公式名(Peko-chan/Astro Boy/Godzilla)。Theme→Railway/Military/Advertising/Tourism/Sports。Material→Tin/Metal/Enamel/Paper/Wood/Glass/Plastic/Soft Vinyl/Fabric。'
     ]
   },
   'Dolls & Plush': {

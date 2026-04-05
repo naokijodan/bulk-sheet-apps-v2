@@ -216,17 +216,17 @@ var IS_INITIAL_DATA = [
   { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Material', field_type: 'recommended', priority: 5, notes: '' },
   { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Country of Origin', field_type: 'recommended', priority: 6, notes: '製造国。フルネーム英語' },
 
-  // === Collectibles (フィギュア・コレクティブル) ===
-  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品', field_name: 'Character', field_type: 'required', priority: 2, notes: 'キャラクター名' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品', field_name: 'Franchise', field_type: 'required', priority: 3, notes: '作品名（One Piece, Dragon Ball等）' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品', field_name: 'Type', field_type: 'required', priority: 4, notes: 'Action Figure, Statue, Scale Figure等' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品', field_name: 'Theme', field_type: 'recommended', priority: 5, notes: 'Anime & Manga, Video Game, Movie等' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品', field_name: 'Material', field_type: 'recommended', priority: 6, notes: 'PVC, ABS, Resin等' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品', field_name: 'Features', field_type: 'recommended', priority: 7, notes: 'Limited Edition, Japan Release等' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品', field_name: 'Size', field_type: 'recommended', priority: 8, notes: '1/7 Scale, 15cm等' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品', field_name: 'Color', field_type: 'recommended', priority: 9, notes: '' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,フィギュア,アンティーク,ヴィンテージ,骨董品', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '日本アニメ→Japan、アメリカキャラ→USA' },
+  // === Collectibles (コレクティブル・アンティーク・ヴィンテージ) ===
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Brand', field_type: 'required', priority: 1, notes: 'メーカー・ブランド・企業名' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Character', field_type: 'recommended', priority: 2, notes: 'キャラクター名（なければNA）' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Franchise', field_type: 'recommended', priority: 3, notes: '作品名・シリーズ名（なければNA）' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Type', field_type: 'required', priority: 4, notes: 'Tin Toy, Pin Badge, Sign, Medal, Poster, Figurine, Promotional Item等' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Theme', field_type: 'recommended', priority: 5, notes: 'Railway, Military, Advertising, Tourism, Sports等' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Material', field_type: 'recommended', priority: 6, notes: 'Tin, Metal, Enamel, Paper, Wood, Glass, Plastic, Soft Vinyl等' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Features', field_type: 'recommended', priority: 7, notes: 'Vintage, Dead Stock, Promotional, Limited, With Box, Working等' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Size', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Era', field_type: 'recommended', priority: 9, notes: 'Meiji/Taisho/Showa/Heisei/1950s/1960s等' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
 
   // === Watch Parts ===
   { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -3025,6 +3025,16 @@ var IS_BRAND_DICT = [
 
   // === Baby ===
   {name: 'Miki House', jp_names: ['ミキハウス', 'MIKI HOUSE', 'MIKIHOUSE'], country: 'Japan', category: ['Baby']},
+
+  // === Collectibles (ヴィンテージ玩具メーカー) ===
+  {name: 'Yonezawa', jp_names: ['米澤玩具', 'ヨネザワ', 'YONEZAWA'], country: 'Japan', category: ['Collectibles']},
+  {name: 'Nomura Toy', jp_names: ['野村トーイ', 'ノムラトーイ', 'NOMURA'], country: 'Japan', category: ['Collectibles']},
+  {name: 'Masudaya', jp_names: ['増田屋', 'マスダヤ', 'MASUDAYA', 'MODERN TOYS'], country: 'Japan', category: ['Collectibles']},
+  {name: 'Horikawa', jp_names: ['堀川玩具', 'ホリカワ', 'HORIKAWA'], country: 'Japan', category: ['Collectibles']},
+  {name: 'Alps', jp_names: ['アルプス', 'ALPS'], country: 'Japan', category: ['Collectibles']},
+  {name: 'Ichiko', jp_names: ['イチコー', 'ICHIKO'], country: 'Japan', category: ['Collectibles']},
+  {name: 'Yoshiya', jp_names: ['吉屋', 'ヨシヤ', 'YOSHIYA', 'KO'], country: 'Japan', category: ['Collectibles']},
+  {name: 'Linemar', jp_names: ['ラインマー', 'LINEMAR'], country: 'Japan', category: ['Collectibles']},
   {name: 'Tsubame Shinko', jp_names: ['燕振興工業', 'ツバメシンコウ', 'TSUBAME SHINKO'], country: 'Japan', category: ['Flatware']},
 
   // === Fishing Rods ===
@@ -3567,7 +3577,12 @@ var IS_TAG_TO_CATEGORY = {
   'キーリング': 'Key Chains', 'キーホルダー': 'Key Chains', 'キーケース': 'Key Chains', 'チャームキーホルダー': 'Key Chains',
   'チャーム': 'Charms', 'ペンダントトップ': 'Charms',
   'フィギュア': 'Collectibles', 'コレクティブル': 'Collectibles', // → Figuresで上書き
-  'アンティーク': 'Collectibles', 'ヴィンテージ': 'Collectibles', '骨董品': 'Collectibles', '人形': 'Dolls & Plush',
+  'アンティーク': 'Collectibles', 'ヴィンテージ': 'Collectibles', '骨董品': 'Collectibles',
+  '昭和レトロ': 'Collectibles', 'レトロ': 'Collectibles', '当時物': 'Collectibles',
+  'ブリキ': 'Collectibles', 'ソフビ': 'Collectibles', 'ノベルティ': 'Collectibles', '非売品': 'Collectibles',
+  'デッドストック': 'Collectibles', '景品': 'Collectibles', 'ピンバッジ': 'Collectibles',
+  'ミリタリー': 'Collectibles', '鉄道グッズ': 'Collectibles', '記念品': 'Collectibles', '紙もの': 'Collectibles',
+  '人形': 'Dolls & Plush',
   // Pipes (Tobacco Pipes)
   'パイプ': 'Pipes', '喫煙パイプ': 'Pipes', '煙管': 'Pipes', 'キセル': 'Pipes', 'パイプ・喫煙具': 'Pipes',
   // Watch Parts
@@ -3833,7 +3848,7 @@ var IS_CATEGORY_FIELDS = {
   'Combs':         ['Type', 'Brand', 'Color', 'Material', 'Theme', 'Department', 'Features', 'Country of Origin'],
   'Key Chains':    ['Brand', 'Material', 'Color', 'Character Family', 'Theme', 'Era', 'Features', 'Country of Origin'],
   'Charms':        ['Brand', 'Type', 'Metal', 'Metal Purity', 'Main Stone', 'Color', 'Theme', 'Pendant Shape', 'Country of Origin'],
-  'Collectibles':  ['Brand', 'Character', 'Franchise', 'Type', 'Theme', 'Material', 'Features', 'Size', 'Color', 'Country of Origin'],
+  'Collectibles':  ['Brand', 'Character', 'Franchise', 'Type', 'Theme', 'Material', 'Features', 'Size', 'Era', 'Country of Origin'],
   'Pipes':         ['Brand', 'Body Shape', 'Material', 'Filter Size', 'Handmade', 'Country of Origin'],
   'Watch Parts':   ['Brand', 'Part Type', 'Material', 'Compatible Model', 'Size', 'Color', 'Country of Origin'],
   'Sunglasses':  ['Brand', 'Model', 'Frame Color', 'Lens Color', 'Frame Material', 'Style', 'Department', 'Country of Origin'],
@@ -4319,7 +4334,7 @@ function outputTagListSheet_() {
     ]},
     {group: 'Hobby（ホビー・コレクティブル）', categories: [
       {cat: 'Trading Cards', desc: 'トレカ（ポケカ・遊戯王・MTG等）'},
-      {cat: 'Collectibles', desc: 'フィギュア・コレクティブル・アンティーク'},
+      {cat: 'Collectibles', desc: 'コレクティブル・アンティーク・ヴィンテージ・ブリキ玩具・ノベルティ・ミリタリア'},
       {cat: 'Dolls & Plush', desc: 'ドール・ぬいぐるみ'},
       {cat: 'Musical Instruments', desc: '楽器（ギター・キーボード・管楽器等）'},
       {cat: 'Art', desc: '絵画・版画・リトグラフ・浮世絵'},

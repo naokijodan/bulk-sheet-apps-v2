@@ -178,6 +178,36 @@ function createAIPrompt(fullText, promptId) {
     tmpl = tmpl + cardHints.join('\n');
   }
 
+  // コレクティブル・ヴィンテージ関連キーワード検出時に年号変換ヒントを動的注入
+  var collectibleKeywords = ['アンティーク', 'ヴィンテージ', '骨董', '昭和', '大正', '明治',
+    '当時物', 'レトロ', 'ブリキ', 'ソフビ', 'ノベルティ', '非売品', 'デッドストック',
+    'ミリタリー', '鉄道', '記念', '戦前', '戦後'];
+  var isCollectible = false;
+  for (var ci = 0; ci < collectibleKeywords.length; ci++) {
+    if (fullTextLower.indexOf(collectibleKeywords[ci].toLowerCase()) !== -1) {
+      isCollectible = true;
+      break;
+    }
+  }
+  if (isCollectible && tmpl.indexOf('ERA TRANSLATION') === -1) {
+    var eraHints = [
+      '',
+      '### ERA TRANSLATION HINTS',
+      'This appears to be a vintage/antique collectible. Apply these Japanese era conversions:',
+      '- 明治 = Meiji Era (1868-1912)',
+      '- 大正 = Taisho Era (1912-1926)',
+      '- 昭和 = Showa Era (1926-1989). 昭和初期 = Early Showa/Pre-war. 昭和中期 = Mid Showa/Post-war 1950s-60s. 昭和後期 = Late Showa 1970s-80s.',
+      '- 平成 = Heisei Era (1989-2019)',
+      '- 戦前 = Pre-war (before 1945). 戦後 = Post-war (after 1945).',
+      '- 当時物 = Original/Period piece (not a reproduction). Use "Original" or "Period" in description.',
+      '- デッドストック = Dead Stock / NOS (New Old Stock). Unused vintage item.',
+      '- Include era/decade in title for SEO: "Vintage Showa 1960s" or "Antique Meiji Era".',
+      '- MATERIAL TERMS: ブリキ=Tin/Tin Plate, ホーロー=Enamel, 真鍮=Brass, 鋳物=Cast Iron/Cast Metal, セルロイド=Celluloid, ベークライト=Bakelite.',
+      '- ソフビ = Sofubi / Soft Vinyl (keep "Sofubi" as it is a recognized collector term).'
+    ].join('\n');
+    tmpl = tmpl + eraHints;
+  }
+
   // 箱なし・付属品なしルール（全カテゴリ共通で注入）
   if (tmpl.indexOf('MISSING ACCESSORIES RULE') === -1) {
     var noBoxRule = [
