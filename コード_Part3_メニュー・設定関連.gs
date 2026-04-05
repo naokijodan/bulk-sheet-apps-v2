@@ -4311,9 +4311,11 @@ function applyCalculationFormulas(sheetName, settings) {
       sheet.getRange(5, CONFIG.COLUMNS.METHOD, dataLastRow - 4, 1).setDataValidation(shippingMethodValidation);
 
       // AE列: 商品状態（新品、中古）
+      // タグ自動判定でコンディションONの場合は数式が入るためバリデーションを緩和
+      var condAllowInvalid = (fullSettings && fullSettings.tagOverrideCondition && tagMap) ? true : false;
       var conditionValidation = SpreadsheetApp.newDataValidation()
         .requireValueInList(['新品', '中古'], true)
-        .setAllowInvalid(false)
+        .setAllowInvalid(condAllowInvalid)
         .setHelpText('商品状態を選択してください')
         .build();
       sheet.getRange(5, CONFIG.COLUMNS.CONDITION, dataLastRow - 4, 1).setDataValidation(conditionValidation);
