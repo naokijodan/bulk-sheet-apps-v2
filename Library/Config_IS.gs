@@ -290,14 +290,15 @@ var IS_INITIAL_DATA = [
   { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Country of Origin', field_type: 'recommended', priority: 8, notes: '' },
 
   // === Kimono ===
-  { category: 'Kimono', tag_jp: '着物,和装,振袖,留袖,訪問着,浴衣,帯,袴', field_name: 'Brand', field_type: 'recommended', priority: 1, notes: '' },
-  { category: 'Kimono', tag_jp: '着物,和装,振袖,留袖,訪問着,浴衣,帯,袴', field_name: 'Type', field_type: 'required', priority: 2, notes: 'Kimono / Obi / Yukata / Hakama等' },
-  { category: 'Kimono', tag_jp: '着物,和装,振袖,留袖,訪問着,浴衣,帯,袴', field_name: 'Material', field_type: 'required', priority: 3, notes: 'Silk / Cotton / Polyester' },
-  { category: 'Kimono', tag_jp: '着物,和装,振袖,留袖,訪問着,浴衣,帯,袴', field_name: 'Color', field_type: 'recommended', priority: 4, notes: '' },
-  { category: 'Kimono', tag_jp: '着物,和装,振袖,留袖,訪問着,浴衣,帯,袴', field_name: 'Style', field_type: 'recommended', priority: 5, notes: 'Kimono / Obi / Yukata等のスタイル' },
-  { category: 'Kimono', tag_jp: '着物,和装,振袖,留袖,訪問着,浴衣,帯,袴', field_name: 'Season', field_type: 'recommended', priority: 6, notes: 'Spring / Summer / Fall / Winter' },
-  { category: 'Kimono', tag_jp: '着物,和装,振袖,留袖,訪問着,浴衣,帯,袴', field_name: 'Size', field_type: 'recommended', priority: 7, notes: '' },
-  { category: 'Kimono', tag_jp: '着物,和装,振袖,留袖,訪問着,浴衣,帯,袴', field_name: 'Country of Origin', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Kimono', tag_jp: '着物,和装,振袖,留袖,訪問着,浴衣,帯,袴,小紋,紬,付下げ,羽織,色無地,反物,草履,下駄,名古屋帯,袋帯,半幅帯', field_name: 'Brand', field_type: 'recommended', priority: 1, notes: '' },
+  { category: 'Kimono', tag_jp: '着物,和装,振袖,留袖,訪問着,浴衣,帯,袴,小紋,紬,付下げ,羽織,色無地,反物,草履,下駄,名古屋帯,袋帯,半幅帯', field_name: 'Type', field_type: 'required', priority: 2, notes: 'Furisode / Tomesode / Houmongi / Obi / Yukata / Hakama等' },
+  { category: 'Kimono', tag_jp: '着物,和装,振袖,留袖,訪問着,浴衣,帯,袴,小紋,紬,付下げ,羽織,色無地,反物,草履,下駄,名古屋帯,袋帯,半幅帯', field_name: 'Material', field_type: 'required', priority: 3, notes: 'Silk / Cotton / Polyester / Linen' },
+  { category: 'Kimono', tag_jp: '着物,和装,振袖,留袖,訪問着,浴衣,帯,袴,小紋,紬,付下げ,羽織,色無地,反物,草履,下駄,名古屋帯,袋帯,半幅帯', field_name: 'Color', field_type: 'recommended', priority: 4, notes: '' },
+  { category: 'Kimono', tag_jp: '着物,和装,振袖,留袖,訪問着,浴衣,帯,袴,小紋,紬,付下げ,羽織,色無地,反物,草履,下駄,名古屋帯,袋帯,半幅帯', field_name: 'Pattern', field_type: 'recommended', priority: 5, notes: 'Floral / Geometric / Scenic等' },
+  { category: 'Kimono', tag_jp: '着物,和装,振袖,留袖,訪問着,浴衣,帯,袴,小紋,紬,付下げ,羽織,色無地,反物,草履,下駄,名古屋帯,袋帯,半幅帯', field_name: 'Season', field_type: 'recommended', priority: 6, notes: 'Awase(lined) / Hitoe(unlined) / Summer' },
+  { category: 'Kimono', tag_jp: '着物,和装,振袖,留袖,訪問着,浴衣,帯,袴,小紋,紬,付下げ,羽織,色無地,反物,草履,下駄,名古屋帯,袋帯,半幅帯', field_name: 'Size', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Kimono', tag_jp: '着物,和装,振袖,留袖,訪問着,浴衣,帯,袴,小紋,紬,付下げ,羽織,色無地,反物,草履,下駄,名古屋帯,袋帯,半幅帯', field_name: 'Technique/Weave', field_type: 'recommended', priority: 8, notes: 'Yuzen / Oshima Tsumugi / Yuki Tsumugi等' },
+  { category: 'Kimono', tag_jp: '着物,和装,振袖,留袖,訪問着,浴衣,帯,袴,小紋,紬,付下げ,羽織,色無地,反物,草履,下駄,名古屋帯,袋帯,半幅帯', field_name: 'Country of Origin', field_type: 'recommended', priority: 9, notes: '' },
 
   // === Japanese Swords ===
   { category: 'Japanese Swords', tag_jp: '日本刀,刀,脇差,短刀,太刀,刀装具,鍔,目貫,縁頭', field_name: 'Type', field_type: 'required', priority: 1, notes: 'Katana / Wakizashi / Tanto / Tachi / Tsuba等' },
@@ -3765,6 +3766,12 @@ IS_TAG_TO_CATEGORY['着物'] = 'Kimono'; IS_TAG_TO_CATEGORY['和装'] = 'Kimono'
 IS_TAG_TO_CATEGORY['振袖'] = 'Kimono'; IS_TAG_TO_CATEGORY['留袖'] = 'Kimono';
 IS_TAG_TO_CATEGORY['訪問着'] = 'Kimono'; IS_TAG_TO_CATEGORY['浴衣'] = 'Kimono';
 IS_TAG_TO_CATEGORY['帯'] = 'Kimono'; IS_TAG_TO_CATEGORY['袴'] = 'Kimono';
+IS_TAG_TO_CATEGORY['小紋'] = 'Kimono'; IS_TAG_TO_CATEGORY['紬'] = 'Kimono';
+IS_TAG_TO_CATEGORY['付下げ'] = 'Kimono'; IS_TAG_TO_CATEGORY['羽織'] = 'Kimono';
+IS_TAG_TO_CATEGORY['色無地'] = 'Kimono'; IS_TAG_TO_CATEGORY['反物'] = 'Kimono';
+IS_TAG_TO_CATEGORY['草履'] = 'Kimono'; IS_TAG_TO_CATEGORY['下駄'] = 'Kimono';
+IS_TAG_TO_CATEGORY['名古屋帯'] = 'Kimono'; IS_TAG_TO_CATEGORY['袋帯'] = 'Kimono';
+IS_TAG_TO_CATEGORY['半幅帯'] = 'Kimono';
 
 // Japanese Swords
 IS_TAG_TO_CATEGORY['日本刀'] = 'Japanese Swords'; IS_TAG_TO_CATEGORY['刀'] = 'Japanese Swords';
@@ -3999,7 +4006,7 @@ var IS_CATEGORY_FIELDS = {
   'Belts':         ['Brand', 'Type', 'Material', 'Color', 'Size', 'Department', 'Style', 'Theme', 'Country of Origin'],
   'Belt Buckles':  ['Brand', 'Type', 'Material', 'Color', 'Style', 'Department', 'Fits Belt Width', 'Pattern', 'Theme', 'Country of Origin'],
   'Golf Heads':          ['Brand', 'Golf Club Type', 'Loft', 'Handedness', 'Material', 'Model', 'Lie Angle', 'Head Shape', 'Bounce', 'Country of Origin'],
-  'Kimono':              ['Brand', 'Type', 'Material', 'Color', 'Style', 'Season', 'Size', 'Country of Origin'],
+  'Kimono':              ['Brand', 'Type', 'Material', 'Color', 'Pattern', 'Season', 'Size', 'Technique/Weave', 'Country of Origin'],
   'Japanese Swords':     ['Type', 'Blade Material', 'Original/Reproduction', 'Handedness', 'Material', 'Country of Origin'],
   'Tea Ceremony':        ['Type', 'Material', 'Maker', 'Style', 'Country of Origin'],
   'Bonsai':              ['Type', 'Material', 'Size', 'Color', 'Shape', 'Country of Origin'],

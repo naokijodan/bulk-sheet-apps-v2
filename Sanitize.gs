@@ -482,11 +482,15 @@ var CATEGORY_RULES_ = {
     ]
   },
   'Kimono': {
-    label: '着物',
+    label: '着物・和装',
     rules: [
-      '- タイプ: 振袖/留袖/訪問着/付下げ/小紋/紬/色無地/浴衣/羽織/帯/帯締め/帯揚げ 等で記入。',
-      '- 素材: 正絹/化繊/木綿/麻/ウール 等で記入。',
-      '- [EN]セクションでは: Type は Furisode/Tomesode/Houmongi/Tsukesage/Komon/Tsumugi/Iromuji/Yukata/Haori/Obi/Obijime/Obiage 等。Material は Silk/Synthetic/Cotton/Linen/Wool。'
+      '- タイプ: 振袖/留袖/訪問着/付下げ/小紋/紬/色無地/浴衣/羽織/反物/袴/名古屋帯/袋帯/半幅帯/帯締め/帯揚げ/草履/下駄 等で記入。',
+      '- 素材: 正絹/化繊/木綿/麻/ウール/交織 等で記入。',
+      '- 季節: 袷（裏地あり・秋冬春）/単衣（裏地なし・6月9月）/夏物（薄物・7月8月）/浴衣（夏） のいずれかで記入。',
+      '- 寸法: 身丈/裄/袖丈をcmで記入。帯は長さ×幅をcmで記入。不明ならNA。',
+      '- 柄: 花柄/幾何学/更紗/風景/吉祥柄/縞/格子/無地/絞り 等で記入。',
+      '- 技法/産地: 京友禅/加賀友禅/大島紬/結城紬/西陣織/博多織/琉球紅型/江戸小紋/有松絞り 等で記入。不明ならNA。',
+      '- [EN]セクションでは: Type は Furisode/Tomesode/Houmongi/Tsukesage/Komon/Tsumugi/Iromuji/Yukata/Haori/Tanmono(Bolt)/Hakama/Nagoya Obi/Fukuro Obi/Hanhaba Obi/Obijime/Obiage/Zori/Geta。Material は Silk/Synthetic/Cotton/Linen/Wool/Blended。Season は Awase(Lined)/Hitoe(Unlined)/Natsumono(Summer)/Yukata。Pattern は Floral/Geometric/Sarasa/Scenic/Auspicious/Stripe/Check/Solid/Shibori(Tie-dye)。Technique/Weave は Kyo-Yuzen/Kaga-Yuzen/Oshima Tsumugi/Yuki Tsumugi/Nishijin Ori/Hakata Ori/Ryukyu Bingata/Edo Komon/Arimatsu Shibori。'
     ]
   },
   'Japanese Swords': {
@@ -796,7 +800,7 @@ var FIELD_EN_TO_JP_ = {
   // 美術・版画・掛軸・陶磁器
   'Artist': 'アーティスト', 'Production Technique': '制作技法',
   'Support': '本紙素材', 'Mounting Type': '表装', 'Scroll Rod Material': '軸先素材', 'Box Type': '箱',
-  'Origin/Kiln': '産地/窯',
+  'Origin/Kiln': '産地/窯', 'Technique/Weave': '技法/産地',
   'Subject': '題材', 'Original/Licensed Reproduction': 'オリジナル/複製',
   'Time Period Produced': '制作年代',
   'Listed By': '出品者区分', 'Medium': '技法', 'Maker': '作家',
