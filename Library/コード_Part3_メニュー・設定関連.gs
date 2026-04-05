@@ -4164,7 +4164,7 @@ function applyCalculationFormulas(sheetName, settings) {
       if (fullSettings && fullSettings.tagOverrideCondition && tagMap) {
         var condFormulas = [];
         for (var i = 5; i <= dataLastRow; i++) {
-          condFormulas.push(['=IFERROR(LET(cond,INDEX(' + tsName + '!P:P,MATCH(D' + i + ',' + tsName + '!A:A,0)),IF(OR(cond="AI",cond=""),$P$2,cond)),$P$2)']);
+          condFormulas.push(['=IF(D' + i + '="","",IFERROR(LET(cond,INDEX(' + tsName + '!P:P,MATCH(D' + i + ',' + tsName + '!A:A,0)),IF(OR(cond="AI",cond=""),$P$2,cond)),$P$2))']);
         }
         sheet.getRange(5, CONFIG.COLUMNS.CONDITION, dataLastRow - 4, 1).setFormulas(condFormulas);
       }
