@@ -494,10 +494,25 @@ var CATEGORY_RULES_ = {
     ]
   },
   'Art': {
-    label: '美術品',
+    label: '美術品・絵画',
     rules: [
-      '- 制作技法: 油彩/水彩/版画/木版画/リトグラフ/シルクスクリーン/エッチング/写真 等で記入。',
-      '- [EN]セクションでは: Production Technique / Medium は Oil Painting/Watercolor/Print/Woodblock Print/Lithograph/Screen Print/Etching/Photograph。Original/Licensed Reproduction は Original/Reproduction。'
+      '- 作家名: 漢字の作家名は必ずヘボン式ローマ字に変換する。例: 横山大観→Yokoyama Taikan、東山魁夷→Higashiyama Kaii、棟方志功→Munakata Shiko、奈良美智→Nara Yoshitomo。国際的に定着した表記がある場合はそちらを優先（例: 藤田嗣治→Foujita Tsuguharu）。[EN]では「Romanized Name (漢字名)」の形式で記入。',
+      '- 制作技法: 油彩/水彩/アクリル/パステル/日本画/水墨画/墨絵/テンペラ/ミクストメディア のいずれかで記入。',
+      '- サイズ: 高さ×幅をcmで記入。号数が分かる場合は号数も併記（例: F6号 約41×32cm）。',
+      '- [EN]セクションでは: Production Technique は Oil Painting/Watercolor/Acrylic/Pastel/Nihonga(Japanese Painting)/Sumi-e(Ink Painting)/Ink Wash Painting/Tempera/Mixed Media。Original/Licensed Reproduction は Original/Reproduction。Style は Nihonga/Western/Abstract/Impressionism/Contemporary等。'
+    ]
+  },
+  'Kakejiku': {
+    label: '掛軸',
+    rules: [
+      '- 作家名: 漢字の作家名は必ずヘボン式ローマ字に変換する。[EN]では「Romanized Name (漢字名)」の形式で記入。落款・印章から作家を特定できない場合は「Unknown」。',
+      '- 本紙素材: 絹本/紙本 のいずれかで記入。不明ならNA。',
+      '- 表装: 本表装（正式表装）/紙表装/絹表装/機械表装 のいずれかで記入。不明ならNA。',
+      '- 軸先素材: 木/象牙調/骨/角/塗り/陶器 のいずれか。不明ならNA。',
+      '- 箱: 共箱/合わせ箱/時代箱/箱なし のいずれかで記入。',
+      '- サイズ: 全体サイズ（掛軸全長×幅）と本紙サイズ（画の部分）をcmで記入。',
+      '- 画題: 山水/花鳥/人物/書/仏画/動物 等で記入。',
+      '- [EN]セクションでは: Support は Silk/Paper。Mounting Type は Formal Mount(Hondeso)/Paper Mount/Silk Mount/Machine Mount。Scroll Rod Material は Wood/Faux Ivory/Bone/Horn/Lacquer/Ceramic。Box Type は Original Box(Tomobako)/Custom Box(Awasebako)/Period Box(Jidaibako)/No Box。Subject は Landscape(Sansui)/Flower & Bird(Kacho)/Figure・Portrait/Calligraphy(Sho)/Buddhist/Animal。'
     ]
   },
   'Prints': {
@@ -764,8 +779,9 @@ var FIELD_EN_TO_JP_ = {
   'Part Type': 'パーツタイプ', 'Compatible Model': '対応モデル',
   // サングラス
   'Frame Color': 'フレーム色', 'Lens Color': 'レンズ色', 'Frame Material': 'フレーム素材',
-  // 美術・版画
+  // 美術・版画・掛軸
   'Artist': 'アーティスト', 'Production Technique': '制作技法',
+  'Support': '本紙素材', 'Mounting Type': '表装', 'Scroll Rod Material': '軸先素材', 'Box Type': '箱',
   'Subject': '題材', 'Original/Licensed Reproduction': 'オリジナル/複製',
   'Time Period Produced': '制作年代',
   'Listed By': '出品者区分', 'Medium': '技法', 'Maker': '作家',

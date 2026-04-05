@@ -720,16 +720,28 @@ var IS_INITIAL_DATA = [
   { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Closure', field_type: 'recommended', priority: 10, notes: 'Zipper / Snap Button / Magnetic / Clasp' },
 
   // === Art ===
-  { category: 'Art', tag_jp: '絵画,油絵,水彩画,掛軸', field_name: 'Artist', field_type: 'required', priority: 1, notes: '' },
-  { category: 'Art', tag_jp: '絵画,油絵,水彩画,掛軸', field_name: 'Production Technique', field_type: 'required', priority: 2, notes: 'Oil / Watercolor / Acrylic / Mixed Media等' },
-  { category: 'Art', tag_jp: '絵画,油絵,水彩画,掛軸', field_name: 'Style', field_type: 'recommended', priority: 3, notes: '' },
-  { category: 'Art', tag_jp: '絵画,油絵,水彩画,掛軸', field_name: 'Subject', field_type: 'recommended', priority: 4, notes: 'Landscape / Portrait / Abstract等' },
-  { category: 'Art', tag_jp: '絵画,油絵,水彩画,掛軸', field_name: 'Theme', field_type: 'recommended', priority: 5, notes: '' },
-  { category: 'Art', tag_jp: '絵画,油絵,水彩画,掛軸', field_name: 'Size', field_type: 'recommended', priority: 6, notes: '' },
-  { category: 'Art', tag_jp: '絵画,油絵,水彩画,掛軸', field_name: 'Material', field_type: 'recommended', priority: 7, notes: 'Canvas / Paper / Board' },
-  { category: 'Art', tag_jp: '絵画,油絵,水彩画,掛軸', field_name: 'Original/Licensed Reproduction', field_type: 'recommended', priority: 8, notes: 'Original / Print / Reproduction' },
-  { category: 'Art', tag_jp: '絵画,油絵,水彩画,掛軸', field_name: 'Time Period Produced', field_type: 'recommended', priority: 9, notes: '' },
-  { category: 'Art', tag_jp: '絵画,油絵,水彩画,掛軸', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Artist', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Production Technique', field_type: 'required', priority: 2, notes: 'Oil / Watercolor / Acrylic / Mixed Media等' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Style', field_type: 'recommended', priority: 3, notes: '' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Subject', field_type: 'recommended', priority: 4, notes: 'Landscape / Portrait / Abstract等' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Theme', field_type: 'recommended', priority: 5, notes: '' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Size', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Material', field_type: 'recommended', priority: 7, notes: 'Canvas / Paper / Board' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Original/Licensed Reproduction', field_type: 'recommended', priority: 8, notes: 'Original / Print / Reproduction' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Time Period Produced', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+
+  // === Kakejiku (掛軸) ===
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Artist', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Production Technique', field_type: 'required', priority: 2, notes: 'Ink / Watercolor / Gold leaf等' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Support', field_type: 'recommended', priority: 3, notes: 'Silk / Paper' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Mounting Type', field_type: 'recommended', priority: 4, notes: '' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Scroll Rod Material', field_type: 'recommended', priority: 5, notes: '' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Box Type', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Subject', field_type: 'recommended', priority: 7, notes: 'Landscape / Calligraphy / Flower & Bird等' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Size', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Time Period Produced', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
 
   // === Pottery ===
   { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺', field_name: 'Brand', field_type: 'recommended', priority: 1, notes: '' },
@@ -3708,11 +3720,17 @@ IS_TAG_TO_CATEGORY['三つ折り財布'] = 'Wallets'; IS_TAG_TO_CATEGORY['ミニ
 IS_TAG_TO_CATEGORY['札入れ'] = 'Wallets'; IS_TAG_TO_CATEGORY['がま口'] = 'Wallets';
 
 // Art
-IS_TAG_TO_CATEGORY['絵画'] = 'Art'; IS_TAG_TO_CATEGORY['版画'] = 'Art';
-IS_TAG_TO_CATEGORY['リトグラフ'] = 'Art'; IS_TAG_TO_CATEGORY['油絵'] = 'Art';
-IS_TAG_TO_CATEGORY['水彩画'] = 'Art'; IS_TAG_TO_CATEGORY['掛軸'] = 'Art';
+IS_TAG_TO_CATEGORY['絵画'] = 'Art'; IS_TAG_TO_CATEGORY['油絵'] = 'Art';
+IS_TAG_TO_CATEGORY['水彩画'] = 'Art'; IS_TAG_TO_CATEGORY['日本画'] = 'Art';
+IS_TAG_TO_CATEGORY['水墨画'] = 'Art'; IS_TAG_TO_CATEGORY['墨絵'] = 'Art';
+IS_TAG_TO_CATEGORY['アクリル画'] = 'Art'; IS_TAG_TO_CATEGORY['パステル画'] = 'Art';
 // 浮世絵・版画・木版画・リトグラフ → Printsで上書き
+IS_TAG_TO_CATEGORY['版画'] = 'Art'; IS_TAG_TO_CATEGORY['リトグラフ'] = 'Art';
 IS_TAG_TO_CATEGORY['木版画'] = 'Art'; IS_TAG_TO_CATEGORY['浮世絵'] = 'Art';
+
+// Kakejiku (掛軸)
+IS_TAG_TO_CATEGORY['掛軸'] = 'Kakejiku'; IS_TAG_TO_CATEGORY['掛け軸'] = 'Kakejiku';
+IS_TAG_TO_CATEGORY['床掛け'] = 'Kakejiku';
 
 // Pottery & Ceramics（茶碗はDinnerwareから上書き: 陶器としての出品が主）
 IS_TAG_TO_CATEGORY['陶磁器'] = 'Pottery'; IS_TAG_TO_CATEGORY['陶器'] = 'Pottery';
@@ -3963,6 +3981,7 @@ var IS_CATEGORY_FIELDS = {
   'Pens':          ['Brand', 'Material', 'Ink Color', 'Nib Size', 'Nib Material', 'Type', 'Vintage', 'Features', 'Country of Origin'],
   'Wallets':       ['Brand', 'Type', 'Material', 'Color', 'Style', 'Department', 'Features', 'Theme', 'Country of Origin', 'Closure'],
   'Art':           ['Artist', 'Production Technique', 'Style', 'Subject', 'Theme', 'Size', 'Material', 'Original/Licensed Reproduction', 'Time Period Produced', 'Country of Origin'],
+  'Kakejiku':      ['Artist', 'Production Technique', 'Support', 'Mounting Type', 'Scroll Rod Material', 'Box Type', 'Subject', 'Size', 'Time Period Produced', 'Country of Origin'],
   'Pottery':       ['Brand', 'Type', 'Material', 'Color', 'Production Technique', 'Style', 'Pattern', 'Theme', 'Country of Origin'],
   'Belts':         ['Brand', 'Type', 'Material', 'Color', 'Size', 'Department', 'Style', 'Theme', 'Country of Origin'],
   'Belt Buckles':  ['Brand', 'Type', 'Material', 'Color', 'Style', 'Department', 'Fits Belt Width', 'Pattern', 'Theme', 'Country of Origin'],
@@ -4439,7 +4458,8 @@ function outputTagListSheet_() {
       {cat: 'Effects & Amps', desc: 'エフェクター・アンプ・マルチエフェクター'},
       {cat: 'Synths & Digital', desc: 'シンセサイザー・キーボード・サンプラー・DJ機材'},
       {cat: 'Musical Instruments', desc: 'ドラム・管楽器・パーカッション・弦楽器（非ギター）'},
-      {cat: 'Art', desc: '絵画・版画・リトグラフ・浮世絵'},
+      {cat: 'Art', desc: '絵画・油絵・日本画・水墨画'},
+      {cat: 'Kakejiku', desc: '掛軸・掛け軸'},
       {cat: 'Figures', desc: 'フィギュア・アクションフィギュア・スタチュー'},
       {cat: 'Anime', desc: 'アニメグッズ・漫画'},
       {cat: 'RC & Models', desc: 'ラジコン・模型・プラモデル'},
