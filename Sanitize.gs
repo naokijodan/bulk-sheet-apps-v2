@@ -587,7 +587,7 @@ var CATEGORY_RULES_ = {
     label: 'スノードーム',
     rules: [
       '- タイプ: オルゴール付き/音楽/メロディ/回転 → Musical Snow Globe。ライト/LED → Lighted Snow Globe。それ以外は Snow Globe。',
-      '- 素材: ガラス/ク���ス���ル → Glass、樹脂/レジン → Resin、プラスチック/アクリル → Plastic、陶器/磁器 → Ceramic。不明ならNA。',
+      '- 素材: ガラス/クリスタル → Glass、樹脂/レジン → Resin、プラスチック/アクリル → Plastic、陶器/磁器 → Ceramic。不明ならNA。',
       '- テーマ: ディズニー/サンリオ/ジブリ等キャラクター名、クリスマス/サンタ/雪だるま等季節、都市名/ランドマーク名があればそのまま記入。',
       '- 用途: クリスマス/誕生日/結婚/バレンタイン/正月 等があれば記入。不明ならNA。',
       '- [EN]セクションでは: Type は Snow Globe/Musical Snow Globe/Lighted Snow Globe。Material は Glass/Resin/Plastic/Ceramic/Crystal。Subject はキャラクター名・テーマをそのまま英語で。'
@@ -603,7 +603,7 @@ var CATEGORY_RULES_ = {
     ]
   },
   'Flatware': {
-    label: 'カ��ラリー・銀食器',
+    label: 'カトラリー・銀食器',
     rules: [
       '- タイプ: スプーン/フォーク/ナイフ/サービングスプーン/バターナイフ 等。セット（2本以上）の場合は「Set」と記入。',
       '- 素材: 純銀/925/STERLING → Sterling Silver、銀メッキ/EPNS/シルバープレート → Silverplate、ステンレス/18-8/18-10 → Stainless Steel。不明ならNA。',
@@ -617,6 +617,22 @@ var CATEGORY_RULES_ = {
       '- タイプ: ラトル/ガラガラ → Rattle、スプーン → Baby Spoon、シューズ/靴 → Baby Shoes、食器 → Baby Tableware、おもちゃ → Baby Toy。',
       '- 素材: 銀/シルバー/925 → Sterling Silver、木 → Wood、布/綿 → Cotton/Fabric、プラスチック → Plastic。',
       '- [EN]セクションでは: Type は Rattle/Baby Spoon/Baby Shoes/Baby Tableware/Baby Toy。Material は Sterling Silver/Wood/Cotton/Fabric/Plastic。'
+    ]
+  },
+  'Combs': {
+    label: '櫛・コーム',
+    rules: [
+      '- タイプ: 櫛/くし → Comb、コーム/ヘアコーム → Hair Comb、かんざし型 → Decorative Comb。',
+      '- 素材: つげ/黄楊/木 → Wood (Boxwood)、べっ甲/鼈甲 → Tortoiseshell、角/水牛 → Horn、プラスチック/アクリル → Plastic、金属 → Metal。',
+      '- [EN]セクションでは: Type は Comb/Hair Comb/Decorative Comb/Pick。Material は Wood/Boxwood/Tortoiseshell/Horn/Plastic/Metal/Celluloid。'
+    ]
+  },
+  'Key Chains': {
+    label: 'キーリング・キーホルダー',
+    rules: [
+      '- 素材: 革/レザー → Leather、金属/メタル → Metal、ラバー/ゴム → Rubber、布/キャンバス → Fabric。',
+      '- キャラクター: ディズニー/サンリオ/ジブリ等のキャラクター名があればそのまま記入。',
+      '- [EN]セクションでは: Material は Leather/Metal/Rubber/Fabric/PVC/Enamel。Character Family はキャラクターファミリー名を英語で。'
     ]
   }
 };

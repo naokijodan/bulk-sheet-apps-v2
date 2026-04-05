@@ -3563,8 +3563,8 @@ var IS_TAG_TO_CATEGORY = {
   'ジュエリーボックス': 'Boxes', '時計ケース': 'Boxes', 'ウォッチボックス': 'Boxes', '宝石箱': 'Boxes', 'アクセサリーケース': 'Boxes', 'コレクションケース': 'Boxes', 'ディスプレイケース': 'Boxes',
   'カトラリー': 'Flatware', 'スプーン': 'Flatware', 'フォーク': 'Flatware', 'ナイフ': 'Flatware', '銀食器': 'Flatware', 'シルバーカトラリー': 'Flatware',
   'ベビー': 'Baby', 'ベビーシューズ': 'Baby', 'ラトル': 'Baby', 'ベビー用品': 'Baby', 'ガラガラ': 'Baby',
-  '櫛': 'Combs', 'くし': 'Combs', 'コーム': 'Combs',
-  'キーリング': 'Key Chains', 'キーホルダー': 'Key Chains', 'キーケース': 'Key Chains',
+  '櫛': 'Combs', 'くし': 'Combs', 'コーム': 'Combs', 'つげ櫛': 'Combs', 'ヘアコーム': 'Combs',
+  'キーリング': 'Key Chains', 'キーホルダー': 'Key Chains', 'キーケース': 'Key Chains', 'チャームキーホルダー': 'Key Chains',
   'チャーム': 'Charms', 'ペンダントトップ': 'Charms',
   'フィギュア': 'Collectibles', 'コレクティブル': 'Collectibles', // → Figuresで上書き
   'アンティーク': 'Collectibles', 'ヴィンテージ': 'Collectibles', '骨董品': 'Collectibles', '人形': 'Dolls & Plush',
