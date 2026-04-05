@@ -2049,10 +2049,10 @@ var IS_BRAND_DICT = [
   {name: 'Squishmallows', jp_names: ['スクイッシュマロ', 'SQUISHMALLOWS'], country: 'United States', category: ['Dolls & Plush']},
   {name: 'Build-A-Bear', jp_names: ['ビルドアベア', 'BUILD-A-BEAR', 'BUILD A BEAR'], country: 'United States', category: ['Dolls & Plush']},
   {name: 'Sun Arrow', jp_names: ['サンアロー', 'SUN ARROW'], country: 'Japan', category: ['Dolls & Plush']},
-  {name: 'San-X', jp_names: ['サンエックス', 'SAN-X', 'SANX'], country: 'Japan', category: ['Dolls & Plush']},
-  {name: 'Sanrio', jp_names: ['サンリオ', 'SANRIO'], country: 'Japan', category: ['Dolls & Plush']},
+  {name: 'San-X', jp_names: ['サンエックス', 'SAN-X', 'SANX'], country: 'Japan', category: ['Dolls & Plush', 'Snow Globes']},
+  {name: 'Sanrio', jp_names: ['サンリオ', 'SANRIO'], country: 'Japan', category: ['Dolls & Plush', 'Snow Globes']},
   {name: 'Pokemon Center', jp_names: ['ポケモンセンター', 'POKEMON CENTER'], country: 'Japan', category: ['Dolls & Plush']},
-  {name: 'Disney', jp_names: ['ディズニー', 'DISNEY'], country: 'United States', category: ['Dolls & Plush']},
+  {name: 'Disney', jp_names: ['ディズニー', 'DISNEY'], country: 'United States', category: ['Dolls & Plush', 'Snow Globes']},
   {name: 'Shinada Global', jp_names: ['シナダグローバル', 'SHINADA', 'SHINADA GLOBAL'], country: 'Japan', category: ['Dolls & Plush']},
   {name: 'Nakajima Corporation', jp_names: ['ナカジマコーポレーション', 'NAKAJIMA'], country: 'Japan', category: ['Dolls & Plush']},
   {name: 'Sonny Angel', jp_names: ['ソニーエンジェル', 'SONNY ANGEL'], country: 'Japan', category: ['Dolls & Plush']},
@@ -3009,9 +3009,13 @@ var IS_BRAND_DICT = [
   {name: 'Kagami Crystal', jp_names: ['カガミクリスタル', 'KAGAMI', 'KAGAMI CRYSTAL'], country: 'Japan', category: ['Glassware']},
   {name: 'Tsugaru Vidro', jp_names: ['津軽びいどろ', 'ツガルビードロ', 'TSUGARU VIDRO'], country: 'Japan', category: ['Glassware']},
   // === Glassware: その他 ===
-  {name: 'Waterford', jp_names: ['ウォーターフォード', 'WATERFORD'], country: 'Ireland', category: ['Glassware']},
+  {name: 'Waterford', jp_names: ['ウォーターフォード', 'WATERFORD'], country: 'Ireland', category: ['Glassware', 'Snow Globes']},
   {name: 'Steuben', jp_names: ['スチューベン', 'STEUBEN'], country: 'United States', category: ['Glassware']},
   {name: 'Daum', jp_names: ['ドーム', 'DAUM'], country: 'France', category: ['Glassware']},
+
+  // === Snow Globes ===
+  {name: 'Hallmark', jp_names: ['ホールマーク', 'HALLMARK'], country: 'United States', category: ['Snow Globes']},
+  {name: 'Enesco', jp_names: ['エネスコ', 'ENESCO'], country: 'United States', category: ['Snow Globes']},
 
   // === Fishing Rods ===
   {name: 'Shimano', jp_names: ['シマノ', 'SHIMANO'], country: 'Japan', category: ['Fishing Rods', 'Fishing Reels', 'Fishing Lures']},
@@ -3545,7 +3549,7 @@ var IS_TAG_TO_CATEGORY = {
   'ハンカチ': 'Handkerchiefs', 'ポケットチーフ': 'Handkerchiefs', 'タオルハンカチ': 'Handkerchiefs',
   'ネクタイピン': 'Tie Accessories', 'タイピン': 'Tie Accessories', 'タイバー': 'Tie Accessories', 'スカーフリング': 'Tie Accessories',
   'ガラス細工': 'Glassware', 'クリスタル': 'Glassware', '花瓶': 'Glassware', 'オブジェ': 'Glassware', '切子': 'Glassware', '江戸切子': 'Glassware', '薩摩切子': 'Glassware', 'デキャンタ': 'Glassware', 'ペーパーウェイト': 'Glassware',
-  'スノードーム': 'Snow Globes', 'ガラスドーム': 'Snow Globes',
+  'スノードーム': 'Snow Globes', 'ガラスドーム': 'Snow Globes', 'スノーグローブ': 'Snow Globes', 'ウォータードーム': 'Snow Globes',
   'ジュエリーボックス': 'Boxes', '時計ケース': 'Boxes', 'ウォッチボックス': 'Boxes', '宝石箱': 'Boxes',
   'カトラリー': 'Flatware', 'スプーン': 'Flatware', 'フォーク': 'Flatware', 'ナイフ': 'Flatware',
   'ベビー': 'Baby', 'ベビーシューズ': 'Baby', 'ラトル': 'Baby', 'ベビー用品': 'Baby',

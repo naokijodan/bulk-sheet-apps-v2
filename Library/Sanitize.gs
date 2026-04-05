@@ -582,6 +582,16 @@ var CATEGORY_RULES_ = {
       '- 対象魚種: バス/トラウト/シーバス/青物/イカ 等。不明ならNA。',
       '- [EN]セクションでは: Type は Minnow/Crankbait/Lipless Crankbait/Popper/Pencil Bait/Spinnerbait/Chatterbait/Metal Jig/Spoon/Squid Jig/Soft Plastic/Frog/Jig Head/Hook。Buoyancy は Floating/Sinking/Suspending。'
     ]
+  },
+  'Snow Globes': {
+    label: 'スノードーム',
+    rules: [
+      '- タイプ: オルゴール付き/音楽/メロディ/回転 → Musical Snow Globe。ライト/LED → Lighted Snow Globe。それ以外は Snow Globe。',
+      '- 素材: ガラス/ク���ス���ル → Glass、樹脂/レジン → Resin、プラスチック/アクリル → Plastic、陶器/磁器 → Ceramic。不明ならNA。',
+      '- テーマ: ディズニー/サンリオ/ジブリ等キャラクター名、クリスマス/サンタ/雪だるま等季節、都市名/ランドマーク名があればそのまま記入。',
+      '- 用途: クリスマス/誕生日/結婚/バレンタイン/正月 等があれば記入。不明ならNA。',
+      '- [EN]セクションでは: Type は Snow Globe/Musical Snow Globe/Lighted Snow Globe。Material は Glass/Resin/Plastic/Ceramic/Crystal。Subject はキャラクター名・テーマをそのまま英語で。'
+    ]
   }
 };
 
