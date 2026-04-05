@@ -401,15 +401,47 @@ var CATEGORY_RULES_ = {
       '- [EN]セクションでは: Frame Material は Metal/Plastic/Titanium/Acetate。Department は Men/Women/Unisex。'
     ]
   },
-  'Musical Instruments': {
-    label: '楽器',
+  'Guitars': {
+    label: 'ギター・ベース',
     rules: [
-      '- タイプ: エレキギター/アコースティックギター/クラシックギター/ベース/ウクレレ/バイオリン/フルート/サックス/トランペット/クラリネット/キーボード/シンセサイザー/ドラム/エフェクター/アンプ のいずれかで記入。',
-      '- ボディタイプ（ギターの場合）: ソリッド/セミホロウ/ホロウ/ドレッドノート/OM/000/ジャンボ のいずれかで記入。不明ならNA。',
+      '- タイプ: エレキギター/アコースティックギター/クラシックギター/ベース/ウクレレ のいずれかで記入。',
+      '- ボディタイプ: ソリッド/セミホロウ/ホロウ/ドレッドノート/OM/000/ジャンボ のいずれかで記入。不明ならNA。',
       '- 弦数: 6弦/7弦/8弦/4弦/5弦/12弦 等。不明ならNA。',
       '- 利き手: 右利き/左利き のいずれかで記入。記載がなければNA。',
       '- 製造年: 西暦で記入（例: 2020）。不明ならNA。',
-      '- [EN]セクションでは: Type は Electric Guitar/Acoustic Guitar/Classical Guitar/Bass Guitar/Ukulele/Violin/Flute/Saxophone/Trumpet/Clarinet/Keyboard/Synthesizer/Drums/Effects Pedal/Amplifier。Body Type は Solid Body/Semi-Hollow/Hollow Body/Dreadnought/OM/000/Jumbo。Handedness は Right-Handed/Left-Handed。'
+      '- [EN]セクションでは: Type は Electric Guitar/Acoustic Guitar/Classical Guitar/Bass Guitar/Ukulele。Body Type は Solid Body/Semi-Hollow/Hollow Body/Dreadnought/OM/000/Jumbo。Handedness は Right-Handed/Left-Handed。'
+    ]
+  },
+  'Effects & Amps': {
+    label: 'エフェクター・アンプ',
+    rules: [
+      '- タイプ(ペダル): オーバードライブ/ディストーション/ファズ/ディレイ/リバーブ/コーラス/フランジャー/フェイザー/コンプレッサー/イコライザー/ワウ/ブースター/ルーパー/マルチエフェクター 等。',
+      '- タイプ(アンプ): アンプヘッド/コンボアンプ/プリアンプ 等。',
+      '- アナログ/デジタル: ペダル→アナログ/デジタル。アンプ→真空管(Tube)/トランジスタ(Solid State)/モデリング(Modeling)。',
+      '- 電源: ペダル→9V/18V/電池/ACアダプター。アンプ→100V AC（日本仕様の場合必ず記載）。',
+      '- バイパス: ペダル→トゥルーバイパス/バッファードバイパス。アンプ→NA。',
+      '- [EN]セクションでは: Type は Overdrive/Distortion/Fuzz/Delay/Reverb/Chorus/Flanger/Phaser/Compressor/EQ/Wah/Boost/Looper/Multi-FX/Amp Head/Combo Amp/Preamp。Analog/Digital は Analog/Digital/Tube/Solid State/Modeling。Power Source は 9V Battery/AC Adapter/USB/100V AC。Bypass Type は True Bypass/Buffered Bypass。'
+    ]
+  },
+  'Synths & Digital': {
+    label: 'シンセ・キーボード・DJ機材',
+    rules: [
+      '- タイプ: シンセサイザー/デジタルピアノ/ワークステーション/サンプラー/ドラムマシン/グルーヴボックス/DJコントローラー/ターンテーブル/ミキサー 等。',
+      '- 鍵盤数: 25/37/49/61/76/88 等。鍵盤がない機材（ドラムマシン/ターンテーブル等）はNA。',
+      '- アナログ/デジタル: アナログ/デジタル/VA(バーチャルアナログ)/ハイブリッド。',
+      '- 接続: MIDI/USB/CV/オーディオI/O 等。',
+      '- [EN]セクションでは: Type は Synthesizer/Digital Piano/Workstation/Sampler/Drum Machine/Groovebox/DJ Controller/Turntable/Mixer。Analog/Digital は Analog/Digital/VA/Hybrid。Number of Keys は数値。Connectivity は MIDI/USB/CV/Audio I/O。'
+    ]
+  },
+  'Musical Instruments': {
+    label: 'ドラム・管楽器・その他',
+    rules: [
+      '- タイプ: スネアドラム/バスドラム/シンバル/ハイハット/サックス/トランペット/フルート/クラリネット/トロンボーン/バイオリン/チェロ/ハーモニカ 等。',
+      '- 素材: ドラム→メイプル/バーチ/スチール/ブラス。管楽器→真鍮/銀/ニッケルシルバー。弦楽器→スプルース/メイプル。',
+      '- サイズ: ドラム→インチ表記（14x5.5"等）。シンバル→インチ表記（20"等）。管楽器/弦楽器→NA。',
+      '- 調(管楽器): Bb/Eb/C/F 等。ドラム/パーカッション→NA。',
+      '- 仕上げ: ラッカー/銀メッキ/金メッキ/ナチュラル 等。',
+      '- [EN]セクションでは: Type は Snare Drum/Bass Drum/Cymbal/Hi-Hat/Saxophone/Trumpet/Flute/Clarinet/Trombone/Violin/Cello/Harmonica。Material は Maple/Birch/Steel/Brass/Silver/Nickel Silver/Spruce。Key/Pitch は Bb/Eb/C/F。Color は Lacquer/Silver Plated/Gold Plated/Natural。'
     ]
   },
   'Pens': {
@@ -715,10 +747,14 @@ var FIELD_EN_TO_JP_ = {
   'Rod Type': 'ロッドタイプ', 'Item Length': '長さ',
   'Rod Power': 'パワー', 'Rod Action': 'アクション', 'Lure Weight': 'ルアー重量',
   'Buoyancy': '浮力',
-  // 楽器
+  // 楽器（Guitars）
   'Body Color': 'ボディカラー', 'Body Type': 'ボディタイプ',
   'String Configuration': '弦構成', 'Model Year': '年式',
   'Number of Frets': 'フレット数',
+  // 楽器（Effects & Amps / Synths & Digital / Musical Instruments）
+  'Analog/Digital': 'アナログ/デジタル', 'Power Source': '電源',
+  'Bypass Type': 'バイパス方式', 'Number of Keys': '鍵盤数',
+  'Key/Pitch': '調/ピッチ', 'Subtype': 'サブタイプ',
   // 万年筆
   'Ink Color': 'インク色', 'Nib Size': 'ニブサイズ', 'Nib Material': 'ニブ素材',
   // パイプ
