@@ -203,7 +203,8 @@ Scarves, Neckties, Handkerchiefs, Tie Accessories, Glassware, Snow Globes, Boxes
 | M | 高価格配送 | ドロップダウン（CF/CD/EL） |
 | N | 送料切替基準 | 数値（円） |
 | O | 想定関税閾値 | H列からREGEXEXTRACTで自動抽出 |
-| Q-R | 参照リスト | **PROMPT_TAG_MAPPINGから自動生成**（writeTagListToSheet_関数） |
+| P | 商品状態 | ドロップダウン（新品/中古/AI）。AE列にINDEX/MATCHで参照。AI/空→P2フォールバック |
+| S-T | 参照リスト | **PROMPT_TAG_MAPPINGから自動生成**（writeTagListToSheet_関数）。旧Q-R列から移動 |
 
 ### 値埋め込み禁止
 INDEX/MATCH数式で参照すること。
