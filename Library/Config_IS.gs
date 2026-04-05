@@ -2346,7 +2346,7 @@ var IS_BRAND_DICT = [
   {name: 'Major Craft', jp_names: ['メジャークラフト', 'MAJOR CRAFT'], country: 'Japan', category: ['Fishing Reels']},
   {name: 'Studio Ocean Mark', jp_names: ['スタジオオーシャンマーク', 'STUDIO OCEAN MARK', 'SOM'], country: 'Japan', category: ['Fishing Reels']},
   {name: 'Smith', jp_names: ['スミス', 'SMITH'], country: 'Japan', category: ['Fishing Reels']},
-  {name: 'Valleyhill', jp_names: ['バレーヒル', 'VALLEYHILL'], country: 'Japan', category: ['Fishing Reels']},
+  {name: 'Valleyhill', jp_names: ['バレーヒル', 'VALLEYHILL'], country: 'Japan', category: ['Fishing Reels', 'Fishing Lures']},
   {name: 'PALMS', jp_names: ['パームス', 'PALMS'], country: 'Japan', category: ['Fishing Reels']},
 
   // === Fishing Reels: Shimano Spinning ===
@@ -3000,7 +3000,6 @@ var IS_BRAND_DICT = [
   {name: 'Breaden', jp_names: ['ブリーデン', 'BREADEN'], country: 'Japan', category: ['Fishing Lures']},
   {name: 'Roman Made', jp_names: ['ロマンメイド', 'ROMAN MADE'], country: 'Japan', category: ['Fishing Lures']},
   {name: 'Issei', jp_names: ['一誠', 'イッセイ', 'ISSEI'], country: 'Japan', category: ['Fishing Lures']},
-  {name: 'Valleyhill', jp_names: ['バレーヒル', 'VALLEYHILL'], country: 'Japan', category: ['Fishing Lures']},
 ];
 
 /**
