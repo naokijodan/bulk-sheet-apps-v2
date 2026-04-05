@@ -611,7 +611,7 @@ var FIELD_EN_TO_JP_ = {
   'Fish Species': '対象魚種',
   'Rod Type': 'ロッドタイプ', 'Item Length': '長さ',
   'Rod Power': 'パワー', 'Rod Action': 'アクション', 'Lure Weight': 'ルアー重量',
-  'Buoyancy': '浮力', 'Weight': '重さ',
+  'Buoyancy': '浮力',
   // 楽器
   'Body Color': 'ボディカラー', 'Body Type': 'ボディタイプ',
   'String Configuration': '弦構成', 'Model Year': '年式',

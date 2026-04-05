@@ -1934,7 +1934,7 @@ var IS_BRAND_DICT = [
   // === Pottery & Porcelain ===
   {name: 'Arabia', jp_names: ['アラビア', 'ARABIA'], country: 'Finland'},
   {name: 'Starbucks', jp_names: ['スターバックス', 'スタバ', 'STARBUCKS'], country: 'United States'},
-  {name: 'Arita', jp_names: ['有田焼', 'ARITA'], country: 'Japan'},
+  {name: 'Arita', jp_names: ['有田焼', 'アリタヤキ', 'ARITA'], country: 'Japan'},
   {name: 'Baccarat', jp_names: ['バカラ', 'BACCARAT'], country: 'France'},
   {name: 'Bizen', jp_names: ['備前焼', 'BIZEN'], country: 'Japan'},
   {name: 'Hagi', jp_names: ['萩焼', 'HAGI'], country: 'Japan'},
@@ -2951,7 +2951,6 @@ var IS_BRAND_DICT = [
   {name: 'Fukagawa', jp_names: ['深川製磁', 'フカガワセイジ', 'FUKAGAWA'], country: 'Japan', category: ['Dinnerware']},
   {name: 'Gen\'emon', jp_names: ['源右衛門', 'ゲンエモン', 'GEN\'EMON'], country: 'Japan', category: ['Dinnerware']},
   {name: 'Kakiemon', jp_names: ['柿右衛門', 'カキエモン', 'KAKIEMON'], country: 'Japan', category: ['Dinnerware']},
-  {name: 'Arita', jp_names: ['有田焼', 'アリタヤキ', 'ARITA'], country: 'Japan', category: ['Dinnerware']},
   {name: 'Kutani', jp_names: ['九谷焼', 'クタニヤキ', 'KUTANI'], country: 'Japan', category: ['Dinnerware']},
   {name: 'Hasami', jp_names: ['波佐見焼', 'ハサミヤキ', 'HASAMI'], country: 'Japan', category: ['Dinnerware']},
   // === Dinnerware: 欧州テーブルウェア ===
@@ -2965,9 +2964,7 @@ var IS_BRAND_DICT = [
   {name: 'Haviland', jp_names: ['アビランド', 'HAVILAND'], country: 'France', category: ['Dinnerware']},
   {name: 'Bernardaud', jp_names: ['ベルナルド', 'BERNARDAUD'], country: 'France', category: ['Dinnerware']},
   {name: 'Christofle', jp_names: ['クリストフル', 'CHRISTOFLE'], country: 'France', category: ['Dinnerware']},
-  // === Dinnerware: 北欧デザイン ===
-  {name: 'Iittala', jp_names: ['イッタラ', 'IITTALA'], country: 'Finland', category: ['Dinnerware']},
-  {name: 'Arabia', jp_names: ['アラビア', 'ARABIA'], country: 'Finland', category: ['Dinnerware']},
+  // === Dinnerware: 北欧デザイン（Arabia/Iittalaは既存エントリにcategoryなしで登録済み→全カテゴリマッチ） ===
   {name: 'Marimekko', jp_names: ['マリメッコ', 'MARIMEKKO'], country: 'Finland', category: ['Dinnerware']},
   // === Dinnerware: クリスタル ===
   {name: 'Saint-Louis', jp_names: ['サンルイ', 'SAINT-LOUIS', 'SAINT LOUIS'], country: 'France', category: ['Dinnerware']},
