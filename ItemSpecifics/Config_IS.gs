@@ -2938,6 +2938,42 @@ var IS_BRAND_DICT = [
   {name: 'TWSBI', jp_names: ['ツイスビー', 'TWSBI'], country: 'Taiwan', category: ['Pens']},
   {name: 'Nakaya', jp_names: ['中屋', 'ナカヤ', 'NAKAYA'], country: 'Japan', category: ['Pens']},
 
+  // === Dinnerware: 日本テーブルウェア ===
+  {name: 'Narumi', jp_names: ['ナルミ', 'NARUMI'], country: 'Japan', category: ['Dinnerware']},
+  {name: 'Nikko', jp_names: ['ニッコー', 'NIKKO'], country: 'Japan', category: ['Dinnerware']},
+  {name: 'Okura', jp_names: ['大倉陶園', 'オオクラトウエン', 'OKURA'], country: 'Japan', category: ['Dinnerware']},
+  {name: 'Sango', jp_names: ['サンゴ', 'SANGO', '三郷陶器'], country: 'Japan', category: ['Dinnerware']},
+  {name: 'Mikasa', jp_names: ['ミカサ', 'MIKASA'], country: 'Japan', category: ['Dinnerware']},
+  {name: 'KINTO', jp_names: ['キントー', 'KINTO'], country: 'Japan', category: ['Dinnerware']},
+  {name: 'Tachikichi', jp_names: ['たち吉', 'タチキチ', 'TACHIKICHI'], country: 'Japan', category: ['Dinnerware']},
+  // === Dinnerware: 日本窯元 ===
+  {name: 'Koransha', jp_names: ['香蘭社', 'コウランシャ', 'KORANSHA'], country: 'Japan', category: ['Dinnerware']},
+  {name: 'Fukagawa', jp_names: ['深川製磁', 'フカガワセイジ', 'FUKAGAWA'], country: 'Japan', category: ['Dinnerware']},
+  {name: 'Gen\'emon', jp_names: ['源右衛門', 'ゲンエモン', 'GEN\'EMON'], country: 'Japan', category: ['Dinnerware']},
+  {name: 'Kakiemon', jp_names: ['柿右衛門', 'カキエモン', 'KAKIEMON'], country: 'Japan', category: ['Dinnerware']},
+  {name: 'Arita', jp_names: ['有田焼', 'アリタヤキ', 'ARITA'], country: 'Japan', category: ['Dinnerware']},
+  {name: 'Kutani', jp_names: ['九谷焼', 'クタニヤキ', 'KUTANI'], country: 'Japan', category: ['Dinnerware']},
+  {name: 'Hasami', jp_names: ['波佐見焼', 'ハサミヤキ', 'HASAMI'], country: 'Japan', category: ['Dinnerware']},
+  // === Dinnerware: 欧州テーブルウェア ===
+  {name: 'Royal Copenhagen', jp_names: ['ロイヤルコペンハーゲン', 'ROYAL COPENHAGEN'], country: 'Denmark', category: ['Dinnerware']},
+  {name: 'Richard Ginori', jp_names: ['リチャードジノリ', 'RICHARD GINORI', 'ジノリ', 'GINORI'], country: 'Italy', category: ['Dinnerware']},
+  {name: 'Villeroy & Boch', jp_names: ['ビレロイ&ボッホ', 'ビレロイアンドボッホ', 'VILLEROY & BOCH', 'VILLEROY AND BOCH'], country: 'Germany', category: ['Dinnerware']},
+  {name: 'Rosenthal', jp_names: ['ローゼンタール', 'ROSENTHAL'], country: 'Germany', category: ['Dinnerware']},
+  {name: 'Royal Doulton', jp_names: ['ロイヤルドルトン', 'ROYAL DOULTON'], country: 'United Kingdom', category: ['Dinnerware']},
+  {name: 'Spode', jp_names: ['スポード', 'SPODE'], country: 'United Kingdom', category: ['Dinnerware']},
+  {name: 'Royal Albert', jp_names: ['ロイヤルアルバート', 'ROYAL ALBERT'], country: 'United Kingdom', category: ['Dinnerware']},
+  {name: 'Haviland', jp_names: ['アビランド', 'HAVILAND'], country: 'France', category: ['Dinnerware']},
+  {name: 'Bernardaud', jp_names: ['ベルナルド', 'BERNARDAUD'], country: 'France', category: ['Dinnerware']},
+  {name: 'Christofle', jp_names: ['クリストフル', 'CHRISTOFLE'], country: 'France', category: ['Dinnerware']},
+  // === Dinnerware: 北欧デザイン ===
+  {name: 'Iittala', jp_names: ['イッタラ', 'IITTALA'], country: 'Finland', category: ['Dinnerware']},
+  {name: 'Arabia', jp_names: ['アラビア', 'ARABIA'], country: 'Finland', category: ['Dinnerware']},
+  {name: 'Marimekko', jp_names: ['マリメッコ', 'MARIMEKKO'], country: 'Finland', category: ['Dinnerware']},
+  // === Dinnerware: クリスタル ===
+  {name: 'Saint-Louis', jp_names: ['サンルイ', 'SAINT-LOUIS', 'SAINT LOUIS'], country: 'France', category: ['Dinnerware']},
+  // === Dinnerware: その他 ===
+  {name: 'Le Creuset', jp_names: ['ル・クルーゼ', 'ルクルーゼ', 'LE CREUSET'], country: 'France', category: ['Dinnerware']},
+
   // === Fishing Rods ===
   {name: 'Shimano', jp_names: ['シマノ', 'SHIMANO'], country: 'Japan', category: ['Fishing Rods', 'Fishing Reels', 'Fishing Lures']},
   {name: 'Daiwa', jp_names: ['ダイワ', 'DAIWA'], country: 'Japan', category: ['Fishing Rods', 'Fishing Reels', 'Fishing Lures']},
@@ -3697,6 +3733,11 @@ IS_TAG_TO_CATEGORY['電動リール'] = 'Fishing Reels'; IS_TAG_TO_CATEGORY['フ
 IS_TAG_TO_CATEGORY['ジギングロッド'] = 'Fishing Rods'; IS_TAG_TO_CATEGORY['エギングロッド'] = 'Fishing Rods';
 IS_TAG_TO_CATEGORY['テンカラ'] = 'Fishing Rods'; IS_TAG_TO_CATEGORY['シーバスロッド'] = 'Fishing Rods';
 IS_TAG_TO_CATEGORY['アユロッド'] = 'Fishing Rods'; IS_TAG_TO_CATEGORY['渓流竿'] = 'Fishing Rods';
+
+// Dinnerware 追加
+IS_TAG_TO_CATEGORY['ボウル'] = 'Dinnerware'; IS_TAG_TO_CATEGORY['マグカップ'] = 'Dinnerware';
+IS_TAG_TO_CATEGORY['ティーカップ'] = 'Dinnerware'; IS_TAG_TO_CATEGORY['ソーサー'] = 'Dinnerware';
+IS_TAG_TO_CATEGORY['ティーポット'] = 'Dinnerware'; IS_TAG_TO_CATEGORY['鉢'] = 'Dinnerware';
 
 // Fishing Lures
 IS_TAG_TO_CATEGORY['ルアー'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['ミノー'] = 'Fishing Lures';
