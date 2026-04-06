@@ -5,54 +5,73 @@
 ## ■ 現在のステータス
 
 - ブランチ: main
-- 最新コ���ット: `abe1d36`
+- 最新コミット: `fc9217f`
 - clasp push: **実施済み**
 - 動かないもの: なし
 
 ## ■ 前回のセッション（2026-04-06）でやったこと
 
-### 辞書確認カテゴリ（Pens〜Records: 20カテゴリ完了）
+### 辞書確認プロジェクト完了
+- **全64カテゴリの辞書確認完了**（40/64から開始→64/64完了）
+- 新設: +9カテゴリ（Kakejiku, Manga, Mecha Model Kits, Fishing Lures, Video Game Accessories, Guitars, Effects & Amps, Synths & Digital）※前セッション含む
+- 削除: -1（Lighters: 危険物で発送不可）
+- **合計72カテゴリ**
 
-| # | カテゴリ | 内容 | コミット |
-|---|---------|------|---------|
-| 41 | Pens | ブランド+3、ボディ素材・Filling System修正 | `8b371a9` |
-| 42 | Wallets | タグ+6、Closure追加、ブランド+5、ルール改善 | `3fe1881` |
-| - | Lighters | **削除**（発送不可） | `37e672d` |
-| 43 | Art | タグ+5、ルール改善（作家名ローマ字変換） | `61754cf` |
-| 新設 | Kakejiku | **掛軸分離**（10フィールド、8ルール） | `61754cf` |
-| 44 | Pottery | タグ+17（産地名）、Origin/Kiln追加、6ルール新設 | `5bae070` |
-| 45-46 | Belts+Belt Buckles | ルール改善（バックル専用に書き換え） | `8944796` |
-| 47 | Golf Heads | ブランド+2（Wilson Staff/Yonex） | `9eb9659` |
-| 48 | Kimono | タグ+11、Pattern/Technique追加、7ルール新設 | `ff83e55` |
-| 49 | Japanese Swords | **刀装具特化**（刀身発送不可、10フィールド全面変��） | `d8741ad` |
-| 50-51 | Tea Ceremony+Bonsai | フィールド5→10/6→10、ルール新設、盆栽輸出不可警告 | `d20b775` |
-| 52-53 | Prints+Buddhist Art | フィールド7→10/5→10、ルール新設（浮世絵作家名/仏像尊格） | `ed51a30` |
-| 54-61 | Tetsubin/Golf/Tennis/Baseball/Japanese Instruments/Stamps/Coins/Records | 一括改善 | `abe1d36` |
+### 主要な設計変更
+1. **Lighters削除**: 危険物のため国際発送不可
+2. **Kakejiku新設**: 掛軸をArtから分離（表装/軸先/箱の専用フィールド）
+3. **Manga新設**: 漫画をAnimeから分離（eBayではBooks > Comic Books & Manga）
+4. **Mecha Model Kits新設**: ガンプラ/ロボット系プラモをRC & Modelsから分離
+5. **Japanese Swords刀装具特化**: 刀身は発送不可。鍔/拵え専用フィールドに全面変更
+6. **Bonsai周辺グッズ特化**: 生きた木は輸出不可
+7. **Anime改修**: 漫画分離+グッズタグ充実+フィールド6→10
+8. **Figures改修**: Theme/Vintage→Series・Line/Official・Bootleg/Release Year
+9. **ガンダムカード専用プロンプト新設**: prompts/ガンダムカード.txt + PromptTemplates.gs + PROMPT_TAG_MAPPING
 
-### 主要な設計判断
-- **Lighters削除**: 危険物のため国際発送不可
-- **Kakejiku新設**: 掛軸は絵画と商品特性が異なるため分離
-- **Japanese Swords刀装具特化**: 刀身は発送不可。鍔/拵え専用フィールドに全面変更
-- **Bonsai周辺グッズ特化**: 生きた木は輸出不可。鉢/道具/水石に特化
-- **全カテゴリ共通**: 作家名ヘボン式ローマ字変換ルール追加
+### 重要な教訓（このセッションで発生）
+1. **Edit tool使用時に文字化け（U+FFFD）が頻発**: 日本語文字列のreplace_allで発生。Pythonで修正が必要
+2. **PromptTemplates.gsの手動追加時にエスケープ漏れ**: 改行が未エスケープでclasp pushエラー
+3. **IS_TAG_TO_CATEGORY追加忘れ**: PROMPT_TAG_MAPPINGだけ追加してIS_TAG_TO_CATEGORYを忘れた（ガンダムカード）
+4. **GPTのFAIL指摘後の再確認漏れ**: 修正してコミットしたが再レビューを取らなかった箇所あり
 
-## ■ 次にやること
+---
 
-### 残り3カテゴリ（ユーザーが起きてから）
-- **Anime** — 難しいカテゴリ。ユーザーと相談して進める
-- **Figures** — 同上
-- **RC & Models** — リサーチが必要
+## ■ 次にやること: 3レイヤー全面検証
 
-### 確認済みカテゴリ数
-- 確認済み: 61/64（Lighters削除で63カテゴリ）+ 新設7
-- 残り: 3カテゴリ（Anime/Figures/RC & Models）
+### 目的
+全72カテゴリで、以下の3レイヤーが一貫して連携するか検証する:
 
-## ■ 特に注意
+```
+レイヤー1: 交通整理
+  IS_TAG_TO_CATEGORY → タグがカテゴリに正しくマッピングされるか
 
-- E-02レビュー必須（Claude+GPT最低2者）
-- 表面的な数値で「充実済み」と判断しない。フィールドの中身を検証すること
-- Gemini MCPブリッジは全滅中。Claude+GPTで進行
-- 文字化けチェック: `grep '��' Sanitize.gs` をコミット前に実行
+レイヤー2: 翻訳
+  PROMPT_TAG_MAPPING → カテゴリに対応するプロンプトが選ばれるか
+  prompts/*.txt → プロンプト内容がカテゴリの商品に適切か
+
+レイヤー3: IS（Item Specifics）
+  IS_CATEGORY_FIELDS → フィールドが正しく定義されているか
+  CATEGORY_RULES_ → ルールがフィールドと整合しているか
+  FIELD_EN_TO_JP_ → 英語→日本語変換が全フィールドに対応しているか
+```
+
+### 具体的なチェック項目
+1. **全タグがIS_TAG_TO_CATEGORYに存在するか**
+2. **全タグがPROMPT_TAG_MAPPINGのいずれかのプロンプトに含まれるか**（断線なし）
+3. **全カテゴリがIS_CATEGORY_FIELDSに定義されているか**
+4. **全カテゴリのフィールドがFIELD_EN_TO_JP_に登録されているか**
+5. **CATEGORY_RULES_のENセクションとIS_CATEGORY_FIELDSの整合性**
+6. **翻訳プロンプト（prompts/*.txt）が辞書改修の内容を反映しているか**（今セッションで辞書は変えたがプロンプト本文は未対応のカテゴリ多数）
+
+### 特に要注意のカテゴリ
+- **Kakejiku**: 新設。プロンプトはアートと共有。掛軸専用の翻訳指示がプロンプトにない
+- **Manga**: 新設。専用プロンプトなし（PROMPT_TAG_MAPPINGに「漫画」を追加したがプロンプトファイルはまだない）
+- **Mecha Model Kits**: 新設。プロンプトはRC・模型と共有
+- **Japanese Swords**: 刀装具特化したがプロンプトは刀身前提の可能性
+- **Pottery**: 産地タグ17件追加したがプロンプト内のマッピングと整合未確認
+- **Kimono**: 技法/産地フィールド追加したがプロンプト未確認
+
+---
 
 ## ■ 参照すべきファイル
 
@@ -60,12 +79,22 @@
 1. `~/.claude/CLAUDE.md` + `~/.claude/rules/` 配下の全ルールファイル
 2. このHANDOVER.md
 3. `~/Desktop/ツール開発/一括シートApps_v3/CLAUDE.md`（コミット前チェックリスト5項目）
-4. Obsidian開発ノート: `一括シートV3_辞書充実.md`（最重要）
+4. Obsidian開発ノート: `一括シートV3_辞書充実.md`
+
+### 3レイヤー検証に必要なファイル
+| レイヤー | ファイル | 内容 |
+|---------|---------|------|
+| 交通整理 | `ItemSpecifics/Config_IS.gs` | IS_TAG_TO_CATEGORY, IS_INITIAL_DATA, IS_CATEGORY_FIELDS |
+| 翻訳 | `Config.gs` | PROMPT_TAG_MAPPING |
+| 翻訳 | `prompts/*.txt` (45件) | プロンプト本文 |
+| 翻訳 | `Library/PromptTemplates.gs` | prompts→GAS同期版 |
+| IS | `Sanitize.gs` | CATEGORY_RULES_, FIELD_EN_TO_JP_, SANITIZE_FIELDS_ |
+| IS | `AI.gs` | カテゴリ固有AIヒント（カメラ/ゲーム/カード/コレクティブル） |
 
 ### 開発ツール
 | ツール | コマンド |
 |--------|---------|
-| GPTレビュー | `mcp__openai-bridge__code_review_gpt` |
-| GPT質問 | `mcp__openai-bridge__ask_gpt` |
+| GPTレビュー | `mcp__openai-bridge__ask_gpt` |
 | 3者協議 | `mcp__ai-discussion__get_all_opinions` |
+| プロンプト同期 | `python3 Library/sync_prompts_to_gs.py` |
 | clasp push | `cd Library && /Users/naokijodan/.npm-global/bin/clasp push --force` |
