@@ -4011,6 +4011,7 @@ IS_TAG_TO_CATEGORY['BBM'] = 'Trading Cards'; IS_TAG_TO_CATEGORY['ベースボー
 IS_TAG_TO_CATEGORY['野球カード'] = 'Trading Cards'; IS_TAG_TO_CATEGORY['大相撲カード'] = 'Trading Cards';
 IS_TAG_TO_CATEGORY['PSA'] = 'Trading Cards'; IS_TAG_TO_CATEGORY['BGS'] = 'Trading Cards';
 IS_TAG_TO_CATEGORY['CGC'] = 'Trading Cards'; IS_TAG_TO_CATEGORY['SGC'] = 'Trading Cards';
+IS_TAG_TO_CATEGORY['デジモン'] = 'Trading Cards'; IS_TAG_TO_CATEGORY['デジモンカード'] = 'Trading Cards';
 
 // Video Game Consoles 追加（機種名・略称）
 IS_TAG_TO_CATEGORY['ゲーム本体'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['コンソール'] = 'Video Game Consoles';
