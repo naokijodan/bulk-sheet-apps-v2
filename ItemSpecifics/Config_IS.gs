@@ -3814,8 +3814,7 @@ IS_TAG_TO_CATEGORY['織部'] = 'Pottery'; IS_TAG_TO_CATEGORY['志野'] = 'Potter
 IS_TAG_TO_CATEGORY['薩摩焼'] = 'Pottery';
 // 茶道具 → Tea Ceremonyで上書き
 IS_TAG_TO_CATEGORY['茶道具'] = 'Pottery'; IS_TAG_TO_CATEGORY['茶碗'] = 'Pottery';
-// 急須 → Tetsubinで上書き
-IS_TAG_TO_CATEGORY['急須'] = 'Pottery'; IS_TAG_TO_CATEGORY['壺'] = 'Pottery';
+IS_TAG_TO_CATEGORY['壺'] = 'Pottery';
 
 // Belts
 IS_TAG_TO_CATEGORY['ベルト'] = 'Belts'; IS_TAG_TO_CATEGORY['レザーベルト'] = 'Belts';
@@ -3879,7 +3878,8 @@ IS_TAG_TO_CATEGORY['数珠'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['木魚'] = 'B
 // Tetsubin（急須をPotteryから上書き）
 IS_TAG_TO_CATEGORY['鉄瓶'] = 'Tetsubin'; IS_TAG_TO_CATEGORY['銀瓶'] = 'Tetsubin';
 IS_TAG_TO_CATEGORY['南部鉄器'] = 'Tetsubin'; IS_TAG_TO_CATEGORY['茶釜'] = 'Tetsubin';
-IS_TAG_TO_CATEGORY['急須'] = 'Tetsubin';
+IS_TAG_TO_CATEGORY['銅瓶'] = 'Tetsubin'; IS_TAG_TO_CATEGORY['鉄瓶急須'] = 'Tetsubin';
+IS_TAG_TO_CATEGORY['陶器急須'] = 'Pottery';
 
 // Golf
 IS_TAG_TO_CATEGORY['ゴルフ'] = 'Golf'; IS_TAG_TO_CATEGORY['ゴルフクラブ'] = 'Golf';
