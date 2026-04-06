@@ -685,20 +685,39 @@ var CATEGORY_RULES_ = {
       '- [EN]セクションでは: Type は Plush/Stuffed Animal/Teddy Bear/Doll/BJD/Fashion Doll/Art Toy。Material は Mohair/Plush/Vinyl/ABS/Porcelain。Character は英語公式名。'
     ]
   },
+  'Manga': {
+    label: '漫画・コミック',
+    rules: [
+      '- 作品名: 正式タイトルで記入。[EN]では英語公式タイトルで記入（例: 鬼滅の刃→Demon Slayer、進撃の巨人→Attack on Titan、ワンピース→One Piece）。英語タイトルがない場合はローマ字。',
+      '- 作者名: 漢字名をヘボン式ローマ字に変換。[EN]では「Romanized Name (漢字名)」形式。例: 尾田栄一郎→Oda Eiichiro、鳥山明→Toriyama Akira、手塚治虫→Tezuka Osamu。',
+      '- 出版社: 集英社/講談社/小学館/角川/スクウェア・エニックス/白泉社/秋田書店 等で記入。',
+      '- フォーマット: 単行本/文庫本/ワイド版/新装版/愛蔵版/完全版 のいずれかで記入。同人誌の場合は「同人誌」。',
+      '- ジャンル: 少年/少女/青年/女性/BL/百合 等で記入。',
+      '- エディション: 初版/帯付き/限定版/特装版/通常版 等で記入。該当なしならNA。',
+      '- [EN]セクションでは: Publisher は Shueisha/Kodansha/Shogakukan/Kadokawa/Square Enix/Hakusensha/Akita Shoten。Format は Tankobon/Bunkoban/Wide Edition/New Edition(Shinsoban)/Deluxe Edition(Aizoban)/Complete Edition/Doujinshi。Genre は Shonen/Shojo/Seinen/Josei/BL(Boys Love)/Yuri。Edition は First Edition/With Obi Band/Limited Edition/Special Edition/Regular Edition。'
+    ]
+  },
   'Anime': {
-    label: 'コレクティブル',
+    label: 'アニメグッズ',
     rules: [
       '- キャラクター: 正式名称で記入。',
       '- フランチャイズ: シリーズ名で記入（例: ドラゴンボール、ワンピース、ガンダム）。',
-      '- [EN]セクションでは: Character / Franchise は英語の公式名称で記入。例: Dragon Ball/One Piece/Gundam/Evangelion/Sailor Moon。'
+      '- タイプ: アクスタ/缶バッジ/タペストリー/クリアファイル/色紙/ラバーストラップ/ポスター/ブロマイド/キーホルダー/セル画/原画 等で記入。',
+      '- 公式/非公式: 公式グッズか非公式（ファンメイド）かを記入。',
+      '- セル画・原画の場合: スタジオ名、作品名、話数/シーンがわかれば記入。',
+      '- [EN]セクションでは: Character / Franchise は英語の公式名称。Type は Acrylic Stand/Pin Badge(Can Badge)/Tapestry/Clear File/Shikishi(Art Board)/Rubber Strap/Poster/Bromide(Photo Card)/Keychain/Animation Cel/Key Animation Drawing(Genga)。Official/Unofficial は Official/Unofficial(Fan-made)。'
     ]
   },
   'Figures': {
-    label: 'コレクティブル',
+    label: 'フィギュア',
     rules: [
       '- キャラクター: 正式名称で記入。',
       '- フランチャイズ: シリーズ名で記入（例: ドラゴンボール、ワンピース、ガンダム）。',
-      '- [EN]セクションでは: Character / Franchise は英語の公式名称で記入。例: Dragon Ball/One Piece/Gundam/Evangelion/Sailor Moon。'
+      '- タイプ: アクションフィギュア/スタチュー/ねんどろいど/figma/プライズフィギュア/一番くじ/ガレージキット/トレーディングフィギュア 等で記入。',
+      '- シリーズ/ライン: Figma/Nendoroid/Pop Up Parade/S.H.Figuarts/Ichiban Kuji/Portrait.Of.Pirates/GEM Series 等で記入。不明ならNA。',
+      '- スケール: 1/6/1/7/1/8/1/4 等で記入。ノンスケールの場合は「ノンスケール」。',
+      '- 正規品/海賊版: 正規品/海賊版 のいずれかで記入。',
+      '- [EN]セクションでは: Character / Franchise は英語の公式名称。Type は Action Figure/Statue/Nendoroid/Figma/Prize Figure/Ichiban Kuji/Garage Kit/Trading Figure。Series/Line は Figma/Nendoroid/Pop Up Parade/S.H.Figuarts/Ichiban Kuji/Portrait.Of.Pirates/GEM Series。Scale は 1/6/1/7/1/8/Non-scale。Official/Bootleg は Official/Bootleg(Counterfeit)。'
     ]
   },
   'RC & Models': {
@@ -901,7 +920,11 @@ var FIELD_EN_TO_JP_ = {
   'Support': '本紙素材', 'Mounting Type': '表装', 'Scroll Rod Material': '軸先素材', 'Box Type': '箱',
   'Origin/Kiln': '産地/窯', 'Technique/Weave': '技法/産地',
   'Glaze/Finish': '釉薬/仕上げ', 'Drainage Holes': '水抜き穴', 'Maker/Kiln': '作家/窯元',
-  'Subject/Deity': '尊格', 'Edition': 'エディション',
+  'Subject/Deity': '尊格',
+  // 漫画・アニメ・フィギュア
+  'Title': 'タイトル', 'Author': '作者', 'Volume/Set': '巻数/セット',
+  'Publication Year': '出版年', 'Official/Unofficial': '公式/非公式',
+  'Official/Bootleg': '正規品/海賊版', 'Series/Line': 'シリーズ/ライン',
   'Capacity': '容量', 'Flex': 'フレックス', 'Balance': 'バランス',
   'Denomination': '額面', 'Composition': '素材構成',
   'Subtype': 'サブタイプ', 'Set Includes': 'セット内容',

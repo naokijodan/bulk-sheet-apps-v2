@@ -448,25 +448,41 @@ var IS_INITIAL_DATA = [
   { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆', field_name: 'Color', field_type: 'recommended', priority: 5, notes: '' },
   { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆', field_name: 'Country of Origin', field_type: 'recommended', priority: 6, notes: '' },
 
-  // === Anime ===
-  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,漫画,マンガ', field_name: 'Brand', field_type: 'recommended', priority: 1, notes: '' },
-  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,漫画,マンガ', field_name: 'Character', field_type: 'required', priority: 2, notes: '' },
-  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,漫画,マンガ', field_name: 'Franchise', field_type: 'required', priority: 3, notes: '作品名' },
-  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,漫画,マンガ', field_name: 'Type', field_type: 'required', priority: 4, notes: 'Poster / Keychain / Towel / Sticker等' },
-  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,漫画,マンガ', field_name: 'Material', field_type: 'recommended', priority: 5, notes: '' },
-  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,漫画,マンガ', field_name: 'Country of Origin', field_type: 'recommended', priority: 6, notes: '' },
+  // === Manga ===
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Title', field_type: 'required', priority: 1, notes: '作品名' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Author', field_type: 'required', priority: 2, notes: '' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Publisher', field_type: 'recommended', priority: 3, notes: 'Shueisha / Kodansha / Shogakukan等' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Language', field_type: 'recommended', priority: 4, notes: 'Japanese' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Format', field_type: 'recommended', priority: 5, notes: 'Tankobon / Bunkoban / Wide Edition等' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Volume/Set', field_type: 'recommended', priority: 6, notes: '巻数 or Complete Set' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Genre', field_type: 'recommended', priority: 7, notes: 'Shonen / Shojo / Seinen / Josei / BL' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Publication Year', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Edition', field_type: 'recommended', priority: 9, notes: 'First Edition / With Obi / Limited等' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+
+  // === Anime Merchandise ===
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Character', field_type: 'required', priority: 1, notes: '' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Franchise', field_type: 'required', priority: 2, notes: '作品名' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Type', field_type: 'required', priority: 3, notes: 'Acrylic Stand / Pin Badge / Tapestry / Clear File等' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Brand', field_type: 'recommended', priority: 4, notes: '' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Size', field_type: 'recommended', priority: 5, notes: '' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Material', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Color', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Official/Unofficial', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Year', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
 
   // === Figures ===
   { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Franchise', field_type: 'required', priority: 1, notes: '作品名' },
   { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Character', field_type: 'required', priority: 2, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Type', field_type: 'required', priority: 3, notes: 'Action Figure / Statue / Nendoroid / Figma等' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Type', field_type: 'required', priority: 3, notes: 'Action Figure / Statue / Nendoroid / Prize Figure等' },
   { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Brand', field_type: 'required', priority: 4, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Scale', field_type: 'recommended', priority: 5, notes: '1/6 / 1/7 / 1/8等' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Scale', field_type: 'recommended', priority: 5, notes: '1/6 / 1/7 / 1/8 / Non-scale' },
   { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Material', field_type: 'recommended', priority: 6, notes: 'PVC / ABS / Resin' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Theme', field_type: 'recommended', priority: 7, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Original/Licensed Reproduction', field_type: 'recommended', priority: 8, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Series', field_type: 'recommended', priority: 9, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Vintage', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Series/Line', field_type: 'recommended', priority: 7, notes: 'Figma / Nendoroid / Pop Up Parade / S.H.Figuarts等' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Official/Bootleg', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Release Year', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
 
   // === Stamps ===
   { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Certification', field_type: 'required', priority: 1, notes: 'PCGS / NGC等' },
@@ -3908,9 +3924,21 @@ IS_TAG_TO_CATEGORY['ラジコン'] = 'RC & Models'; IS_TAG_TO_CATEGORY['RC'] = '
 IS_TAG_TO_CATEGORY['模型'] = 'RC & Models'; IS_TAG_TO_CATEGORY['プラモデル'] = 'RC & Models';
 IS_TAG_TO_CATEGORY['ミニ四駆'] = 'RC & Models';
 
-// Anime
+// Manga
+IS_TAG_TO_CATEGORY['漫画'] = 'Manga'; IS_TAG_TO_CATEGORY['マンガ'] = 'Manga';
+IS_TAG_TO_CATEGORY['コミック'] = 'Manga'; IS_TAG_TO_CATEGORY['単行本'] = 'Manga';
+IS_TAG_TO_CATEGORY['文庫本'] = 'Manga'; IS_TAG_TO_CATEGORY['全巻セット'] = 'Manga';
+IS_TAG_TO_CATEGORY['初版'] = 'Manga'; IS_TAG_TO_CATEGORY['同人誌'] = 'Manga';
+IS_TAG_TO_CATEGORY['画集'] = 'Manga';
+
+// Anime Merchandise
 IS_TAG_TO_CATEGORY['アニメ'] = 'Anime'; IS_TAG_TO_CATEGORY['アニメグッズ'] = 'Anime';
-IS_TAG_TO_CATEGORY['漫画'] = 'Anime'; IS_TAG_TO_CATEGORY['マンガ'] = 'Anime';
+IS_TAG_TO_CATEGORY['アクスタ'] = 'Anime'; IS_TAG_TO_CATEGORY['缶バッジ'] = 'Anime';
+IS_TAG_TO_CATEGORY['タペストリー'] = 'Anime'; IS_TAG_TO_CATEGORY['クリアファイル'] = 'Anime';
+IS_TAG_TO_CATEGORY['色紙'] = 'Anime'; IS_TAG_TO_CATEGORY['ラバスト'] = 'Anime';
+IS_TAG_TO_CATEGORY['ポスター'] = 'Anime'; IS_TAG_TO_CATEGORY['セル画'] = 'Anime';
+IS_TAG_TO_CATEGORY['原画'] = 'Anime'; IS_TAG_TO_CATEGORY['ブロマイド'] = 'Anime';
+IS_TAG_TO_CATEGORY['キーホルダー'] = 'Anime';
 
 // Figures（フィギュアをCollectiblesから上書き）
 IS_TAG_TO_CATEGORY['フィギュア'] = 'Figures'; IS_TAG_TO_CATEGORY['アクションフィギュア'] = 'Figures';
@@ -4067,8 +4095,9 @@ var IS_CATEGORY_FIELDS = {
   'Fishing Rods':        ['Brand', 'Rod Type', 'Model', 'Item Length', 'Rod Power', 'Rod Action', 'Fish Species', 'Fishing Type', 'Material', 'Country of Origin'],
   'Fishing Lures':       ['Brand', 'Type', 'Model', 'Color', 'Weight', 'Fishing Type', 'Fish Species', 'Buoyancy', 'Item Length', 'Country of Origin'],
   'RC & Models':         ['Brand', 'Type', 'Scale', 'Fuel Type', 'Color', 'Country of Origin'],
-  'Anime':               ['Brand', 'Character', 'Franchise', 'Type', 'Material', 'Country of Origin'],
-  'Figures':             ['Franchise', 'Character', 'Type', 'Brand', 'Scale', 'Material', 'Theme', 'Original/Licensed Reproduction', 'Series', 'Vintage'],
+  'Manga':               ['Title', 'Author', 'Publisher', 'Language', 'Format', 'Volume/Set', 'Genre', 'Publication Year', 'Edition', 'Country of Origin'],
+  'Anime':               ['Character', 'Franchise', 'Type', 'Brand', 'Size', 'Material', 'Color', 'Official/Unofficial', 'Year', 'Country of Origin'],
+  'Figures':             ['Franchise', 'Character', 'Type', 'Brand', 'Scale', 'Material', 'Series/Line', 'Official/Bootleg', 'Release Year', 'Country of Origin'],
   'Stamps':              ['Certification', 'Type', 'Year of Issue', 'Topic', 'Quality', 'Country of Origin'],
   'Coins':               ['Certification', 'Denomination', 'Year', 'Composition', 'Grade', 'Country of Origin'],
   'Records':             ['Artist', 'Release Title', 'Genre', 'Record Grading', 'Record Label', 'Format', 'Record Size', 'Release Year', 'Sleeve Grading', 'Country of Origin']
@@ -4528,7 +4557,8 @@ function outputTagListSheet_() {
       {cat: 'Art', desc: '絵画・油絵・日本画・水墨画'},
       {cat: 'Kakejiku', desc: '掛軸・掛け軸'},
       {cat: 'Figures', desc: 'フィギュア・アクションフィギュア・スタチュー'},
-      {cat: 'Anime', desc: 'アニメグッズ・漫画'},
+      {cat: 'Anime', desc: 'アニメグッズ（キーホルダー・缶バッジ・タペストリー等）'},
+      {cat: 'Manga', desc: '漫画・コミック・同人誌・画集'},
       {cat: 'RC & Models', desc: 'ラジコン・模型・プラモデル'},
       {cat: 'Stamps', desc: '切手・記念切手'},
       {cat: 'Coins', desc: 'コイン・古銭・硬貨'},
