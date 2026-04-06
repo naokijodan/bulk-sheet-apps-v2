@@ -440,13 +440,29 @@ var IS_INITIAL_DATA = [
   { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Item Length', field_type: 'recommended', priority: 9, notes: 'mm or inches' },
   { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
 
-  // === RC & Models ===
-  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
-  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆', field_name: 'Type', field_type: 'required', priority: 2, notes: 'Car / Aircraft / Boat / Tank / Gundam等' },
-  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆', field_name: 'Scale', field_type: 'recommended', priority: 3, notes: '1/10 / 1/24 / 1/35等' },
-  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆', field_name: 'Fuel Type', field_type: 'recommended', priority: 4, notes: 'Electric / Nitro / Gas' },
-  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆', field_name: 'Color', field_type: 'recommended', priority: 5, notes: '' },
-  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆', field_name: 'Country of Origin', field_type: 'recommended', priority: 6, notes: '' },
+  // === Mecha Model Kits ===
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Brand', field_type: 'required', priority: 1, notes: 'Bandai / Kotobukiya / Wave等' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Series/Franchise', field_type: 'required', priority: 2, notes: 'Gundam / Evangelion / Macross / Zoids等' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Character/Mecha', field_type: 'required', priority: 3, notes: '' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Grade', field_type: 'required', priority: 4, notes: 'HG / MG / RG / PG / SD等' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Scale', field_type: 'recommended', priority: 5, notes: '1/144, 1/100, 1/60等' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Type', field_type: 'recommended', priority: 6, notes: 'Plastic Model Kit / Resin Kit' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Built Status', field_type: 'recommended', priority: 7, notes: 'Unbuilt / Built / Partially Built' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Color', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Release Year', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+
+  // === RC & Scale Models ===
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Brand', field_type: 'required', priority: 1, notes: 'Tamiya / Kyosho / Hasegawa等' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Type', field_type: 'required', priority: 2, notes: 'RC Car / Static Model / Mini 4WD / Model Train' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Scale', field_type: 'recommended', priority: 3, notes: '1/10, 1/24, 1/35, 1/48, 1/72' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Vehicle Type', field_type: 'recommended', priority: 4, notes: 'Car / Tank / Aircraft / Ship / Train' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Model/Series', field_type: 'recommended', priority: 5, notes: '' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Power Type', field_type: 'recommended', priority: 6, notes: 'Electric / Nitro / Gas（RC用）' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Built Status', field_type: 'recommended', priority: 7, notes: 'Unbuilt / Built' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Material', field_type: 'recommended', priority: 8, notes: 'Plastic / Metal / Wood' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Color', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
 
   // === Manga ===
   { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Title', field_type: 'required', priority: 1, notes: '作品名' },
@@ -3919,10 +3935,20 @@ IS_TAG_TO_CATEGORY['チェロ'] = 'Musical Instruments'; IS_TAG_TO_CATEGORY['ビ
 IS_TAG_TO_CATEGORY['釣竿'] = 'Fishing Rods'; IS_TAG_TO_CATEGORY['ロッド'] = 'Fishing Rods';
 IS_TAG_TO_CATEGORY['竿'] = 'Fishing Rods';
 
-// RC & Models
+// Mecha Model Kits（ガンプラ/ロボット系プラモデル）
+IS_TAG_TO_CATEGORY['ガンプラ'] = 'Mecha Model Kits'; IS_TAG_TO_CATEGORY['HGUC'] = 'Mecha Model Kits';
+IS_TAG_TO_CATEGORY['MG'] = 'Mecha Model Kits'; IS_TAG_TO_CATEGORY['RG'] = 'Mecha Model Kits';
+IS_TAG_TO_CATEGORY['PG'] = 'Mecha Model Kits'; IS_TAG_TO_CATEGORY['SD'] = 'Mecha Model Kits';
+IS_TAG_TO_CATEGORY['BB戦士'] = 'Mecha Model Kits'; IS_TAG_TO_CATEGORY['プレバン'] = 'Mecha Model Kits';
+IS_TAG_TO_CATEGORY['ゾイド'] = 'Mecha Model Kits'; IS_TAG_TO_CATEGORY['フレームアームズ'] = 'Mecha Model Kits';
+IS_TAG_TO_CATEGORY['メカプラモ'] = 'Mecha Model Kits'; IS_TAG_TO_CATEGORY['ロボットプラモ'] = 'Mecha Model Kits';
+
+// RC & Scale Models
 IS_TAG_TO_CATEGORY['ラジコン'] = 'RC & Models'; IS_TAG_TO_CATEGORY['RC'] = 'RC & Models';
 IS_TAG_TO_CATEGORY['模型'] = 'RC & Models'; IS_TAG_TO_CATEGORY['プラモデル'] = 'RC & Models';
-IS_TAG_TO_CATEGORY['ミニ四駆'] = 'RC & Models';
+IS_TAG_TO_CATEGORY['ミニ四駆'] = 'RC & Models'; IS_TAG_TO_CATEGORY['モデルカー'] = 'RC & Models';
+IS_TAG_TO_CATEGORY['スケールモデル'] = 'RC & Models'; IS_TAG_TO_CATEGORY['戦車'] = 'RC & Models';
+IS_TAG_TO_CATEGORY['戦闘機'] = 'RC & Models'; IS_TAG_TO_CATEGORY['鉄道模型'] = 'RC & Models';
 
 // Manga
 IS_TAG_TO_CATEGORY['漫画'] = 'Manga'; IS_TAG_TO_CATEGORY['マンガ'] = 'Manga';
@@ -4094,7 +4120,8 @@ var IS_CATEGORY_FIELDS = {
   'Japanese Instruments': ['Type', 'Material', 'Maker', 'Subtype', 'Key/Pitch', 'Era/Period', 'Size', 'Color', 'Set Includes', 'Country of Origin'],
   'Fishing Rods':        ['Brand', 'Rod Type', 'Model', 'Item Length', 'Rod Power', 'Rod Action', 'Fish Species', 'Fishing Type', 'Material', 'Country of Origin'],
   'Fishing Lures':       ['Brand', 'Type', 'Model', 'Color', 'Weight', 'Fishing Type', 'Fish Species', 'Buoyancy', 'Item Length', 'Country of Origin'],
-  'RC & Models':         ['Brand', 'Type', 'Scale', 'Fuel Type', 'Color', 'Country of Origin'],
+  'Mecha Model Kits':    ['Brand', 'Series/Franchise', 'Character/Mecha', 'Grade', 'Scale', 'Type', 'Built Status', 'Color', 'Release Year', 'Country of Origin'],
+  'RC & Models':         ['Brand', 'Type', 'Scale', 'Vehicle Type', 'Model/Series', 'Power Type', 'Built Status', 'Material', 'Color', 'Country of Origin'],
   'Manga':               ['Title', 'Author', 'Publisher', 'Language', 'Format', 'Volume/Set', 'Genre', 'Publication Year', 'Edition', 'Country of Origin'],
   'Anime':               ['Character', 'Franchise', 'Type', 'Brand', 'Size', 'Material', 'Color', 'Official/Unofficial', 'Year', 'Country of Origin'],
   'Figures':             ['Franchise', 'Character', 'Type', 'Brand', 'Scale', 'Material', 'Series/Line', 'Official/Bootleg', 'Release Year', 'Country of Origin'],
@@ -4559,7 +4586,8 @@ function outputTagListSheet_() {
       {cat: 'Figures', desc: 'フィギュア・アクションフィギュア・スタチュー'},
       {cat: 'Anime', desc: 'アニメグッズ（キーホルダー・缶バッジ・タペストリー等）'},
       {cat: 'Manga', desc: '漫画・コミック・同人誌・画集'},
-      {cat: 'RC & Models', desc: 'ラジコン・模型・プラモデル'},
+      {cat: 'Mecha Model Kits', desc: 'ガンプラ・ロボット系プラモデル（ガンダム/エヴァ/マクロス/ゾイド等）'},
+      {cat: 'RC & Models', desc: 'ラジコン・モデルカー・ミニ四駆・スケールモデル'},
       {cat: 'Stamps', desc: '切手・記念切手'},
       {cat: 'Coins', desc: 'コイン・古銭・硬貨'},
       {cat: 'Records', desc: 'レコード・LP・CD'}

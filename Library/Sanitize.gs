@@ -720,12 +720,27 @@ var CATEGORY_RULES_ = {
       '- [EN]セクションでは: Character / Franchise は英語の公式名称。Type は Action Figure/Statue/Nendoroid/Figma/Prize Figure/Ichiban Kuji/Garage Kit/Trading Figure。Series/Line は Figma/Nendoroid/Pop Up Parade/S.H.Figuarts/Ichiban Kuji/Portrait.Of.Pirates/GEM Series。Scale は 1/6/1/7/1/8/Non-scale。Official/Bootleg は Official/Bootleg(Counterfeit)。'
     ]
   },
-  'RC & Models': {
-    label: 'RC・模型',
+  'Mecha Model Kits': {
+    label: 'メカプラモデル（ガンプラ等）',
     rules: [
-      '- スケール: 1/10, 1/24, 1/350 等で記入。',
-      '- 動力源: 電動/エンジン/ガソリン のいずれかで記入。',
-      '- [EN]セクションでは: Fuel Type は Electric/Nitro/Gas。'
+      '- シリーズ/フランチャイズ: ガンダム/エヴァンゲリオン/マクロス/ゾイド/フレームアームズ/アーマード・コア/パトレイバー/ボトムズ 等で記入。',
+      '- グレード: HG/HGUC/MG/RG/PG/SD/BB戦士/RE:100/フルメカニクス/EG/ノーグレード のいずれかで記入。グレードがない製品（コトブキヤ等）はNA。',
+      '- スケール: 1/144/1/100/1/60/1/48/1/72/ノンスケール のいずれかで記入。',
+      '- 組立状態: 未組立/組立済み/部分組立 のいずれかで記入。',
+      '- タイプ: プラモデル/レジンキット のいずれかで記入。',
+      '- 限定品: プレバン（プレミアムバンダイ限定）/イベント限定/一般販売 で記入。',
+      '- [EN]セクションでは: Series は Gundam/Evangelion/Macross/Zoids/Frame Arms/Armored Core/Patlabor/Votoms。Grade は HG/HGUC/MG/RG/PG/SD/BB Senshi/RE:100/Full Mechanics/EG/No Grade。Scale は 1/144/1/100/1/60/Non-scale。Built Status は Unbuilt(Sealed)/Built/Partially Built。Type は Plastic Model Kit/Resin Kit。'
+    ]
+  },
+  'RC & Models': {
+    label: 'RC・スケールモデル',
+    rules: [
+      '- タイプ: RCカー/RC飛行機/RC戦車/スケールモデル/ミニ四駆/鉄道模型 のいずれかで記入。',
+      '- 車種/機種: 具体的な車種や機種名で記入（例: ランチア デルタ、零戦、タイガー戦車）。',
+      '- スケール: 1/10/1/12/1/16/1/24/1/35/1/48/1/72/1/144 等で記入。',
+      '- 動力源（RC用）: 電動/エンジン/ガソリン のいずれかで記入。スケールモデルはNA。',
+      '- 組立状態: 未組立/組立済み/完成品 のいずれかで記入。',
+      '- [EN]セクションでは: Type は RC Car/RC Aircraft/RC Tank/Static Model Kit/Mini 4WD/Model Train。Vehicle Type は Car/Tank/Aircraft/Ship/Train/Motorcycle。Power Type は Electric/Nitro/Gas。Built Status は Unbuilt/Built/Ready to Run(RTR)。'
     ]
   },
   'Fishing Reels': {
@@ -925,6 +940,9 @@ var FIELD_EN_TO_JP_ = {
   'Title': 'タイトル', 'Author': '作者', 'Volume/Set': '巻数/セット',
   'Publication Year': '出版年', 'Official/Unofficial': '公式/非公式',
   'Official/Bootleg': '正規品/海賊版', 'Series/Line': 'シリーズ/ライン',
+  'Series/Franchise': 'シリーズ/フランチャイズ', 'Character/Mecha': 'キャラクター/メカ',
+  'Grade': 'グレード', 'Built Status': '組立状態', 'Vehicle Type': '車種/機種',
+  'Model/Series': 'モデル/シリーズ', 'Power Type': '動力源',
   'Capacity': '容量', 'Flex': 'フレックス', 'Balance': 'バランス',
   'Denomination': '額面', 'Composition': '素材構成',
   'Subtype': 'サブタイプ', 'Set Includes': 'セット内容',
