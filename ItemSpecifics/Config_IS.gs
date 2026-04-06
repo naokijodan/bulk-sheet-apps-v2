@@ -3881,6 +3881,13 @@ IS_TAG_TO_CATEGORY['南部鉄器'] = 'Tetsubin'; IS_TAG_TO_CATEGORY['茶釜'] = 
 IS_TAG_TO_CATEGORY['銅瓶'] = 'Tetsubin'; IS_TAG_TO_CATEGORY['鉄瓶急須'] = 'Tetsubin';
 IS_TAG_TO_CATEGORY['陶器急須'] = 'Pottery';
 
+// Kitchen Knives（和包丁）
+IS_TAG_TO_CATEGORY['包丁'] = 'Kitchen Knives'; IS_TAG_TO_CATEGORY['出刃包丁'] = 'Kitchen Knives';
+IS_TAG_TO_CATEGORY['刺身包丁'] = 'Kitchen Knives'; IS_TAG_TO_CATEGORY['柳刃包丁'] = 'Kitchen Knives';
+IS_TAG_TO_CATEGORY['三徳包丁'] = 'Kitchen Knives'; IS_TAG_TO_CATEGORY['牛刀'] = 'Kitchen Knives';
+IS_TAG_TO_CATEGORY['菜切包丁'] = 'Kitchen Knives'; IS_TAG_TO_CATEGORY['ペティナイフ'] = 'Kitchen Knives';
+IS_TAG_TO_CATEGORY['和包丁'] = 'Kitchen Knives'; IS_TAG_TO_CATEGORY['薄刃包丁'] = 'Kitchen Knives';
+
 // Golf
 IS_TAG_TO_CATEGORY['ゴルフ'] = 'Golf'; IS_TAG_TO_CATEGORY['ゴルフクラブ'] = 'Golf';
 IS_TAG_TO_CATEGORY['ドライバー'] = 'Golf'; IS_TAG_TO_CATEGORY['アイアン'] = 'Golf';
@@ -4144,7 +4151,8 @@ var IS_CATEGORY_FIELDS = {
   'Figures':             ['Franchise', 'Character', 'Type', 'Brand', 'Scale', 'Material', 'Series/Line', 'Official/Bootleg', 'Release Year', 'Country of Origin'],
   'Stamps':              ['Certification', 'Type', 'Year of Issue', 'Topic', 'Quality', 'Country of Origin'],
   'Coins':               ['Certification', 'Denomination', 'Year', 'Composition', 'Grade', 'Country of Origin'],
-  'Records':             ['Artist', 'Release Title', 'Genre', 'Record Grading', 'Record Label', 'Format', 'Record Size', 'Release Year', 'Sleeve Grading', 'Country of Origin']
+  'Records':             ['Artist', 'Release Title', 'Genre', 'Record Grading', 'Record Label', 'Format', 'Record Size', 'Release Year', 'Sleeve Grading', 'Country of Origin'],
+  'Kitchen Knives':      ['Type', 'Brand', 'Blade Material', 'Blade Length', 'Handle Material', 'Edge Type', 'Handedness', 'Maker/Blacksmith', 'Country of Origin', 'Condition']
 };
 
 // ==============================

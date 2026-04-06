@@ -117,7 +117,23 @@ DESCRIPTION
 - For militaria, be factual and avoid glorification.
 - End with shipping note: "Ships from Japan with careful packaging."
 
-OUTPUT FORMAT
-title: <title>
-description:
-<description>
+OUTPUT FORMAT (exactly):
+Title: ...
+Description: ...
+ProductName: ...
+Category: ...
+
+VERIFICATION (must pass before returning):
+1. Title length 68-75 chars.
+2. Description <= 480 chars.
+3. Only ASCII characters used throughout.
+4. No CJK characters or emoji anywhere.
+5. Brand/maker front-loaded in Title if known.
+6. Era or period included in Title if determinable.
+7. No forbidden symbols in Title (no quotes, parentheses, brackets).
+8. Description opens with product type and era.
+9. Defects reported if mentioned in source.
+10. Every spec must have a source in the Japanese text.
+If any check fails, regenerate until all pass.
+
+Input: ${fullText}
