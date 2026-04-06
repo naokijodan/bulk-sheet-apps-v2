@@ -729,7 +729,7 @@ var CATEGORY_RULES_ = {
       '- 組立状態: 未組立/組立済み/部分組立 のいずれかで記入。',
       '- タイプ: プラモデル/レジンキット のいずれかで記入。',
       '- 限定品: プレバン（プレミアムバンダイ限定）/イベント限定/一般販売 で記入。',
-      '- [EN]セクションでは: Series は Gundam/Evangelion/Macross/Zoids/Frame Arms/Armored Core/Patlabor/Votoms。Grade は HG/HGUC/MG/RG/PG/SD/BB Senshi/RE:100/Full Mechanics/EG/No Grade。Scale は 1/144/1/100/1/60/Non-scale。Built Status は Unbuilt(Sealed)/Built/Partially Built。Type は Plastic Model Kit/Resin Kit。'
+      '- [EN]セクションでは: Series は Gundam/Evangelion/Macross/Zoids/Frame Arms/Armored Core/Patlabor/Votoms。Grade は HG/HGUC/MG/RG/PG/SD/BB Senshi/RE:100/Full Mechanics/EG/No Grade。Scale は 1/144/1/100/1/60/1/48/1/72/Non-scale。Built Status は Unbuilt(Sealed)/Built/Partially Built。Type は Plastic Model Kit/Resin Kit。Grade がない場合は NA。'
     ]
   },
   'RC & Models': {
