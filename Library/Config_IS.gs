@@ -4015,9 +4015,7 @@ IS_TAG_TO_CATEGORY['デジモン'] = 'Trading Cards'; IS_TAG_TO_CATEGORY['デジ
 
 // Video Game Consoles 追加（機種名・略称）
 IS_TAG_TO_CATEGORY['ゲーム本体'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['コンソール'] = 'Video Game Consoles';
-IS_TAG_TO_CATEGORY['プレステ'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['PlayStation'] = 'Video Game Consoles';
-IS_TAG_TO_CATEGORY['PS1'] = 'Video Game Consoles';
-IS_TAG_TO_CATEGORY['スーファミ'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['ゲームボーイ'] = 'Video Game Consoles';
+IS_TAG_TO_CATEGORY['プレステ'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['PS1'] = 'Video Game Consoles';
 IS_TAG_TO_CATEGORY['Wii'] = 'Video Game Consoles';
 IS_TAG_TO_CATEGORY['ドリームキャスト'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['サターン'] = 'Video Game Consoles';
 IS_TAG_TO_CATEGORY['メガドライブ'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['PCエンジン'] = 'Video Game Consoles';
@@ -4026,6 +4024,20 @@ IS_TAG_TO_CATEGORY['Nintendo 64'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['N
 IS_TAG_TO_CATEGORY['DS'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['3DS'] = 'Video Game Consoles';
 IS_TAG_TO_CATEGORY['PSP'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['PSVita'] = 'Video Game Consoles';
 IS_TAG_TO_CATEGORY['Steam Deck'] = 'Video Game Consoles';
+// ゲーム機＋機種名（スペースなし複合タグ）→ 本体
+IS_TAG_TO_CATEGORY['ゲーム機PS5'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['ゲーム機PS4'] = 'Video Game Consoles';
+IS_TAG_TO_CATEGORY['ゲーム機PS3'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['ゲーム機PS2'] = 'Video Game Consoles';
+IS_TAG_TO_CATEGORY['ゲーム機Switch'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['ゲーム機Xbox'] = 'Video Game Consoles';
+IS_TAG_TO_CATEGORY['ゲーム機ファミコン'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['ゲーム機スーファミ'] = 'Video Game Consoles';
+IS_TAG_TO_CATEGORY['ゲーム機ゲームボーイ'] = 'Video Game Consoles'; IS_TAG_TO_CATEGORY['ゲーム機Nintendo'] = 'Video Game Consoles';
+IS_TAG_TO_CATEGORY['ゲーム機PlayStation'] = 'Video Game Consoles';
+// ゲームソフト＋機種名（スペースなし複合タグ）→ ソフト
+IS_TAG_TO_CATEGORY['ゲームソフトPS5'] = 'Video Games'; IS_TAG_TO_CATEGORY['ゲームソフトPS4'] = 'Video Games';
+IS_TAG_TO_CATEGORY['ゲームソフトPS3'] = 'Video Games'; IS_TAG_TO_CATEGORY['ゲームソフトPS2'] = 'Video Games';
+IS_TAG_TO_CATEGORY['ゲームソフトSwitch'] = 'Video Games'; IS_TAG_TO_CATEGORY['ゲームソフトXbox'] = 'Video Games';
+IS_TAG_TO_CATEGORY['ゲームソフトファミコン'] = 'Video Games'; IS_TAG_TO_CATEGORY['ゲームソフトスーファミ'] = 'Video Games';
+IS_TAG_TO_CATEGORY['ゲームソフトゲームボーイ'] = 'Video Games'; IS_TAG_TO_CATEGORY['ゲームソフトNintendo'] = 'Video Games';
+IS_TAG_TO_CATEGORY['ゲームソフトPlayStation'] = 'Video Games';
 
 // Video Game Accessories 追加
 IS_TAG_TO_CATEGORY['コントローラー'] = 'Video Game Accessories'; IS_TAG_TO_CATEGORY['ジョイスティック'] = 'Video Game Accessories';
