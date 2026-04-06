@@ -4046,7 +4046,6 @@ IS_TAG_TO_CATEGORY['アーケードスティック'] = 'Video Game Accessories';
 IS_TAG_TO_CATEGORY['AVケーブル'] = 'Video Game Accessories'; IS_TAG_TO_CATEGORY['HDMIケーブル'] = 'Video Game Accessories';
 
 // Fishing Reels 追加
-IS_TAG_TO_CATEGORY['釣り'] = 'Fishing Reels'; IS_TAG_TO_CATEGORY['フィッシング'] = 'Fishing Reels';
 IS_TAG_TO_CATEGORY['スピニングリール'] = 'Fishing Reels'; IS_TAG_TO_CATEGORY['ベイトリール'] = 'Fishing Reels';
 IS_TAG_TO_CATEGORY['両軸リール'] = 'Fishing Reels'; IS_TAG_TO_CATEGORY['フライリール'] = 'Fishing Reels';
 IS_TAG_TO_CATEGORY['電動リール'] = 'Fishing Reels'; IS_TAG_TO_CATEGORY['フィッシングリール'] = 'Fishing Reels';
@@ -4061,14 +4060,15 @@ IS_TAG_TO_CATEGORY['ボウル'] = 'Dinnerware'; IS_TAG_TO_CATEGORY['マグカッ
 IS_TAG_TO_CATEGORY['ティーカップ'] = 'Dinnerware'; IS_TAG_TO_CATEGORY['ソーサー'] = 'Dinnerware';
 IS_TAG_TO_CATEGORY['ティーポット'] = 'Dinnerware'; IS_TAG_TO_CATEGORY['鉢'] = 'Dinnerware';
 
-// Fishing Lures
-IS_TAG_TO_CATEGORY['ルアー'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['ミノー'] = 'Fishing Lures';
-IS_TAG_TO_CATEGORY['クランクベイト'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['ワーム'] = 'Fishing Lures';
-IS_TAG_TO_CATEGORY['メタルジグ'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['エギ'] = 'Fishing Lures';
-IS_TAG_TO_CATEGORY['スプーン'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['ジグ'] = 'Fishing Lures';
-IS_TAG_TO_CATEGORY['トップウォーター'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['ソフトベイト'] = 'Fishing Lures';
-IS_TAG_TO_CATEGORY['スピナーベイト'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['バイブレーション'] = 'Fishing Lures';
-IS_TAG_TO_CATEGORY['フロッグ'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['タックル'] = 'Fishing Lures';
+// Fishing Lures（スペースなし複合タグ。単体タグは他カテゴリと被るため使わない）
+IS_TAG_TO_CATEGORY['ルアー'] = 'Fishing Lures';
+IS_TAG_TO_CATEGORY['ルアーミノー'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['ルアークランクベイト'] = 'Fishing Lures';
+IS_TAG_TO_CATEGORY['ルアーワーム'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['ルアーメタルジグ'] = 'Fishing Lures';
+IS_TAG_TO_CATEGORY['ルアーエギ'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['ルアースプーン'] = 'Fishing Lures';
+IS_TAG_TO_CATEGORY['ルアージグ'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['ルアートップウォーター'] = 'Fishing Lures';
+IS_TAG_TO_CATEGORY['ルアーソフトベイト'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['ルアースピナーベイト'] = 'Fishing Lures';
+IS_TAG_TO_CATEGORY['ルアーバイブレーション'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['ルアーフロッグ'] = 'Fishing Lures';
+IS_TAG_TO_CATEGORY['ルアータックル'] = 'Fishing Lures';
 
 // ==============================
 // カテゴリ別 出力フィールド定義（5-8フィールド、順序固定）
