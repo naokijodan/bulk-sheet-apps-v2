@@ -41,14 +41,16 @@ Description: ...
 ProductName: ...
 Category: ...
 
-[Self-Validation]
-1) Title length 68–75.
-2) Description ≤480.
-3) ASCII-only (no CJK).
+VERIFICATION (must pass before returning):
+1) Title length 68-75 chars.
+2) Description <= 480 chars.
+3) ASCII-only (no CJK characters or emoji).
 4) Title uses only & / : and no , . - ( ) [ ] " .
-5) Title & Description contain none of: N/A, NA, Unknown, TBD, Not specified, None.
-6) Title front-loads brand and model within first 40 chars.
+5) No placeholders: N/A, NA, Unknown, TBD, Not specified, None in Title or Description.
+6) Brand front-loaded in Title within first 40 chars (if known).
 7) Description opens with primary product keywords.
+8) Product type clearly stated in Title.
+9) Every spec must be supported by the source text.
 If any check fails, regenerate until all pass.
 
 Input: ${fullText}

@@ -3699,6 +3699,8 @@ var IS_TAG_TO_CATEGORY = {
   'トートバッグ': 'Handbags', 'リュック': 'Handbags', 'ボストンバッグ': 'Handbags', 'クラッチバッグ': 'Handbags',
   '衣類': 'Clothing', '服': 'Clothing', 'トップス': 'Clothing', 'ボトムス': 'Clothing',
   'ジャケット': 'Clothing', 'コート': 'Clothing', 'ドレス': 'Clothing', 'スカート': 'Clothing', 'パンツ': 'Clothing',
+  'ユニフォーム': 'Clothing', 'ジャージ': 'Clothing', 'トレーニングウェア': 'Clothing',
+  'ゴルフウェア': 'Clothing', 'スキーウェア': 'Clothing', '水着': 'Clothing',
   '靴': 'Shoes', 'シューズ': 'Shoes', 'スニーカー': 'Shoes', 'ブーツ': 'Shoes',
   'サンダル': 'Shoes', 'パンプス': 'Shoes', 'ローファー': 'Shoes',
   'カメラ': 'Cameras', 'デジカメ': 'Cameras', '一眼レフ': 'Cameras', 'ミラーレス': 'Cameras',
@@ -3786,6 +3788,7 @@ IS_TAG_TO_CATEGORY['カードケース'] = 'Wallets'; IS_TAG_TO_CATEGORY['マネ
 IS_TAG_TO_CATEGORY['キーケース'] = 'Wallets'; IS_TAG_TO_CATEGORY['パスケース'] = 'Wallets';
 IS_TAG_TO_CATEGORY['三つ折り財布'] = 'Wallets'; IS_TAG_TO_CATEGORY['ミニ財布'] = 'Wallets';
 IS_TAG_TO_CATEGORY['札入れ'] = 'Wallets'; IS_TAG_TO_CATEGORY['がま口'] = 'Wallets';
+IS_TAG_TO_CATEGORY['手帳カバー'] = 'Wallets';
 
 // Art
 IS_TAG_TO_CATEGORY['絵画'] = 'Art'; IS_TAG_TO_CATEGORY['油絵'] = 'Art';

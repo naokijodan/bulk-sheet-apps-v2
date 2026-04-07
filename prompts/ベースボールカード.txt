@@ -93,4 +93,19 @@ CardType: 1st Auto /499
 Language: Japanese
 Condition: NM
 
+VERIFICATION (must pass before returning):
+1. Title length 70-80 chars.
+2. Description <= 400 chars.
+3. Only ASCII letters/numbers/spaces/&/:/#  used throughout.
+4. No CJK characters or emoji anywhere.
+5. If graded card, grade appears in Title.
+6. Player name appears in Title within first 40 chars.
+7. Year appears at START of Title.
+8. "Japanese" appears in Title.
+9. Title contains NO forbidden symbols (, . - " ( ) [ ] _).
+10. Card number included in Title if found in source.
+11. Language field is always "Japanese".
+
+If any check fails, regenerate until all pass.
+
 Input: ${fullText}"

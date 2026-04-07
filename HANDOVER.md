@@ -4,34 +4,80 @@
 
 ## ■ 前回のセッションでやったこと
 
-### 1. 初期設定メニューの不具合修正
+### Phase 3: 翻訳プロンプト本文の再検証（Step 6まで完了、Step 7未実施）
 
-Phase 2で大量変更したPROMPT_TAG_MAPPINGが、初期設定メニュー実行時にTagShipping S列・GPT_Prompts E列に反映されない問題を調査・修正した。
+ハーネスモード（4セッション構成）で作業。子A実装→親レビュー→子Bレビューまで完了。子C（適用: git commit/push/clasp push）は未実施。
 
-**原因と修正:**
-- **TagShipping S列:** `ensureTagShippingSheet_()` がS1セルが空の場合（初回作成時）しかタグ一覧を書き込まなかった。`saveIntegratedSettings` にチェックボックス制御の明示的な更新処理を追加した
-- **SetupDialog UI整理:** 「タグ一覧出力」チェックボックスを「タグ自動判定設定」セクション内に移動。「TagShippingシートのタグ一覧を更新」チェックボックスを新規追加
-- **GPT_Prompts E列:** 初期設定メニュー再実行で正常に反映された（コード修正+clasp pushの反映で解消）
+**完了した作業:**
 
-**レビュー実施:** Claude+Geminiの2者レビューで「二重実行」の問題を検出・修正。`ensureTagShippingSheet_` はシート構造保証に専念させ、タグ更新は `saveIntegratedSettings` のチェックボックス制御に一本化（責務分離）。
+1. **タスク1: 新規9件のプロンプト品質検証**
+   - 石鹸、版画、陶磁器、茶道具、鉄瓶、仏教美術、盆栽、包丁、ガンダムカード
+   - 全件にOUTPUT FORMAT / VERIFICATION / Input: ${fullText}が存在確認済み
+   - 辞書とIS_CATEGORY_FIELDSの整合性確認済み
+   - 修正不要（品質問題なし）
 
-### 2. ゲーム用カテゴリのタグ重複修正
+2. **タスク2: VERIFICATIONセクション欠落修正（3件）**
+   - ベースボールカード.txt: VERIFICATION 11項目追加
+   - 大相撲カード.txt: VERIFICATION 11項目追加
+   - 一般商品・汎用.txt: Self-Validation → VERIFICATION改名 + 9項目に拡充
 
-PROMPT_TAG_MAPPINGの `ゲーム用` カテゴリで、機種名単体タグ（Switch, PS5等）と複合タグ（ゲームソフトSwitch, ゲームソフトPS5等）が共存していた問題を修正。
+3. **タスク3: 全57件の辞書とIS_CATEGORY_FIELDSの整合性確認**
+   - 全57件検証完了、重大な不整合なし
 
-**削除した11件:** Switch, PS5, PS4, PS3, PS2, Xbox, ファミコン, スーファミ, ゲームボーイ, Nintendo, PlayStation
+4. **タスク4: タグ7件のIS_TAG_TO_CATEGORY追加**
+   - ユニフォーム、ジャージ、トレーニングウェア、ゴルフウェア、スキーウェア、水着 → Clothing
+   - 手帳カバー → Wallets
 
-**残した設計方針:**
-- 汎用タグ（ゲーム, ゲームソフト, テレビゲーム）→ ほとんどのユーザーが使う
-- 複合タグ（ゲームソフトPS5等）→ 詳しく指定したいユーザー用
-- 単体の機種名は曖昧（ソフトか本体か不明）なのでPROMPT_TAG_MAPPINGから削除
-- IS_TAG_TO_CATEGORYには残置（ISフィールド判定には影響しない）
+5. **同期完了**
+   - python3 Library/sync_prompts_to_gs.py 実行済み（57/57件）
+   - ItemSpecifics/Config_IS.gs → Library/Config_IS.gs コピー済み（diffなし）
+   - ScriptProperties混入チェック済み（なし）
 
-### 3. その他の調査結果（未対応・今後の調整事項）
+**レビュー結果:**
+- 親レビュー: PASS（全チェック項目合格）
+- 子B（Gemini）レビュー: PASS（受け入れ基準10項目全てPASS）
+- 指摘事項なし。docs/harness/review-report.json に詳細あり
 
-- **PROMPT_TAG_MAPPINGのみのタグ7件（IS側に不足）:** ユニフォーム、ジャージ、トレーニングウェア、ゴルフウェア、スキーウェア、水着、手帳カバー → Phase 3以降で対応検討
-- **IS_TAG_TO_CATEGORYのみのタグ20件（カメラ系10件、英文タグ等）:** 判定に影響なし。情報として把握
-- **釣具汎用のルアー単体:** 残す判断確定。ほとんどの人は「ルアー」と入力する。詳しい人だけ「ルアーミノー」等を使う
+### ハーネスモードの通知問題
+
+子セッション→親セッションへのharness-notify.sh通知が届かなかった。
+
+**原因:** 親窓タイトルとして渡した「一括シートV3 Phase3」が、実際のTerminalウィンドウ名と一致しなかった。harness-notify.shはウィンドウ名の部分一致で親を探すため、一致しないと通知が届かない。
+
+**別セッションで調整中とのこと。** harness-launch.shのスクリプト自体は更新済み（pbcopy + Command+V + Enter方式、デフォルト指示生成機能あり）。
+
+## ■ 次にやること（この順番で）
+
+### 1. Phase 3 子C適用（最優先 — コードは実装・レビュー済み）
+
+git diffに未コミットの変更6件が残っている。承認済みなので適用するだけ:
+
+```
+変更ファイル:
+- prompts/ベースボールカード.txt（VERIFICATION追加）
+- prompts/大相撲カード.txt（VERIFICATION追加）
+- prompts/一般商品・汎用.txt（VERIFICATION改名+拡充）
+- ItemSpecifics/Config_IS.gs（タグ7件追加）
+- Library/Config_IS.gs（同期）
+- Library/PromptTemplates.gs（sync結果）
+```
+
+手順:
+1. docs/harness/approval.json を書く
+2. git add → git commit → git push
+3. cd Library && npx clasp push
+4. docs/harness/deploy-report.json を書く
+
+### 2. Phase 4以降
+
+計画書（https://naokijodan.github.io/auto-listing-system-plan/）の順番に従う。
+
+## ■ 現在のステータス
+
+- ブランチ: main
+- 最新コミット: 3ef6b65（Phase 2.5完了）
+- 未コミット変更: 6ファイル（Phase 3、レビュー済み・承認待ち）
+- clasp push: 未実施（Phase 3分）
 
 ## ■ 確立されたタグ設計パターン（必ず守ること）
 
@@ -43,60 +89,27 @@ PROMPT_TAG_MAPPINGの `ゲーム用` カテゴリで、機種名単体タグ（S
 1. タグはISとPROMPTで必ず整合させる。片方だけに追加・削除しない
 2. 他カテゴリと被る可能性のあるタグ名は使わない。スペースなし複合タグで一意にする
 3. 広すぎるタグ（「釣り」「フィッシング」等）は特定カテゴリに判定できないので禁止
-4. ISカテゴリが別ならpromptIdも分離するのが原則。ただしプロンプト内部で辞書が十分カバーされている場合（楽器、ゴルフ、切手コイン）は共有可
-5. 汎用タグ（ゲームソフト、ルアー等）は残す。詳しく指定したい人向けに複合タグ（ゲームソフトPS5、ルアーミノー等）を用意する
-
-**パターン例:**
-- ゲームソフトPS5→Video Games、ゲーム機PS5→Video Game Consoles
-- ルアーミノー→Fishing Lures（「ミノー」単体は他と被る可能性）
-- 鉄瓶急須→Tetsubin、陶器急須→Pottery（「急須」単体は曖昧）
-
-## ■ 現在のステータス
-
-- ブランチ: main
-- コミット: b1d85e9
-- clasp push: 済み
-- git push: 済み
-- 初期設定メニュー実行: 済み（GPT_Prompts E列・TagShipping S列ともに反映確認済み）
-
-## ■ 次にやること（この順番で）
-
-### Phase 3: 翻訳プロンプト本文の再検証
-
-辞書改修（CATEGORY_RULES_等）がプロンプト本文に反映されているか確認する。
-
-**検証内容:**
-1. 今回新規作成した9件のプロンプトの品質を重点検証（石鹸、版画、陶磁器、茶道具、鉄瓶、仏教美術、盆栽、包丁 + ガンダムカード修正）
-2. ベースボールカード.txt / 大相撲カード.txt のVERIFICATIONセクション欠落を確認・追加
-3. 全プロンプトファイル（prompts/*.txt）の辞書がIS_CATEGORY_FIELDSのフィールドと整合しているか確認
-4. 調査で判明したPROMPT_TAG_MAPPINGのみのタグ7件（スポーツウェア系+手帳カバー）のIS側追加を検討
-
-**注意:**
-- Phase 2で確立したタグ設計パターンを忘れないこと
-- 新しいプロンプトを作る場合は必ずOUTPUT FORMAT / VERIFICATION / Input: ${fullText}を含める
-- prompts/変更後は必ずsync_prompts_to_gs.py → clasp push
+4. ISカテゴリが別ならpromptIdも分離するのが原則
+5. 汎用タグ（ゲームソフト、ルアー等）は残す。詳しく指定したい人向けに複合タグを用意する
 
 ## ■ 過去セッションの教訓（繰り返すな）
 
 ### 今回のセッションの問題
-- Codex CLIの使用量制限に到達していた（5時間ごとにリセット）。小規模修正は社長判断で直接実行した（ユーザー承認済み）
-- GPTのCodex CLIも制限到達。Geminiでレビュー代替した
+1. **harness-notify.shが動かなかったのに代替手段に切り替えようとした**: ルールでは「代替手段に切り替えない。修正するか、ユーザーに報告する」と明記されている
+2. **osascriptを自分で書いて試行錯誤した**: harness-launch.sh / harness-notify.shのコードを最初に読めば、pbcopy+paste方式だとわかったのに、`do script`→`keystroke`と手探りで進めた
+3. **ノートを読まずに作業を始めた**: 以前のセッションで子セッションへの指示送信方法を調整済みだったが、その記録を確認しなかった
 
 ### 前セッションの問題（引き続き注意）
-1. **ルール（Codex CLI委託）を繰り返し破った**: 判断の権限はない。ルールに従って実行する
-2. **G11で整合性を無視した提案をした**: ISとPROMPTの両面整合を常に意識すること
-3. **共有promptIDについてレビューせずに判断した**: 重要判断は必ず第三者レビューを入れる
-4. ノート・コードを読まずに検証を始めた
-5. エージェントの報告を裏取りしなかった
+1. Codex CLIの使用量制限に到達していた（5時間ごとにリセット）
+2. ルール（Codex CLI委託）を繰り返し破った
+3. ISとPROMPTの両面整合を常に意識すること
 
 ### 必ず守るルール
 - コードに触る前に: ルールファイル、HANDOVER.md、CLAUDE.md、Obsidianノートを全て読む
-- コーディングはCodex CLIに委託する（判断ではなくルール）。制限到達時はユーザーに報告して判断を仰ぐ
-- 作業フロー: リサーチ→設計→承認→実装→レビュー→コミット→デプロイ→ノート
-- タグ設計パターン: IS/PROMPT両面整合、重複禁止、曖昧タグ禁止
-- レビューは必ず第三者（GPTまたはGemini）を入れる。自分だけで判断しない
-- 3レイヤー断線チェック: IS_TAG_TO_CATEGORY / PROMPT_TAG_MAPPING / prompts/*.txt が全て揃っているか
-- コミット前: ScriptProperties / Library同期 / PromptTemplates同期
+- ハーネスモード: 自分でosascriptを書かない。harness-launch.sh / harness-notify.shを使う
+- 代替手段に切り替えない。問題があれば修正するか、ユーザーに報告する
+- 通知が来ない場合: docs/harness/のファイルを直接確認する
+- レビューは必ず第三者（GPTまたはGemini）を入れる
 
 ## ■ 重要なコード知識
 
@@ -111,21 +124,6 @@ Translation.gs: GPT_Prompts A列+E列 → tagToPromptMap構築
 D列タグ → tagToPromptMap[tag] → promptId → GPT_Prompts B列から本文取得
 ```
 
-### 初期設定メニューでのタグ一覧更新フロー（今回新設）
-```
-SetupDialog: 「TagShippingシートのタグ一覧を更新」チェックON
-  ↓
-saveIntegratedSettings(): writeTagListToSheet_(tsSheet) を実行
-  ↓
-TagShipping S-T列にPROMPT_TAG_MAPPINGの全タグ一覧を出力
-```
-- `ensureTagShippingSheet_()` はシート構造保証のみ（初回作成時だけタグ出力）
-- 明示的なタグ更新は `saveIntegratedSettings` のチェックボックスで制御
-
-### IS_TAG_TO_CATEGORYの判定ロジック
-- 完全一致を先に検索、なければ部分一致（長いキーから優先マッチ）
-- 過去事故: 「ピアス・イヤリング」→部分一致で「リング」→Ringsに誤分類（修正済み）
-
 ### clasp pushの場所
 - `.clasp.json`はLibrary/にある
 - `cd Library && npx clasp push` で実行
@@ -133,19 +131,17 @@ TagShipping S-T列にPROMPT_TAG_MAPPINGの全タグ一覧を出力
 ### Codex CLIの制約
 - 使用量制限: 5時間ごとにリセット。制限到達時はユーザーに報告
 - サンドボックスでLibrary/外のファイルに書き込めない場合がある
-- その場合はルート側を手動（cp）で同期する
 
 ## ■ 作業開始時の必須手順
 
 1. **まずルールを全件読む**: ~/.claude/CLAUDE.md + ~/.claude/rules/ + このHANDOVER.md + プロジェクトCLAUDE.md。読むまでコードに触らない
 2. **過去のミスを確認する**: このファイルの「過去セッションの教訓」セクションを読み、同じミスを繰り返さない
-3. **Obsidianノートを読む**: 開発ログ/一括シートV3_3レイヤー検証.md で前回の作業内容と設計判断を把握する
+3. **Obsidianノートを読む**: 開発ログ/一括シートV3_3レイヤー検証.md で作業内容と設計判断を把握する
 4. **設計を提示して承認を得る**: 作業方針をユーザーに提示し、承認後に実行する。承認なしにコードに触らない
-5. **レビューを必ず実施する**: 修正後は第三者（GPTまたはGemini）のレビューを入れる。自分だけで判断しない
+5. **レビューを必ず実施する**: 修正後は第三者（GPTまたはGemini）のレビューを入れる
 6. **コーディングはCodex CLIに委託する**: 制限到達時はユーザーに報告して判断を仰ぐ
 
 ## ■ Obsidianノート
 
-- 開発ログ/一括シートV3_3レイヤー検証.md にG1〜G24+未対応3件の全記録あり
+- 開発ログ/一括シートV3_3レイヤー検証.md にG1〜G24+未対応3件+Phase 2.5の全記録あり
 - 開発ログ/一括シートV3_辞書充実.md に辞書充実プロジェクトの履歴あり
-- 注意: 一括シートV3_3レイヤー検証.md は前セッションで作成されなかった可能性あり。存在しなければ新規作成する
