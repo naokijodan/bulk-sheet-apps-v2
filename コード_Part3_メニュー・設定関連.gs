@@ -3137,6 +3137,24 @@ function saveIntegratedSettings(formData) {
       }
     }
 
+    // TagShippingシートのタグ一覧更新（チェックボックスがOnの場合のみ）
+    if (formData.updateTagShippingList === true) {
+      try {
+        var tsSheet = ss.getSheetByName(CONFIG.TAG_SHIPPING.SHEET_NAME);
+        if (tsSheet) {
+          writeTagListToSheet_(tsSheet);
+          msg += '\n\n【TagShippingタグ一覧更新】\nS列のタグ一覧を最新に更新しました。';
+          Logger.log('TagShippingシートのタグ一覧を更新しました');
+        } else {
+          msg += '\n\n【TagShippingタグ一覧更新】\nTagShippingシートが見つかりません。';
+          Logger.log('TagShippingシートが見つかりません');
+        }
+      } catch (e) {
+        msg += '\n\n【TagShippingタグ一覧更新エラー】\n' + e.message;
+        Logger.log('TagShippingタグ一覧更新で例外発生: ' + e.message);
+      }
+    }
+
     // ゲーム・トレカ プリセット適用（指定なし以外の場合のみ）
     if (formData.presetGenre && formData.presetGenre !== 'none') {
       try {
@@ -3607,7 +3625,7 @@ function ensureTagShippingSheet_(ss) {
             .setFontColor(CONFIG.TAG_SHIPPING.HEADER_FONT_COLOR);
           sheet.setColumnWidth(16, 100);
         }
-        // 既存シートの移行処理: Q1セル相当が空ならタグ一覧を出力
+        // 既存シートの移行処理: S1セルが空ならタグ一覧を初回出力
         var tagListCol = CONFIG.TAG_SHIPPING.TAG_LIST_START_COL;
         var q1Value = sheet.getRange(1, tagListCol).getValue();
         if (!q1Value || String(q1Value).trim() === '') {

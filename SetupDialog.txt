@@ -789,20 +789,6 @@
           </div>
 
           <div style="margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--line);">
-            <label>タグ一覧出力</label>
-            <div class="checkbox-group">
-              <label class="checkbox-label">
-                <input type="checkbox" id="outputTagList" name="outputTagList">
-                対応カテゴリのタグ一覧をシートに出力する
-              </label>
-            </div>
-            <div class="help-text">
-              「Tag_List」シートに、使用可能なタグの一覧をジャンル別に出力します。<br>
-              A列のタグをコピーして出品シートのA列に貼り付けて使えます。
-            </div>
-          </div>
-
-          <div style="margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--line);">
             <label>ゲーム・トレカ プリセット設定</label>
             <div class="help-text" style="margin-bottom: 12px;">
               ゲームソフトまたはトレーディングカードの出品に最適化された送料設定を一括適用します。
@@ -890,6 +876,17 @@
             <strong>商品状態</strong>
             <div class="checkbox-group" style="margin-left:16px;margin-top:4px;">
               <label class="checkbox-label"><input type="checkbox" id="tagOverrideCondition" checked> 商品状態（新品/中古/AI）</label>
+            </div>
+          </div>
+          <div style="margin-top:16px; padding-top:12px; border-top:1px dashed var(--line);">
+            <strong>タグ一覧</strong>
+            <div class="checkbox-group" style="margin-left:16px;margin-top:4px;">
+              <label class="checkbox-label"><input type="checkbox" id="updateTagShippingList" checked> TagShippingシートのタグ一覧を更新</label>
+              <label class="checkbox-label"><input type="checkbox" id="outputTagList" name="outputTagList"> Tag_Listシートにタグ一覧を出力</label>
+            </div>
+            <div class="help-text" style="margin-left:16px;">
+              「TagShipping更新」はS列のタグ一覧を最新に同期します。<br>
+              「Tag_List出力」は使用可能なタグの一覧をジャンル別に出力します。
             </div>
           </div>
           <div class="info-box">
@@ -1442,7 +1439,8 @@
         highPriceMethod: document.getElementById('highPriceMethod').value,
         updateShippingRates: document.getElementById('updateShippingRates').checked,
         outputTagList: document.getElementById('outputTagList').checked,
-        
+        updateTagShippingList: document.getElementById('updateTagShippingList').checked,
+
         // タグ自動判定
         tagOverridePrompt: document.getElementById('tagOverridePrompt').checked ? 'true' : 'false',
         tagOverrideTemplate: document.getElementById('tagOverrideTemplate').checked ? 'true' : 'false',
