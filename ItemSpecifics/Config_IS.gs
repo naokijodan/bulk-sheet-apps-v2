@@ -3759,6 +3759,20 @@ var IS_TAG_TO_CATEGORY = {
   'スクイッシュマロ': 'Dolls & Plush', 'モンチッチ': 'Dolls & Plush'
 };
 
+// Japanese Dolls（日本人形）
+IS_TAG_TO_CATEGORY['こけし'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['日本人形'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['博多人形'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['市松人形'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['雛人形'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['五月人形'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['木目込み人形'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['御所人形'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['伏見人形'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['からくり人形'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['土人形'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['文楽人形'] = 'Japanese Dolls';
+
 // Hats
 IS_TAG_TO_CATEGORY['帽子'] = 'Hats'; IS_TAG_TO_CATEGORY['キャップ'] = 'Hats'; IS_TAG_TO_CATEGORY['ハット'] = 'Hats';
 IS_TAG_TO_CATEGORY['ビーニー'] = 'Hats'; IS_TAG_TO_CATEGORY['バケットハット'] = 'Hats'; IS_TAG_TO_CATEGORY['スナップバック'] = 'Hats';
@@ -4155,7 +4169,8 @@ var IS_CATEGORY_FIELDS = {
   'Stamps':              ['Certification', 'Type', 'Year of Issue', 'Topic', 'Quality', 'Country of Origin'],
   'Coins':               ['Certification', 'Denomination', 'Year', 'Composition', 'Grade', 'Country of Origin'],
   'Records':             ['Artist', 'Release Title', 'Genre', 'Record Grading', 'Record Label', 'Format', 'Record Size', 'Release Year', 'Sleeve Grading', 'Country of Origin'],
-  'Kitchen Knives':      ['Type', 'Brand', 'Blade Material', 'Blade Length', 'Handle Material', 'Edge Type', 'Handedness', 'Maker/Blacksmith', 'Country of Origin', 'Condition']
+  'Kitchen Knives':      ['Type', 'Brand', 'Blade Material', 'Blade Length', 'Handle Material', 'Edge Type', 'Handedness', 'Maker/Blacksmith', 'Country of Origin', 'Condition'],
+  'Japanese Dolls':    ['Type', 'Material', 'Maker', 'Origin/Region', 'Era/Period', 'Size', 'Technique', 'Subject/Motif', 'Original/Reproduction', 'Country of Origin']
 };
 
 // ==============================

@@ -77,6 +77,11 @@ var SANITIZE_FIELDS_ = {
     'メーカー', 'タイプ', 'モデル名', '色',
     '重さ', '長さ', '浮力',
     '付属品', 'コンディション', '故障・不具合'
+  ],
+  'Japanese Dolls': [
+    'タイプ', '素材', '作家名', '産地', '年代', 'サイズ',
+    '技法', 'モチーフ', 'オリジナル/復刻', '製造国',
+    '付属品', 'コンディション', '故障・不具合'
   ]
 };
 
@@ -864,6 +869,21 @@ var CATEGORY_RULES_ = {
       '- 素材: 革/レザー → Leather、金属/メタル → Metal、ラバー/ゴム → Rubber、布/キャンバス → Fabric。',
       '- キャラクター: ディズニー/サンリオ/ジブリ等のキャラクター名があればそのまま記入。',
       '- [EN]セクションでは: Material は Leather/Metal/Rubber/Fabric/PVC/Enamel。Character Family はキャラクターファミリー名を英語で。'
+    ]
+  },
+  'Japanese Dolls': {
+    label: '日本人形',
+    rules: [
+      '- タイプ: こけし/日本人形/博多人形/市松人形/雛人形/五月人形/木目込み人形/御所人形/伏見人形/からくり人形/土人形/文楽人形 のいずれかで記入。',
+      '- 素材: 木製/陶器/紙/布/土/漆/石膏/桐 のいずれかで記入。複合素材の場合は主素材を記入。',
+      '- 作家名: 作家名・工房名をそのまま記入。不明ならNA。',
+      '- 産地: 鳴子/津軽/遠刈田/弥治郎/作並/蔵王/土湯/博多/京都/堺/岩槻/鴻巣 等で記入。不明ならNA。',
+      '- 年代: 昭和/大正/明治/江戸/平成/令和 または具体的な年代（例: 1960年代）で記入。不明ならNA。推測禁止。',
+      '- サイズ: 高さをcm単位で記入（例: 25cm）。不明ならNA。',
+      '- 技法: 手彫り/ろくろ挽き/張子/木目込み/型抜き/手描き/焼成 のいずれかで記入。不明ならNA。',
+      '- モチーフ: 武者/童女/舞妓/力士/歌舞伎/花嫁/童子/母子/動物 等で記入。該当なしならNA。',
+      '- オリジナル/復刻: オリジナル/復刻品 のいずれかで記入。不明ならNA。',
+      '- [EN]セクションでは: Type は Kokeshi/Hakata Doll/Ichimatsu Doll/Hina Doll/Gogatsu Doll/Kimekomi Doll/Gosho Doll/Fushimi Doll/Karakuri Doll/Tsuchi Doll/Bunraku Puppet。Material は Wood/Ceramic/Paper/Fabric/Clay/Lacquer/Plaster/Paulownia。Technique は Hand Carved/Lathe Turned/Papier-mache/Kimekomi/Molded/Hand Painted/Fired。Origin は Naruko/Tsugaru/Togatta/Yajiro/Sakunami/Zao/Tsuchiyu/Hakata/Kyoto/Sakai/Iwatsuki/Konosu。Era は Showa/Taisho/Meiji/Edo/Heisei/Reiwa。'
     ]
   }
 };
