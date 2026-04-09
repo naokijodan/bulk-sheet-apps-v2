@@ -1760,18 +1760,11 @@ function validateSanitizedResult_(parsedDescription, category) {
     return { valid: false, errors: ['パース結果が空です'] };
   }
 
-  // ブランドチェック（カテゴリによっては「メーカー」の場合もある）
-  var hasBrand = /ブランド[：:]\s*.+/.test(parsedDescription) || /メーカー[：:]\s*.+/.test(parsedDescription);
-  // ブランド/メーカーがNAでないか
-  if (hasBrand) {
-    var brandMatch = parsedDescription.match(/(?:ブランド|メーカー)[：:]\s*(.+?)(?:\s|$)/);
-    if (brandMatch && /^N\/?A$/i.test(brandMatch[1].trim())) {
-      hasBrand = false;
-    }
-  }
-  if (!hasBrand) {
-    errors.push('ブランド/メーカーが抽出されていません');
-  }
+  // ブランド/メーカー必須チェックは廃止（2026-04-09）
+  // 理由: こけし・コレクティブル・アンティーク・伝統工芸品など、ブランド名が存在しない商品が多数ある。
+  // 時計等でもノーブランド品やアンティークにはブランド情報がないケースがある。
+  // ブランドを必須にすると Pass 2（英語版生成）に進めず、AW列が出力されない症状が発生していた。
+  // 最低限の品質は下記の「フィールド数 >= 2」でガードする。
 
   // フィールド数チェック（「フィールド名: 値」のペア数）
   var fieldCount = 0;
