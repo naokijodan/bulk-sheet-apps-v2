@@ -3515,6 +3515,14 @@ function writeSettingsToSheet(sheetName, settings) {
       .build();
     sheet.getRange('AP2').setDataValidation(rule5);
 
+    // プロンプト同期（新規追加・既存更新）
+    var syncPromptAdd = settings.syncPromptAdd === true;
+    var syncPromptUpdate = settings.syncPromptUpdate === true;
+    if (syncPromptAdd || syncPromptUpdate) {
+      var syncResult = syncPromptsToSheet_({ addNew: syncPromptAdd, updateExisting: syncPromptUpdate });
+      console.log('[writeSettingsToSheet] プロンプト同期: 追加=' + syncResult.added + ' 更新=' + syncResult.updated + ' スキップ=' + syncResult.skipped);
+    }
+
     // AS2: 使用プロンプト（GPT_Promptsシートから取得）
     var promptIds = getAllPromptIds();
     if (promptIds && promptIds.length > 0) {
@@ -3531,14 +3539,6 @@ function writeSettingsToSheet(sheetName, settings) {
       .setAllowInvalid(false)
       .build();
     sheet.getRange('AS3').setDataValidation(rule7);
-
-    // プロンプト同期（新規追加・既存更新）
-    var syncPromptAdd = settings.syncPromptAdd === true;
-    var syncPromptUpdate = settings.syncPromptUpdate === true;
-    if (syncPromptAdd || syncPromptUpdate) {
-      var syncResult = syncPromptsToSheet_({ addNew: syncPromptAdd, updateExisting: syncPromptUpdate });
-      console.log('[writeSettingsToSheet] プロンプト同期: 追加=' + syncResult.added + ' 更新=' + syncResult.updated + ' スキップ=' + syncResult.skipped);
-    }
 
     // GPT_PromptsシートのE列にタグマッピングを書き込み（可視化用）
     writePromptTagMapping_();

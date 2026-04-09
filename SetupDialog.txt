@@ -625,7 +625,7 @@
           <label>プロンプト同期</label>
           <div class="checkbox-group">
             <label class="checkbox-label">
- <input type="checkbox" id="syncPromptAdd" name="syncPromptAdd">
+ <input type="checkbox" id="syncPromptAdd" name="syncPromptAdd" checked>
   新しいプロンプトを追加
 </label>
           </div>
