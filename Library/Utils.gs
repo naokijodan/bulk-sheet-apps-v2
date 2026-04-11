@@ -60,15 +60,37 @@ function updateExchangeRate(sheet) {
       }
     }
 
-    // API取得失敗時はデフォルト値
-    sheet.getRange("C2").setValue(145);
-    return 145;
+    // API取得失敗時はA2（GOOGLEFINANCE）にフォールバック
+    var fallback = getFallbackRate_(sheet);
+    sheet.getRange("C2").setValue(fallback);
+    return fallback;
 
   } catch (e) {
     Logger.log('為替レート取得エラー: ' + e.message);
-    sheet.getRange("C2").setValue(145);
-    return 145;
+    try {
+      var fallback = getFallbackRate_(sheet);
+      sheet.getRange("C2").setValue(fallback);
+      return fallback;
+    } catch (e2) {
+      Logger.log('フォールバックも失敗: ' + e2.message);
+      return 145;
+    }
   }
+}
+
+/**
+ * A2セル（GOOGLEFINANCE）から為替レートを取得するフォールバック
+ * @param {Sheet} sheet - 作業シート
+ * @return {number} 為替レート（取得失敗時は145）
+ */
+function getFallbackRate_(sheet) {
+  var a2 = Number(sheet.getRange("A2").getValue());
+  if (a2 >= 100 && a2 <= 200) {
+    Logger.log('A2（GOOGLEFINANCE）からフォールバック: ' + a2);
+    return a2;
+  }
+  Logger.log('A2の値が範囲外または空: ' + a2 + ' → デフォルト145円');
+  return 145;
 }
 
 /**
