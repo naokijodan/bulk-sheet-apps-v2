@@ -45,8 +45,8 @@ function updateExchangeRate(sheet) {
       }
     }
 
-    // exchangerate-api.com から USD/JPY レートを取得
-    var url = 'https://api.exchangerate-api.com/v4/latest/USD';
+    // exchangerate-api.com v6（Open Access推奨エンドポイント）から USD/JPY レートを取得
+    var url = 'https://open.er-api.com/v6/latest/USD';
     var response = UrlFetchApp.fetch(url);
     var data = JSON.parse(response.getContentText());
 
