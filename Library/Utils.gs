@@ -34,6 +34,17 @@ function getCurrentLibVersion() {
  */
 function updateExchangeRate(sheet) {
   try {
+    // sheet引数がない場合（メニューから直接呼ばれた場合）は自分で取得
+    if (!sheet) {
+      var docProps = PropertiesService.getDocumentProperties();
+      var sheetName = docProps.getProperty('SHEET_NAME') || '作業シート';
+      sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
+      if (!sheet) {
+        Logger.log('作業シートが見つかりません');
+        return 145;
+      }
+    }
+
     // exchangerate-api.com から USD/JPY レートを取得
     var url = 'https://api.exchangerate-api.com/v4/latest/USD';
     var response = UrlFetchApp.fetch(url);
