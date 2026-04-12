@@ -275,6 +275,18 @@ var IS_INITIAL_DATA = [
   { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Rating', field_type: 'recommended', priority: 7, notes: 'CERO A, ESRB E, PEGI 3等' },
   { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Language', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Country of Origin', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Release Year', field_type: 'optional', priority: 10, notes: '' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Series', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Franchise', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Edition', field_type: 'optional', priority: 13, notes: '' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Number of Players', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Features', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Department', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Theme', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Vintage', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Occasion', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Official/Unofficial', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Style', field_type: 'optional', priority: 21, notes: '' },
 
   // === Video Game Consoles ===
   { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Brand', field_type: 'required', priority: 1, notes: 'Nintendo, Sony, Sega等' },
@@ -308,6 +320,19 @@ var IS_INITIAL_DATA = [
   { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Connectivity', field_type: 'recommended', priority: 6, notes: 'Wireless, Wired, Bluetooth, USB等' },
   { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Region Code', field_type: 'recommended', priority: 7, notes: 'NTSC-J (Japan)等' },
   { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Country of Origin', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Compatible Product', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Compatible Model', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Cable Length', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Number of Players', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Number of Fans', field_type: 'optional', priority: 13, notes: '' },
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Features', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Material', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Department', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Series', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Theme', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Vintage', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Occasion', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Official/Unofficial', field_type: 'optional', priority: 21, notes: '' },
 
   // === Fishing Reels ===
   { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Brand', field_type: 'required', priority: 1, notes: 'Shimano, Daiwa, Abu Garcia等' },
@@ -371,7 +396,21 @@ var IS_INITIAL_DATA = [
   { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Size', field_type: 'recommended', priority: 5, notes: 'mm単位。ラグ幅・ベルト幅・コマ幅など' },
   { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Color', field_type: 'recommended', priority: 6, notes: '' },
   { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Country of Origin', field_type: 'recommended', priority: 7, notes: '製造国。フルネーム英語' },
-  
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Type', field_type: 'recommended', priority: 8, notes: '時計タイプ（Analog, Digital, Pocket Watch等）' },
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Compatible Brand', field_type: 'optional', priority: 9, notes: '互換対応ブランド（Rolex, Omega等）' },
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Movement Type', field_type: 'optional', priority: 10, notes: '機械式 / クォーツ / 自動巻き等' },
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Features', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Finish', field_type: 'optional', priority: 12, notes: 'Polished / Brushed / PVD等' },
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Vintage', field_type: 'optional', priority: 13, notes: '' },
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Series', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Department', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Theme', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Style', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Era', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Occasion', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Pattern', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Official/Unofficial', field_type: 'optional', priority: 21, notes: '' },
+
   // === Sunglasses ===
   
 
@@ -382,6 +421,21 @@ var IS_INITIAL_DATA = [
   { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Product Line', field_type: 'recommended', priority: 4, notes: 'ブランドの代表ライン名' },
   { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Color', field_type: 'recommended', priority: 5, notes: '' },
   { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Country of Origin', field_type: 'recommended', priority: 6, notes: '製造国。フルネーム英語' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Ingredients', field_type: 'optional', priority: 7, notes: '主要成分・原材料' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Body Area', field_type: 'optional', priority: 8, notes: '使用する体の部位（Face / Body / Hand等）' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Skin Type', field_type: 'optional', priority: 9, notes: '対応肌タイプ（Dry / Oily / Sensitive等）' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Size', field_type: 'optional', priority: 10, notes: '容量・サイズ' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Features', field_type: 'optional', priority: 11, notes: '商品の特徴・効能' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Department', field_type: 'optional', priority: 12, notes: '対象部門（Men / Women / Unisex等）' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Item Weight', field_type: 'optional', priority: 13, notes: '内容量・重量' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Material', field_type: 'optional', priority: 14, notes: '素材・成分タイプ' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Series', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Theme', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Vintage', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Occasion', field_type: 'optional', priority: 18, notes: 'ギフト・誕生日等の使用シーン' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Season', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Number of Pieces', field_type: 'optional', priority: 20, notes: 'セット個数' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Official/Unofficial', field_type: 'optional', priority: 21, notes: '' },
 
   // === Dolls & Plush (ドール＆ぬいぐるみ) ===
   { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -448,6 +502,19 @@ var IS_INITIAL_DATA = [
   { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Style', field_type: 'recommended', priority: 6, notes: '' },
   { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Department', field_type: 'recommended', priority: 7, notes: 'Men / Women / Unisex' },
   { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Country of Origin', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Type', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Lens Technology', field_type: 'optional', priority: 10, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'UV Protection', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Features', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Size', field_type: 'optional', priority: 13, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Color', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Series', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Theme', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Vintage', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Occasion', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Season', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Pattern', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Official/Unofficial', field_type: 'optional', priority: 21, notes: '' },
 
   // === Kimono ===
   { category: 'Kimono', tag_jp: '着物,和装,振袖,留袖,訪問着,浴衣,帯,袴,小紋,紬,付下げ,羽織,色無地,反物,草履,下駄,名古屋帯,袋帯,半幅帯', field_name: 'Brand', field_type: 'recommended', priority: 1, notes: '' },
@@ -979,6 +1046,18 @@ var IS_INITIAL_DATA = [
   { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Year Manufactured', field_type: 'recommended', priority: 7, notes: '' },
   { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Features', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Country of Origin', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Color', field_type: 'optional', priority: 10, notes: '' },
+  { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Theme', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Series', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Department', field_type: 'optional', priority: 13, notes: '' },
+  { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Style', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Era', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Franchise', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Character', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Number of Pieces', field_type: 'optional', priority: 18, notes: 'セット内容数' },
+  { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Season', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Vintage', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Official/Unofficial', field_type: 'optional', priority: 21, notes: '' },
 
   // === Boxes ===
   { category: 'Boxes', tag_jp: 'ジュエリーボックス,時計ケース,ウォッチボックス,宝石箱', field_name: 'Brand', field_type: 'recommended', priority: 1, notes: '' },
@@ -4737,7 +4816,10 @@ var IS_CATEGORY_FIELDS = {
     'Brand', 'Type', 'Material', 'Color', 'Production Technique', 'Style', 'Pattern', 'Theme', 'Subject', 'Country of Origin',
     'Glassware Type', 'Capacity', 'Department', 'Occasion', 'Origin', 'Era', 'Vintage', 'Features', 'Set Includes', 'Designer', 'Number of Pieces',
   ],
-  'Snow Globes':   ['Brand', 'Type', 'Material', 'Subject', 'Occasion', 'Collection', 'Year Manufactured', 'Features', 'Country of Origin'],
+  'Snow Globes': [
+    'Brand', 'Type', 'Material', 'Subject', 'Occasion', 'Collection', 'Year Manufactured', 'Features', 'Country of Origin',
+    'Color', 'Theme', 'Series', 'Department', 'Style', 'Era', 'Franchise', 'Character', 'Number of Pieces', 'Season', 'Vintage', 'Official/Unofficial',
+  ],
   'Boxes': [
     'Brand', 'Type', 'Material', 'Color', 'Suitable For', 'Shape', 'Features', 'Lining Material', 'Theme', 'Country of Origin',
     'Items Included', 'Department', 'Occasion', 'Style', 'Pattern', 'Vintage', 'Designer', 'Era', 'Number of Pieces', 'Capacity', 'Closure',
@@ -4793,14 +4875,26 @@ var IS_CATEGORY_FIELDS = {
     'Shape'                // 21. 任意
   ],
   'Pipes':         ['Brand', 'Body Shape', 'Material', 'Filter Size', 'Handmade', 'Country of Origin'],
-  'Watch Parts':   ['Brand', 'Part Type', 'Material', 'Compatible Model', 'Size', 'Color', 'Country of Origin'],
-  'Sunglasses':  ['Brand', 'Model', 'Frame Color', 'Lens Color', 'Frame Material', 'Style', 'Department', 'Country of Origin'],
-  'Video Games': ['Platform', 'Game Name', 'Region Code', 'Genre', 'Character', 'Publisher', 'Rating', 'Language', 'Country of Origin'],
+  'Watch Parts': [
+    'Brand', 'Part Type', 'Material', 'Compatible Model', 'Size', 'Color', 'Country of Origin',
+    'Type', 'Compatible Brand', 'Movement Type', 'Features', 'Finish', 'Vintage', 'Series', 'Department', 'Theme', 'Style', 'Era', 'Occasion', 'Pattern', 'Official/Unofficial',
+  ],
+  'Sunglasses': [
+    'Brand', 'Model', 'Frame Color', 'Lens Color', 'Frame Material', 'Style', 'Department', 'Country of Origin',
+    'Type', 'Lens Technology', 'UV Protection', 'Features', 'Size', 'Color', 'Series', 'Theme', 'Vintage', 'Occasion', 'Season', 'Pattern', 'Official/Unofficial',
+  ],
+  'Video Games': [
+    'Platform', 'Game Name', 'Region Code', 'Genre', 'Character', 'Publisher', 'Rating', 'Language', 'Country of Origin',
+    'Release Year', 'Series', 'Franchise', 'Edition', 'Number of Players', 'Features', 'Department', 'Theme', 'Vintage', 'Occasion', 'Official/Unofficial', 'Style',
+  ],
   'Video Game Consoles': [
     'Brand', 'Platform', 'Model', 'Type', 'Storage Capacity', 'Color', 'Region Code', 'Connectivity', 'Edition', 'Country of Origin',
     'Year Manufactured', 'Charger Included', 'Features', 'Department', 'Material', 'Vintage', 'Theme', 'Occasion', 'Series/Line', 'Official/Unofficial', 'Compatible Model',
   ],
-  'Video Game Accessories': ['Brand', 'Platform', 'Type', 'Model', 'Color', 'Connectivity', 'Region Code', 'Country of Origin'],
+  'Video Game Accessories': [
+    'Brand', 'Platform', 'Type', 'Model', 'Color', 'Connectivity', 'Region Code', 'Country of Origin',
+    'Compatible Product', 'Compatible Model', 'Cable Length', 'Number of Players', 'Number of Fans', 'Features', 'Material', 'Department', 'Series', 'Theme', 'Vintage', 'Occasion', 'Official/Unofficial',
+  ],
   'Fishing Reels': [
     'Brand',               //  1. 必須
     'Model',               //  2. 必須
@@ -4824,7 +4918,10 @@ var IS_CATEGORY_FIELDS = {
     'Size',                // 20. 任意
     'Department'           // 21. 任意
   ],
-  'Soap':        ['Brand', 'Type', 'Scent', 'Product Line', 'Color', 'Country of Origin'],
+  'Soap': [
+    'Brand', 'Type', 'Scent', 'Product Line', 'Color', 'Country of Origin',
+    'Ingredients', 'Body Area', 'Skin Type', 'Size', 'Features', 'Department', 'Item Weight', 'Material', 'Series', 'Theme', 'Vintage', 'Occasion', 'Season', 'Number of Pieces', 'Official/Unofficial',
+  ],
   'Dolls & Plush': [
     'Brand', 'Type', 'Character', 'Size', 'Color', 'Material', 'Country of Origin',
     'Franchise', 'Product Line', 'Set Includes', 'Doll Gender', 'Doll Hair Color', 'Doll Eye Color', 'Doll Complexion', 'Department', 'Theme', 'Features', 'Vintage', 'Occasion', 'Series', 'Year Manufactured',

@@ -995,8 +995,16 @@ var FIELD_EN_TO_JP_ = {
   'Body Shape': '形状', 'Filter Size': 'フィルターサイズ', 'Handmade': 'ハンドメイド',
   // 時計パーツ
   'Part Type': 'パーツタイプ', 'Compatible Model': '対応モデル',
-  // サングラス
+  // サングラス（Sunglasses）
   'Frame Color': 'フレーム色', 'Lens Color': 'レンズ色', 'Frame Material': 'フレーム素材',
+  'Lens Technology': 'レンズテクノロジー', 'UV Protection': 'UV保護',
+  // ゲーム周辺機器（Video Game Accessories）
+  'Compatible Product': '互換製品', 'Cable Length': 'ケーブル長',
+  'Number of Players': '最大プレイヤー数', 'Number of Fans': 'ファン数',
+  // 時計パーツ追加（Watch Parts）
+  'Compatible Brand': '互換ブランド', 'Movement Type': 'ムーブメントタイプ',
+  // 石鹸（Soap）
+  'Ingredients': '成分', 'Body Area': '使用部位', 'Skin Type': '肌タイプ',
   // 美術・版画・掛軸・陶磁器
   'Artist': 'アーティスト', 'Production Technique': '制作技法',
   'Support': '本紙素材', 'Mounting Type': '表装', 'Scroll Rod Material': '軸先素材', 'Box Type': '箱',
