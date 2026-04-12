@@ -958,7 +958,7 @@ var FIELD_EN_TO_JP_ = {
   // トレーディングカード（Trading Cards）
   'Card Type': 'カードタイプ', 'Speciality': 'スペシャリティ', 'Age Level': '対象年齢',
   // ゴルフ（Golf）
-  'Head Material': 'ヘッド素材', 'Lie Angle Color': 'ライ角カラー',
+  'Head Material': 'ヘッド素材', 'Lie Angle Color': 'ライ角カラー', 'Shaft Compatibility': 'シャフト互換',
   // リール（Fishing Reels）
   'Reel Size': 'リールサイズ', 'Drag Style': 'ドラグ方式', 'Maximum Drag': '最大ドラグ力',
   // 野球（Baseball）
@@ -981,6 +981,10 @@ var FIELD_EN_TO_JP_ = {
   'Analog/Digital': 'アナログ/デジタル', 'Power Source': '電源',
   'Bypass Type': 'バイパス方式', 'Number of Keys': '鍵盤数',
   'Key/Pitch': '調/ピッチ', 'Subtype': 'サブタイプ',
+  // シンセ・デジタル（Synths & Digital）
+  'Action': 'アクション', 'Polyphony': 'ポリフォニー', 'Touch Sensitivity': 'タッチ感度',
+  // エフェクター・アンプ（Effects & Amps）
+  'To Fit': '対応楽器', 'Channel Count': 'チャンネル数', 'Wattage': 'ワット数',
   // 万年筆
   'Ink Color': 'インク色', 'Nib Size': 'ニブサイズ', 'Nib Material': 'ニブ素材',
   // パイプ
@@ -995,9 +999,12 @@ var FIELD_EN_TO_JP_ = {
   'Origin/Kiln': '産地/窯', 'Technique/Weave': '技法/産地',
   'Glaze/Finish': '釉薬/仕上げ', 'Drainage Holes': '水抜き穴', 'Maker/Kiln': '作家/窯元',
   'Subject/Deity': '尊格',
+  // 茶道具（Tea Ceremony）
+  'Dimensions': '寸法',
   // 漫画・アニメ・フィギュア
   'Title': 'タイトル', 'Author': '作者', 'Volume/Set': '巻数/セット',
   'Publication Year': '出版年', 'Official/Unofficial': '公式/非公式',
+  'Number of Volumes': '全巻数',
   'Official/Bootleg': '正規品/海賊版', 'Series/Line': 'シリーズ/ライン',
   'Series/Franchise': 'シリーズ/フランチャイズ', 'Character/Mecha': 'キャラクター/メカ',
   'Grade': 'グレード', 'Built Status': '組立状態', 'Vehicle Type': '車種/機種',
@@ -1042,6 +1049,8 @@ var FIELD_EN_TO_JP_ = {
   'Scale': 'スケール', 'Fuel Type': '動力源',
   'Set Includes': 'セット内容', 'Number of Place Settings': '人数分',
   'Item Width': '幅', 'Fits Belt Width': '対応ベルト幅',
+  // ベルトバックル（Belt Buckles）
+  'Trim Material': 'トリム素材', 'Performance/Activity': '用途/アクティビティ',
   'Hair Type': '髪質', 'Collection': 'コレクション',
   'Year Manufactured': '製造年'
 };
