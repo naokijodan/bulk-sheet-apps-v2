@@ -1005,6 +1005,12 @@ var FIELD_EN_TO_JP_ = {
   'Compatible Brand': '互換ブランド', 'Movement Type': 'ムーブメントタイプ',
   // 石鹸（Soap）
   'Ingredients': '成分', 'Body Area': '使用部位', 'Skin Type': '肌タイプ',
+  // パイプ追加（Pipes）
+  'Bowl Size': 'ボウルサイズ', 'Stem Material': 'ステム素材',
+  // コイン（Coins）
+  'Mint': '造幣局',
+  // ベビー（Baby）
+  'Age Group': '対象年齢', 'Gender': '性別',
   // 美術・版画・掛軸・陶磁器
   'Artist': 'アーティスト', 'Production Technique': '制作技法',
   'Support': '本紙素材', 'Mounting Type': '表装', 'Scroll Rod Material': '軸先素材', 'Box Type': '箱',
