@@ -83,7 +83,18 @@ var IS_INITIAL_DATA = [
   { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Dial Color', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Department', field_type: 'required', priority: 9, notes: "Men's / Women's / Unisex" },
   { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '製造国（本社所在国ではない）。フルネーム英語: Japan, Switzerland等' },
-  
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Reference Number', field_type: 'recommended', priority: 11, notes: '型番・モデル番号。例: Submariner=116610LN, Speedmaster=311.30.42.30.01.005' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Band Material', field_type: 'recommended', priority: 12, notes: 'ベルト素材。Stainless Steel / Leather / Rubber / Silicone / Nylon / Mesh / Titanium等' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Water Resistance', field_type: 'recommended', priority: 13, notes: '防水性能。10ATM / 100m / 200m / 30m / Water Resistant等' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Features', field_type: 'recommended', priority: 14, notes: '機能。Luminous / Date / Chronograph / Tachymeter / GMT / Alarm等' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Band Color', field_type: 'recommended', priority: 15, notes: 'ベルトの色。Black / Brown / Silver / Gold / Blue / Green等' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Bezel Color', field_type: 'recommended', priority: 16, notes: 'ベゼルの色。Silver / Gold / Black / Blue / Green / Ceramic等' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Year Manufactured', field_type: 'recommended', priority: 17, notes: '製造年（4桁の西暦）。例: 2018' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'With Papers', field_type: 'recommended', priority: 18, notes: '保証書・ギャランティーカード付きか。Yes / No' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'With Original Box/Packaging', field_type: 'recommended', priority: 19, notes: '純正ボックス・箱付きか。Yes / No' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Indices', field_type: 'recommended', priority: 20, notes: '時字（インデックス）の種類。Arabic / Roman / Bar / Diamond / Dot / Applied等' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Type', field_type: 'required', priority: 21, notes: '時計タイプ。Dress Watch / Sport Watch / Pocket Watch / Smartwatch / Chronograph / Diver / Field Watch等' },
+
   // === Rings ===
   { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
   { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Designer', field_type: 'recommended', priority: 2, notes: '' },
@@ -4098,7 +4109,29 @@ IS_TAG_TO_CATEGORY['ルアータックル'] = 'Fishing Lures';
 // カテゴリ別 出力フィールド定義（5-8フィールド、順序固定）
 // ==============================
 var IS_CATEGORY_FIELDS = {
-  'Watches':       ['Brand', 'Model', 'Display', 'Movement', 'Case Material', 'Case Size', 'Wrist Size', 'Dial Color', 'Department', 'Country of Origin'],
+  'Watches':       [
+    'Brand',                       // 1. 必須
+    'Department',                  // 2. 必須
+    'Type',                        // 3. 必須
+    'Model',                       // 4. 推奨
+    'Reference Number',            // 5. 推奨
+    'Movement',                    // 6. 推奨
+    'Display',                     // 7. 推奨
+    'Case Material',               // 8. 推奨
+    'Case Size',                   // 9. 任意（維持）
+    'Wrist Size',                  // 10. 任意（維持）
+    'Dial Color',                  // 11. 推奨
+    'Band Material',               // 12. 推奨
+    'Water Resistance',            // 13. 推奨
+    'Features',                    // 14. 推奨
+    'Band Color',                  // 15. 推奨
+    'Bezel Color',                 // 16. 推奨
+    'Year Manufactured',           // 17. 推奨
+    'Country of Origin',           // 18. 任意（維持）
+    'With Papers',                 // 19. 推奨
+    'With Original Box/Packaging', // 20. 推奨
+    'Indices'                      // 21. 推奨
+  ],
   'Rings':         ['Brand', 'Designer', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country of Origin'],
   'Necklaces':     ['Style', 'Brand', 'Type', 'Color', 'Metal', 'Main Stone', 'Main Stone Color', 'Pendant Shape', 'Secondary Stone', 'Country of Origin'],
   'Bracelets':     ['Brand', 'Designer', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country of Origin'],
@@ -4690,8 +4723,8 @@ function outputTagListSheet_() {
   };
 
   // --- ヘッダー ---
-  var COLS = 13; // A〜M
-  var headers = ['タグ（入力用）', 'eBayカテゴリ', '対応状況', 'Field 1', 'Field 2', 'Field 3', 'Field 4', 'Field 5', 'Field 6', 'Field 7', 'Field 8', 'Field 9', 'Field 10'];
+  var COLS = 24; // A〜X
+  var headers = ['タグ（入力用）', 'eBayカテゴリ', '対応状況', 'Field 1', 'Field 2', 'Field 3', 'Field 4', 'Field 5', 'Field 6', 'Field 7', 'Field 8', 'Field 9', 'Field 10', 'Field 11', 'Field 12', 'Field 13', 'Field 14', 'Field 15', 'Field 16', 'Field 17', 'Field 18', 'Field 19', 'Field 20', 'Field 21'];
 
   // --- 2次元配列にデータを構築（一括書き込み用） ---
   var allRows = [];
@@ -4735,7 +4768,7 @@ function outputTagListSheet_() {
       // タグごとに1行
       for (var t = 0; t < tags.length; t++) {
         var row = [tags[t], catName, status];
-        for (var f = 0; f < 10; f++) {
+        for (var f = 0; f < 21; f++) {
           row.push(f < fields.length ? fields[f] : '');
         }
         statusColors.push(color);
@@ -4782,7 +4815,7 @@ function outputTagListSheet_() {
   sh.setColumnWidth(1, 160);
   sh.setColumnWidth(2, 180);
   sh.setColumnWidth(3, 140);
-  for (var w = 4; w <= 13; w++) {
+  for (var w = 4; w <= 24; w++) {
     sh.setColumnWidth(w, 160);
   }
 

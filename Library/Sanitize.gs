@@ -913,6 +913,10 @@ var FIELD_EN_TO_JP_ = {
   'Display': '表示方式', 'Movement': 'ムーブメント',
   'Case Material': 'ケース素材', 'Case Size': 'ケースサイズ',
   'Wrist Size': '腕周り', 'Dial Color': '文字盤色',
+  'Reference Number': '型番/リファレンス', 'Band Material': 'ベルト素材',
+  'Water Resistance': '防水性能', 'Band Color': 'ベルト色',
+  'Bezel Color': 'ベゼル色', 'With Papers': '証明書付き',
+  'With Original Box/Packaging': '箱付き', 'Indices': 'インデックス',
   // カメラ
   'Series': 'シリーズ', 'Maximum Resolution': '最大解像度',
   'Battery Type': 'バッテリータイプ', 'Lens Mount': 'レンズマウント',

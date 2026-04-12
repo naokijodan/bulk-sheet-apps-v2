@@ -185,8 +185,8 @@ function runStep1Basic_(sheet, rows) {
       data[fieldName] = value || 'Does not apply';
     }
 
-    // 5. Country of Origin が未処理かつ10件未満なら追加（EAGLE 10件制限厳守）
-    if (!data['Country of Origin'] && !data['Country/Region of Manufacture'] && Object.keys(data).length < 10) {
+    // 5. Country of Origin が未処理かつ21件未満なら追加（EAGLE 21件制限厳守）
+    if (!data['Country of Origin'] && !data['Country/Region of Manufacture'] && Object.keys(data).length < 21) {
       var country = resolveFieldValue_('Country of Origin', tag, title, brandInfo, category, description, data);
       if (country) data['Country of Origin'] = country;
     }
@@ -1157,13 +1157,13 @@ function mergeConfirmedValues_(sheet, rows, results) {
         out[k] = conf[k];
       }
     }
-    // 10件超過の安全弁（万が一のため）
+    // 21件超過の安全弁（万が一のため）
     var outKeys = Object.keys(out);
-    if (outKeys.length > 10) {
-      Logger.log('[mergeConfirmedValues_] row ' + rowNum + ': ' + outKeys.length + ' fields -> trimmed to 10');
+    if (outKeys.length > 21) {
+      Logger.log('[mergeConfirmedValues_] row ' + rowNum + ': ' + outKeys.length + ' fields -> trimmed to 21');
       var trimmed = {};
       var count = 0;
-      for (var tf = 0; tf < allowedFields.length && count < 10; tf++) {
+      for (var tf = 0; tf < allowedFields.length && count < 21; tf++) {
         if (out.hasOwnProperty(allowedFields[tf])) {
           trimmed[allowedFields[tf]] = out[allowedFields[tf]];
           count++;
