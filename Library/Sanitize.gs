@@ -1071,6 +1071,8 @@ var FIELD_EN_TO_JP_ = {
   'Trim Material': 'トリム素材', 'Performance/Activity': '用途/アクティビティ',
   // ベルト（Belts）
   'Size Type': 'サイズタイプ', 'Belt Width': 'ベルト幅', 'Accents': 'アクセント',
+  // 靴（Shoes）
+  'US Shoe Size': '米国靴サイズ',
   // ドール・ぬいぐるみ（Dolls & Plush）
   'Doll Gender': '性別', 'Doll Hair Color': '髪色', 'Doll Eye Color': '目の色', 'Doll Complexion': '肌色',
   'Hair Type': '髪質', 'Collection': 'コレクション',
