@@ -959,6 +959,10 @@ var FIELD_EN_TO_JP_ = {
   'Head Material': 'ヘッド素材', 'Lie Angle Color': 'ライ角カラー',
   // リール（Fishing Reels）
   'Reel Size': 'リールサイズ', 'Drag Style': 'ドラグ方式', 'Maximum Drag': '最大ドラグ力',
+  // 野球（Baseball）
+  'Experience Level': '対象レベル',
+  // メカプラモ（Mecha Model Kits）
+  'Item Height': '高さ',
   // 楽器（Guitars）
   'Body Color': 'ボディカラー', 'Body Type': 'ボディタイプ',
   'String Configuration': '弦構成', 'Model Year': '年式',
@@ -1012,6 +1016,10 @@ var FIELD_EN_TO_JP_ = {
   'Record Label': 'レーベル', 'Format': 'フォーマット',
   'Record Size': 'レコードサイズ', 'Release Year': '発売年',
   'Sleeve Grading': 'ジャケット評価',
+  'Speed': 'スピード (RPM)', 'Pressing Country': '製造国 (プレス元)',
+  // 食器・ガラス器（Dinnerware / Glassware）
+  'Origin': '産地', 'Production Style': '製法スタイル',
+  'Glassware Type': 'ガラス器種別', 'Number of Pieces': '個数',
   // コイン・切手
   'Certification': '鑑定', 'Denomination': '額面', 'Year': '年',
   'Year of Issue': '発行年', 'Topic': 'テーマ', 'Quality': '品質',

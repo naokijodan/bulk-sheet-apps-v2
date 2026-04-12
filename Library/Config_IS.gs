@@ -515,6 +515,17 @@ var IS_INITIAL_DATA = [
   { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Sport/Activity', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Country of Origin', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Model Year', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Experience Level', field_type: 'recommended', priority: 11, notes: 'Beginner / Intermediate / Advanced' },
+  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Department', field_type: 'recommended', priority: 12, notes: 'Youth / Adult / Boys / Girls / Mens / Womens等' },
+  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Lining Material', field_type: 'recommended', priority: 13, notes: '' },
+  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Features', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Season', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Theme', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Style', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Vintage', field_type: 'optional', priority: 18, notes: 'Yes / No' },
+  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Occasion', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Series/Line', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Official/Unofficial', field_type: 'optional', priority: 21, notes: 'Official / Unofficial' },
 
   // === Japanese Instruments ===
   { category: 'Japanese Instruments', tag_jp: '三味線,尺八,琴,篠笛,太鼓,和太鼓,雅楽,琵琶,鼓,和楽器', field_name: 'Type', field_type: 'required', priority: 1, notes: 'Shamisen / Shakuhachi / Koto / Shinobue / Taiko' },
@@ -573,6 +584,17 @@ var IS_INITIAL_DATA = [
   { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Color', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Release Year', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Subject', field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Item Height', field_type: 'recommended', priority: 12, notes: '組立後/本体の高さ' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Item Width', field_type: 'recommended', priority: 13, notes: '' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Features', field_type: 'recommended', priority: 14, notes: '' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Theme', field_type: 'recommended', priority: 15, notes: '' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Item Length', field_type: 'recommended', priority: 16, notes: '' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Material', field_type: 'optional', priority: 17, notes: 'Plastic / Resin / Metal等' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Vintage', field_type: 'optional', priority: 18, notes: 'Yes / No' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Department', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Occasion', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Model Year', field_type: 'optional', priority: 21, notes: '' },
 
   // === RC & Scale Models ===
   { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Brand', field_type: 'required', priority: 1, notes: 'Tamiya / Kyosho / Hasegawa等' },
@@ -609,6 +631,17 @@ var IS_INITIAL_DATA = [
   { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Official/Unofficial', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Year', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'TV Show', field_type: 'recommended', priority: 11, notes: 'アニメ番組名 / シリーズ名' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Theme', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Features', field_type: 'optional', priority: 13, notes: '' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Character Family', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Department', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Vintage', field_type: 'optional', priority: 16, notes: 'Yes / No' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Style', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Series/Line', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Edition', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Occasion', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Subject', field_type: 'optional', priority: 21, notes: '' },
 
   // === Figures ===
   { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Franchise', field_type: 'required', priority: 1, notes: '作品名' },
@@ -660,6 +693,17 @@ var IS_INITIAL_DATA = [
   { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Release Year', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Sleeve Grading', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Material', field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Type', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Color', field_type: 'recommended', priority: 13, notes: '' },
+  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Style', field_type: 'recommended', priority: 14, notes: '' },
+  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Speed', field_type: 'recommended', priority: 15, notes: '33/45/78 RPM' },
+  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Edition', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Pressing Country', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Vintage', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Theme', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Occasion', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Department', field_type: 'optional', priority: 21, notes: '' },
 
   // === Necklaces ===
   { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Style', field_type: 'required', priority: 1, notes: '' },
@@ -753,6 +797,17 @@ var IS_INITIAL_DATA = [
   { category: 'Dinnerware', tag_jp: '皿,プレート,食器,茶碗,カップ', field_name: 'Number of Place Settings', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Dinnerware', tag_jp: '皿,プレート,食器,茶碗,カップ', field_name: 'Theme', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Dinnerware', tag_jp: '皿,プレート,食器,茶碗,カップ', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Dinnerware', tag_jp: '皿,プレート,食器,茶碗,カップ', field_name: 'Origin', field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'Dinnerware', tag_jp: '皿,プレート,食器,茶碗,カップ', field_name: 'Product Line', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Dinnerware', tag_jp: '皿,プレート,食器,茶碗,カップ', field_name: 'Production Style', field_type: 'recommended', priority: 13, notes: '' },
+  { category: 'Dinnerware', tag_jp: '皿,プレート,食器,茶碗,カップ', field_name: 'Production Technique', field_type: 'recommended', priority: 14, notes: '' },
+  { category: 'Dinnerware', tag_jp: '皿,プレート,食器,茶碗,カップ', field_name: 'Occasion', field_type: 'recommended', priority: 15, notes: '' },
+  { category: 'Dinnerware', tag_jp: '皿,プレート,食器,茶碗,カップ', field_name: 'Style', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Dinnerware', tag_jp: '皿,プレート,食器,茶碗,カップ', field_name: 'Vintage', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Dinnerware', tag_jp: '皿,プレート,食器,茶碗,カップ', field_name: 'Designer', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Dinnerware', tag_jp: '皿,プレート,食器,茶碗,カップ', field_name: 'Era', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Dinnerware', tag_jp: '皿,プレート,食器,茶碗,カップ', field_name: 'Features', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Dinnerware', tag_jp: '皿,プレート,食器,茶碗,カップ', field_name: 'Department', field_type: 'optional', priority: 21, notes: '' },
 
   // === Neckties ===
   { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -798,6 +853,17 @@ var IS_INITIAL_DATA = [
   { category: 'Glassware', tag_jp: 'ガラス細工,クリスタル,花瓶,オブジェ', field_name: 'Theme', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Glassware', tag_jp: 'ガラス細工,クリスタル,花瓶,オブジェ', field_name: 'Subject', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Glassware', tag_jp: 'ガラス細工,クリスタル,花瓶,オブジェ', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Glassware', tag_jp: 'ガラス細工,クリスタル,花瓶,オブジェ', field_name: 'Glassware Type', field_type: 'recommended', priority: 11, notes: 'Wine Glass / Champagne Flute / Tumbler / Vase等' },
+  { category: 'Glassware', tag_jp: 'ガラス細工,クリスタル,花瓶,オブジェ', field_name: 'Capacity', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Glassware', tag_jp: 'ガラス細工,クリスタル,花瓶,オブジェ', field_name: 'Department', field_type: 'recommended', priority: 13, notes: '' },
+  { category: 'Glassware', tag_jp: 'ガラス細工,クリスタル,花瓶,オブジェ', field_name: 'Occasion', field_type: 'recommended', priority: 14, notes: '' },
+  { category: 'Glassware', tag_jp: 'ガラス細工,クリスタル,花瓶,オブジェ', field_name: 'Origin', field_type: 'recommended', priority: 15, notes: '' },
+  { category: 'Glassware', tag_jp: 'ガラス細工,クリスタル,花瓶,オブジェ', field_name: 'Era', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Glassware', tag_jp: 'ガラス細工,クリスタル,花瓶,オブジェ', field_name: 'Vintage', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Glassware', tag_jp: 'ガラス細工,クリスタル,花瓶,オブジェ', field_name: 'Features', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Glassware', tag_jp: 'ガラス細工,クリスタル,花瓶,オブジェ', field_name: 'Set Includes', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Glassware', tag_jp: 'ガラス細工,クリスタル,花瓶,オブジェ', field_name: 'Designer', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Glassware', tag_jp: 'ガラス細工,クリスタル,花瓶,オブジェ', field_name: 'Number of Pieces', field_type: 'optional', priority: 21, notes: '' },
 
   // === Snow Globes ===
   { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Brand', field_type: 'recommended', priority: 1, notes: '' },
@@ -4449,12 +4515,18 @@ var IS_CATEGORY_FIELDS = {
     'Occasion'             // 21. 任意
   ],
   'Hair Accessories': ['Type', 'Brand', 'Color', 'Material', 'Department', 'Theme', 'Occasion', 'Hair Type', 'Features', 'Country of Origin'],
-  'Dinnerware':    ['Brand', 'Material', 'Type', 'Color', 'Pattern', 'Shape', 'Set Includes', 'Number of Place Settings', 'Theme', 'Country of Origin'],
+  'Dinnerware': [
+    'Brand', 'Material', 'Type', 'Color', 'Pattern', 'Shape', 'Set Includes', 'Number of Place Settings', 'Theme', 'Country of Origin',
+    'Origin', 'Product Line', 'Production Style', 'Production Technique', 'Occasion', 'Style', 'Vintage', 'Designer', 'Era', 'Features', 'Department',
+  ],
   'Scarves':       ['Brand', 'Type', 'Material', 'Color', 'Size', 'Pattern', 'Country of Origin'],
   'Neckties':      ['Brand', 'Color', 'Material', 'Type', 'Pattern', 'Style', 'Department', 'Item Width', 'Theme', 'Country of Origin'],
   'Handkerchiefs': ['Brand', 'Color', 'Material', 'Pattern', 'Style', 'Country of Origin', 'Gender', 'Occasion'],
   'Tie Accessories': ['Brand', 'Type', 'Metal', 'Metal Purity', 'Main Stone', 'Color', 'Material', 'Department', 'Country of Origin'],
-  'Glassware':     ['Brand', 'Type', 'Material', 'Color', 'Production Technique', 'Style', 'Pattern', 'Theme', 'Subject', 'Country of Origin'],
+  'Glassware': [
+    'Brand', 'Type', 'Material', 'Color', 'Production Technique', 'Style', 'Pattern', 'Theme', 'Subject', 'Country of Origin',
+    'Glassware Type', 'Capacity', 'Department', 'Occasion', 'Origin', 'Era', 'Vintage', 'Features', 'Set Includes', 'Designer', 'Number of Pieces',
+  ],
   'Snow Globes':   ['Brand', 'Type', 'Material', 'Subject', 'Occasion', 'Collection', 'Year Manufactured', 'Features', 'Country of Origin'],
   'Boxes':         ['Brand', 'Type', 'Material', 'Color', 'Suitable For', 'Shape', 'Features', 'Lining Material', 'Theme', 'Country of Origin'],
   'Flatware':      ['Brand', 'Type', 'Pattern', 'Composition', 'Style', 'Age', 'Country of Origin'],
@@ -4582,7 +4654,29 @@ var IS_CATEGORY_FIELDS = {
     'Department'           // 21. 任意
   ],
   'Tennis':              ['Brand', 'Type', 'Model', 'Head Size', 'Grip Size', 'String Pattern', 'Weight', 'Flex', 'Balance', 'Country of Origin'],
-  'Baseball':            ['Brand', 'Handedness', 'Player Position', 'Size', 'Type', 'Material', 'Color', 'Sport/Activity', 'Country of Origin', 'Model Year'],
+  'Baseball': [
+    'Brand',               //  1. 必須
+    'Handedness',          //  2. 推奨
+    'Player Position',     //  3. 推奨
+    'Size',                //  4. 推奨（eBay 必須）
+    'Type',                //  5. 必須
+    'Material',            //  6. 推奨
+    'Color',               //  7. 推奨（eBay 必須）
+    'Sport/Activity',      //  8. 推奨
+    'Country of Origin',   //  9. 推奨（維持）
+    'Model Year',          // 10. 推奨（維持）
+    'Experience Level',    // 11. 推奨
+    'Department',          // 12. 推奨
+    'Lining Material',     // 13. 推奨
+    'Features',            // 14. 任意
+    'Season',              // 15. 任意
+    'Theme',               // 16. 任意
+    'Style',               // 17. 任意
+    'Vintage',             // 18. 任意
+    'Occasion',            // 19. 任意
+    'Series/Line',         // 20. 任意
+    'Official/Unofficial'  // 21. 任意
+  ],
   'Japanese Instruments': ['Type', 'Material', 'Maker', 'Subtype', 'Key/Pitch', 'Era/Period', 'Size', 'Color', 'Set Includes', 'Country of Origin'],
   'Fishing Rods':        [
     'Brand',           //  1. 必須
@@ -4608,17 +4702,64 @@ var IS_CATEGORY_FIELDS = {
     'Item Weight'      // 21. 任意（ロッド重量）
   ],
   'Fishing Lures':       ['Brand', 'Type', 'Model', 'Color', 'Weight', 'Fishing Type', 'Fish Species', 'Buoyancy', 'Item Length', 'Country of Origin'],
-  'Mecha Model Kits':    ['Brand', 'Series/Franchise', 'Character/Mecha', 'Grade', 'Scale', 'Type', 'Built Status', 'Color', 'Release Year', 'Country of Origin'],
+  'Mecha Model Kits': [
+    'Brand',               //  1. 必須
+    'Series/Franchise',    //  2. 必須
+    'Character/Mecha',     //  3. 必須
+    'Grade',               //  4. 必須
+    'Scale',               //  5. 推奨
+    'Type',                //  6. 推奨
+    'Built Status',        //  7. 推奨
+    'Color',               //  8. 推奨
+    'Release Year',        //  9. 推奨
+    'Country of Origin',   // 10. 推奨（維持）
+    'Subject',             // 11. 推奨
+    'Item Height',         // 12. 推奨
+    'Item Width',          // 13. 推奨
+    'Features',            // 14. 推奨
+    'Theme',               // 15. 推奨
+    'Item Length',         // 16. 推奨
+    'Material',            // 17. 任意
+    'Vintage',             // 18. 任意
+    'Department',          // 19. 任意
+    'Occasion',            // 20. 任意
+    'Model Year'           // 21. 任意
+  ],
   'RC & Models':         ['Brand', 'Type', 'Scale', 'Vehicle Type', 'Model/Series', 'Power Type', 'Built Status', 'Material', 'Color', 'Country of Origin'],
   'Manga':               ['Title', 'Author', 'Publisher', 'Language', 'Format', 'Volume/Set', 'Genre', 'Publication Year', 'Edition', 'Country of Origin'],
-  'Anime':               ['Character', 'Franchise', 'Type', 'Brand', 'Size', 'Material', 'Color', 'Official/Unofficial', 'Year', 'Country of Origin'],
+  'Anime': [
+    'Character',           //  1. 必須
+    'Franchise',           //  2. 必須
+    'Type',                //  3. 必須
+    'Brand',               //  4. 推奨
+    'Size',                //  5. 推奨
+    'Material',            //  6. 推奨
+    'Color',               //  7. 推奨
+    'Official/Unofficial', //  8. 推奨
+    'Year',                //  9. 推奨
+    'Country of Origin',   // 10. 推奨（維持）
+    'TV Show',             // 11. 推奨
+    'Theme',               // 12. 推奨
+    'Features',            // 13. 任意
+    'Character Family',    // 14. 任意
+    'Department',          // 15. 任意
+    'Vintage',             // 16. 任意
+    'Style',               // 17. 任意
+    'Series/Line',         // 18. 任意
+    'Edition',             // 19. 任意
+    'Occasion',            // 20. 任意
+    'Subject'              // 21. 任意
+  ],
   'Figures': [
     'Franchise', 'Character', 'Type', 'Brand', 'Scale', 'Material', 'Series/Line', 'Official/Bootleg', 'Release Year', 'Country of Origin',
     'Movie', 'TV Show', 'Featured Person/Artist', 'Model', 'Grade', 'Theme', 'Color', 'Size', 'Occasion', 'Vintage', 'Department',
   ],
   'Stamps':              ['Certification', 'Type', 'Year of Issue', 'Topic', 'Quality', 'Country of Origin'],
   'Coins':               ['Certification', 'Denomination', 'Year', 'Composition', 'Grade', 'Country of Origin'],
-  'Records':             ['Artist', 'Release Title', 'Genre', 'Record Grading', 'Record Label', 'Format', 'Record Size', 'Release Year', 'Sleeve Grading', 'Country of Origin'],
+  'Records': [
+    'Artist', 'Release Title', 'Genre', 'Record Grading', 'Record Label', 'Format', 'Record Size', 'Release Year', 'Sleeve Grading', 'Country of Origin',
+    'Material', 'Type', 'Color', 'Style', 'Speed', 'Edition', 'Pressing Country', 'Vintage', 'Theme', 'Occasion', 'Department',
+  ],
   'Kitchen Knives':      ['Type', 'Brand', 'Blade Material', 'Blade Length', 'Handle Material', 'Edge Type', 'Handedness', 'Maker/Blacksmith', 'Country of Origin', 'Condition'],
   'Japanese Dolls':    ['Type', 'Material', 'Maker', 'Origin/Region', 'Era/Period', 'Size', 'Technique', 'Subject/Motif', 'Original/Reproduction', 'Country of Origin']
 };
