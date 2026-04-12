@@ -3550,7 +3550,7 @@ function writeSettingsToSheet(sheetName, settings) {
     }
     var listing2Sheet = ss.getSheetByName('出品2');
     if (listing2Sheet) {
-      listing2Sheet.getRange('AI2').setFormula('={"交通整理(EN)";ARRAYFORMULA(\'出品用シート\'!T3:T)}');
+      listing2Sheet.getRange('BA2').setFormula('={"交通整理(EN)";ARRAYFORMULA(\'出品用シート\'!T3:T)}');
     }
 
     // 注釈を追加

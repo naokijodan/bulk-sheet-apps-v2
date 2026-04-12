@@ -1116,7 +1116,7 @@ function parseConfirmedEnglish_(enText) {
  * @return {Array<{row: number, data: Object}>} マージ済み結果
  */
 function mergeConfirmedValues_(sheet, rows, results) {
-  var confirmedCol = IS_CONFIG.COLUMNS.CONFIRMED_EN || 35;
+  var confirmedCol = IS_CONFIG.COLUMNS.CONFIRMED_EN;
   var excluded = { 'Accessories': true, 'Condition': true, 'Defects': true };
 
   // 各行の確定値を読み取ってパース
@@ -1243,7 +1243,7 @@ function extractSelectedRows() {
 
     // データの読み取り (A:tag, G:title, L:description, AI:confirmed EN)
     var requests = [];
-    var confirmedCol = IS_CONFIG.COLUMNS.CONFIRMED_EN || 35;
+    var confirmedCol = IS_CONFIG.COLUMNS.CONFIRMED_EN;
     var confirmedByRow = {};
     for (var i = 0; i < rows.length; i++) {
       var row = rows[i];
@@ -1358,7 +1358,7 @@ function extractAllRows() {
     }
 
     var requests = [];
-    var confirmedCol = IS_CONFIG.COLUMNS.CONFIRMED_EN || 35;
+    var confirmedCol = IS_CONFIG.COLUMNS.CONFIRMED_EN;
     var confirmedByRow = {};
     var r;
     for (r = dataStartRow; r <= lastRow; r++) {

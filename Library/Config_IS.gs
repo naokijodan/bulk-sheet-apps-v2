@@ -22,7 +22,7 @@ var IS_CONFIG = {
     DESCRIPTION: 12, // L列: Condition/Description
     SHIPPING: 13,    // M列: shipping policy
     ITEM_SPECIFICS_START: 14,  // N列〜: Item Specifics開始列
-    CONFIRMED_EN: 35  // AI列: 交通整理英語版（確定値）
+    CONFIRMED_EN: 57  // BA列: 交通整理英語版（確定値）※IS 21フィールド対応
   },
 
   // 出品2シートの設定
