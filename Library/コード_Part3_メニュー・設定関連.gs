@@ -2988,17 +2988,17 @@ function saveIntegratedSettings(formData) {
     docProps.setProperty('DDU_ADJUSTMENT_AMOUNT', String(dduAdjustment));
 
     // タグ自動判定の保存
-    docProps.setProperty('TAG_OVERRIDE_PROMPT', formData.tagOverridePrompt || 'true');
-    docProps.setProperty('TAG_OVERRIDE_TEMPLATE', formData.tagOverrideTemplate || 'true');
-    docProps.setProperty('TAG_OVERRIDE_SHIPPING_CATEGORY', formData.tagOverrideShippingCategory || 'true');
-    docProps.setProperty('TAG_OVERRIDE_PROFIT_RATE', formData.tagOverrideProfitRate || 'true');
-    docProps.setProperty('TAG_OVERRIDE_AD_RATE', formData.tagOverrideAdRate || 'true');
-    docProps.setProperty('TAG_OVERRIDE_FEE_RATE', formData.tagOverrideFeeRate || 'true');
-    docProps.setProperty('TAG_OVERRIDE_SHIPPING', formData.tagOverrideShipping || 'true');
-    docProps.setProperty('TAG_OVERRIDE_LOW_SHIPPING', formData.tagOverrideLowShipping || 'true');
-    docProps.setProperty('TAG_OVERRIDE_HIGH_SHIPPING', formData.tagOverrideHighShipping || 'true');
-    docProps.setProperty('TAG_OVERRIDE_THRESHOLD', formData.tagOverrideThreshold || 'true');
-    docProps.setProperty('TAG_OVERRIDE_CONDITION', formData.tagOverrideCondition || 'true');
+    docProps.setProperty('TAG_OVERRIDE_PROMPT', formData.tagOverridePrompt || 'false');
+    docProps.setProperty('TAG_OVERRIDE_TEMPLATE', formData.tagOverrideTemplate || 'false');
+    docProps.setProperty('TAG_OVERRIDE_SHIPPING_CATEGORY', formData.tagOverrideShippingCategory || 'false');
+    docProps.setProperty('TAG_OVERRIDE_PROFIT_RATE', formData.tagOverrideProfitRate || 'false');
+    docProps.setProperty('TAG_OVERRIDE_AD_RATE', formData.tagOverrideAdRate || 'false');
+    docProps.setProperty('TAG_OVERRIDE_FEE_RATE', formData.tagOverrideFeeRate || 'false');
+    docProps.setProperty('TAG_OVERRIDE_SHIPPING', formData.tagOverrideShipping || 'false');
+    docProps.setProperty('TAG_OVERRIDE_LOW_SHIPPING', formData.tagOverrideLowShipping || 'false');
+    docProps.setProperty('TAG_OVERRIDE_HIGH_SHIPPING', formData.tagOverrideHighShipping || 'false');
+    docProps.setProperty('TAG_OVERRIDE_THRESHOLD', formData.tagOverrideThreshold || 'false');
+    docProps.setProperty('TAG_OVERRIDE_CONDITION', formData.tagOverrideCondition || 'false');
 
     // 価格表示モードの保存
     setPriceDisplayMode(priceDisplayMode);

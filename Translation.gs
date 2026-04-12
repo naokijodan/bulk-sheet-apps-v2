@@ -848,7 +848,7 @@ function applyTranslationBatch_(sheet, results, conditionMode) {
     // tagOverrideCondition=ONの場合、AE列に数式が入っているため上書きしない
     // ========================================
     var docProps = PropertiesService.getDocumentProperties();
-    var tagOverrideCondition = docProps.getProperty('TAG_OVERRIDE_CONDITION') !== 'false';
+    var tagOverrideCondition = docProps.getProperty('TAG_OVERRIDE_CONDITION') === 'true';
     var conditionNotes = [];
 
     if (!tagOverrideCondition) {

@@ -145,17 +145,17 @@ function initialSetup() {
     tmpl.currentPriceDisplayMode = props.getProperty('PRICE_DISPLAY_MODE') || 'NORMAL';
 
     // タグ自動判定 設定（既定値）
-    tmpl.currentTagOverridePrompt = docProps.getProperty('TAG_OVERRIDE_PROMPT') || 'true';
-    tmpl.currentTagOverrideTemplate = docProps.getProperty('TAG_OVERRIDE_TEMPLATE') || 'true';
-    tmpl.currentTagOverrideShippingCategory = docProps.getProperty('TAG_OVERRIDE_SHIPPING_CATEGORY') || 'true';
-    tmpl.currentTagOverrideProfitRate = docProps.getProperty('TAG_OVERRIDE_PROFIT_RATE') || 'true';
-    tmpl.currentTagOverrideAdRate = docProps.getProperty('TAG_OVERRIDE_AD_RATE') || 'true';
-    tmpl.currentTagOverrideFeeRate = docProps.getProperty('TAG_OVERRIDE_FEE_RATE') || 'true';
-    tmpl.currentTagOverrideShipping = docProps.getProperty('TAG_OVERRIDE_SHIPPING') || 'true';
-    tmpl.currentTagOverrideLowShipping = docProps.getProperty('TAG_OVERRIDE_LOW_SHIPPING') || 'true';
-    tmpl.currentTagOverrideHighShipping = docProps.getProperty('TAG_OVERRIDE_HIGH_SHIPPING') || 'true';
-    tmpl.currentTagOverrideThreshold = docProps.getProperty('TAG_OVERRIDE_THRESHOLD') || 'true';
-    tmpl.currentTagOverrideCondition = docProps.getProperty('TAG_OVERRIDE_CONDITION') || 'true';
+    tmpl.currentTagOverridePrompt = docProps.getProperty('TAG_OVERRIDE_PROMPT') || 'false';
+    tmpl.currentTagOverrideTemplate = docProps.getProperty('TAG_OVERRIDE_TEMPLATE') || 'false';
+    tmpl.currentTagOverrideShippingCategory = docProps.getProperty('TAG_OVERRIDE_SHIPPING_CATEGORY') || 'false';
+    tmpl.currentTagOverrideProfitRate = docProps.getProperty('TAG_OVERRIDE_PROFIT_RATE') || 'false';
+    tmpl.currentTagOverrideAdRate = docProps.getProperty('TAG_OVERRIDE_AD_RATE') || 'false';
+    tmpl.currentTagOverrideFeeRate = docProps.getProperty('TAG_OVERRIDE_FEE_RATE') || 'false';
+    tmpl.currentTagOverrideShipping = docProps.getProperty('TAG_OVERRIDE_SHIPPING') || 'false';
+    tmpl.currentTagOverrideLowShipping = docProps.getProperty('TAG_OVERRIDE_LOW_SHIPPING') || 'false';
+    tmpl.currentTagOverrideHighShipping = docProps.getProperty('TAG_OVERRIDE_HIGH_SHIPPING') || 'false';
+    tmpl.currentTagOverrideThreshold = docProps.getProperty('TAG_OVERRIDE_THRESHOLD') || 'false';
+    tmpl.currentTagOverrideCondition = docProps.getProperty('TAG_OVERRIDE_CONDITION') || 'false';
 
     // ===== ✅ 重複チェック設定の規定値を詳細に設定 =====
     var workSheetName = props.getProperty('SHEET_NAME') || '作業シート';
@@ -3846,7 +3846,7 @@ function clearSelectedRowsValues(sheet, startRow, endRow, opt_method) {
 
     // AE列（31列目）をクリア（tagOverrideCondition=ONの場合は数式を保持）
     var docProps = PropertiesService.getDocumentProperties();
-    var tagOverrideCondition = docProps.getProperty('TAG_OVERRIDE_CONDITION') !== 'false';
+    var tagOverrideCondition = docProps.getProperty('TAG_OVERRIDE_CONDITION') === 'true';
     if (!tagOverrideCondition) {
       sheet.getRange(startRow, CONFIG.COLUMNS.CONDITION, rowCount, 1).clearContent();
     }

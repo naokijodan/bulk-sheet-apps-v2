@@ -336,17 +336,17 @@ function getSettings() {
     duplicateCheckEnabled: docProps.getProperty('DUPLICATE_CHECK_ENABLED') === 'true',
 
     // タグ自動判定
-    tagOverridePrompt: docProps.getProperty('TAG_OVERRIDE_PROMPT') !== 'false',
-    tagOverrideTemplate: docProps.getProperty('TAG_OVERRIDE_TEMPLATE') !== 'false',
-    tagOverrideShippingCategory: docProps.getProperty('TAG_OVERRIDE_SHIPPING_CATEGORY') !== 'false',
-    tagOverrideProfitRate: docProps.getProperty('TAG_OVERRIDE_PROFIT_RATE') !== 'false',
-    tagOverrideAdRate: docProps.getProperty('TAG_OVERRIDE_AD_RATE') !== 'false',
-    tagOverrideFeeRate: docProps.getProperty('TAG_OVERRIDE_FEE_RATE') !== 'false',
-    tagOverrideShipping: docProps.getProperty('TAG_OVERRIDE_SHIPPING') !== 'false',
-    tagOverrideLowShipping: docProps.getProperty('TAG_OVERRIDE_LOW_SHIPPING') !== 'false',
-    tagOverrideHighShipping: docProps.getProperty('TAG_OVERRIDE_HIGH_SHIPPING') !== 'false',
-    tagOverrideThreshold: docProps.getProperty('TAG_OVERRIDE_THRESHOLD') !== 'false',
-    tagOverrideCondition: docProps.getProperty('TAG_OVERRIDE_CONDITION') !== 'false'
+    tagOverridePrompt: docProps.getProperty('TAG_OVERRIDE_PROMPT') === 'true',
+    tagOverrideTemplate: docProps.getProperty('TAG_OVERRIDE_TEMPLATE') === 'true',
+    tagOverrideShippingCategory: docProps.getProperty('TAG_OVERRIDE_SHIPPING_CATEGORY') === 'true',
+    tagOverrideProfitRate: docProps.getProperty('TAG_OVERRIDE_PROFIT_RATE') === 'true',
+    tagOverrideAdRate: docProps.getProperty('TAG_OVERRIDE_AD_RATE') === 'true',
+    tagOverrideFeeRate: docProps.getProperty('TAG_OVERRIDE_FEE_RATE') === 'true',
+    tagOverrideShipping: docProps.getProperty('TAG_OVERRIDE_SHIPPING') === 'true',
+    tagOverrideLowShipping: docProps.getProperty('TAG_OVERRIDE_LOW_SHIPPING') === 'true',
+    tagOverrideHighShipping: docProps.getProperty('TAG_OVERRIDE_HIGH_SHIPPING') === 'true',
+    tagOverrideThreshold: docProps.getProperty('TAG_OVERRIDE_THRESHOLD') === 'true',
+    tagOverrideCondition: docProps.getProperty('TAG_OVERRIDE_CONDITION') === 'true'
   };
 
   var missing = [];
