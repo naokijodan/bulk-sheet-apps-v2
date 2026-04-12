@@ -228,6 +228,19 @@ var IS_INITIAL_DATA = [
   { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Power Source', field_type: 'recommended', priority: 6, notes: 'AC/Battery/USB' },
   { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Color', field_type: 'recommended', priority: 7, notes: '' },
   { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Country of Origin', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Wireless Technology', field_type: 'recommended', priority: 9, notes: 'Bluetooth / Wi-Fi / NFC / AptX / LDAC / AAC / None' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Form Factor', field_type: 'recommended', priority: 10, notes: 'In-Ear / Over-Ear / On-Ear / TWS / Portable / Desktop / Bookshelf' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Number of Earpieces', field_type: 'optional', priority: 11, notes: '1 (片耳) / 2 (両耳) / N/A' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Microphone Type', field_type: 'optional', priority: 12, notes: 'Built-in / Detachable / None' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Department', field_type: 'optional', priority: 13, notes: '' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Material', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Year Manufactured', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Vintage', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Series', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Theme', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Occasion', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Style', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Suitable For', field_type: 'optional', priority: 21, notes: '' },
 
   // === Trading Cards ===
   { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Game', field_type: 'required', priority: 1, notes: 'Pokemon, Yu-Gi-Oh!, Magic: The Gathering等' },
@@ -378,6 +391,20 @@ var IS_INITIAL_DATA = [
   { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Color', field_type: 'recommended', priority: 5, notes: '' },
   { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Material', field_type: 'recommended', priority: 6, notes: 'Mohair, Plush, Vinyl, ABS等' },
   { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Country of Origin', field_type: 'recommended', priority: 7, notes: '製造国。Made in Japanが強いキーワード' },
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Franchise', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Product Line', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Set Includes', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Doll Gender', field_type: 'recommended', priority: 11, notes: 'Female / Male / Neutral / N/A' },
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Doll Hair Color', field_type: 'optional', priority: 12, notes: 'Black / Brown / Blonde / White / Custom等' },
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Doll Eye Color', field_type: 'optional', priority: 13, notes: 'Brown / Blue / Green / Custom等' },
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Doll Complexion', field_type: 'optional', priority: 14, notes: 'Light / Medium / Dark / Custom等' },
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Department', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Theme', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Features', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Vintage', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Occasion', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Series', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Year Manufactured', field_type: 'optional', priority: 21, notes: '' },
 
   // === Scarves (スカーフ) ===
   { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -616,6 +643,17 @@ var IS_INITIAL_DATA = [
   { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Buoyancy', field_type: 'recommended', priority: 8, notes: 'Floating / Sinking / Suspending' },
   { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Item Length', field_type: 'recommended', priority: 9, notes: 'mm or inches' },
   { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Bait Type', field_type: 'required', priority: 11, notes: 'eBay mandatory。Artificial Lure / Soft Bait / Metal Jig / Fly / Live Bait等' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Material', field_type: 'recommended', priority: 12, notes: 'ABS / Wood / Metal / Soft Plastic等' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Item Weight', field_type: 'recommended', priority: 13, notes: '' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Number in Pack', field_type: 'recommended', priority: 14, notes: '1個/3個/5個セット等' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Action', field_type: 'recommended', priority: 15, notes: 'Slow / Moderate / Fast / Extra Fast' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Water Type', field_type: 'recommended', priority: 16, notes: 'Freshwater / Saltwater / Both' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Department', field_type: 'recommended', priority: 17, notes: '' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Features', field_type: 'recommended', priority: 18, notes: '' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Vintage', field_type: 'recommended', priority: 19, notes: 'Yes / No' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Series', field_type: 'recommended', priority: 20, notes: '' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Theme', field_type: 'recommended', priority: 21, notes: '' },
 
   // === Mecha Model Kits ===
   { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Brand', field_type: 'required', priority: 1, notes: 'Bandai / Kotobukiya / Wave等' },
@@ -1160,6 +1198,17 @@ var IS_INITIAL_DATA = [
   { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Size', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Time Period Produced', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Style', field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Theme', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Color', field_type: 'recommended', priority: 13, notes: '' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Material', field_type: 'recommended', priority: 14, notes: '' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Origin/Kiln', field_type: 'recommended', priority: 15, notes: '' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Maker', field_type: 'recommended', priority: 16, notes: '' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Features', field_type: 'recommended', priority: 17, notes: '' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Vintage', field_type: 'recommended', priority: 18, notes: 'Yes / No' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Department', field_type: 'recommended', priority: 19, notes: '' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Season', field_type: 'recommended', priority: 20, notes: '' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Occasion', field_type: 'recommended', priority: 21, notes: '' },
 
   // === Pottery ===
   { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Brand', field_type: 'recommended', priority: 1, notes: '窯元名（香蘭社/深川製磁/柿右衛門等）' },
@@ -1172,6 +1221,17 @@ var IS_INITIAL_DATA = [
   { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Pattern', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Size', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Era/Period', field_type: 'recommended', priority: 11, notes: 'Edo / Meiji / Taisho / Showa / Contemporary等' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Maker', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Glaze/Finish', field_type: 'recommended', priority: 13, notes: 'Celadon / Overglaze / Unglazed / Colored等' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Subject', field_type: 'recommended', priority: 14, notes: '' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Dimensions', field_type: 'recommended', priority: 15, notes: '' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Features', field_type: 'recommended', priority: 16, notes: '' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Vintage', field_type: 'recommended', priority: 17, notes: 'Yes / No' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Department', field_type: 'recommended', priority: 18, notes: '' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Theme', field_type: 'recommended', priority: 19, notes: '' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Occasion', field_type: 'recommended', priority: 20, notes: '' },
+  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Number of Pieces', field_type: 'recommended', priority: 21, notes: '' },
 
   // === Belts ===
   { category: 'Belts', tag_jp: 'ベルト,レザーベルト', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -1183,6 +1243,18 @@ var IS_INITIAL_DATA = [
   { category: 'Belts', tag_jp: 'ベルト,レザーベルト', field_name: 'Style', field_type: 'recommended', priority: 7, notes: '' },
   { category: 'Belts', tag_jp: 'ベルト,レザーベルト', field_name: 'Theme', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Belts', tag_jp: 'ベルト,レザーベルト', field_name: 'Country of Origin', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Belts', tag_jp: 'ベルト,レザーベルト', field_name: 'Closure', field_type: 'recommended', priority: 10, notes: 'Pin Buckle / Clasp / Hook / Velcro / Automatic' },
+  { category: 'Belts', tag_jp: 'ベルト,レザーベルト', field_name: 'Features', field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'Belts', tag_jp: 'ベルト,レザーベルト', field_name: 'Pattern', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Belts', tag_jp: 'ベルト,レザーベルト', field_name: 'Size Type', field_type: 'optional', priority: 13, notes: 'Regular / Long / Short / Petite' },
+  { category: 'Belts', tag_jp: 'ベルト,レザーベルト', field_name: 'Belt Width', field_type: 'optional', priority: 14, notes: '25mm / 30mm / 35mm / 40mm等' },
+  { category: 'Belts', tag_jp: 'ベルト,レザーベルト', field_name: 'Accents', field_type: 'optional', priority: 15, notes: 'Silver-Tone / Gold-Tone / Rhinestone / None等' },
+  { category: 'Belts', tag_jp: 'ベルト,レザーベルト', field_name: 'Vintage', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Belts', tag_jp: 'ベルト,レザーベルト', field_name: 'Occasion', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Belts', tag_jp: 'ベルト,レザーベルト', field_name: 'Season', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Belts', tag_jp: 'ベルト,レザーベルト', field_name: 'Era', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Belts', tag_jp: 'ベルト,レザーベルト', field_name: 'Designer', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Belts', tag_jp: 'ベルト,レザーベルト', field_name: 'Official/Unofficial', field_type: 'optional', priority: 21, notes: '' },
 
   // === Belt Buckles ===
   { category: 'Belt Buckles', tag_jp: 'ベルトバックル', field_name: 'Brand', field_type: 'recommended', priority: 1, notes: '' },
@@ -4617,7 +4689,10 @@ var IS_CATEGORY_FIELDS = {
     'Brand', 'Model', 'Type', 'Series', 'Color', 'Maximum Resolution', 'Battery Type', 'Features', 'Lens Mount', 'Country of Origin',
     'Optical Zoom', 'Digital Zoom', 'Maximum Aperture', 'Sensor Size', 'Year Manufactured', 'Connectivity', 'Department', 'Vintage', 'Material', 'Theme', 'Style',
   ],
-  'Electronics':   ['Brand', 'Model', 'Type', 'Connectivity', 'Features', 'Power Source', 'Color', 'Country of Origin'],
+  'Electronics': [
+    'Brand', 'Model', 'Type', 'Connectivity', 'Features', 'Power Source', 'Color', 'Country of Origin',
+    'Wireless Technology', 'Form Factor', 'Number of Earpieces', 'Microphone Type', 'Department', 'Material', 'Year Manufactured', 'Vintage', 'Series', 'Theme', 'Occasion', 'Style', 'Suitable For',
+  ],
   'Trading Cards': [
     'Game', 'Set', 'Character', 'Card Name', 'Card Number', 'Rarity', 'Finish', 'Graded', 'Professional Grader', 'Grade',
     'Card Type', 'Speciality', 'Age Level', 'Features', 'Language', 'Type', 'Era', 'Year', 'Country of Origin', 'Color', 'Vintage',
@@ -4750,7 +4825,10 @@ var IS_CATEGORY_FIELDS = {
     'Department'           // 21. 任意
   ],
   'Soap':        ['Brand', 'Type', 'Scent', 'Product Line', 'Color', 'Country of Origin'],
-  'Dolls & Plush': ['Brand', 'Type', 'Character', 'Size', 'Color', 'Material', 'Country of Origin'],
+  'Dolls & Plush': [
+    'Brand', 'Type', 'Character', 'Size', 'Color', 'Material', 'Country of Origin',
+    'Franchise', 'Product Line', 'Set Includes', 'Doll Gender', 'Doll Hair Color', 'Doll Eye Color', 'Doll Complexion', 'Department', 'Theme', 'Features', 'Vintage', 'Occasion', 'Series', 'Year Manufactured',
+  ],
   'Hats': [
     'Brand', 'Style', 'Department', 'Color', 'Material', 'Pattern', 'Season', 'Features', 'Size', 'Country of Origin',
     'Type', 'Fabric Type', 'Character', 'Theme', 'Vintage', 'Occasion', 'Official/Unofficial', 'Lining Material', 'Closure', 'Era', 'Designer',
@@ -4771,9 +4849,18 @@ var IS_CATEGORY_FIELDS = {
   'Pens':          ['Brand', 'Material', 'Ink Color', 'Nib Size', 'Nib Material', 'Type', 'Vintage', 'Features', 'Country of Origin'],
   'Wallets':       ['Brand', 'Type', 'Material', 'Color', 'Style', 'Department', 'Features', 'Theme', 'Country of Origin', 'Closure'],
   'Art':           ['Artist', 'Production Technique', 'Style', 'Subject', 'Theme', 'Size', 'Material', 'Original/Licensed Reproduction', 'Time Period Produced', 'Country of Origin'],
-  'Kakejiku':      ['Artist', 'Production Technique', 'Support', 'Mounting Type', 'Scroll Rod Material', 'Box Type', 'Subject', 'Size', 'Time Period Produced', 'Country of Origin'],
-  'Pottery':       ['Brand', 'Type', 'Material', 'Color', 'Production Technique', 'Origin/Kiln', 'Style', 'Pattern', 'Size', 'Country of Origin'],
-  'Belts':         ['Brand', 'Type', 'Material', 'Color', 'Size', 'Department', 'Style', 'Theme', 'Country of Origin'],
+  'Kakejiku':      [
+    'Artist', 'Production Technique', 'Support', 'Mounting Type', 'Scroll Rod Material', 'Box Type', 'Subject', 'Size', 'Time Period Produced', 'Country of Origin',
+    'Style', 'Theme', 'Color', 'Material', 'Origin/Kiln', 'Maker', 'Features', 'Vintage', 'Department', 'Season', 'Occasion',
+  ],
+  'Pottery':       [
+    'Brand', 'Type', 'Material', 'Color', 'Production Technique', 'Origin/Kiln', 'Style', 'Pattern', 'Size', 'Country of Origin',
+    'Era/Period', 'Maker', 'Glaze/Finish', 'Subject', 'Dimensions', 'Features', 'Vintage', 'Department', 'Theme', 'Occasion', 'Number of Pieces',
+  ],
+  'Belts': [
+    'Brand', 'Type', 'Material', 'Color', 'Size', 'Department', 'Style', 'Theme', 'Country of Origin',
+    'Closure', 'Features', 'Pattern', 'Size Type', 'Belt Width', 'Accents', 'Vintage', 'Occasion', 'Season', 'Era', 'Designer', 'Official/Unofficial',
+  ],
   'Belt Buckles':  [
     'Brand', 'Type', 'Material', 'Color', 'Style', 'Department', 'Fits Belt Width', 'Pattern', 'Theme', 'Country of Origin',
     'Size', 'Trim Material', 'Lining Material', 'Features', 'Season', 'Fabric Type', 'Performance/Activity', 'Vintage', 'Occasion', 'Era', 'Designer',
@@ -4863,7 +4950,10 @@ var IS_CATEGORY_FIELDS = {
     'Product Line',    // 20. 任意
     'Item Weight'      // 21. 任意（ロッド重量）
   ],
-  'Fishing Lures':       ['Brand', 'Type', 'Model', 'Color', 'Weight', 'Fishing Type', 'Fish Species', 'Buoyancy', 'Item Length', 'Country of Origin'],
+  'Fishing Lures':       [
+    'Brand', 'Type', 'Model', 'Color', 'Weight', 'Fishing Type', 'Fish Species', 'Buoyancy', 'Item Length', 'Country of Origin',
+    'Bait Type', 'Material', 'Item Weight', 'Number in Pack', 'Action', 'Water Type', 'Department', 'Features', 'Vintage', 'Series', 'Theme',
+  ],
   'Mecha Model Kits': [
     'Brand',               //  1. 必須
     'Series/Franchise',    //  2. 必須

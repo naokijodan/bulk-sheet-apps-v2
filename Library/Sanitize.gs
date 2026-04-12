@@ -951,6 +951,8 @@ var FIELD_EN_TO_JP_ = {
   'Rod Power': 'パワー', 'Rod Action': 'アクション', 'Lure Weight': 'ルアー重量',
   'Buoyancy': '浮力',
   'Number of Guides': 'ガイド数', 'Line Weight': '適合ライン', 'Pieces': 'ピース数', 'Item Weight': 'アイテム重量',
+  // ルアー（Fishing Lures）
+  'Bait Type': 'ベイトタイプ', 'Number in Pack': '入数', 'Water Type': '水域',
   // フィギュア（Figures）
   'Movie': '映画作品名', 'TV Show': 'テレビ番組名', 'Featured Person/Artist': 'モデル/アーティスト',
   // ブローチ（Brooches）
@@ -985,6 +987,8 @@ var FIELD_EN_TO_JP_ = {
   'Action': 'アクション', 'Polyphony': 'ポリフォニー', 'Touch Sensitivity': 'タッチ感度',
   // エフェクター・アンプ（Effects & Amps）
   'To Fit': '対応楽器', 'Channel Count': 'チャンネル数', 'Wattage': 'ワット数',
+  // 電子機器（Electronics）
+  'Wireless Technology': 'ワイヤレス方式', 'Form Factor': 'フォームファクター', 'Number of Earpieces': '片耳/両耳', 'Microphone Type': 'マイクタイプ',
   // 万年筆
   'Ink Color': 'インク色', 'Nib Size': 'ニブサイズ', 'Nib Material': 'ニブ素材',
   // パイプ
@@ -1051,6 +1055,10 @@ var FIELD_EN_TO_JP_ = {
   'Item Width': '幅', 'Fits Belt Width': '対応ベルト幅',
   // ベルトバックル（Belt Buckles）
   'Trim Material': 'トリム素材', 'Performance/Activity': '用途/アクティビティ',
+  // ベルト（Belts）
+  'Size Type': 'サイズタイプ', 'Belt Width': 'ベルト幅', 'Accents': 'アクセント',
+  // ドール・ぬいぐるみ（Dolls & Plush）
+  'Doll Gender': '性別', 'Doll Hair Color': '髪色', 'Doll Eye Color': '目の色', 'Doll Complexion': '肌色',
   'Hair Type': '髪質', 'Collection': 'コレクション',
   'Year Manufactured': '製造年'
 };
