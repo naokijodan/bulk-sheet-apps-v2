@@ -1076,7 +1076,11 @@ var FIELD_EN_TO_JP_ = {
   // ドール・ぬいぐるみ（Dolls & Plush）
   'Doll Gender': '性別', 'Doll Hair Color': '髪色', 'Doll Eye Color': '目の色', 'Doll Complexion': '肌色',
   'Hair Type': '髪質', 'Collection': 'コレクション',
-  'Year Manufactured': '製造年'
+  'Year Manufactured': '製造年',
+  // テニス（Tennis）
+  'Level': 'レベル',
+  // 美術（Art）
+  'Framing': 'フレーミング', 'Signed': 'サイン入り'
 };
 
 // 汎用フォールバックフィールド（IS_CATEGORY_FIELDSにもSANITIZE_FIELDS_にもないカテゴリ用）

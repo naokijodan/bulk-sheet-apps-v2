@@ -640,6 +640,17 @@ var IS_INITIAL_DATA = [
   { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Original/Licensed Reproduction', field_type: 'recommended', priority: 8, notes: 'Original / Reproduction / Later Printing' },
   { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Edition', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Theme', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Department', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Features', field_type: 'optional', priority: 13, notes: '' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Series', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Vintage', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Collection', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Framing', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Signed', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Number of Pieces', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Occasion', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Color', field_type: 'optional', priority: 21, notes: '' },
 
   // === Buddhist Art ===
   { category: 'Buddhist Art', tag_jp: '仏像,仏具,仏教美術,神具,木彫,銅像,観音,如来,数珠,木魚', field_name: 'Type', field_type: 'required', priority: 1, notes: 'Statue / Scroll / Altar Tool / Prayer Beads等' },
@@ -707,6 +718,20 @@ var IS_INITIAL_DATA = [
   { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'String Pattern', field_type: 'recommended', priority: 5, notes: '' },
   { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Weight', field_type: 'recommended', priority: 6, notes: '' },
   { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Country of Origin', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Model', field_type: 'optional', priority: 8, notes: 'ラケットモデル名（IS_CATEGORY_FIELDS 既存、IS_INITIAL_DATA 未登録のため追加）' },
+  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Flex', field_type: 'optional', priority: 9, notes: 'フレックス（IS_CATEGORY_FIELDS 既存、IS_INITIAL_DATA 未登録のため追加）' },
+  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Balance', field_type: 'optional', priority: 10, notes: 'バランスポイント（IS_CATEGORY_FIELDS 既存、IS_INITIAL_DATA 未登録のため追加）' },
+  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Color', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Material', field_type: 'optional', priority: 12, notes: 'フレーム素材 (Carbon / Aluminum等)' },
+  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Level', field_type: 'optional', priority: 13, notes: '対象レベル (Beginner / Intermediate / Advanced等)' },
+  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Series', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Features', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Gender', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Age Group', field_type: 'optional', priority: 17, notes: '対象年齢層 (Adult / Junior等)' },
+  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Department', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Vintage', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Theme', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Number of Pieces', field_type: 'optional', priority: 21, notes: '' },
 
   // === Baseball ===
   { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -1087,6 +1112,17 @@ var IS_INITIAL_DATA = [
   { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Item Width', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Theme', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Features', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Vintage', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Era', field_type: 'optional', priority: 13, notes: '' },
+  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Occasion', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Season', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Series', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Designer', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Official/Unofficial', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Collection', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Number of Pieces', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Gender', field_type: 'optional', priority: 21, notes: '' },
 
   // === Handkerchiefs ===
   { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Brand', field_type: 'recommended', priority: 1, notes: '' },
@@ -1121,6 +1157,18 @@ var IS_INITIAL_DATA = [
   { category: 'Tie Accessories', tag_jp: 'ネクタイピン,タイピン,タイバー,スカーフリング', field_name: 'Material', field_type: 'recommended', priority: 7, notes: '' },
   { category: 'Tie Accessories', tag_jp: 'ネクタイピン,タイピン,タイバー,スカーフリング', field_name: 'Department', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Tie Accessories', tag_jp: 'ネクタイピン,タイピン,タイバー,スカーフリング', field_name: 'Country of Origin', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Tie Accessories', tag_jp: 'ネクタイピン,タイピン,タイバー,スカーフリング', field_name: 'Features', field_type: 'optional', priority: 10, notes: '' },
+  { category: 'Tie Accessories', tag_jp: 'ネクタイピン,タイピン,タイバー,スカーフリング', field_name: 'Theme', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Tie Accessories', tag_jp: 'ネクタイピン,タイピン,タイバー,スカーフリング', field_name: 'Style', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Tie Accessories', tag_jp: 'ネクタイピン,タイピン,タイバー,スカーフリング', field_name: 'Vintage', field_type: 'optional', priority: 13, notes: '' },
+  { category: 'Tie Accessories', tag_jp: 'ネクタイピン,タイピン,タイバー,スカーフリング', field_name: 'Era', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Tie Accessories', tag_jp: 'ネクタイピン,タイピン,タイバー,スカーフリング', field_name: 'Occasion', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Tie Accessories', tag_jp: 'ネクタイピン,タイピン,タイバー,スカーフリング', field_name: 'Series', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Tie Accessories', tag_jp: 'ネクタイピン,タイピン,タイバー,スカーフリング', field_name: 'Official/Unofficial', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Tie Accessories', tag_jp: 'ネクタイピン,タイピン,タイバー,スカーフリング', field_name: 'Pattern', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Tie Accessories', tag_jp: 'ネクタイピン,タイピン,タイバー,スカーフリング', field_name: 'Collection', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Tie Accessories', tag_jp: 'ネクタイピン,タイピン,タイバー,スカーフリング', field_name: 'Number of Pieces', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Tie Accessories', tag_jp: 'ネクタイピン,タイピン,タイバー,スカーフリング', field_name: 'Gender', field_type: 'optional', priority: 21, notes: '' },
 
   // === Glassware ===
   { category: 'Glassware', tag_jp: 'ガラス細工,クリスタル,花瓶,オブジェ', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -1256,6 +1304,19 @@ var IS_INITIAL_DATA = [
   { category: 'Key Chains', tag_jp: 'キーリング,キーホルダー,キーケース', field_name: 'Era', field_type: 'recommended', priority: 6, notes: '' },
   { category: 'Key Chains', tag_jp: 'キーリング,キーホルダー,キーケース', field_name: 'Features', field_type: 'recommended', priority: 7, notes: '' },
   { category: 'Key Chains', tag_jp: 'キーリング,キーホルダー,キーケース', field_name: 'Country of Origin', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Key Chains', tag_jp: 'キーリング,キーホルダー,キーケース', field_name: 'Part Type', field_type: 'required', priority: 9, notes: 'mandatory是正' },
+  { category: 'Key Chains', tag_jp: 'キーリング,キーホルダー,キーケース', field_name: 'Type', field_type: 'optional', priority: 10, notes: '' },
+  { category: 'Key Chains', tag_jp: 'キーリング,キーホルダー,キーケース', field_name: 'Department', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Key Chains', tag_jp: 'キーリング,キーホルダー,キーケース', field_name: 'Occasion', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Key Chains', tag_jp: 'キーリング,キーホルダー,キーケース', field_name: 'Series', field_type: 'optional', priority: 13, notes: '' },
+  { category: 'Key Chains', tag_jp: 'キーリング,キーホルダー,キーケース', field_name: 'Character', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Key Chains', tag_jp: 'キーリング,キーホルダー,キーケース', field_name: 'Franchise', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Key Chains', tag_jp: 'キーリング,キーホルダー,キーケース', field_name: 'Style', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Key Chains', tag_jp: 'キーリング,キーホルダー,キーケース', field_name: 'Vintage', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Key Chains', tag_jp: 'キーリング,キーホルダー,キーケース', field_name: 'Official/Unofficial', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Key Chains', tag_jp: 'キーリング,キーホルダー,キーケース', field_name: 'Season', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Key Chains', tag_jp: 'キーリング,キーホルダー,キーケース', field_name: 'Number of Pieces', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Key Chains', tag_jp: 'キーリング,キーホルダー,キーケース', field_name: 'Collection', field_type: 'optional', priority: 21, notes: '' },
 
   // === Charms ===
   { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -1430,6 +1491,17 @@ var IS_INITIAL_DATA = [
   { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Original/Licensed Reproduction', field_type: 'recommended', priority: 8, notes: 'Original / Print / Reproduction' },
   { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Time Period Produced', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Listed By', field_type: 'required', priority: 11, notes: 'mandatory是正' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Edition', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Framing', field_type: 'optional', priority: 13, notes: '' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Signed', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Department', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Features', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Era/Period', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Vintage', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Series', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Collection', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Number of Pieces', field_type: 'optional', priority: 21, notes: '' },
 
   // === Kakejiku (掛軸) ===
   { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Artist', field_type: 'required', priority: 1, notes: '' },
@@ -4986,12 +5058,18 @@ var IS_CATEGORY_FIELDS = {
     'Department', 'Style', 'Features', 'Occasion', 'Theme', 'Season',
     'Series', 'Vintage', 'Era', 'Official/Unofficial', 'Designer', 'Gender', 'Number of Pieces', 'Collection',
   ],
-  'Neckties':      ['Brand', 'Color', 'Material', 'Type', 'Pattern', 'Style', 'Department', 'Item Width', 'Theme', 'Country of Origin'],
+  'Neckties': [
+    'Brand', 'Color', 'Material', 'Type', 'Pattern', 'Style', 'Department', 'Item Width', 'Theme', 'Country of Origin',
+    'Features', 'Vintage', 'Era', 'Occasion', 'Season', 'Series', 'Designer', 'Official/Unofficial', 'Collection', 'Number of Pieces', 'Gender',
+  ],
   'Handkerchiefs': [
     'Brand', 'Color', 'Material', 'Pattern', 'Style', 'Country of Origin', 'Gender', 'Occasion',
     'Type', 'Department', 'Size', 'Features', 'Theme', 'Series', 'Vintage', 'Era', 'Season', 'Official/Unofficial', 'Designer', 'Collection', 'Number of Pieces',
   ],
-  'Tie Accessories': ['Brand', 'Type', 'Metal', 'Metal Purity', 'Main Stone', 'Color', 'Material', 'Department', 'Country of Origin'],
+  'Tie Accessories': [
+    'Brand', 'Type', 'Metal', 'Metal Purity', 'Main Stone', 'Color', 'Material', 'Department', 'Country of Origin',
+    'Features', 'Theme', 'Style', 'Vintage', 'Era', 'Occasion', 'Series', 'Official/Unofficial', 'Pattern', 'Collection', 'Number of Pieces', 'Gender',
+  ],
   'Glassware': [
     'Brand', 'Type', 'Material', 'Color', 'Production Technique', 'Style', 'Pattern', 'Theme', 'Subject', 'Country of Origin',
     'Glassware Type', 'Capacity', 'Department', 'Occasion', 'Origin', 'Era', 'Vintage', 'Features', 'Set Includes', 'Designer', 'Number of Pieces',
@@ -5014,7 +5092,10 @@ var IS_CATEGORY_FIELDS = {
     'Size', 'Department', 'Features', 'Age Group', 'Gender', 'Theme', 'Series', 'Franchise', 'Occasion', 'Vintage', 'Style', 'Official/Unofficial', 'Era', 'Pattern', 'Number of Pieces',
   ],
   'Combs':         ['Type', 'Brand', 'Color', 'Material', 'Theme', 'Department', 'Features', 'Country of Origin'],
-  'Key Chains':    ['Brand', 'Material', 'Color', 'Character Family', 'Theme', 'Era', 'Features', 'Country of Origin'],
+  'Key Chains': [
+    'Brand', 'Material', 'Color', 'Character Family', 'Theme', 'Era', 'Features', 'Country of Origin',
+    'Part Type', 'Type', 'Department', 'Occasion', 'Series', 'Character', 'Franchise', 'Style', 'Vintage', 'Official/Unofficial', 'Season', 'Number of Pieces', 'Collection',
+  ],
   'Charms':        [
     'Brand',               //  1. 必須
     'Style',               //  2. 必須（eBay 必須是正）
@@ -5138,7 +5219,10 @@ var IS_CATEGORY_FIELDS = {
     'Color', 'Size', 'Series', 'Theme', 'Department', 'Style', 'Occasion', 'Era', 'Pattern', 'Official/Unofficial', 'Number of Pieces', 'Designer',
   ],
   'Wallets':       ['Brand', 'Type', 'Material', 'Color', 'Style', 'Department', 'Features', 'Theme', 'Country of Origin', 'Closure'],
-  'Art':           ['Artist', 'Production Technique', 'Style', 'Subject', 'Theme', 'Size', 'Material', 'Original/Licensed Reproduction', 'Time Period Produced', 'Country of Origin'],
+  'Art': [
+    'Artist', 'Production Technique', 'Style', 'Subject', 'Theme', 'Size', 'Material', 'Original/Licensed Reproduction', 'Time Period Produced', 'Country of Origin',
+    'Listed By', 'Edition', 'Framing', 'Signed', 'Department', 'Features', 'Era/Period', 'Vintage', 'Series', 'Collection', 'Number of Pieces',
+  ],
   'Kakejiku':      [
     'Artist', 'Production Technique', 'Support', 'Mounting Type', 'Scroll Rod Material', 'Box Type', 'Subject', 'Size', 'Time Period Produced', 'Country of Origin',
     'Style', 'Theme', 'Color', 'Material', 'Origin/Kiln', 'Maker', 'Features', 'Vintage', 'Department', 'Season', 'Occasion',
@@ -5169,7 +5253,10 @@ var IS_CATEGORY_FIELDS = {
     'Color', 'Style', 'Season', 'Number of Pieces', 'Technique', 'School/Maker', 'Department', 'Features', 'Vintage', 'Dimensions', 'Occasion',
   ],
   'Bonsai':              ['Type', 'Material', 'Size', 'Color', 'Shape', 'Maker/Kiln', 'Era/Period', 'Glaze/Finish', 'Drainage Holes', 'Country of Origin'],
-  'Prints':              ['Listed By', 'Medium', 'Subject', 'Maker', 'Style', 'Size', 'Era/Period', 'Original/Licensed Reproduction', 'Edition', 'Country of Origin'],
+  'Prints': [
+    'Listed By', 'Medium', 'Subject', 'Maker', 'Style', 'Size', 'Era/Period', 'Original/Licensed Reproduction', 'Edition', 'Country of Origin',
+    'Theme', 'Department', 'Features', 'Series', 'Vintage', 'Collection', 'Framing', 'Signed', 'Number of Pieces', 'Occasion', 'Color',
+  ],
   'Buddhist Art': [
     'Type', 'Material', 'Subject/Deity', 'Maker', 'Technique', 'Style', 'Size', 'Era', 'Original/Reproduction', 'Country of Origin',
     'Color', 'Features', 'Department', 'Theme', 'Vintage', 'Occasion', 'Collection', 'Official/Unofficial', 'Number of Pieces', 'Series', 'Pattern',
@@ -5198,7 +5285,10 @@ var IS_CATEGORY_FIELDS = {
     'Vintage',             // 20. 任意
     'Department'           // 21. 任意
   ],
-  'Tennis':              ['Brand', 'Type', 'Model', 'Head Size', 'Grip Size', 'String Pattern', 'Weight', 'Flex', 'Balance', 'Country of Origin'],
+  'Tennis': [
+    'Brand', 'Type', 'Model', 'Head Size', 'Grip Size', 'String Pattern', 'Weight', 'Flex', 'Balance', 'Country of Origin',
+    'Color', 'Material', 'Level', 'Series', 'Features', 'Gender', 'Age Group', 'Department', 'Vintage', 'Theme', 'Number of Pieces',
+  ],
   'Baseball': [
     'Brand',               //  1. 必須
     'Handedness',          //  2. 推奨
