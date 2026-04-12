@@ -207,6 +207,17 @@ var IS_INITIAL_DATA = [
   { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Features', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Lens Mount', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Optical Zoom', field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Digital Zoom', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Maximum Aperture', field_type: 'recommended', priority: 13, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Sensor Size', field_type: 'recommended', priority: 14, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Year Manufactured', field_type: 'recommended', priority: 15, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Connectivity', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Department', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Vintage', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Material', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Theme', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Style', field_type: 'optional', priority: 21, notes: '' },
 
   // === Electronics ===
   { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -263,6 +274,17 @@ var IS_INITIAL_DATA = [
   { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Connectivity', field_type: 'recommended', priority: 8, notes: 'HDMI, Wi-Fi, Bluetooth等' },
   { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Edition', field_type: 'recommended', priority: 9, notes: '限定版, 初期型, 後期型等' },
   { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Year Manufactured',  field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Charger Included',    field_type: 'recommended', priority: 12, notes: 'Yes / No / Not Applicable' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Features',            field_type: 'recommended', priority: 13, notes: '' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Department',          field_type: 'optional',    priority: 14, notes: '' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Material',            field_type: 'optional',    priority: 15, notes: '' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Vintage',             field_type: 'optional',    priority: 16, notes: '' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Theme',               field_type: 'optional',    priority: 17, notes: '' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Occasion',            field_type: 'optional',    priority: 18, notes: '' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Series/Line',         field_type: 'optional',    priority: 19, notes: '' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Official/Unofficial', field_type: 'optional',    priority: 20, notes: '' },
+  { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Compatible Model',    field_type: 'optional',    priority: 21, notes: '' },
 
   // === Video Game Accessories ===
   { category: 'Video Game Accessories', tag_jp: 'コントローラー,ジョイスティック,メモリーカード,ゲーム周辺機器', field_name: 'Brand', field_type: 'required', priority: 1, notes: 'Nintendo, Sony, Sega, Hori, 8BitDo等' },
@@ -377,7 +399,18 @@ var IS_INITIAL_DATA = [
   { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Season', field_type: 'recommended', priority: 7, notes: 'Spring, Summer, Fall, Winter' },
   { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Features', field_type: 'recommended', priority: 8, notes: 'Adjustable, Breathable, Mesh Back, UV Protection, Wide Brim, Lined, Ear Flap, Waterproof' },
   { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Size', field_type: 'recommended', priority: 9, notes: 'One Size, S, M, L, XL, 7 1/8, 7 1/4, 7 3/8, 7 1/2, Adjustable' },
-  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Country of Origin',   field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Type',             field_type: 'recommended', priority: 11, notes: 'Baseball Cap, Bucket Hat, Beanie等のタイプ分類' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Fabric Type',      field_type: 'recommended', priority: 12, notes: 'Cotton Twill / Mesh / Fleece / Wool Blend等' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Character',        field_type: 'recommended', priority: 13, notes: 'グッズ系帽子向け' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Theme',            field_type: 'recommended', priority: 14, notes: '' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Vintage',          field_type: 'optional',    priority: 15, notes: '' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Occasion',         field_type: 'optional',    priority: 16, notes: '' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Official/Unofficial', field_type: 'optional',  priority: 17, notes: '' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Lining Material',  field_type: 'optional',    priority: 18, notes: '' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Closure',          field_type: 'optional',    priority: 19, notes: '' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Era',              field_type: 'optional',    priority: 20, notes: '' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Designer',         field_type: 'optional',    priority: 21, notes: '' },
 
   // === Sunglasses ===
   { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -607,6 +640,17 @@ var IS_INITIAL_DATA = [
   { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Material', field_type: 'recommended', priority: 8, notes: 'Plastic / Metal / Wood' },
   { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Color', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Product Line',      field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Motor Type',        field_type: 'recommended', priority: 12, notes: 'Brushed / Brushless / N/A' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: '4WD/2WD',           field_type: 'recommended', priority: 13, notes: '4WD / 2WD / AWD / N/A' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Features',          field_type: 'recommended', priority: 14, notes: '' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Year Manufactured', field_type: 'recommended', priority: 15, notes: '' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Department',        field_type: 'optional',    priority: 16, notes: '' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Vintage',           field_type: 'optional',    priority: 17, notes: '' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Theme',             field_type: 'optional',    priority: 18, notes: '' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Occasion',          field_type: 'optional',    priority: 19, notes: '' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Series/Line',       field_type: 'optional',    priority: 20, notes: '' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Official/Unofficial', field_type: 'optional',  priority: 21, notes: '' },
 
   // === Manga ===
   { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Title', field_type: 'required', priority: 1, notes: '作品名' },
@@ -887,6 +931,17 @@ var IS_INITIAL_DATA = [
   { category: 'Boxes', tag_jp: 'ジュエリーボックス,時計ケース,ウォッチボックス,宝石箱', field_name: 'Lining Material', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Boxes', tag_jp: 'ジュエリーボックス,時計ケース,ウォッチボックス,宝石箱', field_name: 'Theme', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Boxes', tag_jp: 'ジュエリーボックス,時計ケース,ウォッチボックス,宝石箱', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Boxes', tag_jp: 'ジュエリーボックス,時計ケース,ウォッチボックス,宝石箱', field_name: 'Items Included', field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'Boxes', tag_jp: 'ジュエリーボックス,時計ケース,ウォッチボックス,宝石箱', field_name: 'Department', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Boxes', tag_jp: 'ジュエリーボックス,時計ケース,ウォッチボックス,宝石箱', field_name: 'Occasion', field_type: 'recommended', priority: 13, notes: '' },
+  { category: 'Boxes', tag_jp: 'ジュエリーボックス,時計ケース,ウォッチボックス,宝石箱', field_name: 'Style', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Boxes', tag_jp: 'ジュエリーボックス,時計ケース,ウォッチボックス,宝石箱', field_name: 'Pattern', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Boxes', tag_jp: 'ジュエリーボックス,時計ケース,ウォッチボックス,宝石箱', field_name: 'Vintage', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Boxes', tag_jp: 'ジュエリーボックス,時計ケース,ウォッチボックス,宝石箱', field_name: 'Designer', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Boxes', tag_jp: 'ジュエリーボックス,時計ケース,ウォッチボックス,宝石箱', field_name: 'Era', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Boxes', tag_jp: 'ジュエリーボックス,時計ケース,ウォッチボックス,宝石箱', field_name: 'Number of Pieces', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Boxes', tag_jp: 'ジュエリーボックス,時計ケース,ウォッチボックス,宝石箱', field_name: 'Capacity', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Boxes', tag_jp: 'ジュエリーボックス,時計ケース,ウォッチボックス,宝石箱', field_name: 'Closure', field_type: 'optional', priority: 21, notes: '' },
 
   // === Flatware ===
   { category: 'Flatware', tag_jp: 'カトラリー,スプーン,フォーク,ナイフ', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -967,6 +1022,17 @@ var IS_INITIAL_DATA = [
   { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Model Year', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Number of Frets', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Series', field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Fretboard Material', field_type: 'recommended', priority: 12, notes: 'Rosewood / Maple / Ebony / Pau Ferro等' },
+  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Color', field_type: 'recommended', priority: 13, notes: '' },
+  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Features', field_type: 'recommended', priority: 14, notes: '' },
+  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Vintage', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Material', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Department', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Theme', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Neck Material', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Bridge Type', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Pickup Configuration', field_type: 'optional', priority: 21, notes: '' },
 
   // === Effects & Amps (エフェクター・アンプ) ===
   { category: 'Effects & Amps', tag_jp: 'エフェクター,ストンプボックス,マルチエフェクター,オーバードライブ,ディストーション,ファズ,ディレイ,リバーブ,コーラス,コンプレッサー,ワウ,ルーパー,ブースター,アンプ,ギターアンプ,ベースアンプ', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -4481,7 +4547,10 @@ var IS_CATEGORY_FIELDS = {
   ],
   'Clothing':      ['Brand', 'Type', 'Department', 'Color', 'Material', 'Country of Origin'],
   'Shoes':         ['Brand', 'Type', 'Department', 'Color', 'Material', 'Country of Origin'],
-  'Cameras':       ['Brand', 'Model', 'Type', 'Series', 'Color', 'Maximum Resolution', 'Battery Type', 'Features', 'Lens Mount', 'Country of Origin'],
+  'Cameras': [
+    'Brand', 'Model', 'Type', 'Series', 'Color', 'Maximum Resolution', 'Battery Type', 'Features', 'Lens Mount', 'Country of Origin',
+    'Optical Zoom', 'Digital Zoom', 'Maximum Aperture', 'Sensor Size', 'Year Manufactured', 'Connectivity', 'Department', 'Vintage', 'Material', 'Theme', 'Style',
+  ],
   'Electronics':   ['Brand', 'Model', 'Type', 'Connectivity', 'Features', 'Power Source', 'Color', 'Country of Origin'],
   'Trading Cards': [
     'Game', 'Set', 'Character', 'Card Name', 'Card Number', 'Rarity', 'Finish', 'Graded', 'Professional Grader', 'Grade',
@@ -4528,7 +4597,10 @@ var IS_CATEGORY_FIELDS = {
     'Glassware Type', 'Capacity', 'Department', 'Occasion', 'Origin', 'Era', 'Vintage', 'Features', 'Set Includes', 'Designer', 'Number of Pieces',
   ],
   'Snow Globes':   ['Brand', 'Type', 'Material', 'Subject', 'Occasion', 'Collection', 'Year Manufactured', 'Features', 'Country of Origin'],
-  'Boxes':         ['Brand', 'Type', 'Material', 'Color', 'Suitable For', 'Shape', 'Features', 'Lining Material', 'Theme', 'Country of Origin'],
+  'Boxes': [
+    'Brand', 'Type', 'Material', 'Color', 'Suitable For', 'Shape', 'Features', 'Lining Material', 'Theme', 'Country of Origin',
+    'Items Included', 'Department', 'Occasion', 'Style', 'Pattern', 'Vintage', 'Designer', 'Era', 'Number of Pieces', 'Capacity', 'Closure',
+  ],
   'Flatware':      ['Brand', 'Type', 'Pattern', 'Composition', 'Style', 'Age', 'Country of Origin'],
   'Baby':          ['Brand', 'Type', 'Material', 'Color', 'Character', 'Country of Origin'],
   'Combs':         ['Type', 'Brand', 'Color', 'Material', 'Theme', 'Department', 'Features', 'Country of Origin'],
@@ -4583,7 +4655,10 @@ var IS_CATEGORY_FIELDS = {
   'Watch Parts':   ['Brand', 'Part Type', 'Material', 'Compatible Model', 'Size', 'Color', 'Country of Origin'],
   'Sunglasses':  ['Brand', 'Model', 'Frame Color', 'Lens Color', 'Frame Material', 'Style', 'Department', 'Country of Origin'],
   'Video Games': ['Platform', 'Game Name', 'Region Code', 'Genre', 'Character', 'Publisher', 'Rating', 'Language', 'Country of Origin'],
-  'Video Game Consoles': ['Brand', 'Platform', 'Model', 'Type', 'Storage Capacity', 'Color', 'Region Code', 'Connectivity', 'Edition', 'Country of Origin'],
+  'Video Game Consoles': [
+    'Brand', 'Platform', 'Model', 'Type', 'Storage Capacity', 'Color', 'Region Code', 'Connectivity', 'Edition', 'Country of Origin',
+    'Year Manufactured', 'Charger Included', 'Features', 'Department', 'Material', 'Vintage', 'Theme', 'Occasion', 'Series/Line', 'Official/Unofficial', 'Compatible Model',
+  ],
   'Video Game Accessories': ['Brand', 'Platform', 'Type', 'Model', 'Color', 'Connectivity', 'Region Code', 'Country of Origin'],
   'Fishing Reels': [
     'Brand',               //  1. 必須
@@ -4610,8 +4685,14 @@ var IS_CATEGORY_FIELDS = {
   ],
   'Soap':        ['Brand', 'Type', 'Scent', 'Product Line', 'Color', 'Country of Origin'],
   'Dolls & Plush': ['Brand', 'Type', 'Character', 'Size', 'Color', 'Material', 'Country of Origin'],
-  'Hats':          ['Brand', 'Style', 'Department', 'Color', 'Material', 'Pattern', 'Season', 'Features', 'Size', 'Country of Origin'],
-  'Guitars':             ['Brand', 'Type', 'Model', 'Body Color', 'Body Type', 'String Configuration', 'Handedness', 'Model Year', 'Number of Frets', 'Country of Origin'],
+  'Hats': [
+    'Brand', 'Style', 'Department', 'Color', 'Material', 'Pattern', 'Season', 'Features', 'Size', 'Country of Origin',
+    'Type', 'Fabric Type', 'Character', 'Theme', 'Vintage', 'Occasion', 'Official/Unofficial', 'Lining Material', 'Closure', 'Era', 'Designer',
+  ],
+  'Guitars': [
+    'Brand', 'Type', 'Model', 'Body Color', 'Body Type', 'String Configuration', 'Handedness', 'Model Year', 'Number of Frets', 'Country of Origin',
+    'Series', 'Fretboard Material', 'Color', 'Features', 'Vintage', 'Material', 'Department', 'Theme', 'Neck Material', 'Bridge Type', 'Pickup Configuration',
+  ],
   'Effects & Amps':      ['Brand', 'Model', 'Type', 'Analog/Digital', 'Power Source', 'Bypass Type', 'Color', 'Features', 'Model Year', 'Country of Origin'],
   'Synths & Digital':    ['Brand', 'Model', 'Type', 'Number of Keys', 'Analog/Digital', 'Color', 'Connectivity', 'Features', 'Model Year', 'Country of Origin'],
   'Musical Instruments': ['Brand', 'Model', 'Type', 'Material', 'Color', 'Size', 'Key/Pitch', 'Features', 'Model Year', 'Country of Origin'],
@@ -4725,7 +4806,10 @@ var IS_CATEGORY_FIELDS = {
     'Occasion',            // 20. 任意
     'Model Year'           // 21. 任意
   ],
-  'RC & Models':         ['Brand', 'Type', 'Scale', 'Vehicle Type', 'Model/Series', 'Power Type', 'Built Status', 'Material', 'Color', 'Country of Origin'],
+  'RC & Models': [
+    'Brand', 'Type', 'Scale', 'Vehicle Type', 'Model/Series', 'Power Type', 'Built Status', 'Material', 'Color', 'Country of Origin',
+    'Product Line', 'Motor Type', '4WD/2WD', 'Features', 'Year Manufactured', 'Department', 'Vintage', 'Theme', 'Occasion', 'Series/Line', 'Official/Unofficial',
+  ],
   'Manga':               ['Title', 'Author', 'Publisher', 'Language', 'Format', 'Volume/Set', 'Genre', 'Publication Year', 'Edition', 'Country of Origin'],
   'Anime': [
     'Character',           //  1. 必須

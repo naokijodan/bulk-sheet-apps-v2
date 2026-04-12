@@ -930,6 +930,8 @@ var FIELD_EN_TO_JP_ = {
   // カメラ
   'Series': 'シリーズ', 'Maximum Resolution': '最大解像度',
   'Battery Type': 'バッテリータイプ', 'Lens Mount': 'レンズマウント',
+  'Optical Zoom': '光学ズーム', 'Digital Zoom': 'デジタルズーム',
+  'Maximum Aperture': '最大絞り値', 'Sensor Size': 'センサーサイズ',
   // カード
   'Game': 'ゲーム名', 'Set': 'セット名', 'Character': 'キャラクター',
   'Card Name': 'カード名', 'Card Number': 'カード番号',
@@ -967,6 +969,14 @@ var FIELD_EN_TO_JP_ = {
   'Body Color': 'ボディカラー', 'Body Type': 'ボディタイプ',
   'String Configuration': '弦構成', 'Model Year': '年式',
   'Number of Frets': 'フレット数',
+  'Fretboard Material': '指板素材', 'Neck Material': 'ネック素材',
+  'Bridge Type': 'ブリッジタイプ', 'Pickup Configuration': 'ピックアップ構成',
+  // ゲーム機（Video Game Consoles）
+  'Charger Included': '充電器付属',
+  // 帽子（Hats）
+  'Fabric Type': '生地タイプ',
+  // ラジコン/模型（RC & Models）
+  'Motor Type': 'モーターの種類', '4WD/2WD': '駆動方式',
   // 楽器（Effects & Amps / Synths & Digital / Musical Instruments）
   'Analog/Digital': 'アナログ/デジタル', 'Power Source': '電源',
   'Bypass Type': 'バイパス方式', 'Number of Keys': '鍵盤数',
@@ -1027,6 +1037,7 @@ var FIELD_EN_TO_JP_ = {
   // その他
   'Age': '年代', 'Scent': '香り', 'Product Line': '製品ライン',
   'Suitable For': '用途', 'Lining Material': '裏地素材',
+  'Items Included': '付属品',
   'Character Family': 'キャラクターファミリー', 'Franchise': 'フランチャイズ',
   'Scale': 'スケール', 'Fuel Type': '動力源',
   'Set Includes': 'セット内容', 'Number of Place Settings': '人数分',
