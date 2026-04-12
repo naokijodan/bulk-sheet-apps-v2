@@ -107,13 +107,27 @@ var IS_INITIAL_DATA = [
   
 
   // === Bracelets ===
-  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
-  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Designer', field_type: 'recommended', priority: 2, notes: '' },
-  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Metal', field_type: 'required', priority: 3, notes: '' },
-  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Metal Purity', field_type: 'required', priority: 4, notes: '' },
-  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Main Stone', field_type: 'required', priority: 5, notes: '' },
-  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Type', field_type: 'required', priority: 6, notes: '' },
-  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Country of Origin', field_type: 'recommended', priority: 7, notes: '製造国。フルネーム英語' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Brand',              field_type: 'required',    priority:  1, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Style',              field_type: 'required',    priority:  2, notes: 'Charm / Tennis / Cuff / Bangle 等' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Type',               field_type: 'required',    priority:  3, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Metal',              field_type: 'required',    priority:  4, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Metal Purity',       field_type: 'required',    priority:  5, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Main Stone',         field_type: 'required',    priority:  6, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Designer',           field_type: 'recommended', priority:  7, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Country of Origin',  field_type: 'recommended', priority:  8, notes: '製造国。フルネーム英語' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Color',              field_type: 'recommended', priority:  9, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Main Stone Color',   field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Material',           field_type: 'recommended', priority: 11, notes: 'Fashion Jewelry 用。貴金属は Metal を使う' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Secondary Stone',    field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Shape',              field_type: 'recommended', priority: 13, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Charm Type',         field_type: 'recommended', priority: 14, notes: 'チャームブレスレット用' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Main Stone Shape',   field_type: 'recommended', priority: 15, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Number of Gemstones',field_type: 'recommended', priority: 16, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Wrist Size',         field_type: 'optional',    priority: 17, notes: '手首サイズ。Watches と共通化' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Closure',            field_type: 'optional',    priority: 18, notes: 'Box Clasp / Lobster Clasp / Toggle 等' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Department',         field_type: 'optional',    priority: 19, notes: 'Women / Men / Unisex' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Theme',              field_type: 'optional',    priority: 20, notes: '' },
+  { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Vintage',            field_type: 'optional',    priority: 21, notes: 'Yes / No' },
 
   // === Earrings ===
   { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -550,6 +564,17 @@ var IS_INITIAL_DATA = [
   { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Pendant Shape', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Secondary Stone', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' },
+  { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Theme', field_type: 'recommended', priority: 11, notes: 'テーマ・モチーフ' },
+  { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Material', field_type: 'recommended', priority: 12, notes: 'Fashion Jewelry 用。貴金属は Metal を使う' },
+  { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Base Metal', field_type: 'recommended', priority: 13, notes: 'Fashion Jewelry のベースメタル' },
+  { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Pendant/Locket Type', field_type: 'recommended', priority: 14, notes: 'ペンダント・ロケットの種類' },
+  { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Metal Purity', field_type: 'optional', priority: 15, notes: 'Metal が貴金属の場合。IS_PURITY_PATTERNS で自動抽出' },
+  { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Main Stone Shape', field_type: 'optional', priority: 16, notes: 'Main Stone がある場合' },
+  { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Designer', field_type: 'optional', priority: 17, notes: 'ハイジュエリー向け' },
+  { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Department', field_type: 'optional', priority: 18, notes: 'Women / Men / Unisex' },
+  { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Vintage', field_type: 'optional', priority: 19, notes: 'Yes / No' },
+  { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Length', field_type: 'optional', priority: 20, notes: 'チェーン長。単位は AI 抽出に委任' },
+  { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Closure', field_type: 'optional', priority: 21, notes: '留め金。返品率低下に直結' },
 
   // === Brooches ===
   { category: 'Brooches', tag_jp: 'ブローチ', field_name: 'Type', field_type: 'required', priority: 1, notes: 'Brooch / Pin' },
@@ -574,6 +599,17 @@ var IS_INITIAL_DATA = [
   { category: 'Cufflinks', tag_jp: 'カフリンクス,カフリンク,カフスボタン', field_name: 'Department', field_type: 'recommended', priority: 8, notes: 'Men / Women' },
   { category: 'Cufflinks', tag_jp: 'カフリンクス,カフリンク,カフスボタン', field_name: 'Main Stone Color', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Cufflinks', tag_jp: 'カフリンクス,カフリンク,カフスボタン', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Cufflinks', tag_jp: 'カフリンクス,カフリンク,カフスボタン', field_name: 'Main Stone Shape', field_type: 'recommended', priority: 11, notes: 'Main Stone がある場合' },
+  { category: 'Cufflinks', tag_jp: 'カフリンクス,カフリンク,カフスボタン', field_name: 'Secondary Stone', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Cufflinks', tag_jp: 'カフリンクス,カフリンク,カフスボタン', field_name: 'Style', field_type: 'recommended', priority: 13, notes: 'Barbell / Wraparound / Stud 等' },
+  { category: 'Cufflinks', tag_jp: 'カフリンクス,カフリンク,カフスボタン', field_name: 'Shape', field_type: 'recommended', priority: 14, notes: '' },
+  { category: 'Cufflinks', tag_jp: 'カフリンクス,カフリンク,カフスボタン', field_name: 'Theme', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Cufflinks', tag_jp: 'カフリンクス,カフリンク,カフスボタン', field_name: 'Designer', field_type: 'optional', priority: 16, notes: 'ハイジュエリー向け' },
+  { category: 'Cufflinks', tag_jp: 'カフリンクス,カフリンク,カフスボタン', field_name: 'Diamond Color Grade', field_type: 'recommended', priority: 17, notes: 'ダイヤ品質評価 (D-Z)' },
+  { category: 'Cufflinks', tag_jp: 'カフリンクス,カフリンク,カフスボタン', field_name: 'Total Carat Weight', field_type: 'recommended', priority: 18, notes: '総カラット重量 (ct)' },
+  { category: 'Cufflinks', tag_jp: 'カフリンクス,カフリンク,カフスボタン', field_name: 'Cut Grade', field_type: 'optional', priority: 19, notes: 'ダイヤのカット評価 (Excellent / Very Good 等)' },
+  { category: 'Cufflinks', tag_jp: 'カフリンクス,カフリンク,カフスボタン', field_name: 'Vintage', field_type: 'optional', priority: 20, notes: 'Yes / No' },
+  { category: 'Cufflinks', tag_jp: 'カフリンクス,カフリンク,カフスボタン', field_name: 'Occasion', field_type: 'optional', priority: 21, notes: '' },
 
   // === Hair Accessories ===
   { category: 'Hair Accessories', tag_jp: '髪飾り,ヘアアクセサリー,かんざし,バレッタ', field_name: 'Type', field_type: 'required', priority: 1, notes: 'Comb / Clip / Pin / Headband等' },
@@ -4133,8 +4169,52 @@ var IS_CATEGORY_FIELDS = {
     'Indices'                      // 21. 推奨
   ],
   'Rings':         ['Brand', 'Designer', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country of Origin'],
-  'Necklaces':     ['Style', 'Brand', 'Type', 'Color', 'Metal', 'Main Stone', 'Main Stone Color', 'Pendant Shape', 'Secondary Stone', 'Country of Origin'],
-  'Bracelets':     ['Brand', 'Designer', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country of Origin'],
+  'Necklaces':     [
+    'Style',               //  1. 必須
+    'Brand',               //  2. 必須
+    'Type',                //  3. 必須
+    'Color',               //  4. 推奨
+    'Metal',               //  5. 推奨
+    'Main Stone',          //  6. 推奨
+    'Main Stone Color',    //  7. 推奨
+    'Pendant Shape',       //  8. 推奨
+    'Secondary Stone',     //  9. 推奨
+    'Country of Origin',   // 10. 推奨（維持）
+    'Theme',               // 11. 推奨
+    'Material',            // 12. 推奨（Fashion Jewelry 用）
+    'Base Metal',          // 13. 推奨（Fashion Jewelry）
+    'Pendant/Locket Type', // 14. 推奨
+    'Metal Purity',        // 15. 任意（Fine Jewelry）
+    'Main Stone Shape',    // 16. 任意
+    'Designer',            // 17. 任意
+    'Department',          // 18. 任意
+    'Vintage',             // 19. 任意
+    'Length',              // 20. 任意（チェーン長）
+    'Closure'              // 21. 任意（留め金）
+  ],
+  'Bracelets':     [
+    'Brand',               //  1. 必須
+    'Style',               //  2. 必須（eBay 必須、V3 に不在だった是正）
+    'Type',                //  3. 必須
+    'Metal',               //  4. 推奨
+    'Metal Purity',        //  5. 任意（Fine Jewelry）
+    'Main Stone',          //  6. 推奨
+    'Designer',            //  7. 任意（ハイジュエリー）
+    'Country of Origin',   //  8. 推奨
+    'Color',               //  9. 推奨
+    'Main Stone Color',    // 10. 推奨
+    'Material',            // 11. 推奨（Fashion Jewelry 用）
+    'Secondary Stone',     // 12. 推奨
+    'Shape',               // 13. 推奨
+    'Charm Type',          // 14. 推奨（チャームブレスレット用）
+    'Main Stone Shape',    // 15. 推奨
+    'Number of Gemstones', // 16. 推奨
+    'Wrist Size',          // 17. 任意（手首サイズ）
+    'Closure',             // 18. 任意（留め金）
+    'Department',          // 19. 任意
+    'Theme',               // 20. 任意
+    'Vintage'              // 21. 任意
+  ],
   'Earrings':      ['Brand', 'Designer', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country of Origin'],
   'Handbags':      ['Brand', 'Style', 'Exterior Material', 'Exterior Color', 'Department', 'Country of Origin'],
   'Clothing':      ['Brand', 'Type', 'Department', 'Color', 'Material', 'Country of Origin'],
@@ -4143,7 +4223,29 @@ var IS_CATEGORY_FIELDS = {
   'Electronics':   ['Brand', 'Model', 'Type', 'Connectivity', 'Features', 'Power Source', 'Color', 'Country of Origin'],
   'Trading Cards': ['Game', 'Set', 'Character', 'Card Name', 'Card Number', 'Rarity', 'Finish', 'Graded', 'Professional Grader', 'Grade'],
   'Brooches':      ['Type', 'Brand', 'Material', 'Color', 'Metal', 'Main Stone', 'Main Stone Color', 'Theme', 'Main Stone Shape', 'Country of Origin'],
-  'Cufflinks':     ['Brand', 'Type', 'Metal', 'Metal Purity', 'Main Stone', 'Color', 'Material', 'Department', 'Main Stone Color', 'Country of Origin'],
+  'Cufflinks':     [
+    'Brand',               //  1. 必須
+    'Type',                //  2. 推奨
+    'Metal',               //  3. 推奨
+    'Metal Purity',        //  4. 推奨
+    'Main Stone',          //  5. 推奨
+    'Color',               //  6. 推奨
+    'Material',            //  7. 推奨
+    'Department',          //  8. 推奨
+    'Main Stone Color',    //  9. 推奨
+    'Country of Origin',   // 10. 推奨（維持）
+    'Main Stone Shape',    // 11. 推奨
+    'Secondary Stone',     // 12. 推奨
+    'Style',               // 13. 推奨
+    'Shape',               // 14. 推奨
+    'Theme',               // 15. 任意
+    'Designer',            // 16. 任意
+    'Diamond Color Grade', // 17. 推奨（ダイヤ品質）
+    'Total Carat Weight',  // 18. 推奨（総カラット重量）
+    'Cut Grade',           // 19. 任意（ダイヤカット評価）
+    'Vintage',             // 20. 任意
+    'Occasion'             // 21. 任意
+  ],
   'Hair Accessories': ['Type', 'Brand', 'Color', 'Material', 'Department', 'Theme', 'Occasion', 'Hair Type', 'Features', 'Country of Origin'],
   'Dinnerware':    ['Brand', 'Material', 'Type', 'Color', 'Pattern', 'Shape', 'Set Includes', 'Number of Place Settings', 'Theme', 'Country of Origin'],
   'Scarves':       ['Brand', 'Type', 'Material', 'Color', 'Size', 'Pattern', 'Country of Origin'],

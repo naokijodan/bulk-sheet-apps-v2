@@ -906,6 +906,10 @@ var FIELD_EN_TO_JP_ = {
   'Main Stone': '主石', 'Main Stone Color': '主石の色',
   'Main Stone Shape': '主石の形', 'Pendant Shape': 'ペンダントの形',
   'Secondary Stone': '副石',
+  'Base Metal': 'ベースメタル', 'Pendant/Locket Type': 'ペンダント・ロケットタイプ',
+  'Length': 'チェーン長',
+  'Charm Type': 'チャームタイプ', 'Number of Gemstones': '宝石の数',
+  'Diamond Color Grade': 'ダイヤカラーグレード', 'Total Carat Weight': '総カラット重量', 'Cut Grade': 'カットグレード',
   // ファッション
   'Exterior Material': '外装素材', 'Exterior Color': '外装色', 'Closure': '開閉',
   'Hardware Color': '金具色',
