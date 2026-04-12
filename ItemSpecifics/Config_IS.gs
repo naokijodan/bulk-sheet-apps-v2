@@ -229,6 +229,17 @@ var IS_INITIAL_DATA = [
   { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Graded', field_type: 'recommended', priority: 8, notes: 'Yes / No' },
   { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Professional Grader', field_type: 'recommended', priority: 9, notes: 'PSA, BGS, CGC等' },
   { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Grade', field_type: 'recommended', priority: 10, notes: 'PSA 10, BGS 9.5等' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Card Type', field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Speciality', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Age Level', field_type: 'recommended', priority: 13, notes: '' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Features', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Language', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Type', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Era', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Year', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Country of Origin', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Color', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Vintage', field_type: 'optional', priority: 21, notes: '' },
 
   // === Video Games ===
   { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Platform', field_type: 'required', priority: 1, notes: 'Nintendo Switch, PlayStation 5, Xbox Series X等' },
@@ -274,6 +285,17 @@ var IS_INITIAL_DATA = [
   { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Fishing Type', field_type: 'recommended', priority: 8, notes: 'Saltwater, Freshwater, All Water等' },
   { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Fish Species', field_type: 'recommended', priority: 9, notes: 'Bass, Trout, Tuna等' },
   { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Reel Size', field_type: 'recommended', priority: 11, notes: 'S, M, L, 1000, 2500, 4000等のサイズ番手' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Drag Style', field_type: 'recommended', priority: 12, notes: 'Front Drag, Rear Drag, Cross Carbon等' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Maximum Drag', field_type: 'recommended', priority: 13, notes: '最大ドラグ力（kg/lb）' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Material', field_type: 'recommended', priority: 14, notes: 'Aluminum, Carbon, Graphite等' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Features', field_type: 'recommended', priority: 15, notes: 'Waterproof, Magnetic Brake, Infinite Anti-Reverse等' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Color', field_type: 'recommended', priority: 16, notes: '' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Vintage', field_type: 'optional', priority: 17, notes: 'Yes / No' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Model Year', field_type: 'optional', priority: 18, notes: '発売年' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Type', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Size', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Department', field_type: 'optional', priority: 21, notes: 'Men, Women, Unisex等' },
 
   // === Shoes ===
   { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -294,6 +316,17 @@ var IS_INITIAL_DATA = [
   { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Size', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Era', field_type: 'recommended', priority: 9, notes: 'Meiji/Taisho/Showa/Heisei/1950s/1960s等' },
   { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Collection', field_type: 'recommended', priority: 11, notes: 'シリーズ名・コレクション名' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Subject', field_type: 'recommended', priority: 12, notes: 'Locomotive, Aircraft, Samurai, Geisha等' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Character Family', field_type: 'recommended', priority: 13, notes: 'Astro Boy, Ultraman等のファミリー' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Occasion', field_type: 'recommended', priority: 14, notes: 'World Expo, Olympics, New Year等' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Color', field_type: 'recommended', priority: 15, notes: '' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Pattern', field_type: 'recommended', priority: 16, notes: '' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Style', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Vintage', field_type: 'optional', priority: 18, notes: 'Yes / No' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Designer', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Department', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Shape', field_type: 'optional', priority: 21, notes: '' },
 
   // === Watch Parts ===
   { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -450,6 +483,17 @@ var IS_INITIAL_DATA = [
   { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Club Number', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Set Makeup', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' },
+  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Bounce', field_type: 'recommended', priority: 11, notes: '角度（ウェッジのバウンス角）' },
+  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Head Material', field_type: 'recommended', priority: 12, notes: 'Titanium, Stainless Steel, Carbon等' },
+  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Lie Angle Color', field_type: 'recommended', priority: 13, notes: '色付きライ角指定（カスタム）' },
+  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Head Shape', field_type: 'recommended', priority: 14, notes: 'Blade, Mallet, Cavity Back等' },
+  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Lie Angle', field_type: 'recommended', priority: 15, notes: 'ライ角（°）' },
+  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Model Year', field_type: 'recommended', priority: 16, notes: '発売年' },
+  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Color', field_type: 'recommended', priority: 17, notes: '' },
+  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Material', field_type: 'recommended', priority: 18, notes: '' },
+  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Type', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Vintage', field_type: 'optional', priority: 20, notes: 'Yes / No' },
+  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Department', field_type: 'optional', priority: 21, notes: 'Men, Women, Unisex等' },
 
   // === Tennis ===
   { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -577,6 +621,17 @@ var IS_INITIAL_DATA = [
   { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Official/Bootleg', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Release Year', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Movie', field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'TV Show', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Featured Person/Artist', field_type: 'recommended', priority: 13, notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Model', field_type: 'recommended', priority: 14, notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Grade', field_type: 'recommended', priority: 15, notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Theme', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Color', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Size', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Occasion', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Vintage', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Department', field_type: 'optional', priority: 21, notes: '' },
 
   // === Stamps ===
   { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Certification', field_type: 'required', priority: 1, notes: 'PCGS / NGC等' },
@@ -640,6 +695,17 @@ var IS_INITIAL_DATA = [
   { category: 'Brooches', tag_jp: 'ブローチ', field_name: 'Theme', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Brooches', tag_jp: 'ブローチ', field_name: 'Main Stone Shape', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Brooches', tag_jp: 'ブローチ', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Brooches', tag_jp: 'ブローチ', field_name: 'Secondary Stone', field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'Brooches', tag_jp: 'ブローチ', field_name: 'Style', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Brooches', tag_jp: 'ブローチ', field_name: 'Main Stone Creation', field_type: 'recommended', priority: 13, notes: '' },
+  { category: 'Brooches', tag_jp: 'ブローチ', field_name: 'Materials sourced from', field_type: 'recommended', priority: 14, notes: '' },
+  { category: 'Brooches', tag_jp: 'ブローチ', field_name: 'Setting Style', field_type: 'recommended', priority: 15, notes: '' },
+  { category: 'Brooches', tag_jp: 'ブローチ', field_name: 'Metal Purity', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Brooches', tag_jp: 'ブローチ', field_name: 'Designer', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Brooches', tag_jp: 'ブローチ', field_name: 'Department', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Brooches', tag_jp: 'ブローチ', field_name: 'Vintage', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Brooches', tag_jp: 'ブローチ', field_name: 'Occasion', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Brooches', tag_jp: 'ブローチ', field_name: 'Shape', field_type: 'optional', priority: 21, notes: '' },
 
   // === Cufflinks ===
   { category: 'Cufflinks', tag_jp: 'カフリンクス,カフリンク,カフスボタン', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -4351,8 +4417,14 @@ var IS_CATEGORY_FIELDS = {
   'Shoes':         ['Brand', 'Type', 'Department', 'Color', 'Material', 'Country of Origin'],
   'Cameras':       ['Brand', 'Model', 'Type', 'Series', 'Color', 'Maximum Resolution', 'Battery Type', 'Features', 'Lens Mount', 'Country of Origin'],
   'Electronics':   ['Brand', 'Model', 'Type', 'Connectivity', 'Features', 'Power Source', 'Color', 'Country of Origin'],
-  'Trading Cards': ['Game', 'Set', 'Character', 'Card Name', 'Card Number', 'Rarity', 'Finish', 'Graded', 'Professional Grader', 'Grade'],
-  'Brooches':      ['Type', 'Brand', 'Material', 'Color', 'Metal', 'Main Stone', 'Main Stone Color', 'Theme', 'Main Stone Shape', 'Country of Origin'],
+  'Trading Cards': [
+    'Game', 'Set', 'Character', 'Card Name', 'Card Number', 'Rarity', 'Finish', 'Graded', 'Professional Grader', 'Grade',
+    'Card Type', 'Speciality', 'Age Level', 'Features', 'Language', 'Type', 'Era', 'Year', 'Country of Origin', 'Color', 'Vintage',
+  ],
+  'Brooches': [
+    'Type', 'Brand', 'Material', 'Color', 'Metal', 'Main Stone', 'Main Stone Color', 'Theme', 'Main Stone Shape', 'Country of Origin',
+    'Secondary Stone', 'Style', 'Main Stone Creation', 'Materials sourced from', 'Setting Style', 'Metal Purity', 'Designer', 'Department', 'Vintage', 'Occasion', 'Shape',
+  ],
   'Cufflinks':     [
     'Brand',               //  1. 必須
     'Type',                //  2. 推奨
@@ -4412,14 +4484,58 @@ var IS_CATEGORY_FIELDS = {
     'Department',          // 20. 任意
     'Base Metal'           // 21. 任意
   ],
-  'Collectibles':  ['Brand', 'Character', 'Franchise', 'Type', 'Theme', 'Material', 'Features', 'Size', 'Era', 'Country of Origin'],
+  'Collectibles':  [
+    'Brand',               //  1. 必須
+    'Character',           //  2. 推奨
+    'Franchise',           //  3. 推奨
+    'Type',                //  4. 必須
+    'Theme',               //  5. 推奨
+    'Material',            //  6. 推奨
+    'Features',            //  7. 推奨
+    'Size',                //  8. 推奨
+    'Era',                 //  9. 推奨
+    'Country of Origin',   // 10. 推奨（維持）
+    'Collection',          // 11. 推奨
+    'Subject',             // 12. 推奨
+    'Character Family',    // 13. 推奨
+    'Occasion',            // 14. 推奨
+    'Color',               // 15. 推奨
+    'Pattern',             // 16. 推奨
+    'Style',               // 17. 任意
+    'Vintage',             // 18. 任意
+    'Designer',            // 19. 任意
+    'Department',          // 20. 任意
+    'Shape'                // 21. 任意
+  ],
   'Pipes':         ['Brand', 'Body Shape', 'Material', 'Filter Size', 'Handmade', 'Country of Origin'],
   'Watch Parts':   ['Brand', 'Part Type', 'Material', 'Compatible Model', 'Size', 'Color', 'Country of Origin'],
   'Sunglasses':  ['Brand', 'Model', 'Frame Color', 'Lens Color', 'Frame Material', 'Style', 'Department', 'Country of Origin'],
   'Video Games': ['Platform', 'Game Name', 'Region Code', 'Genre', 'Character', 'Publisher', 'Rating', 'Language', 'Country of Origin'],
   'Video Game Consoles': ['Brand', 'Platform', 'Model', 'Type', 'Storage Capacity', 'Color', 'Region Code', 'Connectivity', 'Edition', 'Country of Origin'],
   'Video Game Accessories': ['Brand', 'Platform', 'Type', 'Model', 'Color', 'Connectivity', 'Region Code', 'Country of Origin'],
-  'Fishing Reels': ['Brand', 'Model', 'Reel Type', 'Hand Retrieve', 'Gear Ratio', 'Ball Bearings', 'Line Capacity', 'Fishing Type', 'Fish Species', 'Country of Origin'],
+  'Fishing Reels': [
+    'Brand',               //  1. 必須
+    'Model',               //  2. 必須
+    'Reel Type',           //  3. 必須
+    'Hand Retrieve',       //  4. 必須
+    'Gear Ratio',          //  5. 推奨
+    'Ball Bearings',       //  6. 推奨
+    'Line Capacity',       //  7. 推奨
+    'Fishing Type',        //  8. 推奨
+    'Fish Species',        //  9. 推奨
+    'Country of Origin',   // 10. 推奨（維持）
+    'Reel Size',           // 11. 推奨
+    'Drag Style',          // 12. 推奨
+    'Maximum Drag',        // 13. 推奨
+    'Material',            // 14. 推奨
+    'Features',            // 15. 推奨
+    'Color',               // 16. 推奨
+    'Vintage',             // 17. 任意
+    'Model Year',          // 18. 任意
+    'Type',                // 19. 任意
+    'Size',                // 20. 任意
+    'Department'           // 21. 任意
+  ],
   'Soap':        ['Brand', 'Type', 'Scent', 'Product Line', 'Color', 'Country of Origin'],
   'Dolls & Plush': ['Brand', 'Type', 'Character', 'Size', 'Color', 'Material', 'Country of Origin'],
   'Hats':          ['Brand', 'Style', 'Department', 'Color', 'Material', 'Pattern', 'Season', 'Features', 'Size', 'Country of Origin'],
@@ -4442,7 +4558,29 @@ var IS_CATEGORY_FIELDS = {
   'Prints':              ['Listed By', 'Medium', 'Subject', 'Maker', 'Style', 'Size', 'Era/Period', 'Original/Licensed Reproduction', 'Edition', 'Country of Origin'],
   'Buddhist Art':        ['Type', 'Material', 'Subject/Deity', 'Maker', 'Technique', 'Style', 'Size', 'Era', 'Original/Reproduction', 'Country of Origin'],
   'Tetsubin':            ['Brand', 'Type', 'Material', 'Maker/Kiln', 'Era/Period', 'Technique', 'Pattern', 'Size', 'Capacity', 'Country of Origin'],
-  'Golf':                ['Brand', 'Golf Club Type', 'Handedness', 'Model', 'Flex', 'Shaft Material', 'Loft', 'Club Number', 'Set Makeup', 'Country of Origin'],
+  'Golf':                [
+    'Brand',               //  1. 必須
+    'Golf Club Type',      //  2. 必須
+    'Handedness',          //  3. 推奨
+    'Model',               //  4. 推奨
+    'Flex',                //  5. 推奨
+    'Shaft Material',      //  6. 推奨
+    'Loft',                //  7. 推奨
+    'Club Number',         //  8. 推奨
+    'Set Makeup',          //  9. 推奨
+    'Country of Origin',   // 10. 推奨（維持）
+    'Bounce',              // 11. 推奨
+    'Head Material',       // 12. 推奨
+    'Lie Angle Color',     // 13. 推奨
+    'Head Shape',          // 14. 推奨
+    'Lie Angle',           // 15. 推奨
+    'Model Year',          // 16. 推奨
+    'Color',               // 17. 推奨
+    'Material',            // 18. 推奨
+    'Type',                // 19. 任意
+    'Vintage',             // 20. 任意
+    'Department'           // 21. 任意
+  ],
   'Tennis':              ['Brand', 'Type', 'Model', 'Head Size', 'Grip Size', 'String Pattern', 'Weight', 'Flex', 'Balance', 'Country of Origin'],
   'Baseball':            ['Brand', 'Handedness', 'Player Position', 'Size', 'Type', 'Material', 'Color', 'Sport/Activity', 'Country of Origin', 'Model Year'],
   'Japanese Instruments': ['Type', 'Material', 'Maker', 'Subtype', 'Key/Pitch', 'Era/Period', 'Size', 'Color', 'Set Includes', 'Country of Origin'],
@@ -4474,7 +4612,10 @@ var IS_CATEGORY_FIELDS = {
   'RC & Models':         ['Brand', 'Type', 'Scale', 'Vehicle Type', 'Model/Series', 'Power Type', 'Built Status', 'Material', 'Color', 'Country of Origin'],
   'Manga':               ['Title', 'Author', 'Publisher', 'Language', 'Format', 'Volume/Set', 'Genre', 'Publication Year', 'Edition', 'Country of Origin'],
   'Anime':               ['Character', 'Franchise', 'Type', 'Brand', 'Size', 'Material', 'Color', 'Official/Unofficial', 'Year', 'Country of Origin'],
-  'Figures':             ['Franchise', 'Character', 'Type', 'Brand', 'Scale', 'Material', 'Series/Line', 'Official/Bootleg', 'Release Year', 'Country of Origin'],
+  'Figures': [
+    'Franchise', 'Character', 'Type', 'Brand', 'Scale', 'Material', 'Series/Line', 'Official/Bootleg', 'Release Year', 'Country of Origin',
+    'Movie', 'TV Show', 'Featured Person/Artist', 'Model', 'Grade', 'Theme', 'Color', 'Size', 'Occasion', 'Vintage', 'Department',
+  ],
   'Stamps':              ['Certification', 'Type', 'Year of Issue', 'Topic', 'Quality', 'Country of Origin'],
   'Coins':               ['Certification', 'Denomination', 'Year', 'Composition', 'Grade', 'Country of Origin'],
   'Records':             ['Artist', 'Release Title', 'Genre', 'Record Grading', 'Record Label', 'Format', 'Record Size', 'Release Year', 'Sleeve Grading', 'Country of Origin'],

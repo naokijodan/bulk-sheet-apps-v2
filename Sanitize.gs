@@ -949,6 +949,16 @@ var FIELD_EN_TO_JP_ = {
   'Rod Power': 'パワー', 'Rod Action': 'アクション', 'Lure Weight': 'ルアー重量',
   'Buoyancy': '浮力',
   'Number of Guides': 'ガイド数', 'Line Weight': '適合ライン', 'Pieces': 'ピース数', 'Item Weight': 'アイテム重量',
+  // フィギュア（Figures）
+  'Movie': '映画作品名', 'TV Show': 'テレビ番組名', 'Featured Person/Artist': 'モデル/アーティスト',
+  // ブローチ（Brooches）
+  'Materials sourced from': '素材調達元', 'Setting Style': 'セッティングスタイル',
+  // トレーディングカード（Trading Cards）
+  'Card Type': 'カードタイプ', 'Speciality': 'スペシャリティ', 'Age Level': '対象年齢',
+  // ゴルフ（Golf）
+  'Head Material': 'ヘッド素材', 'Lie Angle Color': 'ライ角カラー',
+  // リール（Fishing Reels）
+  'Reel Size': 'リールサイズ', 'Drag Style': 'ドラグ方式', 'Maximum Drag': '最大ドラグ力',
   // 楽器（Guitars）
   'Body Color': 'ボディカラー', 'Body Type': 'ボディタイプ',
   'String Configuration': '弦構成', 'Model Year': '年式',
