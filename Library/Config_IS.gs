@@ -686,6 +686,17 @@ var IS_INITIAL_DATA = [
   { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Size', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Capacity', field_type: 'recommended', priority: 9, notes: 'ml' },
   { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Color', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Features', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Vintage', field_type: 'optional', priority: 13, notes: '' },
+  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Theme', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Occasion', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Series', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Condition', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Number of Pieces', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Collection', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Official/Unofficial', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Style', field_type: 'optional', priority: 21, notes: '' },
 
   // === Golf ===
   { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -1077,6 +1088,17 @@ var IS_INITIAL_DATA = [
   { category: 'Hair Accessories', tag_jp: '髪飾り,ヘアアクセサリー,かんざし,バレッタ', field_name: 'Hair Type', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Hair Accessories', tag_jp: '髪飾り,ヘアアクセサリー,かんざし,バレッタ', field_name: 'Features', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Hair Accessories', tag_jp: '髪飾り,ヘアアクセサリー,かんざし,バレッタ', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Hair Accessories', tag_jp: '髪飾り,ヘアアクセサリー,かんざし,バレッタ', field_name: 'Style', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Hair Accessories', tag_jp: '髪飾り,ヘアアクセサリー,かんざし,バレッタ', field_name: 'Vintage', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Hair Accessories', tag_jp: '髪飾り,ヘアアクセサリー,かんざし,バレッタ', field_name: 'Era', field_type: 'optional', priority: 13, notes: '' },
+  { category: 'Hair Accessories', tag_jp: '髪飾り,ヘアアクセサリー,かんざし,バレッタ', field_name: 'Season', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Hair Accessories', tag_jp: '髪飾り,ヘアアクセサリー,かんざし,バレッタ', field_name: 'Series', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Hair Accessories', tag_jp: '髪飾り,ヘアアクセサリー,かんざし,バレッタ', field_name: 'Official/Unofficial', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Hair Accessories', tag_jp: '髪飾り,ヘアアクセサリー,かんざし,バレッタ', field_name: 'Franchise', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Hair Accessories', tag_jp: '髪飾り,ヘアアクセサリー,かんざし,バレッタ', field_name: 'Character', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Hair Accessories', tag_jp: '髪飾り,ヘアアクセサリー,かんざし,バレッタ', field_name: 'Pattern', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Hair Accessories', tag_jp: '髪飾り,ヘアアクセサリー,かんざし,バレッタ', field_name: 'Collection', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Hair Accessories', tag_jp: '髪飾り,ヘアアクセサリー,かんざし,バレッタ', field_name: 'Number of Pieces', field_type: 'optional', priority: 21, notes: '' },
 
   // === Dinnerware ===
   { category: 'Dinnerware', tag_jp: '皿,プレート,食器,茶碗,カップ', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -1294,6 +1316,19 @@ var IS_INITIAL_DATA = [
   { category: 'Combs', tag_jp: '櫛,くし,コーム', field_name: 'Department', field_type: 'recommended', priority: 6, notes: '' },
   { category: 'Combs', tag_jp: '櫛,くし,コーム', field_name: 'Features', field_type: 'recommended', priority: 7, notes: '' },
   { category: 'Combs', tag_jp: '櫛,くし,コーム', field_name: 'Country of Origin', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Combs', tag_jp: '櫛,くし,コーム', field_name: 'Style', field_type: 'optional', priority: 9, notes: '' },
+  { category: 'Combs', tag_jp: '櫛,くし,コーム', field_name: 'Pattern', field_type: 'optional', priority: 10, notes: '柄/模様' },
+  { category: 'Combs', tag_jp: '櫛,くし,コーム', field_name: 'Occasion', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Combs', tag_jp: '櫛,くし,コーム', field_name: 'Vintage', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Combs', tag_jp: '櫛,くし,コーム', field_name: 'Era', field_type: 'optional', priority: 13, notes: '' },
+  { category: 'Combs', tag_jp: '櫛,くし,コーム', field_name: 'Season', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Combs', tag_jp: '櫛,くし,コーム', field_name: 'Series', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Combs', tag_jp: '櫛,くし,コーム', field_name: 'Official/Unofficial', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Combs', tag_jp: '櫛,くし,コーム', field_name: 'Hair Type', field_type: 'optional', priority: 17, notes: '対象髪タイプ' },
+  { category: 'Combs', tag_jp: '櫛,くし,コーム', field_name: 'Character', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Combs', tag_jp: '櫛,くし,コーム', field_name: 'Franchise', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Combs', tag_jp: '櫛,くし,コーム', field_name: 'Collection', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Combs', tag_jp: '櫛,くし,コーム', field_name: 'Number of Pieces', field_type: 'optional', priority: 21, notes: '' },
 
   // === Key Chains ===
   { category: 'Key Chains', tag_jp: 'キーリング,キーホルダー,キーケース', field_name: 'Brand', field_type: 'recommended', priority: 1, notes: '' },
@@ -1479,6 +1514,17 @@ var IS_INITIAL_DATA = [
   { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Theme', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Country of Origin', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Closure', field_type: 'recommended', priority: 10, notes: 'Zipper / Snap Button / Magnetic / Clasp' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Pattern', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Gender', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Occasion', field_type: 'optional', priority: 13, notes: '' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Vintage', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Era', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Series', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Designer', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Official/Unofficial', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Season', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Collection', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Number of Pieces', field_type: 'optional', priority: 21, notes: '' },
 
   // === Art ===
   { category: 'Art', tag_jp: '絵画,油絵,水彩画,日本画,水墨画,墨絵,アクリル画,パステル画', field_name: 'Artist', field_type: 'required', priority: 1, notes: '' },
@@ -1617,6 +1663,52 @@ var IS_INITIAL_DATA = [
   { category: 'Golf Heads', tag_jp: 'ゴルフヘッド', field_name: 'Vintage', field_type: 'recommended', priority: 19, notes: 'Yes / No' },
   { category: 'Golf Heads', tag_jp: 'ゴルフヘッド', field_name: 'Series', field_type: 'recommended', priority: 20, notes: '' },
   { category: 'Golf Heads', tag_jp: 'ゴルフヘッド', field_name: 'Finish', field_type: 'recommended', priority: 21, notes: '' },
+
+  // === Kitchen Knives ===
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Type', field_type: 'required', priority: 1, notes: 'Santoku / Gyuto / Deba / Yanagiba / Nakiri等' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Brand', field_type: 'recommended', priority: 2, notes: '' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Blade Material', field_type: 'recommended', priority: 3, notes: 'Steel / Damascus / High Carbon等' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Blade Length', field_type: 'recommended', priority: 4, notes: '刃渡り (cm)' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Handle Material', field_type: 'recommended', priority: 5, notes: 'Wood / Resin / Horn等' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Edge Type', field_type: 'recommended', priority: 6, notes: 'Single-Bevel / Double-Bevel等' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Handedness', field_type: 'recommended', priority: 7, notes: 'Right-Handed / Left-Handed' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Maker/Blacksmith', field_type: 'recommended', priority: 8, notes: '刀匠・作者名' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Country of Origin', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Condition', field_type: 'recommended', priority: 10, notes: 'New / Used等' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Style', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Vintage', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Era', field_type: 'optional', priority: 13, notes: '' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Features', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Series', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Size', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Theme', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Pattern', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Official/Unofficial', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Collection', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Number of Pieces', field_type: 'optional', priority: 21, notes: '' },
+
+  // === Japanese Dolls ===
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Type', field_type: 'required', priority: 1, notes: 'Hina / Musha / Ichimatsu / Kokeshi等' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Material', field_type: 'recommended', priority: 2, notes: 'Wood / Gofun / Clay等' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Maker', field_type: 'recommended', priority: 3, notes: '作者名' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Origin/Region', field_type: 'recommended', priority: 4, notes: '産地 (Hakata / Kyoto / Tohoku等)' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Era/Period', field_type: 'recommended', priority: 5, notes: 'Meiji / Taisho / Showa等' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Size', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Technique', field_type: 'recommended', priority: 7, notes: 'Kimekomi / Hand-painted等' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Subject/Motif', field_type: 'recommended', priority: 8, notes: '題材・図柄' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Original/Reproduction', field_type: 'recommended', priority: 9, notes: 'Original / Reproduction' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Color', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Features', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Department', field_type: 'optional', priority: 13, notes: '' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Theme', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Vintage', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Occasion', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Series', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Collection', field_type: 'optional', priority: 18, notes: '' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Official/Unofficial', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Number of Pieces', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Pattern', field_type: 'optional', priority: 21, notes: '' },
 ];
 
 // 主要ブランド辞書（プロンプト埋め込み用）
@@ -5048,7 +5140,10 @@ var IS_CATEGORY_FIELDS = {
     'Vintage',             // 20. 任意
     'Occasion'             // 21. 任意
   ],
-  'Hair Accessories': ['Type', 'Brand', 'Color', 'Material', 'Department', 'Theme', 'Occasion', 'Hair Type', 'Features', 'Country of Origin'],
+  'Hair Accessories': [
+    'Type', 'Brand', 'Color', 'Material', 'Department', 'Theme', 'Occasion', 'Hair Type', 'Features', 'Country of Origin',
+    'Style', 'Vintage', 'Era', 'Season', 'Series', 'Official/Unofficial', 'Franchise', 'Character', 'Pattern', 'Collection', 'Number of Pieces',
+  ],
   'Dinnerware': [
     'Brand', 'Material', 'Type', 'Color', 'Pattern', 'Shape', 'Set Includes', 'Number of Place Settings', 'Theme', 'Country of Origin',
     'Origin', 'Product Line', 'Production Style', 'Production Technique', 'Occasion', 'Style', 'Vintage', 'Designer', 'Era', 'Features', 'Department',
@@ -5091,7 +5186,10 @@ var IS_CATEGORY_FIELDS = {
     'Brand', 'Type', 'Material', 'Color', 'Character', 'Country of Origin',
     'Size', 'Department', 'Features', 'Age Group', 'Gender', 'Theme', 'Series', 'Franchise', 'Occasion', 'Vintage', 'Style', 'Official/Unofficial', 'Era', 'Pattern', 'Number of Pieces',
   ],
-  'Combs':         ['Type', 'Brand', 'Color', 'Material', 'Theme', 'Department', 'Features', 'Country of Origin'],
+  'Combs': [
+    'Type', 'Brand', 'Color', 'Material', 'Theme', 'Department', 'Features', 'Country of Origin',
+    'Style', 'Pattern', 'Occasion', 'Vintage', 'Era', 'Season', 'Series', 'Official/Unofficial', 'Hair Type', 'Character', 'Franchise', 'Collection', 'Number of Pieces',
+  ],
   'Key Chains': [
     'Brand', 'Material', 'Color', 'Character Family', 'Theme', 'Era', 'Features', 'Country of Origin',
     'Part Type', 'Type', 'Department', 'Occasion', 'Series', 'Character', 'Franchise', 'Style', 'Vintage', 'Official/Unofficial', 'Season', 'Number of Pieces', 'Collection',
@@ -5218,7 +5316,10 @@ var IS_CATEGORY_FIELDS = {
     'Brand', 'Material', 'Ink Color', 'Nib Size', 'Nib Material', 'Type', 'Vintage', 'Features', 'Country of Origin',
     'Color', 'Size', 'Series', 'Theme', 'Department', 'Style', 'Occasion', 'Era', 'Pattern', 'Official/Unofficial', 'Number of Pieces', 'Designer',
   ],
-  'Wallets':       ['Brand', 'Type', 'Material', 'Color', 'Style', 'Department', 'Features', 'Theme', 'Country of Origin', 'Closure'],
+  'Wallets': [
+    'Brand', 'Type', 'Material', 'Color', 'Style', 'Department', 'Features', 'Theme', 'Country of Origin', 'Closure',
+    'Pattern', 'Gender', 'Occasion', 'Vintage', 'Era', 'Series', 'Designer', 'Official/Unofficial', 'Season', 'Collection', 'Number of Pieces',
+  ],
   'Art': [
     'Artist', 'Production Technique', 'Style', 'Subject', 'Theme', 'Size', 'Material', 'Original/Licensed Reproduction', 'Time Period Produced', 'Country of Origin',
     'Listed By', 'Edition', 'Framing', 'Signed', 'Department', 'Features', 'Era/Period', 'Vintage', 'Series', 'Collection', 'Number of Pieces',
@@ -5261,7 +5362,10 @@ var IS_CATEGORY_FIELDS = {
     'Type', 'Material', 'Subject/Deity', 'Maker', 'Technique', 'Style', 'Size', 'Era', 'Original/Reproduction', 'Country of Origin',
     'Color', 'Features', 'Department', 'Theme', 'Vintage', 'Occasion', 'Collection', 'Official/Unofficial', 'Number of Pieces', 'Series', 'Pattern',
   ],
-  'Tetsubin':            ['Brand', 'Type', 'Material', 'Maker/Kiln', 'Era/Period', 'Technique', 'Pattern', 'Size', 'Capacity', 'Country of Origin'],
+  'Tetsubin': [
+    'Brand', 'Type', 'Material', 'Maker/Kiln', 'Era/Period', 'Technique', 'Pattern', 'Size', 'Capacity', 'Country of Origin',
+    'Color', 'Features', 'Vintage', 'Theme', 'Occasion', 'Series', 'Condition', 'Number of Pieces', 'Collection', 'Official/Unofficial', 'Style',
+  ],
   'Golf':                [
     'Brand',               //  1. 必須
     'Golf Club Type',      //  2. 必須
@@ -5410,8 +5514,14 @@ var IS_CATEGORY_FIELDS = {
     'Artist', 'Release Title', 'Genre', 'Record Grading', 'Record Label', 'Format', 'Record Size', 'Release Year', 'Sleeve Grading', 'Country of Origin',
     'Material', 'Type', 'Color', 'Style', 'Speed', 'Edition', 'Pressing Country', 'Vintage', 'Theme', 'Occasion', 'Department',
   ],
-  'Kitchen Knives':      ['Type', 'Brand', 'Blade Material', 'Blade Length', 'Handle Material', 'Edge Type', 'Handedness', 'Maker/Blacksmith', 'Country of Origin', 'Condition'],
-  'Japanese Dolls':    ['Type', 'Material', 'Maker', 'Origin/Region', 'Era/Period', 'Size', 'Technique', 'Subject/Motif', 'Original/Reproduction', 'Country of Origin']
+  'Kitchen Knives': [
+    'Type', 'Brand', 'Blade Material', 'Blade Length', 'Handle Material', 'Edge Type', 'Handedness', 'Maker/Blacksmith', 'Country of Origin', 'Condition',
+    'Style', 'Vintage', 'Era', 'Features', 'Series', 'Size', 'Theme', 'Pattern', 'Official/Unofficial', 'Collection', 'Number of Pieces',
+  ],
+  'Japanese Dolls': [
+    'Type', 'Material', 'Maker', 'Origin/Region', 'Era/Period', 'Size', 'Technique', 'Subject/Motif', 'Original/Reproduction', 'Country of Origin',
+    'Color', 'Features', 'Department', 'Theme', 'Vintage', 'Occasion', 'Series', 'Collection', 'Official/Unofficial', 'Number of Pieces', 'Pattern',
+  ],
 };
 
 // ==============================

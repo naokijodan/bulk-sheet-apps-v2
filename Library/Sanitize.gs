@@ -1080,7 +1080,13 @@ var FIELD_EN_TO_JP_ = {
   // テニス（Tennis）
   'Level': 'レベル',
   // 美術（Art）
-  'Framing': 'フレーミング', 'Signed': 'サイン入り'
+  'Framing': 'フレーミング', 'Signed': 'サイン入り',
+  // 包丁（Kitchen Knives）
+  'Blade Material': '刃素材', 'Blade Length': '刃渡り',
+  'Handle Material': '柄素材', 'Edge Type': '刃のタイプ',
+  'Maker/Blacksmith': '刀匠/メーカー', 'Condition': 'コンディション',
+  // 日本人形（Japanese Dolls）
+  'Origin/Region': '産地/地域', 'Subject/Motif': '題材/図柄'
 };
 
 // 汎用フォールバックフィールド（IS_CATEGORY_FIELDSにもSANITIZE_FIELDS_にもないカテゴリ用）
