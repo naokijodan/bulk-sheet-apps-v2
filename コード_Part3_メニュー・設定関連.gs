@@ -3550,7 +3550,35 @@ function writeSettingsToSheet(sheetName, settings) {
     }
     var listing2Sheet = ss.getSheetByName('出品2');
     if (listing2Sheet) {
-      listing2Sheet.getRange('BA2').setFormula('={"交通整理(EN)";ARRAYFORMULA(\'出品用シート\'!T3:T)}');
+      var lock = LockService.getDocumentLock();
+      try {
+        lock.waitLock(5000);
+
+        // シート列数を確認、57列(BE列)未満なら拡張
+        var maxCols = listing2Sheet.getMaxColumns();
+        if (maxCols < 57) {
+          listing2Sheet.insertColumnsAfter(maxCols, 57 - maxCols);
+        }
+        // 旧式クリア（be43fa9 で AI2 にあった式 / fa739a6 で BA2 にあった式）
+        listing2Sheet.getRange('AI2').clearContent();
+        listing2Sheet.getRange('BA2').clearContent();
+
+        // 冪等性: 既存式と一致すればスキップ（無駄な再実行・破壊回避）
+        var newFormula = '={"交通整理(EN)";ARRAYFORMULA(\'出品用シート\'!T3:T)}';
+        var be2Existing = listing2Sheet.getRange('BE2').getFormula();
+        if (be2Existing !== newFormula) {
+          // 限定クリア（使用行のみ、列全体クリアは破壊的すぎる）
+          var lastRow = listing2Sheet.getLastRow();
+          if (lastRow >= 2) {
+            listing2Sheet.getRange(2, 57, lastRow - 1, 1).clearContent();
+          }
+          listing2Sheet.getRange('BE2').setFormula(newFormula);
+        }
+      } catch (e) {
+        console.error('writeSettingsToSheet 出品2 BE列 更新失敗:', e);
+      } finally {
+        lock.releaseLock();
+      }
     }
 
     // 注釈を追加
