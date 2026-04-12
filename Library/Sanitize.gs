@@ -1249,6 +1249,48 @@ function detectSanitizeCategory_(tag) {
 }
 
 
+/**
+ * 非連続行を連続ブロックに分けて setValues() で書き込む
+ * G1 (非連続行対応) + G3 (形状検証) + フォールバック実装
+ * @param {Sheet} sheet
+ * @param {Array} rowValuePairs - [{row: N, value: V}, ...]
+ * @param {number} col - 書き込み先の列番号
+ */
+function writeRowsInBlocks_(sheet, rowValuePairs, col) {
+  if (!rowValuePairs || rowValuePairs.length === 0) return;
+  var sorted = rowValuePairs.slice().sort(function(a, b) { return a.row - b.row; });
+  var blocks = [];
+  var currentBlock = [sorted[0]];
+  for (var i = 1; i < sorted.length; i++) {
+    if (sorted[i].row === currentBlock[currentBlock.length - 1].row + 1) {
+      currentBlock.push(sorted[i]);
+    } else {
+      blocks.push(currentBlock);
+      currentBlock = [sorted[i]];
+    }
+  }
+  blocks.push(currentBlock);
+  for (var b = 0; b < blocks.length; b++) {
+    var block = blocks[b];
+    var values = block.map(function(p) { return [p.value]; });
+    if (values.length !== block.length) {
+      Logger.log('[writeRowsInBlocks_] 形状不一致、個別書き込みフォールバック block=' + b);
+      for (var k = 0; k < block.length; k++) {
+        sheet.getRange(block[k].row, col).setValue(block[k].value);
+      }
+      continue;
+    }
+    try {
+      sheet.getRange(block[0].row, col, block.length, 1).setValues(values);
+    } catch (e) {
+      Logger.log('[writeRowsInBlocks_] setValues 失敗、個別フォールバック: ' + e);
+      for (var k2 = 0; k2 < block.length; k2++) {
+        sheet.getRange(block[k2].row, col).setValue(block[k2].value);
+      }
+    }
+  }
+}
+
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   メイン関数: 交通整理実行（2パス）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
@@ -1317,11 +1359,15 @@ function runSanitizeSelectedRows() {
 
   SpreadsheetApp.getActiveSpreadsheet().toast(items.length + '行の交通整理を開始します...', '🧹 交通整理', 3);
 
-  // Step 1: バックアップ（K→AV, Kクリア）
+  // Step 1: バックアップ（K→AV, Kクリア）— I2: setValues 一括化
+  var backupPairs = [];
+  var clearPairs = [];
   for (var i = 0; i < items.length; i++) {
-    sheet.getRange(items[i].row, CONFIG.COLUMNS.JP_DESC_BACKUP).setValue(items[i].jpDesc);
-    sheet.getRange(items[i].row, CONFIG.COLUMNS.JP_DESC).setValue('');
+    backupPairs.push({ row: items[i].row, value: items[i].jpDesc });
+    clearPairs.push({ row: items[i].row, value: '' });
   }
+  writeRowsInBlocks_(sheet, backupPairs, CONFIG.COLUMNS.JP_DESC_BACKUP);
+  writeRowsInBlocks_(sheet, clearPairs, CONFIG.COLUMNS.JP_DESC);
   SpreadsheetApp.flush();
 
   var BATCH_SIZE = 50;
@@ -1354,18 +1400,20 @@ function runSanitizeSelectedRows() {
     try { responses = UrlFetchApp.fetchAll(requests); }
     catch (e) { for (var j = 0; j < batchItems.length; j++) { apiFailedItems.push({ item: batchItems[j], prompt: prompts[j], error: e.message }); } continue; }
 
+    var pass1WritePairs = []; // B4: Pass1 結果書き込みバッチ
     for (var j = 0; j < responses.length; j++) {
       try {
         var r = parseSanitizeResponse_(settings.platform, responses[j]);
         if (!r.ok) { apiFailedItems.push({ item: batchItems[j], prompt: prompts[j], error: r.error }); continue; }
         var parsed = parseSanitizedFields_(r.content, batchItems[j].category);
         if (!parsed.description) { apiFailedItems.push({ item: batchItems[j], prompt: prompts[j], error: 'PARSE_ERROR' }); continue; }
-        sheet.getRange(batchItems[j].row, CONFIG.COLUMNS.JP_DESC).setValue(parsed.description);
+        pass1WritePairs.push({ row: batchItems[j].row, value: parsed.description }); // B4
         var val = validateSanitizedResult_(parsed.description, batchItems[j].category);
-        if (val.valid) { pass2Items.push({ row: batchItems[j].row, category: batchItems[j].category }); jaSuccessCount++; }
+        if (val.valid) { pass2Items.push({ row: batchItems[j].row, category: batchItems[j].category, jaStructured: parsed.description }); jaSuccessCount++; } // I1
         else { validationFailedItems.push({ item: batchItems[j], errors: val.errors }); }
       } catch (e) { apiFailedItems.push({ item: batchItems[j], prompt: prompts[j], error: e.message || String(e) }); }
     }
+    writeRowsInBlocks_(sheet, pass1WritePairs, CONFIG.COLUMNS.JP_DESC); // B4
 
     if (batchEnd < items.length) { Utilities.sleep(CONFIG.SLEEP_BETWEEN_BATCHES || 3000); }
   }
@@ -1383,17 +1431,19 @@ function runSanitizeSelectedRows() {
       var resps;
       try { resps = UrlFetchApp.fetchAll(reqs); }
       catch (e) { for (var k = 0; k < slice.length; k++) next.push(slice[k]); continue; }
+      var pass1RetryWritePairs = []; // B4: Pass1 リトライ結果書き込みバッチ
       for (var r = 0; r < resps.length; r++) {
         var x = slice[r];
         var ok = parseSanitizeResponse_(settings.platform, resps[r]);
         if (!ok.ok) { next.push(x); continue; }
         var p = parseSanitizedFields_(ok.content, x.item.category);
         if (!p.description) { next.push(x); continue; }
-        sheet.getRange(x.item.row, CONFIG.COLUMNS.JP_DESC).setValue(p.description);
+        pass1RetryWritePairs.push({ row: x.item.row, value: p.description }); // B4
         var v = validateSanitizedResult_(p.description, x.item.category);
-        if (v.valid) { pass2Items.push({ row: x.item.row, category: x.item.category }); jaSuccessCount++; }
+        if (v.valid) { pass2Items.push({ row: x.item.row, category: x.item.category, jaStructured: p.description }); jaSuccessCount++; } // I1
         else { validationFailedItems.push({ item: x.item, errors: v.errors }); }
       }
+      writeRowsInBlocks_(sheet, pass1RetryWritePairs, CONFIG.COLUMNS.JP_DESC); // B4
       if (i + BATCH_SIZE < apiFailedItems.length) { Utilities.sleep(CONFIG.SLEEP_BETWEEN_BATCHES || 3000); }
     }
     apiFailedItems = next;
@@ -1420,16 +1470,18 @@ function runSanitizeSelectedRows() {
       var resps;
       try { resps = UrlFetchApp.fetchAll(reqs); }
       catch (e) { for (var s = 0; s < slice.length; s++) { errorDetails.push('行' + slice[s].item.row + ': VALIDATION_RETRY_HTTP ' + e.message); } continue; }
+      var pass25WritePairs = []; // B4: Pass2.5 結果書き込みバッチ
       for (var s = 0; s < resps.length; s++) {
         var ok = parseSanitizeResponse_(settings.platform, resps[s]);
         if (!ok.ok) { errorDetails.push('行' + slice[s].item.row + ': VALIDATION_RETRY_API ' + ok.error); continue; }
         var p = parseSanitizedFields_(ok.content, slice[s].item.category);
         if (!p.description) { errorDetails.push('行' + slice[s].item.row + ': VALIDATION_RETRY_PARSE'); continue; }
-        sheet.getRange(slice[s].item.row, CONFIG.COLUMNS.JP_DESC).setValue(p.description);
+        pass25WritePairs.push({ row: slice[s].item.row, value: p.description }); // B4
         var v = validateSanitizedResult_(p.description, slice[s].item.category);
-        if (v.valid) { pass2Items.push({ row: slice[s].item.row, category: slice[s].item.category }); jaSuccessCount++; }
+        if (v.valid) { pass2Items.push({ row: slice[s].item.row, category: slice[s].item.category, jaStructured: p.description }); jaSuccessCount++; } // I1
         else { errorDetails.push('行' + slice[s].item.row + ': VALIDATION_ERROR ' + (v.errors || []).join('、')); }
       }
+      writeRowsInBlocks_(sheet, pass25WritePairs, CONFIG.COLUMNS.JP_DESC); // B4
       if (i + BATCH_SIZE < retryItems.length) { Utilities.sleep(CONFIG.SLEEP_BETWEEN_BATCHES || 3000); }
     }
   }
@@ -1445,23 +1497,33 @@ function runSanitizeSelectedRows() {
       var reqs = [];
       var prompts = [];
       for (var s = 0; s < slice.length; s++) {
-        var jaStructured = String(sheet.getRange(slice[s].row, CONFIG.COLUMNS.JP_DESC).getValue() || '');
-        var prompt = buildEnglishizePrompt_(slice[s].category, jaStructured);
+        // I1: Pass1 のキャッシュを利用、フォールバックでシートから読む (G2)
+        var cachedJa = slice[s].jaStructured;
+        if (!cachedJa) {
+          cachedJa = String(sheet.getRange(slice[s].row, CONFIG.COLUMNS.JP_DESC).getValue() || '');
+        }
+        var prompt = buildEnglishizePrompt_(slice[s].category, cachedJa);
         prompts.push(prompt);
         reqs.push(buildSanitizeRequest_(settings, prompt));
       }
       var resps;
       try { resps = UrlFetchApp.fetchAll(reqs); }
       catch (e) { for (var s = 0; s < slice.length; s++) { enApiFailedItems.push({ item: slice[s], prompt: prompts[s], error: e.message }); } continue; }
+      var pass2EnWritePairs = []; // B4: Pass2 EN 結果書き込みバッチ
       for (var s = 0; s < resps.length; s++) {
         var ok = parseSanitizeResponse_(settings.platform, resps[s]);
         if (!ok.ok) { enApiFailedItems.push({ item: slice[s], prompt: prompts[s], error: ok.error }); continue; }
         var out = (ok.content || '').replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
         if (!out) { enApiFailedItems.push({ item: slice[s], prompt: prompts[s], error: 'EMPTY_OUTPUT' }); continue; }
-        sheet.getRange(slice[s].row, CONFIG.COLUMNS.EN_DESC_SANITIZED).setValue(out);
-        if (typeof containsJapanese_ === 'function' && containsJapanese_(out)) { enValidationFailedItems.push({ item: slice[s], prompt: prompts[s] }); }
-        else { enSuccessCount++; }
+        if (typeof containsJapanese_ === 'function' && containsJapanese_(out)) {
+          pass2EnWritePairs.push({ row: slice[s].row, value: out }); // B4 (日本語混入行も先に書き込む)
+          enValidationFailedItems.push({ item: slice[s], prompt: prompts[s] });
+        } else {
+          pass2EnWritePairs.push({ row: slice[s].row, value: out }); // B4
+          enSuccessCount++;
+        }
       }
+      writeRowsInBlocks_(sheet, pass2EnWritePairs, CONFIG.COLUMNS.EN_DESC_SANITIZED); // B4
       if (i + BATCH_SIZE < pass2Items.length) { Utilities.sleep(CONFIG.SLEEP_BETWEEN_BATCHES || 3000); }
     }
   }
@@ -1479,16 +1541,22 @@ function runSanitizeSelectedRows() {
       var resps;
       try { resps = UrlFetchApp.fetchAll(reqs); }
       catch (e) { for (var k = 0; k < slice.length; k++) nextEn.push(slice[k]); continue; }
+      var enRetryWritePairs = []; // B4: Pass2 EN リトライ結果書き込みバッチ
       for (var r = 0; r < resps.length; r++) {
         var x = slice[r];
         var ok = parseSanitizeResponse_(settings.platform, resps[r]);
         if (!ok.ok) { nextEn.push(x); continue; }
         var out = (ok.content || '').replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
         if (!out) { nextEn.push(x); continue; }
-        sheet.getRange(x.item.row, CONFIG.COLUMNS.EN_DESC_SANITIZED).setValue(out);
-        if (typeof containsJapanese_ === 'function' && containsJapanese_(out)) { enValidationFailedItems.push({ item: x.item, prompt: x.prompt }); }
-        else { enSuccessCount++; }
+        if (typeof containsJapanese_ === 'function' && containsJapanese_(out)) {
+          enRetryWritePairs.push({ row: x.item.row, value: out }); // B4
+          enValidationFailedItems.push({ item: x.item, prompt: x.prompt });
+        } else {
+          enRetryWritePairs.push({ row: x.item.row, value: out }); // B4
+          enSuccessCount++;
+        }
       }
+      writeRowsInBlocks_(sheet, enRetryWritePairs, CONFIG.COLUMNS.EN_DESC_SANITIZED); // B4
       if (i + BATCH_SIZE < enApiFailedItems.length) { Utilities.sleep(CONFIG.SLEEP_BETWEEN_BATCHES || 3000); }
     }
     enApiFailedItems = nextEn;
@@ -1510,15 +1578,21 @@ function runSanitizeSelectedRows() {
       var resps;
       try { resps = UrlFetchApp.fetchAll(reqs); }
       catch (e) { for (var s = 0; s < slice.length; s++) { errorDetails.push('行' + slice[s].item.row + ': EN_VALIDATION_RETRY_HTTP ' + e.message); } continue; }
+      var pass35WritePairs = []; // B4: Pass3.5 結果書き込みバッチ
       for (var s = 0; s < resps.length; s++) {
         var ok = parseSanitizeResponse_(settings.platform, resps[s]);
         if (!ok.ok) { errorDetails.push('行' + slice[s].item.row + ': EN_VALIDATION_RETRY_API ' + ok.error); continue; }
         var out = (ok.content || '').replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
         if (!out) { errorDetails.push('行' + slice[s].item.row + ': EN_VALIDATION_RETRY_EMPTY'); continue; }
-        sheet.getRange(slice[s].item.row, CONFIG.COLUMNS.EN_DESC_SANITIZED).setValue(out);
-        if (typeof containsJapanese_ === 'function' && containsJapanese_(out)) { errorDetails.push('行' + slice[s].item.row + ': EN_VALIDATION_ERROR(日本語混入)'); }
-        else { enSuccessCount++; }
+        if (typeof containsJapanese_ === 'function' && containsJapanese_(out)) {
+          pass35WritePairs.push({ row: slice[s].item.row, value: out }); // B4
+          errorDetails.push('行' + slice[s].item.row + ': EN_VALIDATION_ERROR(日本語混入)');
+        } else {
+          pass35WritePairs.push({ row: slice[s].item.row, value: out }); // B4
+          enSuccessCount++;
+        }
       }
+      writeRowsInBlocks_(sheet, pass35WritePairs, CONFIG.COLUMNS.EN_DESC_SANITIZED); // B4
       if (i + BATCH_SIZE < enValidationFailedItems.length) { Utilities.sleep(CONFIG.SLEEP_BETWEEN_BATCHES || 3000); }
     }
   }
