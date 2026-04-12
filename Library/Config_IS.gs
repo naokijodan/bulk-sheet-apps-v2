@@ -96,13 +96,27 @@ var IS_INITIAL_DATA = [
   { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Type', field_type: 'required', priority: 21, notes: '時計タイプ。Dress Watch / Sport Watch / Pocket Watch / Smartwatch / Chronograph / Diver / Field Watch等' },
 
   // === Rings ===
-  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
-  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Designer', field_type: 'recommended', priority: 2, notes: '' },
-  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Metal', field_type: 'required', priority: 3, notes: 'Gold, Silver, Platinum等' },
-  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Metal Purity', field_type: 'required', priority: 4, notes: '18K, 14K, 925等' },
-  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Main Stone', field_type: 'required', priority: 5, notes: '' },
-  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Type', field_type: 'required', priority: 6, notes: '' },
-  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Country of Origin', field_type: 'recommended', priority: 7, notes: '製造国。フルネーム英語' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Brand',              field_type: 'required',    priority:  1, notes: '' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Ring Size',           field_type: 'required',    priority:  2, notes: 'USサイズで記入（例: 5 / 6.5 / 7）' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Type',                field_type: 'required',    priority:  3, notes: 'Eternity / Signet / Engagement / Wedding Band / Dome 等' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Metal',               field_type: 'required',    priority:  4, notes: 'Gold / Silver / Platinum / Stainless Steel 等' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Metal Purity',        field_type: 'required',    priority:  5, notes: '18K / 14K / 925 等' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Main Stone',          field_type: 'required',    priority:  6, notes: '' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Designer',            field_type: 'recommended', priority:  7, notes: '' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Country of Origin',   field_type: 'recommended', priority:  8, notes: '製造国。フルネーム英語' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Main Stone Color',    field_type: 'recommended', priority:  9, notes: '' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Main Stone Shape',    field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Secondary Stone',     field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Style',               field_type: 'recommended', priority: 12, notes: 'Solitaire / Three-Stone / Eternity / Halo 等' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Shape',               field_type: 'recommended', priority: 13, notes: '' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Color',               field_type: 'recommended', priority: 14, notes: '' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Setting',             field_type: 'recommended', priority: 15, notes: 'Prong / Bezel / Pave / Channel 等' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Band Width',          field_type: 'recommended', priority: 16, notes: 'mm 単位' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Sizable',             field_type: 'optional',    priority: 17, notes: 'Yes / No' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Total Carat Weight',  field_type: 'recommended', priority: 18, notes: 'ct 単位' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Number of Gemstones', field_type: 'recommended', priority: 19, notes: '' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Vintage',             field_type: 'optional',    priority: 20, notes: 'Yes / No' },
+  { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Department',          field_type: 'optional',    priority: 21, notes: "Women's / Men's / Unisex" },
 
   
 
@@ -130,21 +144,49 @@ var IS_INITIAL_DATA = [
   { category: 'Bracelets', tag_jp: 'ブレスレット,バングル', field_name: 'Vintage',            field_type: 'optional',    priority: 21, notes: 'Yes / No' },
 
   // === Earrings ===
-  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
-  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Designer', field_type: 'recommended', priority: 2, notes: '' },
-  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Metal', field_type: 'required', priority: 3, notes: '' },
-  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Metal Purity', field_type: 'required', priority: 4, notes: '' },
-  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Main Stone', field_type: 'required', priority: 5, notes: '' },
-  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Type', field_type: 'required', priority: 6, notes: '' },
-  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Country of Origin', field_type: 'recommended', priority: 7, notes: '製造国。フルネーム英語' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Brand',              field_type: 'required',    priority:  1, notes: '' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Style',              field_type: 'required',    priority:  2, notes: '' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Type',               field_type: 'required',    priority:  3, notes: '' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Metal',              field_type: 'required',    priority:  4, notes: '' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Metal Purity',       field_type: 'required',    priority:  5, notes: '' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Main Stone',         field_type: 'required',    priority:  6, notes: '' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Designer',           field_type: 'recommended', priority:  7, notes: '' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Country of Origin',  field_type: 'recommended', priority:  8, notes: '製造国。フルネーム英語' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Color',              field_type: 'recommended', priority:  9, notes: '' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Material',           field_type: 'recommended', priority: 10, notes: 'Fashion 向け。貴金属は Metal' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Main Stone Color',   field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Main Stone Shape',   field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Secondary Stone',    field_type: 'recommended', priority: 13, notes: '' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Shape',              field_type: 'recommended', priority: 14, notes: '' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Theme',              field_type: 'recommended', priority: 15, notes: '' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Main Stone Creation',field_type: 'recommended', priority: 16, notes: 'Natural / Lab-Created / Simulated' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Closure',            field_type: 'optional',    priority: 17, notes: 'Pierced / Clip On / Screw Back / Magnetic' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Vintage',            field_type: 'optional',    priority: 18, notes: 'Yes / No' },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Department',         field_type: 'optional',    priority: 19, notes: "Women's / Men's / Unisex" },
+  { category: 'Earrings', tag_jp: 'ピアス,イヤリング', field_name: 'Occasion',           field_type: 'optional',    priority: 20, notes: '' },
 
   // === Handbags ===
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Style', field_type: 'required', priority: 2, notes: 'Tote, Shoulder Bag, Crossbody等' },
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Exterior Material', field_type: 'required', priority: 3, notes: '' },
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Exterior Color', field_type: 'required', priority: 4, notes: '' },
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Department', field_type: 'required', priority: 5, notes: 'Women / Men / Unisex' },
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Country of Origin', field_type: 'recommended', priority: 6, notes: '製造国。フルネーム英語' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Brand',                field_type: 'required',    priority:  1, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Style',                field_type: 'required',    priority:  2, notes: 'Tote, Shoulder Bag, Crossbody等' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Exterior Material',    field_type: 'required',    priority:  3, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Exterior Color',       field_type: 'required',    priority:  4, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Department',           field_type: 'required',    priority:  5, notes: 'Women / Men / Unisex' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Country of Origin',    field_type: 'recommended', priority:  6, notes: '製造国。フルネーム英語' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Material',             field_type: 'recommended', priority:  7, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Color',                field_type: 'recommended', priority:  8, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Size',                 field_type: 'recommended', priority:  9, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Pattern',              field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Closure',              field_type: 'recommended', priority: 11, notes: 'Zip / Magnetic / Flap / Snap 等' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Hardware Color',       field_type: 'recommended', priority: 12, notes: 'Gold / Silver / Gunmetal 等' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Lining Material',      field_type: 'recommended', priority: 13, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Lining Color',         field_type: 'recommended', priority: 14, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Handle/Strap Material', field_type: 'recommended', priority: 15, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Handle/Strap Color',    field_type: 'recommended', priority: 16, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Bag Width',            field_type: 'recommended', priority: 17, notes: 'cm 単位' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Bag Height',           field_type: 'recommended', priority: 18, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Bag Depth',            field_type: 'recommended', priority: 19, notes: 'マチ (cm)' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Accessories',          field_type: 'recommended', priority: 20, notes: '保存袋 / 鍵 / ストラップ等' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Vintage',              field_type: 'optional',    priority: 21, notes: 'Yes / No' },
 
   // === Clothing ===
   { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -452,6 +494,17 @@ var IS_INITIAL_DATA = [
   { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Fishing Type', field_type: 'recommended', priority: 8, notes: 'Freshwater / Saltwater' },
   { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Material', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' },
+  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Number of Guides', field_type: 'recommended', priority: 11, notes: 'ガイド数' },
+  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Line Weight', field_type: 'recommended', priority: 12, notes: '適合ライン (lb/kg)' },
+  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Pieces', field_type: 'recommended', priority: 13, notes: '継数 (1 / 2 / 3 等)' },
+  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Lure Weight', field_type: 'recommended', priority: 14, notes: 'ルアー重量推奨範囲 (g/oz)' },
+  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Color', field_type: 'recommended', priority: 15, notes: '' },
+  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Handedness', field_type: 'optional', priority: 16, notes: 'Right / Left Handed' },
+  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Features', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Vintage', field_type: 'optional', priority: 18, notes: 'Yes / No' },
+  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Model Year', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Product Line', field_type: 'optional', priority: 20, notes: '' },
+  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Item Weight', field_type: 'optional', priority: 21, notes: 'ロッド重量 (g/oz)' },
 
   // === Fishing Lures ===
   { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Brand', field_type: 'required', priority: 1, notes: 'Megabass, Jackall, DUO, OSP等' },
@@ -742,14 +795,26 @@ var IS_INITIAL_DATA = [
 
   // === Charms ===
   { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
-  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Type', field_type: 'required', priority: 2, notes: '' },
-  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Metal', field_type: 'required', priority: 3, notes: '' },
-  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Metal Purity', field_type: 'recommended', priority: 4, notes: '' },
-  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Main Stone', field_type: 'recommended', priority: 5, notes: '' },
-  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Color', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Style', field_type: 'required', priority: 2, notes: '' },
+  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Type', field_type: 'required', priority: 3, notes: '' },
+  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Metal', field_type: 'required', priority: 4, notes: '' },
+  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Color', field_type: 'recommended', priority: 5, notes: '' },
+  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Main Stone', field_type: 'recommended', priority: 6, notes: '' },
   { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Theme', field_type: 'recommended', priority: 7, notes: '' },
-  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Pendant Shape', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Metal Purity', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Country of Origin', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Pendant Shape', field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Main Stone Color', field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Material', field_type: 'recommended', priority: 12, notes: 'Fashion 向け。貴金属は Metal' },
+  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Secondary Stone', field_type: 'recommended', priority: 13, notes: '' },
+  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Shape', field_type: 'recommended', priority: 14, notes: '' },
+  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Charm Type', field_type: 'recommended', priority: 15, notes: 'Animal / Alphabet / Initial / Birthstone / Cross 等' },
+  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Main Stone Shape', field_type: 'recommended', priority: 16, notes: '' },
+  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Number of Gemstones', field_type: 'recommended', priority: 17, notes: '' },
+  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Vintage', field_type: 'optional', priority: 18, notes: 'Yes / No' },
+  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Designer', field_type: 'optional', priority: 19, notes: '' },
+  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Department', field_type: 'optional', priority: 20, notes: "Women's / Men's / Unisex / Girls" },
+  { category: 'Charms', tag_jp: 'チャーム,ペンダントトップ', field_name: 'Base Metal', field_type: 'optional', priority: 21, notes: '' },
 
   // === Pipes ===
   { category: 'Pipes', tag_jp: 'パイプ,喫煙パイプ,煙管,キセル,パイプ・喫煙具', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -4168,7 +4233,29 @@ var IS_CATEGORY_FIELDS = {
     'With Original Box/Packaging', // 20. 推奨
     'Indices'                      // 21. 推奨
   ],
-  'Rings':         ['Brand', 'Designer', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country of Origin'],
+  'Rings':         [
+    'Brand',               //  1. 必須
+    'Ring Size',           //  2. 必須 (eBay MANDATORY 是正)
+    'Type',                //  3. 必須
+    'Metal',               //  4. 必須
+    'Metal Purity',        //  5. 必須
+    'Main Stone',          //  6. 必須
+    'Designer',            //  7. 推奨
+    'Country of Origin',   //  8. 推奨
+    'Main Stone Color',    //  9. 推奨
+    'Main Stone Shape',    // 10. 推奨
+    'Secondary Stone',     // 11. 推奨
+    'Style',               // 12. 推奨
+    'Shape',               // 13. 推奨
+    'Color',               // 14. 推奨
+    'Setting',             // 15. 推奨
+    'Band Width',          // 16. 推奨
+    'Sizable',             // 17. 任意
+    'Total Carat Weight',  // 18. 推奨
+    'Number of Gemstones', // 19. 推奨
+    'Vintage',             // 20. 任意
+    'Department'           // 21. 任意
+  ],
   'Necklaces':     [
     'Style',               //  1. 必須
     'Brand',               //  2. 必須
@@ -4215,8 +4302,51 @@ var IS_CATEGORY_FIELDS = {
     'Theme',               // 20. 任意
     'Vintage'              // 21. 任意
   ],
-  'Earrings':      ['Brand', 'Designer', 'Metal', 'Metal Purity', 'Main Stone', 'Type', 'Country of Origin'],
-  'Handbags':      ['Brand', 'Style', 'Exterior Material', 'Exterior Color', 'Department', 'Country of Origin'],
+  'Earrings':      [
+    'Brand',               //  1. 必須
+    'Style',               //  2. 必須（eBay 必須、V3 に不在だった是正）
+    'Type',                //  3. 必須
+    'Metal',               //  4. 必須
+    'Metal Purity',        //  5. 必須
+    'Main Stone',          //  6. 必須
+    'Designer',            //  7. 推奨
+    'Country of Origin',   //  8. 推奨
+    'Color',               //  9. 推奨
+    'Material',            // 10. 推奨（Fashion 向け）
+    'Main Stone Color',    // 11. 推奨
+    'Main Stone Shape',    // 12. 推奨
+    'Secondary Stone',     // 13. 推奨
+    'Shape',               // 14. 推奨
+    'Theme',               // 15. 推奨
+    'Main Stone Creation', // 16. 推奨
+    'Closure',             // 17. 任意
+    'Vintage',             // 18. 任意
+    'Department',          // 19. 任意
+    'Occasion'             // 20. 任意
+  ],
+  'Handbags':      [
+    'Brand',                  //  1. 必須
+    'Style',                  //  2. 必須
+    'Exterior Material',      //  3. 必須
+    'Exterior Color',         //  4. 必須
+    'Department',             //  5. 必須
+    'Country of Origin',      //  6. 推奨
+    'Material',               //  7. 推奨
+    'Color',                  //  8. 推奨
+    'Size',                   //  9. 推奨
+    'Pattern',                // 10. 推奨
+    'Closure',                // 11. 推奨
+    'Hardware Color',         // 12. 推奨
+    'Lining Material',        // 13. 推奨
+    'Lining Color',           // 14. 推奨
+    'Handle/Strap Material',  // 15. 推奨
+    'Handle/Strap Color',     // 16. 推奨
+    'Bag Width',              // 17. 推奨
+    'Bag Height',             // 18. 推奨
+    'Bag Depth',              // 19. 推奨
+    'Accessories',            // 20. 推奨
+    'Vintage'                 // 21. 任意
+  ],
   'Clothing':      ['Brand', 'Type', 'Department', 'Color', 'Material', 'Country of Origin'],
   'Shoes':         ['Brand', 'Type', 'Department', 'Color', 'Material', 'Country of Origin'],
   'Cameras':       ['Brand', 'Model', 'Type', 'Series', 'Color', 'Maximum Resolution', 'Battery Type', 'Features', 'Lens Mount', 'Country of Origin'],
@@ -4259,7 +4389,29 @@ var IS_CATEGORY_FIELDS = {
   'Baby':          ['Brand', 'Type', 'Material', 'Color', 'Character', 'Country of Origin'],
   'Combs':         ['Type', 'Brand', 'Color', 'Material', 'Theme', 'Department', 'Features', 'Country of Origin'],
   'Key Chains':    ['Brand', 'Material', 'Color', 'Character Family', 'Theme', 'Era', 'Features', 'Country of Origin'],
-  'Charms':        ['Brand', 'Type', 'Metal', 'Metal Purity', 'Main Stone', 'Color', 'Theme', 'Pendant Shape', 'Country of Origin'],
+  'Charms':        [
+    'Brand',               //  1. 必須
+    'Style',               //  2. 必須（eBay 必須是正）
+    'Type',                //  3. 必須
+    'Metal',               //  4. 推奨
+    'Color',               //  5. 推奨
+    'Main Stone',          //  6. 推奨
+    'Theme',               //  7. 推奨
+    'Metal Purity',        //  8. 任意
+    'Country of Origin',   //  9. 推奨（維持）
+    'Pendant Shape',       // 10. 任意（維持）
+    'Main Stone Color',    // 11. 推奨
+    'Material',            // 12. 推奨（Fashion 向け）
+    'Secondary Stone',     // 13. 推奨
+    'Shape',               // 14. 推奨
+    'Charm Type',          // 15. 推奨
+    'Main Stone Shape',    // 16. 推奨
+    'Number of Gemstones', // 17. 推奨
+    'Vintage',             // 18. 任意
+    'Designer',            // 19. 任意
+    'Department',          // 20. 任意
+    'Base Metal'           // 21. 任意
+  ],
   'Collectibles':  ['Brand', 'Character', 'Franchise', 'Type', 'Theme', 'Material', 'Features', 'Size', 'Era', 'Country of Origin'],
   'Pipes':         ['Brand', 'Body Shape', 'Material', 'Filter Size', 'Handmade', 'Country of Origin'],
   'Watch Parts':   ['Brand', 'Part Type', 'Material', 'Compatible Model', 'Size', 'Color', 'Country of Origin'],
@@ -4294,7 +4446,29 @@ var IS_CATEGORY_FIELDS = {
   'Tennis':              ['Brand', 'Type', 'Model', 'Head Size', 'Grip Size', 'String Pattern', 'Weight', 'Flex', 'Balance', 'Country of Origin'],
   'Baseball':            ['Brand', 'Handedness', 'Player Position', 'Size', 'Type', 'Material', 'Color', 'Sport/Activity', 'Country of Origin', 'Model Year'],
   'Japanese Instruments': ['Type', 'Material', 'Maker', 'Subtype', 'Key/Pitch', 'Era/Period', 'Size', 'Color', 'Set Includes', 'Country of Origin'],
-  'Fishing Rods':        ['Brand', 'Rod Type', 'Model', 'Item Length', 'Rod Power', 'Rod Action', 'Fish Species', 'Fishing Type', 'Material', 'Country of Origin'],
+  'Fishing Rods':        [
+    'Brand',           //  1. 必須
+    'Rod Type',        //  2. 必須
+    'Model',           //  3. 必須
+    'Item Length',     //  4. 推奨
+    'Rod Power',       //  5. 推奨
+    'Rod Action',      //  6. 推奨
+    'Fish Species',    //  7. 推奨
+    'Fishing Type',    //  8. 推奨
+    'Material',        //  9. 推奨
+    'Country of Origin', // 10. 推奨（維持）
+    'Number of Guides',  // 11. 推奨（ガイド数）
+    'Line Weight',     // 12. 推奨（適合ライン）
+    'Pieces',          // 13. 推奨（継数）
+    'Lure Weight',     // 14. 推奨
+    'Color',           // 15. 推奨
+    'Handedness',      // 16. 任意
+    'Features',        // 17. 任意
+    'Vintage',         // 18. 任意
+    'Model Year',      // 19. 任意
+    'Product Line',    // 20. 任意
+    'Item Weight'      // 21. 任意（ロッド重量）
+  ],
   'Fishing Lures':       ['Brand', 'Type', 'Model', 'Color', 'Weight', 'Fishing Type', 'Fish Species', 'Buoyancy', 'Item Length', 'Country of Origin'],
   'Mecha Model Kits':    ['Brand', 'Series/Franchise', 'Character/Mecha', 'Grade', 'Scale', 'Type', 'Built Status', 'Color', 'Release Year', 'Country of Origin'],
   'RC & Models':         ['Brand', 'Type', 'Scale', 'Vehicle Type', 'Model/Series', 'Power Type', 'Built Status', 'Material', 'Color', 'Country of Origin'],

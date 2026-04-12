@@ -908,11 +908,17 @@ var FIELD_EN_TO_JP_ = {
   'Secondary Stone': '副石',
   'Base Metal': 'ベースメタル', 'Pendant/Locket Type': 'ペンダント・ロケットタイプ',
   'Length': 'チェーン長',
+  'Ring Size': 'リングサイズ', 'Setting': 'セッティング', 'Band Width': 'バンド幅', 'Sizable': 'サイズ調整可',
   'Charm Type': 'チャームタイプ', 'Number of Gemstones': '宝石の数',
   'Diamond Color Grade': 'ダイヤカラーグレード', 'Total Carat Weight': '総カラット重量', 'Cut Grade': 'カットグレード',
+  'Main Stone Creation': '主石の生成方法',
   // ファッション
   'Exterior Material': '外装素材', 'Exterior Color': '外装色', 'Closure': '開閉',
   'Hardware Color': '金具色',
+  'Lining Color': '裏地色',
+  'Handle/Strap Material': 'ハンドル・ストラップ素材', 'Handle/Strap Color': 'ハンドル・ストラップ色',
+  'Bag Width': '幅', 'Bag Height': '高さ', 'Bag Depth': 'マチ',
+  'Accessories': '付属品',
   // 時計
   'Display': '表示方式', 'Movement': 'ムーブメント',
   'Case Material': 'ケース素材', 'Case Size': 'ケースサイズ',
@@ -942,6 +948,7 @@ var FIELD_EN_TO_JP_ = {
   'Rod Type': 'ロッドタイプ', 'Item Length': '長さ',
   'Rod Power': 'パワー', 'Rod Action': 'アクション', 'Lure Weight': 'ルアー重量',
   'Buoyancy': '浮力',
+  'Number of Guides': 'ガイド数', 'Line Weight': '適合ライン', 'Pieces': 'ピース数', 'Item Weight': 'アイテム重量',
   // 楽器（Guitars）
   'Body Color': 'ボディカラー', 'Body Type': 'ボディタイプ',
   'String Configuration': '弦構成', 'Model Year': '年式',
