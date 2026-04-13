@@ -1618,27 +1618,18 @@ var IS_INITIAL_DATA = [
   { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Number of Pieces', field_type: 'optional', priority: 21, notes: '' },
 
   // === Japanese Dolls ===
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Type', field_type: 'required', priority: 1, notes: 'Hina / Musha / Ichimatsu / Kokeshi等' },
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Material', field_type: 'recommended', priority: 2, notes: 'Wood / Gofun / Clay等' },
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Maker', field_type: 'recommended', priority: 3, notes: '作者名' },
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Origin/Region', field_type: 'recommended', priority: 4, notes: '産地 (Hakata / Kyoto / Tohoku等)' },
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Era/Period', field_type: 'recommended', priority: 5, notes: 'Meiji / Taisho / Showa等' },
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Size', field_type: 'recommended', priority: 6, notes: '' },
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Technique', field_type: 'recommended', priority: 7, notes: 'Kimekomi / Hand-painted等' },
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Subject/Motif', field_type: 'recommended', priority: 8, notes: '題材・図柄' },
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Original/Reproduction', field_type: 'recommended', priority: 9, notes: 'Original / Reproduction' },
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Color', field_type: 'optional', priority: 11, notes: '' },
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Features', field_type: 'optional', priority: 12, notes: '' },
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Department', field_type: 'optional', priority: 13, notes: '' },
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Theme', field_type: 'optional', priority: 14, notes: '' },
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Vintage', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Occasion', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Series', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Collection', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Official/Unofficial', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Number of Pieces', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Pattern', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Type',                 field_type: 'required',    priority: 1,  notes: 'Hina / Musha / Ichimatsu / Kokeshi等' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Material',             field_type: 'recommended', priority: 2,  notes: 'Wood / Gofun / Clay等' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Maker',                 field_type: 'recommended', priority: 3,  notes: '作者名' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Origin/Region',         field_type: 'recommended', priority: 4,  notes: '産地 (Hakata / Kyoto / Tohoku等)' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Era/Period',             field_type: 'recommended', priority: 5,  notes: 'Meiji / Taisho / Showa等' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Size',                  field_type: 'recommended', priority: 6,  notes: '' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Technique',             field_type: 'recommended', priority: 7,  notes: 'Kimekomi / Hand-painted等' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Subject/Motif',         field_type: 'recommended', priority: 8,  notes: '題材・図柄' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Original/Reproduction', field_type: 'recommended', priority: 9,  notes: 'Original / Reproduction' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Country of Origin',     field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Theme',                 field_type: 'recommended', priority: 11, notes: 'auto-injected: Collectible' },
+  { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Age Level',             field_type: 'required',    priority: 12, notes: '14 and Over (CPSC compliance)' },
 ];
 
 // 主要ブランド辞書（プロンプト埋め込み用）
@@ -5418,8 +5409,7 @@ var IS_CATEGORY_FIELDS = {
     'Style', 'Vintage', 'Era', 'Features', 'Series', 'Size', 'Theme', 'Pattern', 'Official/Unofficial', 'Collection', 'Number of Pieces',
   ],
   'Japanese Dolls': [
-    'Type', 'Material', 'Maker', 'Origin/Region', 'Era/Period', 'Size', 'Technique', 'Subject/Motif', 'Original/Reproduction', 'Country of Origin',
-    'Color', 'Features', 'Department', 'Theme', 'Vintage', 'Occasion', 'Series', 'Collection', 'Official/Unofficial', 'Number of Pieces', 'Pattern',
+    'Type', 'Material', 'Maker', 'Origin/Region', 'Era/Period', 'Size', 'Technique', 'Subject/Motif', 'Original/Reproduction', 'Country of Origin', 'Theme', 'Age Level',
   ],
 };
 
