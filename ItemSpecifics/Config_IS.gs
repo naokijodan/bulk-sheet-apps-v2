@@ -355,14 +355,6 @@ var IS_INITIAL_DATA = [
   { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Reel Size', field_type: 'recommended', priority: 11, notes: 'S, M, L, 1000, 2500, 4000等のサイズ番手' },
   { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Drag Style', field_type: 'recommended', priority: 12, notes: 'Front Drag, Rear Drag, Cross Carbon等' },
   { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Maximum Drag', field_type: 'recommended', priority: 13, notes: '最大ドラグ力（kg/lb）' },
-  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Material', field_type: 'recommended', priority: 14, notes: 'Aluminum, Carbon, Graphite等' },
-  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Features', field_type: 'recommended', priority: 15, notes: 'Waterproof, Magnetic Brake, Infinite Anti-Reverse等' },
-  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Color', field_type: 'recommended', priority: 16, notes: '' },
-  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Vintage', field_type: 'optional', priority: 17, notes: 'Yes / No' },
-  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Model Year', field_type: 'optional', priority: 18, notes: '発売年' },
-  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Type', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Size', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Fishing Reels', tag_jp: 'リール', field_name: 'Department', field_type: 'optional', priority: 21, notes: 'Men, Women, Unisex等' },
 
   // === Shoes ===
   { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -5257,27 +5249,9 @@ var IS_CATEGORY_FIELDS = {
     'Compatible Product', 'Compatible Model', 'Cable Length', 'Number of Players', 'Number of Fans', 'Features', 'Material', 'Department', 'Series', 'Theme', 'Vintage', 'Occasion', 'Official/Unofficial',
   ],
   'Fishing Reels': [
-    'Brand',               //  1. 必須
-    'Model',               //  2. 必須
-    'Reel Type',           //  3. 必須
-    'Hand Retrieve',       //  4. 必須
-    'Gear Ratio',          //  5. 推奨
-    'Ball Bearings',       //  6. 推奨
-    'Line Capacity',       //  7. 推奨
-    'Fishing Type',        //  8. 推奨
-    'Fish Species',        //  9. 推奨
-    'Country of Origin',   // 10. 推奨（維持）
-    'Reel Size',           // 11. 推奨
-    'Drag Style',          // 12. 推奨
-    'Maximum Drag',        // 13. 推奨
-    'Material',            // 14. 推奨
-    'Features',            // 15. 推奨
-    'Color',               // 16. 推奨
-    'Vintage',             // 17. 任意
-    'Model Year',          // 18. 任意
-    'Type',                // 19. 任意
-    'Size',                // 20. 任意
-    'Department'           // 21. 任意
+    'Brand', 'Model', 'Reel Type', 'Hand Retrieve', 'Gear Ratio',
+    'Ball Bearings', 'Line Capacity', 'Fishing Type', 'Fish Species', 'Country of Origin',
+    'Reel Size', 'Drag Style', 'Maximum Drag',
   ],
   'Soap': [
     'Brand', 'Type', 'Scent', 'Product Line', 'Color', 'Country of Origin',
