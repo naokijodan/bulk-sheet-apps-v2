@@ -42,9 +42,9 @@ var SANITIZE_FIELDS_ = {
     'コンディション', '故障・不具合'
   ],
   'Fishing Reels': [
-    'メーカー', 'モデル名', '型番', 'リールタイプ',
-    '巻き方向', 'ギア比', 'サイズ/番手', '対象魚種',
-    '付属品', 'コンディション', '故障・不具合'
+    'ブランド', 'モデル名', '型番', 'リールタイプ',
+    '巻き方向', 'ギア比', 'ベアリング数', 'サイズ/番手', '対象魚種',
+    '付属品', 'コンディション', '故障・不具合', '製造国'
   ],
   'Fishing Lures': [
     'メーカー', 'タイプ', 'モデル名', '色',
@@ -962,7 +962,7 @@ var FIELD_EN_TO_JP_ = {
   // ゴルフ（Golf）
   'Head Material': 'ヘッド素材', 'Lie Angle Color': 'ライ角カラー', 'Shaft Compatibility': 'シャフト互換',
   // リール（Fishing Reels）
-  'Reel Size': 'リールサイズ', 'Drag Style': 'ドラグ方式', 'Maximum Drag': '最大ドラグ力',
+  'Reel Size': 'サイズ/番手', 'Drag Style': 'ドラグ方式', 'Maximum Drag': '最大ドラグ力',
   // 野球（Baseball）
   'Experience Level': '対象レベル',
   // メカプラモ（Mecha Model Kits）
