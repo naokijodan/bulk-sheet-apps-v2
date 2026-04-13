@@ -223,16 +223,8 @@ var IS_INITIAL_DATA = [
   { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Lens Mount', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' },
   { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Optical Zoom', field_type: 'recommended', priority: 11, notes: '' },
-  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Digital Zoom', field_type: 'recommended', priority: 12, notes: '' },
-  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Maximum Aperture', field_type: 'recommended', priority: 13, notes: '' },
-  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Sensor Size', field_type: 'recommended', priority: 14, notes: '' },
-  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Year Manufactured', field_type: 'recommended', priority: 15, notes: '' },
-  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Connectivity', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Department', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Vintage', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Material', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Theme', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Style', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Maximum Aperture', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Sensor Size', field_type: 'recommended', priority: 13, notes: '' },
 
   // === Electronics ===
   { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -5103,7 +5095,7 @@ var IS_CATEGORY_FIELDS = {
   ],
   'Cameras': [
     'Brand', 'Model', 'Type', 'Series', 'Color', 'Maximum Resolution', 'Battery Type', 'Features', 'Lens Mount', 'Country of Origin',
-    'Optical Zoom', 'Digital Zoom', 'Maximum Aperture', 'Sensor Size', 'Year Manufactured', 'Connectivity', 'Department', 'Vintage', 'Material', 'Theme', 'Style',
+    'Optical Zoom', 'Maximum Aperture', 'Sensor Size',
   ],
   'Electronics': [
     'Brand', 'Model', 'Type', 'Connectivity', 'Features', 'Power Source', 'Color', 'Country of Origin',
