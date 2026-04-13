@@ -87,13 +87,9 @@ var IS_INITIAL_DATA = [
   { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Band Material', field_type: 'recommended', priority: 12, notes: 'ベルト素材。Stainless Steel / Leather / Rubber / Silicone / Nylon / Mesh / Titanium等' },
   { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Water Resistance', field_type: 'recommended', priority: 13, notes: '防水性能。10ATM / 100m / 200m / 30m / Water Resistant等' },
   { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Features', field_type: 'recommended', priority: 14, notes: '機能。Luminous / Date / Chronograph / Tachymeter / GMT / Alarm等' },
-  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Band Color', field_type: 'recommended', priority: 15, notes: 'ベルトの色。Black / Brown / Silver / Gold / Blue / Green等' },
-  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Bezel Color', field_type: 'recommended', priority: 16, notes: 'ベゼルの色。Silver / Gold / Black / Blue / Green / Ceramic等' },
-  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Year Manufactured', field_type: 'recommended', priority: 17, notes: '製造年（4桁の西暦）。例: 2018' },
-  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'With Papers', field_type: 'recommended', priority: 18, notes: '保証書・ギャランティーカード付きか。Yes / No' },
-  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'With Original Box/Packaging', field_type: 'recommended', priority: 19, notes: '純正ボックス・箱付きか。Yes / No' },
-  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Indices', field_type: 'recommended', priority: 20, notes: '時字（インデックス）の種類。Arabic / Roman / Bar / Diamond / Dot / Applied等' },
-  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Type', field_type: 'required', priority: 21, notes: '時計タイプ。Dress Watch / Sport Watch / Pocket Watch / Smartwatch / Chronograph / Diver / Field Watch等' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'With Papers', field_type: 'recommended', priority: 15, notes: '保証書・ギャランティーカード付きか。Yes / No' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'With Original Box/Packaging', field_type: 'recommended', priority: 16, notes: '純正ボックス・箱付きか。Yes / No' },
+  { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Type', field_type: 'required', priority: 17, notes: '時計タイプ。Dress Watch / Sport Watch / Pocket Watch / Smartwatch / Chronograph / Diver / Field Watch等' },
 
   // === Rings ===
   { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Brand',              field_type: 'required',    priority:  1, notes: '' },
@@ -4953,13 +4949,9 @@ var IS_CATEGORY_FIELDS = {
     'Band Material',               // 12. 推奨
     'Water Resistance',            // 13. 推奨
     'Features',                    // 14. 推奨
-    'Band Color',                  // 15. 推奨
-    'Bezel Color',                 // 16. 推奨
-    'Year Manufactured',           // 17. 推奨
-    'Country of Origin',           // 18. 任意（維持）
-    'With Papers',                 // 19. 推奨
-    'With Original Box/Packaging', // 20. 推奨
-    'Indices'                      // 21. 推奨
+    'Country of Origin',           // 15. 任意（維持）
+    'With Papers',                 // 16. 推奨
+    'With Original Box/Packaging'  // 17. 推奨
   ],
   'Rings':         [
     'Brand',               //  1. 必須
