@@ -749,27 +749,18 @@ var IS_INITIAL_DATA = [
   { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Item Weight', field_type: 'optional', priority: 21, notes: 'ロッド重量 (g/oz)' },
 
   // === Fishing Lures ===
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Brand', field_type: 'required', priority: 1, notes: 'Megabass, Jackall, DUO, OSP等' },
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Type', field_type: 'required', priority: 2, notes: 'Crankbait, Minnow, Metal Jig, Soft Plastic, Spoon, Squid Jig等' },
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Model', field_type: 'required', priority: 3, notes: '' },
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Color', field_type: 'recommended', priority: 4, notes: '' },
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Weight', field_type: 'recommended', priority: 5, notes: 'g or oz' },
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Fishing Type', field_type: 'recommended', priority: 6, notes: 'Freshwater / Saltwater' },
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Fish Species', field_type: 'recommended', priority: 7, notes: '' },
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Buoyancy', field_type: 'recommended', priority: 8, notes: 'Floating / Sinking / Suspending' },
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Item Length', field_type: 'recommended', priority: 9, notes: 'mm or inches' },
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Bait Type', field_type: 'required', priority: 11, notes: 'eBay mandatory。Artificial Lure / Soft Bait / Metal Jig / Fly / Live Bait等' },
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Material', field_type: 'recommended', priority: 12, notes: 'ABS / Wood / Metal / Soft Plastic等' },
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Item Weight', field_type: 'recommended', priority: 13, notes: '' },
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Number in Pack', field_type: 'recommended', priority: 14, notes: '1個/3個/5個セット等' },
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Action', field_type: 'recommended', priority: 15, notes: 'Slow / Moderate / Fast / Extra Fast' },
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Water Type', field_type: 'recommended', priority: 16, notes: 'Freshwater / Saltwater / Both' },
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Department', field_type: 'recommended', priority: 17, notes: '' },
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Features', field_type: 'recommended', priority: 18, notes: '' },
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Vintage', field_type: 'recommended', priority: 19, notes: 'Yes / No' },
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Series', field_type: 'recommended', priority: 20, notes: '' },
-  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Theme', field_type: 'recommended', priority: 21, notes: '' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Brand',            field_type: 'required',    priority: 1,  notes: 'Megabass, Jackall, DUO, OSP等' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Type',             field_type: 'required',    priority: 2,  notes: 'Crankbait, Minnow, Metal Jig, Soft Plastic, Spoon, Squid Jig等' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Model',            field_type: 'required',    priority: 3,  notes: '' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Bait Type',        field_type: 'required',    priority: 4,  notes: 'eBay mandatory。Artificial Lure / Soft Bait / Metal Jig / Fly / Live Bait等' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Color',            field_type: 'recommended', priority: 5,  notes: '' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Weight',           field_type: 'recommended', priority: 6,  notes: 'g or oz' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Buoyancy',         field_type: 'recommended', priority: 7,  notes: 'Floating / Sinking / Suspending' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Fishing Type',     field_type: 'recommended', priority: 8,  notes: 'Freshwater / Saltwater' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Fish Species',     field_type: 'recommended', priority: 9,  notes: '' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Item Length',      field_type: 'recommended', priority: 10, notes: 'mm or inches' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Number in Pack',   field_type: 'recommended', priority: 11, notes: '1個/3個/5個セット等' },
+  { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Country of Origin',field_type: 'recommended', priority: 12, notes: '' },
 
   // === Mecha Model Kits ===
   { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Brand', field_type: 'required', priority: 1, notes: 'Bandai / Kotobukiya / Wave等' },
@@ -5350,8 +5341,7 @@ var IS_CATEGORY_FIELDS = {
     'Item Weight'      // 21. 任意（ロッド重量）
   ],
   'Fishing Lures':       [
-    'Brand', 'Type', 'Model', 'Color', 'Weight', 'Fishing Type', 'Fish Species', 'Buoyancy', 'Item Length', 'Country of Origin',
-    'Bait Type', 'Material', 'Item Weight', 'Number in Pack', 'Action', 'Water Type', 'Department', 'Features', 'Vintage', 'Series', 'Theme',
+    'Brand', 'Type', 'Model', 'Bait Type', 'Color', 'Weight', 'Buoyancy', 'Fishing Type', 'Fish Species', 'Item Length', 'Number in Pack', 'Country of Origin',
   ],
   'Mecha Model Kits': [
     'Brand',               //  1. 必須
