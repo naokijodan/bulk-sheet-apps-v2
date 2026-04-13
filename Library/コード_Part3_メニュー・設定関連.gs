@@ -4053,7 +4053,7 @@ function applyCalculationFormulas(sheetName, settings) {
       var templateFormulas = [];
       for (var row = 5; row <= dataLastRow; row++) {
         var rowTplRef = tplRef.replace(/\{row\}/g, String(row));
-        var formula = '=IF(OR(D' + row + '="",ISBLANK(' + rowTplRef + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",IFERROR(INDEX(Import_Templates!$A$2:$A$50,MATCH("Template_"&' + rowTplRef + '&"_"&IF(AE' + row + '="新品","new","used")&"_"&IF(X' + row + '="EP","eco",IF(X' + row + '="CE","eco","xp")),Import_Templates!$C$2:$C$50,0)),"該当なし"))';
+        var formula = '=IF(OR(ISBLANK(' + rowTplRef + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",IFERROR(INDEX(Import_Templates!$A$2:$A$50,MATCH("Template_"&' + rowTplRef + '&"_"&IF(AE' + row + '="新品","new","used")&"_"&IF(X' + row + '="EP","eco",IF(X' + row + '="CE","eco","xp")),Import_Templates!$C$2:$C$50,0)),"該当なし"))';
         templateFormulas.push([formula]);
       }
       if (templateFormulas.length > 0) {
@@ -4082,7 +4082,7 @@ function applyCalculationFormulas(sheetName, settings) {
       for (var row = 5; row <= dataLastRow; row++) {
         var rowCatRef = catRef.replace(/\{row\}/g, String(row));
         var rowThreshRef = threshRef.replace(/\{row\}/g, String(row));
-        var formula = '=IF(OR(D' + row + '="",ISBLANK(' + rowCatRef + '),ISBLANK(AD' + row + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_SHIPPING_POLICY_FROM_IMPORT(' + rowCatRef + ',IF(AND($AP$2="ON",AD' + row + '>=' + rowThreshRef + '),' + rowThreshRef + ',AD' + row + '),AE' + row + ',X' + row + '))';
+        var formula = '=IF(OR(ISBLANK(' + rowCatRef + '),ISBLANK(AD' + row + '),ISBLANK(AE' + row + '),ISBLANK(X' + row + ')),"",GET_SHIPPING_POLICY_FROM_IMPORT(' + rowCatRef + ',IF(AND($AP$2="ON",AD' + row + '>=' + rowThreshRef + '),' + rowThreshRef + ',AD' + row + '),AE' + row + ',X' + row + '))';
         policyFormulas.push([formula]);
       }
       if (policyFormulas.length > 0) {
