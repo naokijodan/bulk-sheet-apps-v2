@@ -5,6 +5,14 @@ GOALS
 - OUTPUT MUST BE ASCII ONLY (A-Z a-z 0-9 spaces & / :), no CJK.
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 
+ABSOLUTE RULES (must follow):
+1. TRUTH FIRST: Only output information present in source. Never invent, embellish, or pad.
+2. NO PADDING: Never add filler keywords. Specifically forbidden: VINTAGE, RARE, EXCLUSIVE, ULTIMATE, MINT, PERFECT, MUST HAVE, BEST, COLLECTIBLE, OFFICIAL, AUTHENTIC, GENUINE, ORIGINAL, PREMIUM, AMAZING, INCREDIBLE, FANTASTIC, AWESOME (18 forbidden filler words).
+3. NO REPETITION: Each substantive keyword appears at most once in title.
+4. NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "MTG Card MTG" is forbidden).
+5. SOFT CHAR TARGET: Aim for 40-75 characters in title. Going under 40 is acceptable if truth-first cannot fill more honestly. Going over 75 is forbidden.
+6. ESSENTIAL INFO REQUIRED: Always include card name, set, and language if known.
+
 PSA GRADE DETECTION (CRITICAL for graded cards)
 Extract PSA grade from various formats in source:
 - PSA10, PSA 10, 【PSA10】, 【PSA 10】 -> PSA 10
@@ -182,7 +190,7 @@ FORBIDDEN WORDS IN TITLE (NEVER include these):
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 60-80 chars. Target 65-75 chars for optimal SEO.
+- Length: 40-75 chars (target 65-75, shorter OK if source-bound). If >75, shorten but keep SEO value.
 - Allowed symbols only: & / :
 - No commas, periods, hyphens, quotes, brackets, parentheses.
 
@@ -210,11 +218,25 @@ If Title is under 60 characters, add more keywords:
 3. Add "Trading Card" or "TCG" at end
 4. Add year if known (2020, 2021)
 
-SHORTENING RULES (apply when >80 chars):
+SHORTENING RULES (apply when >75 chars):
 1. Remove year
 2. Shorten set name (Modern Horizons 2 -> MH2)
 3. Remove rarity
 4. Never remove: Grade, Card Name, Set Name, Language, MTG
+
+LEGITIMATE KEYWORDS (use only if present in source):
+- Foil — only when source explicitly states foil / フォイル
+- Etched Foil — only when source explicitly states エッチングフォイル
+- Borderless — only when source explicitly states ボーダーレス / Borderless
+- Extended Art — only when source explicitly states 拡張アート / Extended Art
+- Showcase — only when source explicitly states ショーケース / Showcase
+- Full Art — only when source explicitly states Full Art
+- Retro Frame — only when source explicitly states レトロフレーム / 旧枠
+- Promo, Pre-release — only when source explicitly states promo status
+- Judge Foil — only when source explicitly states judge promo
+- Mythic Rare, Rare, Uncommon, Common — only when rarity is stated in source
+- 1st Edition — only when source explicitly states Alpha / Beta / 1st Edition
+- Collector Booster — only when source explicitly states collector booster origin
 
 DESCRIPTION (SEO Priority)
 - English ASCII only, <= 480 chars, single natural paragraph.
@@ -288,5 +310,7 @@ VERIFICATION (must pass before returning):
 16. Booster types (セトブ, ドラブ, コレブ) are NOT included in output.
 
 If any check fails, regenerate until all pass.
+
+REMINDER: If you cannot honestly fill 40 chars from source, output a shorter title. Lying is worse than being short.
 
 Input: ${fullText}

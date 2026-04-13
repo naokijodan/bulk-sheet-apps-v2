@@ -5,6 +5,14 @@ GOALS
 - OUTPUT MUST BE ASCII ONLY (A-Z a-z 0-9 spaces & / :), no CJK.
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 
+ABSOLUTE RULES (must follow):
+1. TRUTH FIRST: Only output information present in source. Never invent, embellish, or pad.
+2. NO PADDING: Never add filler keywords. Specifically forbidden: VINTAGE, RARE, EXCLUSIVE, ULTIMATE, MINT, PERFECT, MUST HAVE, BEST, COLLECTIBLE, OFFICIAL, AUTHENTIC, GENUINE, ORIGINAL, PREMIUM, AMAZING, INCREDIBLE, FANTASTIC, AWESOME (18 forbidden filler words).
+3. NO REPETITION: Each substantive keyword appears at most once in title.
+4. NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "One Piece Card One Piece" is forbidden).
+5. SOFT CHAR TARGET: Aim for 40-75 characters in title. Going under 40 is acceptable if truth-first cannot fill more honestly. Going over 75 is forbidden.
+6. ESSENTIAL INFO REQUIRED: Always include character name, set, rarity, and language if known.
+
 PSA GRADE DETECTION (CRITICAL for graded cards)
 Extract PSA grade from various formats in source:
 - PSA10, PSA 10, 【PSA10】 -> PSA 10
@@ -150,13 +158,23 @@ FORBIDDEN WORDS IN TITLE:
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 60-80 chars. Target 65-75 chars.
+- Length: 40-75 chars (target 65-75, shorter OK if source-bound). If >75, shorten but keep SEO value.
 - Allowed symbols only: & / :
 - No commas, periods, hyphens, quotes, brackets, parentheses.
 
 SEO KEYWORD ORDER:
 For Graded: Grade / Character / Rarity / Set / Language / One Piece
 For Raw: Character / Rarity / Set / Parallel / Language / One Piece Card Game
+
+LEGITIMATE KEYWORDS (use only if present in source):
+- Manga Rare — only when source explicitly states マンガレア / Manga Rare
+- Special Rare — only when source explicitly states スペシャルレア / SP
+- Secret Rare — only when source explicitly states シークレットレア / SEC
+- Super Rare — only when source explicitly states スーパーレア / SR
+- Leader — only when source explicitly states リーダー / Leader card
+- Parallel, Alternate Art — only when source explicitly states パラレル / ALT
+- OP01 through OP09, ST, EB — set codes only when stated in source
+- Promo — only when source explicitly states promotional card
 
 DESCRIPTION (SEO Priority)
 - English ASCII only, <= 480 chars, single natural paragraph.
@@ -217,5 +235,7 @@ VERIFICATION (must pass before returning):
 9. No forbidden words.
 10. If Parallel detected, "Parallel" in Title.
 11. If graded, grade at START of Title.
+
+REMINDER: If you cannot honestly fill 40 chars from source, output a shorter title. Lying is worse than being short.
 
 Input: ${fullText}

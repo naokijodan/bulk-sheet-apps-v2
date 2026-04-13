@@ -5,6 +5,14 @@ GOALS
 - OUTPUT MUST BE ASCII ONLY (A-Z a-z 0-9 spaces & / :), no CJK.
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 
+ABSOLUTE RULES (must follow):
+1. TRUTH FIRST: Only output information present in source. Never invent, embellish, or pad.
+2. NO PADDING: Never add filler keywords. Specifically forbidden: VINTAGE, RARE, EXCLUSIVE, ULTIMATE, MINT, PERFECT, MUST HAVE, BEST, COLLECTIBLE, OFFICIAL, AUTHENTIC, GENUINE, ORIGINAL, PREMIUM, AMAZING, INCREDIBLE, FANTASTIC, AWESOME (18 forbidden filler words).
+3. NO REPETITION: Each substantive keyword appears at most once in title.
+4. NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "Dragon Ball Card Dragon Ball" is forbidden).
+5. SOFT CHAR TARGET: Aim for 40-75 characters in title. Going under 40 is acceptable if truth-first cannot fill more honestly. Going over 75 is forbidden.
+6. ESSENTIAL INFO REQUIRED: Always include character name, set, rarity, and language if known.
+
 PSA GRADE DETECTION (CRITICAL for graded cards)
 Extract PSA grade from various formats in source:
 - PSA10, PSA 10 -> PSA 10
@@ -119,7 +127,7 @@ FORBIDDEN WORDS IN TITLE:
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 60-80 chars. Target 65-75 chars for optimal SEO.
+- Length: 40-75 chars (target 65-75, shorter OK if source-bound). If >75, shorten but keep SEO value.
 - Allowed symbols only: & / :
 - No commas, periods, hyphens, quotes, brackets, parentheses.
 
@@ -144,12 +152,22 @@ For Raw Cards:
 7. Series (Fusion World)
 8. Game (Dragon Ball / DBS Card Game)
 
-SHORTENING RULES (apply when >80 chars):
+SHORTENING RULES (apply when >75 chars):
 1. Shorten "Dragon Ball Super Card Game" to "DBS Card Game" or "DBSCG"
 2. Shorten "Fusion World" to "FW"
 3. Remove set code if set name is present
 4. Remove year
 5. Never remove: Grade, Character Name, Rarity, Japanese
+
+LEGITIMATE KEYWORDS (use only if present in source):
+- SCR (Secret Rare) — only when source explicitly states シークレットレア / SCR
+- SPR (Special Rare) — only when source explicitly states スペシャルレア / SPR
+- SR (Super Rare) — only when source explicitly states スーパーレア / SR
+- L (Leader) — only when card is explicitly a Leader card
+- Fusion World — only when set code starts with FB (Fusion World series)
+- FB01, FB02, FB03, FB04, FB05 — set codes only when stated in source
+- Parallel, Alternate Art — only when source explicitly states alternate version
+- Starter Deck — only when source explicitly states starter deck origin
 
 DESCRIPTION (SEO Priority)
 - English ASCII only, <= 480 chars, single natural paragraph.
@@ -212,5 +230,7 @@ VERIFICATION (must pass before returning):
 13. Language field is always "Japanese".
 
 If any check fails, regenerate until all pass.
+
+REMINDER: If you cannot honestly fill 40 chars from source, output a shorter title. Lying is worse than being short.
 
 Input: ${fullText}

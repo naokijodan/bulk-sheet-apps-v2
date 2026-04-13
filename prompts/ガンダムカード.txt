@@ -5,6 +5,14 @@ GOALS
 - OUTPUT MUST BE ASCII ONLY (A-Z a-z 0-9 spaces & / :), no CJK.
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 
+ABSOLUTE RULES (must follow):
+1. TRUTH FIRST: Only output information present in source. Never invent, embellish, or pad.
+2. NO PADDING: Never add filler keywords. Specifically forbidden: VINTAGE, RARE, EXCLUSIVE, ULTIMATE, MINT, PERFECT, MUST HAVE, BEST, COLLECTIBLE, OFFICIAL, AUTHENTIC, GENUINE, ORIGINAL, PREMIUM, AMAZING, INCREDIBLE, FANTASTIC, AWESOME (18 forbidden filler words).
+3. NO REPETITION: Each substantive keyword appears at most once in title.
+4. NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "Gundam Card Gundam" is forbidden).
+5. SOFT CHAR TARGET: Aim for 40-75 characters in title. Going under 40 is acceptable if truth-first cannot fill more honestly. Going over 75 is forbidden.
+6. ESSENTIAL INFO REQUIRED: Always include game name, card/unit name, rarity, and language if known.
+
 PSA GRADE DETECTION (CRITICAL for graded cards)
 Extract PSA grade from various formats in source:
 - PSA10, PSA 10 -> PSA 10
@@ -142,6 +150,17 @@ EXCLUDE FROM OUTPUT
 - Seller opinions
 - "状態は写真で確認" or similar phrases
 - Japanese-only promotional text
+
+LEGITIMATE KEYWORDS (use only if present in source):
+- SR, UR, LR, SEC, PR, MSR, CR, MR, XR — rarity codes, only when stated in source
+- Signed — only when source explicitly states サイン / Signed card
+- Holo, Foil — only when source explicitly states holographic / foil finish
+- Parallel — only when source explicitly states parallel version
+- Gundam War, NEX-A, Arsenal Base, Carddass, Cross War — game names only from source
+- 1st Edition — only when source explicitly states first edition
+- Event Exclusive, Limited — only when source explicitly states event/limited
+- Starter Deck — only when source explicitly states starter deck origin
+
 OUTPUT FORMAT (exactly):
 Title: ...
 Description: ...
@@ -158,7 +177,7 @@ ItemSpecifics:
   Year: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 60-80 chars (target 65-75).
+1. Title length 40-75 chars (target 65-75, shorter OK if source-bound).
 2. Description <= 480 chars.
 3. Only ASCII letters/numbers/spaces/&/: used throughout.
 4. No CJK characters or emoji anywhere.
@@ -174,5 +193,7 @@ VERIFICATION (must pass before returning):
 14. Rarity code appears in Title if found in source.
 
 If any check fails, regenerate until all pass.
+
+REMINDER: If you cannot honestly fill 40 chars from source, output a shorter title. Lying is worse than being short.
 
 Input: ${fullText}

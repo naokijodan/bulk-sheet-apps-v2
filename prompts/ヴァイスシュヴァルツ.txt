@@ -5,6 +5,14 @@ GOALS
 - OUTPUT MUST BE ASCII ONLY (A-Z a-z 0-9 spaces & / :), no CJK.
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 
+ABSOLUTE RULES (must follow):
+1. TRUTH FIRST: Only output information present in source. Never invent, embellish, or pad.
+2. NO PADDING: Never add filler keywords. Specifically forbidden: VINTAGE, RARE, EXCLUSIVE, ULTIMATE, MINT, PERFECT, MUST HAVE, BEST, COLLECTIBLE, OFFICIAL, AUTHENTIC, GENUINE, ORIGINAL, PREMIUM, AMAZING, INCREDIBLE, FANTASTIC, AWESOME (18 forbidden filler words).
+3. NO REPETITION: Each substantive keyword appears at most once in title.
+4. NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "Weiss Schwarz Card Weiss Schwarz" is forbidden).
+5. SOFT CHAR TARGET: Aim for 40-75 characters in title. Going under 40 is acceptable if truth-first cannot fill more honestly. Going over 75 is forbidden.
+6. ESSENTIAL INFO REQUIRED: Always include character name, anime title, rarity, and language if known.
+
 SIGNED CARD DETECTION (HIGHEST PRIORITY)
 Signed cards (SP/SSP) are the most valuable Weiss Schwarz cards.
 Detect from various formats in source:
@@ -95,7 +103,7 @@ FORBIDDEN WORDS IN TITLE:
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 60-80 chars. Target 65-75 chars for optimal SEO.
+- Length: 40-75 chars (target 65-75, shorter OK if source-bound). If >75, shorten but keep SEO value.
 - Allowed symbols only: & / :
 - No commas, periods, hyphens, quotes, brackets, parentheses.
 
@@ -116,11 +124,24 @@ For Raw Cards:
 5. Language (Japanese)
 6. Game (Weiss Schwarz)
 
-SHORTENING RULES (apply when >80 chars):
+SHORTENING RULES (apply when >75 chars):
 1. Shorten "Weiss Schwarz" to "WS"
 2. Shorten anime title if commonly abbreviated (SAO, FGO)
 3. Remove year
 4. Never remove: Grade, Character Name, Rarity, Signed, Japanese
+
+LEGITIMATE KEYWORDS (use only if present in source):
+- SP (Signed) — only when source explicitly states サイン / SP / Signed
+- SSP (Super Special Signed) — only when source explicitly states SSP / スーパースペシャル
+- SEC (Secret Rare) — only when source explicitly states SEC / シークレット
+- OFR (Over Frame Rare) — only when source explicitly states OFR
+- RRR (Triple Rare) — only when source explicitly states RRR / トリプルレア
+- RR (Double Rare) — only when source explicitly states RR / ダブルレア
+- CR (Climax Rare) — only when source explicitly states CR / クライマックスレア
+- BPR (Box Promo) / PR (Promo) — only when source explicitly states promo card
+- Signed, Autograph — only when source explicitly states signed card
+- English Edition — only when source explicitly states English edition
+- Japanese Edition — only when source explicitly states Japanese edition
 
 DESCRIPTION (SEO Priority)
 - English ASCII only, <= 480 chars, single natural paragraph.
@@ -184,5 +205,7 @@ VERIFICATION (must pass before returning):
 13. Language field is always "Japanese".
 
 If any check fails, regenerate until all pass.
+
+REMINDER: If you cannot honestly fill 40 chars from source, output a shorter title. Lying is worse than being short.
 
 Input: ${fullText}
