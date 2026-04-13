@@ -21,7 +21,7 @@ var SANITIZE_FIELDS_ = {
   ],
   'Cameras': [
     'ブランド', 'モデル名', 'タイプ', 'シリーズ',
-    '色', '画素数', 'レンズマウント', 'バッテリータイプ',
+    '色', '画素数', '特徴', 'レンズマウント', 'バッテリータイプ',
     '付属レンズ', 'シャッター回数',
     '付属品', 'コンディション', '故障・不具合', '製造国'
   ],
@@ -928,7 +928,7 @@ var FIELD_EN_TO_JP_ = {
   'Bezel Color': 'ベゼル色', 'With Papers': '証明書付き',
   'With Original Box/Packaging': '箱付き', 'Indices': 'インデックス',
   // カメラ
-  'Series': 'シリーズ', 'Maximum Resolution': '最大解像度',
+  'Series': 'シリーズ', 'Maximum Resolution': '画素数',
   'Battery Type': 'バッテリータイプ', 'Lens Mount': 'レンズマウント',
   'Optical Zoom': '光学ズーム', 'Digital Zoom': 'デジタルズーム',
   'Maximum Aperture': '最大絞り値', 'Sensor Size': 'センサーサイズ',
