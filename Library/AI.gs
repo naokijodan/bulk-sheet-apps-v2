@@ -385,32 +385,21 @@ function sanitizeInputJP_(text) {
   text = text.replace(/\s{2,}/g, ' ');
   text = text.trim();
 
-  // === 製造国フィルタ (Sprint Contract FIX-TRANSLATION-COUNTRY-FILTER-20260413) ===
-  // α1: Description 部分のみ対象 (Japanese Title 部分は触らない / G1)
-  // γ2: 産地 は保護 - Japanese Dolls Provenance フィールドは除去しない
-  // G2: マーカーが見つからない場合はそのまま返す (フォールバック)
+  // === 製造国フィルタ v2 (Sprint Contract FIX-TRANSLATION-COUNTRY-FILTER-V2-20260413) ===
+  // α1: Description 部分のみ対象 (Japanese Title 部分は G1 保護)
+  // 実データ format: スペース区切り単一行 (Sanitize.gs parseSanitizedFields_ の parts.join(' '))
+  // 境界検出: lookahead で「半角スペース + 日本語フィールド名 + コロン + 半角スペース」or 文字列末尾
+  // 検証: /tmp/translation-filter-test.js で 8 テストケース全 PASS (Node v22.18.0)
   var descMarker = '\nJapanese Description: ';
   var descIdx = text.indexOf(descMarker);
   if (descIdx !== -1) {
     var titlePart = text.substring(0, descIdx + descMarker.length);
     var descPart = text.substring(descIdx + descMarker.length);
-
-    // β1: 製造国 フィールドを除去 (半角/全角コロン対応、パイプ・改行区切り両対応)
-    // [^|\n\r]* で値部分を消費。後続パイプ・改行は lookahead なしで自然に残る
-    descPart = descPart.replace(/(?:^|\|)\s*製造国[:：][^|\n\r]*/gm, function(match) {
-      // 先頭がパイプの場合はパイプを保持 (後続フィールドとの区切り維持)
-      return match.charAt(0) === '|' ? '|' : '';
-    });
-
-    // G4: クリーンアップ (連続パイプ・先頭末尾パイプ・余分な空白)
-    descPart = descPart.replace(/\|\s*\|/g, '|');
-    descPart = descPart.replace(/^\s*\|/, '');
-    descPart = descPart.replace(/\|\s*$/gm, '');
-    descPart = descPart.replace(/  +/g, ' ');
-
+    descPart = descPart.replace(/\s*製造国[:：][^\n]*?(?=\s+[一-龥ぁ-んァ-ヶー・]+[:：]\s|$)/g, '');
+    descPart = descPart.replace(/  +/g, ' ').trim();
     text = titlePart + descPart;
   }
-  // === 製造国フィルタここまで ===
+  // === 製造国フィルタ v2 ここまで ===
 
   return text;
 }
