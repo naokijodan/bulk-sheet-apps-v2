@@ -690,16 +690,8 @@ var IS_INITIAL_DATA = [
   { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Set Makeup', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' },
   { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Bounce', field_type: 'recommended', priority: 11, notes: '角度（ウェッジのバウンス角）' },
-  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Head Material', field_type: 'recommended', priority: 12, notes: 'Titanium, Stainless Steel, Carbon等' },
-  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Lie Angle Color', field_type: 'recommended', priority: 13, notes: '色付きライ角指定（カスタム）' },
-  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Head Shape', field_type: 'recommended', priority: 14, notes: 'Blade, Mallet, Cavity Back等' },
-  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Lie Angle', field_type: 'recommended', priority: 15, notes: 'ライ角（°）' },
-  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Model Year', field_type: 'recommended', priority: 16, notes: '発売年' },
-  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Color', field_type: 'recommended', priority: 17, notes: '' },
-  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Material', field_type: 'recommended', priority: 18, notes: '' },
-  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Type', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Vintage', field_type: 'optional', priority: 20, notes: 'Yes / No' },
-  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Department', field_type: 'optional', priority: 21, notes: 'Men, Women, Unisex等' },
+  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Head Shape', field_type: 'recommended', priority: 12, notes: 'Blade, Mallet, Cavity Back等' },
+  { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Lie Angle', field_type: 'recommended', priority: 13, notes: 'ライ角（°）' },
 
   // === Tennis ===
   { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -1632,17 +1624,9 @@ var IS_INITIAL_DATA = [
   { category: 'Golf Heads', tag_jp: 'ゴルフヘッド', field_name: 'Head Shape', field_type: 'recommended', priority: 8, notes: 'Blade / Mallet / Mid-mallet' },
   { category: 'Golf Heads', tag_jp: 'ゴルフヘッド', field_name: 'Bounce', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Golf Heads', tag_jp: 'ゴルフヘッド', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
-  { category: 'Golf Heads', tag_jp: 'ゴルフヘッド', field_name: 'Department', field_type: 'recommended', priority: 11, notes: 'Men\'s / Women\'s / Junior' },
-  { category: 'Golf Heads', tag_jp: 'ゴルフヘッド', field_name: 'Lie Angle Color', field_type: 'recommended', priority: 12, notes: '' },
-  { category: 'Golf Heads', tag_jp: 'ゴルフヘッド', field_name: 'Item Weight', field_type: 'recommended', priority: 13, notes: '' },
-  { category: 'Golf Heads', tag_jp: 'ゴルフヘッド', field_name: 'Color', field_type: 'recommended', priority: 14, notes: '' },
-  { category: 'Golf Heads', tag_jp: 'ゴルフヘッド', field_name: 'Head Size', field_type: 'recommended', priority: 15, notes: '460cc / 440cc等' },
-  { category: 'Golf Heads', tag_jp: 'ゴルフヘッド', field_name: 'Shaft Compatibility', field_type: 'recommended', priority: 16, notes: '対応シャフト種別 (Hosel size / Standard / TaylorMade等)' },
-  { category: 'Golf Heads', tag_jp: 'ゴルフヘッド', field_name: 'Year Manufactured', field_type: 'recommended', priority: 17, notes: '' },
-  { category: 'Golf Heads', tag_jp: 'ゴルフヘッド', field_name: 'Features', field_type: 'recommended', priority: 18, notes: '' },
-  { category: 'Golf Heads', tag_jp: 'ゴルフヘッド', field_name: 'Vintage', field_type: 'recommended', priority: 19, notes: 'Yes / No' },
-  { category: 'Golf Heads', tag_jp: 'ゴルフヘッド', field_name: 'Series', field_type: 'recommended', priority: 20, notes: '' },
-  { category: 'Golf Heads', tag_jp: 'ゴルフヘッド', field_name: 'Finish', field_type: 'recommended', priority: 21, notes: '' },
+  { category: 'Golf Heads', tag_jp: 'ゴルフヘッド', field_name: 'Head Size', field_type: 'recommended', priority: 11, notes: '460cc / 440cc等' },
+  { category: 'Golf Heads', tag_jp: 'ゴルフヘッド', field_name: 'Shaft Compatibility', field_type: 'recommended', priority: 12, notes: '対応シャフト種別 (Hosel size / Standard / TaylorMade等)' },
+  { category: 'Golf Heads', tag_jp: 'ゴルフヘッド', field_name: 'Finish', field_type: 'recommended', priority: 13, notes: '' },
 
   // === Kitchen Knives ===
   { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Type', field_type: 'required', priority: 1, notes: 'Santoku / Gyuto / Deba / Yanagiba / Nakiri等' },
@@ -5300,7 +5284,7 @@ var IS_CATEGORY_FIELDS = {
   ],
   'Golf Heads':          [
     'Brand', 'Golf Club Type', 'Loft', 'Handedness', 'Material', 'Model', 'Lie Angle', 'Head Shape', 'Bounce', 'Country of Origin',
-    'Department', 'Lie Angle Color', 'Item Weight', 'Color', 'Head Size', 'Shaft Compatibility', 'Year Manufactured', 'Features', 'Vintage', 'Series', 'Finish',
+    'Head Size', 'Shaft Compatibility', 'Finish',
   ],
   'Kimono': [
     'Brand', 'Type', 'Material', 'Color', 'Pattern', 'Season', 'Size', 'Technique/Weave', 'Country of Origin',
@@ -5336,16 +5320,8 @@ var IS_CATEGORY_FIELDS = {
     'Set Makeup',          //  9. 推奨
     'Country of Origin',   // 10. 推奨（維持）
     'Bounce',              // 11. 推奨
-    'Head Material',       // 12. 推奨
-    'Lie Angle Color',     // 13. 推奨
-    'Head Shape',          // 14. 推奨
-    'Lie Angle',           // 15. 推奨
-    'Model Year',          // 16. 推奨
-    'Color',               // 17. 推奨
-    'Material',            // 18. 推奨
-    'Type',                // 19. 任意
-    'Vintage',             // 20. 任意
-    'Department'           // 21. 任意
+    'Head Shape',          // 12. 推奨
+    'Lie Angle'            // 13. 推奨
   ],
   'Tennis': [
     'Brand', 'Type', 'Model', 'Head Size', 'Grip Size', 'String Pattern', 'Weight', 'Flex', 'Balance', 'Country of Origin',
