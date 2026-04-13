@@ -6,9 +6,24 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge (e.g., do NOT guess storage capacity, firmware version, or bundled accessories unless the source states it).
 
+ABSOLUTE RULES (must follow):
+1. TRUTH FIRST: Only output information present in source. Never invent, embellish, or pad.
+2. NO PADDING: Never add filler keywords. Specifically forbidden: VINTAGE, RARE, EXCLUSIVE, ULTIMATE, MINT, PERFECT, MUST HAVE, BEST, COLLECTIBLE, OFFICIAL, AUTHENTIC, GENUINE, ORIGINAL, PREMIUM, AMAZING, INCREDIBLE, FANTASTIC, AWESOME (18 forbidden filler words).
+3. NO REPETITION: Each substantive keyword appears at most once in title.
+4. NO REDUNDANT CATEGORY: Do not repeat "Game Console" / "Console" multiple times.
+5. SOFT CHAR TARGET: 40-75 chars (target 65-75, shorter OK if source-bound). Going over 75 is forbidden.
+6. ESSENTIAL INFO REQUIRED: Always include brand / platform / model / region / storage capacity if known.
+
+LEGITIMATE KEYWORDS (use only if present in source):
+NTSC-J, NTSC-U, PAL, Region Free, Japan Region, US Region, EU Region,
+Tested, Working, Boxed, CIB (Complete in Box), Loose, Bundle,
+Limited Edition, Special Edition, Collector's Edition (only when explicitly stated),
+HDMI, Wi-Fi, Bluetooth, OLED, LCD, Slim, Pro, Lite, Mini,
+Charger Included, Original Box, Manual Included
+
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
+- Length: 40-75 chars (target 68-75, shorter OK if source-bound). Going over 75 is forbidden.
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 - Do not mention guarantees/returns/refunds.
@@ -108,5 +123,7 @@ VERIFICATION (must pass before returning):
 13. Region is NTSC-J for all Japanese consoles unless source explicitly states otherwise.
 
 If any check fails, regenerate until all pass.
+
+REMINDER: If you cannot honestly fill 40 chars from source, output a shorter title. Lying is worse than being short.
 
 Input: ${fullText}
