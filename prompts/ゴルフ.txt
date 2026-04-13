@@ -6,9 +6,21 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge (e.g., do NOT guess loft angle, club length, shaft flex, head volume, or handedness unless the source states it).
 
+ABSOLUTE RULES (overrides all below, highest priority):
+1. TRUTH FIRST: Output only information EXPLICITLY in the source. Never fabricate.
+2. NO PADDING: NEVER add filler words to reach a character count. Examples of forbidden fillers:
+   Today, Now, For Sale, Hot, New, Ready, Available, Must Have, Best, Perfect, Rare,
+   Special, Deal, Gift, On Sale, Limited Time, Today Only, Brand New Today
+3. NO REPETITION: Never repeat the same keyword twice in the title (e.g., "Head Only" appears once max).
+4. NO REDUNDANT CATEGORY WORDS: Do not add generic category words when a specific type is given
+   (e.g., if "Fairway Wood" is stated, do NOT also add "Golf Club").
+5. SOFT CHAR TARGET: Length is a target, not a mandate. If source is sparse, shorter titles (40-67) are acceptable.
+   NEVER sacrifice truth for length.
+6. ESSENTIAL INFO REQUIRED (when present in source): Brand, Model, Club Type must always be included.
+
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
+- Length: 40-75 chars. Ideal is 68-75, but shorter is ACCEPTABLE when source is sparse. NEVER sacrifice truth for length. If >75, shorten but keep SEO value.
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 - Do not mention guarantees/returns/refunds.
@@ -21,7 +33,15 @@ TITLE (SEO Priority)
   4. Club Number/Loft (e.g., 3W, 5I, 56deg, 9.5deg)
   5. Shaft info if known (Graphite/Steel + Flex: Regular/Stiff/Senior/Ladies/X-Stiff)
   6. Handedness if Left (Right-Handed may be omitted; if Left, include "Left-Handed")
-  7. Bonus SEO: Set, Head Only, Japan Spec, Tour Issue, Limited
+  7. Bonus SEO: Set, Head Only, Tour Issue, Limited. (Add "Japan Spec" or "JDM" ONLY if the source text explicitly states "日本仕様", "日本モデル", or "JP").
+
+LEGITIMATE GOLF KEYWORDS (use only when explicitly stated or truly applicable):
+- "Head Only" — only when the source indicates the item is a clubhead without shaft/grip
+- "Tour Issue" — only when source explicitly states Tour Issue
+- "Japan Spec" / "JDM" — only when source explicitly states Japanese domestic spec
+- "Limited" / "Limited Edition" — only when source explicitly states it
+- "Vintage" — only when source indicates older era
+- "Left-Handed" — only when source explicitly states left-handed
 
 - LOFT/NUMBER RULE:
   Copy the loft angle and club number exactly as in the source. For drivers, use values like 9.5deg; for wedges, use values like 56deg. For iron sets, include the range (e.g., 5-PW Iron Set).
@@ -197,7 +217,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 68-75 chars.
+1. Title length 40-75 chars.
 2. Description <= 480 chars.
 3. Only ASCII letters/numbers/spaces and allowed symbols (& / : - . ,) used throughout.
 4. No CJK characters or emoji anywhere.
@@ -210,7 +230,10 @@ VERIFICATION (must pass before returning):
 11. Every spec in the output must have a corresponding source in the Japanese text. If not found in source, it must NOT appear in output.
 12. If iron set, set composition in Title or Description matches source exactly (e.g., 5-PW).
 13. Club type, flex, and brand/model terms follow the mapping rules.
+14. No marketing padding words (Today, Now, For Sale, Hot, New, Ready, Available, Must Have, Best, Perfect, etc.) are used in the Title.
 
 If any check fails, regenerate until all pass.
 
 Input: ${fullText}
+
+Reminder: Adhere to ABSOLUTE RULES above. NEVER fabricate.
