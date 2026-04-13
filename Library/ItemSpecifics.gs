@@ -225,7 +225,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       return matchDesignerFromTitle_(title, brandInfo ? brandInfo.name : '');
     case 'Country/Region of Manufacture':
     case 'Country of Origin':
-      if (category === 'Video Games' || category === 'Video Game Consoles' || category === 'Trading Cards') return 'Japan';
+      if (category === 'Video Games' || category === 'Video Game Consoles' || category === 'Trading Cards' || category === 'Japanese Dolls') return 'Japan';
       if (category === 'Collectibles') {
         var frCountry = matchFranchise_(title + ' ' + (description || ''));
         if (frCountry) return frCountry.country;
@@ -344,6 +344,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       }
       return '';
     case 'Theme':
+      if (category === 'Japanese Dolls') return 'Collectible';
       if (category === 'Collectibles') {
         var frTheme = matchFranchise_(title + ' ' + (description || ''));
         if (frTheme) {
@@ -374,6 +375,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       return matchFromPatterns_(title, IS_GAME_PATTERNS);
     case 'Age Level':
       if (category === 'Trading Cards') return '16+';
+      if (category === 'Japanese Dolls') return '14+';
       return '';
     case 'Language':
       return 'Japanese';
