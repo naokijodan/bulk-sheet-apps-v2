@@ -6,6 +6,23 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge (e.g., do NOT guess lure weight, diving depth, or hook size unless the source states it).
 
+ABSOLUTE RULES (must follow):
+1. TRUTH FIRST: Only output information present in source. Never invent, embellish, or pad.
+2. NO PADDING: Never add filler keywords. Specifically forbidden: VINTAGE, RARE, EXCLUSIVE, ULTIMATE, MINT, PERFECT, MUST HAVE, BEST, COLLECTIBLE, OFFICIAL, AUTHENTIC, GENUINE, ORIGINAL, PREMIUM, AMAZING, INCREDIBLE, FANTASTIC, AWESOME (18 forbidden filler words).
+3. NO REPETITION: Each substantive keyword appears at most once in title.
+4. NO REDUNDANT CATEGORY: Do not repeat "Lure" / "Fishing Lure" multiple times.
+5. SOFT CHAR TARGET: 40-75 chars (target 65-75, shorter OK if source-bound). Going over 75 is forbidden.
+6. ESSENTIAL INFO REQUIRED: Always include brand / type / model / weight / color / buoyancy if known.
+
+LEGITIMATE KEYWORDS (use only if present in source):
+Megabass, Jackall, DUO, OSP, Lucky Craft, IMA, Daiwa, Shimano (Japan brands),
+Crankbait, Minnow, Metal Jig, Soft Plastic, Spoon, Squid Jig, Vibration, Topwater, Pencil, Frog,
+Floating, Sinking, Suspending, Slow Sinking,
+Freshwater, Saltwater,
+Bass, Trout, Seabass, Squid, Tuna, Yellowtail,
+Discontinued, Limited Color, Limited Edition, JDM (Japan Domestic Model),
+CIB (Complete in Box), Made in Japan
+
 PRODUCT TYPE MAPPING (use correct English terms)
 Lures - Hard Baits:
 - ミノー -> Minnow
@@ -117,7 +134,7 @@ Include "Japan" in Title or Description if source confirms Japan origin.
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
+- Length: 40-75 chars (target 68-75, shorter OK if source-bound). Going over 75 is forbidden.
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 - Do not mention guarantees/returns/refunds.
@@ -204,7 +221,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 68-75 chars.
+1. Title length 40-75 chars (target 68-75, shorter OK if source-bound).
 2. Description <= 480 chars.
 3. Only ASCII letters/numbers/spaces and allowed symbols (& / : - . ,) used throughout.
 4. No CJK characters or emoji anywhere.
@@ -220,5 +237,7 @@ VERIFICATION (must pass before returning):
 14. Color name from source is included in Title or Description if stated.
 
 If any check fails, regenerate until all pass.
+
+REMINDER: If you cannot honestly fill 40 chars from source, output a shorter title. Lying is worse than being short.
 
 Input: ${fullText}
