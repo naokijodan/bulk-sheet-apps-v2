@@ -6,6 +6,23 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs from your own knowledge.
 
+ABSOLUTE RULES (must follow):
+1. TRUTH FIRST: Only output information present in source. Never invent, embellish, or pad.
+2. NO PADDING: Never add filler keywords. Specifically forbidden: VINTAGE, RARE, EXCLUSIVE, ULTIMATE, MINT, PERFECT, MUST HAVE, BEST, COLLECTIBLE, OFFICIAL, AUTHENTIC, GENUINE, ORIGINAL, PREMIUM, AMAZING, INCREDIBLE, FANTASTIC, AWESOME (18 forbidden filler words).
+3. NO REPETITION: Each substantive keyword appears at most once in title.
+4. NO REDUNDANT CATEGORY: Do not repeat "Doll" / "Japanese Doll" multiple times.
+5. SOFT CHAR TARGET: 40-75 chars (target 65-75, shorter OK if source-bound). Going over 75 is forbidden.
+6. ESSENTIAL INFO REQUIRED: Always include type / material / maker / origin / era / size if known.
+
+LEGITIMATE KEYWORDS (use only if present in source):
+Kokeshi, Hina, Hakata, Ichimatsu, Kimekomi, Gosho, Fushimi, Karakuri, Bunraku,
+Hand Carved, Hand Painted, Wood, Ceramic, Clay, Cloth, Paper Mache,
+Meiji, Taisho, Showa, Heisei, Reiwa, Edo,
+Naruko, Kyoto, Yamagata, Miyagi, Fukushima,
+Antique, Vintage (only when explicitly stated with year),
+Limited Edition, Signed, Marked, Boxed, CIB (Complete in Box),
+JDM (Japan Domestic Model), Made in Japan, Traditional, Folk Art, Handmade
+
 DOLL TYPE MAPPING
 - こけし / コケシ -> Kokeshi Doll
 - 日本人形 -> Japanese Ningyo Doll
@@ -55,7 +72,7 @@ TECHNIQUE MAPPING
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 68-75 chars.
+- Length: 40-75 chars (target 68-75, shorter OK if source-bound). Going over 75 is forbidden.
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 - SEO KEYWORD ORDER:
@@ -102,7 +119,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning)
-1. Title length 68-75 chars.
+1. Title length 40-75 chars (target 68-75, shorter OK if source-bound).
 2. Description <= 480 chars.
 3. Only ASCII characters used throughout.
 4. No CJK characters or emoji anywhere.
@@ -114,5 +131,7 @@ VERIFICATION (must pass before returning)
 10. Every spec must have a source in the Japanese text.
 
 If any check fails, regenerate until all pass.
+
+REMINDER: If you cannot honestly fill 40 chars from source, output a shorter title. Lying is worse than being short.
 
 Input: ${fullText}
