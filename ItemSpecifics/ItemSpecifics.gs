@@ -291,6 +291,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
     case 'Dial Color':
       return matchAllColors_(title);
     case 'Features':
+      if (category === 'Trading Cards') return 'Collectors Edition';
       if (category === 'Hats') {
         return matchHatFeatures_((title || '') + ' ' + (description || ''));
       }
@@ -371,6 +372,9 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       return '';
     case 'Game':
       return matchFromPatterns_(title, IS_GAME_PATTERNS);
+    case 'Age Level':
+      if (category === 'Trading Cards') return '16+';
+      return '';
     case 'Language':
       return 'Japanese';
     case 'Wrist Size':
