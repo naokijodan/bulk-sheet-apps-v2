@@ -5028,7 +5028,7 @@ var IS_CATEGORY_FIELDS = {
   ],
   'Trading Cards': [
     'Game', 'Set', 'Character', 'Card Name', 'Card Number', 'Rarity', 'Finish', 'Graded', 'Professional Grader', 'Grade',
-    'Card Type', 'Speciality', 'Age Level', 'Features', 'Language', 'Type', 'Era', 'Year', 'Country of Origin', 'Color', 'Vintage',
+    'Card Type', 'Age Level', 'Features', 'Language',
   ],
   'Brooches': [
     'Type', 'Brand', 'Material', 'Color', 'Metal', 'Main Stone', 'Main Stone Color', 'Theme', 'Main Stone Shape', 'Country of Origin',
