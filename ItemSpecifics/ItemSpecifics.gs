@@ -225,7 +225,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       return matchDesignerFromTitle_(title, brandInfo ? brandInfo.name : '');
     case 'Country/Region of Manufacture':
     case 'Country of Origin':
-      if (category === 'Video Games' || category === 'Video Game Consoles' || category === 'Trading Cards' || category === 'Japanese Dolls' || category === 'Japanese Swords' || category === 'Tea Ceremony' || category === 'Bonsai' || category === 'Buddhist Art' || category === 'Tetsubin' || category === 'Pottery') return 'Japan';
+      if (category === 'Video Games' || category === 'Video Game Consoles' || category === 'Trading Cards' || category === 'Japanese Dolls' || category === 'Japanese Swords' || category === 'Tea Ceremony' || category === 'Bonsai' || category === 'Buddhist Art' || category === 'Tetsubin' || category === 'Pottery' || category === 'Kakejiku') return 'Japan';
       if (category === 'Collectibles') {
         var frCountry = matchFranchise_(title + ' ' + (description || ''));
         if (frCountry) return frCountry.country;
