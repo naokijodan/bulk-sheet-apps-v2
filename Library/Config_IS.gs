@@ -1467,16 +1467,7 @@ var IS_INITIAL_DATA = [
   { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Time Period Produced', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
   { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Style', field_type: 'recommended', priority: 11, notes: '' },
-  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Theme', field_type: 'recommended', priority: 12, notes: '' },
-  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Color', field_type: 'recommended', priority: 13, notes: '' },
-  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Material', field_type: 'recommended', priority: 14, notes: '' },
-  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Origin/Kiln', field_type: 'recommended', priority: 15, notes: '' },
-  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Maker', field_type: 'recommended', priority: 16, notes: '' },
-  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Features', field_type: 'recommended', priority: 17, notes: '' },
-  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Vintage', field_type: 'recommended', priority: 18, notes: 'Yes / No' },
-  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Department', field_type: 'recommended', priority: 19, notes: '' },
-  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Season', field_type: 'recommended', priority: 20, notes: '' },
-  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Occasion', field_type: 'recommended', priority: 21, notes: '' },
+  { category: 'Kakejiku', tag_jp: '掛軸,掛け軸,床掛け', field_name: 'Season', field_type: 'recommended', priority: 12, notes: '' },
 
   // === Pottery ===
   { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Brand', field_type: 'recommended', priority: 1, notes: '窯元名（香蘭社/深川製磁/柿右衛門等）' },
@@ -5182,10 +5173,7 @@ var IS_CATEGORY_FIELDS = {
     'Artist', 'Production Technique', 'Style', 'Subject', 'Theme', 'Size', 'Material', 'Original/Licensed Reproduction', 'Time Period Produced', 'Country of Origin',
     'Listed By', 'Edition', 'Framing', 'Signed', 'Department', 'Features', 'Era/Period', 'Vintage', 'Series', 'Collection', 'Number of Pieces',
   ],
-  'Kakejiku':      [
-    'Artist', 'Production Technique', 'Support', 'Mounting Type', 'Scroll Rod Material', 'Box Type', 'Subject', 'Size', 'Time Period Produced', 'Country of Origin',
-    'Style', 'Theme', 'Color', 'Material', 'Origin/Kiln', 'Maker', 'Features', 'Vintage', 'Department', 'Season', 'Occasion',
-  ],
+  'Kakejiku':      ['Artist', 'Production Technique', 'Support', 'Mounting Type', 'Scroll Rod Material', 'Box Type', 'Subject', 'Size', 'Time Period Produced', 'Country of Origin', 'Style', 'Season'],
   'Pottery':       ['Brand', 'Type', 'Material', 'Color', 'Production Technique', 'Origin/Kiln', 'Style', 'Pattern', 'Size', 'Country of Origin', 'Era/Period', 'Maker', 'Glaze/Finish', 'Subject'],
   'Belts': [
     'Brand', 'Type', 'Material', 'Color', 'Size', 'Department', 'Style', 'Theme', 'Country of Origin',
