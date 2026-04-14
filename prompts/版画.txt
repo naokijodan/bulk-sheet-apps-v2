@@ -6,6 +6,42 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge.
 
+========================================
+ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
+========================================
+
+1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source. **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
+
+2. **NO PADDING**: Never use these 18 forbidden filler words under any circumstances:
+   Beautiful / Gorgeous / Stunning / Elegant / Exquisite / Refined / Luxury / Premium /
+   Classic / Timeless / Authentic / Genuine / Original / Real / High Quality / Top Quality /
+   Excellent / Perfect
+
+3. **NO REPETITION**: Do not repeat any token more than once in Title.
+
+4. **NO REDUNDANT CATEGORY**: Do not include generic category words like 'Print', 'Prints', 'Artwork' alone in Title (the eBay category already conveys this). Specific medium words (Woodblock / Lithograph / Etching / Screenprint) ARE allowed.
+
+5. **SOFT CHAR TARGET**: Title target length is **40-75 chars (ideal 68-75)**. Shorter OK if source-bound; padding is a worse violation than being short.
+
+6. **ESSENTIAL INFO REQUIRED** (11 fields, NOT IS field count): Medium / Subject / Maker / Style / Size / Era/Period / Original/Licensed Reproduction / Edition / Series / Framing / Signed must be captured when the source provides them — in that priority order. (Note: Listed By is admin field; Country of Origin is auto-resolved — both excluded from this list.)
+
+========================================
+LEGITIMATE KEYWORDS (Prints specific — source-only)
+========================================
+
+Mediums: Woodblock Print / Mokuhanga / Lithograph / Etching / Drypoint / Mezzotint / Aquatint / Screenprint / Silkscreen / Linocut / Engraving / Photogravure
+Ukiyo-e Artists: Hokusai / Hiroshige / Utamaro / Sharaku / Kuniyoshi / Kunisada / Eishi / Eisen / Yoshitoshi / Toyokuni
+Shin-hanga Artists: Hasui Kawase / Hiroshi Yoshida / Goyo Hashiguchi / Shinsui Ito / Koitsu Tsuchiya / Bartlett
+Sosaku-hanga Artists: Onchi Koshiro / Hiratsuka Un'ichi / Munakata Shiko / Saito Kiyoshi / Azechi Umetaro
+Western Print Artists: Picasso / Matisse / Chagall / Miro / Warhol / Lichtenstein / Hockney / Rauschenberg
+Styles: Ukiyo-e / Shin-hanga / Sosaku-hanga / Mingei / Modernist / Pop Art / Abstract / Realism
+Series: 36 Views of Mt Fuji / Tokaido / 53 Stations / 100 Famous Views of Edo / 100 Aspects of the Moon / Suikoden
+Signed: Signed / Unsigned / Numbered / AP / Artist Proof / HC / Hors Commerce / Sealed / Stamped / Pencil Signed
+Framing: Framed / Unframed / Matted / Mounted / In Folder
+Editions: Limited Edition / Open Edition / Numbered / First Edition / Later Printing / Posthumous Printing
+Era: Edo / Meiji / Taisho / Showa / Heisei / 19th Century / 20th Century / 21st Century
+Origin Indicators: Made in Japan / Tokyo / Kyoto / Paris / New York / London (use only if source-confirmed)
+
 PRINT TYPE MAPPING
 - 版画 -> Print
 - リトグラフ -> Lithograph
@@ -59,7 +95,7 @@ PRESENTATION MAPPING
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 68-75 chars.
+- Length: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 75).
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 - SEO KEYWORD ORDER:
@@ -120,7 +156,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 68-75 chars.
+1. Title length 40-75 chars (target 68-75).
 2. Description <= 480 chars.
 3. Only ASCII characters used throughout.
 4. No CJK characters or emoji anywhere.
@@ -131,5 +167,9 @@ VERIFICATION (must pass before returning):
 9. Defects reported if mentioned in source.
 10. Every spec must have a source in the Japanese text.
 If any check fails, regenerate until all pass.
+
+========================================
+REMINDER: Lying is worse than being short.
+========================================
 
 Input: ${fullText}
