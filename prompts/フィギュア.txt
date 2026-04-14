@@ -6,6 +6,40 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - Leverage Japan's figure market appeal for international collectors.
 
+========================================
+ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
+========================================
+
+1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source. **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
+
+2. **NO PADDING**: Never use these 18 forbidden filler words under any circumstances:
+   Beautiful / Gorgeous / Stunning / Elegant / Exquisite / Refined / Luxury / Premium /
+   Classic / Timeless / Authentic / Genuine / Original / Real / High Quality / Top Quality /
+   Excellent / Perfect
+
+3. **NO REPETITION**: Do not repeat any token more than once in Title.
+
+4. **NO REDUNDANT CATEGORY**: Do not include generic category words like 'Figure', 'Figurine', 'Toy' alone in Title (the eBay category already conveys this). Specific type words (Action Figure / Statue / Nendoroid / Figma / Prize Figure / S.H.Figuarts) ARE allowed.
+
+5. **SOFT CHAR TARGET**: Title target length is **40-75 chars (ideal 68-75)**. Shorter OK if source-bound; padding is a worse violation than being short.
+
+6. **ESSENTIAL INFO REQUIRED** (10 fields, NOT IS field count): Franchise / Character / Type / Brand / Scale / Material / Series-Line / Official-Bootleg / Release Year / Series-specific markers must be captured when the source provides them — in that priority order. (Note: Listed By is admin field; Country of Origin / Theme / Age Level / Features are auto-injected — all 5 excluded from this list.)
+
+========================================
+LEGITIMATE KEYWORDS (Figures specific — source-only)
+========================================
+
+Types: Action Figure / Statue / Nendoroid / Figma / Prize Figure / S.H.Figuarts / Pop Up Parade / Plamax / GK / Garage Kit / Trading Figure / Capsule Toy / Gashapon
+Japanese Brands: Good Smile Company / Max Factory / Kotobukiya / Alter / Banpresto / Bandai / Tamashii Nations / Megahouse / Aniplex / Plum / Sega Goods / Furyu / Taito / Wave / Volks
+Anime/Game Franchises: Demon Slayer / Kimetsu no Yaiba / Jujutsu Kaisen / Spy x Family / Chainsaw Man / Attack on Titan / My Hero Academia / Naruto / Dragon Ball / One Piece / Genshin Impact / Pokemon / Final Fantasy / Persona / Idolmaster / Love Live / Vocaloid / Hatsune Miku / Touhou / Fate / Sword Art Online / Re:Zero / Ghibli / Evangelion / Gundam
+Scales: 1/4 / 1/6 / 1/7 / 1/8 / 1/10 / 1/12 / Non-scale / Real Scale
+Materials: PVC / ABS / Resin / Soft Vinyl / Sofvi / Diecast / Metal / Cold Cast / Polystone
+Series Lines: Figma / Nendoroid / Pop Up Parade / S.H.Figuarts / Robot Spirits / Soul of Chogokin / D-Arts / Revoltech / Mafex / Movie Realization
+Authentication: Official / Bootleg / KO / Replica / Authentic
+Conditions: Brand New / Sealed / Mint / Opened / Loose / Displayed Only / Box Damage / Defects
+Release Markers: Limited / Exclusive / First Edition / Re-release / Pre-painted / Pre-order
+Origin Indicators: Made in Japan / Made in China / JDM (use only if source-confirmed)
+
 STEP 1: PRODUCT TYPE DETECTION
 Identify the figure type from source text to apply correct terminology:
 
@@ -67,7 +101,7 @@ Determine item status from source and apply correct terminology:
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 68–75 chars. If >75, shorten but keep SEO value.
+- Length: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 75).
 - Allowed symbols only: & / :
 - No commas, periods, hyphens, quotes, brackets, parentheses.
 - Do not mention guarantees/returns/refunds.
@@ -152,7 +186,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 68–75 chars.
+1. Title length 40-75 chars (target 68-75).
 2. Description <= 480 chars.
 3. Only ASCII letters/numbers/spaces/&/: used throughout.
 4. No CJK characters or emoji anywhere.
@@ -167,5 +201,9 @@ VERIFICATION (must pass before returning):
 13. No forbidden symbols in Title (no , . - " ' ( ) [ ]).
 
 If any check fails, regenerate until all pass.
+
+========================================
+REMINDER: Lying is worse than being short.
+========================================
 
 Input: ${fullText}
