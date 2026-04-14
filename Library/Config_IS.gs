@@ -806,27 +806,20 @@ var IS_INITIAL_DATA = [
   { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Subject', field_type: 'optional', priority: 21, notes: '' },
 
   // === Figures ===
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Franchise', field_type: 'required', priority: 1, notes: '作品名' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Character', field_type: 'required', priority: 2, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Type', field_type: 'required', priority: 3, notes: 'Action Figure / Statue / Nendoroid / Prize Figure等' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Brand', field_type: 'required', priority: 4, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Scale', field_type: 'recommended', priority: 5, notes: '1/6 / 1/7 / 1/8 / Non-scale' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Material', field_type: 'recommended', priority: 6, notes: 'PVC / ABS / Resin' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Series/Line', field_type: 'recommended', priority: 7, notes: 'Figma / Nendoroid / Pop Up Parade / S.H.Figuarts等' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Official/Bootleg', field_type: 'recommended', priority: 8, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Release Year', field_type: 'recommended', priority: 9, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Movie', field_type: 'recommended', priority: 11, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'TV Show', field_type: 'recommended', priority: 12, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Featured Person/Artist', field_type: 'recommended', priority: 13, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Model', field_type: 'recommended', priority: 14, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Grade', field_type: 'recommended', priority: 15, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Theme', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Color', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Size', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Occasion', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Vintage', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Department', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Listed By',        field_type: 'required',    priority: 1,  notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Franchise',        field_type: 'required',    priority: 2,  notes: '作品名' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Character',        field_type: 'required',    priority: 3,  notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Type',             field_type: 'required',    priority: 4,  notes: 'Action Figure / Statue / Nendoroid / Prize Figure等' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Brand',            field_type: 'required',    priority: 5,  notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Scale',            field_type: 'recommended', priority: 6,  notes: '1/6 / 1/7 / 1/8 / Non-scale' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Material',         field_type: 'recommended', priority: 7,  notes: 'PVC / ABS / Resin' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Series/Line',      field_type: 'recommended', priority: 8,  notes: 'Figma / Nendoroid / Pop Up Parade / S.H.Figuarts等' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Official/Bootleg', field_type: 'recommended', priority: 9,  notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Release Year',     field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Country of Origin',field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Theme',            field_type: 'optional',    priority: 12, notes: 'auto-injected: Anime & Manga' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Age Level',        field_type: 'recommended', priority: 13, notes: 'auto-injected: 17 Years & Up (CPSC compliance)' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Features',         field_type: 'optional',    priority: 14, notes: 'auto-injected: Collectors Edition' },
 
   // === Stamps ===
   { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Certification', field_type: 'required', priority: 1, notes: 'PCGS / NGC等' },
@@ -5288,10 +5281,7 @@ var IS_CATEGORY_FIELDS = {
     'Occasion',            // 20. 任意
     'Subject'              // 21. 任意
   ],
-  'Figures': [
-    'Franchise', 'Character', 'Type', 'Brand', 'Scale', 'Material', 'Series/Line', 'Official/Bootleg', 'Release Year', 'Country of Origin',
-    'Movie', 'TV Show', 'Featured Person/Artist', 'Model', 'Grade', 'Theme', 'Color', 'Size', 'Occasion', 'Vintage', 'Department',
-  ],
+  'Figures': ['Listed By', 'Franchise', 'Character', 'Type', 'Brand', 'Scale', 'Material', 'Series/Line', 'Official/Bootleg', 'Release Year', 'Country of Origin', 'Theme', 'Age Level', 'Features'],
   'Stamps': [
     'Certification', 'Type', 'Year of Issue', 'Topic', 'Quality', 'Country of Origin',
     'Grade', 'Series', 'Theme', 'Features', 'Denomination', 'Department', 'Vintage', 'Era', 'Official/Unofficial', 'Collection', 'Occasion', 'Style', 'Number of Pieces', 'Pattern', 'Set Includes',
