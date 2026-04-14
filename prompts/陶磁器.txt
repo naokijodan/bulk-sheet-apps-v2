@@ -6,6 +6,38 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information explicitly stated in the source. Do NOT add details from your own knowledge.
 
+========================================
+ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
+========================================
+
+1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source (title_jp, description_jp, tag_jp). **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
+
+2. **NO PADDING**: Never use these 18 forbidden filler words under any circumstances:
+   Beautiful / Gorgeous / Stunning / Elegant / Exquisite / Refined / Luxury / Premium /
+   Classic / Timeless / Authentic / Genuine / Original / Real / High Quality / Top Quality /
+   Excellent / Perfect
+
+3. **NO REPETITION**: Do not repeat any token more than once in Title.
+
+4. **NO REDUNDANT CATEGORY**: Do not include generic category words like 'Pottery', 'Ceramic', 'Porcelain', 'Japanese' in Title (the eBay category already conveys this).
+
+5. **SOFT CHAR TARGET**: Title target length is **40-75 chars (ideal 68-75)**. Shorter OK if source-bound; padding is a worse violation than being short.
+
+6. **ESSENTIAL INFO REQUIRED**: Brand / Type / Material / Origin-Kiln / Maker / Era-Period / Glaze-Finish / Color / Pattern / Size must be captured when the source provides them — in that priority order.
+
+========================================
+LEGITIMATE KEYWORDS (Pottery specific — source-only)
+========================================
+
+Type terms: Vase / Bowl / Chawan / Plate / Dish / Cup / Incense Burner / Koro / Jar / Pot / Tsubo / Teapot / Kyusu / Sake Cup / Guinomi / Tokkuri / Figurine / Hachi / Mizusashi
+Kilns: Arita Ware / Imari / Ko-Imari / Kutani / Bizen / Hagi / Shigaraki / Seto / Mino / Karatsu / Kyo / Kiyomizu / Oribe / Shino / Satsuma / Mashiko / Tokoname / Raku
+Makers: Hamada Shoji / Kawai Kanjiro / Kitaoji Rosanjin / Arakawa Toyozo / Kato Tokuro / Miwa Kyusetsu
+Materials: Porcelain / Stoneware / Earthenware / Celadon / Tenmoku / Hakuji / Seihakuji
+Techniques: Overglaze / Underglaze / Sometsuke / Blue and White / Gold Painting / Kinsai / Celadon / Unglazed / Yakishime / Kintsugi / Hakeme / Iron Painting
+Glaze colors: Celadon / Tenmoku / Hakuji / Seihakuji / Aka-e / Iro-e / Kinrande / Ame-yu / Shino-yu / Oribe-yu / Kuro-yu / Ki-seto
+Era: Momoyama / Edo / Meiji / Taisho / Showa / Heisei / Reiwa
+Features: Antique / Signed / Tomobako / Shofuda / Hakogaki / Original Box / Made in Japan / JDM / Handmade / Traditional / Folk Art / Mingei / Ningen Kokuho (Living National Treasure)
+
 PRODUCT TYPE DETECTION (Ceramics-specific dictionary)
 - Kiln/Style:
   有田焼 -> Arita Ware
@@ -54,7 +86,7 @@ MATERIAL MAPPING
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
+- Length: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 75).
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 - SEO order: Japanese + Product type (with kiln/style) + Material + Maker/Kiln if stated + Motif/Technique + Era (if stated) + Antique/Vintage/Handmade.
@@ -91,7 +123,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning)
-1. Title length 68-75 chars.
+1. Title length 40-75 chars (target 68-75).
 2. Description <= 480 chars.
 3. Only ASCII characters and allowed symbols used throughout.
 4. No CJK characters or emoji anywhere.
@@ -104,5 +136,9 @@ VERIFICATION (must pass before returning)
 11. Every spec must be supported by the source text.
 
 If any check fails, regenerate until all pass.
+
+========================================
+REMINDER: Lying is worse than being short.
+========================================
 
 Input: ${fullText}
