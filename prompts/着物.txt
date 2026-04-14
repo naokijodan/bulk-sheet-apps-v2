@@ -6,6 +6,42 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge.
 
+========================================
+ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
+========================================
+
+1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source. **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
+
+2. **NO PADDING**: Never use these 18 forbidden filler words under any circumstances:
+   Beautiful / Gorgeous / Stunning / Elegant / Exquisite / Refined / Luxury / Premium /
+   Classic / Timeless / Authentic / Genuine / Original / Real / High Quality / Top Quality /
+   Excellent / Perfect
+
+3. **NO REPETITION**: Do not repeat any token more than once in Title.
+
+4. **NO REDUNDANT CATEGORY**: Do not include generic category words like 'Kimono', 'Wafuku', 'Japanese' in Title (the eBay category already conveys this).
+
+5. **SOFT CHAR TARGET**: Title target length is **40-75 chars (ideal 68-75)**. Shorter OK if source-bound; padding is a worse violation than being short.
+
+6. **ESSENTIAL INFO REQUIRED**: Brand / Type / Material / Color / Pattern / Season / Size / Technique-Weave / Era / Department / Occasion must be captured when the source provides them — in that priority order.
+
+========================================
+LEGITIMATE KEYWORDS (Kimono specific — source-only)
+========================================
+
+Kimono Types: Furisode / Tomesode / Houmongi / Tsukesage / Komon / Iromuji / Tsumugi / Yukata / Mofuku / Haori / Hakama / Michiyuki
+Obi Types: Fukuro Obi / Nagoya Obi / Hanhaba Obi / Kaku Obi / Maru Obi
+Materials: Pure Silk / Shoken / Chirimen / Rinzu / Cotton / Momen / Linen / Asa / Polyester / Wool
+Techniques: Yuzen / Kaga Yuzen / Kyo Yuzen / Shibori / Bingata / Katazome / Edo Komon
+Weaves: Nishijin-ori / Hakata-ori / Oshima Tsumugi / Yuki Tsumugi / Tatami-omote / Kasuri
+Origins: Kyoto / Kaga / Nishijin / Oshima / Yuki / Kumejima / Hakata / Yamaguchi
+Patterns: Floral / Hana / Geometric / Kikko / Asanoha / Crane / Tsuru / Stripe / Shima / Komon / Karakusa / Sayagata
+Seasons: Awase / Lined / Hitoe / Unlined / Natsumono / Summer / Yukata
+Era: Meiji / Taisho / Showa / Heisei
+Department: Women / Ladies / Men / Mens / Kids / Children
+Occasions: Coming-of-Age / Seijinshiki / Wedding / Marriage / Tea Ceremony / Sado / Graduation / Sotsugyoshiki
+Features: Antique / Signed / Vintage Silk / Made in Japan / Hand Painted / Hand Dyed / Hand Woven
+
 KIMONO TYPE MAPPING (use BOTH Japanese name and English description for SEO)
 - 振袖 -> Furisode (Long-Sleeved Kimono)
 - 留袖 / 黒留袖 -> Tomesode (Formal Kimono)
@@ -69,7 +105,7 @@ Format: "Length 160cm/63in, Yuki 67cm/26.4in"
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
+- Length: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 75).
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 
@@ -131,7 +167,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 68-75 chars.
+1. Title length 40-75 chars (target 68-75).
 2. Description <= 480 chars.
 3. Only ASCII characters and allowed symbols used throughout.
 4. No CJK characters or emoji anywhere.
@@ -145,5 +181,9 @@ VERIFICATION (must pass before returning):
 12. Every spec must have a corresponding source in the Japanese text.
 
 If any check fails, regenerate until all pass.
+
+========================================
+REMINDER: Lying is worse than being short.
+========================================
 
 Input: ${fullText}
