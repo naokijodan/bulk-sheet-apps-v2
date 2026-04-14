@@ -225,7 +225,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       return matchDesignerFromTitle_(title, brandInfo ? brandInfo.name : '');
     case 'Country/Region of Manufacture':
     case 'Country of Origin':
-      if (category === 'Video Games' || category === 'Video Game Consoles' || category === 'Trading Cards' || category === 'Japanese Dolls' || category === 'Japanese Swords' || category === 'Tea Ceremony' || category === 'Bonsai' || category === 'Buddhist Art' || category === 'Tetsubin' || category === 'Pottery' || category === 'Kakejiku' || category === 'Kimono' || category === 'Figures') return 'Japan';
+      if (category === 'Video Games' || category === 'Video Game Consoles' || category === 'Trading Cards' || category === 'Japanese Dolls' || category === 'Japanese Swords' || category === 'Tea Ceremony' || category === 'Bonsai' || category === 'Buddhist Art' || category === 'Tetsubin' || category === 'Pottery' || category === 'Kakejiku' || category === 'Kimono' || category === 'Figures' || category === 'Mecha Model Kits') return 'Japan';
       if (category === 'Collectibles') {
         var frCountry = matchFranchise_(title + ' ' + (description || ''));
         if (frCountry) return frCountry.country;
@@ -293,6 +293,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
     case 'Features':
       if (category === 'Trading Cards') return 'Collectors Edition';
       if (category === 'Figures') return 'Collectors Edition';
+      if (category === 'Mecha Model Kits') return 'Collectors Edition';
       if (category === 'Hats') {
         return matchHatFeatures_((title || '') + ' ' + (description || ''));
       }
@@ -347,6 +348,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
     case 'Theme':
       if (category === 'Japanese Dolls') return 'Collectible';
       if (category === 'Figures') return 'Anime & Manga';
+      if (category === 'Mecha Model Kits') return 'Anime & Manga';
       if (category === 'Collectibles') {
         var frTheme = matchFranchise_(title + ' ' + (description || ''));
         if (frTheme) {
@@ -379,6 +381,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       if (category === 'Trading Cards') return '16+';
       if (category === 'Japanese Dolls') return '14+';
       if (category === 'Figures') return '17 Years & Up';
+      if (category === 'Mecha Model Kits') return '17 Years & Up';
       return '';
     case 'Language':
       return 'Japanese';

@@ -6,6 +6,38 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge (e.g., do NOT guess grade, scale, or kit contents unless the source states it).
 
+========================================
+ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
+========================================
+
+1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source. **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
+
+2. **NO PADDING**: Never use these 18 forbidden filler words under any circumstances:
+   Beautiful / Gorgeous / Stunning / Elegant / Exquisite / Refined / Luxury / Premium /
+   Classic / Timeless / Authentic / Genuine / Original / Real / High Quality / Top Quality /
+   Excellent / Perfect
+
+3. **NO REPETITION**: Do not repeat any token more than once in Title.
+
+4. **NO REDUNDANT CATEGORY**: Do not include generic category words like 'Model Kit' or 'Plastic Model' alone in Title (the eBay category already conveys this). Specific type words (Gunpla / HGUC / MG / RG / PG / SD / Frame Arms etc.) ARE allowed.
+
+5. **SOFT CHAR TARGET**: Title target length is **40-75 chars (ideal 68-75)**. Shorter OK if source-bound; padding is a worse violation than being short.
+
+6. **ESSENTIAL INFO REQUIRED** (8 fields, NOT IS field count): Brand / Series/Franchise / Character/Mecha / Grade / Scale / Type / Built Status / Release Year must be captured when the source provides them — in that priority order. (Note: Listed By is admin field; Country of Origin / Theme / Age Level / Features are auto-injected — all 5 excluded from this list.)
+
+========================================
+LEGITIMATE KEYWORDS (Mecha Model Kits specific — source-only)
+========================================
+
+Grades: HG / HGUC / HGCE / HGIBO / HGBF / MG / MGEX / RG / PG / PG UNLEASHED / SD / SDCS / SDW / BB Senshi / RE/100 / Full Mechanics / EG / No Grade / Hi-Resolution Model / Mega Size
+Japanese Brands: Bandai / Bandai Spirits / Kotobukiya / Hasegawa / Aoshima / Wave / Volks / Good Smile Company / Kaiyodo
+Franchises: Gundam / Evangelion / Macross / Zoids / Frame Arms / Frame Arms Girl / Armored Core / Patlabor / Votoms / Code Geass / Full Metal Panic
+Scales: 1/144 / 1/100 / 1/60 / 1/48 / 1/72 / Non-scale
+Build Status: Unbuilt / Sealed / Built / Assembled / Snap-Built / Painted / Custom Painted / Partially Built / For Parts
+Limited Editions: P-Bandai / Premium Bandai Exclusive / Event Exclusive / Campaign Limited / Titanium Finish / Metallic Coating / Special Coating / Limited Clear Color
+Authentication: Official / Bootleg / KO / Replica
+Conditions: Brand New / Sealed / Opened / Complete / Loose / Box Damage / Defects
+
 GRADE MAPPING (CRITICAL for Gunpla)
 - HG -> HG (High Grade)
 - HGUC -> HGUC (High Grade Universal Century)
@@ -150,7 +182,7 @@ P-Bandai and limited items command premium prices. Always highlight in Title.
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
+- Length: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 75).
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 - **IMPORTANT**: Do NOT include any condition/status terms (like Junk, Not Working, For Parts) unless they are **explicitly and clearly written** in the Japanese source text.
@@ -226,7 +258,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 68-75 chars.
+1. Title length 40-75 chars (target 68-75).
 2. Description <= 480 chars.
 3. Only ASCII letters/numbers/spaces and allowed symbols (& / : - . ,) used throughout.
 4. No CJK characters or emoji anywhere.
@@ -242,5 +274,9 @@ VERIFICATION (must pass before returning):
 14. Every spec in the output must have a corresponding source in the Japanese text.
 
 If any check fails, regenerate until all pass.
+
+========================================
+REMINDER: Lying is worse than being short.
+========================================
 
 Input: ${fullText}

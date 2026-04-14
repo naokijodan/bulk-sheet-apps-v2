@@ -714,27 +714,19 @@ var IS_INITIAL_DATA = [
   { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Country of Origin',field_type: 'recommended', priority: 12, notes: '' },
 
   // === Mecha Model Kits ===
-  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Brand', field_type: 'required', priority: 1, notes: 'Bandai / Kotobukiya / Wave等' },
-  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Series/Franchise', field_type: 'required', priority: 2, notes: 'Gundam / Evangelion / Macross / Zoids等' },
-  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Character/Mecha', field_type: 'required', priority: 3, notes: '' },
-  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Grade', field_type: 'required', priority: 4, notes: 'HG / MG / RG / PG / SD等' },
-  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Scale', field_type: 'recommended', priority: 5, notes: '1/144, 1/100, 1/60等' },
-  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Type', field_type: 'recommended', priority: 6, notes: 'Plastic Model Kit / Resin Kit' },
-  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Built Status', field_type: 'recommended', priority: 7, notes: 'Unbuilt / Built / Partially Built' },
-  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Color', field_type: 'recommended', priority: 8, notes: '' },
-  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Release Year', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Listed By',        field_type: 'required',    priority: 1,  notes: '' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Brand',            field_type: 'required',    priority: 2,  notes: 'Bandai / Kotobukiya / Wave等' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Series/Franchise',  field_type: 'required',    priority: 3,  notes: 'Gundam / Evangelion / Macross / Zoids等' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Character/Mecha',   field_type: 'required',    priority: 4,  notes: '' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Grade',            field_type: 'required',    priority: 5,  notes: 'HG / MG / RG / PG / SD等' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Scale',            field_type: 'recommended', priority: 6,  notes: '1/144, 1/100, 1/60等' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Type',             field_type: 'recommended', priority: 7,  notes: 'Plastic Model Kit / Resin Kit' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Built Status',      field_type: 'recommended', priority: 8,  notes: 'Unbuilt / Built / Partially Built' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Release Year',      field_type: 'recommended', priority: 9,  notes: '' },
   { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
-  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Subject', field_type: 'recommended', priority: 11, notes: '' },
-  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Item Height', field_type: 'recommended', priority: 12, notes: '組立後/本体の高さ' },
-  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Item Width', field_type: 'recommended', priority: 13, notes: '' },
-  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Features', field_type: 'recommended', priority: 14, notes: '' },
-  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Theme', field_type: 'recommended', priority: 15, notes: '' },
-  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Item Length', field_type: 'recommended', priority: 16, notes: '' },
-  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Material', field_type: 'optional', priority: 17, notes: 'Plastic / Resin / Metal等' },
-  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Vintage', field_type: 'optional', priority: 18, notes: 'Yes / No' },
-  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Department', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Occasion', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Model Year', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Features',         field_type: 'recommended', priority: 11, notes: 'auto-injected: Collectors Edition' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Theme',            field_type: 'recommended', priority: 12, notes: 'auto-injected: Anime & Manga' },
+  { category: 'Mecha Model Kits', tag_jp: 'ガンプラ,HGUC,MG,RG,PG,SD,BB戦士,プレバン,ゾイド,フレームアームズ,メカプラモ,ロボットプラモ', field_name: 'Age Level',        field_type: 'recommended', priority: 13, notes: 'auto-injected: 17 Years & Up (CPSC compliance)' },
 
   // === RC & Scale Models ===
   { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Brand', field_type: 'required', priority: 1, notes: 'Tamiya / Kyosho / Hasegawa等' },
@@ -5227,29 +5219,7 @@ var IS_CATEGORY_FIELDS = {
   'Fishing Lures':       [
     'Brand', 'Type', 'Model', 'Bait Type', 'Color', 'Weight', 'Buoyancy', 'Fishing Type', 'Fish Species', 'Item Length', 'Number in Pack', 'Country of Origin',
   ],
-  'Mecha Model Kits': [
-    'Brand',               //  1. 必須
-    'Series/Franchise',    //  2. 必須
-    'Character/Mecha',     //  3. 必須
-    'Grade',               //  4. 必須
-    'Scale',               //  5. 推奨
-    'Type',                //  6. 推奨
-    'Built Status',        //  7. 推奨
-    'Color',               //  8. 推奨
-    'Release Year',        //  9. 推奨
-    'Country of Origin',   // 10. 推奨（維持）
-    'Subject',             // 11. 推奨
-    'Item Height',         // 12. 推奨
-    'Item Width',          // 13. 推奨
-    'Features',            // 14. 推奨
-    'Theme',               // 15. 推奨
-    'Item Length',         // 16. 推奨
-    'Material',            // 17. 任意
-    'Vintage',             // 18. 任意
-    'Department',          // 19. 任意
-    'Occasion',            // 20. 任意
-    'Model Year'           // 21. 任意
-  ],
+  'Mecha Model Kits': ['Listed By', 'Brand', 'Series/Franchise', 'Character/Mecha', 'Grade', 'Scale', 'Type', 'Built Status', 'Release Year', 'Country of Origin', 'Features', 'Theme', 'Age Level'],
   'RC & Models': [
     'Brand', 'Type', 'Scale', 'Vehicle Type', 'Model/Series', 'Power Type', 'Built Status', 'Material', 'Color', 'Country of Origin',
     'Product Line', 'Motor Type', '4WD/2WD', 'Features', 'Year Manufactured', 'Department', 'Vintage', 'Theme', 'Occasion', 'Series/Line', 'Official/Unofficial',
