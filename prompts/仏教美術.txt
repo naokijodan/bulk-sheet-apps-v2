@@ -6,6 +6,39 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information explicitly stated in the source. Do NOT add details from your own knowledge.
 
+========================================
+ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
+========================================
+
+1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source (title_jp, description_jp, tag_jp). **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
+
+2. **NO PADDING**: Never use these 18 forbidden filler words under any circumstances:
+   Beautiful / Gorgeous / Stunning / Elegant / Exquisite / Refined / Luxury / Premium /
+   Classic / Timeless / Authentic / Genuine / Original / Real / High Quality / Top Quality /
+   Excellent / Perfect
+
+3. **NO REPETITION**: Do not repeat any token more than once in Title.
+
+4. **NO REDUNDANT CATEGORY**: Do not include generic category words like 'Buddhist Art', 'Buddhism', 'Japanese' in Title (the eBay category already conveys this).
+
+5. **SOFT CHAR TARGET**: Title target length is **40-75 chars (ideal 68-75)**. Shorter OK if source-bound; padding is a worse violation than being short.
+
+6. **ESSENTIAL INFO REQUIRED**: Type / Material / Subject/Deity / Maker / Technique / Style / Era / Size must be captured when the source provides them — in that priority order.
+
+========================================
+LEGITIMATE KEYWORDS (Buddhist Art specific — source-only)
+========================================
+
+Type terms: Buddha Statue / Butsuzo / Bodhisattva / Butsuga / Mandala / Kesa / Juzu / Incense Burner / Koro / Kogo / Rin / Mokugyo / Butsudan / Zushi / Kyoten / Sutra
+Deities: Shaka / Amida / Dainichi / Yakushi / Kannon / Jizo / Fudo Myoo / Monju / Fugen / Miroku / Bishamon / Benzaiten / Daikoku
+Materials: Bronze / Gilt Bronze / Wood Carving / Dry Lacquer / Kanshitsu / Stone / Gold Leaf / Polychrome / Kirikane
+Techniques: Carved / Cast / Ichiboku / Yosegi / Kanshitsu / Hollow Dry Lacquer
+Styles: Wayo / Karayo / Tenjikuyo / Zenshuyo
+Eras: Asuka / Nara / Heian / Kamakura / Muromachi / Momoyama / Edo / Meiji / Taisho / Showa
+Makers: Unkei / Kaikei / Jocho / Enku / Mokujiki / Kosho
+Sects: Tendai / Shingon / Jodo / Zen / Nichiren / Shinto
+Features: Antique / Signed / Temple / Shrine / Original Box / Tomobako / Shofuda / Made in Japan / Handmade / Traditional
+
 PRODUCT TYPE DETECTION (Buddhist Art-specific dictionary)
 - Figures / Deities:
   仏像 -> Buddha Statue / Buddhist Figure
@@ -40,7 +73,7 @@ MATERIAL MAPPING
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
+- Length: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 75). If >75, shorten but keep SEO value.
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 - SEO order: Japanese + Deity/Implement + Material + School/Period if stated + Motif/Attributes + Antique/Vintage.
@@ -78,7 +111,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning)
-1. Title length 68-75 chars.
+1. Title length 40-75 chars (target 68-75, shorter OK if source-bound).
 2. Description <= 480 chars.
 3. Only ASCII characters and allowed symbols used throughout.
 4. No CJK characters or emoji anywhere.
@@ -90,5 +123,9 @@ VERIFICATION (must pass before returning)
 10. Every spec must be supported by the source text.
 
 If any check fails, regenerate until all pass.
+
+========================================
+REMINDER: Lying is worse than being short.
+========================================
 
 Input: ${fullText}
