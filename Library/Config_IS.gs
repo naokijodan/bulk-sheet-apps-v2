@@ -1493,13 +1493,6 @@ var IS_INITIAL_DATA = [
   { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Maker', field_type: 'recommended', priority: 12, notes: '' },
   { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Glaze/Finish', field_type: 'recommended', priority: 13, notes: 'Celadon / Overglaze / Unglazed / Colored等' },
   { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Subject', field_type: 'recommended', priority: 14, notes: '' },
-  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Dimensions', field_type: 'recommended', priority: 15, notes: '' },
-  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Features', field_type: 'recommended', priority: 16, notes: '' },
-  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Vintage', field_type: 'recommended', priority: 17, notes: 'Yes / No' },
-  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Department', field_type: 'recommended', priority: 18, notes: '' },
-  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Theme', field_type: 'recommended', priority: 19, notes: '' },
-  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Occasion', field_type: 'recommended', priority: 20, notes: '' },
-  { category: 'Pottery', tag_jp: '陶磁器,陶器,磁器,焼物,壺,花瓶,香炉,有田焼,伊万里,古伊万里,九谷焼,備前焼,萩焼,信楽焼,瀬戸焼,美濃焼,唐津焼,京焼,清水焼,織部,志野,薩摩焼', field_name: 'Number of Pieces', field_type: 'recommended', priority: 21, notes: '' },
 
   // === Belts ===
   { category: 'Belts', tag_jp: 'ベルト,レザーベルト', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -5193,10 +5186,7 @@ var IS_CATEGORY_FIELDS = {
     'Artist', 'Production Technique', 'Support', 'Mounting Type', 'Scroll Rod Material', 'Box Type', 'Subject', 'Size', 'Time Period Produced', 'Country of Origin',
     'Style', 'Theme', 'Color', 'Material', 'Origin/Kiln', 'Maker', 'Features', 'Vintage', 'Department', 'Season', 'Occasion',
   ],
-  'Pottery':       [
-    'Brand', 'Type', 'Material', 'Color', 'Production Technique', 'Origin/Kiln', 'Style', 'Pattern', 'Size', 'Country of Origin',
-    'Era/Period', 'Maker', 'Glaze/Finish', 'Subject', 'Dimensions', 'Features', 'Vintage', 'Department', 'Theme', 'Occasion', 'Number of Pieces',
-  ],
+  'Pottery':       ['Brand', 'Type', 'Material', 'Color', 'Production Technique', 'Origin/Kiln', 'Style', 'Pattern', 'Size', 'Country of Origin', 'Era/Period', 'Maker', 'Glaze/Finish', 'Subject'],
   'Belts': [
     'Brand', 'Type', 'Material', 'Color', 'Size', 'Department', 'Style', 'Theme', 'Country of Origin',
     'Closure', 'Features', 'Pattern', 'Size Type', 'Belt Width', 'Accents', 'Vintage', 'Occasion', 'Season', 'Era', 'Designer', 'Official/Unofficial',
