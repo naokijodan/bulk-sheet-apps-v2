@@ -5177,8 +5177,7 @@ var IS_CATEGORY_FIELDS = {
     'Brand', 'Platform', 'Model', 'Type', 'Storage Capacity', 'Color', 'Region Code', 'Connectivity', 'Country of Origin', 'Year Manufactured', 'Charger Included', 'Features',
   ],
   'Video Game Accessories': [
-    'Brand', 'Platform', 'Type', 'Model', 'Color', 'Connectivity', 'Region Code', 'Country of Origin',
-    'Compatible Product', 'Compatible Model', 'Cable Length', 'Number of Players', 'Number of Fans', 'Features', 'Material', 'Department', 'Series', 'Theme', 'Vintage', 'Occasion', 'Official/Unofficial',
+    'Brand', 'Platform', 'Type', 'Model', 'Color', 'Connectivity', 'Region Code', 'Country of Origin', 'Compatible Product', 'Compatible Model', 'Number of Players', 'Features',
   ],
   'Fishing Reels': [
     'Brand', 'Model', 'Reel Type', 'Hand Retrieve', 'Gear Ratio',
