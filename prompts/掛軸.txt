@@ -6,6 +6,41 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge.
 
+========================================
+ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
+========================================
+
+1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source (title_jp, description_jp, tag_jp). **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
+
+2. **NO PADDING**: Never use these 18 forbidden filler words under any circumstances:
+   Beautiful / Gorgeous / Stunning / Elegant / Exquisite / Refined / Luxury / Premium /
+   Classic / Timeless / Authentic / Genuine / Original / Real / High Quality / Top Quality /
+   Excellent / Perfect
+
+3. **NO REPETITION**: Do not repeat any token more than once in Title.
+
+4. **NO REDUNDANT CATEGORY**: Do not include generic category words like 'Kakejiku', 'Hanging Scroll', 'Scroll', 'Japanese' in Title (the eBay category already conveys this).
+
+5. **SOFT CHAR TARGET**: Title target length is **40-75 chars (ideal 68-75)**. Shorter OK if source-bound; padding is a worse violation than being short.
+
+6. **ESSENTIAL INFO REQUIRED**: Artist / Production Technique / Support / Mounting Type / Scroll Rod Material / Box Type / Subject / Time Period Produced / Style / Season must be captured when the source provides them — in that priority order.
+
+========================================
+LEGITIMATE KEYWORDS (Kakejiku specific — source-only)
+========================================
+
+Artists: Maruyama Okyo / Yokoyama Taikan / Kawai Gyokudo / Takeuchi Seiho / Kano Tanyu / Tosa Mitsuoki / Hashimoto Gaho / Tomioka Tessai
+Schools: Kano School / Tosa School / Rimpa / Nanga / Bunjinga / Shijo School / Maruyama School / Nihonga
+Subjects: Landscape / Sansui / Flower & Bird / Kacho / Buddhist Painting / Butsuga / Figure / Portrait / Calligraphy / Sho / Bokuseki / Animal / Mountain / Pine / Crane / Tiger / Dragon
+Techniques: Ink Painting / Sumi-e / Nihonga / Hand-Painted / Hippitsu / Gold Leaf / Kindei / Colored / Saishiki
+Support: Silk / Kenpon / Paper / Shihon
+Mounting: Formal Mount / Honso / Custom Mount / Machine Mount
+Scroll Rod: Wood / Faux Ivory / Bone / Lacquer
+Box: Tomobako / Original Box / Awasebako / Custom Box / Jidaibako / Period Box
+Era: Muromachi / Momoyama / Edo / Meiji / Taisho / Showa / Heisei
+Season: Spring / Haru / Summer / Natsu / Autumn / Aki / Winter / Fuyu / All Season
+Features: Antique / Signed / Sealed / Inscribed / Made in Japan / JDM
+
 SUBJECT MAPPING (画題)
 - 山水 / 山水画 -> Landscape / Sansui
 - 花鳥 / 花鳥画 -> Flower & Bird / Kacho
@@ -74,7 +109,7 @@ If only seal (落款/印) is present without identified artist, state "Signed wi
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
+- Length: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 75).
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 
@@ -145,7 +180,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 68-75 chars.
+1. Title length 40-75 chars (target 68-75).
 2. Description <= 480 chars.
 3. Only ASCII characters and allowed symbols used throughout.
 4. No CJK characters or emoji anywhere.
@@ -161,5 +196,9 @@ VERIFICATION (must pass before returning):
 14. Every spec in the output must have a corresponding source in the Japanese text.
 
 If any check fails, regenerate until all pass.
+
+========================================
+REMINDER: Lying is worse than being short.
+========================================
 
 Input: ${fullText}
