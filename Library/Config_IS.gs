@@ -619,17 +619,6 @@ var IS_INITIAL_DATA = [
   { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Size', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Capacity', field_type: 'recommended', priority: 9, notes: 'ml' },
   { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
-  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Color', field_type: 'optional', priority: 11, notes: '' },
-  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Features', field_type: 'optional', priority: 12, notes: '' },
-  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Vintage', field_type: 'optional', priority: 13, notes: '' },
-  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Theme', field_type: 'optional', priority: 14, notes: '' },
-  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Occasion', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Series', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Condition', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Number of Pieces', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Collection', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Official/Unofficial', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Tetsubin', tag_jp: '鉄瓶,銀瓶,急須,南部鉄器,茶釜', field_name: 'Style', field_type: 'optional', priority: 21, notes: '' },
 
   // === Golf ===
   { category: 'Golf', tag_jp: 'ゴルフ,ゴルフクラブ,ドライバー,アイアン,パター,ウェッジ', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -5231,10 +5220,7 @@ var IS_CATEGORY_FIELDS = {
     'Theme', 'Department', 'Features', 'Series', 'Vintage', 'Collection', 'Framing', 'Signed', 'Number of Pieces', 'Occasion', 'Color',
   ],
   'Buddhist Art':       ['Type', 'Material', 'Subject/Deity', 'Maker', 'Technique', 'Style', 'Size', 'Era', 'Original/Reproduction', 'Country of Origin'],
-  'Tetsubin': [
-    'Brand', 'Type', 'Material', 'Maker/Kiln', 'Era/Period', 'Technique', 'Pattern', 'Size', 'Capacity', 'Country of Origin',
-    'Color', 'Features', 'Vintage', 'Theme', 'Occasion', 'Series', 'Condition', 'Number of Pieces', 'Collection', 'Official/Unofficial', 'Style',
-  ],
+  'Tetsubin':           ['Brand', 'Type', 'Material', 'Maker/Kiln', 'Era/Period', 'Technique', 'Pattern', 'Size', 'Capacity', 'Country of Origin'],
   'Golf':                [
     'Brand',               //  1. 必須
     'Golf Club Type',      //  2. 必須
