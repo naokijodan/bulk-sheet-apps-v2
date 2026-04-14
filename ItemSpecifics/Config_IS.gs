@@ -576,17 +576,9 @@ var IS_INITIAL_DATA = [
   { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Original/Licensed Reproduction', field_type: 'recommended', priority: 8, notes: 'Original / Reproduction / Later Printing' },
   { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Edition', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
-  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Theme', field_type: 'optional', priority: 11, notes: '' },
-  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Department', field_type: 'optional', priority: 12, notes: '' },
-  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Features', field_type: 'optional', priority: 13, notes: '' },
-  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Series', field_type: 'optional', priority: 14, notes: '' },
-  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Vintage', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Collection', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Framing', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Signed', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Number of Pieces', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Occasion', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Color', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Series', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Framing', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Prints', tag_jp: '浮世絵,版画,木版画,リトグラフ,シルクスクリーン,エッチング,銅版画,新版画,創作版画', field_name: 'Signed', field_type: 'optional', priority: 13, notes: '' },
 
   // === Buddhist Art ===
   { category: 'Buddhist Art', tag_jp: '仏像,仏具,仏教美術,神具,木彫,銅像,観音,如来,数珠,木魚', field_name: 'Type', field_type: 'required', priority: 1, notes: 'Statue / Scroll / Altar Tool / Prayer Beads等' },
@@ -5182,10 +5174,7 @@ var IS_CATEGORY_FIELDS = {
   'Japanese Swords':     ['Type', 'Material', 'Technique', 'Era/Period', 'School/Maker', 'Motif/Subject', 'Size', 'Color', 'Original/Reproduction', 'Country of Origin'],
   'Tea Ceremony':       ['Type', 'Material', 'Maker', 'Origin/Kiln', 'Era/Period', 'Box Type', 'Size', 'Motif/Subject', 'Pattern', 'Country of Origin', 'Color'],
   'Bonsai':              ['Type', 'Material', 'Size', 'Color', 'Shape', 'Maker/Kiln', 'Era/Period', 'Glaze/Finish', 'Drainage Holes', 'Country of Origin'],
-  'Prints': [
-    'Listed By', 'Medium', 'Subject', 'Maker', 'Style', 'Size', 'Era/Period', 'Original/Licensed Reproduction', 'Edition', 'Country of Origin',
-    'Theme', 'Department', 'Features', 'Series', 'Vintage', 'Collection', 'Framing', 'Signed', 'Number of Pieces', 'Occasion', 'Color',
-  ],
+  'Prints':           ['Listed By', 'Medium', 'Subject', 'Maker', 'Style', 'Size', 'Era/Period', 'Original/Licensed Reproduction', 'Edition', 'Country of Origin', 'Series', 'Framing', 'Signed'],
   'Buddhist Art':       ['Type', 'Material', 'Subject/Deity', 'Maker', 'Technique', 'Style', 'Size', 'Era', 'Original/Reproduction', 'Country of Origin'],
   'Tetsubin':           ['Brand', 'Type', 'Material', 'Maker/Kiln', 'Era/Period', 'Technique', 'Pattern', 'Size', 'Capacity', 'Country of Origin'],
   'Golf':                [
