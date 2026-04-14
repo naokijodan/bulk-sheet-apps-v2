@@ -5174,8 +5174,7 @@ var IS_CATEGORY_FIELDS = {
     'Release Year', 'Series', 'Franchise', 'Edition', 'Number of Players', 'Features', 'Department', 'Theme', 'Vintage', 'Occasion', 'Official/Unofficial', 'Style',
   ],
   'Video Game Consoles': [
-    'Brand', 'Platform', 'Model', 'Type', 'Storage Capacity', 'Color', 'Region Code', 'Connectivity', 'Edition', 'Country of Origin',
-    'Year Manufactured', 'Charger Included', 'Features', 'Department', 'Material', 'Vintage', 'Theme', 'Occasion', 'Series/Line', 'Official/Unofficial', 'Compatible Model',
+    'Brand', 'Platform', 'Model', 'Type', 'Storage Capacity', 'Color', 'Region Code', 'Connectivity', 'Country of Origin', 'Year Manufactured', 'Charger Included', 'Features',
   ],
   'Video Game Accessories': [
     'Brand', 'Platform', 'Type', 'Model', 'Color', 'Connectivity', 'Region Code', 'Country of Origin',
