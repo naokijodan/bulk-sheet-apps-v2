@@ -560,17 +560,6 @@ var IS_INITIAL_DATA = [
   { category: 'Tea Ceremony', tag_jp: '茶道具,茶碗,茶入,棗,茶杓,水指,建水,風炉,釜,蓋置,香合,花入,茶筅,柄杓,菓子器,炉縁', field_name: 'Motif/Subject', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Tea Ceremony', tag_jp: '茶道具,茶碗,茶入,棗,茶杓,水指,建水,風炉,釜,蓋置,香合,花入,茶筅,柄杓,菓子器,炉縁', field_name: 'Pattern', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Tea Ceremony', tag_jp: '茶道具,茶碗,茶入,棗,茶杓,水指,建水,風炉,釜,蓋置,香合,花入,茶筅,柄杓,菓子器,炉縁', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
-  { category: 'Tea Ceremony', tag_jp: '茶道具,茶碗,茶入,棗,茶杓,水指,建水,風炉,釜,蓋置,香合,花入,茶筅,柄杓,菓子器,炉縁', field_name: 'Color', field_type: 'recommended', priority: 11, notes: '' },
-  { category: 'Tea Ceremony', tag_jp: '茶道具,茶碗,茶入,棗,茶杓,水指,建水,風炉,釜,蓋置,香合,花入,茶筅,柄杓,菓子器,炉縁', field_name: 'Style', field_type: 'optional', priority: 12, notes: '' },
-  { category: 'Tea Ceremony', tag_jp: '茶道具,茶碗,茶入,棗,茶杓,水指,建水,風炉,釜,蓋置,香合,花入,茶筅,柄杓,菓子器,炉縁', field_name: 'Season', field_type: 'optional', priority: 13, notes: '' },
-  { category: 'Tea Ceremony', tag_jp: '茶道具,茶碗,茶入,棗,茶杓,水指,建水,風炉,釜,蓋置,香合,花入,茶筅,柄杓,菓子器,炉縁', field_name: 'Number of Pieces', field_type: 'optional', priority: 14, notes: '' },
-  { category: 'Tea Ceremony', tag_jp: '茶道具,茶碗,茶入,棗,茶杓,水指,建水,風炉,釜,蓋置,香合,花入,茶筅,柄杓,菓子器,炉縁', field_name: 'Technique', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Tea Ceremony', tag_jp: '茶道具,茶碗,茶入,棗,茶杓,水指,建水,風炉,釜,蓋置,香合,花入,茶筅,柄杓,菓子器,炉縁', field_name: 'School/Maker', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Tea Ceremony', tag_jp: '茶道具,茶碗,茶入,棗,茶杓,水指,建水,風炉,釜,蓋置,香合,花入,茶筅,柄杓,菓子器,炉縁', field_name: 'Department', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Tea Ceremony', tag_jp: '茶道具,茶碗,茶入,棗,茶杓,水指,建水,風炉,釜,蓋置,香合,花入,茶筅,柄杓,菓子器,炉縁', field_name: 'Features', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Tea Ceremony', tag_jp: '茶道具,茶碗,茶入,棗,茶杓,水指,建水,風炉,釜,蓋置,香合,花入,茶筅,柄杓,菓子器,炉縁', field_name: 'Vintage', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Tea Ceremony', tag_jp: '茶道具,茶碗,茶入,棗,茶杓,水指,建水,風炉,釜,蓋置,香合,花入,茶筅,柄杓,菓子器,炉縁', field_name: 'Dimensions', field_type: 'optional', priority: 20, notes: '縦×横×高さ' },
-  { category: 'Tea Ceremony', tag_jp: '茶道具,茶碗,茶入,棗,茶杓,水指,建水,風炉,釜,蓋置,香合,花入,茶筅,柄杓,菓子器,炉縁', field_name: 'Occasion', field_type: 'optional', priority: 21, notes: '' },
 
   // === Bonsai（※生きた木/植物は輸出不可。鉢・道具・水石等のみ） ===
   { category: 'Bonsai', tag_jp: '盆栽,盆栽鉢,盆器,水石,盆景,盆栽道具,盆栽ハサミ,飾台,卓,水盤', field_name: 'Type', field_type: 'required', priority: 1, notes: 'Bonsai Pot / Suiseki / Display Stand / Tools等' },
@@ -5246,10 +5235,7 @@ var IS_CATEGORY_FIELDS = {
     'Style', 'Era', 'Department', 'Occasion', 'Features', 'Vintage', 'Theme', 'Designer', 'Number of Pieces', 'Handmade', 'Set Includes', 'Official/Unofficial',
   ],
   'Japanese Swords':     ['Type', 'Material', 'Technique', 'Era/Period', 'School/Maker', 'Motif/Subject', 'Size', 'Color', 'Original/Reproduction', 'Country of Origin'],
-  'Tea Ceremony': [
-    'Type', 'Material', 'Maker', 'Origin/Kiln', 'Era/Period', 'Box Type', 'Size', 'Motif/Subject', 'Pattern', 'Country of Origin',
-    'Color', 'Style', 'Season', 'Number of Pieces', 'Technique', 'School/Maker', 'Department', 'Features', 'Vintage', 'Dimensions', 'Occasion',
-  ],
+  'Tea Ceremony':       ['Type', 'Material', 'Maker', 'Origin/Kiln', 'Era/Period', 'Box Type', 'Size', 'Motif/Subject', 'Pattern', 'Country of Origin'],
   'Bonsai':              ['Type', 'Material', 'Size', 'Color', 'Shape', 'Maker/Kiln', 'Era/Period', 'Glaze/Finish', 'Drainage Holes', 'Country of Origin'],
   'Prints': [
     'Listed By', 'Medium', 'Subject', 'Maker', 'Style', 'Size', 'Era/Period', 'Original/Licensed Reproduction', 'Edition', 'Country of Origin',
