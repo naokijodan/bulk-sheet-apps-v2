@@ -6,6 +6,42 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge.
 
+========================================
+ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
+========================================
+
+1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source. **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
+
+2. **NO PADDING**: Never use these 18 forbidden filler words under any circumstances:
+   Beautiful / Gorgeous / Stunning / Elegant / Exquisite / Refined / Luxury / Premium /
+   Classic / Timeless / Authentic / Genuine / Original / Real / High Quality / Top Quality /
+   Excellent / Perfect
+
+3. **NO REPETITION**: Do not repeat any token more than once in Title.
+
+4. **NO REDUNDANT CATEGORY**: Do not include generic category words like 'Art', 'Artwork', 'Painting' alone in Title (the eBay category already conveys this). Specific medium words (Oil Painting / Watercolor / Acrylic / Sumi-e / Nihonga / Sculpture) ARE allowed.
+
+5. **SOFT CHAR TARGET**: Title target length is **40-75 chars (ideal 68-75)**. Shorter OK if source-bound; padding is a worse violation than being short.
+
+6. **ESSENTIAL INFO REQUIRED** (10 fields, NOT IS field count): Artist / Production Technique / Subject / Style / Size / Material / Original/Licensed Reproduction / Time Period Produced / Framing / Signed must be captured when the source provides them — in that priority order. (Note: Listed By is admin field; Country of Origin is auto-resolved — both excluded from this list.)
+
+========================================
+LEGITIMATE KEYWORDS (Art specific — source-only)
+========================================
+
+Mediums: Oil Painting / Watercolor / Acrylic / Pastel / Mixed Media / Sumi-e / Ink Painting / Nihonga / Yoga / Sculpture / Bronze / Wood Carving / Ceramic / Drawing / Sketch / Charcoal / Pencil / Photograph
+Japanese Artists: Yokoyama Taikan / Higashiyama Kaii / Hirayama Ikuo / Maeda Seison / Uemura Shoen / Kawai Gyokudo / Munakata Shiko / Foujita Tsuguharu / Kuroda Seiki / Aoki Shigeru / Yoshihara Jiro / Kusama Yayoi / Murakami Takashi / Nara Yoshitomo
+Western Artists: Picasso / Matisse / Chagall / Miro / Dali / Klimt / Renoir / Monet / Manet / Degas / Cezanne / Van Gogh / Warhol / Hockney / Lichtenstein
+Styles: Nihonga / Yoga / Western / Impressionism / Post-Impressionism / Modernism / Cubism / Abstract / Realism / Surrealism / Expressionism / Pop Art / Contemporary / Folk Art / Mingei
+Subjects: Landscape / Portrait / Figure / Still Life / Nude / Animal / Bird / Flower / Mountain / Sea / Abstract / Religious / Mythological / Cityscape / Garden
+Materials: Canvas / Paper / Board / Wood / Silk / Linen / Hardboard
+Era: Meiji / Taisho / Showa / Heisei / Reiwa / 19th Century / 20th Century / 21st Century
+Signed: Signed / Unsigned / Sealed / Stamped / Inscribed / Pencil Signed / Hand Signed
+Framing: Framed / Unframed / Matted / Mounted
+Reproduction: Original / Reproduction / Print / Limited Edition / Posthumous / Estate Edition
+Authentication: COA / Certificate of Authenticity / Provenance
+Origin Indicators: Made in Japan / Tokyo / Kyoto / Paris / New York / London (use only if source-confirmed)
+
 ART TYPE MAPPING
 - 油絵 / 油彩 -> Oil Painting
 - 水彩画 -> Watercolor Painting
@@ -47,7 +83,7 @@ EDITION/SIGNATURE TERMS
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
+- Length: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 75).
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 
@@ -121,7 +157,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 68-75 chars.
+1. Title length 40-75 chars (target 68-75).
 2. Description <= 480 chars.
 3. Only ASCII characters and allowed symbols used throughout.
 4. No CJK characters or emoji anywhere.
@@ -135,5 +171,9 @@ VERIFICATION (must pass before returning):
 12. Every spec must have a corresponding source in the Japanese text.
 
 If any check fails, regenerate until all pass.
+
+========================================
+REMINDER: Lying is worse than being short.
+========================================
 
 Input: ${fullText}
