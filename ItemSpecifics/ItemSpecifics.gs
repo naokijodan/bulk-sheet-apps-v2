@@ -297,6 +297,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       if (category === 'RC & Models') return 'Collectors Edition';
       if (category === 'Manga') return 'Collectors Edition';
       if (category === 'Anime') return 'Collectors Edition';
+      if (category === 'Snow Globes') return 'Collectors Edition';
       if (category === 'Hats') {
         return matchHatFeatures_((title || '') + ' ' + (description || ''));
       }

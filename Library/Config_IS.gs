@@ -1076,7 +1076,7 @@ var IS_INITIAL_DATA = [
   { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Character',         field_type: 'recommended', priority: 5,  notes: '' },
   { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Franchise',         field_type: 'recommended', priority: 6,  notes: '' },
   { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Material',          field_type: 'recommended', priority: 7,  notes: 'Glass / Plastic' },
-  { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Features',          field_type: 'recommended', priority: 8,  notes: '' },
+  { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Features',          field_type: 'recommended', priority: 8,  notes: 'auto-injected: Collectors Edition' },
   { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Occasion',          field_type: 'recommended', priority: 9,  notes: 'Christmas / Birthday等' },
   { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Collection',        field_type: 'recommended', priority: 10, notes: '' },
   { category: 'Snow Globes', tag_jp: 'スノードーム,ガラスドーム', field_name: 'Year Manufactured', field_type: 'recommended', priority: 11, notes: '' },
