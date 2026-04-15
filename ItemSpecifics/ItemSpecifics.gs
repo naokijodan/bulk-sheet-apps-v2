@@ -387,6 +387,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       if (category === 'RC & Models') return '13+';
       if (category === 'Manga') return matchMangaAgeLevel_(rowData);
       if (category === 'Anime') return '13+';
+      if (category === 'Snow Globes') return '13+';
       return '';
     case 'Language':
       return 'Japanese';
