@@ -41,8 +41,8 @@ Rule 6: ESSENTIAL INFO REQUIRED (9 fields for Manga)
   Title / Author / Volume-Set / Format / Publisher / Language / Genre /
   Edition / Publication Year
 - Do not guess missing fields — leave blank.
-- Listed By is admin auto-insert. Country of Origin / Theme / Age Level are
-  auto-injected or Genre-based dynamic — all 4 excluded from this list.
+- Listed By is admin auto-insert. Country of Origin / Theme / Features /
+  Age Level are auto-injected or Genre-based dynamic — all 5 excluded from this list.
 - Age Level is determined dynamically from Genre
   (Shonen/Shojo=13+, Seinen/Josei=16+, Adult=18+).
   Accurate Genre extraction is especially important.
