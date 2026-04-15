@@ -744,27 +744,19 @@ var IS_INITIAL_DATA = [
   { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Age Level',        field_type: 'recommended', priority: 13, notes: 'auto-injected: 13+' },
 
   // === Manga ===
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Title', field_type: 'required', priority: 1, notes: '作品名' },
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Author', field_type: 'required', priority: 2, notes: '' },
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Publisher', field_type: 'recommended', priority: 3, notes: 'Shueisha / Kodansha / Shogakukan等' },
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Language', field_type: 'recommended', priority: 4, notes: 'Japanese' },
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Format', field_type: 'recommended', priority: 5, notes: 'Tankobon / Bunkoban / Wide Edition等' },
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Volume/Set', field_type: 'recommended', priority: 6, notes: '巻数 or Complete Set' },
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Genre', field_type: 'recommended', priority: 7, notes: 'Shonen / Shojo / Seinen / Josei / BL' },
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Publication Year', field_type: 'recommended', priority: 8, notes: '' },
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Edition', field_type: 'recommended', priority: 9, notes: 'First Edition / With Obi / Limited等' },
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Character', field_type: 'recommended', priority: 11, notes: '' },
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Series', field_type: 'recommended', priority: 12, notes: '' },
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Franchise', field_type: 'recommended', priority: 13, notes: '' },
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Department', field_type: 'optional', priority: 14, notes: '' },
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Theme', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Features', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Official/Unofficial', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Vintage', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Number of Volumes', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Occasion', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Style', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Listed By',        field_type: 'required',    priority: 1,  notes: '' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Title',            field_type: 'required',    priority: 2,  notes: '作品名' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Author',           field_type: 'required',    priority: 3,  notes: '' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Volume/Set',       field_type: 'recommended', priority: 4,  notes: '巻数 or Complete Set' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Format',           field_type: 'recommended', priority: 5,  notes: 'Tankobon / Bunkoban / Wide Edition等' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Publisher',        field_type: 'recommended', priority: 6,  notes: 'Shueisha / Kodansha / Shogakukan等' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Language',         field_type: 'recommended', priority: 7,  notes: 'Japanese' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Genre',            field_type: 'recommended', priority: 8,  notes: 'Shonen / Shojo / Seinen / Josei / BL' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Edition',          field_type: 'recommended', priority: 9,  notes: 'First Edition / With Obi / Limited等' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Country of Origin',field_type: 'recommended', priority: 10, notes: 'auto-injected: Japan' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Theme',            field_type: 'recommended', priority: 11, notes: 'auto-injected: Anime & Manga' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Publication Year', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Age Level',        field_type: 'recommended', priority: 13, notes: 'auto-injected: Shonen/Shojo=13+, Seinen/Josei=16+, Adult=18+ (Genre-based dynamic)' },
 
   // === Anime Merchandise ===
   { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Character', field_type: 'required', priority: 1, notes: '' },
@@ -5213,10 +5205,7 @@ var IS_CATEGORY_FIELDS = {
   ],
   'Mecha Model Kits': ['Listed By', 'Brand', 'Series/Franchise', 'Character/Mecha', 'Grade', 'Scale', 'Type', 'Built Status', 'Release Year', 'Country of Origin', 'Features', 'Theme', 'Age Level'],
   'RC & Models': ['Listed By', 'Brand', 'Type', 'Scale', 'Vehicle Type', 'Model/Series', 'Power Type', 'Built Status', 'Country of Origin', 'Motor Type', '4WD/2WD', 'Year Manufactured', 'Age Level'],
-  'Manga': [
-    'Title', 'Author', 'Publisher', 'Language', 'Format', 'Volume/Set', 'Genre', 'Publication Year', 'Edition', 'Country of Origin',
-    'Character', 'Series', 'Franchise', 'Department', 'Theme', 'Features', 'Official/Unofficial', 'Vintage', 'Number of Volumes', 'Occasion', 'Style',
-  ],
+  'Manga': ['Listed By', 'Title', 'Author', 'Volume/Set', 'Format', 'Publisher', 'Language', 'Genre', 'Edition', 'Country of Origin', 'Theme', 'Publication Year', 'Age Level'],
   'Anime': [
     'Character',           //  1. 必須
     'Franchise',           //  2. 必須
