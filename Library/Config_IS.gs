@@ -772,8 +772,9 @@ var IS_INITIAL_DATA = [
   { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'TV Show',          field_type: 'recommended', priority: 9,  notes: 'アニメ番組名 / シリーズ名' },
   { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Theme',            field_type: 'recommended', priority: 10, notes: 'auto-injected: Anime & Manga' },
   { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Edition',          field_type: 'recommended', priority: 11, notes: '' },
-  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Age Level',        field_type: 'recommended', priority: 12, notes: 'auto-injected: 13+' },
-  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Material',         field_type: 'optional',    priority: 13, notes: '' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Features',         field_type: 'recommended', priority: 12, notes: 'auto-injected: Collectors Edition' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Age Level',        field_type: 'recommended', priority: 13, notes: 'auto-injected: 13+' },
+  { category: 'Anime', tag_jp: 'アニメ,アニメグッズ,アクスタ,缶バッジ,タペストリー,クリアファイル,色紙,ラバスト,ポスター,セル画,原画,ブロマイド,キーホルダー', field_name: 'Material',         field_type: 'optional',    priority: 14, notes: '' },
 
   // === Figures ===
   { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Listed By',        field_type: 'required',    priority: 1,  notes: '' },
@@ -5190,7 +5191,7 @@ var IS_CATEGORY_FIELDS = {
   'Mecha Model Kits': ['Listed By', 'Brand', 'Series/Franchise', 'Character/Mecha', 'Grade', 'Scale', 'Type', 'Built Status', 'Release Year', 'Country of Origin', 'Features', 'Theme', 'Age Level'],
   'RC & Models': ['Listed By', 'Brand', 'Type', 'Scale', 'Vehicle Type', 'Model/Series', 'Power Type', 'Built Status', 'Country of Origin', 'Motor Type', '4WD/2WD', 'Year Manufactured', 'Features', 'Age Level'],
   'Manga': ['Listed By', 'Title', 'Author', 'Volume/Set', 'Format', 'Publisher', 'Language', 'Genre', 'Edition', 'Country of Origin', 'Theme', 'Publication Year', 'Features', 'Age Level'],
-  'Anime': ['Listed By', 'Character', 'Franchise', 'Type', 'Official/Unofficial', 'Brand', 'Year', 'Country of Origin', 'TV Show', 'Theme', 'Edition', 'Age Level', 'Material'],
+  'Anime': ['Listed By', 'Character', 'Franchise', 'Type', 'Official/Unofficial', 'Brand', 'Year', 'Country of Origin', 'TV Show', 'Theme', 'Edition', 'Features', 'Age Level', 'Material'],
   'Figures': ['Listed By', 'Franchise', 'Character', 'Type', 'Brand', 'Scale', 'Material', 'Series/Line', 'Official/Bootleg', 'Release Year', 'Country of Origin', 'Theme', 'Age Level', 'Features'],
   'Stamps': [
     'Certification', 'Type', 'Year of Issue', 'Topic', 'Quality', 'Country of Origin',

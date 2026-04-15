@@ -296,6 +296,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       if (category === 'Mecha Model Kits') return 'Collectors Edition';
       if (category === 'RC & Models') return 'Collectors Edition';
       if (category === 'Manga') return 'Collectors Edition';
+      if (category === 'Anime') return 'Collectors Edition';
       if (category === 'Hats') {
         return matchHatFeatures_((title || '') + ' ' + (description || ''));
       }
