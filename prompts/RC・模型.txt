@@ -23,7 +23,7 @@ ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
 
 5. **SOFT CHAR TARGET**: Title target length is **40-75 chars (ideal 68-75)**. Shorter OK if source-bound; padding is a worse violation than being short.
 
-6. **ESSENTIAL INFO REQUIRED** (10 fields, NOT IS field count): Brand / Type / Scale / Vehicle Type / Model/Series / Power Type / Built Status / Motor Type / 4WD/2WD / Year Manufactured must be captured when the source provides them — in that priority order. (Note: Listed By is admin field; Country of Origin uses brandInfo auto-resolution — both excluded from this list.)
+6. **ESSENTIAL INFO REQUIRED** (10 fields, NOT IS field count): Brand / Type / Scale / Vehicle Type / Model/Series / Power Type / Built Status / Motor Type / 4WD/2WD / Year Manufactured must be captured when the source provides them — in that priority order. (Note: Listed By is admin field; Country of Origin uses brandInfo auto-resolution; Age Level auto-injected: 13+ — all 3 excluded from this list.)
 
 ========================================
 LEGITIMATE KEYWORDS (RC & Models specific — source-only)

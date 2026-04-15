@@ -382,6 +382,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       if (category === 'Japanese Dolls') return '14+';
       if (category === 'Figures') return '17 Years & Up';
       if (category === 'Mecha Model Kits') return '17 Years & Up';
+      if (category === 'RC & Models') return '13+';
       return '';
     case 'Language':
       return 'Japanese';
