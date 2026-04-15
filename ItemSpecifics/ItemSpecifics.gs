@@ -225,7 +225,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       return matchDesignerFromTitle_(title, brandInfo ? brandInfo.name : '');
     case 'Country/Region of Manufacture':
     case 'Country of Origin':
-      if (category === 'Video Games' || category === 'Video Game Consoles' || category === 'Trading Cards' || category === 'Japanese Dolls' || category === 'Japanese Swords' || category === 'Tea Ceremony' || category === 'Bonsai' || category === 'Buddhist Art' || category === 'Tetsubin' || category === 'Pottery' || category === 'Kakejiku' || category === 'Kimono' || category === 'Figures' || category === 'Mecha Model Kits' || category === 'Manga') return 'Japan';
+      if (category === 'Video Games' || category === 'Video Game Consoles' || category === 'Trading Cards' || category === 'Japanese Dolls' || category === 'Japanese Swords' || category === 'Tea Ceremony' || category === 'Bonsai' || category === 'Buddhist Art' || category === 'Tetsubin' || category === 'Pottery' || category === 'Kakejiku' || category === 'Kimono' || category === 'Figures' || category === 'Mecha Model Kits' || category === 'Manga' || category === 'Anime') return 'Japan';
       if (category === 'Collectibles') {
         var frCountry = matchFranchise_(title + ' ' + (description || ''));
         if (frCountry) return frCountry.country;
@@ -350,6 +350,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       if (category === 'Figures') return 'Anime & Manga';
       if (category === 'Mecha Model Kits') return 'Anime & Manga';
       if (category === 'Manga') return 'Anime & Manga';
+      if (category === 'Anime') return 'Anime & Manga';
       if (category === 'Collectibles') {
         var frTheme = matchFranchise_(title + ' ' + (description || ''));
         if (frTheme) {
@@ -385,6 +386,7 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       if (category === 'Mecha Model Kits') return '17 Years & Up';
       if (category === 'RC & Models') return '13+';
       if (category === 'Manga') return matchMangaAgeLevel_(rowData);
+      if (category === 'Anime') return '13+';
       return '';
     case 'Language':
       return 'Japanese';
