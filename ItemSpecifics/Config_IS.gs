@@ -741,7 +741,8 @@ var IS_INITIAL_DATA = [
   { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Motor Type',        field_type: 'recommended', priority: 10, notes: 'Brushed / Brushless / N/A' },
   { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: '4WD/2WD',           field_type: 'recommended', priority: 11, notes: '4WD / 2WD / AWD / N/A' },
   { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Year Manufactured', field_type: 'recommended', priority: 12, notes: '' },
-  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Age Level',        field_type: 'recommended', priority: 13, notes: 'auto-injected: 13+' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Features',         field_type: 'recommended', priority: 13, notes: 'auto-injected: Collectors Edition' },
+  { category: 'RC & Models', tag_jp: 'ラジコン,RC,模型,プラモデル,ミニ四駆,モデルカー,スケールモデル,戦車,戦闘機,鉄道模型', field_name: 'Age Level',        field_type: 'recommended', priority: 14, notes: 'auto-injected: 13+' },
 
   // === Manga ===
   { category: 'Manga', tag_jp: '漫画,マンガ,コミック,単行本,文庫本,全巻セット,初版,同人誌,画集', field_name: 'Listed By',        field_type: 'required',    priority: 1,  notes: '' },
@@ -5186,7 +5187,7 @@ var IS_CATEGORY_FIELDS = {
     'Brand', 'Type', 'Model', 'Bait Type', 'Color', 'Weight', 'Buoyancy', 'Fishing Type', 'Fish Species', 'Item Length', 'Number in Pack', 'Country of Origin',
   ],
   'Mecha Model Kits': ['Listed By', 'Brand', 'Series/Franchise', 'Character/Mecha', 'Grade', 'Scale', 'Type', 'Built Status', 'Release Year', 'Country of Origin', 'Features', 'Theme', 'Age Level'],
-  'RC & Models': ['Listed By', 'Brand', 'Type', 'Scale', 'Vehicle Type', 'Model/Series', 'Power Type', 'Built Status', 'Country of Origin', 'Motor Type', '4WD/2WD', 'Year Manufactured', 'Age Level'],
+  'RC & Models': ['Listed By', 'Brand', 'Type', 'Scale', 'Vehicle Type', 'Model/Series', 'Power Type', 'Built Status', 'Country of Origin', 'Motor Type', '4WD/2WD', 'Year Manufactured', 'Features', 'Age Level'],
   'Manga': ['Listed By', 'Title', 'Author', 'Volume/Set', 'Format', 'Publisher', 'Language', 'Genre', 'Edition', 'Country of Origin', 'Theme', 'Publication Year', 'Age Level'],
   'Anime': ['Listed By', 'Character', 'Franchise', 'Type', 'Official/Unofficial', 'Brand', 'Year', 'Country of Origin', 'TV Show', 'Theme', 'Edition', 'Age Level', 'Material'],
   'Figures': ['Listed By', 'Franchise', 'Character', 'Type', 'Brand', 'Scale', 'Material', 'Series/Line', 'Official/Bootleg', 'Release Year', 'Country of Origin', 'Theme', 'Age Level', 'Features'],
