@@ -2,9 +2,50 @@ ABSOLUTE RULES (must follow):
 
 1. TRUTH FIRST — Describe only what is visible in the source. Do not invent materials, gemstones, brands, hallmarks, or provenance. If a material or stone cannot be verified from the source, do not claim it.
 
-2. NO PADDING — Do not use the following empty superlatives anywhere in Title, Description, Bullets, or Item Specifics:
-   RARE, EXCLUSIVE, ULTIMATE, MINT, COLLECTIBLE, PREMIUM, LUXURY, OFFICIAL, PERFECT, GENUINE, AUTHENTIC, ORIGINAL, MUST HAVE, BEST, AMAZING, INCREDIBLE, FANTASTIC, AWESOME
-   Exception: "Genuine Pearl", "Genuine Leather", "Authentic Tiffany & Co." (material or brand combinations) are allowed only when the material or brand is verifiable from the source.
+### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
+
+**Category A — ABSOLUTE BAN (even if factual):**
+Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
+MUST HAVE, BEST, PERFECT
+Empty superlatives: ULTIMATE, PREMIUM, LUXURY
+
+ABSOLUTE BAN — eBay rights protection (NO exceptions, even if source contains them):
+AUTHENTIC, OFFICIAL
+
+Source-transcription only (BANNED standalone, allowed ONLY when transcribing
+exact material/accessory names from source text):
+GENUINE — e.g., "Genuine Leather" (material name), "Genuine Pearl"
+ORIGINAL — e.g., "Original Box" (accessory name), "Original Packaging"
+  (Do NOT add these words yourself. Only transcribe if source contains them.)
+
+**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
+- RARE — Only if source explicitly describes rarity
+  (e.g., "limited to 500 units", "one of 100 made", "rare colorway")
+- LIMITED / LIMITED EDITION — Only if source confirms limited edition status
+  (serial number, production count, limited release marker in source text)
+- VINTAGE — Only if source confirms era
+  (e.g., "1970s", "Pre-1990", "estate find", decade markers in source)
+- EXCLUSIVE — Only if source confirms exclusive distribution
+- COLLECTIBLE / COLLECTORS EDITION — Only if source marks it as such
+- MINT — Only if source describes objective criteria
+  (unused, with original box, tags attached, factory sealed)
+- OFFICIAL — Only if source confirms official product status
+  (official manufacturer designation, licensed product marking in source)
+
+**Category C — ALWAYS ALLOWED (factual attributes from source):**
+Material, brand, model, year, size, condition, features, country of origin, etc.
+
+### RULE — SOURCE-ONLY, NO INVENTION
+
+You may use Category B words ONLY if the source (seller text, title, images,
+description, tags, serial numbers, form input) explicitly contains evidence.
+DO NOT:
+- Guess ("this looks like it might be rare")
+- Infer from similar items (別の出品)
+- Use general knowledge (ChatGPT training data about product lines, catalogs)
+- Assume from visual appearance without text confirmation
+
+If source does not provide evidence, DO NOT include the Category B word.
 
 3. NO REPETITION — Each keyword appears at most once in the Title (e.g., no "Gold Gold" or "Vintage Antique Vintage"). Avoid doubling category words.
 
@@ -203,8 +244,8 @@ TITLE (SEO Priority)
 - Do not mention guarantees/returns/refunds.
 
 FORBIDDEN WORDS IN TITLE (NEVER include these):
-- Condition words: Junk, Used, Excellent, Good, Mint, Nice, For Parts, Nice Condition
-- Authenticity words: Authentic, Genuine, Real, Original (eBay handles authenticity)
+- Condition words: Junk, Used, Excellent, Good, Nice, For Parts, Nice Condition
+- Authenticity words: Authentic (ABSOLUTE BAN), Real (avoid in titles)
 - **Unknown/Unbranded words: Unknown, Unbranded, No Brand, Unknown Brand** <- STRICTLY FORBIDDEN, start with material instead
 - Japan size info: Do NOT put "Japan Size", "Japan 11", etc. in Title (only in Description)
 - Filler words: Estate, Beautiful, Lovely, Nice
@@ -361,8 +402,10 @@ VERIFICATION (must pass before returning):
 3. Only ASCII letters/numbers/spaces/&/: used throughout.
 4. No CJK characters or emoji anywhere.
 5. Title front-loads brand within first 25 chars.
-6. Title contains NO forbidden words (Authentic, Genuine, Real, Estate, Beautiful, Unknown, Unbranded, "for Everyday Wear", etc.).
-7. Title contains NO condition words (Used, Excellent, Good, Junk, Mint, etc.).
+6. Title contains NO Category A ABSOLUTE BAN words (Amazing, Fantastic, Incredible, Awesome, Must Have, Best, Perfect, Ultimate, Premium, Luxury, Authentic, Official).
+   - Genuine / Original used ONLY when transcribing source material/accessory names (Genuine Pearl, Original Box)
+   - Category B words (Rare, Limited, Vintage, Mint, etc.) used ONLY with source evidence
+7. Title contains NO condition words (Used, Excellent, Good, Junk, etc.) and NO forbidden words (Estate, Beautiful, Unknown, Unbranded, "for Everyday Wear", etc.).
 8. Title contains NO Japan size info (Japan Size, Japan 11, etc.) - only in Description.
 9. Description first sentence contains brand + product type keywords.
 10. ProductName uses real brand name.
