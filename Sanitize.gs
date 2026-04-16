@@ -51,6 +51,13 @@ var SANITIZE_FIELDS_ = {
     '重さ', '長さ', '浮力', '対象魚種',
     '付属品', 'コンディション', '故障・不具合'
   ],
+  'Fishing Rods': [
+    'ブランド', 'ロッドタイプ', 'モデル名',
+    '長さ', 'パワー', 'アクション',
+    '対象魚種', '釣りタイプ', '素材',
+    '製造国', 'ピース数', '適合ライン',
+    '付属品', 'コンディション', '故障・不具合'
+  ],
   'Golf': [
     'ブランド', 'クラブタイプ', 'ロフト角', 'モデル名',
     '利き手', 'フレックス', 'シャフト素材', 'クラブ番号',
@@ -505,9 +512,12 @@ var CATEGORY_RULES_ = {
       '- パワー: UL/L/ML/M/MH/H/XH のいずれかで記入。',
       '- アクション: スロー/ミディアム/ファスト/エクストラファスト のいずれかで記入。',
       '- 長さ: フィート表記で記入（例: 6\'6", 7\', 10\'6"）。不明ならNA。',
-      '- 継数: 1ピース/2ピース/3ピース/マルチピース/テレスコピック のいずれかで記入。不明ならNA。',
+      '- ピース数 (継数とも呼ぶ): 1ピース/2ピース/3ピース/マルチピース/テレスコピック のいずれかで記入。テレスコピックロッドの場合は Rod Type も テレスコピック と記入する。不明ならNA。',
       '- 対象魚種: バス/トラウト/シーバス/青物/タイ/アジ/メバル/ヒラメ 等。不明ならNA。',
-      '- [EN]セクションでは: Rod Type は Spinning/Casting/Fly/Telescopic/Jigging/Shore/Offshore/Stream/Hera/Surf。Rod Power は Ultra Light/Light/Medium Light/Medium/Medium Heavy/Heavy/Extra Heavy。Rod Action は Slow/Moderate/Fast/Extra Fast。Pieces は 1-Piece/2-Piece/3-Piece/Multi-Piece/Telescopic。'
+      '- 素材: カーボン/グラスファイバー/コンポジット のいずれかで記入。不明ならNA。',
+      '- 釣りタイプ: フレッシュウォーター/ソルトウォーター/両用 のいずれかで記入。不明ならNA。',
+      '- 適合ライン: ソースに記載がある場合、lb または kg 表記で記入（例: 10-20lb, 3-8kg）。不明ならNA。',
+      '- [EN]セクションでは: Rod Type は Spinning/Casting/Fly/Telescopic/Jigging/Shore/Offshore/Stream/Hera/Surf。Rod Power は Ultra Light/Light/Medium Light/Medium/Medium Heavy/Heavy/Extra Heavy。Rod Action は Slow/Moderate/Fast/Extra Fast。Pieces は 1-Piece/2-Piece/3-Piece/Multi-Piece/Telescopic。Material は Carbon/Fiberglass/Composite。Fishing Type は Freshwater/Saltwater/All Water。Line Weight は lb または kg 表記。'
     ]
   },
   'Kimono': {

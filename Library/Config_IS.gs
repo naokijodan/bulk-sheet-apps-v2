@@ -650,26 +650,17 @@ var IS_INITIAL_DATA = [
   { category: 'Japanese Instruments', tag_jp: '三味線,尺八,琴,篠笛,太鼓,和太鼓,雅楽,琵琶,鼓,和楽器', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
   // === Fishing Rods ===
   { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
-  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Rod Type', field_type: 'required', priority: 2, notes: 'Spinning / Casting / Fly / Surf' },
+  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Rod Type', field_type: 'required', priority: 2, notes: 'Spinning / Casting / Fly / Surf / Jigging / Shore / Telescopic' },
   { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Model', field_type: 'required', priority: 3, notes: '' },
   { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Item Length', field_type: 'recommended', priority: 4, notes: 'ft単位' },
   { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Rod Power', field_type: 'recommended', priority: 5, notes: 'Ultra Light / Light / Medium / Heavy' },
   { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Rod Action', field_type: 'recommended', priority: 6, notes: 'Fast / Moderate / Slow' },
   { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Fish Species', field_type: 'recommended', priority: 7, notes: '' },
   { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Fishing Type', field_type: 'recommended', priority: 8, notes: 'Freshwater / Saltwater' },
-  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Material', field_type: 'recommended', priority: 9, notes: '' },
+  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Material', field_type: 'recommended', priority: 9, notes: 'Carbon / Fiberglass / Composite' },
   { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' },
-  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Number of Guides', field_type: 'recommended', priority: 11, notes: 'ガイド数' },
+  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Pieces', field_type: 'recommended', priority: 11, notes: 'ピース数 / 継数 (1 / 2 / 3 等)' },
   { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Line Weight', field_type: 'recommended', priority: 12, notes: '適合ライン (lb/kg)' },
-  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Pieces', field_type: 'recommended', priority: 13, notes: '継数 (1 / 2 / 3 等)' },
-  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Lure Weight', field_type: 'recommended', priority: 14, notes: 'ルアー重量推奨範囲 (g/oz)' },
-  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Color', field_type: 'recommended', priority: 15, notes: '' },
-  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Handedness', field_type: 'optional', priority: 16, notes: 'Right / Left Handed' },
-  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Features', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Vintage', field_type: 'optional', priority: 18, notes: 'Yes / No' },
-  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Model Year', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Product Line', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Fishing Rods', tag_jp: '釣竿,ロッド,竿', field_name: 'Item Weight', field_type: 'optional', priority: 21, notes: 'ロッド重量 (g/oz)' },
 
   // === Fishing Lures ===
   { category: 'Fishing Lures', tag_jp: 'ルアー,ミノー,クランクベイト,ワーム,メタルジグ,エギ,スプーン', field_name: 'Brand',            field_type: 'required',    priority: 1,  notes: 'Megabass, Jackall, DUO, OSP等' },
@@ -5058,19 +5049,10 @@ var IS_CATEGORY_FIELDS = {
     'Rod Action',      //  6. 推奨
     'Fish Species',    //  7. 推奨
     'Fishing Type',    //  8. 推奨
-    'Material',        //  9. 推奨
-    'Country of Origin', // 10. 推奨（維持）
-    'Number of Guides',  // 11. 推奨（ガイド数）
-    'Line Weight',     // 12. 推奨（適合ライン）
-    'Pieces',          // 13. 推奨（継数）
-    'Lure Weight',     // 14. 推奨
-    'Color',           // 15. 推奨
-    'Handedness',      // 16. 任意
-    'Features',        // 17. 任意
-    'Vintage',         // 18. 任意
-    'Model Year',      // 19. 任意
-    'Product Line',    // 20. 任意
-    'Item Weight'      // 21. 任意（ロッド重量）
+    'Material',        //  9. 推奨（Carbon / Fiberglass / Composite）
+    'Country of Origin', // 10. 推奨
+    'Pieces',          // 11. 推奨（ピース数/継数）
+    'Line Weight',     // 12. 推奨（適合ライン lb/kg）
   ],
   'Fishing Lures':       [
     'Brand', 'Type', 'Model', 'Bait Type', 'Color', 'Weight', 'Buoyancy', 'Fishing Type', 'Fish Species', 'Item Length', 'Number in Pack', 'Country of Origin',
