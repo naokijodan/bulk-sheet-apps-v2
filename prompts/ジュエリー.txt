@@ -29,8 +29,6 @@ ORIGINAL — e.g., "Original Box" (accessory name), "Original Packaging"
 - COLLECTIBLE / COLLECTORS EDITION — Only if source marks it as such
 - MINT — Only if source describes objective criteria
   (unused, with original box, tags attached, factory sealed)
-- OFFICIAL — Only if source confirms official product status
-  (official manufacturer designation, licensed product marking in source)
 
 **Category C — ALWAYS ALLOWED (factual attributes from source):**
 Material, brand, model, year, size, condition, features, country of origin, etc.

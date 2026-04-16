@@ -12,10 +12,48 @@ ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
 
 1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source. **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
 
-2. **NO PADDING**: Never use these 18 forbidden filler words under any circumstances:
-   Beautiful / Gorgeous / Stunning / Elegant / Exquisite / Refined / Luxury / Premium /
-   Classic / Timeless / Authentic / Genuine / Original / Real / High Quality / Top Quality /
-   Excellent / Perfect
+### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
+
+**Category A — ABSOLUTE BAN (even if factual):**
+Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
+MUST HAVE, BEST, PERFECT
+Empty superlatives: ULTIMATE, PREMIUM, LUXURY
+
+ABSOLUTE BAN — eBay rights protection (NO exceptions, even if source contains them):
+AUTHENTIC, OFFICIAL
+
+Source-transcription only (BANNED standalone, allowed ONLY when transcribing
+exact material/accessory names from source text):
+GENUINE — e.g., "Genuine Leather" (material name), "Genuine Pearl"
+ORIGINAL — e.g., "Original Box" (accessory name), "Original Packaging"
+  (Do NOT add these words yourself. Only transcribe if source contains them.)
+
+**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
+- RARE — Only if source explicitly describes rarity
+  (e.g., "limited to 500 units", "one of 100 made", "rare colorway")
+- LIMITED / LIMITED EDITION — Only if source confirms limited edition status
+  (serial number, production count, limited release marker in source text)
+- VINTAGE — Only if source confirms era
+  (e.g., "1970s", "Pre-1990", "estate find", decade markers in source)
+- EXCLUSIVE — Only if source confirms exclusive distribution
+- COLLECTIBLE / COLLECTORS EDITION — Only if source marks it as such
+- MINT — Only if source describes objective criteria
+  (unused, with original box, tags attached, factory sealed)
+
+**Category C — ALWAYS ALLOWED (factual attributes from source):**
+Material, brand, model, year, size, condition, features, country of origin, etc.
+
+### RULE — SOURCE-ONLY, NO INVENTION
+
+You may use Category B words ONLY if the source (seller text, title, images,
+description, tags, serial numbers, form input) explicitly contains evidence.
+DO NOT:
+- Guess ("this looks like it might be rare")
+- Infer from similar items (別の出品)
+- Use general knowledge (ChatGPT training data about product lines, catalogs)
+- Assume from visual appearance without text confirmation
+
+If source does not provide evidence, DO NOT include the Category B word.
 
 3. **NO REPETITION**: Do not repeat any token more than once in Title.
 
@@ -157,7 +195,7 @@ TITLE (SEO Priority)
   4. Product type (RC Car, Plastic Model Kit, Model Train, Transmitter)
   5. Subject (Tank, Aircraft, Ship, Touring Car, Buggy)
   6. Build status (Kit, RTR, Assembled)
-  7. Bonus SEO words if applicable & true: Vintage, Rare, Limited Edition, Japan
+  7. Bonus SEO words if applicable & true: Japan
 
 - MODEL NAME/NUMBER RULE:
   Model names and kit numbers are critical for hobby buyers.
