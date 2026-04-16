@@ -205,17 +205,9 @@ var IS_INITIAL_DATA = [
   { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Country of Origin', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Wireless Technology', field_type: 'recommended', priority: 9, notes: 'Bluetooth / Wi-Fi / NFC / AptX / LDAC / AAC / None' },
   { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Form Factor', field_type: 'recommended', priority: 10, notes: 'In-Ear / Over-Ear / On-Ear / TWS / Portable / Desktop / Bookshelf' },
-  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Number of Earpieces', field_type: 'optional', priority: 11, notes: '1 (片耳) / 2 (両耳) / N/A' },
-  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Microphone Type', field_type: 'optional', priority: 12, notes: 'Built-in / Detachable / None' },
-  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Department', field_type: 'optional', priority: 13, notes: '' },
-  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Material', field_type: 'optional', priority: 14, notes: '' },
-  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Year Manufactured', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Vintage', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Series', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Theme', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Occasion', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Style', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Suitable For', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Year Manufactured', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Series', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Electronics', tag_jp: '電子機器,家電,オーディオ,ヘッドホン,イヤホン,スピーカー,オーディオアンプ,AVアンプ,レシーバー,ターンテーブル,レコードプレーヤー,カセットデッキ,ウォークマン,DAP,ポータブルプレーヤー,炊飯器,掃除機,ドライヤー,美顔器,電気ケトル,空気清浄機,プロジェクター,ラジオ', field_name: 'Number of Earpieces', field_type: 'optional', priority: 13, notes: '1 (片耳) / 2 (両耳) / N/A' },
 
   // === Trading Cards ===
   { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Game', field_type: 'required', priority: 1, notes: 'Pokemon, Yu-Gi-Oh!, Magic: The Gathering等' },
@@ -1183,15 +1175,7 @@ var IS_INITIAL_DATA = [
   { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
   { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Series', field_type: 'recommended', priority: 11, notes: '' },
   { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Fretboard Material', field_type: 'recommended', priority: 12, notes: 'Rosewood / Maple / Ebony / Pau Ferro等' },
-  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Color', field_type: 'recommended', priority: 13, notes: '' },
-  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Features', field_type: 'recommended', priority: 14, notes: '' },
-  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Vintage', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Material', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Department', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Theme', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Neck Material', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Bridge Type', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Pickup Configuration', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Bridge Type', field_type: 'optional', priority: 13, notes: 'Floyd Rose / Tune-o-matic / Vintage Tremolo / Hardtail / N/A' },
 
   // === Effects & Amps (エフェクター・アンプ) ===
   { category: 'Effects & Amps', tag_jp: 'エフェクター,ストンプボックス,マルチエフェクター,オーバードライブ,ディストーション,ファズ,ディレイ,リバーブ,コーラス,コンプレッサー,ワウ,ルーパー,ブースター,アンプ,ギターアンプ,ベースアンプ', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -1204,17 +1188,7 @@ var IS_INITIAL_DATA = [
   { category: 'Effects & Amps', tag_jp: 'エフェクター,ストンプボックス,マルチエフェクター,オーバードライブ,ディストーション,ファズ,ディレイ,リバーブ,コーラス,コンプレッサー,ワウ,ルーパー,ブースター,アンプ,ギターアンプ,ベースアンプ', field_name: 'Features', field_type: 'recommended', priority: 8, notes: 'Tap Tempo / MIDI / Stereo / Expression / 50W / 2-Channel / FX Loop' },
   { category: 'Effects & Amps', tag_jp: 'エフェクター,ストンプボックス,マルチエフェクター,オーバードライブ,ディストーション,ファズ,ディレイ,リバーブ,コーラス,コンプレッサー,ワウ,ルーパー,ブースター,アンプ,ギターアンプ,ベースアンプ', field_name: 'Model Year', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Effects & Amps', tag_jp: 'エフェクター,ストンプボックス,マルチエフェクター,オーバードライブ,ディストーション,ファズ,ディレイ,リバーブ,コーラス,コンプレッサー,ワウ,ルーパー,ブースター,アンプ,ギターアンプ,ベースアンプ', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
-  { category: 'Effects & Amps', tag_jp: 'エフェクター,ストンプボックス,マルチエフェクター,オーバードライブ,ディストーション,ファズ,ディレイ,リバーブ,コーラス,コンプレッサー,ワウ,ルーパー,ブースター,アンプ,ギターアンプ,ベースアンプ', field_name: 'To Fit', field_type: 'recommended', priority: 11, notes: 'Guitar / Bass / Keyboard / Universal' },
-  { category: 'Effects & Amps', tag_jp: 'エフェクター,ストンプボックス,マルチエフェクター,オーバードライブ,ディストーション,ファズ,ディレイ,リバーブ,コーラス,コンプレッサー,ワウ,ルーパー,ブースター,アンプ,ギターアンプ,ベースアンプ', field_name: 'Series', field_type: 'optional', priority: 12, notes: '' },
-  { category: 'Effects & Amps', tag_jp: 'エフェクター,ストンプボックス,マルチエフェクター,オーバードライブ,ディストーション,ファズ,ディレイ,リバーブ,コーラス,コンプレッサー,ワウ,ルーパー,ブースター,アンプ,ギターアンプ,ベースアンプ', field_name: 'Channel Count', field_type: 'optional', priority: 13, notes: '1ch / 2ch / 3ch / N/A' },
-  { category: 'Effects & Amps', tag_jp: 'エフェクター,ストンプボックス,マルチエフェクター,オーバードライブ,ディストーション,ファズ,ディレイ,リバーブ,コーラス,コンプレッサー,ワウ,ルーパー,ブースター,アンプ,ギターアンプ,ベースアンプ', field_name: 'Wattage', field_type: 'optional', priority: 14, notes: '50W / 100W / N/A for pedals' },
-  { category: 'Effects & Amps', tag_jp: 'エフェクター,ストンプボックス,マルチエフェクター,オーバードライブ,ディストーション,ファズ,ディレイ,リバーブ,コーラス,コンプレッサー,ワウ,ルーパー,ブースター,アンプ,ギターアンプ,ベースアンプ', field_name: 'Material', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Effects & Amps', tag_jp: 'エフェクター,ストンプボックス,マルチエフェクター,オーバードライブ,ディストーション,ファズ,ディレイ,リバーブ,コーラス,コンプレッサー,ワウ,ルーパー,ブースター,アンプ,ギターアンプ,ベースアンプ', field_name: 'Department', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Effects & Amps', tag_jp: 'エフェクター,ストンプボックス,マルチエフェクター,オーバードライブ,ディストーション,ファズ,ディレイ,リバーブ,コーラス,コンプレッサー,ワウ,ルーパー,ブースター,アンプ,ギターアンプ,ベースアンプ', field_name: 'Vintage', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Effects & Amps', tag_jp: 'エフェクター,ストンプボックス,マルチエフェクター,オーバードライブ,ディストーション,ファズ,ディレイ,リバーブ,コーラス,コンプレッサー,ワウ,ルーパー,ブースター,アンプ,ギターアンプ,ベースアンプ', field_name: 'Theme', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Effects & Amps', tag_jp: 'エフェクター,ストンプボックス,マルチエフェクター,オーバードライブ,ディストーション,ファズ,ディレイ,リバーブ,コーラス,コンプレッサー,ワウ,ルーパー,ブースター,アンプ,ギターアンプ,ベースアンプ', field_name: 'Occasion', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Effects & Amps', tag_jp: 'エフェクター,ストンプボックス,マルチエフェクター,オーバードライブ,ディストーション,ファズ,ディレイ,リバーブ,コーラス,コンプレッサー,ワウ,ルーパー,ブースター,アンプ,ギターアンプ,ベースアンプ', field_name: 'Style', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Effects & Amps', tag_jp: 'エフェクター,ストンプボックス,マルチエフェクター,オーバードライブ,ディストーション,ファズ,ディレイ,リバーブ,コーラス,コンプレッサー,ワウ,ルーパー,ブースター,アンプ,ギターアンプ,ベースアンプ', field_name: 'Official/Unofficial', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Effects & Amps', tag_jp: 'エフェクター,ストンプボックス,マルチエフェクター,オーバードライブ,ディストーション,ファズ,ディレイ,リバーブ,コーラス,コンプレッサー,ワウ,ルーパー,ブースター,アンプ,ギターアンプ,ベースアンプ', field_name: 'Wattage', field_type: 'optional', priority: 11, notes: '50W / 100W / N/A for pedals' },
 
   // === Synths & Digital (シンセ・キーボード・DJ機材) ===
   { category: 'Synths & Digital', tag_jp: 'シンセサイザー,キーボード,シンセ,電子ピアノ,ワークステーション,サンプラー,ドラムマシン,グルーヴボックス,DJコントローラー,ターンテーブル,ミキサー', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -1230,14 +1204,6 @@ var IS_INITIAL_DATA = [
   { category: 'Synths & Digital', tag_jp: 'シンセサイザー,キーボード,シンセ,電子ピアノ,ワークステーション,サンプラー,ドラムマシン,グルーヴボックス,DJコントローラー,ターンテーブル,ミキサー', field_name: 'Action', field_type: 'recommended', priority: 11, notes: 'Weighted / Semi-weighted / Synth / Unweighted / N/A' },
   { category: 'Synths & Digital', tag_jp: 'シンセサイザー,キーボード,シンセ,電子ピアノ,ワークステーション,サンプラー,ドラムマシン,グルーヴボックス,DJコントローラー,ターンテーブル,ミキサー', field_name: 'Polyphony', field_type: 'recommended', priority: 12, notes: '32 / 64 / 128 voices等' },
   { category: 'Synths & Digital', tag_jp: 'シンセサイザー,キーボード,シンセ,電子ピアノ,ワークステーション,サンプラー,ドラムマシン,グルーヴボックス,DJコントローラー,ターンテーブル,ミキサー', field_name: 'Touch Sensitivity', field_type: 'recommended', priority: 13, notes: 'On / Off / Curve等' },
-  { category: 'Synths & Digital', tag_jp: 'シンセサイザー,キーボード,シンセ,電子ピアノ,ワークステーション,サンプラー,ドラムマシン,グルーヴボックス,DJコントローラー,ターンテーブル,ミキサー', field_name: 'Series', field_type: 'recommended', priority: 14, notes: '' },
-  { category: 'Synths & Digital', tag_jp: 'シンセサイザー,キーボード,シンセ,電子ピアノ,ワークステーション,サンプラー,ドラムマシン,グルーヴボックス,DJコントローラー,ターンテーブル,ミキサー', field_name: 'Year Manufactured', field_type: 'recommended', priority: 15, notes: '' },
-  { category: 'Synths & Digital', tag_jp: 'シンセサイザー,キーボード,シンセ,電子ピアノ,ワークステーション,サンプラー,ドラムマシン,グルーヴボックス,DJコントローラー,ターンテーブル,ミキサー', field_name: 'Department', field_type: 'recommended', priority: 16, notes: '' },
-  { category: 'Synths & Digital', tag_jp: 'シンセサイザー,キーボード,シンセ,電子ピアノ,ワークステーション,サンプラー,ドラムマシン,グルーヴボックス,DJコントローラー,ターンテーブル,ミキサー', field_name: 'Vintage', field_type: 'recommended', priority: 17, notes: 'Yes / No' },
-  { category: 'Synths & Digital', tag_jp: 'シンセサイザー,キーボード,シンセ,電子ピアノ,ワークステーション,サンプラー,ドラムマシン,グルーヴボックス,DJコントローラー,ターンテーブル,ミキサー', field_name: 'Power Source', field_type: 'recommended', priority: 18, notes: 'AC Adapter / Battery / USB' },
-  { category: 'Synths & Digital', tag_jp: 'シンセサイザー,キーボード,シンセ,電子ピアノ,ワークステーション,サンプラー,ドラムマシン,グルーヴボックス,DJコントローラー,ターンテーブル,ミキサー', field_name: 'Theme', field_type: 'recommended', priority: 19, notes: '' },
-  { category: 'Synths & Digital', tag_jp: 'シンセサイザー,キーボード,シンセ,電子ピアノ,ワークステーション,サンプラー,ドラムマシン,グルーヴボックス,DJコントローラー,ターンテーブル,ミキサー', field_name: 'Occasion', field_type: 'recommended', priority: 20, notes: '' },
-  { category: 'Synths & Digital', tag_jp: 'シンセサイザー,キーボード,シンセ,電子ピアノ,ワークステーション,サンプラー,ドラムマシン,グルーヴボックス,DJコントローラー,ターンテーブル,ミキサー', field_name: 'Style', field_type: 'recommended', priority: 21, notes: '' },
 
   // === Musical Instruments (ドラム・管楽器・パーカッション・その他) ===
   { category: 'Musical Instruments', tag_jp: '楽器,バイオリン,フルート,サックス,トランペット,ドラム,ハーモニカ,管楽器,スネア,シンバル,パーカッション,クラリネット,トロンボーン,チェロ,ビオラ', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -4795,7 +4761,7 @@ var IS_CATEGORY_FIELDS = {
   ],
   'Electronics': [
     'Brand', 'Model', 'Type', 'Connectivity', 'Features', 'Power Source', 'Color', 'Country of Origin',
-    'Wireless Technology', 'Form Factor', 'Number of Earpieces', 'Microphone Type', 'Department', 'Material', 'Year Manufactured', 'Vintage', 'Series', 'Theme', 'Occasion', 'Style', 'Suitable For',
+    'Wireless Technology', 'Form Factor', 'Year Manufactured', 'Series', 'Number of Earpieces',
   ],
   'Trading Cards': [
     'Game', 'Set', 'Character', 'Card Name', 'Card Number', 'Rarity', 'Finish', 'Graded', 'Professional Grader', 'Grade',
@@ -4956,15 +4922,15 @@ var IS_CATEGORY_FIELDS = {
   ],
   'Guitars': [
     'Brand', 'Type', 'Model', 'Body Color', 'Body Type', 'String Configuration', 'Handedness', 'Model Year', 'Number of Frets', 'Country of Origin',
-    'Series', 'Fretboard Material', 'Color', 'Features', 'Vintage', 'Material', 'Department', 'Theme', 'Neck Material', 'Bridge Type', 'Pickup Configuration',
+    'Series', 'Fretboard Material', 'Bridge Type',
   ],
   'Effects & Amps': [
     'Brand', 'Model', 'Type', 'Analog/Digital', 'Power Source', 'Bypass Type', 'Color', 'Features', 'Model Year', 'Country of Origin',
-    'To Fit', 'Series', 'Channel Count', 'Wattage', 'Material', 'Department', 'Vintage', 'Theme', 'Occasion', 'Style', 'Official/Unofficial',
+    'Wattage',
   ],
   'Synths & Digital':    [
     'Brand', 'Model', 'Type', 'Number of Keys', 'Analog/Digital', 'Color', 'Connectivity', 'Features', 'Model Year', 'Country of Origin',
-    'Action', 'Polyphony', 'Touch Sensitivity', 'Series', 'Year Manufactured', 'Department', 'Vintage', 'Power Source', 'Theme', 'Occasion', 'Style',
+    'Action', 'Polyphony', 'Touch Sensitivity',
   ],
   'Musical Instruments': ['Brand', 'Model', 'Type', 'Material', 'Color', 'Size', 'Key/Pitch', 'Features', 'Model Year', 'Country of Origin'],
   'Pens': [
