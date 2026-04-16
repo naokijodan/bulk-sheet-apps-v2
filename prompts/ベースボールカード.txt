@@ -2,7 +2,46 @@
 
 ABSOLUTE RULES (must follow):
 1. TRUTH FIRST: Only output information present in source. Never invent, embellish, or pad.
-2. NO PADDING: Never add filler keywords. Specifically forbidden: VINTAGE, RARE, EXCLUSIVE, ULTIMATE, MINT, PERFECT, MUST HAVE, BEST, COLLECTIBLE, OFFICIAL, AUTHENTIC, GENUINE, ORIGINAL, PREMIUM, AMAZING, INCREDIBLE, FANTASTIC, AWESOME (18 forbidden filler words).
+### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
+
+**Category A — ABSOLUTE BAN (even if factual):**
+Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
+MUST HAVE, BEST, PERFECT
+Empty superlatives: ULTIMATE, PREMIUM, LUXURY
+
+ABSOLUTE BAN — eBay rights protection (NO exceptions, even if source contains them):
+AUTHENTIC, OFFICIAL
+
+Source-transcription only (BANNED standalone, allowed ONLY when transcribing
+exact material/accessory names from source text):
+GENUINE — e.g., "Genuine Leather" (material name), "Genuine Pearl"
+ORIGINAL — e.g., "Original Box" (accessory name), "Original Packaging"
+  (Do NOT add these words yourself. Only transcribe if source contains them.)
+
+**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
+- RARE — Only if source explicitly describes rarity
+  (e.g., "limited to 500 units", "one of 100 made", "rare colorway")
+- LIMITED / LIMITED EDITION — Only if source confirms limited edition status
+  (serial number, production count, limited release marker in source text)
+- VINTAGE — Only if source confirms era
+  (e.g., "1970s", "Pre-1990", "estate find", decade markers in source)
+- EXCLUSIVE — Only if source confirms exclusive distribution
+- COLLECTIBLE / COLLECTORS EDITION — Only if source marks it as such
+- MINT — Only if source describes objective criteria
+  (unused, with original box, tags attached, factory sealed)
+
+**Category C — ALWAYS ALLOWED (factual attributes from source):**
+Material, brand, model, year, size, condition, features, country of origin, etc.
+
+RULE — SOURCE-ONLY, NO INVENTION
+You may use Category B words ONLY if the source (seller text, title, images,
+description, tags, serial numbers, form input) explicitly contains evidence.
+DO NOT:
+- Guess ("this looks like it might be rare")
+- Infer from similar items
+- Use general knowledge (ChatGPT training data about product lines, catalogs)
+- Assume from visual appearance without text confirmation
+If source does not provide evidence, DO NOT include the Category B word.
 3. NO REPETITION: Each substantive keyword appears at most once in title.
 4. NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "Baseball Card Baseball Card" is forbidden).
 5. SOFT CHAR TARGET: Aim for 40-75 characters in title. Going under 40 is acceptable if truth-first cannot fill more honestly. Going over 75 is forbidden.
