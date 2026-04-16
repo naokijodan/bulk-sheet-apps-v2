@@ -3,7 +3,7 @@ window.PROGRESS_DATA = {
     "title": "一括シートV3 進捗ダッシュボード",
     "project": "一括シートApps_v3",
     "description": "eBay 商品一括出品 GAS ライブラリ (v108) の IS 拡張・Phase 1B 進捗を可視化するダッシュボードデータ",
-    "generated_at": "2026-04-16T11:15:00+09:00",
+    "generated_at": "2026-04-16T11:45:00+09:00",
     "version": "v108",
     "cat_number_mapping": {
       "description": "git log / Obsidian の旧 Track A Cat 番号 (Cat 1-21) と 73-cat 正式番号の対応表",
@@ -115,7 +115,7 @@ window.PROGRESS_DATA = {
         }
       ]
     },
-    "last_updated": "2026-04-16T11:15:00+09:00",
+    "last_updated": "2026-04-16T11:45:00+09:00",
     "data_source_reports": [
       "child-b-full-73-scan.json (73 cats)",
       "child-a-obsidian-audit.json",
@@ -392,22 +392,37 @@ window.PROGRESS_DATA = {
       "priority": "high",
       "mandatory_missing": [],
       "phase1a_status": "completed (21フィールドに拡張済み)",
-      "phase1b_status": "unknown",
+      "phase1b_status": "completed (21→12 IS精査 + Sanitize連動)",
       "overall_status": "completed",
-      "phase1b_detail": null,
-      "is_refinement": "not_started",
-      "sanitize_integration": "partial",
+      "phase1b_detail": {
+        "field_count_current": 12,
+        "field_count_reduction": "21→12 (5cfe3ce)",
+        "is_refinement": "done",
+        "sanitize_integration": "done",
+        "sanitize_fields_present": true,
+        "sanitize_fields_count": 15,
+        "category_rules_updates": "継数→ピース数(継数とも呼ぶ)、素材/釣りタイプ/適合ライン 3規則追加、テレスコピック補足",
+        "prompt_file": "prompts/釣竿.txt",
+        "prompt_absolute_rules": "done",
+        "inject_country": "not_injected",
+        "inject_theme": "not_injected",
+        "inject_age_level": "not_injected",
+        "inject_features": "not_injected",
+        "notes": "釣具 3 カテゴリ整合 (Reels 13 / Lures 12 / Rods 12)。FIELD_EN_TO_JP_ は不変更。E-02 CONDITIONAL_PASS (critical なし、LOW 3 件のうち P-03 本 commit 取り込み、P-01/P-02 別途記録)"
+      },
+      "is_refinement": "completed",
+      "sanitize_integration": "completed",
       "prompt_file": "prompts/釣竿.txt",
       "prompt_absolute_rules": "completed",
       "inject_country": "not_applicable",
       "inject_theme": "not_applicable",
       "inject_age_level": "not_applicable",
       "inject_features": "not_applicable",
-      "field_count": 21,
+      "field_count": 12,
       "field_count_original": 21,
-      "last_commit": null,
+      "last_commit": "5cfe3ce",
       "notes": "",
-      "phase_1b_started": false,
+      "phase_1b_started": true,
       "cpsc_target": false,
       "prompt_rule2_applied": true
     },
@@ -2833,16 +2848,16 @@ window.PROGRESS_DATA = {
       "rate": "100%"
     },
     "phase1b": {
-      "started": 36,
-      "fully_completed": 27,
+      "started": 37,
+      "fully_completed": 28,
       "partial": 9,
-      "not_started": 37,
+      "not_started": 36,
       "total": 73,
-      "started_rate": "49%",
-      "fully_rate": "37%",
+      "started_rate": "51%",
+      "fully_rate": "38%",
       "sub_stats": {
-        "is_refinement_done": 35,
-        "sanitize_done": 17,
+        "is_refinement_done": 36,
+        "sanitize_done": 18,
         "sanitize_partial": 53,
         "prompt_absolute_rules_done": 34,
         "prompt_absolute_rules_partial": 0,
@@ -2860,18 +2875,18 @@ window.PROGRESS_DATA = {
     "version": {
       "current": "v108",
       "released_date": "2026-04-13",
-      "latest_commit": "d865096"
+      "latest_commit": "5cfe3ce"
     },
-    "generated_at": "2026-04-16T11:15:00+09:00",
+    "generated_at": "2026-04-16T11:45:00+09:00",
     "data_sources": [
       "child-b-status-matrix.json",
       "child-c-docs-and-73cats.json",
       "child-a-notes.json",
       "bulksheet-v3-master-design.md"
     ],
-    "phase_1b_started": 36,
-    "phase_1b_fully_completed": 27,
-    "phase_1b_not_started": 37,
+    "phase_1b_started": 37,
+    "phase_1b_fully_completed": 28,
+    "phase_1b_not_started": 36,
     "phase_1b_partial": 9,
     "resolved_issues_count": 3
   }
