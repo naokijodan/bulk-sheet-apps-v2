@@ -482,40 +482,80 @@
   ---------------------------------------------------------- */
   var PRIORITY_ORDER = { highest: 0, high: 1, mid: 2, low: 3 };
 
+  function buildIssueCard(issue) {
+    var pri = issue.priority || 'low';
+    var cats = issue.related_categories || [];
+    var catsHtml = cats.length
+      ? '<div class="issue-card__cats">' +
+        cats.map(function (c) { return '<span class="cat-tag">' + esc(c) + '</span>'; }).join('') +
+        '</div>' : '';
+    var statusLabel = issue.status === 'resolved' ? '解決済み'
+      : issue.status === 'archived' ? 'アーカイブ'
+      : '未解決';
+    var resolutionHtml = issue.resolution
+      ? '<div class="issue-card__resolution"><span class="issue-card__meta-label">解決内容:</span> ' + esc(issue.resolution) + '</div>'
+      : '';
+
+    return '<div class="issue-card issue-card--' + esc(pri) + '">' +
+      '<div class="issue-card__header">' +
+        '<span class="issue-badge issue-badge--' + esc(pri) + '">' + esc(pri.toUpperCase()) + '</span>' +
+        '<span class="issue-card__id">' + esc(issue.id) + '</span>' +
+        '<span class="issue-card__title">' + esc(issue.title) + '</span>' +
+        '<span class="issue-card__status">' + esc(statusLabel) + '</span>' +
+      '</div>' +
+      '<div class="issue-card__description">' + esc(issue.description) + '</div>' +
+      resolutionHtml +
+      (cats.length ? '<div class="issue-card__meta"><span class="issue-card__meta-label">関連カテゴリ:</span>' + catsHtml + '</div>' : '') +
+    '</div>';
+  }
+
   function renderIssues(issues) {
-    el('issues-count-badge').textContent = issues.length;
-    if (!issues.length) {
-      el('issues-list').innerHTML = '<p class="empty-message">未解決課題なし ✅</p>';
-      return;
+    var openIssues = issues.filter(function (i) { return i.status === 'open' || !i.status; });
+    var resolvedIssues = issues.filter(function (i) { return i.status === 'resolved' || i.status === 'archived'; });
+
+    el('issues-count-badge').textContent = openIssues.length;
+
+    function sortByPriority(arr) {
+      return arr.slice().sort(function (a, b) {
+        var pa = PRIORITY_ORDER[a.priority] != null ? PRIORITY_ORDER[a.priority] : 99;
+        var pb = PRIORITY_ORDER[b.priority] != null ? PRIORITY_ORDER[b.priority] : 99;
+        return pa - pb;
+      });
     }
 
-    var sorted = issues.slice().sort(function (a, b) {
-      var pa = PRIORITY_ORDER[a.priority] != null ? PRIORITY_ORDER[a.priority] : 99;
-      var pb = PRIORITY_ORDER[b.priority] != null ? PRIORITY_ORDER[b.priority] : 99;
-      return pa - pb;
-    });
-
     var html = '';
-    sorted.forEach(function (issue) {
-      var pri = issue.priority || 'low';
-      var cats = issue.related_categories || [];
-      var catsHtml = cats.length
-        ? '<div class="issue-card__cats">' +
-          cats.map(function (c) { return '<span class="cat-tag">' + esc(c) + '</span>'; }).join('') +
-          '</div>' : '';
 
-      html += '<div class="issue-card issue-card--' + esc(pri) + '">' +
-        '<div class="issue-card__header">' +
-          '<span class="issue-badge issue-badge--' + esc(pri) + '">' + esc(pri.toUpperCase()) + '</span>' +
-          '<span class="issue-card__id">' + esc(issue.id) + '</span>' +
-          '<span class="issue-card__title">' + esc(issue.title) + '</span>' +
-          '<span class="issue-card__status">' + esc(issue.status || '未解決') + '</span>' +
-        '</div>' +
-        '<div class="issue-card__description">' + esc(issue.description) + '</div>' +
-        (cats.length ? '<div class="issue-card__meta"><span class="issue-card__meta-label">関連カテゴリ:</span>' + catsHtml + '</div>' : '') +
-      '</div>';
-    });
+    if (!openIssues.length) {
+      html += '<p class="empty-message">未解決課題なし ✅</p>';
+    } else {
+      sortByPriority(openIssues).forEach(function (issue) {
+        html += buildIssueCard(issue);
+      });
+    }
+
+    if (resolvedIssues.length) {
+      html += '<details class="resolved-issues-details" style="margin-top:16px;">' +
+        '<summary class="resolved-issues-summary" style="cursor:pointer;padding:8px 12px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;font-weight:600;color:#166534;list-style:none;display:flex;align-items:center;gap:8px;">' +
+          '<span>▶</span>' +
+          '<span>解決済み / アーカイブ (' + resolvedIssues.length + '件)</span>' +
+        '</summary>' +
+        '<div class="resolved-issues-body" style="margin-top:8px;">';
+      sortByPriority(resolvedIssues).forEach(function (issue) {
+        html += buildIssueCard(issue);
+      });
+      html += '</div></details>';
+    }
+
     el('issues-list').innerHTML = html;
+
+    // Rotate arrow on open/close
+    var details = el('issues-list').querySelector('.resolved-issues-details');
+    if (details) {
+      details.addEventListener('toggle', function () {
+        var arrow = details.querySelector('summary span');
+        if (arrow) arrow.textContent = details.open ? '▼' : '▶';
+      });
+    }
   }
 
   /* ----------------------------------------------------------
