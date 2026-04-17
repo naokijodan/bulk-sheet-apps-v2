@@ -6,9 +6,46 @@ GOALS
 - Copy the Description exactly as-is. Do not modify, summarize, or rewrite the Description.
 - OUTPUT MUST BE ASCII ONLY (A-Z a-z 0-9 spaces & / : %), no CJK.
 
+========================================
+ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
+========================================
+
+1. **TRUTH FIRST**: Every word in the rearranged Title must come from the original Title or Description. Do NOT invent new facts or add terms not present in the source listing.
+
+### Rule 2: NO PADDING — APPLY EVEN WHEN REARRANGING
+**Category A — ABSOLUTE BAN (remove even if present in original listing):**
+Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
+MUST HAVE, BEST, PERFECT
+Empty superlatives: ULTIMATE, PREMIUM, LUXURY
+
+ABSOLUTE BAN — eBay VeRO protection (NO exceptions, remove if in original):
+AUTHENTIC, OFFICIAL
+
+Source-transcription only (keep ONLY if original listing uses these as exact material/item names):
+GENUINE — keep ONLY if original uses it as a material name (e.g., "Genuine Leather"). Do NOT add yourself.
+ORIGINAL — keep ONLY if original uses it as an accessory/item name (e.g., "Original Box"). Do NOT add yourself.
+
+**Category B — MAY KEEP from original if present (already source-verified by original listing):**
+- VINTAGE, RARE, LIMITED / LIMITED EDITION — may be kept from original title if present
+
+**Category C — ALWAYS ALLOWED:**
+All factual product attributes from the original Title or Description.
+
+### RULE — SOURCE-ONLY, NO INVENTION
+
+Use ONLY words from the original Title or Description.
+Remove all Category A words even if they appear in the original.
+
+3. **NO REPETITION** — Do not repeat any token more than once in Title.
+4. **NO REDUNDANT CATEGORY** — Do not include generic category words more than once.
+5. **SOFT CHAR TARGET** — Title: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
+6. **ESSENTIAL INFO REQUIRED** — Brand / Product type / Key spec.
+
+========================================
+
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 68-75 chars. If >75, abbreviate. If <68, expand an abbreviation or pull a fact from Description.
+- Length: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80). If >80, abbreviate. If <40, expand an abbreviation or pull a fact from Description.
 - Allowed symbols only: & / : %
 - No commas, periods, hyphens, quotes, brackets, parentheses.
 
@@ -47,7 +84,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 68-75 chars.
+1. Title length 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
 2. Title word order is significantly different from original.
 3. Title contains at least 1 synonym substitution vs original.
 4. Only ASCII letters/numbers/spaces/&/:/%  used throughout.

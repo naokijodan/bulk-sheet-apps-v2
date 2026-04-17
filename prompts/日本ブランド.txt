@@ -6,9 +6,52 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - Leverage "Made in Japan" and "Japan Exclusive" appeal for international buyers.
 
+========================================
+ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
+========================================
+
+1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source (title_jp, description_jp, tag_jp). **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
+
+### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
+**Category A — ABSOLUTE BAN (even if factual):**
+Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
+MUST HAVE, BEST, PERFECT
+Empty superlatives: ULTIMATE, PREMIUM, LUXURY
+
+ABSOLUTE BAN — eBay VeRO protection (NO exceptions, even if source contains them):
+AUTHENTIC, OFFICIAL
+
+Source-transcription only (BANNED standalone, allowed ONLY when transcribing
+exact item names from source text):
+GENUINE — e.g., "Genuine Leather" (material name from source). Do NOT add yourself.
+ORIGINAL — e.g., "Original Strap" (accessory name from source). Do NOT add yourself.
+
+**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
+- VINTAGE — Only if source confirms era (decade markers in source)
+- RARE — Only if source explicitly describes rarity (希少 stated in source)
+- LIMITED / LIMITED EDITION — Only if source confirms limited release
+
+**Category C — ALWAYS ALLOWED (factual attributes from source):**
+Brand names, product type, material, origin terms (Japan/Made in Japan/JDM/Japan Exclusive
+— factual if source explicitly states), collaboration partner (factual if source states).
+
+### RULE — SOURCE-ONLY, NO INVENTION
+
+You may use Category B words ONLY if the source explicitly contains evidence.
+DO NOT guess, infer from similar items, or use general knowledge about brands.
+
+If source does not provide evidence, DO NOT include the Category B word.
+
+3. **NO REPETITION** — Do not repeat any token more than once in Title.
+4. **NO REDUNDANT CATEGORY** — Do not include generic category words more than once.
+5. **SOFT CHAR TARGET** — Title: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
+6. **ESSENTIAL INFO REQUIRED** — Brand / Product type / Material (if premium) / Origin (if stated).
+
+========================================
+
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 68–75 chars. If >75, shorten but keep SEO value.
+- Length: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80). If >80, shorten but keep SEO value.
 - Allowed symbols only: & / :
 - No commas, periods, hyphens, quotes, brackets, parentheses.
 - Do not mention guarantees/returns/refunds.
@@ -26,7 +69,8 @@ TITLE (SEO Priority)
      - "Made in Japan" (premium quality signal)
      - "JDM" (Japan Domestic Market - popular search term)
      - "Japan Only" or "Japan Exclusive" (for items not sold overseas)
-     - "Rare" "Limited" "Collaboration" if applicable
+     - "Collaboration" (factual if source states collaboration partner)
+     - "Rare" "Limited" (Category B — source-confirmed ONLY. See Rule 2)
 
 - JAPANESE BRAND NAME STANDARDIZATION:
   Porter / Yoshida Porter / Yoshida Kaban -> Porter Yoshida
@@ -118,7 +162,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 68–75 chars.
+1. Title length 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
 2. Description <= 480 chars.
 3. Only ASCII letters/numbers/spaces/&/: used throughout.
 4. No CJK characters or emoji anywhere.
