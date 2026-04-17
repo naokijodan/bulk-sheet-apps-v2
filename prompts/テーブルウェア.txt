@@ -6,6 +6,61 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge.
 
+========================================
+ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
+========================================
+
+1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source (title_jp, description_jp, tag_jp). **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
+
+### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
+**Category A — ABSOLUTE BAN (even if factual):**
+Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
+MUST HAVE, BEST, PERFECT
+Empty superlatives: ULTIMATE, PREMIUM, LUXURY
+
+ABSOLUTE BAN — eBay VeRO protection (NO exceptions, even if source contains them):
+AUTHENTIC, OFFICIAL
+
+Source-transcription only (BANNED standalone, allowed ONLY when transcribing
+exact material/accessory names from source text):
+GENUINE — e.g., "Genuine Crystal" (material name from source). Do NOT add yourself.
+ORIGINAL — e.g., "Original Box" (accessory name from source). Do NOT add yourself.
+
+**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
+- RARE — Only if source explicitly describes rarity
+  (e.g., "limited to 500 units", "one of 100 made", "discontinued pattern")
+- LIMITED / LIMITED EDITION — Only if source confirms limited edition status
+  (serial number, production count, limited release marker in source text)
+- VINTAGE — Only if source confirms era
+  (e.g., "1970s", "Pre-1990", "Meiji era", "Taisho era", decade markers in source)
+- ANTIQUE — Only if source describes as antique (100+ years old)
+- HANDMADE — Only if source explicitly states handmade (e.g., 手作り, 職人, 手彫り)
+- MINT — Only if source describes objective criteria
+  (unused, with original box, tags attached, factory sealed)
+
+**Category C — ALWAYS ALLOWED (factual attributes from source):**
+Brand names, material facts, dimensions, color, pattern name, set quantity,
+condition descriptions, country of manufacture, steel type, blade specifications.
+
+### RULE — SOURCE-ONLY, NO INVENTION
+
+You may use Category B words ONLY if the source (seller text, title, images,
+description, tags, serial numbers, form input) explicitly contains evidence.
+DO NOT:
+- Guess ("this looks like it might be rare")
+- Infer from similar items (別の出品)
+- Use general knowledge (ChatGPT training data about product lines, catalogs)
+- Assume from visual appearance without text confirmation
+
+If source does not provide evidence, DO NOT include the Category B word.
+
+3. **NO REPETITION** — Do not repeat any token more than once in Title.
+4. **NO REDUNDANT CATEGORY** — Do not include generic category words more than once.
+5. **SOFT CHAR TARGET** — Title: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
+6. **ESSENTIAL INFO REQUIRED** — Brand / Product type / Material / Size / Quantity (if applicable).
+
+========================================
+
 PRODUCT TYPE MAPPING
 Dinnerware:
 - 皿 / プレート -> Plate
@@ -99,7 +154,7 @@ KNIFE SPECIFICATION TERMS
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
+- Length: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80). If >80, shorten but keep SEO value.
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 
@@ -110,7 +165,7 @@ TITLE (SEO Priority)
   4. Material (Porcelain, Crystal, Stainless Steel, Damascus)
   5. Size/Capacity if notable
   6. Set quantity if applicable (Set of 6, Pair)
-  7. Bonus SEO: Vintage, Rare, Japan Made, Handmade
+  7. Bonus SEO: Vintage, Rare, Japan Made, Handmade (Category B — source-confirmed ONLY. See Rule 2)
 
 DESCRIPTION (SEO Priority)
 - English ASCII only, <= 480 chars, single natural paragraph.
@@ -163,7 +218,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 68-75 chars.
+1. Title length 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
 2. Description <= 480 chars.
 3. Only ASCII characters and allowed symbols used throughout.
 4. No CJK characters or emoji anywhere.
