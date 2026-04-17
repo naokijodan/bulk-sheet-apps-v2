@@ -1127,6 +1127,20 @@ var IS_INITIAL_DATA = [
   { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Country of Origin',     field_type: 'recommended', priority: 10, notes: '' },
   { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Theme',                 field_type: 'recommended', priority: 11, notes: 'auto-injected: Collectible' },
   { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Age Level',             field_type: 'required',    priority: 12, notes: '14 and Over (CPSC compliance)' },
+
+  // === Books & Magazines ===
+  { category: 'Books & Magazines', tag_jp: '書籍・雑誌,書籍,雑誌,小説,写真集,フォトブック,アートブック,図録,MOOK,ムック,専門誌,文庫,新書,絵本,洋書', field_name: 'Author/Artist',    field_type: 'required',    priority:  1, notes: '著者 / 撮影者 / 編著者 / アーティスト' },
+  { category: 'Books & Magazines', tag_jp: '書籍・雑誌,書籍,雑誌,小説,写真集,フォトブック,アートブック,図録,MOOK,ムック,専門誌,文庫,新書,絵本,洋書', field_name: 'Publisher',        field_type: 'recommended', priority:  2, notes: '出版社' },
+  { category: 'Books & Magazines', tag_jp: '書籍・雑誌,書籍,雑誌,小説,写真集,フォトブック,アートブック,図録,MOOK,ムック,専門誌,文庫,新書,絵本,洋書', field_name: 'Language',         field_type: 'recommended', priority:  3, notes: 'auto-injected: Japanese' },
+  { category: 'Books & Magazines', tag_jp: '書籍・雑誌,書籍,雑誌,小説,写真集,フォトブック,アートブック,図録,MOOK,ムック,専門誌,文庫,新書,絵本,洋書', field_name: 'Format',           field_type: 'recommended', priority:  4, notes: 'Magazine / Paperback / Hardcover / Mook / Art Book / Photo Book / Picture Book / Exhibition Catalog' },
+  { category: 'Books & Magazines', tag_jp: '書籍・雑誌,書籍,雑誌,小説,写真集,フォトブック,アートブック,図録,MOOK,ムック,専門誌,文庫,新書,絵本,洋書', field_name: 'Year Published',   field_type: 'recommended', priority:  5, notes: '発行年' },
+  { category: 'Books & Magazines', tag_jp: '書籍・雑誌,書籍,雑誌,小説,写真集,フォトブック,アートブック,図録,MOOK,ムック,専門誌,文庫,新書,絵本,洋書', field_name: 'Country of Origin',field_type: 'recommended', priority:  6, notes: 'auto-injected: Japan' },
+  { category: 'Books & Magazines', tag_jp: '書籍・雑誌,書籍,雑誌,小説,写真集,フォトブック,アートブック,図録,MOOK,ムック,専門誌,文庫,新書,絵本,洋書', field_name: 'Subject',          field_type: 'recommended', priority:  7, notes: '題材・テーマ（写真集の被写体、画集のジャンル等）' },
+  { category: 'Books & Magazines', tag_jp: '書籍・雑誌,書籍,雑誌,小説,写真集,フォトブック,アートブック,図録,MOOK,ムック,専門誌,文庫,新書,絵本,洋書', field_name: 'ISBN',             field_type: 'optional',    priority:  8, notes: 'ISBN-10 / ISBN-13' },
+  { category: 'Books & Magazines', tag_jp: '書籍・雑誌,書籍,雑誌,小説,写真集,フォトブック,アートブック,図録,MOOK,ムック,専門誌,文庫,新書,絵本,洋書', field_name: 'Issue Number',     field_type: 'optional',    priority:  9, notes: '号数 (雑誌のみ: Vol.42 / No.10 等)' },
+  { category: 'Books & Magazines', tag_jp: '書籍・雑誌,書籍,雑誌,小説,写真集,フォトブック,アートブック,図録,MOOK,ムック,専門誌,文庫,新書,絵本,洋書', field_name: 'Brand',            field_type: 'optional',    priority: 10, notes: '' },
+  { category: 'Books & Magazines', tag_jp: '書籍・雑誌,書籍,雑誌,小説,写真集,フォトブック,アートブック,図録,MOOK,ムック,専門誌,文庫,新書,絵本,洋書', field_name: 'Vintage',          field_type: 'optional',    priority: 11, notes: '' },
+  { category: 'Books & Magazines', tag_jp: '書籍・雑誌,書籍,雑誌,小説,写真集,フォトブック,アートブック,図録,MOOK,ムック,専門誌,文庫,新書,絵本,洋書', field_name: 'Series',           field_type: 'optional',    priority: 12, notes: '' },
 ];
 
 // 主要ブランド辞書（プロンプト埋め込み用）
@@ -4265,6 +4279,16 @@ IS_TAG_TO_CATEGORY['ポスター'] = 'Anime'; IS_TAG_TO_CATEGORY['セル画'] = 
 IS_TAG_TO_CATEGORY['原画'] = 'Anime'; IS_TAG_TO_CATEGORY['ブロマイド'] = 'Anime';
 IS_TAG_TO_CATEGORY['キーホルダー'] = 'Anime';
 
+// Books & Magazines
+IS_TAG_TO_CATEGORY['書籍・雑誌'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['書籍'] = 'Books & Magazines';
+IS_TAG_TO_CATEGORY['雑誌'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['小説'] = 'Books & Magazines';
+IS_TAG_TO_CATEGORY['写真集'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['フォトブック'] = 'Books & Magazines';
+IS_TAG_TO_CATEGORY['アートブック'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['図録'] = 'Books & Magazines';
+IS_TAG_TO_CATEGORY['MOOK'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['ムック'] = 'Books & Magazines';
+IS_TAG_TO_CATEGORY['専門誌'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['文庫'] = 'Books & Magazines';
+IS_TAG_TO_CATEGORY['新書'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['絵本'] = 'Books & Magazines';
+IS_TAG_TO_CATEGORY['洋書'] = 'Books & Magazines';
+
 // Figures（フィギュアをCollectiblesから上書き）
 IS_TAG_TO_CATEGORY['フィギュア'] = 'Figures'; IS_TAG_TO_CATEGORY['アクションフィギュア'] = 'Figures';
 IS_TAG_TO_CATEGORY['スタチュー'] = 'Figures';
@@ -4741,6 +4765,11 @@ var IS_CATEGORY_FIELDS = {
   ],
   'Japanese Dolls': [
     'Type', 'Material', 'Maker', 'Origin/Region', 'Era/Period', 'Size', 'Technique', 'Subject/Motif', 'Original/Reproduction', 'Country of Origin', 'Theme', 'Age Level',
+  ],
+  'Books & Magazines': [
+    'Author/Artist', 'Publisher', 'Language', 'Format',
+    'Year Published', 'Country of Origin', 'Subject', 'ISBN',
+    'Issue Number', 'Brand', 'Vintage', 'Series',
   ],
 };
 

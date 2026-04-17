@@ -423,6 +423,12 @@ var SANITIZE_FIELDS_ = {
     '製造国', 'カラー', 'タイプ', 'ボウルサイズ', 'ステム素材',
     'シリーズ', '仕上げ', 'ヴィンテージ', '製造年',
     '付属品', 'コンディション', '故障・不具合'
+  ],
+  'Books & Magazines': [
+    '著者/アーティスト', '発売元', '言語', 'フォーマット',
+    '発行年', '製造国', '題材', 'ISBN',
+    '号数', 'ブランド', 'ヴィンテージ', 'シリーズ',
+    '付属品', 'コンディション', '故障・不具合'
   ]
 };
 
@@ -1269,6 +1275,17 @@ var CATEGORY_RULES_ = {
       '- 刀匠/メーカー: 鍛冶職人名または製造メーカー名をそのまま記入。例: 藤次郎/有次/正本/杉本/グローバル/堺一文字光秀。不明ならNA。',
       '- コンディション: 新品/使用品/未使用品 のいずれかで記入。使用品の場合は刃の状態(研ぎ直し済み/小傷あり等)を故障・不具合に記入。',
       '- [EN]セクションでは: Type は Gyuto/Deba/Santoku/Yanagiba/Nakiri/Ko-Deba/Usuba/Honesuki/Petty/Bread Knife/Cleaver/Paring Knife。Blade Material は Steel/Stainless Steel/Damascus/High Carbon Steel/VG-10/Aogami/Shirogami。Edge Type は Single-Bevel/Double-Bevel。Handedness は Right-Handed/Left-Handed。'
+    ]
+  },
+  'Books & Magazines': {
+    label: '書籍・雑誌・写真集',
+    rules: [
+      '- 著者/アーティスト: 著者名/撮影者名/編著者名をそのまま記入。漢字名の場合はヘボン式ローマ字で記入（[EN]セクション）。',
+      '- フォーマット: 雑誌→Magazine、文庫/単行本（ソフトカバー）→Paperback、ハードカバー→Hardcover、ムック→Mook、画集/イラスト集→Art Book、写真集→Photo Book、絵本→Picture Book、図録/展覧会カタログ→Exhibition Catalog。',
+      '- 題材: 写真集の被写体（アイドル名/風景/動物等）、画集のジャンル（ファンタジー/SF等）、書籍のテーマを記入。ジャンルではなく題材（内容）を書く。',
+      '- 号数: 雑誌のみ記入。Vol.42 / No.10 / 2020年5月号 等の形式。書籍の場合はNA。',
+      '- ISBN: 裏表紙またはISBNシールに記載の番号をそのまま記入（ISBN-10 または ISBN-13）。不明ならNA。',
+      '- [EN]セクションでは: Author/Artist は英語または Romanized Name (漢字名) の形式。Publisher は英語社名（例: Shueisha/Kodansha/Shogakukan/Kadokawa）。Format は Magazine/Paperback/Hardcover/Mook/Art Book/Photo Book/Picture Book/Exhibition Catalog。Subject は英語で被写体・テーマを記入。Issue Number は Vol.XX / No.XX / Month Year の形式。'
     ]
   }
 };
