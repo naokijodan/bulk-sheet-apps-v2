@@ -6,6 +6,50 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge.
 
+========================================
+ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
+========================================
+
+1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source (title_jp, description_jp, tag_jp). **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
+
+### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
+**Category A — ABSOLUTE BAN (even if factual):**
+Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
+MUST HAVE, BEST, PERFECT
+Empty superlatives: ULTIMATE, PREMIUM, LUXURY
+
+ABSOLUTE BAN — eBay VeRO protection (NO exceptions, even if source contains them):
+AUTHENTIC, OFFICIAL
+
+Source-transcription only (BANNED standalone, allowed ONLY when transcribing
+exact item names from source text):
+GENUINE — e.g., "Genuine Leather" (material name from source). Do NOT add yourself.
+ORIGINAL — e.g., "Original Case" (accessory name from source). Do NOT add yourself.
+
+**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
+- RARE — Only if source explicitly describes rarity (希少 stated in source)
+- LIMITED / LIMITED EDITION — Only if source confirms limited release
+- VINTAGE — Only if source confirms era (decade markers in source)
+- HANDMADE — Only if source explicitly states handmade (手作り, 職人)
+
+**Category C — ALWAYS ALLOWED (factual attributes from source):**
+Brand names, product type, material, size/weight, Japan Made (if source states),
+Custom (if source states), Pro Model (if source states).
+
+### RULE — SOURCE-ONLY, NO INVENTION
+
+You may use Category B words ONLY if the source explicitly contains evidence.
+DO NOT guess, infer from similar items, or use general knowledge.
+
+If source does not provide evidence, DO NOT include the Category B word.
+
+3. **NO REPETITION** — Do not repeat any token more than once in Title.
+4. **NO REDUNDANT CATEGORY** — Do not include generic category words more than once.
+5. **SOFT CHAR TARGET** — Title: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
+6. **ESSENTIAL INFO REQUIRED** — Brand / Product type / Material / Size (if applicable).
+
+========================================
+
 PRODUCT TYPE MAPPING
 Gloves & Mitts:
 - グローブ / グラブ -> Glove
@@ -78,7 +122,7 @@ GLOVE SPECIFICATION TERMS
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
+- Length: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80). If >80, shorten but keep SEO value.
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 
@@ -91,7 +135,7 @@ TITLE (SEO Priority)
   6. Size if known (11.5in, 12in)
   7. Throw hand (RHT, LHT)
   8. Hardball/Rubber ball
-  9. Bonus SEO words: Japan Made, Rare, Custom, Pro Model
+  9. Bonus SEO: Rare (Category B — source-confirmed ONLY. See Rule 2); Japan Made, Custom, Pro Model (factual if source states)
 
 DESCRIPTION (SEO Priority)
 - English ASCII only, <= 480 chars, single natural paragraph.
@@ -141,7 +185,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 68-75 chars.
+1. Title length 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
 2. Description <= 480 chars.
 3. Only ASCII characters and allowed symbols used throughout.
 4. No CJK characters or emoji anywhere.

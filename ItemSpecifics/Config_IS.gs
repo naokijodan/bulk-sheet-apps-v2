@@ -277,18 +277,10 @@ var IS_INITIAL_DATA = [
   { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'US Shoe Size', field_type: 'required', priority: 7, notes: 'US サイズ表記 (例: US 8, US 9.5)' },
   { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Size', field_type: 'optional', priority: 8, notes: 'EU / UK / JP等のサイズ' },
   { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Style', field_type: 'optional', priority: 9, notes: 'Oxford / Sneaker / Loafer / Boot等' },
-  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Features', field_type: 'optional', priority: 10, notes: '' },
-  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Pattern', field_type: 'optional', priority: 11, notes: '' },
-  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Occasion', field_type: 'optional', priority: 12, notes: 'フォーマル / カジュアル等' },
-  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Theme', field_type: 'optional', priority: 13, notes: '' },
-  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Series', field_type: 'optional', priority: 14, notes: '' },
-  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Vintage', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Era', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Season', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Official/Unofficial', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Designer', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Gender', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Number of Pieces', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Pattern', field_type: 'optional', priority: 10, notes: '' },
+  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Series', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Vintage', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Shoes', tag_jp: '靴,シューズ,スニーカー,ブーツ,サンダル,パンプス,ローファー', field_name: 'Gender', field_type: 'optional', priority: 13, notes: '' },
 
   // === Collectibles (コレクティブル・アンティーク・ヴィンテージ) ===
   { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Brand', field_type: 'required', priority: 1, notes: 'メーカー・ブランド・企業名' },
@@ -297,21 +289,13 @@ var IS_INITIAL_DATA = [
   { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Type', field_type: 'required', priority: 4, notes: 'Tin Toy, Pin Badge, Sign, Medal, Poster, Figurine, Promotional Item等' },
   { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Theme', field_type: 'recommended', priority: 5, notes: 'Railway, Military, Advertising, Tourism, Sports等' },
   { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Material', field_type: 'recommended', priority: 6, notes: 'Tin, Metal, Enamel, Paper, Wood, Glass, Plastic, Soft Vinyl等' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Features', field_type: 'recommended', priority: 7, notes: 'Vintage, Dead Stock, Promotional, Limited, With Box, Working等' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Size', field_type: 'recommended', priority: 8, notes: '' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Era', field_type: 'recommended', priority: 9, notes: 'Meiji/Taisho/Showa/Heisei/1950s/1960s等' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Collection', field_type: 'recommended', priority: 11, notes: 'シリーズ名・コレクション名' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Subject', field_type: 'recommended', priority: 12, notes: 'Locomotive, Aircraft, Samurai, Geisha等' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Character Family', field_type: 'recommended', priority: 13, notes: 'Astro Boy, Ultraman等のファミリー' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Occasion', field_type: 'recommended', priority: 14, notes: 'World Expo, Olympics, New Year等' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Color', field_type: 'recommended', priority: 15, notes: '' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Pattern', field_type: 'recommended', priority: 16, notes: '' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Style', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Vintage', field_type: 'optional', priority: 18, notes: 'Yes / No' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Designer', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Department', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Shape', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Size', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Country of Origin', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Collection', field_type: 'recommended', priority: 9, notes: 'シリーズ名・コレクション名' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Subject', field_type: 'recommended', priority: 10, notes: 'Locomotive, Aircraft, Samurai, Geisha等' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Character Family', field_type: 'recommended', priority: 11, notes: 'Astro Boy, Ultraman等のファミリー' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Color', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Vintage', field_type: 'optional', priority: 13, notes: 'Yes / No' },
 
   // === Watch Parts ===
   { category: 'Watch Parts', tag_jp: 'ウォッチパーツ,時計パーツ,時計部品', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -350,17 +334,9 @@ var IS_INITIAL_DATA = [
   { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Body Area', field_type: 'optional', priority: 8, notes: '使用する体の部位（Face / Body / Hand等）' },
   { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Skin Type', field_type: 'optional', priority: 9, notes: '対応肌タイプ（Dry / Oily / Sensitive等）' },
   { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Size', field_type: 'optional', priority: 10, notes: '容量・サイズ' },
-  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Features', field_type: 'optional', priority: 11, notes: '商品の特徴・効能' },
-  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Department', field_type: 'optional', priority: 12, notes: '対象部門（Men / Women / Unisex等）' },
-  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Item Weight', field_type: 'optional', priority: 13, notes: '内容量・重量' },
-  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Material', field_type: 'optional', priority: 14, notes: '素材・成分タイプ' },
-  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Series', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Theme', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Vintage', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Occasion', field_type: 'optional', priority: 18, notes: 'ギフト・誕生日等の使用シーン' },
-  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Season', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Number of Pieces', field_type: 'optional', priority: 20, notes: 'セット個数' },
-  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Official/Unofficial', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Item Weight', field_type: 'optional', priority: 11, notes: '内容量・重量' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Series', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Soap', tag_jp: '石鹸,せっけん,ソープ,石けん', field_name: 'Number of Pieces', field_type: 'optional', priority: 13, notes: 'セット個数' },
 
   // === Dolls & Plush (ドール＆ぬいぐるみ) ===
   { category: 'Dolls & Plush', tag_jp: 'ドール,ぬいぐるみ,テディベア,人形,フィギュアドール,BJD', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -413,21 +389,13 @@ var IS_INITIAL_DATA = [
   { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Lens Color', field_type: 'recommended', priority: 4, notes: '' },
   { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Frame Material', field_type: 'recommended', priority: 5, notes: 'Metal / Plastic / Titanium等' },
   { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Style', field_type: 'recommended', priority: 6, notes: '' },
-  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Department', field_type: 'recommended', priority: 7, notes: 'Men / Women / Unisex' },
-  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Country of Origin', field_type: 'recommended', priority: 8, notes: '' },
-  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Type', field_type: 'recommended', priority: 9, notes: '' },
-  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Lens Technology', field_type: 'optional', priority: 10, notes: '' },
-  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'UV Protection', field_type: 'optional', priority: 11, notes: '' },
-  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Features', field_type: 'optional', priority: 12, notes: '' },
-  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Size', field_type: 'optional', priority: 13, notes: '' },
-  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Color', field_type: 'optional', priority: 14, notes: '' },
-  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Series', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Theme', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Vintage', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Occasion', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Season', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Pattern', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Official/Unofficial', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Country of Origin', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Type', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Lens Technology', field_type: 'optional', priority: 9, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'UV Protection', field_type: 'optional', priority: 10, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Size', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Series', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Vintage', field_type: 'optional', priority: 13, notes: '' },
 
   // === Kimono ===
   { category: 'Kimono', tag_jp: '着物,和装,振袖,留袖,訪問着,浴衣,帯,袴,小紋,紬,付下げ,羽織,色無地,反物,草履,下駄,名古屋帯,袋帯,半幅帯', field_name: 'Brand', field_type: 'recommended', priority: 1, notes: '' },
@@ -542,20 +510,16 @@ var IS_INITIAL_DATA = [
   { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'String Pattern', field_type: 'recommended', priority: 5, notes: '' },
   { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Weight', field_type: 'recommended', priority: 6, notes: '' },
   { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Country of Origin', field_type: 'recommended', priority: 7, notes: '' },
-  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Model', field_type: 'optional', priority: 8, notes: 'ラケットモデル名（IS_CATEGORY_FIELDS 既存、IS_INITIAL_DATA 未登録のため追加）' },
-  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Flex', field_type: 'optional', priority: 9, notes: 'フレックス（IS_CATEGORY_FIELDS 既存、IS_INITIAL_DATA 未登録のため追加）' },
-  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Balance', field_type: 'optional', priority: 10, notes: 'バランスポイント（IS_CATEGORY_FIELDS 既存、IS_INITIAL_DATA 未登録のため追加）' },
+  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Model', field_type: 'optional', priority: 8, notes: '' },
+  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Flex', field_type: 'optional', priority: 9, notes: '' },
+  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Balance', field_type: 'optional', priority: 10, notes: '' },
   { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Color', field_type: 'optional', priority: 11, notes: '' },
   { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Material', field_type: 'optional', priority: 12, notes: 'フレーム素材 (Carbon / Aluminum等)' },
   { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Level', field_type: 'optional', priority: 13, notes: '対象レベル (Beginner / Intermediate / Advanced等)' },
   { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Series', field_type: 'optional', priority: 14, notes: '' },
-  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Features', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Gender', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Age Group', field_type: 'optional', priority: 17, notes: '対象年齢層 (Adult / Junior等)' },
-  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Department', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Vintage', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Theme', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Number of Pieces', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Gender', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Age Group', field_type: 'optional', priority: 16, notes: '対象年齢層 (Adult / Junior等)' },
+  { category: 'Tennis', tag_jp: 'テニス,テニスラケット,ラケット', field_name: 'Vintage', field_type: 'optional', priority: 17, notes: '' },
 
   // === Baseball ===
   { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -569,16 +533,9 @@ var IS_INITIAL_DATA = [
   { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Country of Origin', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Model Year', field_type: 'recommended', priority: 10, notes: '' },
   { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Experience Level', field_type: 'recommended', priority: 11, notes: 'Beginner / Intermediate / Advanced' },
-  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Department', field_type: 'recommended', priority: 12, notes: 'Youth / Adult / Boys / Girls / Mens / Womens等' },
-  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Lining Material', field_type: 'recommended', priority: 13, notes: '' },
-  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Features', field_type: 'optional', priority: 14, notes: '' },
-  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Season', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Theme', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Style', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Vintage', field_type: 'optional', priority: 18, notes: 'Yes / No' },
-  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Occasion', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Series/Line', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Official/Unofficial', field_type: 'optional', priority: 21, notes: 'Official / Unofficial' },
+  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Lining Material', field_type: 'recommended', priority: 12, notes: '' },
+  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Vintage', field_type: 'optional', priority: 13, notes: 'Yes / No' },
+  { category: 'Baseball', tag_jp: '野球,グローブ,グラブ,バット,ミット', field_name: 'Series/Line', field_type: 'optional', priority: 14, notes: '' },
 
   // === Japanese Instruments ===
   { category: 'Japanese Instruments', tag_jp: '三味線,尺八,琴,篠笛,太鼓,和太鼓,雅楽,琵琶,鼓,和楽器', field_name: 'Type', field_type: 'required', priority: 1, notes: 'Shamisen / Shakuhachi / Koto / Shinobue / Taiko' },
@@ -740,14 +697,10 @@ var IS_INITIAL_DATA = [
   { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Material', field_type: 'recommended', priority: 11, notes: '' },
   { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Type', field_type: 'recommended', priority: 12, notes: '' },
   { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Color', field_type: 'recommended', priority: 13, notes: '' },
-  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Style', field_type: 'recommended', priority: 14, notes: '' },
-  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Speed', field_type: 'recommended', priority: 15, notes: '33/45/78 RPM' },
-  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Edition', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Pressing Country', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Vintage', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Theme', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Occasion', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Department', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Speed', field_type: 'recommended', priority: 14, notes: '33/45/78 RPM' },
+  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Edition', field_type: 'optional', priority: 15, notes: '' },
+  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Pressing Country', field_type: 'optional', priority: 16, notes: '' },
+  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Vintage', field_type: 'optional', priority: 17, notes: '' },
 
   // === Necklaces ===
   { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Style',          field_type: 'required',    priority:  1, notes: '' },
@@ -1002,15 +955,8 @@ var IS_INITIAL_DATA = [
   { category: 'Pipes', tag_jp: 'パイプ,喫煙パイプ,煙管,キセル,パイプ・喫煙具', field_name: 'Stem Material', field_type: 'optional', priority: 10, notes: 'Acrylic / Ebonite / Amber等' },
   { category: 'Pipes', tag_jp: 'パイプ,喫煙パイプ,煙管,キセル,パイプ・喫煙具', field_name: 'Series', field_type: 'optional', priority: 11, notes: '' },
   { category: 'Pipes', tag_jp: 'パイプ,喫煙パイプ,煙管,キセル,パイプ・喫煙具', field_name: 'Finish', field_type: 'optional', priority: 12, notes: 'Smooth / Sandblast / Rusticated等' },
-  { category: 'Pipes', tag_jp: 'パイプ,喫煙パイプ,煙管,キセル,パイプ・喫煙具', field_name: 'Department', field_type: 'optional', priority: 13, notes: '' },
-  { category: 'Pipes', tag_jp: 'パイプ,喫煙パイプ,煙管,キセル,パイプ・喫煙具', field_name: 'Theme', field_type: 'optional', priority: 14, notes: '' },
-  { category: 'Pipes', tag_jp: 'パイプ,喫煙パイプ,煙管,キセル,パイプ・喫煙具', field_name: 'Style', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Pipes', tag_jp: 'パイプ,喫煙パイプ,煙管,キセル,パイプ・喫煙具', field_name: 'Vintage', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Pipes', tag_jp: 'パイプ,喫煙パイプ,煙管,キセル,パイプ・喫煙具', field_name: 'Features', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Pipes', tag_jp: 'パイプ,喫煙パイプ,煙管,キセル,パイプ・喫煙具', field_name: 'Era', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Pipes', tag_jp: 'パイプ,喫煙パイプ,煙管,キセル,パイプ・喫煙具', field_name: 'Occasion', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Pipes', tag_jp: 'パイプ,喫煙パイプ,煙管,キセル,パイプ・喫煙具', field_name: 'Official/Unofficial', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Pipes', tag_jp: 'パイプ,喫煙パイプ,煙管,キセル,パイプ・喫煙具', field_name: 'Year Manufactured', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Pipes', tag_jp: 'パイプ,喫煙パイプ,煙管,キセル,パイプ・喫煙具', field_name: 'Vintage', field_type: 'optional', priority: 13, notes: '' },
+  { category: 'Pipes', tag_jp: 'パイプ,喫煙パイプ,煙管,キセル,パイプ・喫煙具', field_name: 'Year Manufactured', field_type: 'optional', priority: 14, notes: '' },
 
   // === Guitars (ギター・ベース・ウクレレ) ===
   { category: 'Guitars', tag_jp: 'ギター,ベース,ウクレレ,エレキギター,アコースティックギター,クラシックギター,エレキベース', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -1075,20 +1021,10 @@ var IS_INITIAL_DATA = [
   { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Nib Material', field_type: 'recommended', priority: 5, notes: 'Gold / Steel / Iridium' },
   { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Type', field_type: 'required', priority: 6, notes: 'Fountain Pen / Ballpoint / Rollerball' },
   { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Vintage', field_type: 'recommended', priority: 7, notes: 'Yes / No' },
-  { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Features', field_type: 'recommended', priority: 8, notes: '' },
-  { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Country of Origin', field_type: 'recommended', priority: 9, notes: '' },
-  { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Color', field_type: 'optional', priority: 10, notes: 'ペン本体の色' },
-  { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Size', field_type: 'optional', priority: 11, notes: '全体サイズ・長さ' },
-  { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Series', field_type: 'optional', priority: 12, notes: '製品シリーズ（1911, 51等）' },
-  { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Theme', field_type: 'optional', priority: 13, notes: '' },
-  { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Department', field_type: 'optional', priority: 14, notes: '' },
-  { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Style', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Occasion', field_type: 'optional', priority: 16, notes: '使用シーン・ギフト等' },
-  { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Era', field_type: 'optional', priority: 17, notes: '製造年代' },
-  { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Pattern', field_type: 'optional', priority: 18, notes: '柄パターン' },
-  { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Official/Unofficial', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Number of Pieces', field_type: 'optional', priority: 20, notes: 'セット個数' },
-  { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Designer', field_type: 'optional', priority: 21, notes: 'デザイナー名' },
+  { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Country of Origin', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Color', field_type: 'optional', priority: 9, notes: 'ペン本体の色' },
+  { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Series', field_type: 'optional', priority: 10, notes: '製品シリーズ（1911, 51等）' },
+  { category: 'Pens', tag_jp: '万年筆,ボールペン,ペン,シャープペンシル,筆記具,メカニカルペンシル', field_name: 'Designer', field_type: 'optional', priority: 11, notes: 'デザイナー名' },
 
   // === Wallets ===
   { category: 'Wallets', tag_jp: '財布,長財布,二つ折り財布,三つ折り財布,ミニ財布,コインケース,カードケース,キーケース,パスケース,マネークリップ,札入れ,がま口', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -1199,17 +1135,9 @@ var IS_INITIAL_DATA = [
   { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Maker/Blacksmith', field_type: 'recommended', priority: 8, notes: '刀匠・作者名' },
   { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Country of Origin', field_type: 'recommended', priority: 9, notes: '' },
   { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Condition', field_type: 'recommended', priority: 10, notes: 'New / Used等' },
-  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Style', field_type: 'optional', priority: 11, notes: '' },
-  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Vintage', field_type: 'optional', priority: 12, notes: '' },
-  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Era', field_type: 'optional', priority: 13, notes: '' },
-  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Features', field_type: 'optional', priority: 14, notes: '' },
-  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Series', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Size', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Theme', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Pattern', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Official/Unofficial', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Collection', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Number of Pieces', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Vintage', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Series', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Kitchen Knives', tag_jp: '包丁,菜切り包丁,出刃包丁,柳刃包丁,三徳包丁,牛刀,鍛造包丁', field_name: 'Number of Pieces', field_type: 'optional', priority: 13, notes: '' },
 
   // === Japanese Dolls ===
   { category: 'Japanese Dolls', tag_jp: '日本人形,雛人形,五月人形,武者人形,市松人形,こけし,博多人形,木目込み人形', field_name: 'Type',                 field_type: 'required',    priority: 1,  notes: 'Hina / Musha / Ichimatsu / Kokeshi等' },
@@ -4562,8 +4490,7 @@ var IS_CATEGORY_FIELDS = {
   ],
   'Shoes': [
     'Brand', 'Type', 'Department', 'Color', 'Material', 'Country of Origin',
-    'US Shoe Size', 'Size', 'Style', 'Features', 'Pattern', 'Occasion', 'Theme',
-    'Series', 'Vintage', 'Era', 'Season', 'Official/Unofficial', 'Designer', 'Gender', 'Number of Pieces',
+    'US Shoe Size', 'Size', 'Style', 'Pattern', 'Series', 'Vintage', 'Gender',
   ],
   'Cameras': [
     'Brand', 'Model', 'Type', 'Series', 'Color', 'Maximum Resolution', 'Battery Type', 'Features', 'Lens Mount', 'Country of Origin',
@@ -4673,33 +4600,25 @@ var IS_CATEGORY_FIELDS = {
     'Type',                //  4. 必須
     'Theme',               //  5. 推奨
     'Material',            //  6. 推奨
-    'Features',            //  7. 推奨
-    'Size',                //  8. 推奨
-    'Era',                 //  9. 推奨
-    'Country of Origin',   // 10. 推奨（維持）
-    'Collection',          // 11. 推奨
-    'Subject',             // 12. 推奨
-    'Character Family',    // 13. 推奨
-    'Occasion',            // 14. 推奨
-    'Color',               // 15. 推奨
-    'Pattern',             // 16. 推奨
-    'Style',               // 17. 任意
-    'Vintage',             // 18. 任意
-    'Designer',            // 19. 任意
-    'Department',          // 20. 任意
-    'Shape'                // 21. 任意
+    'Size',                //  7. 推奨
+    'Country of Origin',   //  8. 推奨（維持）
+    'Collection',          //  9. 推奨
+    'Subject',             // 10. 推奨
+    'Character Family',    // 11. 推奨
+    'Color',               // 12. 推奨
+    'Vintage',             // 13. 任意
   ],
   'Pipes': [
     'Brand', 'Body Shape', 'Material', 'Filter Size', 'Handmade', 'Country of Origin',
-    'Color', 'Type', 'Bowl Size', 'Stem Material', 'Series', 'Finish', 'Department', 'Theme', 'Style', 'Vintage', 'Features', 'Era', 'Occasion', 'Official/Unofficial', 'Year Manufactured',
+    'Color', 'Type', 'Bowl Size', 'Stem Material', 'Series', 'Finish', 'Vintage', 'Year Manufactured',
   ],
   'Watch Parts': [
     'Brand', 'Part Type', 'Material', 'Compatible Model', 'Size', 'Color', 'Country of Origin',
     'Type', 'Compatible Brand', 'Movement Type', 'Features', 'Finish', 'Vintage', 'Series', 'Department', 'Theme', 'Style', 'Era', 'Occasion', 'Pattern', 'Official/Unofficial',
   ],
   'Sunglasses': [
-    'Brand', 'Model', 'Frame Color', 'Lens Color', 'Frame Material', 'Style', 'Department', 'Country of Origin',
-    'Type', 'Lens Technology', 'UV Protection', 'Features', 'Size', 'Color', 'Series', 'Theme', 'Vintage', 'Occasion', 'Season', 'Pattern', 'Official/Unofficial',
+    'Brand', 'Model', 'Frame Color', 'Lens Color', 'Frame Material', 'Style', 'Country of Origin',
+    'Type', 'Lens Technology', 'UV Protection', 'Size', 'Series', 'Vintage',
   ],
   'Video Games': [
     'Platform', 'Game Name', 'Region Code', 'Genre', 'Character', 'Publisher', 'Rating', 'Language', 'Country of Origin',
@@ -4718,7 +4637,7 @@ var IS_CATEGORY_FIELDS = {
   ],
   'Soap': [
     'Brand', 'Type', 'Scent', 'Product Line', 'Color', 'Country of Origin',
-    'Ingredients', 'Body Area', 'Skin Type', 'Size', 'Features', 'Department', 'Item Weight', 'Material', 'Series', 'Theme', 'Vintage', 'Occasion', 'Season', 'Number of Pieces', 'Official/Unofficial',
+    'Ingredients', 'Body Area', 'Skin Type', 'Size', 'Item Weight', 'Series', 'Number of Pieces',
   ],
   'Dolls & Plush': [
     'Brand', 'Type', 'Character', 'Size', 'Color', 'Material', 'Country of Origin',
@@ -4742,8 +4661,8 @@ var IS_CATEGORY_FIELDS = {
   ],
   'Musical Instruments': ['Brand', 'Model', 'Type', 'Material', 'Color', 'Size', 'Key/Pitch', 'Features', 'Model Year', 'Country of Origin'],
   'Pens': [
-    'Brand', 'Material', 'Ink Color', 'Nib Size', 'Nib Material', 'Type', 'Vintage', 'Features', 'Country of Origin',
-    'Color', 'Size', 'Series', 'Theme', 'Department', 'Style', 'Occasion', 'Era', 'Pattern', 'Official/Unofficial', 'Number of Pieces', 'Designer',
+    'Brand', 'Material', 'Ink Color', 'Nib Size', 'Nib Material', 'Type', 'Vintage', 'Country of Origin',
+    'Color', 'Series', 'Designer',
   ],
   'Wallets': [
     'Brand', 'Type', 'Material', 'Color', 'Country of Origin', 'Closure',
@@ -4787,8 +4706,8 @@ var IS_CATEGORY_FIELDS = {
     'Lie Angle'            // 13. 推奨
   ],
   'Tennis': [
-    'Brand', 'Type', 'Model', 'Head Size', 'Grip Size', 'String Pattern', 'Weight', 'Flex', 'Balance', 'Country of Origin',
-    'Color', 'Material', 'Level', 'Series', 'Features', 'Gender', 'Age Group', 'Department', 'Vintage', 'Theme', 'Number of Pieces',
+    'Brand', 'Type', 'Head Size', 'Grip Size', 'String Pattern', 'Weight', 'Country of Origin',
+    'Model', 'Flex', 'Balance', 'Color', 'Material', 'Level', 'Series', 'Gender', 'Age Group', 'Vintage',
   ],
   'Baseball': [
     'Brand',               //  1. 必須
@@ -4802,16 +4721,9 @@ var IS_CATEGORY_FIELDS = {
     'Country of Origin',   //  9. 推奨（維持）
     'Model Year',          // 10. 推奨（維持）
     'Experience Level',    // 11. 推奨
-    'Department',          // 12. 推奨
-    'Lining Material',     // 13. 推奨
-    'Features',            // 14. 任意
-    'Season',              // 15. 任意
-    'Theme',               // 16. 任意
-    'Style',               // 17. 任意
-    'Vintage',             // 18. 任意
-    'Occasion',            // 19. 任意
-    'Series/Line',         // 20. 任意
-    'Official/Unofficial'  // 21. 任意
+    'Lining Material',     // 12. 推奨
+    'Vintage',             // 13. 任意
+    'Series/Line',         // 14. 任意
   ],
   'Japanese Instruments': ['Type', 'Material', 'Maker', 'Subtype', 'Key/Pitch', 'Era/Period', 'Size', 'Color', 'Set Includes', 'Country of Origin'],
   'Fishing Rods':        [
@@ -4846,11 +4758,11 @@ var IS_CATEGORY_FIELDS = {
   ],
   'Records': [
     'Artist', 'Release Title', 'Genre', 'Record Grading', 'Record Label', 'Format', 'Record Size', 'Release Year', 'Sleeve Grading', 'Country of Origin',
-    'Material', 'Type', 'Color', 'Style', 'Speed', 'Edition', 'Pressing Country', 'Vintage', 'Theme', 'Occasion', 'Department',
+    'Material', 'Type', 'Color', 'Speed', 'Edition', 'Pressing Country', 'Vintage',
   ],
   'Kitchen Knives': [
     'Type', 'Brand', 'Blade Material', 'Blade Length', 'Handle Material', 'Edge Type', 'Handedness', 'Maker/Blacksmith', 'Country of Origin', 'Condition',
-    'Style', 'Vintage', 'Era', 'Features', 'Series', 'Size', 'Theme', 'Pattern', 'Official/Unofficial', 'Collection', 'Number of Pieces',
+    'Vintage', 'Series', 'Number of Pieces',
   ],
   'Japanese Dolls': [
     'Type', 'Material', 'Maker', 'Origin/Region', 'Era/Period', 'Size', 'Technique', 'Subject/Motif', 'Original/Reproduction', 'Country of Origin', 'Theme', 'Age Level',
