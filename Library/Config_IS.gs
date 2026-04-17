@@ -140,21 +140,12 @@ var IS_INITIAL_DATA = [
   { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Exterior Color',       field_type: 'required',    priority:  4, notes: '' },
   { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Department',           field_type: 'required',    priority:  5, notes: 'Women / Men / Unisex' },
   { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Country of Origin',    field_type: 'recommended', priority:  6, notes: '製造国。フルネーム英語' },
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Material',             field_type: 'recommended', priority:  7, notes: '' },
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Color',                field_type: 'recommended', priority:  8, notes: '' },
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Size',                 field_type: 'recommended', priority:  9, notes: '' },
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Pattern',              field_type: 'recommended', priority: 10, notes: '' },
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Closure',              field_type: 'recommended', priority: 11, notes: 'Zip / Magnetic / Flap / Snap 等' },
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Hardware Color',       field_type: 'recommended', priority: 12, notes: 'Gold / Silver / Gunmetal 等' },
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Lining Material',      field_type: 'recommended', priority: 13, notes: '' },
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Lining Color',         field_type: 'recommended', priority: 14, notes: '' },
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Handle/Strap Material', field_type: 'recommended', priority: 15, notes: '' },
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Handle/Strap Color',    field_type: 'recommended', priority: 16, notes: '' },
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Bag Width',            field_type: 'recommended', priority: 17, notes: 'cm 単位' },
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Bag Height',           field_type: 'recommended', priority: 18, notes: '' },
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Bag Depth',            field_type: 'recommended', priority: 19, notes: 'マチ (cm)' },
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Accessories',          field_type: 'recommended', priority: 20, notes: '保存袋 / 鍵 / ストラップ等' },
-  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Vintage',              field_type: 'optional',    priority: 21, notes: 'Yes / No' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Color',                field_type: 'recommended', priority:  7, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Size',                 field_type: 'recommended', priority:  8, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Closure',              field_type: 'recommended', priority:  9, notes: 'Zip / Magnetic / Flap / Snap 等' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Hardware Color',       field_type: 'recommended', priority: 10, notes: 'Gold / Silver / Gunmetal 等' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Lining Material',      field_type: 'recommended', priority: 11, notes: '' },
+  { category: 'Handbags', tag_jp: 'バッグ,ハンドバッグ,ショルダーバッグ,トートバッグ,リュック,ボストンバッグ,クラッチバッグ', field_name: 'Vintage',              field_type: 'optional',    priority: 12, notes: 'Yes / No' },
 
   // === Clothing ===
   { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -166,18 +157,9 @@ var IS_INITIAL_DATA = [
   { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Size Type', field_type: 'required', priority: 7, notes: 'Regular / Plus / Petite / Tall等' },
   { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Size', field_type: 'required', priority: 8, notes: 'XS / S / M / L / XL 等' },
   { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Style', field_type: 'optional', priority: 9, notes: '' },
-  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Features', field_type: 'optional', priority: 10, notes: '' },
-  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Pattern', field_type: 'optional', priority: 11, notes: '' },
-  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Occasion', field_type: 'optional', priority: 12, notes: '' },
-  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Theme', field_type: 'optional', priority: 13, notes: '' },
-  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Series', field_type: 'optional', priority: 14, notes: '' },
-  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Vintage', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Era', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Season', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Official/Unofficial', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Designer', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Gender', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Number of Pieces', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Pattern', field_type: 'optional', priority: 10, notes: '' },
+  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Vintage', field_type: 'optional', priority: 11, notes: '' },
+  { category: 'Clothing', tag_jp: '衣類,服,トップス,ボトムス,ジャケット,コート,ドレス,スカート,パンツ', field_name: 'Gender', field_type: 'optional', priority: 12, notes: '' },
 
   // === Cameras ===
   { category: 'Cameras', tag_jp: 'カメラ,デジカメ,一眼レフ,ミラーレス', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -418,19 +400,8 @@ var IS_INITIAL_DATA = [
   { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Pattern', field_type: 'recommended', priority: 6, notes: '' },
   { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Country of Origin', field_type: 'recommended', priority: 7, notes: '製造国。フルネーム英語' },
   { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Department', field_type: 'required', priority: 8, notes: '対象部門（レディース/メンズ等）' },
-  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Style', field_type: 'optional', priority: 9, notes: '' },
-  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Features', field_type: 'optional', priority: 10, notes: '' },
-  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Occasion', field_type: 'optional', priority: 11, notes: '' },
-  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Theme', field_type: 'optional', priority: 12, notes: '' },
-  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Season', field_type: 'optional', priority: 13, notes: '' },
-  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Series', field_type: 'optional', priority: 14, notes: '' },
-  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Vintage', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Era', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Official/Unofficial', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Designer', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Gender', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Number of Pieces', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Collection', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Vintage', field_type: 'optional', priority: 9, notes: '' },
+  { category: 'Scarves', tag_jp: 'スカーフ,マフラー,ストール', field_name: 'Gender', field_type: 'optional', priority: 10, notes: '' },
 
   // === Hats (帽子) ===
   { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -439,21 +410,12 @@ var IS_INITIAL_DATA = [
   { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Color', field_type: 'required', priority: 4, notes: '' },
   { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Material', field_type: 'recommended', priority: 5, notes: 'Cotton, Polyester, Wool, Acrylic, Nylon, Mesh, Straw, Leather, Canvas' },
   { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Pattern', field_type: 'recommended', priority: 6, notes: 'Solid, Camouflage, Plaid, Striped, Floral, Animal Print' },
-  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Season', field_type: 'recommended', priority: 7, notes: 'Spring, Summer, Fall, Winter' },
-  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Features', field_type: 'recommended', priority: 8, notes: 'Adjustable, Breathable, Mesh Back, UV Protection, Wide Brim, Lined, Ear Flap, Waterproof' },
-  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Size', field_type: 'recommended', priority: 9, notes: 'One Size, S, M, L, XL, 7 1/8, 7 1/4, 7 3/8, 7 1/2, Adjustable' },
-  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Country of Origin',   field_type: 'recommended', priority: 10, notes: '製造国。フルネーム英語' },
-  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Type',             field_type: 'recommended', priority: 11, notes: 'Baseball Cap, Bucket Hat, Beanie等のタイプ分類' },
-  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Fabric Type',      field_type: 'recommended', priority: 12, notes: 'Cotton Twill / Mesh / Fleece / Wool Blend等' },
-  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Character',        field_type: 'recommended', priority: 13, notes: 'グッズ系帽子向け' },
-  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Theme',            field_type: 'recommended', priority: 14, notes: '' },
-  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Vintage',          field_type: 'optional',    priority: 15, notes: '' },
-  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Occasion',         field_type: 'optional',    priority: 16, notes: '' },
-  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Official/Unofficial', field_type: 'optional',  priority: 17, notes: '' },
-  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Lining Material',  field_type: 'optional',    priority: 18, notes: '' },
-  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Closure',          field_type: 'optional',    priority: 19, notes: '' },
-  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Era',              field_type: 'optional',    priority: 20, notes: '' },
-  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Designer',         field_type: 'optional',    priority: 21, notes: '' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Size', field_type: 'recommended', priority: 7, notes: 'One Size, S, M, L, XL, 7 1/8, 7 1/4, 7 3/8, 7 1/2, Adjustable' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Country of Origin',   field_type: 'recommended', priority: 8, notes: '製造国。フルネーム英語' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Type',             field_type: 'recommended', priority: 9, notes: 'Baseball Cap, Bucket Hat, Beanie等のタイプ分類' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Character',        field_type: 'recommended', priority: 10, notes: 'グッズ系帽子向け' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Vintage',          field_type: 'optional',    priority: 11, notes: '' },
+  { category: 'Hats', tag_jp: '帽子,キャップ,ハット,ビーニー,バケットハット,スナップバック,ベースボールキャップ,トラッカーハット,ニット帽,ベレー帽', field_name: 'Official/Unofficial', field_type: 'optional',  priority: 12, notes: '' },
 
   // === Sunglasses ===
   { category: 'Sunglasses', tag_jp: 'サングラス,メガネ,眼鏡', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -909,45 +871,21 @@ var IS_INITIAL_DATA = [
   { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Material', field_type: 'required', priority: 3, notes: 'Silk / Polyester等' },
   { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Type', field_type: 'required', priority: 4, notes: 'Necktie / Bow Tie等' },
   { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Pattern', field_type: 'recommended', priority: 5, notes: 'Solid / Striped / Paisley等' },
-  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Style', field_type: 'recommended', priority: 6, notes: '' },
-  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Department', field_type: 'recommended', priority: 7, notes: '' },
-  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Item Width', field_type: 'recommended', priority: 8, notes: '' },
-  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Theme', field_type: 'recommended', priority: 9, notes: '' },
-  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Country of Origin', field_type: 'recommended', priority: 10, notes: '' },
-  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Features', field_type: 'optional', priority: 11, notes: '' },
-  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Vintage', field_type: 'optional', priority: 12, notes: '' },
-  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Era', field_type: 'optional', priority: 13, notes: '' },
-  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Occasion', field_type: 'optional', priority: 14, notes: '' },
-  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Season', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Series', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Designer', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Official/Unofficial', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Collection', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Number of Pieces', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Gender', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Department', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Item Width', field_type: 'recommended', priority: 7, notes: '' },
+  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Country of Origin', field_type: 'recommended', priority: 8, notes: '' },
+  { category: 'Neckties', tag_jp: 'ネクタイ', field_name: 'Vintage', field_type: 'optional', priority: 9, notes: '' },
 
   // === Handkerchiefs ===
   { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Brand', field_type: 'recommended', priority: 1, notes: '' },
   { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Color', field_type: 'required', priority: 2, notes: '' },
   { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Material', field_type: 'required', priority: 3, notes: 'Cotton / Linen / Silk等' },
   { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Pattern', field_type: 'recommended', priority: 4, notes: '' },
-  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Style', field_type: 'recommended', priority: 5, notes: '' },
-  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Country of Origin', field_type: 'recommended', priority: 6, notes: '' },
-  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Gender', field_type: 'recommended', priority: 7, notes: '' },
-  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Occasion', field_type: 'recommended', priority: 8, notes: '' },
-  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Type', field_type: 'required', priority: 9, notes: 'Handkerchief / Pocket Square等' },
-  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Department', field_type: 'required', priority: 10, notes: '対象部門' },
-  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Size', field_type: 'optional', priority: 11, notes: '' },
-  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Features', field_type: 'optional', priority: 12, notes: '' },
-  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Theme', field_type: 'optional', priority: 13, notes: '' },
-  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Series', field_type: 'optional', priority: 14, notes: '' },
-  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Vintage', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Era', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Season', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Official/Unofficial', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Designer', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Collection', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Number of Pieces', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Country of Origin', field_type: 'recommended', priority: 5, notes: '' },
+  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Gender', field_type: 'recommended', priority: 6, notes: '' },
+  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Type', field_type: 'required', priority: 7, notes: 'Handkerchief / Pocket Square等' },
+  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Department', field_type: 'required', priority: 8, notes: '対象部門' },
+  { category: 'Handkerchiefs', tag_jp: 'ハンカチ', field_name: 'Vintage', field_type: 'optional', priority: 9, notes: '' },
 
   // === Tie Accessories ===
   { category: 'Tie Accessories', tag_jp: 'ネクタイピン,タイピン,タイバー,スカーフリング', field_name: 'Brand', field_type: 'required', priority: 1, notes: '' },
@@ -4729,26 +4667,16 @@ var IS_CATEGORY_FIELDS = {
     'Exterior Color',         //  4. 必須
     'Department',             //  5. 必須
     'Country of Origin',      //  6. 推奨
-    'Material',               //  7. 推奨
-    'Color',                  //  8. 推奨
-    'Size',                   //  9. 推奨
-    'Pattern',                // 10. 推奨
-    'Closure',                // 11. 推奨
-    'Hardware Color',         // 12. 推奨
-    'Lining Material',        // 13. 推奨
-    'Lining Color',           // 14. 推奨
-    'Handle/Strap Material',  // 15. 推奨
-    'Handle/Strap Color',     // 16. 推奨
-    'Bag Width',              // 17. 推奨
-    'Bag Height',             // 18. 推奨
-    'Bag Depth',              // 19. 推奨
-    'Accessories',            // 20. 推奨
-    'Vintage'                 // 21. 任意
+    'Color',                  //  7. 推奨
+    'Size',                   //  8. 推奨
+    'Closure',                //  9. 推奨
+    'Hardware Color',         // 10. 推奨
+    'Lining Material',        // 11. 推奨
+    'Vintage'                 // 12. 任意
   ],
   'Clothing': [
     'Brand', 'Type', 'Department', 'Color', 'Material', 'Country of Origin',
-    'Size Type', 'Size', 'Style', 'Features', 'Pattern', 'Occasion', 'Theme',
-    'Series', 'Vintage', 'Era', 'Season', 'Official/Unofficial', 'Designer', 'Gender', 'Number of Pieces',
+    'Size Type', 'Size', 'Style', 'Pattern', 'Vintage', 'Gender',
   ],
   'Shoes': [
     'Brand', 'Type', 'Department', 'Color', 'Material', 'Country of Origin',
@@ -4804,16 +4732,15 @@ var IS_CATEGORY_FIELDS = {
   ],
   'Scarves': [
     'Brand', 'Type', 'Material', 'Color', 'Size', 'Pattern', 'Country of Origin',
-    'Department', 'Style', 'Features', 'Occasion', 'Theme', 'Season',
-    'Series', 'Vintage', 'Era', 'Official/Unofficial', 'Designer', 'Gender', 'Number of Pieces', 'Collection',
+    'Department', 'Vintage', 'Gender',
   ],
   'Neckties': [
-    'Brand', 'Color', 'Material', 'Type', 'Pattern', 'Style', 'Department', 'Item Width', 'Theme', 'Country of Origin',
-    'Features', 'Vintage', 'Era', 'Occasion', 'Season', 'Series', 'Designer', 'Official/Unofficial', 'Collection', 'Number of Pieces', 'Gender',
+    'Brand', 'Color', 'Material', 'Type', 'Pattern', 'Department', 'Item Width', 'Country of Origin',
+    'Vintage',
   ],
   'Handkerchiefs': [
-    'Brand', 'Color', 'Material', 'Pattern', 'Style', 'Country of Origin', 'Gender', 'Occasion',
-    'Type', 'Department', 'Size', 'Features', 'Theme', 'Series', 'Vintage', 'Era', 'Season', 'Official/Unofficial', 'Designer', 'Collection', 'Number of Pieces',
+    'Brand', 'Color', 'Material', 'Pattern', 'Country of Origin', 'Gender',
+    'Type', 'Department', 'Vintage',
   ],
   'Tie Accessories': [
     'Brand', 'Type', 'Metal', 'Metal Purity', 'Main Stone', 'Color', 'Material', 'Department', 'Country of Origin',
@@ -4917,8 +4844,8 @@ var IS_CATEGORY_FIELDS = {
     'Franchise', 'Product Line', 'Set Includes', 'Doll Gender', 'Doll Hair Color', 'Doll Eye Color', 'Doll Complexion', 'Department', 'Theme', 'Features', 'Vintage', 'Occasion', 'Series', 'Year Manufactured',
   ],
   'Hats': [
-    'Brand', 'Style', 'Department', 'Color', 'Material', 'Pattern', 'Season', 'Features', 'Size', 'Country of Origin',
-    'Type', 'Fabric Type', 'Character', 'Theme', 'Vintage', 'Occasion', 'Official/Unofficial', 'Lining Material', 'Closure', 'Era', 'Designer',
+    'Brand', 'Style', 'Department', 'Color', 'Material', 'Pattern', 'Size', 'Country of Origin',
+    'Type', 'Character', 'Vintage', 'Official/Unofficial',
   ],
   'Guitars': [
     'Brand', 'Type', 'Model', 'Body Color', 'Body Type', 'String Configuration', 'Handedness', 'Model Year', 'Number of Frets', 'Country of Origin',
