@@ -1232,7 +1232,7 @@ window.PROGRESS_DATA = {
       "field_count_original": 21,
       "last_commit": null,
       "notes": "",
-      "phase_1b_started": false,
+      "phase_1b_started": true,
       "cpsc_target": false,
       "prompt_rule2_applied": true
     },
@@ -1571,7 +1571,7 @@ window.PROGRESS_DATA = {
       "field_count_original": 21,
       "last_commit": null,
       "notes": "",
-      "phase_1b_started": false,
+      "phase_1b_started": true,
       "cpsc_target": false,
       "prompt_rule2_applied": true
     },
