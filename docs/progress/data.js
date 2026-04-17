@@ -3,7 +3,7 @@ window.PROGRESS_DATA = {
     "title": "一括シートV3 進捗ダッシュボード",
     "project": "一括シートApps_v3",
     "description": "eBay 商品一括出品 GAS ライブラリ (v108) の IS 拡張・Phase 1B 進捗を可視化するダッシュボードデータ",
-    "generated_at": "2026-04-16T12:30:00+09:00",
+    "generated_at": "2026-04-17T12:00:00+09:00",
     "version": "v108",
     "cat_number_mapping": {
       "description": "git log / Obsidian の旧 Track A Cat 番号 (Cat 1-21) と 73-cat 正式番号の対応表",
@@ -2136,6 +2136,7 @@ window.PROGRESS_DATA = {
       "last_commit": null,
       "notes": "",
       "phase_1b_started": true,
+      "prompt_rule2_applied": true,
       "cpsc_target": false
     },
     {
@@ -2848,18 +2849,18 @@ window.PROGRESS_DATA = {
       "rate": "100%"
     },
     "phase1b": {
-      "started": 42,
-      "fully_completed": 33,
-      "partial": 9,
-      "not_started": 31,
+      "started": 43,
+      "fully_completed": 40,
+      "partial": 3,
+      "not_started": 30,
       "total": 73,
-      "started_rate": "58%",
-      "fully_rate": "45%",
+      "started_rate": "59%",
+      "fully_rate": "55%",
       "sub_stats": {
         "is_refinement_done": 40,
-        "sanitize_done": 23,
-        "sanitize_partial": 48,
-        "prompt_absolute_rules_done": 39,
+        "sanitize_done": 30,
+        "sanitize_partial": 40,
+        "prompt_absolute_rules_done": 40,
         "prompt_absolute_rules_partial": 0,
         "inject_any": 19
       }
@@ -2875,19 +2876,19 @@ window.PROGRESS_DATA = {
     "version": {
       "current": "v108",
       "released_date": "2026-04-13",
-      "latest_commit": "986f040"
+      "latest_commit": "51a212a"
     },
-    "generated_at": "2026-04-16T12:30:00+09:00",
+    "generated_at": "2026-04-17T12:00:00+09:00",
     "data_sources": [
       "child-b-status-matrix.json",
       "child-c-docs-and-73cats.json",
       "child-a-notes.json",
       "bulksheet-v3-master-design.md"
     ],
-    "phase_1b_started": 42,
-    "phase_1b_fully_completed": 33,
-    "phase_1b_not_started": 31,
-    "phase_1b_partial": 9,
+    "phase_1b_started": 43,
+    "phase_1b_fully_completed": 40,
+    "phase_1b_not_started": 30,
+    "phase_1b_partial": 3,
     "resolved_issues_count": 3
   }
 };
