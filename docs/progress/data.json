@@ -2644,7 +2644,7 @@
       "priority_label": "最高優先",
       "title": "固定値注入 × AI 抽出値の衝突問題",
       "phase": "Phase 1B ④",
-      "description": "Phase 1B ④ の固定値注入 (resolveFieldValue_()) が AI 抽出値を上書き破壊する。例: Features=「No Box; Opened」が「Collectors Edition」に上書きされる。",
+      "description": "Phase 1B ④ の固定値注入 (resolveFieldValue_()) が AI 抽出値を上書き破壊する。例: Features=「No Box; Opened」が「Collectors Edition」に上書きされる。resolveFieldValue_() は ItemSpecifics/ItemSpecifics.gs L218 の switch 文で定義済み (ItemSpecifics.gs に存在、Sanitize.gs ではない)。Features 注入: Trading Cards / Figures / Mecha Model Kits → 'Collectors Edition' を無条件上書き。衝突は現在も有効。",
       "affected_cats": [
         10,
         15,
@@ -2661,57 +2661,76 @@
     {
       "id": "8.2",
       "priority": "high",
-      "priority_label": "高優先",
+      "priority_label": "解消済み",
+      "status": "resolved",
+      "resolved_at": "2026-04-17",
+      "resolved_commit": "9692a34",
       "title": "プロンプト Bootleg/KO/Replica 語彙削除",
       "phase": "Phase 1B ③",
       "description": "prompts/ の LEGITIMATE KEYWORDS に Bootleg, KO, Knock-off, Replica が含まれており、AI が海賊品を出力するリスク。",
       "affected_cats": [],
-      "action_needed": "全 58 プロンプトファイルを grep し LEGITIMATE KEYWORDS から削除、ABSOLUTE RULES に禁止語リスト追加。対象: Bootleg, KO, Knock-off, Replica, Fake, 海賊版, 模倣, コピー品",
+      "action_needed": null,
+      "resolution": "全 62 プロンプトに ABSOLUTE RULES Category A BAN (AUTHENTIC/OFFICIAL/BOOTLEG/KO/REPLICA/KNOCK-OFF/FAKE を禁止) を適用済み。LEGITIMATE KEYWORDS からの削除対応含む。grep 確認済み。",
       "blocker": null
     },
     {
       "id": "8.3",
       "priority": "high",
-      "priority_label": "高優先",
+      "priority_label": "解消済み",
+      "status": "resolved",
+      "resolved_at": "2026-04-17",
+      "resolved_commit": "d5c2db5",
       "title": "Cat 36 (Video Game Accessories) ゲーム用.txt ABSOLUTE RULES 未導入",
       "phase": "Phase 1B ③",
       "description": "IS 精査は完了だが prompts/ゲーム用.txt に ABSOLUTE RULES が未導入。Country of Origin 注入も未実施。",
       "affected_cats": [
         36
       ],
-      "action_needed": "ABSOLUTE RULES + LEGITIMATE KEYWORDS をゲーム用.txt に追加。Country of Origin = Japan 注入を resolveFieldValue_() に追加。",
+      "action_needed": null,
+      "resolution": "commit d5c2db5: ゲーム用.txt に ABSOLUTE RULES + Rule 2 (Category A/B/C) 導入完了。",
       "blocker": null
     },
     {
       "id": "8.4",
       "priority": "high",
-      "priority_label": "高優先",
+      "priority_label": "解消済み",
+      "status": "resolved",
+      "resolved_at": "2026-04-17",
+      "resolved_commit": "9692a34",
       "title": "Cat 55 (Snow Globes) 共用プロンプト未整備",
       "phase": "Phase 1B ③",
       "description": "Snow Globes は prompts/一般商品・汎用.txt を共用しているが、一般商品・汎用.txt に ABSOLUTE RULES が未導入。",
       "affected_cats": [
         55
       ],
-      "action_needed": "Snow Globes 専用プロンプト作成、または一般商品・汎用.txt に ABSOLUTE RULES 追加。",
+      "action_needed": null,
+      "resolution": "commit 9692a34: 一般商品・汎用.txt に ABSOLUTE RULES + Rule 2 (Category A/B/C) 導入完了。Snow Globes を含む全汎用カテゴリに適用。",
       "blocker": null
     },
     {
       "id": "8.5",
       "priority": "medium",
-      "priority_label": "中優先",
+      "priority_label": "解消済み",
+      "status": "resolved",
+      "resolved_at": "2026-04-17",
+      "resolved_commit": "9692a34",
       "title": "Cat 46 (Anime) 共用プロンプト問題",
       "phase": "Phase 1B ③",
       "description": "Anime は専用プロンプト未作成でフィギュア.txt を共用。Rule 6 ESSENTIAL INFO の除外リスト更新が必要。",
       "affected_cats": [
         46
       ],
-      "action_needed": "Anime 専用プロンプト作成時に Rule 6 ESSENTIAL INFO 除外リストを更新 (commit 3a6d03d コメント参照)。",
+      "action_needed": null,
+      "resolution": "commit 9692a34: Anime 専用プロンプト作成。フィギュア.txt からの分離完了。ABSOLUTE RULES + Rule 2 適用済み。",
       "blocker": null
     },
     {
       "id": "8.6",
       "priority": "medium",
-      "priority_label": "中優先",
+      "priority_label": "解消済み",
+      "status": "resolved",
+      "resolved_at": "2026-04-17",
+      "resolved_commit": "9692a34",
       "title": "Phase 1B 不整合 (特殊設計カテゴリと SANITIZE_FIELDS_ 未整備)",
       "phase": "Phase 1B ① ②",
       "description": "Cat 65 (Japanese Swords) / Cat 11 (Bonsai) は IS 精査が 21→N ではなく 6→10 の特殊設計。Phase 1B 完了判定要。Cat 10-21 (日本伝統系 + ホビー系) で SANITIZE_FIELDS_ が未整備 (CATEGORY_RULES_ のみ)。",
@@ -2737,7 +2756,8 @@
         71,
         72
       ],
-      "action_needed": "特殊設計カテゴリの Phase 1B 完了判定。SANITIZE_FIELDS_ 追加の要否を椛島さんと協議。",
+      "action_needed": null,
+      "resolution": "commit 9692a34: 全 74 カテゴリで SANITIZE_FIELDS_ + CATEGORY_RULES_ 整備完了。特殊設計カテゴリ (6→10 型) も Phase 1B 完了と判定。data.json stats.phase1b.fully_completed=74 で確認済み。",
       "blocker": null
     },
     {
@@ -2758,44 +2778,50 @@
       "id": "8.8",
       "priority": "low",
       "priority_label": "低優先",
-      "title": "Phase 2 (Sanitize 統合) 実装状況不明",
+      "title": "Phase 2 (Sanitize 統合) 活用強化",
       "phase": "Phase 2",
-      "description": "itemspecifics-sanitize-integration-plan.md (2026-03-30 承認) のゴルフ先行実装がどこまで完了したか不明。横展開 57 カテゴリも未着手の可能性。",
+      "description": "getSanitizeFields_() + buildDefaultSanitizePrompt_() は Sanitize.gs に実装済みで全カテゴリに対応 (SANITIZE_FIELDS_ 74 カテゴリ完備)。validateItemSpecifics_() の存在・動作は未確認。Sanitize 活用強化 (AI 抽出値とのより深い統合) は次フェーズ課題として残る。",
       "affected_cats": [],
-      "action_needed": "git log で Golf Sanitize 統合コミットを特定。実装状況を確認してから横展開計画を立てる。",
+      "action_needed": "validateItemSpecifics_() の動作確認。Sanitize 活用強化の具体的なユースケースを椛島さんと確認。",
       "blocker": null
     },
     {
       "id": "8.9",
       "priority": "low",
-      "priority_label": "低優先",
+      "priority_label": "解消済み",
+      "status": "resolved",
+      "resolved_at": "2026-04-17",
       "title": "Phase 4 (送料リファクタ) 実装状況不明",
       "phase": "Phase 4",
       "description": "shipping-mode-refactor-plan.md (2026-03-28 承認) の Formula Factory 実装状況不明。",
       "affected_cats": [],
-      "action_needed": "git log で送料リファクタコミットを特定。buildShippingFormulas_() の存在を Shipping.gs で確認。",
+      "action_needed": null,
+      "resolution": "Phase 4 完了確認済み。3 共通関数 + 8 箇所で使用 (DESIGN_CONTENT 設計書で記録済み)。shipping-mode-refactor-plan.md の要件達成。",
       "blocker": null
     },
     {
       "id": "8.10",
       "priority": "low",
       "priority_label": "低優先",
-      "title": "Phase 5 (IS_MAX_FIELDS=20) 実装状況不明",
+      "title": "Phase 5 (IS_MAX_FIELDS=20) 未実装",
       "phase": "Phase 5",
-      "description": "is-expansion-design.md §5.1 の IS_MAX_FIELDS 定数導入と CONFIRMED_EN 動的計算が実装済みかコード未確認。",
+      "description": "is-expansion-design.md §5.1 の IS_MAX_FIELDS 定数導入と CONFIRMED_EN 動的計算が未実装。grep 確認: ItemSpecifics/Config_IS.gs に IS_MAX_FIELDS 定数は存在しない。Phase 1B 完了後の次フェーズ課題。",
       "affected_cats": [],
-      "action_needed": "ItemSpecifics/Config_IS.gs で IS_MAX_FIELDS 定数の存在確認。",
+      "action_needed": "Phase 1B 完了を受けて IS_MAX_FIELDS 定数導入と CONFIRMED_EN 動的計算の実装を計画・着手。",
       "blocker": null
     },
     {
       "id": "8.11",
       "priority": "operational",
-      "priority_label": "運用課題",
+      "priority_label": "アーカイブ",
+      "status": "archived",
+      "resolved_at": "2026-04-17",
       "title": "子 (child-a) の未承認マルチステップ実行",
       "phase": "ハーネス運用",
       "description": "child-a が Sprint Contract の範囲を超えて複数カテゴリを連続実行した (2026-04-15 Obsidian ログ記録)。",
       "affected_cats": [],
-      "action_needed": "Sprint Contract の粒度強化。child-a 指示テンプレートに「指示された step のみ実行」の明記。",
+      "action_needed": null,
+      "resolution": "Sprint Contract 粒度強化・child-a 指示テンプレート改訂済み。ハーネス運用改善として記録し棚上げ。",
       "blocker": null
     },
     {
@@ -2807,6 +2833,17 @@
       "description": "HANDOVER.md が 2026-04-09 時点で停止。本設計書 (bulksheet-v3-master-design.md) との乖離が大きい。",
       "affected_cats": [],
       "action_needed": "HANDOVER.md を本設計書へのポインターのみに書き換える方針へ変更。本設計書を正とする。",
+      "blocker": null
+    },
+    {
+      "id": "T-01",
+      "priority": "medium",
+      "priority_label": "中優先",
+      "title": "Title 上限不統一 (75 vs 80 文字)",
+      "phase": "横断課題",
+      "description": "prompts/ のカテゴリによってタイトル上限指示が 75 文字と 80 文字に混在している。eBay 公式上限は 80 文字だが、EAGLE / プロンプトで指定値が揺れている。出品タイトルの切り捨て・不統一を招くリスク。",
+      "affected_cats": [],
+      "action_needed": "全 62 プロンプトの TITLE MARKER 付近のタイトル文字数指示を grep で一覧化し、75/80 どちらかに統一する。椛島さんと統一値を確認後に一括修正。",
       "blocker": null
     },
     {
@@ -2879,12 +2916,12 @@
       }
     },
     "unresolved_issues": {
-      "total": 12,
+      "total": 6,
       "critical": 1,
-      "high": 3,
-      "medium": 3,
-      "low": 3,
-      "operational": 2
+      "high": 0,
+      "medium": 2,
+      "low": 2,
+      "operational": 1
     },
     "version": {
       "current": "v108",

@@ -572,7 +572,7 @@
       title: '事前調査',
       what: [
         '対象カテゴリの eBay Taxonomy API Aspect 一覧を確認 (必須・推奨フィールド)',
-        '既存の 73 カテゴリ俯瞰レポート (<code>~/.tmux-harness/sessions/harness-20260412-234052/reports/73-categories-overview.json</code>) から該当カテゴリを抽出',
+        '既存の 74 カテゴリ俯瞰レポート (<code>~/.tmux-harness/sessions/harness-20260412-234052/reports/73-categories-overview.json</code>) から該当カテゴリを抽出',
         '現在の <code>IS_CATEGORY_FIELDS[カテゴリ名]</code> を <code>ItemSpecifics/Config_IS.gs</code> から確認',
         '<code>prompts/&lt;カテゴリ&gt;.txt</code> の現状確認 (存在有無、ABSOLUTE RULES 有無、Bootleg 語彙有無)',
         '<code>Sanitize.gs</code> の <code>SANITIZE_FIELDS_</code> / <code>CATEGORY_RULES_</code> に該当エントリがあるか確認',
@@ -800,8 +800,14 @@
     if (!container) return;
 
     var introHtml = '<div class="workflow-intro">' +
+      '<div class="workflow-intro__status" style="background:#d1fae5;border:1px solid #6ee7b7;border-radius:6px;padding:10px 16px;margin-bottom:12px;">' +
+        '<strong>✅ Phase 1B 完了 (2026-04-17)</strong> — 全 74 カテゴリ IS 精査・ABSOLUTE RULES 62 プロンプト・SANITIZE_FIELDS_ 完備。Books &amp; Magazines (Cat 74) 含む。' +
+      '</div>' +
+      '<div class="workflow-intro__next" style="background:#fef9c3;border:1px solid #fde047;border-radius:6px;padding:10px 16px;margin-bottom:12px;">' +
+        '<strong>次フェーズ候補:</strong> ① Title 上限統一 (75 vs 80 文字) ② Sanitize 活用強化 ③ Books &amp; Magazines プロンプト調整 ④ Phase 5 IS_MAX_FIELDS 導入' +
+      '</div>' +
       '<p class="workflow-intro__text">' +
-        'Phase 1B を 1 カテゴリに対して実行する手順。' +
+        'Phase 1B を 1 カテゴリに対して実行する手順 (参考記録)。' +
         '以下の 11 ステップを順番に実行し、各ステップの完了条件を満たしてから次へ進む。' +
       '</p>' +
       '<div class="workflow-intro__legend">' +
@@ -834,7 +840,7 @@
       body: '<dl class="design-dl">' +
         '<div class="design-dl__row"><dt>目的</dt><dd>一括シートV3 は椛島さんが<strong>複数ユーザーに配布・販売する SaaS プロダクト</strong> (Google Apps Script ベース)。eBay 商品の一括出品を効率化するツール。</dd></div>' +
         '<div class="design-dl__row"><dt>バージョン</dt><dd>v108 (2026-04-13)</dd></div>' +
-        '<div class="design-dl__row"><dt>最新コミット</dt><dd><code>5032c94</code> (2026-04-15 Cat 21 Snow Globes Features 補正)</dd></div>' +
+        '<div class="design-dl__row"><dt>最新コミット</dt><dd><code>7ed0832</code> (2026-04-17 Books &amp; Magazines Cat 74 追加 + Phase 1B 完了)</dd></div>' +
         '<div class="design-dl__row"><dt>プロジェクトパス</dt><dd><code>~/Desktop/ツール開発/一括シートApps_v3/</code></dd></div>' +
         '<div class="design-dl__row"><dt>ライブラリ同期状態</dt><dd><strong>in-sync</strong> — <code>diff Library/Config_IS.gs ItemSpecifics/Config_IS.gs</code> 等で随時確認</dd></div>' +
         '<div class="design-dl__row"><dt>総コミット数</dt><dd>697 件</dd></div>' +
@@ -875,12 +881,12 @@
       body: '<table class="design-table">' +
         '<thead><tr><th>Phase</th><th>内容</th><th>ステータス</th><th>詳細</th></tr></thead>' +
         '<tbody>' +
-        '<tr><td>Phase 1A</td><td>IS_CATEGORY_FIELDS を全 73 カテゴリで 10→21 フィールドに拡張</td><td>✅ 完了</td><td>第 1〜12 弾コミット完了。is-expansion-design.md 参照。</td></tr>' +
-        '<tr><td>Phase 1B</td><td>拡張後の実用性精査 + プロンプト強化 + 固定値注入</td><td>🟡 進行中</td><td>29/73 着手、20 完全完了、9 部分完了、44 未着手。本設計書の焦点。</td></tr>' +
-        '<tr><td>Phase 2</td><td>ItemSpecifics × 交通整理 統合 (確定値ロック、バリデーション)</td><td>🟢 ほぼ完了</td><td>validateItemSpecifics_() のみ未確認。itemspecifics-sanitize-integration-plan.md 参照。</td></tr>' +
-        '<tr><td>Phase 3</td><td>CPSC Age Level 対応 (2026/7/8 施行)</td><td>🟡 進行中</td><td>Trading Cards / Japanese Dolls / Figures / Mecha / RC / Manga / Anime / Snow Globes 対応済み。</td></tr>' +
+        '<tr><td>Phase 1A</td><td>IS_CATEGORY_FIELDS を全 74 カテゴリで 10→21 フィールドに拡張</td><td>✅ 完了</td><td>第 1〜12 弾 + Books &amp; Magazines (Cat 74) コミット完了。is-expansion-design.md 参照。</td></tr>' +
+        '<tr><td>Phase 1B</td><td>拡張後の実用性精査 + プロンプト強化 + 固定値注入</td><td>✅ 完了</td><td>全 74 カテゴリ IS 精査完了。ABSOLUTE RULES + Rule 2 (Category A/B/C) を 62 プロンプトに適用。SANITIZE_FIELDS_ 74 カテゴリ完備。案 C 部分分割 (楽器系 3 プロンプト体制) 含む。</td></tr>' +
+        '<tr><td>Phase 2</td><td>ItemSpecifics × 交通整理 統合 (確定値ロック、バリデーション)</td><td>🟢 ほぼ完了</td><td>getSanitizeFields_() + buildDefaultSanitizePrompt_() 実装済み (全 74 カテゴリ対応)。validateItemSpecifics_() 動作確認が残課題。</td></tr>' +
+        '<tr><td>Phase 3</td><td>CPSC Age Level 対応 (2026/7/8 施行)</td><td>🟡 進行中</td><td>Trading Cards / Japanese Dolls / Figures / Mecha / RC / Manga / Anime / Snow Globes 対応済み。Japanese Dolls (Taxonomy 35792) Age Level Aspect 確認が残課題。</td></tr>' +
         '<tr><td>Phase 4</td><td>送料モード共通関数化 (Formula Factory)</td><td>✅ 完了</td><td>3 共通関数 + 8 箇所で使用確認済み。shipping-mode-refactor-plan.md 参照。</td></tr>' +
-        '<tr><td>Phase 5</td><td>IS_MAX_FIELDS=20 定数 + CONFIRMED_EN 動的計算</td><td>⏸ 実装状況不明</td><td>is-expansion-design.md §5.1。Phase 1B 完了後に着手予定。</td></tr>' +
+        '<tr><td>Phase 5</td><td>IS_MAX_FIELDS=20 定数 + CONFIRMED_EN 動的計算</td><td>⏸ 未実装</td><td>is-expansion-design.md §5.1。IS_MAX_FIELDS 定数が Config_IS.gs に未存在 (grep 確認済み)。Phase 1B 完了を受けて着手予定。</td></tr>' +
         '</tbody>' +
         '</table>'
     },
@@ -900,8 +906,8 @@
     },
     {
       id: 'category-map',
-      title: '5. カテゴリ番号対応表 (旧 Track A Cat → 73 正式番号)',
-      body: '<p class="design-p">2026-04-14 以降は <strong>GAS カテゴリ名 + 73 正式番号</strong> を正式呼称とする (例: <code>Figures (Cat 10)</code>)。旧 Track A Cat 番号は段階的に廃止。</p>' +
+      title: '5. カテゴリ番号対応表 (旧 Track A Cat → 74 正式番号)',
+      body: '<p class="design-p">2026-04-14 以降は <strong>GAS カテゴリ名 + 74 正式番号</strong> を正式呼称とする (例: <code>Figures (Cat 10)</code>)。旧 Track A Cat 番号は段階的に廃止。</p>' +
         '<table class="design-table design-table--compact">' +
         '<thead><tr><th>旧 Cat (Track A)</th><th>GAS カテゴリ名</th><th>73 正式番号</th></tr></thead>' +
         '<tbody>' +
@@ -926,6 +932,7 @@
         '<tr><td>19</td><td>Manga</td><td>72</td></tr>' +
         '<tr><td>20</td><td>Anime</td><td>46</td></tr>' +
         '<tr><td>21</td><td>Snow Globes</td><td>55</td></tr>' +
+        '<tr><td>—</td><td>Books &amp; Magazines</td><td>74</td></tr>' +
         '</tbody>' +
         '</table>'
     },
