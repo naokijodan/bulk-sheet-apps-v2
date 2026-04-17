@@ -3,7 +3,7 @@
     "title": "一括シートV3 進捗ダッシュボード",
     "project": "一括シートApps_v3",
     "description": "eBay 商品一括出品 GAS ライブラリ (v108) の IS 拡張・Phase 1B 進捗を可視化するダッシュボードデータ",
-    "generated_at": "2026-04-17T21:30:00+09:00",
+    "generated_at": "2026-04-17T22:00:00+09:00",
     "version": "v108",
     "cat_number_mapping": {
       "description": "git log / Obsidian の旧 Track A Cat 番号 (Cat 1-21) と 73-cat 正式番号の対応表",
@@ -2865,6 +2865,42 @@
       "status": "open"
     },
     {
+      "id": "PROMPT-01",
+      "title": "翻訳プロンプトのタイトル短縮問題",
+      "status": "open",
+      "priority": "critical",
+      "priority_label": "最高優先",
+      "phase": "プロンプト品質",
+      "description": "ABSOLUTE RULES + Rule 2 適用後、タイトルが 30 文字程度に短縮。eBay Title 80 文字上限の 37.5% しか使えていない。SEO 的に不利。全 63 プロンプトの Title セクション横断修正が必要。",
+      "affected_cats": [],
+      "action_needed": "Title セクションの指示文見直し: Category C の事実情報 + Bonus SEO の活用強化、80 文字近くまで埋める誘導",
+      "blocker": null
+    },
+    {
+      "id": "PROMPT-02",
+      "title": "Sanitize 出力の Title/Description 活用不足",
+      "status": "open",
+      "priority": "high",
+      "priority_label": "高優先",
+      "phase": "プロンプト品質",
+      "description": "Sanitize で抽出された付属品/コンディション/故障情報が Title/Description に十分反映されていない。これらを活用すれば Title 30 文字 → 60-70 文字に拡張可能。",
+      "affected_cats": [],
+      "action_needed": "全プロンプトの Title/Description セクションに Sanitize 出力参照指示を追加",
+      "blocker": null
+    },
+    {
+      "id": "PROMPT-03",
+      "title": "Title 文字数上限の不整合 (75 vs 80)",
+      "status": "open",
+      "priority": "medium",
+      "priority_label": "中優先",
+      "phase": "プロンプト品質",
+      "description": "和楽器.txt は NEVER exceed 80、日本刀/釣具汎用等は Going over 75 is forbidden。統一基準が必要。",
+      "affected_cats": [],
+      "action_needed": "全 63 プロンプトで統一基準を決定し適用",
+      "blocker": null
+    },
+    {
       "id": "CV-01",
       "priority": "critical",
       "priority_label": "解消済み",
@@ -2934,10 +2970,10 @@
       }
     },
     "unresolved_issues": {
-      "total": 6,
-      "critical": 1,
-      "high": 0,
-      "medium": 2,
+      "total": 9,
+      "critical": 2,
+      "high": 1,
+      "medium": 3,
       "low": 2,
       "operational": 1
     },
@@ -2946,7 +2982,7 @@
       "released_date": "2026-04-13",
       "latest_commit": "7ed0832"
     },
-    "generated_at": "2026-04-17T21:30:00+09:00",
+    "generated_at": "2026-04-17T22:00:00+09:00",
     "data_sources": [
       "child-b-status-matrix.json",
       "child-c-docs-and-73cats.json",
