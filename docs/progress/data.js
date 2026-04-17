@@ -3,7 +3,7 @@ window.PROGRESS_DATA = {
     "title": "一括シートV3 進捗ダッシュボード",
     "project": "一括シートApps_v3",
     "description": "eBay 商品一括出品 GAS ライブラリ (v108) の IS 拡張・Phase 1B 進捗を可視化するダッシュボードデータ",
-    "generated_at": "2026-04-17T12:52:31+09:00",
+    "generated_at": "2026-04-17T13:01:37+09:00",
     "version": "v108",
     "cat_number_mapping": {
       "description": "git log / Obsidian の旧 Track A Cat 番号 (Cat 1-21) と 73-cat 正式番号の対応表",
@@ -1223,7 +1223,7 @@ window.PROGRESS_DATA = {
       "overall_status": "completed",
       "phase1b_detail": null,
       "is_refinement": "not_started",
-      "sanitize_integration": "partial",
+      "sanitize_integration": "completed",
       "prompt_file": "prompts/ジュエリー.txt",
       "prompt_absolute_rules": "completed",
       "inject_country": "not_applicable",
@@ -1564,7 +1564,7 @@ window.PROGRESS_DATA = {
       "overall_status": "completed",
       "phase1b_detail": null,
       "is_refinement": "not_started",
-      "sanitize_integration": "not_started",
+      "sanitize_integration": "completed",
       "prompt_file": "prompts/ジュエリー.txt",
       "prompt_absolute_rules": "completed",
       "inject_country": "not_applicable",
@@ -2007,7 +2007,7 @@ window.PROGRESS_DATA = {
       "overall_status": "completed",
       "phase1b_detail": null,
       "is_refinement": "not_started",
-      "sanitize_integration": "partial",
+      "sanitize_integration": "completed",
       "prompt_file": "prompts/時計用.txt",
       "prompt_absolute_rules": "completed",
       "inject_country": "not_applicable",
@@ -2858,8 +2858,8 @@ window.PROGRESS_DATA = {
       "fully_rate": "66%",
       "sub_stats": {
         "is_refinement_done": 40,
-        "sanitize_done": 38,
-        "sanitize_partial": 32,
+        "sanitize_done": 41,
+        "sanitize_partial": 29,
         "prompt_absolute_rules_done": 40,
         "prompt_absolute_rules_partial": 0,
         "inject_any": 19
@@ -2876,9 +2876,9 @@ window.PROGRESS_DATA = {
     "version": {
       "current": "v108",
       "released_date": "2026-04-13",
-      "latest_commit": "0d6a9a0"
+      "latest_commit": "3c5fa0f"
     },
-    "generated_at": "2026-04-17T12:52:31+09:00",
+    "generated_at": "2026-04-17T13:01:37+09:00",
     "data_sources": [
       "child-b-status-matrix.json",
       "child-c-docs-and-73cats.json",
