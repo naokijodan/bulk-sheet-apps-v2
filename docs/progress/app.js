@@ -499,6 +499,7 @@
     return '<div class="issue-card issue-card--' + esc(pri) + '">' +
       '<div class="issue-card__header">' +
         '<span class="issue-badge issue-badge--' + esc(pri) + '">' + esc(pri.toUpperCase()) + '</span>' +
+        (issue.display_no ? '<span class="issue-card__no">#' + issue.display_no + '</span>' : '') +
         '<span class="issue-card__id">' + esc(issue.id) + '</span>' +
         '<span class="issue-card__title">' + esc(issue.title) + '</span>' +
         '<span class="issue-card__status">' + esc(statusLabel) + '</span>' +

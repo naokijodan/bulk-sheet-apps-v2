@@ -2669,7 +2669,115 @@
       ],
       "action_needed": "3者協議で解決方針確定。案A: セミコロン併記 / 案B: resolveFieldValue_() をStep2 (AI抽出後) に移動 / 案C: post-processing で追記",
       "blocker": "Features Aspect の Cardinality (SINGLE/MULTI) を Taxonomy API で確定、EAGLE の ';' 区切り解釈確認が先決",
-      "status": "open"
+      "status": "open",
+      "display_no": 1
+    },
+    {
+      "id": "PROMPT-01",
+      "title": "翻訳プロンプトのタイトル短縮問題",
+      "status": "open",
+      "priority": "critical",
+      "priority_label": "最高優先",
+      "phase": "プロンプト品質",
+      "description": "ABSOLUTE RULES + Rule 2 適用後、タイトルが 30 文字程度に短縮。eBay Title 80 文字上限の 37.5% しか使えていない。SEO 的に不利。全 63 プロンプトの Title セクション横断修正が必要。",
+      "affected_cats": [],
+      "action_needed": "Title セクションの指示文見直し: Category C の事実情報 + Bonus SEO の活用強化、80 文字近くまで埋める誘導",
+      "blocker": null,
+      "display_no": 2
+    },
+    {
+      "id": "PROMPT-02",
+      "title": "Sanitize 出力の Title/Description 活用不足",
+      "status": "open",
+      "priority": "high",
+      "priority_label": "高優先",
+      "phase": "プロンプト品質",
+      "description": "Sanitize で抽出された付属品/コンディション/故障情報が Title/Description に十分反映されていない。これらを活用すれば Title 30 文字 → 60-70 文字に拡張可能。",
+      "affected_cats": [],
+      "action_needed": "全プロンプトの Title/Description セクションに Sanitize 出力参照指示を追加",
+      "blocker": null,
+      "display_no": 3
+    },
+    {
+      "id": "8.7",
+      "priority": "medium",
+      "priority_label": "中優先",
+      "title": "CPSC Age Level 拡大適用 (Phase 3)",
+      "phase": "Phase 3",
+      "description": "2026-07-08 施行の CPSC eFiling 新要件。Cat 67 Japanese Dolls 14+ の Taxonomy 35792 要確認。Cat 15 Trading Cards 16+ → 13+ への変更判断。",
+      "affected_cats": [
+        15,
+        67
+      ],
+      "action_needed": "Taxonomy API で Japanese Dolls (35792) の Age Level Aspect 存在確認。Trading Cards Age Level 変更要否を判断。",
+      "blocker": "Taxonomy API 確認が先決",
+      "status": "open",
+      "display_no": 4
+    },
+    {
+      "id": "PROMPT-03",
+      "title": "Title 文字数上限の不整合 (75 vs 80)",
+      "status": "open",
+      "priority": "medium",
+      "priority_label": "中優先",
+      "phase": "プロンプト品質",
+      "description": "和楽器.txt は NEVER exceed 80、日本刀/釣具汎用等は Going over 75 is forbidden。統一基準が必要。",
+      "affected_cats": [],
+      "action_needed": "全 63 プロンプトで統一基準を決定し適用",
+      "blocker": null,
+      "display_no": 5
+    },
+    {
+      "id": "T-01",
+      "priority": "medium",
+      "priority_label": "中優先",
+      "title": "Title 上限不統一 (75 vs 80 文字)",
+      "phase": "横断課題",
+      "description": "prompts/ のカテゴリによってタイトル上限指示が 75 文字と 80 文字に混在している。eBay 公式上限は 80 文字だが、EAGLE / プロンプトで指定値が揺れている。出品タイトルの切り捨て・不統一を招くリスク。",
+      "affected_cats": [],
+      "action_needed": "全 62 プロンプトの TITLE MARKER 付近のタイトル文字数指示を grep で一覧化し、75/80 どちらかに統一する。椛島さんと統一値を確認後に一括修正。",
+      "blocker": null,
+      "status": "open",
+      "display_no": 6
+    },
+    {
+      "id": "8.10",
+      "priority": "low",
+      "priority_label": "低優先",
+      "title": "Phase 5 (IS_MAX_FIELDS=20) 未実装",
+      "phase": "Phase 5",
+      "description": "is-expansion-design.md §5.1 の IS_MAX_FIELDS 定数導入と CONFIRMED_EN 動的計算が未実装。grep 確認: ItemSpecifics/Config_IS.gs に IS_MAX_FIELDS 定数は存在しない。Phase 1B 完了後の次フェーズ課題。",
+      "affected_cats": [],
+      "action_needed": "Phase 1B 完了を受けて IS_MAX_FIELDS 定数導入と CONFIRMED_EN 動的計算の実装を計画・着手。",
+      "blocker": null,
+      "status": "open",
+      "display_no": 7
+    },
+    {
+      "id": "8.8",
+      "priority": "low",
+      "priority_label": "低優先",
+      "title": "Phase 2 (Sanitize 統合) 活用強化",
+      "phase": "Phase 2",
+      "description": "getSanitizeFields_() + buildDefaultSanitizePrompt_() は Sanitize.gs に実装済みで全カテゴリに対応 (SANITIZE_FIELDS_ 74 カテゴリ完備)。validateItemSpecifics_() の存在・動作は未確認。Sanitize 活用強化 (AI 抽出値とのより深い統合) は次フェーズ課題として残る。",
+      "affected_cats": [],
+      "action_needed": "validateItemSpecifics_() の動作確認。Sanitize 活用強化の具体的なユースケースを椛島さんと確認。",
+      "blocker": null,
+      "status": "open",
+      "display_no": 8
+    },
+    {
+      "id": "8.12",
+      "priority": "operational",
+      "priority_label": "運用課題",
+      "title": "HANDOVER.md の恒久的メンテナンス問題",
+      "phase": "ドキュメント管理",
+      "description": "HANDOVER.md が 2026-04-09 時点で停止。本設計書 (bulksheet-v3-master-design.md) との乖離が大きい。",
+      "affected_cats": [],
+      "action_needed": "HANDOVER.md を本設計書へのポインターのみに書き換える方針へ変更。本設計書を正とする。",
+      "blocker": null,
+      "status": "open",
+      "display_no": 9
     },
     {
       "id": "8.2",
@@ -2684,7 +2792,8 @@
       "affected_cats": [],
       "action_needed": null,
       "resolution": "全 62 プロンプトに ABSOLUTE RULES Category A BAN (AUTHENTIC/OFFICIAL/BOOTLEG/KO/REPLICA/KNOCK-OFF/FAKE を禁止) を適用済み。LEGITIMATE KEYWORDS からの削除対応含む。grep 確認済み。",
-      "blocker": null
+      "blocker": null,
+      "display_no": 10
     },
     {
       "id": "8.3",
@@ -2701,7 +2810,8 @@
       ],
       "action_needed": null,
       "resolution": "commit d5c2db5: ゲーム用.txt に ABSOLUTE RULES + Rule 2 (Category A/B/C) 導入完了。",
-      "blocker": null
+      "blocker": null,
+      "display_no": 11
     },
     {
       "id": "8.4",
@@ -2718,7 +2828,8 @@
       ],
       "action_needed": null,
       "resolution": "commit 9692a34: 一般商品・汎用.txt に ABSOLUTE RULES + Rule 2 (Category A/B/C) 導入完了。Snow Globes を含む全汎用カテゴリに適用。",
-      "blocker": null
+      "blocker": null,
+      "display_no": 12
     },
     {
       "id": "8.5",
@@ -2735,7 +2846,8 @@
       ],
       "action_needed": null,
       "resolution": "commit 9692a34: Anime 専用プロンプト作成。フィギュア.txt からの分離完了。ABSOLUTE RULES + Rule 2 適用済み。",
-      "blocker": null
+      "blocker": null,
+      "display_no": 13
     },
     {
       "id": "8.6",
@@ -2771,34 +2883,8 @@
       ],
       "action_needed": null,
       "resolution": "commit 9692a34: 全 74 カテゴリで SANITIZE_FIELDS_ + CATEGORY_RULES_ 整備完了。特殊設計カテゴリ (6→10 型) も Phase 1B 完了と判定。data.json stats.phase1b.fully_completed=74 で確認済み。",
-      "blocker": null
-    },
-    {
-      "id": "8.7",
-      "priority": "medium",
-      "priority_label": "中優先",
-      "title": "CPSC Age Level 拡大適用 (Phase 3)",
-      "phase": "Phase 3",
-      "description": "2026-07-08 施行の CPSC eFiling 新要件。Cat 67 Japanese Dolls 14+ の Taxonomy 35792 要確認。Cat 15 Trading Cards 16+ → 13+ への変更判断。",
-      "affected_cats": [
-        15,
-        67
-      ],
-      "action_needed": "Taxonomy API で Japanese Dolls (35792) の Age Level Aspect 存在確認。Trading Cards Age Level 変更要否を判断。",
-      "blocker": "Taxonomy API 確認が先決",
-      "status": "open"
-    },
-    {
-      "id": "8.8",
-      "priority": "low",
-      "priority_label": "低優先",
-      "title": "Phase 2 (Sanitize 統合) 活用強化",
-      "phase": "Phase 2",
-      "description": "getSanitizeFields_() + buildDefaultSanitizePrompt_() は Sanitize.gs に実装済みで全カテゴリに対応 (SANITIZE_FIELDS_ 74 カテゴリ完備)。validateItemSpecifics_() の存在・動作は未確認。Sanitize 活用強化 (AI 抽出値とのより深い統合) は次フェーズ課題として残る。",
-      "affected_cats": [],
-      "action_needed": "validateItemSpecifics_() の動作確認。Sanitize 活用強化の具体的なユースケースを椛島さんと確認。",
       "blocker": null,
-      "status": "open"
+      "display_no": 14
     },
     {
       "id": "8.9",
@@ -2812,19 +2898,8 @@
       "affected_cats": [],
       "action_needed": null,
       "resolution": "Phase 4 完了確認済み。3 共通関数 + 8 箇所で使用 (DESIGN_CONTENT 設計書で記録済み)。shipping-mode-refactor-plan.md の要件達成。",
-      "blocker": null
-    },
-    {
-      "id": "8.10",
-      "priority": "low",
-      "priority_label": "低優先",
-      "title": "Phase 5 (IS_MAX_FIELDS=20) 未実装",
-      "phase": "Phase 5",
-      "description": "is-expansion-design.md §5.1 の IS_MAX_FIELDS 定数導入と CONFIRMED_EN 動的計算が未実装。grep 確認: ItemSpecifics/Config_IS.gs に IS_MAX_FIELDS 定数は存在しない。Phase 1B 完了後の次フェーズ課題。",
-      "affected_cats": [],
-      "action_needed": "Phase 1B 完了を受けて IS_MAX_FIELDS 定数導入と CONFIRMED_EN 動的計算の実装を計画・着手。",
       "blocker": null,
-      "status": "open"
+      "display_no": 15
     },
     {
       "id": "8.11",
@@ -2838,67 +2913,8 @@
       "affected_cats": [],
       "action_needed": null,
       "resolution": "Sprint Contract 粒度強化・child-a 指示テンプレート改訂済み。ハーネス運用改善として記録し棚上げ。",
-      "blocker": null
-    },
-    {
-      "id": "8.12",
-      "priority": "operational",
-      "priority_label": "運用課題",
-      "title": "HANDOVER.md の恒久的メンテナンス問題",
-      "phase": "ドキュメント管理",
-      "description": "HANDOVER.md が 2026-04-09 時点で停止。本設計書 (bulksheet-v3-master-design.md) との乖離が大きい。",
-      "affected_cats": [],
-      "action_needed": "HANDOVER.md を本設計書へのポインターのみに書き換える方針へ変更。本設計書を正とする。",
       "blocker": null,
-      "status": "open"
-    },
-    {
-      "id": "T-01",
-      "priority": "medium",
-      "priority_label": "中優先",
-      "title": "Title 上限不統一 (75 vs 80 文字)",
-      "phase": "横断課題",
-      "description": "prompts/ のカテゴリによってタイトル上限指示が 75 文字と 80 文字に混在している。eBay 公式上限は 80 文字だが、EAGLE / プロンプトで指定値が揺れている。出品タイトルの切り捨て・不統一を招くリスク。",
-      "affected_cats": [],
-      "action_needed": "全 62 プロンプトの TITLE MARKER 付近のタイトル文字数指示を grep で一覧化し、75/80 どちらかに統一する。椛島さんと統一値を確認後に一括修正。",
-      "blocker": null,
-      "status": "open"
-    },
-    {
-      "id": "PROMPT-01",
-      "title": "翻訳プロンプトのタイトル短縮問題",
-      "status": "open",
-      "priority": "critical",
-      "priority_label": "最高優先",
-      "phase": "プロンプト品質",
-      "description": "ABSOLUTE RULES + Rule 2 適用後、タイトルが 30 文字程度に短縮。eBay Title 80 文字上限の 37.5% しか使えていない。SEO 的に不利。全 63 プロンプトの Title セクション横断修正が必要。",
-      "affected_cats": [],
-      "action_needed": "Title セクションの指示文見直し: Category C の事実情報 + Bonus SEO の活用強化、80 文字近くまで埋める誘導",
-      "blocker": null
-    },
-    {
-      "id": "PROMPT-02",
-      "title": "Sanitize 出力の Title/Description 活用不足",
-      "status": "open",
-      "priority": "high",
-      "priority_label": "高優先",
-      "phase": "プロンプト品質",
-      "description": "Sanitize で抽出された付属品/コンディション/故障情報が Title/Description に十分反映されていない。これらを活用すれば Title 30 文字 → 60-70 文字に拡張可能。",
-      "affected_cats": [],
-      "action_needed": "全プロンプトの Title/Description セクションに Sanitize 出力参照指示を追加",
-      "blocker": null
-    },
-    {
-      "id": "PROMPT-03",
-      "title": "Title 文字数上限の不整合 (75 vs 80)",
-      "status": "open",
-      "priority": "medium",
-      "priority_label": "中優先",
-      "phase": "プロンプト品質",
-      "description": "和楽器.txt は NEVER exceed 80、日本刀/釣具汎用等は Going over 75 is forbidden。統一基準が必要。",
-      "affected_cats": [],
-      "action_needed": "全 63 プロンプトで統一基準を決定し適用",
-      "blocker": null
+      "display_no": 16
     },
     {
       "id": "CV-01",
@@ -2912,7 +2928,8 @@
       "affected_cats": [],
       "action_needed": null,
       "resolution": "fix commit 03ea00d: OFFICIAL を Category B から削除。全34ファイルで Category B 内 OFFICIAL = 0件を確認済み。",
-      "blocker": null
+      "blocker": null,
+      "display_no": 17
     },
     {
       "id": "CV-04",
@@ -2926,7 +2943,8 @@
       "affected_cats": [],
       "action_needed": null,
       "resolution": "fix commit b728a78: Group B 16ファイルのフォーマットを ### Rule 2: に統一。旧形式 0件を確認済み。",
-      "blocker": null
+      "blocker": null,
+      "display_no": 18
     },
     {
       "id": "CV-06",
@@ -2942,7 +2960,8 @@
       ],
       "action_needed": null,
       "resolution": "fix commit b728a78: 条件注記「(if truly out of production — ONLY if explicitly stated in source)」を追加。ソース証拠なしの AI 推測を明示的に禁止。",
-      "blocker": null
+      "blocker": null,
+      "display_no": 19
     }
   ],
   "stats": {
