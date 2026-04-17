@@ -2999,7 +2999,7 @@ window.PROGRESS_DATA = {
     "version": {
       "current": "v108",
       "released_date": "2026-04-13",
-      "latest_commit": "7ed0832"
+      "latest_commit": "4263f43"
     },
     "generated_at": "2026-04-17T22:00:00+09:00",
     "data_sources": [
