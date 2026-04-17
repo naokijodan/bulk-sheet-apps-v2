@@ -3,7 +3,7 @@ window.PROGRESS_DATA = {
     "title": "一括シートV3 進捗ダッシュボード",
     "project": "一括シートApps_v3",
     "description": "eBay 商品一括出品 GAS ライブラリ (v108) の IS 拡張・Phase 1B 進捗を可視化するダッシュボードデータ",
-    "generated_at": "2026-04-17T12:42:42+09:00",
+    "generated_at": "2026-04-17T12:52:31+09:00",
     "version": "v108",
     "cat_number_mapping": {
       "description": "git log / Obsidian の旧 Track A Cat 番号 (Cat 1-21) と 73-cat 正式番号の対応表",
@@ -2482,7 +2482,7 @@ window.PROGRESS_DATA = {
         "field_count_current": 14,
         "field_count_reduction": "21→14 (2adb1a0)",
         "is_refinement": "done",
-        "sanitize_integration": "partial",
+        "sanitize_integration": "completed",
         "sanitize_fields_present": false,
         "category_rules_present": true,
         "prompt_file": "prompts/陶磁器.txt",
@@ -2494,7 +2494,7 @@ window.PROGRESS_DATA = {
         "notes": "Country of Origin = Japan 注入済み (commit 165a813)。"
       },
       "is_refinement": "completed",
-      "sanitize_integration": "partial",
+      "sanitize_integration": "completed",
       "prompt_file": "prompts/陶磁器.txt",
       "prompt_absolute_rules": "completed",
       "inject_country": "Japan",
@@ -2525,7 +2525,7 @@ window.PROGRESS_DATA = {
         "field_count_current": 12,
         "field_count_reduction": "21→12 (a1c3513)",
         "is_refinement": "done",
-        "sanitize_integration": "partial",
+        "sanitize_integration": "completed",
         "sanitize_fields_present": false,
         "category_rules_present": true,
         "prompt_file": "prompts/掛軸.txt",
@@ -2537,7 +2537,7 @@ window.PROGRESS_DATA = {
         "notes": "Country of Origin = Japan 注入済み (commit 23427ae)。"
       },
       "is_refinement": "completed",
-      "sanitize_integration": "partial",
+      "sanitize_integration": "completed",
       "prompt_file": "prompts/掛軸.txt",
       "prompt_absolute_rules": "completed",
       "inject_country": "Japan",
@@ -2568,7 +2568,7 @@ window.PROGRESS_DATA = {
         "field_count_current": 14,
         "field_count_reduction": "21→13 (190e621) + Features 補正で13→14 (7828fa4)",
         "is_refinement": "done",
-        "sanitize_integration": "partial",
+        "sanitize_integration": "completed",
         "sanitize_fields_present": false,
         "category_rules_present": true,
         "prompt_file": "prompts/漫画.txt",
@@ -2580,7 +2580,7 @@ window.PROGRESS_DATA = {
         "notes": "Age Level は matchMangaAgeLevel_ 関数で動的解決 (R指定/成人向けかどうかを行データで判定)。Features 補正後 14 フィールド。プロンプトは v22→v23 に更新済み。"
       },
       "is_refinement": "completed",
-      "sanitize_integration": "partial",
+      "sanitize_integration": "completed",
       "prompt_file": "prompts/漫画.txt",
       "prompt_absolute_rules": "completed",
       "inject_country": "Japan",
@@ -2849,17 +2849,17 @@ window.PROGRESS_DATA = {
       "rate": "100%"
     },
     "phase1b": {
-      "started": 45,
-      "fully_completed": 45,
+      "started": 48,
+      "fully_completed": 48,
       "partial": 0,
       "not_started": 30,
       "total": 73,
-      "started_rate": "62%",
-      "fully_rate": "62%",
+      "started_rate": "66%",
+      "fully_rate": "66%",
       "sub_stats": {
         "is_refinement_done": 40,
-        "sanitize_done": 35,
-        "sanitize_partial": 35,
+        "sanitize_done": 38,
+        "sanitize_partial": 32,
         "prompt_absolute_rules_done": 40,
         "prompt_absolute_rules_partial": 0,
         "inject_any": 19
@@ -2876,9 +2876,9 @@ window.PROGRESS_DATA = {
     "version": {
       "current": "v108",
       "released_date": "2026-04-13",
-      "latest_commit": "cd9906c"
+      "latest_commit": "0d6a9a0"
     },
-    "generated_at": "2026-04-17T12:42:42+09:00",
+    "generated_at": "2026-04-17T12:52:31+09:00",
     "data_sources": [
       "child-b-status-matrix.json",
       "child-c-docs-and-73cats.json",
@@ -2886,7 +2886,7 @@ window.PROGRESS_DATA = {
       "bulksheet-v3-master-design.md"
     ],
     "phase_1b_started": 43,
-    "phase_1b_fully_completed": 45,
+    "phase_1b_fully_completed": 48,
     "phase_1b_not_started": 30,
     "phase_1b_partial": 0,
     "resolved_issues_count": 3
