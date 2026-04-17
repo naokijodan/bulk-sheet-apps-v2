@@ -222,13 +222,7 @@ var IS_INITIAL_DATA = [
   { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Franchise', field_type: 'optional', priority: 12, notes: '' },
   { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Edition', field_type: 'optional', priority: 13, notes: '' },
   { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Number of Players', field_type: 'optional', priority: 14, notes: '' },
-  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Features', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Department', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Theme', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Vintage', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Occasion', field_type: 'optional', priority: 19, notes: '' },
-  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Official/Unofficial', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Style', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Vintage', field_type: 'optional', priority: 15, notes: '' },
 
   // === Video Game Consoles ===
   { category: 'Video Game Consoles', tag_jp: 'ゲーム機', field_name: 'Brand',            field_type: 'required',    priority: 1,  notes: 'Nintendo, Sony, Sega等' },
@@ -713,19 +707,9 @@ var IS_INITIAL_DATA = [
   { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Country of Origin', field_type: 'recommended', priority: 6, notes: '' },
   { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Grade', field_type: 'required', priority: 7, notes: '切手グレード（Mint / Fine / VF等）' },
   { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Series', field_type: 'optional', priority: 8, notes: '' },
-  { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Theme', field_type: 'optional', priority: 9, notes: 'テーマ（動物/花/人物等）' },
-  { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Features', field_type: 'optional', priority: 10, notes: '未使用/使用済/アンミント等' },
-  { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Denomination', field_type: 'optional', priority: 11, notes: '切手の額面金額' },
-  { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Department', field_type: 'optional', priority: 12, notes: '' },
-  { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Vintage', field_type: 'optional', priority: 13, notes: '' },
-  { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Era', field_type: 'optional', priority: 14, notes: '' },
-  { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Official/Unofficial', field_type: 'optional', priority: 15, notes: '' },
-  { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Collection', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Occasion', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Style', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Number of Pieces', field_type: 'optional', priority: 19, notes: 'セット枚数' },
-  { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Pattern', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Set Includes', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Denomination', field_type: 'optional', priority: 9, notes: '切手の額面金額' },
+  { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Vintage', field_type: 'optional', priority: 10, notes: '' },
+  { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Number of Pieces', field_type: 'optional', priority: 11, notes: 'セット枚数' },
 
   // === Coins ===
   { category: 'Coins', tag_jp: 'コイン,古銭,硬貨,紙幣,メダル', field_name: 'Certification', field_type: 'required', priority: 1, notes: 'PCGS / NGC / Uncertified' },
@@ -738,17 +722,9 @@ var IS_INITIAL_DATA = [
   { category: 'Coins', tag_jp: 'コイン,古銭,硬貨,紙幣,メダル', field_name: 'Series', field_type: 'optional', priority: 8, notes: '' },
   { category: 'Coins', tag_jp: 'コイン,古銭,硬貨,紙幣,メダル', field_name: 'Mint', field_type: 'optional', priority: 9, notes: '造幣局・鋳造所' },
   { category: 'Coins', tag_jp: 'コイン,古銭,硬貨,紙幣,メダル', field_name: 'Theme', field_type: 'optional', priority: 10, notes: '' },
-  { category: 'Coins', tag_jp: 'コイン,古銭,硬貨,紙幣,メダル', field_name: 'Features', field_type: 'optional', priority: 11, notes: 'プルーフ / カラー / 金メッキ等' },
-  { category: 'Coins', tag_jp: 'コイン,古銭,硬貨,紙幣,メダル', field_name: 'Finish', field_type: 'optional', priority: 12, notes: 'Proof / BU / Circulated等' },
-  { category: 'Coins', tag_jp: 'コイン,古銭,硬貨,紙幣,メダル', field_name: 'Era', field_type: 'optional', priority: 13, notes: '' },
-  { category: 'Coins', tag_jp: 'コイン,古銭,硬貨,紙幣,メダル', field_name: 'Department', field_type: 'optional', priority: 14, notes: '' },
-  { category: 'Coins', tag_jp: 'コイン,古銭,硬貨,紙幣,メダル', field_name: 'Occasion', field_type: 'optional', priority: 15, notes: '記念日・イベント等' },
-  { category: 'Coins', tag_jp: 'コイン,古銭,硬貨,紙幣,メダル', field_name: 'Vintage', field_type: 'optional', priority: 16, notes: '' },
-  { category: 'Coins', tag_jp: 'コイン,古銭,硬貨,紙幣,メダル', field_name: 'Official/Unofficial', field_type: 'optional', priority: 17, notes: '' },
-  { category: 'Coins', tag_jp: 'コイン,古銭,硬貨,紙幣,メダル', field_name: 'Style', field_type: 'optional', priority: 18, notes: '' },
-  { category: 'Coins', tag_jp: 'コイン,古銭,硬貨,紙幣,メダル', field_name: 'Number of Pieces', field_type: 'optional', priority: 19, notes: 'セット枚数' },
-  { category: 'Coins', tag_jp: 'コイン,古銭,硬貨,紙幣,メダル', field_name: 'Collection', field_type: 'optional', priority: 20, notes: '' },
-  { category: 'Coins', tag_jp: 'コイン,古銭,硬貨,紙幣,メダル', field_name: 'Pattern', field_type: 'optional', priority: 21, notes: '' },
+  { category: 'Coins', tag_jp: 'コイン,古銭,硬貨,紙幣,メダル', field_name: 'Finish', field_type: 'optional', priority: 11, notes: 'Proof / BU / Circulated等' },
+  { category: 'Coins', tag_jp: 'コイン,古銭,硬貨,紙幣,メダル', field_name: 'Vintage', field_type: 'optional', priority: 12, notes: '' },
+  { category: 'Coins', tag_jp: 'コイン,古銭,硬貨,紙幣,メダル', field_name: 'Number of Pieces', field_type: 'optional', priority: 13, notes: 'セット枚数' },
 
   // === Records ===
   { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Artist', field_type: 'required', priority: 1, notes: '' },
@@ -4727,7 +4703,7 @@ var IS_CATEGORY_FIELDS = {
   ],
   'Video Games': [
     'Platform', 'Game Name', 'Region Code', 'Genre', 'Character', 'Publisher', 'Rating', 'Language', 'Country of Origin',
-    'Release Year', 'Series', 'Franchise', 'Edition', 'Number of Players', 'Features', 'Department', 'Theme', 'Vintage', 'Occasion', 'Official/Unofficial', 'Style',
+    'Release Year', 'Series', 'Franchise', 'Edition', 'Number of Players', 'Vintage',
   ],
   'Video Game Consoles': [
     'Brand', 'Platform', 'Model', 'Type', 'Storage Capacity', 'Color', 'Region Code', 'Connectivity', 'Country of Origin', 'Year Manufactured', 'Charger Included', 'Features',
@@ -4862,11 +4838,11 @@ var IS_CATEGORY_FIELDS = {
   'Figures': ['Listed By', 'Franchise', 'Character', 'Type', 'Brand', 'Scale', 'Material', 'Series/Line', 'Official/Bootleg', 'Release Year', 'Country of Origin', 'Theme', 'Age Level', 'Features'],
   'Stamps': [
     'Certification', 'Type', 'Year of Issue', 'Topic', 'Quality', 'Country of Origin',
-    'Grade', 'Series', 'Theme', 'Features', 'Denomination', 'Department', 'Vintage', 'Era', 'Official/Unofficial', 'Collection', 'Occasion', 'Style', 'Number of Pieces', 'Pattern', 'Set Includes',
+    'Grade', 'Series', 'Denomination', 'Vintage', 'Number of Pieces',
   ],
   'Coins': [
     'Certification', 'Denomination', 'Year', 'Composition', 'Grade', 'Country of Origin',
-    'Type', 'Series', 'Mint', 'Theme', 'Features', 'Finish', 'Era', 'Department', 'Occasion', 'Vintage', 'Official/Unofficial', 'Style', 'Number of Pieces', 'Collection', 'Pattern',
+    'Type', 'Series', 'Mint', 'Theme', 'Finish', 'Vintage', 'Number of Pieces',
   ],
   'Records': [
     'Artist', 'Release Title', 'Genre', 'Record Grading', 'Record Label', 'Format', 'Record Size', 'Release Year', 'Sleeve Grading', 'Country of Origin',

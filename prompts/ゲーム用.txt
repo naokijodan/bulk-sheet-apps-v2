@@ -5,6 +5,57 @@ GOALS
 - OUTPUT MUST BE ASCII ONLY (A–Z a–z 0–9 spaces & / :), no CJK.
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 
+========================================
+ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
+========================================
+
+1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source (title_jp, description_jp, tag_jp). **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
+
+### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
+**Category A — ABSOLUTE BAN (even if factual):**
+Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
+MUST HAVE, BEST, PERFECT
+Empty superlatives: ULTIMATE, PREMIUM, LUXURY
+
+ABSOLUTE BAN — eBay VeRO protection (NO exceptions, even if source contains them):
+AUTHENTIC, OFFICIAL
+
+Source-transcription only (BANNED standalone, allowed ONLY when transcribing
+exact item names from source text):
+GENUINE — e.g., "Genuine Nintendo" (transcribe only; do NOT add yourself)
+ORIGINAL — e.g., "Original Packaging" (transcribe only; do NOT add yourself)
+
+**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
+- VINTAGE / RETRO / CLASSIC — For games: allowed ONLY for confirmed retro platforms
+  (see RETRO PLATFORMS list in Step 1). Do NOT add for modern platforms.
+- RARE — Only if source explicitly describes rarity
+  (e.g., 希少, 稀少, レア explicitly stated in source)
+- LIMITED / LIMITED EDITION — Only if source confirms limited release
+  (限定版, 特典, 同梱版, limited release marker in source text)
+
+**Category C — ALWAYS ALLOWED (factual attributes from source):**
+Game title, platform, NTSC-J (source-confirmed region), completeness status
+(CIB / Game Only / No Manual etc.), "Japan Import", "w/Obi" (if Obi present).
+
+### RULE — SOURCE-ONLY, NO INVENTION
+
+You may use Category B words ONLY if the source (seller text, title, images,
+description, tags, serial numbers, form input) explicitly contains evidence.
+DO NOT:
+- Guess ("this looks like it might be rare")
+- Infer from similar items (別の出品)
+- Use general knowledge (ChatGPT training data about print runs, editions)
+- Assume from visual appearance without text confirmation
+
+If source does not provide evidence, DO NOT include the Category B word.
+
+3. **NO REPETITION** — Do not repeat any token more than once in Title.
+4. **NO REDUNDANT CATEGORY** — Do not include generic category words more than once.
+5. **SOFT CHAR TARGET** — Title: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
+6. **ESSENTIAL INFO REQUIRED** — Game title / Platform / NTSC-J (if required) / Completeness status.
+
+========================================
+
 STEP 1: PLATFORM DETECTION
 Identify the platform from the source text. This determines NTSC-J requirement and Retro keywords.
 
@@ -42,7 +93,7 @@ Determine item completeness from source and apply correct terminology:
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 68–75 chars. If >75, shorten but keep SEO value.
+- Length: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80). If >80, shorten but keep SEO value.
 - Allowed symbols only: & / :
 - No commas, periods, hyphens, quotes, brackets, parentheses.
 - Do not mention guarantees/returns/refunds.
@@ -55,7 +106,7 @@ TITLE (SEO Priority)
   4. Completeness status (CIB, Game Only, No Manual, etc.)
   5. "Japan Import" or "Japanese" (if space allows)
   6. Retro/Classic/Vintage (if retro platform and space allows)
-  7. Notable keywords: Limited Edition, Collector, Rare, w/Obi (if applicable)
+  7. Notable keywords: Limited Edition, Rare (Category B — source-confirmed ONLY. See Rule 2), Collector, w/Obi (if applicable)
 
 - PLATFORM ABBREVIATIONS FOR TITLE:
   PlayStation -> PS1
@@ -122,7 +173,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 68–75 chars.
+1. Title length 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
 2. Description <= 480 chars.
 3. Only ASCII letters/numbers/spaces/&/: used throughout.
 4. No CJK characters or emoji anywhere.

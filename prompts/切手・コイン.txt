@@ -6,6 +6,64 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge.
 
+========================================
+ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
+========================================
+
+1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source (title_jp, description_jp, tag_jp). **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
+
+### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
+**Category A — ABSOLUTE BAN (even if factual):**
+Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
+MUST HAVE, BEST, PERFECT
+Empty superlatives: ULTIMATE, PREMIUM, LUXURY
+
+ABSOLUTE BAN — eBay VeRO protection (NO exceptions, even if source contains them):
+AUTHENTIC, OFFICIAL
+
+Source-transcription only (BANNED standalone, allowed ONLY when transcribing
+exact item names from source text):
+GENUINE — e.g., "Genuine Silver" (transcribe only if source explicitly states it)
+ORIGINAL — e.g., "Original Certificate" (transcribe only; do NOT add yourself)
+
+**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
+- VINTAGE — Only if source confirms era
+  (e.g., 昭和, 明治, 大正, Meiji, Showa, Pre-War markers in source)
+- RARE — Only if source explicitly describes rarity
+  (e.g., 希少, 稀少, 限定 explicitly stated in source)
+- LIMITED / LIMITED EDITION — Only if source confirms limited issue
+  (記念, 限定, 限定発行, production count in source text)
+- ANTIQUE — Only if source describes as antique (e.g., 古銭, 江戸時代 — 100+ years old)
+
+**PHILATELIC / NUMISMATIC EXCEPTION:**
+- MINT (for stamps/coins) — Standard industry term for unused condition.
+  Use ONLY when source confirms 未使用 / MNH / UNC / Mint State.
+  Treat as Category C (factual) when source explicitly states 未使用 or equivalent.
+
+**Category C — ALWAYS ALLOWED (factual attributes from source):**
+Country (Japan), era/year (source-confirmed), denomination, composition (Silver/Gold),
+grade (UNC/XF/VF — from quality/grade mapping), certification (NGC/PCGS — source-confirmed),
+format (Full Sheet, Block of 4), catalog numbers.
+
+### RULE — SOURCE-ONLY, NO INVENTION
+
+You may use Category B words ONLY if the source (seller text, title, images,
+description, tags, serial numbers, form input) explicitly contains evidence.
+DO NOT:
+- Guess ("this looks like it might be rare")
+- Infer from similar items (別の出品)
+- Use general knowledge (ChatGPT training data about mintage figures, rarity)
+- Assume from visual appearance without text confirmation
+
+If source does not provide evidence, DO NOT include the Category B word.
+
+3. **NO REPETITION** — Do not repeat any token more than once in Title.
+4. **NO REDUNDANT CATEGORY** — Do not include generic category words more than once.
+5. **SOFT CHAR TARGET** — Title: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
+6. **ESSENTIAL INFO REQUIRED** — Country (Japan) / Era or Year / Type (Stamp/Coin/Banknote) / Quality/Grade (if stated).
+
+========================================
+
 PRODUCT TYPE DETECTION (CRITICAL)
 First, determine the product type from source:
 - 切手 / スタンプ -> STAMP (use Stamp sections below)
@@ -124,7 +182,7 @@ DENOMINATION MAPPING
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
+- Length: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80). If >80, shorten but keep SEO value.
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 
@@ -136,7 +194,7 @@ TITLE (SEO Priority)
   5. Format (Full Sheet, Block of 4, Single)
   6. Quality (MNH, Used)
   7. Face value if notable
-  8. Bonus SEO: Rare, Vintage, Lot
+  8. Bonus SEO: Rare, Vintage (Category B — source-confirmed ONLY. See Rule 2); Lot (factual if applicable)
 
 - SEO KEYWORD ORDER - COINS (front-load high-value terms):
   1. "Japan" (within first 10 chars)
@@ -146,7 +204,7 @@ TITLE (SEO Priority)
   5. Coin type (Commemorative, Antique)
   6. Grade if stated (UNC, XF, MS65)
   7. Certification if slabbed (NGC, PCGS)
-  8. Bonus SEO: Rare, Vintage
+  8. Bonus SEO: Rare, Vintage (Category B — source-confirmed ONLY. See Rule 2)
 
 DESCRIPTION (SEO Priority)
 - English ASCII only, <= 480 chars, single natural paragraph.
@@ -205,7 +263,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 68-75 chars.
+1. Title length 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
 2. Description <= 480 chars.
 3. Only ASCII characters and allowed symbols used throughout.
 4. No CJK characters or emoji anywhere.
