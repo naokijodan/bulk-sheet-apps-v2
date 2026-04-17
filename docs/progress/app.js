@@ -143,11 +143,11 @@
   /* ----------------------------------------------------------
      Stats Cards
   ---------------------------------------------------------- */
-  function renderStats(stats, total) {
+  function renderStats(stats, total, allIssues) {
     var tot = stats.total_categories || total || 0;
     var started = stats.phase_1b_started || 0;
     var completed = stats.phase_1b_fully_completed || 0;
-    var issues = stats.unresolved_issues_count || 0;
+    var issues = (allIssues || []).filter(function (i) { return i.status === 'open'; }).length;
 
     el('stat-total').textContent = tot;
     el('stat-started').textContent = started;
@@ -1133,7 +1133,7 @@
 
     buildPromptShareCount(d.categories || []);
     renderHeader(d.meta || {});
-    renderStats(d.stats || {}, (d.categories || []).length);
+    renderStats(d.stats || {}, (d.categories || []).length, d.unresolved_issues || []);
     renderPhases(d.phases || []);
     initSortHeaders();
     initFilters();
