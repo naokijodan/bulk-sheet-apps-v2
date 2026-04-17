@@ -3,7 +3,7 @@ window.PROGRESS_DATA = {
     "title": "一括シートV3 進捗ダッシュボード",
     "project": "一括シートApps_v3",
     "description": "eBay 商品一括出品 GAS ライブラリ (v108) の IS 拡張・Phase 1B 進捗を可視化するダッシュボードデータ",
-    "generated_at": "2026-04-17T12:00:00+09:00",
+    "generated_at": "2026-04-17T15:00:00+09:00",
     "version": "v108",
     "cat_number_mapping": {
       "description": "git log / Obsidian の旧 Track A Cat 番号 (Cat 1-21) と 73-cat 正式番号の対応表",
@@ -504,7 +504,7 @@ window.PROGRESS_DATA = {
         "field_count_current": 14,
         "field_count_reduction": "21→14 (6eb226a) — 3 新規追加 + 10 cut",
         "is_refinement": "done",
-        "sanitize_integration": "partial",
+        "sanitize_integration": "completed",
         "sanitize_fields_present": false,
         "category_rules_present": true,
         "prompt_file": "prompts/フィギュア.txt",
@@ -516,7 +516,7 @@ window.PROGRESS_DATA = {
         "notes": "4項目全て注入完了 (commit 4aa2b83)。Age Level は CPSC 準拠で 17 Years & Up (列挙値フォーマット)。Cat 16 が基準モデルとして他カテゴリに横展開された。"
       },
       "is_refinement": "completed",
-      "sanitize_integration": "partial",
+      "sanitize_integration": "completed",
       "prompt_file": "prompts/フィギュア.txt",
       "prompt_absolute_rules": "completed",
       "inject_country": "Japan",
@@ -1182,7 +1182,7 @@ window.PROGRESS_DATA = {
         "field_count_current": 13,
         "field_count_reduction": "21→13 (735f4da)",
         "is_refinement": "done",
-        "sanitize_integration": "partial",
+        "sanitize_integration": "completed",
         "sanitize_fields_present": false,
         "category_rules_present": true,
         "prompt_file": "prompts/メカプラモ.txt",
@@ -1194,7 +1194,7 @@ window.PROGRESS_DATA = {
         "notes": "IS精査 + ABSOLUTE RULES + 4注入 全て同一 commit (735f4da) で完了。"
       },
       "is_refinement": "completed",
-      "sanitize_integration": "partial",
+      "sanitize_integration": "completed",
       "prompt_file": "prompts/メカプラモ.txt",
       "prompt_absolute_rules": "completed",
       "inject_country": "Japan",
@@ -1738,7 +1738,7 @@ window.PROGRESS_DATA = {
         "field_count_current": 14,
         "field_count_reduction": "21→12 (f7c2c44) + patch (8f51978) + Features 補正 (7f963cb)",
         "is_refinement": "done",
-        "sanitize_integration": "partial",
+        "sanitize_integration": "completed",
         "sanitize_fields_present": false,
         "category_rules_present": true,
         "prompt_file": "prompts/RC・模型.txt",
@@ -1750,7 +1750,7 @@ window.PROGRESS_DATA = {
         "notes": "【注意】Country of Origin は IS_CATEGORY_FIELDS の9番目に存在するが、resolveFieldValue_ の Japan 注入リストに RC & Models が未含。Cat 16 Figures と異なりブランド製造国が多様 (Tamiya/Kyosho 等) な設計意図と推定。確認要。Age Level 13+、Features Collectors Edition 注入済み。"
       },
       "is_refinement": "completed",
-      "sanitize_integration": "partial",
+      "sanitize_integration": "completed",
       "prompt_file": "prompts/RC・模型.txt",
       "prompt_absolute_rules": "completed",
       "inject_country": "not_applicable",
@@ -2850,16 +2850,16 @@ window.PROGRESS_DATA = {
     },
     "phase1b": {
       "started": 43,
-      "fully_completed": 40,
-      "partial": 3,
+      "fully_completed": 43,
+      "partial": 0,
       "not_started": 30,
       "total": 73,
       "started_rate": "59%",
-      "fully_rate": "55%",
+      "fully_rate": "59%",
       "sub_stats": {
         "is_refinement_done": 40,
-        "sanitize_done": 30,
-        "sanitize_partial": 40,
+        "sanitize_done": 33,
+        "sanitize_partial": 37,
         "prompt_absolute_rules_done": 40,
         "prompt_absolute_rules_partial": 0,
         "inject_any": 19
@@ -2876,9 +2876,9 @@ window.PROGRESS_DATA = {
     "version": {
       "current": "v108",
       "released_date": "2026-04-13",
-      "latest_commit": "51a212a"
+      "latest_commit": "f1f22c2"
     },
-    "generated_at": "2026-04-17T12:00:00+09:00",
+    "generated_at": "2026-04-17T15:00:00+09:00",
     "data_sources": [
       "child-b-status-matrix.json",
       "child-c-docs-and-73cats.json",
@@ -2886,9 +2886,9 @@ window.PROGRESS_DATA = {
       "bulksheet-v3-master-design.md"
     ],
     "phase_1b_started": 43,
-    "phase_1b_fully_completed": 40,
+    "phase_1b_fully_completed": 43,
     "phase_1b_not_started": 30,
-    "phase_1b_partial": 3,
+    "phase_1b_partial": 0,
     "resolved_issues_count": 3
   }
 };
