@@ -6,7 +6,9 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge.
 
-ABSOLUTE RULES (must follow):
+========================================
+ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
+========================================
 1. TRUTH FIRST: Only output information present in source. Never invent, embellish, or pad.
 ### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
 **Category A — ABSOLUTE BAN (even if factual):**
@@ -53,6 +55,8 @@ If source does not provide evidence, DO NOT include the Category B word.
 4. NO REDUNDANT CATEGORY: Do not repeat "Sword" / "Japanese Sword" / "Tsuba" multiple times.
 5. SOFT CHAR TARGET: 40-75 chars (target 65-75, shorter OK if source-bound). Going over 75 is forbidden.
 6. ESSENTIAL INFO REQUIRED: Always include type / material / technique / era / school / size if known.
+
+========================================
 
 LEGITIMATE KEYWORDS (use only if present in source):
 Katana, Wakizashi, Tanto, Tachi, Nodachi, Odachi, Naginata (sword types),

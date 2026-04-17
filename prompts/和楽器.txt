@@ -6,12 +6,72 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge.
 
+========================================
+ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
+========================================
+
+1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source (title_jp, description_jp, tag_jp). **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
+
+### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
+**Category A — ABSOLUTE BAN (even if factual):**
+Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
+MUST HAVE, BEST, PERFECT
+Empty superlatives: ULTIMATE, PREMIUM, LUXURY
+
+ABSOLUTE BAN — eBay rights protection (NO exceptions, even if source contains them):
+AUTHENTIC, OFFICIAL
+
+Source-transcription only (BANNED standalone, allowed ONLY when transcribing
+exact material/accessory names from source text):
+GENUINE — e.g., "Genuine Leather" (material name), "Genuine Pearl"
+ORIGINAL — e.g., "Original Box" (accessory name), "Original Packaging"
+  (Do NOT add these words yourself. Only transcribe if source contains them.)
+
+**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
+- RARE — Only if source explicitly describes rarity
+  (e.g., "limited to 500 units", "one of 100 made", "rare colorway")
+- LIMITED / LIMITED EDITION — Only if source confirms limited edition status
+  (serial number, production count, limited release marker in source text)
+- VINTAGE — Only if source confirms era
+  (e.g., 昭和, 大正, 明治, Edo period, Pre-1990, estate find, decade markers in source)
+- EXCLUSIVE — Only if source confirms exclusive distribution
+- COLLECTIBLE / COLLECTORS EDITION — Only if source marks it as such
+- ANTIQUE — Only if source describes as antique (100+ years old)
+- HANDMADE — Only if source explicitly states handmade (e.g., 手作り, 職人, 手彫り)
+- PROFESSIONAL — Only if source explicitly states professional grade (e.g., 演奏会用, プロ仕様)
+- MINT — Only if source describes objective criteria
+  (unused, with original box, tags attached, factory sealed)
+
+**Category C — ALWAYS ALLOWED (factual attributes from source):**
+Material facts, brand names, instrument type, dimensions, condition descriptions,
+maker names, era (when source-confirmed), weight, included accessories.
+
+### RULE — SOURCE-ONLY, NO INVENTION
+
+You may use Category B words ONLY if the source (seller text, title, images,
+description, tags, serial numbers, form input) explicitly contains evidence.
+DO NOT:
+- Guess ("this looks like it might be rare")
+- Infer from similar items (別の出品)
+- Use general knowledge (ChatGPT training data about product lines, catalogs)
+- Assume from visual appearance without text confirmation
+
+If source does not provide evidence, DO NOT include the Category B word.
+
+3. **NO REPETITION** — Do not repeat any token more than once in Title.
+4. **NO REDUNDANT CATEGORY** — Do not include generic category words (Instrument, Japanese) more than once.
+5. **SOFT CHAR TARGET** — Title: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
+6. **ESSENTIAL INFO REQUIRED** — Instrument type / Material / Maker name / Included accessories (bachi, case) / Era (if source-confirmed).
+
+========================================
+
 INSTRUMENT TYPE MAPPING (use BOTH Japanese name and English for SEO)
 String:
 - 三味線 -> Shamisen (Japanese Three-Stringed Instrument)
 - 津軽三味線 -> Tsugaru Shamisen
 - 琴 / 筝 -> Koto (Japanese Zither)
 - 琵琶 -> Biwa (Japanese Lute)
+- 三線 / サンシン -> Sanshin (Okinawan Lute)
 
 Wind:
 - 尺八 -> Shakuhachi (Japanese Bamboo Flute)
@@ -55,9 +115,13 @@ MATERIAL MAPPING
 - 蒔絵 -> Maki-e (Gold Lacquer)
 - 螺鈿 -> Mother of Pearl Inlay
 
+LEGITIMATE KEYWORDS (Wagakki specific — source-only)
+- Made in Japan / Japanese Traditional (use if source explicitly mentions Japanese origin)
+- Signed / Named (銘入り — use only if source explicitly names the maker or craftsperson)
+
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
+- Length: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 
@@ -67,7 +131,7 @@ TITLE (SEO Priority)
   3. Type/Variant (Tsugaru, Nagauta, etc.)
   4. Material if notable (Bamboo, Rosewood, Lacquer)
   5. English instrument category (Flute, Drum, Zither, Lute)
-  6. Bonus SEO: Vintage, Antique, Handmade, Professional
+  6. Bonus SEO: Vintage, Antique, Handmade, Professional (Category B — source-confirmed ONLY)
 
 DESCRIPTION (SEO Priority)
 - English ASCII only, <= 480 chars, single natural paragraph.
