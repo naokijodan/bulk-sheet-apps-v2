@@ -1056,6 +1056,43 @@
   }
 
   /* ----------------------------------------------------------
+     Session Guide Copy
+  ---------------------------------------------------------- */
+  window.copySessionGuide = function () {
+    var textEl = document.getElementById('session-guide-text');
+    var feedbackEl = document.getElementById('session-guide-copy-feedback');
+    if (!textEl) return;
+    var text = textEl.textContent || textEl.innerText;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        feedbackEl.textContent = '✅ コピーしました';
+        setTimeout(function () { feedbackEl.textContent = ''; }, 2000);
+      }).catch(function () {
+        fallbackCopy(text, feedbackEl);
+      });
+    } else {
+      fallbackCopy(text, feedbackEl);
+    }
+  };
+
+  function fallbackCopy(text, feedbackEl) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0;';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try {
+      document.execCommand('copy');
+      feedbackEl.textContent = '✅ コピーしました';
+    } catch (e) {
+      feedbackEl.textContent = '❌ コピー失敗';
+    }
+    document.body.removeChild(ta);
+    setTimeout(function () { feedbackEl.textContent = ''; }, 2000);
+  }
+
+  /* ----------------------------------------------------------
      Error Banner
   ---------------------------------------------------------- */
   function showErrorBanner(msg) {
