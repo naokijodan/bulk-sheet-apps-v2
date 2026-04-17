@@ -3,7 +3,7 @@
     "title": "一括シートV3 進捗ダッシュボード",
     "project": "一括シートApps_v3",
     "description": "eBay 商品一括出品 GAS ライブラリ (v108) の IS 拡張・Phase 1B 進捗を可視化するダッシュボードデータ",
-    "generated_at": "2026-04-17T15:34:00+09:00",
+    "generated_at": "2026-04-17T20:30:00+09:00",
     "version": "v108",
     "cat_number_mapping": {
       "description": "git log / Obsidian の旧 Track A Cat 番号 (Cat 1-21) と 73-cat 正式番号の対応表",
@@ -2618,6 +2618,23 @@
       "notes": "",
       "phase_1b_started": true,
       "cpsc_target": false
+    },
+    {
+      "cat_no": 74,
+      "cat_no_str": "74",
+      "gas_name": "Books & Magazines",
+      "ebay_category": "Books & Magazines",
+      "prompt_file": "prompts/書籍・雑誌.txt",
+      "is_refinement": "completed",
+      "sanitize_integration": "completed",
+      "prompt_absolute_rules": "completed",
+      "prompt_rule2_applied": true,
+      "phase_1b_started": true,
+      "phase1b_status": "completed",
+      "overall_status": "completed",
+      "field_count": 12,
+      "last_commit": "7ed0832",
+      "priority": "high"
     }
   ],
   "unresolved_issues": [
@@ -2838,25 +2855,25 @@
     }
   ],
   "stats": {
-    "total_categories": 73,
+    "total_categories": 74,
     "phase1a": {
-      "completed": 73,
-      "total": 73,
+      "completed": 74,
+      "total": 74,
       "rate": "100%"
     },
     "phase1b": {
-      "started": 73,
-      "fully_completed": 73,
+      "started": 74,
+      "fully_completed": 74,
       "partial": 0,
       "not_started": 0,
-      "total": 73,
+      "total": 74,
       "started_rate": "100%",
       "fully_rate": "100%",
       "sub_stats": {
-        "is_refinement_done": 73,
-        "sanitize_done": 73,
+        "is_refinement_done": 74,
+        "sanitize_done": 74,
         "sanitize_partial": 0,
-        "prompt_absolute_rules_done": 73,
+        "prompt_absolute_rules_done": 74,
         "prompt_absolute_rules_partial": 0,
         "inject_any": 19
       }
@@ -2872,17 +2889,17 @@
     "version": {
       "current": "v108",
       "released_date": "2026-04-13",
-      "latest_commit": "9692a34"
+      "latest_commit": "7ed0832"
     },
-    "generated_at": "2026-04-17T18:20:00+09:00",
+    "generated_at": "2026-04-17T20:30:00+09:00",
     "data_sources": [
       "child-b-status-matrix.json",
       "child-c-docs-and-73cats.json",
       "child-a-notes.json",
       "bulksheet-v3-master-design.md"
     ],
-    "phase_1b_started": 73,
-    "phase_1b_fully_completed": 73,
+    "phase_1b_started": 74,
+    "phase_1b_fully_completed": 74,
     "phase_1b_not_started": 0,
     "phase_1b_partial": 0,
     "resolved_issues_count": 3
