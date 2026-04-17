@@ -3,7 +3,7 @@ window.PROGRESS_DATA = {
     "title": "一括シートV3 進捗ダッシュボード",
     "project": "一括シートApps_v3",
     "description": "eBay 商品一括出品 GAS ライブラリ (v108) の IS 拡張・Phase 1B 進捗を可視化するダッシュボードデータ",
-    "generated_at": "2026-04-17T15:00:00+09:00",
+    "generated_at": "2026-04-17T12:42:42+09:00",
     "version": "v108",
     "cat_number_mapping": {
       "description": "git log / Obsidian の旧 Track A Cat 番号 (Cat 1-21) と 73-cat 正式番号の対応表",
@@ -781,7 +781,7 @@ window.PROGRESS_DATA = {
         "field_count_current": 12,
         "field_count_reduction": "21→12 (121ea32)",
         "is_refinement": "done",
-        "sanitize_integration": "partial",
+        "sanitize_integration": "completed",
         "sanitize_fields_present": false,
         "category_rules_present": true,
         "prompt_file": "prompts/アート.txt",
@@ -793,7 +793,7 @@ window.PROGRESS_DATA = {
         "notes": "Country of Origin は動的解決のみ (Prints と同パターン)。Listed By を p11→p1 に正規化。"
       },
       "is_refinement": "completed",
-      "sanitize_integration": "partial",
+      "sanitize_integration": "completed",
       "prompt_file": "prompts/アート.txt",
       "prompt_absolute_rules": "completed",
       "inject_country": "not_applicable",
@@ -824,7 +824,7 @@ window.PROGRESS_DATA = {
         "field_count_current": 13,
         "field_count_reduction": "21→13 (4c8669f)",
         "is_refinement": "done",
-        "sanitize_integration": "partial",
+        "sanitize_integration": "completed",
         "sanitize_fields_present": false,
         "category_rules_present": true,
         "prompt_file": "prompts/版画.txt",
@@ -836,7 +836,7 @@ window.PROGRESS_DATA = {
         "notes": "Country of Origin は IS_CATEGORY_FIELDS に存在するが resolveFieldValue_ で Japan 静的注入なし。設計意図: 日本/西洋版画の混在カテゴリ。Art と同パターン。"
       },
       "is_refinement": "completed",
-      "sanitize_integration": "partial",
+      "sanitize_integration": "completed",
       "prompt_file": "prompts/版画.txt",
       "prompt_absolute_rules": "completed",
       "inject_country": "not_applicable",
@@ -2849,17 +2849,17 @@ window.PROGRESS_DATA = {
       "rate": "100%"
     },
     "phase1b": {
-      "started": 43,
-      "fully_completed": 43,
+      "started": 45,
+      "fully_completed": 45,
       "partial": 0,
       "not_started": 30,
       "total": 73,
-      "started_rate": "59%",
-      "fully_rate": "59%",
+      "started_rate": "62%",
+      "fully_rate": "62%",
       "sub_stats": {
         "is_refinement_done": 40,
-        "sanitize_done": 33,
-        "sanitize_partial": 37,
+        "sanitize_done": 35,
+        "sanitize_partial": 35,
         "prompt_absolute_rules_done": 40,
         "prompt_absolute_rules_partial": 0,
         "inject_any": 19
@@ -2876,9 +2876,9 @@ window.PROGRESS_DATA = {
     "version": {
       "current": "v108",
       "released_date": "2026-04-13",
-      "latest_commit": "f1f22c2"
+      "latest_commit": "cd9906c"
     },
-    "generated_at": "2026-04-17T15:00:00+09:00",
+    "generated_at": "2026-04-17T12:42:42+09:00",
     "data_sources": [
       "child-b-status-matrix.json",
       "child-c-docs-and-73cats.json",
@@ -2886,7 +2886,7 @@ window.PROGRESS_DATA = {
       "bulksheet-v3-master-design.md"
     ],
     "phase_1b_started": 43,
-    "phase_1b_fully_completed": 43,
+    "phase_1b_fully_completed": 45,
     "phase_1b_not_started": 30,
     "phase_1b_partial": 0,
     "resolved_issues_count": 3
