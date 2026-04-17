@@ -147,13 +147,20 @@ If source does not provide evidence, DO NOT include the Category B word.
 3. NO REPETITION: Never repeat the same keyword twice in the title (e.g., "Automatic" appears once max).
 4. NO REDUNDANT CATEGORY WORDS: Do not add generic category words when a specific type is given
    (e.g., if "Chronograph" is stated, do NOT also add generic "Watch" twice).
-5. SOFT CHAR TARGET: Length is a target, not a mandate. If source is sparse, shorter titles (40-67) are acceptable.
-   NEVER sacrifice truth for length.
-6. ESSENTIAL INFO REQUIRED (when present in source): Brand, Model, Reference Number (or Case Material + Movement) must always be included.
+5. SOFT CHAR TARGET: Title 40-80 chars (ideal 68-78). Fill by following SEO KEYWORD ORDER top-to-bottom: include every source-confirmed fact in priority order. A title becomes short ONLY when the source itself is sparse — never because you skipped available information. NEVER exceed 80.
+6. ESSENTIAL INFO (include ALL that are present in source):
+   Brand (always), Model/Collection name, Reference Number, Movement type,
+   Case Material, Case Size, Dial Color, Band Material, Department (Men's/Women's),
+   Water Resistance, Country of Origin (IS field: output if source states any country; Title rule: see note below),
+   With Papers / No Papers, With Original Box/Packaging / No Box.
+   If Reference Number is unavailable, include Case Material + Movement as minimum.
+   Country of Origin TITLE rule: Include "Made in Japan" in Title ONLY if source explicitly confirms 日本製 / Made in Japan. Do NOT include any other country (e.g., Switzerland, Germany, USA) in Title.
+   (Note: this TITLE rule affects Title output only. Do NOT restrict the IS Country of Origin field — that field should still record the actual source country whenever stated, e.g., Switzerland, Germany, USA.)
+   (Note: if JDM is already in Title from SEO ORDER #11, you may omit "Made in Japan" to avoid redundancy — prioritize Title length limit.)
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 40-75 chars (ideal 68-75, shorter OK for sparse sources). If >75, shorten but keep SEO value.
+- Length: 40-80 chars (ideal 68-78). If >80, shorten but keep SEO value.
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 - Do not mention guarantees/returns/refunds.
@@ -161,13 +168,16 @@ TITLE (SEO Priority)
 
 - SEO KEYWORD ORDER (front-load high-value terms):
   1. Brand (within first 30 chars)
-  2. Collection/Line name if notable (Prospex, Presage, Grand Seiko, Speedmaster)
+  2. Collection/Line name (Prospex, Presage, Grand Seiko, Speedmaster) if notable
   3. Movement type (Automatic, Quartz, Mechanical, Solar, Kinetic)
   4. Watch type (Chronograph, Diver, Dress Watch, Field Watch, GMT, World Time)
-  5. Case size in mm if known (e.g., 42mm, 38mm)
-  6. Gender if clear (Mens, Womens, Unisex)
-  7. Ref/Cal number if space allows
-  8. Bonus SEO words if applicable & true: JDM, Japan Made
+  5. Case size in mm if stated in source (MUST include if stated)
+  6. Dial Color (MUST include if stated in source)
+  7. Band Material (MUST include if stated)
+  8. Department / Gender (Men's, Women's, Unisex)
+  9. Ref/Cal number (MUST include if stated)
+  10. Country of Origin — Include "Made in Japan" in Title ONLY if source explicitly confirms 日本製 / Made in Japan. Do NOT include any other country (e.g., Switzerland, Germany, USA) in Title. (Title only — does NOT restrict IS Country of Origin field.)
+  11. Bonus SEO words if applicable & true: JDM, Serviced, Box and Papers
 
 LEGITIMATE WATCH KEYWORDS (use only when explicitly stated or truly applicable):
 - "Serviced" / "Overhauled" — only when source explicitly states recent service/overhaul
@@ -188,7 +198,7 @@ LEGITIMATE WATCH KEYWORDS (use only when explicitly stated or truly applicable):
   Conversion: divide cm by 2.54 and round to one decimal place for inch.
   If source is in mm, convert to cm first (divide by 10, keep decimal).
   Keep exactly one space before wrist; no extra symbols.
-  If over 75 chars, shorten other parts but keep the wrist token.
+  If over 80 chars, shorten other parts but keep the wrist token.
 
 DESCRIPTION (SEO Priority)
 - English ASCII only, <= 480 chars, single natural paragraph.
@@ -274,7 +284,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 40-75 chars (ideal 68-75, shorter acceptable for sparse sources).
+1. Title length 40-80 chars (ideal 68-78). If under 55 chars, verify source was truly sparse and no IS fields were missed.
 2. Description <= 480 chars.
 3. Only ASCII letters/numbers/spaces and allowed symbols (& / : - . ,) used throughout.
 4. No CJK characters or emoji anywhere.
