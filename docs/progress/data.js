@@ -3,7 +3,7 @@ window.PROGRESS_DATA = {
     "title": "一括シートV3 進捗ダッシュボード",
     "project": "一括シートApps_v3",
     "description": "eBay 商品一括出品 GAS ライブラリ (v108) の IS 拡張・Phase 1B 進捗を可視化するダッシュボードデータ",
-    "generated_at": "2026-04-17T20:30:00+09:00",
+    "generated_at": "2026-04-17T21:30:00+09:00",
     "version": "v108",
     "cat_number_mapping": {
       "description": "git log / Obsidian の旧 Track A Cat 番号 (Cat 1-21) と 73-cat 正式番号の対応表",
@@ -2634,7 +2634,19 @@ window.PROGRESS_DATA = {
       "overall_status": "completed",
       "field_count": 12,
       "last_commit": "7ed0832",
-      "priority": "high"
+      "priority": "high",
+      "v3_fields": 12,
+      "ebay_total": 0,
+      "field_count_original": 12,
+      "inject_age_level": "not_applicable",
+      "inject_country": "dynamic",
+      "inject_features": "not_applicable",
+      "inject_theme": "not_applicable",
+      "mandatory_missing": [],
+      "notes": "新設カテゴリ (2026-04-17)",
+      "phase1a_status": "completed",
+      "phase1b_detail": null,
+      "cpsc_target": false
     }
   ],
   "unresolved_issues": [
@@ -2656,7 +2668,8 @@ window.PROGRESS_DATA = {
         72
       ],
       "action_needed": "3者協議で解決方針確定。案A: セミコロン併記 / 案B: resolveFieldValue_() をStep2 (AI抽出後) に移動 / 案C: post-processing で追記",
-      "blocker": "Features Aspect の Cardinality (SINGLE/MULTI) を Taxonomy API で確定、EAGLE の ';' 区切り解釈確認が先決"
+      "blocker": "Features Aspect の Cardinality (SINGLE/MULTI) を Taxonomy API で確定、EAGLE の ';' 区切り解釈確認が先決",
+      "status": "open"
     },
     {
       "id": "8.2",
@@ -2772,7 +2785,8 @@ window.PROGRESS_DATA = {
         67
       ],
       "action_needed": "Taxonomy API で Japanese Dolls (35792) の Age Level Aspect 存在確認。Trading Cards Age Level 変更要否を判断。",
-      "blocker": "Taxonomy API 確認が先決"
+      "blocker": "Taxonomy API 確認が先決",
+      "status": "open"
     },
     {
       "id": "8.8",
@@ -2783,7 +2797,8 @@ window.PROGRESS_DATA = {
       "description": "getSanitizeFields_() + buildDefaultSanitizePrompt_() は Sanitize.gs に実装済みで全カテゴリに対応 (SANITIZE_FIELDS_ 74 カテゴリ完備)。validateItemSpecifics_() の存在・動作は未確認。Sanitize 活用強化 (AI 抽出値とのより深い統合) は次フェーズ課題として残る。",
       "affected_cats": [],
       "action_needed": "validateItemSpecifics_() の動作確認。Sanitize 活用強化の具体的なユースケースを椛島さんと確認。",
-      "blocker": null
+      "blocker": null,
+      "status": "open"
     },
     {
       "id": "8.9",
@@ -2808,7 +2823,8 @@ window.PROGRESS_DATA = {
       "description": "is-expansion-design.md §5.1 の IS_MAX_FIELDS 定数導入と CONFIRMED_EN 動的計算が未実装。grep 確認: ItemSpecifics/Config_IS.gs に IS_MAX_FIELDS 定数は存在しない。Phase 1B 完了後の次フェーズ課題。",
       "affected_cats": [],
       "action_needed": "Phase 1B 完了を受けて IS_MAX_FIELDS 定数導入と CONFIRMED_EN 動的計算の実装を計画・着手。",
-      "blocker": null
+      "blocker": null,
+      "status": "open"
     },
     {
       "id": "8.11",
@@ -2833,7 +2849,8 @@ window.PROGRESS_DATA = {
       "description": "HANDOVER.md が 2026-04-09 時点で停止。本設計書 (bulksheet-v3-master-design.md) との乖離が大きい。",
       "affected_cats": [],
       "action_needed": "HANDOVER.md を本設計書へのポインターのみに書き換える方針へ変更。本設計書を正とする。",
-      "blocker": null
+      "blocker": null,
+      "status": "open"
     },
     {
       "id": "T-01",
@@ -2844,7 +2861,8 @@ window.PROGRESS_DATA = {
       "description": "prompts/ のカテゴリによってタイトル上限指示が 75 文字と 80 文字に混在している。eBay 公式上限は 80 文字だが、EAGLE / プロンプトで指定値が揺れている。出品タイトルの切り捨て・不統一を招くリスク。",
       "affected_cats": [],
       "action_needed": "全 62 プロンプトの TITLE MARKER 付近のタイトル文字数指示を grep で一覧化し、75/80 どちらかに統一する。椛島さんと統一値を確認後に一括修正。",
-      "blocker": null
+      "blocker": null,
+      "status": "open"
     },
     {
       "id": "CV-01",
@@ -2928,7 +2946,7 @@ window.PROGRESS_DATA = {
       "released_date": "2026-04-13",
       "latest_commit": "7ed0832"
     },
-    "generated_at": "2026-04-17T20:30:00+09:00",
+    "generated_at": "2026-04-17T21:30:00+09:00",
     "data_sources": [
       "child-b-status-matrix.json",
       "child-c-docs-and-73cats.json",

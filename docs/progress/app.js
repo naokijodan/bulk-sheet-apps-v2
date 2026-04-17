@@ -801,7 +801,7 @@
 
     var introHtml = '<div class="workflow-intro">' +
       '<div class="workflow-intro__status" style="background:#d1fae5;border:1px solid #6ee7b7;border-radius:6px;padding:10px 16px;margin-bottom:12px;">' +
-        '<strong>✅ Phase 1B 完了 (2026-04-17)</strong> — 全 74 カテゴリ IS 精査・ABSOLUTE RULES 62 プロンプト・SANITIZE_FIELDS_ 完備。Books &amp; Magazines (Cat 74) 含む。' +
+        '<strong>✅ Phase 1B 完了 (2026-04-17)</strong> — 全 74 カテゴリ IS 精査・ABSOLUTE RULES 63 プロンプト・SANITIZE_FIELDS_ 完備。Books &amp; Magazines (Cat 74) 含む。' +
       '</div>' +
       '<div class="workflow-intro__next" style="background:#fef9c3;border:1px solid #fde047;border-radius:6px;padding:10px 16px;margin-bottom:12px;">' +
         '<strong>次フェーズ候補:</strong> ① Title 上限統一 (75 vs 80 文字) ② Sanitize 活用強化 ③ Books &amp; Magazines プロンプト調整 ④ Phase 5 IS_MAX_FIELDS 導入' +
@@ -882,7 +882,7 @@
         '<thead><tr><th>Phase</th><th>内容</th><th>ステータス</th><th>詳細</th></tr></thead>' +
         '<tbody>' +
         '<tr><td>Phase 1A</td><td>IS_CATEGORY_FIELDS を全 74 カテゴリで 10→21 フィールドに拡張</td><td>✅ 完了</td><td>第 1〜12 弾 + Books &amp; Magazines (Cat 74) コミット完了。is-expansion-design.md 参照。</td></tr>' +
-        '<tr><td>Phase 1B</td><td>拡張後の実用性精査 + プロンプト強化 + 固定値注入</td><td>✅ 完了</td><td>全 74 カテゴリ IS 精査完了。ABSOLUTE RULES + Rule 2 (Category A/B/C) を 62 プロンプトに適用。SANITIZE_FIELDS_ 74 カテゴリ完備。案 C 部分分割 (楽器系 3 プロンプト体制) 含む。</td></tr>' +
+        '<tr><td>Phase 1B</td><td>拡張後の実用性精査 + プロンプト強化 + 固定値注入</td><td>✅ 完了</td><td>全 74 カテゴリ IS 精査完了。ABSOLUTE RULES + Rule 2 (Category A/B/C) を 63 プロンプトに適用。SANITIZE_FIELDS_ 74 カテゴリ完備。案 C 部分分割 (楽器系 3 プロンプト体制) 含む。</td></tr>' +
         '<tr><td>Phase 2</td><td>ItemSpecifics × 交通整理 統合 (確定値ロック、バリデーション)</td><td>🟢 ほぼ完了</td><td>getSanitizeFields_() + buildDefaultSanitizePrompt_() 実装済み (全 74 カテゴリ対応)。validateItemSpecifics_() 動作確認が残課題。</td></tr>' +
         '<tr><td>Phase 3</td><td>CPSC Age Level 対応 (2026/7/8 施行)</td><td>🟡 進行中</td><td>Trading Cards / Japanese Dolls / Figures / Mecha / RC / Manga / Anime / Snow Globes 対応済み。Japanese Dolls (Taxonomy 35792) Age Level Aspect 確認が残課題。</td></tr>' +
         '<tr><td>Phase 4</td><td>送料モード共通関数化 (Formula Factory)</td><td>✅ 完了</td><td>3 共通関数 + 8 箇所で使用確認済み。shipping-mode-refactor-plan.md 参照。</td></tr>' +
@@ -909,7 +909,7 @@
       title: '5. カテゴリ番号対応表 (旧 Track A Cat → 74 正式番号)',
       body: '<p class="design-p">2026-04-14 以降は <strong>GAS カテゴリ名 + 74 正式番号</strong> を正式呼称とする (例: <code>Figures (Cat 10)</code>)。旧 Track A Cat 番号は段階的に廃止。</p>' +
         '<table class="design-table design-table--compact">' +
-        '<thead><tr><th>旧 Cat (Track A)</th><th>GAS カテゴリ名</th><th>73 正式番号</th></tr></thead>' +
+        '<thead><tr><th>旧 Cat (Track A)</th><th>GAS カテゴリ名</th><th>74 正式番号</th></tr></thead>' +
         '<tbody>' +
         '<tr><td>01</td><td>Trading Cards</td><td>15</td></tr>' +
         '<tr><td>02</td><td>Video Game Consoles</td><td>38</td></tr>' +
