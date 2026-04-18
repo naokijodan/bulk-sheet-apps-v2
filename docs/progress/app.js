@@ -35,7 +35,8 @@
     not_injected:   { icon: '⏸', label: '未注入',  cls: 'not_injected' },
     unknown:        { icon: '❓', label: '不明',    cls: 'unknown' },
     not_applicable: { icon: '➖', label: 'N/A',     cls: 'not_applicable' },
-    shared:         { icon: '🔗', label: '共有',    cls: 'shared' }
+    shared:         { icon: '🔗', label: '共有',    cls: 'shared' },
+    not_completed:  { icon: '⬜', label: '未完了',  cls: 'not_completed' }
   };
 
   var PRIORITY_LABEL = { high: 'High', mid: 'Mid', low: 'Low' };
@@ -1056,6 +1057,646 @@
   }
 
   /* ----------------------------------------------------------
+     Prompt Edit Workflow Data
+  ---------------------------------------------------------- */
+  var PROMPT_PRINCIPLES = [
+    {num: 1, rule: '行数は短く (100-120 行)', violation: 'V49: 305 行', impact: '指示追従率低下'},
+    {num: 2, rule: 'Translation Dictionary は入れない', violation: 'V49/V51: 100 行辞書', impact: '指示分散'},
+    {num: 3, rule: 'ABSOLUTE RULES を多段化しない', violation: 'V49 Rule 2 Cat A/B/C 40 行', impact: '解釈負荷'},
+    {num: 4, rule: 'Few-shot Example を偏らせない', violation: 'V50 Japanese Example 1 → 29/35 誤発火', impact: '過学習'},
+    {num: 5, rule: '多段 note / 条件分岐を避ける', violation: 'V50 Rule 6 末尾 3 note', impact: '解釈負荷'},
+    {num: 6, rule: '文字数レンジは狭く (7-10 字幅)', violation: 'V50/V51: 40-80 (40 字幅)', impact: '出力品質不安定'},
+    {num: 7, rule: 'VERIFICATION は 13 項目程度', violation: 'V50: 19 項目', impact: '後半無視'},
+    {num: 8, rule: '固定値注入をプロンプトに持ち込まない', violation: 'V49 Country of Origin rule', impact: 'GAS 整合性ズレ'}
+  ];
+
+  /* v2.0: 11-Section Structure Template */
+  var SECTION_TEMPLATE = [
+    {num: 1,  name: 'IDENTITY',        lines: '1 行',       desc: '専門家役割宣言'},
+    {num: 2,  name: 'GOALS',           lines: '5 行',       desc: '4 原則: Japanese→English / ASCII only / no verbatim / no hallucination'},
+    {num: 3,  name: 'TITLE',           lines: '7 行',       desc: '68-75 chars / allowed + forbidden symbols / no guarantees'},
+    {num: 4,  name: 'SEO_ORDER',       lines: '9 行',       desc: 'Brand first 30 chars、最大 8 items (カテゴリ固有スペック)'},
+    {num: 5,  name: 'CATEGORY_RULE',   lines: '5-15 行',    desc: 'カテゴリ固有高リスク抑制 (optional — 不要なら削除)'},
+    {num: 6,  name: 'DESCRIPTION',     lines: '30-40 行',   desc: '≤480 chars / first sentence = brand+model+type / DEFECT サブセクション必須'},
+    {num: 7,  name: 'PRODUCTNAME',     lines: '3 行',       desc: '[Brand] [Collection/Model] [Type]'},
+    {num: 8,  name: 'CATEGORY',        lines: '5 行',       desc: 'eBay category assignment'},
+    {num: 9,  name: 'OUTPUT_FORMAT',   lines: '5 行',       desc: '4 フィールド (Title / Description / ProductName / Category)'},
+    {num: 10, name: 'VERIFICATION',    lines: '13 項目',    desc: 'items 1-5 共通 + defect check 必須 + source-only check 必須'},
+    {num: 11, name: 'INPUT',           lines: '2 行',       desc: 'Input: ${fullText}'}
+  ];
+
+  /* v2.0: 基盤機能リスト M-1〜M-6 */
+  var BASELINE_FUNCTIONS = [
+    {
+      id: 'M-1',
+      title: 'GOALS 4 原則',
+      required: true,
+      detail: 'Japanese source → English eBay listing / ASCII only, no CJK / Never copy source verbatim / ONLY explicitly stated info (no hallucination)',
+      ebay_policy: false
+    },
+    {
+      id: 'M-2',
+      title: 'DEFECT/ISSUE REPORTING (CRITICAL)',
+      required: true,
+      detail: 'DESCRIPTION 内サブセクション。① イントロ文 ② カテゴリ固有 defect keywords 3 件以上 (JP→EN) ③ "Omitting known defects is a violation of eBay policy." 完全一致文言',
+      ebay_policy: true
+    },
+    {
+      id: 'M-3',
+      title: 'OUTPUT_FORMAT 4 フィールド',
+      required: true,
+      detail: 'Title: ... / Description: ... / ProductName: ... / Category: ...',
+      ebay_policy: false
+    },
+    {
+      id: 'M-4',
+      title: 'VERIFICATION 最低構造',
+      required: true,
+      detail: '13 項目目標。必須: items 1-5 (文字数/ASCII/禁止CJK/Brand位置/禁止記号) + defect check + source-only check (no hallucination)',
+      ebay_policy: false
+    },
+    {
+      id: 'M-5',
+      title: '${fullText} 入力',
+      required: true,
+      detail: '最終行に Input: ${fullText}。GAS の変数展開によりソースデータが注入される。',
+      ebay_policy: false
+    },
+    {
+      id: 'M-6',
+      title: 'AUTHENTIC/OFFICIAL BAN',
+      required: true,
+      detail: 'Rule 2 (または ABSOLUTE RULES) に AUTHENTIC/OFFICIAL 使用禁止ルール (eBay VeRO 保護)。',
+      ebay_policy: true
+    }
+  ];
+
+  var PROMPT_EDIT_STEPS = [
+    {
+      id: 'C0',
+      title: 'C0: 検証 (read-only fact gathering)',
+      owner: 'child-b (または空いている child)',
+      duration: '10–15 分',
+      artifact: 'reports/child-b-&lt;cat&gt;-v10-C0.json',
+      notify: 'DONE:&lt;cat&gt;-v10-C0',
+      what: [
+        'V10 基準ファイル (存在する場合) の sha256 / 行数実測',
+        '現行 <code>prompts/&lt;cat&gt;.txt</code> の sha256 / 行数実測',
+        '両者 diff 行数: <code>diff ...V10.txt prompts/&lt;cat&gt;.txt | wc -l</code>',
+        '<code>Library/PromptTemplates.gs</code> 現状: 対象カテゴリ version + 他カテゴリ version (汚染チェック)',
+        '<code>git status -s</code> / <code>git log -5 --oneline</code>',
+        'working tree dirty files 全列挙 (modified / deleted / untracked)',
+        '<code>sync_prompts_to_gs.py</code> docstring 確認 + 推奨 dry-run コマンド',
+        '復元戦略 (Option G / Option B) 実行可能性 Fact 分析'
+      ],
+      conditions: [
+        '上記 8 項目すべて実測値で記録済み',
+        '推測なし、Fact / Inference / Unknown 明記',
+        'ファイル編集・git 操作・sync 実行なし (read-only)'
+      ],
+      forbidden: 'ファイル編集、git 操作、sync 実行'
+    },
+    {
+      id: 'C0.5',
+      title: 'C0.5: 原則適合性チェック (Part A + Part B)',
+      owner: 'child-b または parent 自律',
+      duration: '15–20 分',
+      artifact: 'reports/child-&lt;X&gt;-&lt;cat&gt;-principles-check.json',
+      notify: 'DONE:&lt;cat&gt;-principles-check',
+      what: [
+        '<strong>【Part A: 削る — 8 原則違反列挙】</strong>',
+        '<strong>P1</strong> 行数チェック: <code>wc -l prompts/&lt;cat&gt;.txt</code> → 100-130 超えで P1 違反',
+        '<strong>P2</strong> Translation Dictionary 有無: セクション存在で P2 違反 (削除推奨)',
+        '<strong>P3</strong> ABSOLUTE RULES 多段化: Category A/B/C 等のネスト構造で P3 違反',
+        '<strong>P4</strong> Few-shot Example 偏り分析: 特定パターンに偏った例が 1 件以上で P4 リスク',
+        '<strong>P5</strong> 多段 note 検査: <code>Note:</code> が 2 個以上で P5 違反',
+        '<strong>P6</strong> 文字数レンジ幅測定: 幅が 10 字超えで P6 違反',
+        '<strong>P7</strong> VERIFICATION 項目数カウント: 13 超えで P7 違反',
+        '<strong>P8</strong> 固定値注入の有無: Country of Origin / Made in Japan ルールのハードコードで P8 違反',
+        '<strong>【Part B: 追加 — 基盤機能欠落列挙 (v2.0 新規)】</strong>',
+        '<strong>M-1</strong> GOALS 4 原則 存在確認: Japanese→English / ASCII only / no verbatim / no hallucination',
+        '<strong>M-2</strong> DEFECT/ISSUE REPORTING 存在確認: CRITICAL ヘッダー + カテゴリ固有 JP→EN 3 件以上 + "Omitting known defects is a violation of eBay policy." 完全一致',
+        '<strong>M-3</strong> OUTPUT_FORMAT 4 フィールド 存在確認',
+        '<strong>M-4</strong> VERIFICATION 最低構造: items 1-5 + defect check + source-only check',
+        '<strong>M-5</strong> <code>Input: ${fullText}</code> 最終行 存在確認',
+        '<strong>M-6</strong> AUTHENTIC/OFFICIAL BAN ルール 存在確認',
+        '違反リスト (Part A) + 欠落リスト (Part B) をまとめた JSON を出力'
+      ],
+      conditions: [
+        '8 原則すべてに対してチェック済み (Pass / Fail / N/A を明記)',
+        '基盤機能 M-1〜M-6 全て確認済み (存在 / 欠落 を明記)',
+        '違反・欠落があれば C1 Sprint Contract の §BASELINE に反映',
+        'V10 ベース復元 (sha256 一致) の場合: Part A 省略可、Part B は必ず実施'
+      ],
+      forbidden: 'ファイル編集、git 操作',
+      warning: '⚠️ Part B (基盤機能欠落確認) は V10 復元時も省略禁止。石鹸・一般商品の DEFECT 欠落事件の教訓。'
+    },
+    {
+      id: 'C1',
+      title: 'C1: Sprint Contract 作成',
+      owner: 'parent (自律)',
+      duration: '15–20 分',
+      artifact: 'contracts/&lt;CAT&gt;-V10-&lt;ACTION&gt;.md',
+      notify: '(parent 内部作業、通知なし)',
+      what: [
+        '目的: 1–2 行で明記',
+        '背景 (Fact): sha256・行数・テスト結果など数値を記載',
+        '戦略: Option G vs B 比較表 + 採用理由',
+        '成功条件 8 項目 (sha256 / 行数 / Library version / 他カテゴリ保護 / 2 ファイルのみ / dirty 保持 / push 完了 / 実データ検証)',
+        'プロセス要件チェックリスト (推測禁止 / sha256 実測 / <code>git add -A</code> 禁止 / cp 方式 / dry-run 先行 / staged 検証)',
+        '変更しない箇所の明示リスト',
+        'commit message 案 (HEREDOC で渡せる完成形)',
+        'Known Tradeoffs (改訂で失われる機能の承認済みリスト)',
+        'E-02 検証項目 (C5 でチェックする grep/diff/sha256 項目)',
+        '担当割り当て表',
+        '<strong>【§BASELINE 準拠チェックリスト (v2.0 必須)】</strong>',
+        '□ M-1 GOALS 4 原則: 存在 / 追加',
+        '□ M-2 DEFECT/ISSUE REPORTING: 存在 / 追加 (カテゴリ固有 JP→EN 3 件以上 + "Omitting known defects is a violation of eBay policy." 完全一致文言)',
+        '□ M-3 OUTPUT_FORMAT 4 フィールド: 存在 / 追加',
+        '□ M-4 VERIFICATION 13 項目 (最低 items 1-5 + defect check): 存在 / 追加',
+        '□ M-5 <code>${fullText}</code>: 存在 / 追加',
+        '□ M-6 AUTHENTIC/OFFICIAL BAN: 存在 / 追加',
+        '□ 11 セクション順序 V10 一致'
+      ],
+      conditions: [
+        'ユーザー承認済みであること (承認前に child に渡さない)',
+        '曖昧な要件なし (全て Fact ベース)',
+        '§BASELINE チェックリスト全 7 項目が「存在 / 追加 / 不要理由明記」のいずれかで埋まっていること',
+        '「もしあれば保持」等の条件付き保持表現 (LL-3) が一切ないこと — 必須追加 / 不要理由明記の二択のみ'
+      ],
+      forbidden: 'ユーザー承認前に child に渡すこと / プロセス要件を曖昧なままにすること / §BASELINE を省略すること'
+    },
+    {
+      id: 'C1.5',
+      title: 'C1.5: 設計書メタレビュー (v2.0 新規)',
+      owner: 'child-c (検察官ペルソナ)',
+      duration: '10–15 分',
+      artifact: 'reports/child-c-&lt;cat&gt;-C1.5.json',
+      notify: 'DONE:&lt;cat&gt;-C1.5',
+      what: [
+        'Sprint Contract 自体の構造と内容を検察官ペルソナでレビュー (実装前に設計書の誤りを捕捉)',
+        '§BASELINE セクションが M-1〜M-6 全 6 項目を網羅しているか確認',
+        '11 セクション順序の指定が明確か確認 (IDENTITY→GOALS→TITLE→...→INPUT)',
+        '「もしあれば保持」「存在する場合は保持」「あれば」「必要に応じて」等の条件付き保持表現 (LL-3) がないか確認',
+        '「存在 / 追加 / 不要理由明記」の二択のみであることを確認',
+        'M-2 DEFECT/ISSUE REPORTING: カテゴリ固有 JP→EN 3 件以上 + "Omitting known defects is a violation of eBay policy." 完全一致文言の要求が明記されているか',
+        'M-6 AUTHENTIC/OFFICIAL BAN の要求が明記されているか',
+        'C5 F-2 向けの grep 指示が含まれているか'
+      ],
+      conditions: [
+        'PASS: 全項目クリア → C2 設計レビューに進む',
+        'FAIL: Sprint Contract を parent に差し戻し (C1 再作成)'
+      ],
+      forbidden: 'Sprint Contract の修正 (指摘のみ、修正は parent 担当)'
+    },
+    {
+      id: 'C2',
+      title: 'C2: E-02 設計レビュー',
+      owner: 'child-c (E-02 専任・検察官ペルソナ)',
+      duration: '15–20 分',
+      artifact: 'reports/child-c-&lt;cat&gt;-v10-C2.json',
+      notify: 'DONE:&lt;cat&gt;-v10-C2',
+      what: [
+        'A: 成功条件の妥当性 (測定可能か・不足ないか)',
+        'B: プロセス要件の十分性',
+        'C: 戦略 (Option G vs B) 選択根拠',
+        'D: commit message の Fact 整合 (数値の誤帰属なし)',
+        'E: V10 (または改訂後プロンプト) の内容品質 — ① 11 セクション構造 (IDENTITY/GOALS/TITLE/SEO_ORDER/CATEGORY_RULE/DESCRIPTION/PRODUCTNAME/CATEGORY/OUTPUT_FORMAT/VERIFICATION/INPUT) ② §BASELINE 全 6 項目 (M-1〜M-6) 満たすか ③ GOALS / TITLE / VERIFICATION / OUTPUT_FORMAT / <code>${fullText}</code> 内容確認',
+        'F: 現行 vs V10 差分リスク (削除される機能の評価)',
+        'G: Library/PromptTemplates.gs 同期影響 (他カテゴリ保持)',
+        'H: Feature.json 更新計画'
+      ],
+      conditions: [
+        'PASS: Critical/High/Medium ゼロ → proceed_to_c4',
+        'CONDITIONAL_PASS: Medium あり → C3 修正後に C4 進行',
+        'FAIL: 設計戻し'
+      ],
+      forbidden: 'コード修正 (レビューのみ)'
+    },
+    {
+      id: 'C3',
+      title: 'C3: 設計修正',
+      owner: 'parent (自律)',
+      duration: '5–10 分',
+      artifact: 'contracts/&lt;CAT&gt;-V10-&lt;ACTION&gt;.md (更新)',
+      notify: '(parent 内部作業、通知なし)',
+      what: [
+        'C2 の Medium 以上指摘を Sprint Contract に Edit で反映',
+        'Low 指摘は必要に応じて反映、または将来 V11 策定時検討として記録',
+        '修正完了後、ユーザーに再確認を求める (重大な変更がある場合)'
+      ],
+      conditions: [
+        'C2 の Medium 以上指摘が全て解消されていること'
+      ],
+      forbidden: 'ファイル実装・git 操作'
+    },
+    {
+      id: 'C4',
+      title: 'C4: 実装',
+      owner: 'child-a (または指定 child)',
+      duration: '10–15 分',
+      artifact: 'reports/child-a-&lt;cat&gt;-v10-C4.json',
+      notify: 'DONE:&lt;cat&gt;-v10-C4',
+      what: [
+        '<strong>Step 1</strong> 事前 Fact 確認: sha256 (V10 基準 / 現行 prompts / Library) + git status + git log',
+        '<strong>Step 2</strong> <code>git restore Library/PromptTemplates.gs</code> で HEAD に戻す (Option G)',
+        '<strong>Step 3</strong> 他 working tree dirty files が M のまま保持されているか確認',
+        '<strong>Step 4</strong> <code>cp &lt;V10ファイル&gt; prompts/&lt;cat&gt;.txt</code> でバイト完全コピー (Write ツール trailing newline 対策)',
+        '<code>shasum -a 256 prompts/&lt;cat&gt;.txt</code> → V10 sha と完全一致確認',
+        '<strong>Step 5</strong> <code>python3 Library/sync_prompts_to_gs.py &lt;cat&gt; --dry-run</code> 出力を報告 JSON に記録',
+        '<strong>Step 6</strong> <code>python3 Library/sync_prompts_to_gs.py &lt;cat&gt;</code> 本番実行',
+        '<strong>Step 7</strong> 最終 Fact 確認: sha256 両ファイル + Library version + git status + git diff --stat'
+      ],
+      conditions: [
+        '<code>prompts/&lt;cat&gt;.txt</code> sha256 が V10 と完全一致',
+        '行数が V10 と一致',
+        'Library の対象カテゴリ version がインクリメント済み',
+        '他カテゴリの Library version が HEAD と一致 (汚染なし)',
+        'git diff --stat が 2 ファイルのみ'
+      ],
+      forbidden: 'git add / git commit / git push / clasp push / git add -A',
+      warning: '⚠️ Write ツールは末尾改行を付加するため sha256 ずれる。必ず <code>cp</code> コマンドでバイト完全コピーすること。'
+    },
+    {
+      id: 'C5',
+      title: 'C5: E-02 実装レビュー',
+      owner: 'child-c (E-02 専任・検察官ペルソナ)',
+      duration: '15 分以内',
+      artifact: 'reports/child-c-&lt;cat&gt;-v10-C5.json',
+      notify: 'DONE:&lt;cat&gt;-v10-C5',
+      what: [
+        'A: sha256 完全一致 (<code>diff</code> 実機確認で差分ゼロ)',
+        'B: 行数',
+        'C: Library カテゴリ version (期待値と一致) + 他カテゴリ pre-existing 汚染なし',
+        'D: Library content が V10 と整合 (git diff HEAD 目視)',
+        'E: git diff 2 ファイルのみ変更',
+        '<strong>F-1:</strong> Sprint Contract 記載 保持必須 (SC の成功条件と照合)',
+        '<strong>F-2:</strong> WORKFLOW v2.0 第 2 章 基盤機能リスト 全 6 項目を grep で<em>独立</em>確認 (Sprint Contract 外でも必須)',
+        '<code>grep -c "DEFECT/ISSUE REPORTING" prompts/&lt;cat&gt;.txt</code>  # ≥1',
+        '<code>grep -c "Omitting known defects is a violation of eBay policy" prompts/&lt;cat&gt;.txt</code>  # ==1',
+        '<code>grep -c "Input: \\${fullText}" prompts/&lt;cat&gt;.txt</code>  # ==1',
+        '<code>grep -c "AUTHENTIC\\|OFFICIAL" prompts/&lt;cat&gt;.txt</code>  # ≥1 (BAN ルール)',
+        'G: 他 working tree dirty preserved',
+        'H: ゴルフ (または他非対象カテゴリ) の Library 行が HEAD と一致',
+        'I: C4 report の Fact 整合'
+      ],
+      conditions: [
+        'PASS + <code>approval_decision_for_c6: APPROVED_PER_MANAGER_POLICY</code> → C6 進行',
+        'BLOCKED → parent に ISSUE 通知、C4 差し戻し'
+      ],
+      forbidden: 'コード修正 (レビューのみ) / PASS 条件の恣意的な緩和'
+    },
+    {
+      id: 'C5.5',
+      title: 'C5.5: Phase 内 QA Checkpoint (v2.0 新規)',
+      owner: 'child-a (または parent)',
+      duration: '10–15 分',
+      artifact: 'reports/child-a-phase-qa-checkpoint.json',
+      notify: 'DONE:phase-qa-checkpoint',
+      what: [
+        '3–4 カテゴリ完了時点で meta-review を実施',
+        '各カテゴリのレビュー結果を横断比較: 判定基準にドリフトが生じていないか確認',
+        '基盤機能 M-1〜M-6 の判定基準が一貫しているか再確認',
+        '「Medium 以上を残したまま PASS 判定」が発生していないか確認',
+        '11 セクション順序チェックの徹底度が一貫しているか確認',
+        'ドリフト検知時: 親に ISSUE 報告 → 次カテゴリ着手前に基準再確認',
+        '問題なければ DONE 通知して次カテゴリへ'
+      ],
+      conditions: [
+        '基準ドリフトなし (または検知・修正済み)',
+        '次カテゴリ着手前に親が承認'
+      ],
+      forbidden: 'ドリフトを無視して次カテゴリへ進むこと'
+    },
+    {
+      id: 'C6',
+      title: 'C6: git push + clasp push',
+      owner: 'child-a (C4 担当と同じ child を推奨)',
+      duration: '5–10 分',
+      artifact: 'reports/child-a-&lt;cat&gt;-v10-C6.json',
+      notify: 'PROGRESS 3 回 (commit/push/clasp) + DONE:&lt;cat&gt;-v10-C6:&lt;hash&gt;',
+      what: [
+        '<strong>Step 1</strong> 事前確認: sha256 / git status / git log',
+        '<strong>Step 2</strong> <code>git add prompts/&lt;cat&gt;.txt Library/PromptTemplates.gs</code> (2 ファイルのみ) → <code>git diff --staged --stat</code> で 2 files 確認',
+        '<strong>Step 3–4</strong> <code>git commit -m "$(cat &lt;&lt;\'MSG_EOF\'\\n...\\nMSG_EOF\\n)"</code> (Sprint Contract の HEREDOC message) → <code>git log -1 --stat</code>',
+        '進捗通知: <code>PROGRESS:&lt;cat&gt;-v10-commit-done:&lt;hash&gt;</code>',
+        '<strong>Step 5</strong> <code>git push</code> → 進捗通知: <code>PROGRESS:&lt;cat&gt;-v10-git-pushed</code>',
+        '<strong>Step 6</strong> <code>cd Library &amp;&amp; npx clasp push</code> (PATH に clasp がない場合は <code>npx clasp</code>) → 失敗時のみ <code>--force</code> 再試行 → 進捗通知: <code>PROGRESS:&lt;cat&gt;-v10-clasp-pushed</code>',
+        '<strong>Step 7</strong> Discord 通知: <code>~/.claude/scripts/notify-discord.sh "&lt;cat&gt; V10 復元 push 完了"</code>',
+        '<strong>Step 8</strong> 完了通知: <code>DONE:&lt;cat&gt;-v10-C6:&lt;hash&gt;</code>'
+      ],
+      conditions: [
+        'git push 成功 (push --force 絶対禁止)',
+        'clasp push 成功 (24 ファイル push 確認)',
+        'Discord 通知送信済み'
+      ],
+      forbidden: 'ファイル編集 / git add -A / git push --force / --no-verify / 時計用・Library 以外への git add'
+    },
+    {
+      id: 'POST',
+      title: '後処理 (parent 自律)',
+      owner: 'parent',
+      duration: '5–10 分',
+      artifact: 'docs/feature.json (更新)',
+      notify: 'ユーザーへ最終報告',
+      what: [
+        '<strong>Feature.json 更新</strong> (parent のみ権限、child は触らない):',
+        '旧 Feature: <code>F-&lt;cat&gt;-old-approach</code> → <code>skipped</code> (放棄理由記載)',
+        '新 Feature: <code>F-&lt;cat&gt;-restore-v10</code> → <code>passing</code> (commit hash / C0-C6 経緯)',
+        'Obsidian / HANDOVER.md 追記 (別 child に委託可)',
+        '椛島さんへ最終報告 (C6 DONE 受領直後)'
+      ],
+      conditions: [
+        'Feature.json 更新済み (parent のみ)',
+        'Obsidian ノート追記済み',
+        '椛島さんへの最終報告完了'
+      ],
+      forbidden: 'child による Feature.json 直接更新'
+    }
+  ];
+
+  var OPTION_COMPARISON = [
+    { axis: 'commit 対象の純粋性', g: '高 (対象カテゴリのみ)', b: '中 (他カテゴリ uncommitted と混在)' },
+    { axis: '非対象カテゴリ working tree', g: '<strong>消失</strong> (halt 許容時のみ採用)', b: '保持' },
+    { axis: '操作複雑性', g: '低 (restore 1 回)', b: '高 (<code>git add -p</code> 対話必要)' },
+    { axis: 'ミス混入余地', g: '小', b: '中 (hunk 選別ミス)' },
+    { axis: '後工程', g: '他カテゴリ sync 再実行', b: 'なし' },
+    { axis: '推奨シナリオ', g: '他カテゴリ作業 halt 中', b: '他カテゴリ作業保持必須' }
+  ];
+
+  var FAILURE_PATTERNS = [
+    { failure: 'Library が他カテゴリ uncommitted で汚染される', cause: 'sync 前に working tree dirty 確認なし', fix: 'C0 で必ず Library 全カテゴリ version を列挙' },
+    { failure: 'sha256 不一致', cause: 'Write ツール trailing newline 付加', fix: '<code>cp</code> 方式でバイト完全コピー' },
+    { failure: 'commit に無関係ファイル混入', cause: '<code>git add -A</code> / <code>git add .</code>', fix: '<strong>特定ファイル名指定のみ</strong>' },
+    { failure: 'clasp push 失敗', cause: 'clasp が PATH にない', fix: '<code>npx clasp push</code> を使用' },
+    { failure: 'E-02 が grep 一致のみで PASS 判定', cause: '実データテストなし', fix: 'V10 ベース復元なら grep 一致で OK。新規設計なら椛島さん実データテスト必須' },
+    { failure: 'Enter が効かず通知が届かない', cause: '<code>tmux send-keys "..." Enter</code> が submit として認識されない', fix: '案 3 パターン (load-buffer + paste-buffer + 独立 Enter) を使用' }
+  ];
+
+  function buildPromptEditStepCard(step) {
+    var whatItems = step.what.map(function (item) {
+      return '<li class="step-card__list-item">' + item + '</li>';
+    }).join('');
+
+    var condItems = step.conditions.map(function (item) {
+      return '<li class="step-card__list-item step-card__list-item--check">' + item + '</li>';
+    }).join('');
+
+    var metaHtml = '<div class="step-card__section" style="background:#f8fafc;border-radius:4px;padding:8px 12px;margin-bottom:8px;">' +
+      '<span style="margin-right:16px;">👤 <strong>' + step.owner + '</strong></span>' +
+      '<span style="margin-right:16px;">⏱ ' + step.duration + '</span>' +
+      '<span>📄 <code>' + step.artifact + '</code></span>' +
+    '</div>';
+
+    var notifyHtml = '<div class="step-card__section step-card__section--files">' +
+      '<h4 class="step-card__section-title">📡 完了通知</h4>' +
+      '<code class="step-card__file">' + step.notify + '</code>' +
+    '</div>';
+
+    var forbiddenHtml = step.forbidden
+      ? '<div class="step-card__warning">🚫 禁止: ' + step.forbidden + '</div>'
+      : '';
+
+    var warningHtml = step.warning
+      ? '<div class="step-card__warning">' + step.warning + '</div>'
+      : '';
+
+    return '<div class="step-card" id="pe-step-' + step.id + '">' +
+      '<div class="step-card__header">' +
+        '<span class="step-card__badge">' + esc(step.id) + '</span>' +
+        '<span class="step-card__title">' + esc(step.title) + '</span>' +
+        '<span class="step-card__chevron">▾</span>' +
+      '</div>' +
+      '<div class="step-card__body">' +
+        metaHtml +
+        (warningHtml || '') +
+        (forbiddenHtml || '') +
+        '<div class="step-card__section">' +
+          '<h4 class="step-card__section-title">何をする</h4>' +
+          '<ul class="step-card__list">' + whatItems + '</ul>' +
+        '</div>' +
+        '<div class="step-card__section">' +
+          '<h4 class="step-card__section-title">✅ 完了条件・判定</h4>' +
+          '<ul class="step-card__list">' + condItems + '</ul>' +
+        '</div>' +
+        notifyHtml +
+      '</div>' +
+    '</div>';
+  }
+
+  function renderPromptEdit() {
+    var container = el('prompt-edit-container');
+    if (!container) return;
+
+    var introHtml = '<div class="workflow-intro">' +
+      '<div class="workflow-intro__status" style="background:#dbeafe;border:1px solid #93c5fd;border-radius:6px;padding:10px 16px;margin-bottom:12px;">' +
+        '<strong>📝 プロンプト編集ワークフロー v2.0</strong> — 石鹸・一般商品 DEFECT 欠落判明後の抜本改訂。3 本柱: ① 11 セクション構造テンプレート ② 基盤機能リスト M-1〜M-6 ③ 削る 8 原則。' +
+      '</div>' +
+      '<div class="workflow-intro__next" style="background:#fef9c3;border:1px solid #fde047;border-radius:6px;padding:10px 16px;margin-bottom:12px;">' +
+        '<strong>運用原則 (v2.0):</strong><br>' +
+        '① 1 カテゴリずつ進める (複数同時禁止)<br>' +
+        '② E-02 独立レビュワー = child-c 固定 (Gemini/Codex は不安定で禁止)<br>' +
+        '③ Sprint Contract なしで child に作業を渡さない<br>' +
+        '④ 実データテストを挟んでから次カテゴリ開始<br>' +
+        '⑤ 親は設計・判断・レビュー参加のみ。実作業は child 委託<br>' +
+        '⑥ 「Medium 以上の指摘残存」で PASS 判定しない<br>' +
+        '⑦ 「もしあれば保持」という条件付き保持表現は禁止 (LL-3) — 必須 / 不要の二択のみ<br>' +
+        '⑧ Phase 内 QA Checkpoint (C5.5) — 3–4 本完了時点で meta-review、基準ドリフト検知' +
+      '</div>' +
+      '<div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:6px;padding:10px 16px;margin-bottom:16px;">' +
+        '<strong>パイプライン全体図 (v2.0):</strong>' +
+        '<pre style="margin:8px 0 0;font-size:12px;line-height:1.6;">' +
+          'C0   検証 (child-b)              読取専用、sha256/git status/差分確認\n' +
+          '   ↓\n' +
+          'C0.5 原則適合性チェック (A+B)     Part A: 8 原則違反 / Part B: 基盤機能欠落 (v2.0 新規)\n' +
+          '   ↓\n' +
+          'C1   Sprint Contract (parent)    §BASELINE チェックリスト M-1〜M-6 必須 (v2.0 新規)\n' +
+          '   ↓\n' +
+          'C1.5 設計書メタレビュー (child-c) §BASELINE 網羅・LL-3 禁止・11 セクション確認 (v2.0 新規)\n' +
+          '   ↓\n' +
+          'C2   E-02 設計レビュー (child-c) 観測点 E: 11 セクション + §BASELINE チェック追加 (v2.0 強化)\n' +
+          '   ↓\n' +
+          'C3   設計修正 (parent)           C2 指摘反映\n' +
+          '   ↓\n' +
+          'C4   実装 (child-a)              Read → cp → sync_prompts_to_gs.py\n' +
+          '   ↓\n' +
+          'C5   E-02 実装レビュー (child-c) F-1: SC 保持 / F-2: 基盤機能 grep 独立確認 (v2.0 強化)\n' +
+          '   ↓ [PASS = C6 push 承認済み]\n' +
+          'C5.5 Phase 内 QA Checkpoint      3–4 本完了時点 meta-review、基準ドリフト検知 (v2.0 新規)\n' +
+          '   ↓\n' +
+          'C6   push (child-a)              git add/commit/push + npx clasp push + Discord\n' +
+          '   ↓\n' +
+          '後処理 (parent)                  Feature.json 更新 / Obsidian / 椛島さん最終報告' +
+        '</pre>' +
+      '</div>' +
+      '<div class="workflow-intro__legend">' +
+        '<span class="workflow-legend-item"><span class="step-card__badge step-card__badge--sm">CX</span> ステップ ID</span>' +
+        '<span class="workflow-legend-item">🚫 禁止事項あり</span>' +
+        '<span class="workflow-legend-item">⚠️ 注意事項あり</span>' +
+        '<span class="workflow-legend-item">ヘッダクリックで折りたたみ</span>' +
+      '</div>' +
+    '</div>';
+
+    /* 8 Principles table */
+    var principleRows = PROMPT_PRINCIPLES.map(function (p) {
+      return '<tr><td style="text-align:center;font-weight:700;">P' + p.num + '</td>' +
+        '<td>' + p.rule + '</td>' +
+        '<td><code>' + p.violation + '</code></td>' +
+        '<td><span style="color:#dc2626;">' + p.impact + '</span></td></tr>';
+    }).join('');
+
+    var principlesHtml = '<div class="design-section" id="pe-principles">' +
+      '<div class="design-section__header">' +
+        '<span class="design-section__chevron">▾</span>' +
+        '<h3 class="design-section__title">⭐ 良いプロンプトの 8 原則 (時計 V10 検証で発見)</h3>' +
+      '</div>' +
+      '<div class="design-section__body">' +
+        '<p class="design-note" style="margin-bottom:8px;">時計プロンプト V49/V50/V51 が実データテストで失敗し、V10 (107 行) が圧勝した経験から抽出。' +
+        'プロンプト改修・新規作成前に <strong>C0.5 原則適合性チェック</strong> でこれらを確認すること。</p>' +
+        '<table class="design-table">' +
+          '<thead><tr><th>#</th><th>原則</th><th>違反例</th><th>影響</th></tr></thead>' +
+          '<tbody>' + principleRows + '</tbody>' +
+        '</table>' +
+      '</div>' +
+    '</div>';
+
+    /* 11-Section Template table */
+    var sectionRows = SECTION_TEMPLATE.map(function (s) {
+      return '<tr><td style="text-align:center;font-weight:700;">' + s.num + '</td>' +
+        '<td><strong>' + s.name + '</strong></td>' +
+        '<td>' + s.lines + '</td>' +
+        '<td>' + s.desc + '</td></tr>';
+    }).join('');
+
+    var sectionTemplateHtml = '<div class="design-section" id="pe-section-template">' +
+      '<div class="design-section__header">' +
+        '<span class="design-section__chevron">▾</span>' +
+        '<h3 class="design-section__title">📐 第 1 章: V10 構造テンプレート — 11 セクション (MANDATORY BASELINE)</h3>' +
+      '</div>' +
+      '<div class="design-section__body">' +
+        '<p class="design-note" style="margin-bottom:8px;">全カテゴリは時計 V10 と同じ 11 セクション構造を持つ。AI が上から処理する特性に最適化済み。<strong>順序変更禁止。</strong>' +
+        ' 行数目標: 標準 100-130 行 / DEFECT+MISSING フル装備 120-140 行 / シンプルカテゴリ (石鹸等) 90-110 行。</p>' +
+        '<table class="design-table">' +
+          '<thead><tr><th>#</th><th>セクション名</th><th>行数目安</th><th>内容</th></tr></thead>' +
+          '<tbody>' + sectionRows + '</tbody>' +
+        '</table>' +
+      '</div>' +
+    '</div>';
+
+    /* Baseline Functions table */
+    var baselineRows = BASELINE_FUNCTIONS.map(function (m) {
+      var policyBadge = m.ebay_policy
+        ? ' <span style="background:#fef2f2;color:#dc2626;border:1px solid #fca5a5;border-radius:3px;padding:1px 5px;font-size:11px;">eBay policy</span>'
+        : '';
+      return '<tr><td style="text-align:center;font-weight:700;">' + m.id + '</td>' +
+        '<td><strong>' + m.title + '</strong>' + policyBadge + '</td>' +
+        '<td>' + m.detail + '</td></tr>';
+    }).join('');
+
+    var baselineFunctionsHtml = '<div class="design-section" id="pe-baseline-functions">' +
+      '<div class="design-section__header">' +
+        '<span class="design-section__chevron">▾</span>' +
+        '<h3 class="design-section__title">🛡️ 第 2 章: 基盤機能リスト M-1〜M-6 (MANDATORY — 全カテゴリ必須)</h3>' +
+      '</div>' +
+      '<div class="design-section__body">' +
+        '<p class="design-note" style="margin-bottom:8px;">eBay policy 義務 + 出力品質担保のため全カテゴリに必須。C0.5 Part B で欠落を確認し、Sprint Contract の §BASELINE で追加を明記する。' +
+        ' <strong>石鹸・一般商品の DEFECT 欠落事件の教訓。</strong></p>' +
+        '<table class="design-table">' +
+          '<thead><tr><th>ID</th><th>機能名</th><th>詳細要件</th></tr></thead>' +
+          '<tbody>' + baselineRows + '</tbody>' +
+        '</table>' +
+      '</div>' +
+    '</div>';
+
+    var stepsHtml = sectionTemplateHtml + baselineFunctionsHtml + principlesHtml + PROMPT_EDIT_STEPS.map(buildPromptEditStepCard).join('');
+
+    /* Option G vs B comparison table */
+    var optionRows = OPTION_COMPARISON.map(function (row) {
+      return '<tr><td>' + row.axis + '</td><td>' + row.g + '</td><td>' + row.b + '</td></tr>';
+    }).join('');
+
+    var optionHtml = '<div class="design-section" id="pe-option-compare">' +
+      '<div class="design-section__header">' +
+        '<span class="design-section__chevron">▾</span>' +
+        '<h3 class="design-section__title">戦略比較: Option G vs Option B</h3>' +
+      '</div>' +
+      '<div class="design-section__body">' +
+        '<table class="design-table">' +
+          '<thead><tr><th>比較軸</th><th>Option G (git restore + sync)</th><th>Option B (sync のみ)</th></tr></thead>' +
+          '<tbody>' + optionRows + '</tbody>' +
+        '</table>' +
+        '<p class="design-note" style="margin-top:8px;"><strong>Option G 採用条件:</strong> 他カテゴリ作業が halt 中。commit 純粋性を重視。<br><strong>Option B 採用条件:</strong> 他カテゴリの working tree change を保持しなければならない場合。</p>' +
+      '</div>' +
+    '</div>';
+
+    /* Failure patterns table */
+    var failureRows = FAILURE_PATTERNS.map(function (row) {
+      return '<tr><td>' + row.failure + '</td><td>' + row.cause + '</td><td>' + row.fix + '</td></tr>';
+    }).join('');
+
+    var failureHtml = '<div class="design-section" id="pe-failure-patterns">' +
+      '<div class="design-section__header">' +
+        '<span class="design-section__chevron">▾</span>' +
+        '<h3 class="design-section__title">失敗パターンと回避策</h3>' +
+      '</div>' +
+      '<div class="design-section__body">' +
+        '<table class="design-table">' +
+          '<thead><tr><th>失敗</th><th>原因</th><th>回避策</th></tr></thead>' +
+          '<tbody>' + failureRows + '</tbody>' +
+        '</table>' +
+      '</div>' +
+    '</div>';
+
+    /* Category notes */
+    var categoryHtml = '<div class="design-section" id="pe-category-notes">' +
+      '<div class="design-section__header">' +
+        '<span class="design-section__chevron">▾</span>' +
+        '<h3 class="design-section__title">カテゴリ別特記事項</h3>' +
+      '</div>' +
+      '<div class="design-section__body">' +
+        '<div class="design-subsection">' +
+          '<h4 class="design-subsection__title">ゴルフ (halt 中)</h4>' +
+          '<ul class="design-ul">' +
+            '<li>現状: <code>prompts/ゴルフ.txt</code> (M 保持中)、Library ゴルフ v46 (HEAD)</li>' +
+            '<li>halt 解除後に <code>python3 Library/sync_prompts_to_gs.py ゴルフ</code> で v47 相当復活可能</li>' +
+            '<li>時計 544d7c8 完了済みのため、次回再開時は Option G 不要 (ゴルフ単体で Option B でも可)</li>' +
+          '</ul>' +
+        '</div>' +
+        '<div class="design-subsection">' +
+          '<h4 class="design-subsection__title">カメラ / リール (未着手)</h4>' +
+          '<ul class="design-ul">' +
+            '<li>椛島さんの手元に V10 相当基準プロンプトがあるか C0 で確認</li>' +
+            '<li>なければ時計 V10 を参考に新規ベース作成 → 椛島さん合意 → 実装</li>' +
+          '</ul>' +
+        '</div>' +
+        '<div class="design-subsection">' +
+          '<h4 class="design-subsection__title">通信プロトコル (§P-3 確実送信パターン)</h4>' +
+          '<pre style="background:#1e293b;color:#e2e8f0;padding:12px;border-radius:6px;font-size:12px;overflow-x:auto;">echo "&lt;MSG&gt;" | tmux load-buffer -\ntmux paste-buffer -t &lt;parent_session&gt;:main.0\nsleep 0.3\ntmux send-keys -t &lt;parent_session&gt;:main.0 Enter</pre>' +
+          '<p class="design-note">⚠️ <code>tmux send-keys "..." Enter</code> では Enter が submit として認識されない場合あり。上記の load-buffer + paste-buffer + Enter 分離パターンが確実。</p>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+
+    container.innerHTML = introHtml + stepsHtml + optionHtml + failureHtml + categoryHtml;
+
+    /* Bind step collapse toggles */
+    var stepHeaders = container.querySelectorAll('.step-card__header');
+    stepHeaders.forEach(function (header) {
+      header.addEventListener('click', function () {
+        header.parentElement.classList.toggle('step-card--collapsed');
+      });
+    });
+
+    /* Bind design section collapse toggles */
+    var sectionHeaders = container.querySelectorAll('.design-section__header');
+    sectionHeaders.forEach(function (header) {
+      header.addEventListener('click', function () {
+        header.parentElement.classList.toggle('design-section--collapsed');
+      });
+    });
+  }
+
+  /* ----------------------------------------------------------
      Session Guide Copy
   ---------------------------------------------------------- */
   window.copySessionGuide = function () {
@@ -1115,6 +1756,7 @@
     initTabs();
     renderWorkflow();
     renderDesign();
+    renderPromptEdit();
 
     /* Check data.js loaded */
     if (typeof window.PROGRESS_DATA === 'undefined') {
