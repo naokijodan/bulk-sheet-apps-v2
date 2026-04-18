@@ -12,110 +12,21 @@ ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
 
 1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source (title_jp, description_jp, tag_jp). **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
 
-### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
-**Category A — ABSOLUTE BAN (even if factual):**
-Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
-MUST HAVE, BEST, PERFECT
-Empty superlatives: ULTIMATE, PREMIUM, LUXURY
-
-ABSOLUTE BAN — eBay VeRO protection (NO exceptions, even if source contains them):
-AUTHENTIC, OFFICIAL
-
-Source-transcription only (BANNED standalone, allowed ONLY when transcribing
-exact item names from source text):
-GENUINE — e.g., "Genuine Magnolia Handle" (material name from source). Do NOT add yourself.
-ORIGINAL — e.g., "Original Sheath" (accessory name from source). Do NOT add yourself.
-
-**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
-- RARE — Only if source explicitly describes rarity (希少 stated in source)
-- LIMITED / LIMITED EDITION — Only if source confirms limited release
-- VINTAGE — Only if source confirms era (decade markers in source)
-- HANDMADE — Only if source explicitly states handmade (手作り, 手鍛造, 職人)
-
-**Category C — ALWAYS ALLOWED (factual attributes from source):**
-Brand names, knife type, blade material (Blue Steel, Damascus, VG-10),
-blade length, handle material, single/double bevel (if source states),
-Japan Made (if source explicitly states).
-
-### RULE — SOURCE-ONLY, NO INVENTION
-
-You may use Category B words ONLY if the source explicitly contains evidence.
-DO NOT guess, infer from similar items, or use general knowledge about steel types.
-
-If source does not provide evidence, DO NOT include the Category B word.
+Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC, OFFICIAL: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them).
+GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Genuine Leather", "Original Box"); never add yourself.
+RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., serial numbers, decade markers, "limited to N units"); no inference, no guessing, no general knowledge.
+HANDMADE: only if source confirms (手作り/手鍛造/職人); no inference.
 
 3. **NO REPETITION** — Do not repeat any token more than once in Title.
 4. **NO REDUNDANT CATEGORY** — Do not include generic category words more than once.
-5. **SOFT CHAR TARGET** — Title: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
+5. **SOFT CHAR TARGET** — Title: Length is a target, not a mandate. NEVER sacrifice truth for length.
 6. **ESSENTIAL INFO REQUIRED** — Brand / Knife type / Blade material / Blade length.
 
 ========================================
 
-KNIFE TYPE MAPPING
-- 出刃包丁 / 出刃 -> Deba Knife (Fish Filleting Knife)
-- 刺身包丁 -> Sashimi Knife
-- 柳刃包丁 / 柳刃 -> Yanagiba Knife (Sashimi Knife)
-- 三徳包丁 / 三徳 -> Santoku Knife
-- 牛刀 -> Gyuto Knife (Chef's Knife)
-- 菜切包丁 / 菜切 -> Nakiri Knife (Vegetable Knife)
-- ペティナイフ / ペティ -> Petty Knife (Utility Knife)
-- 薄刃包丁 / 薄刃 -> Usuba Knife (Thin Blade Vegetable Knife)
-- 蛸引 -> Takohiki Knife
-- パン切り包丁 -> Bread Knife
-- 筋引 -> Sujihiki Knife (Slicing Knife)
-- 中華包丁 -> Chinese Cleaver
-
-BLADE MATERIAL MAPPING
-- 白紙 / 白鋼 -> Shirogami / White Steel
-- 青紙 / 青鋼 -> Aogami / Blue Steel
-- 白紙一号 -> White Steel No.1
-- 白紙二号 -> White Steel No.2
-- 青紙一号 -> Blue Steel No.1
-- 青紙二号 -> Blue Steel No.2
-- 青紙スーパー -> Aogami Super / Blue Super Steel
-- VG-10 -> VG-10 Stainless Steel
-- VG-1 -> VG-1 Stainless Steel
-- ダマスカス -> Damascus Steel
-- モリブデン -> Molybdenum Steel
-- ハイス鋼 -> High Speed Steel (HSS)
-- ステンレス -> Stainless Steel
-- 炭素鋼 / カーボン -> Carbon Steel
-- 粉末ハイス -> Powdered High Speed Steel
-
-BRAND MAPPING
-- 堺孝行 -> Sakai Takayuki
-- 有次 -> Aritsugu
-- 正本 -> Masamoto
-- 藤次郎 -> Tojiro
-- 貝印 / 関孫六 -> Kai / Seki Magoroku
-- グローバル -> Global
-- 旬 -> Shun
-- ミソノ -> Misono
-- 杉本 -> Sugimoto
-- 子の日 -> Nenohi
-- 堺一文字光秀 -> Sakai Ichimonji Mitsuhide
-- 酔心 -> Suisin
-- 黒崎 -> Kurosaki
-
-HANDLE MAPPING
-- 朴 / 朴の木 -> Magnolia Wood (Ho)
-- 黒檀 -> Ebony
-- 紫檀 -> Rosewood
-- 水牛角 -> Water Buffalo Horn (Bolster)
-- 樹脂 -> Resin
-- ステンレス -> Stainless Steel
-- 八角柄 -> Octagonal Handle
-- 丸柄 -> Round Handle
-- 洋柄 -> Western Handle
-
-EDGE TYPE
-- 片刃 -> Single Bevel (right-handed unless stated otherwise)
-- 両刃 -> Double Bevel
-- 左利き用 -> Left-Handed
-
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
+- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords. NEVER sacrifice truth for length.
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 - SEO KEYWORD ORDER:
@@ -123,7 +34,7 @@ TITLE (SEO Priority)
   2. Knife type (Santoku, Deba, Yanagiba, Gyuto)
   3. Blade material (Blue Steel, Damascus, VG-10)
   4. Blade length (mm or inches)
-  5. "Japanese" or "Japan"
+  5. "Japanese" or "Japan" (add only if source confirms Japanese origin or brand)
   6. Key feature (Hand Forged, Single Bevel, Professional)
   7. Bonus SEO: Kitchen Knife, Chef Knife (synonym terms — factual when applicable)
 
@@ -138,16 +49,18 @@ DESCRIPTION (SEO Priority)
   * Weight if stated
   * Maker/blacksmith if stated
   * Sharpness/HRC if stated
-- DEFECT KEYWORDS:
-  - 錆 / サビ -> "rust"
-  - 刃こぼれ -> "blade chip"
-  - 歪み -> "warping"
-  - 柄割れ -> "handle crack"
-  - 研ぎ減り -> "thinned from sharpening"
-  - 刃欠け -> "blade nick"
-  - 傷 -> "scratch"
+Key knife defects: blade chip (刃欠け/刃こぼれ), rust (錆), thinned from sharpening (研ぎ減り), handle crack (柄割れ), bent blade (歪み), crown scratch (クラウン傷).
+If source contains "(DEFECT: ...)" markers, use the English text directly.
   Omitting known defects is a violation of eBay policy.
 - Exclude: shipping, seller opinions.
+
+MISSING ACCESSORIES DETECTION (Knife-specific)
+If source explicitly states missing items, reflect in Title (if space allows) and Description:
+- 鞘なし / さやなし -> "No Saya" or "No Sheath"
+- 箱なし -> "No Box"
+- 砥石なし -> "No Sharpening Stone"
+- 取説なし -> "No Manual"
+Do NOT speculate about missing items not explicitly stated.
 
 PRODUCTNAME
 - Format: [Brand] [Knife Type] [Blade Material]
@@ -166,14 +79,13 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
+1. Title length 68-75 chars.
 2. Description <= 480 chars.
 3. Only ASCII characters used throughout.
 4. No CJK characters or emoji anywhere.
 5. Brand front-loaded in Title if known.
 6. Knife type clearly stated in Title.
 7. Blade material included if stated in source.
-8. "Japanese" or "Japan" appears in Title or Description.
 9. Defects reported if mentioned in source.
 10. Every spec must have a source in the Japanese text.
 If any check fails, regenerate until all pass.
