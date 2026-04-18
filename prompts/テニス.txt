@@ -12,85 +12,20 @@ ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
 
 1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source (title_jp, description_jp, tag_jp). **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
 
-### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
-**Category A — ABSOLUTE BAN (even if factual):**
-Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
-MUST HAVE, BEST, PERFECT
-Empty superlatives: ULTIMATE, PREMIUM, LUXURY
-
-ABSOLUTE BAN — eBay VeRO protection (NO exceptions, even if source contains them):
-AUTHENTIC, OFFICIAL
-
-Source-transcription only (BANNED standalone, allowed ONLY when transcribing
-exact item names from source text):
-GENUINE — do NOT add yourself.
-ORIGINAL — e.g., "Original Case" (accessory name from source). Do NOT add yourself.
-
-**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
-- VINTAGE — Only if source confirms era (decade markers in source)
-- RARE — Only if source explicitly describes rarity (希少 stated in source)
-- LIMITED / LIMITED EDITION — Only if source confirms limited release
-
-**Category C — ALWAYS ALLOWED (factual attributes from source):**
-Brand names, model name, grip size, head size, string type,
-Japan (if source explicitly states Made in Japan or Japanese).
-
-### RULE — SOURCE-ONLY, NO INVENTION
-
-You may use Category B words ONLY if the source explicitly contains evidence.
-DO NOT guess, infer from similar items, or use general knowledge.
-
-If source does not provide evidence, DO NOT include the Category B word.
+Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC, OFFICIAL: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them).
+GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Genuine Leather", "Original Box"); never add yourself.
+RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., serial numbers, decade markers, "limited to N units"); no inference, no guessing, no general knowledge.
 
 3. **NO REPETITION** — Do not repeat any token more than once in Title.
 4. **NO REDUNDANT CATEGORY** — Do not include generic category words more than once.
-5. **SOFT CHAR TARGET** — Title: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
+5. **SOFT CHAR TARGET** — Title: Length is a target, not a mandate. NEVER sacrifice truth for length.
 6. **ESSENTIAL INFO REQUIRED** — Brand / Product type / Model / Grip size (if stated).
 
 ========================================
 
-BRAND MAPPING
-- ウィルソン -> Wilson
-- ヘッド -> Head
-- バボラ -> Babolat
-- ヨネックス -> Yonex
-- プリンス -> Prince
-- ダンロップ / スリクソン -> Dunlop / Srixon
-- テクニファイバー -> Tecnifibre
-- ブリヂストン -> Bridgestone
-- ミズノ -> Mizuno
-- トアルソン -> Toalson
-
-PRODUCT TYPE MAPPING
-- テニスラケット / ラケット -> Tennis Racquet
-- バドミントンラケット -> Badminton Racquet
-- ストリング / ガット -> Strings / Gut
-- グリップテープ / オーバーグリップ -> Grip Tape / Overgrip
-- ラケットバッグ -> Racquet Bag
-- テニスシューズ -> Tennis Shoes
-- テニスボール -> Tennis Balls
-- 振動止め / ダンパー -> Vibration Dampener
-
-RACQUET SPECIFICATION TERMS
-- ヘッドサイズ / 面サイズ -> Head Size (sq in / cm2)
-- 重さ / ウェイト -> Weight (g / oz, unstrung or strung)
-- バランス -> Balance Point (mm)
-- フレーム厚 -> Beam Width (mm)
-- ストリングパターン -> String Pattern (e.g., 16x19, 18x20)
-- グリップサイズ -> Grip Size (G1/G2/G3/G4 = L1/L2/L3/L4 = 4 1/8 / 4 1/4 / 4 3/8 / 4 1/2)
-- 全長 -> Length (inches)
-- フレックス / RA値 -> Stiffness / RA (e.g., RA 68)
-
-GRIP SIZE CONVERSION (include BOTH formats in Title)
-- G1 / L1 -> Grip Size 1 / 4 1/8
-- G2 / L2 -> Grip Size 2 / 4 1/4
-- G3 / L3 -> Grip Size 3 / 4 3/8
-- G4 / L4 -> Grip Size 4 / 4 1/2
-Format in Title: "G2 4 1/4" to satisfy both markets
-
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80). If >80, shorten but keep SEO value.
+- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords. NEVER sacrifice truth for length.
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 
@@ -99,9 +34,9 @@ TITLE (SEO Priority)
   2. Model name (Pure Drive, Blade, EZONE, Pro Staff, Speed)
   3. Head size if notable (98, 100, 300g)
   4. Product type (Tennis Racquet)
-  5. Grip size (G2 4 1/4)
+  5. Grip size: Include BOTH G# and fraction format in Title (e.g., G2 4 1/4).
   6. Weight if notable
-  7. Bonus SEO: Vintage, Rare, Limited (Category B — source-confirmed ONLY. See Rule 2); Japan (factual if applicable)
+  7. Bonus SEO: Vintage, Rare, Limited (source-confirmed ONLY — see Rule 2); Japan (factual if applicable)
 
 DESCRIPTION (SEO Priority)
 - English ASCII only, <= 480 chars, single natural paragraph.
@@ -119,17 +54,17 @@ DESCRIPTION (SEO Priority)
   * Included accessories (cover, case)
   * Made in country if stated
 - DEFECT/ISSUE REPORTING (CRITICAL):
-  DEFECT KEYWORDS AND TRANSLATIONS:
-    - フレーム割れ / ヒビ -> "frame crack"
-    - グロメット破損 / グロメット割れ -> "damaged grommets"
-    - 塗装剥がれ -> "paint chips"
-    - グリップ劣化 / べたつき -> "deteriorated grip" or "sticky grip"
-    - ガット切れ / ストリング切れ -> "strings broken" or "needs restringing"
-    - ジャンク -> "for parts"
-    - 傷 -> "scratch"
-    - 〜できず / 〜不可 -> always means NOT possible.
+Key tennis defects: frame crack (フレーム割れ), grommets broken (グロメット破損), paint chips (塗装剥がれ), grip deterioration (グリップ劣化), string broken/needs restringing (ガット切れ/張替必要), string holes worn (ストリング穴摩耗).
+If source contains "(DEFECT: ...)" markers, use the English text directly.
   Omitting known defects is a violation of eBay policy.
 - Avoid evaluative adjectives. Exclude shipping/seller opinions.
+
+MISSING ACCESSORIES DETECTION (Tennis-specific)
+If source explicitly states missing items, reflect in Title (if space allows) and Description:
+- カバーなし / ケースなし -> "No Cover" or "No Case"
+- ストリングなし / ガットなし -> "Unstrung"
+- 箱なし -> "No Box"
+Do NOT speculate about missing items not explicitly stated.
 
 PRODUCTNAME
 - Format: [Brand] [Model] Tennis Racquet, English ASCII only.
@@ -149,7 +84,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
+1. Title length 68-75 chars.
 2. Description <= 480 chars.
 3. Only ASCII characters and allowed symbols used throughout.
 4. No CJK characters or emoji anywhere.
