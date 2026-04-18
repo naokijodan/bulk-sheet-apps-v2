@@ -8,56 +8,18 @@ GOALS
 
 ABSOLUTE RULES (overrides all below, highest priority):
 1. TRUTH FIRST: Output only information EXPLICITLY in the source. Never fabricate.
-### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
-
-**Category A — ABSOLUTE BAN (even if factual):**
-Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
-MUST HAVE, BEST, PERFECT
-Empty superlatives: ULTIMATE, PREMIUM, LUXURY
-
-ABSOLUTE BAN — eBay rights protection (NO exceptions, even if source contains them):
-AUTHENTIC, OFFICIAL
-
-Source-transcription only (BANNED standalone, allowed ONLY when transcribing
-exact material/accessory names from source text):
-GENUINE — e.g., "Genuine Leather" (material name), "Genuine Pearl"
-ORIGINAL — e.g., "Original Box" (accessory name), "Original Packaging"
-  (Do NOT add these words yourself. Only transcribe if source contains them.)
-
-**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
-- RARE — Only if source explicitly describes rarity
-  (e.g., "limited to 500 units", "one of 100 made", "rare colorway")
-- LIMITED / LIMITED EDITION — Only if source confirms limited edition status
-  (serial number, production count, limited release marker in source text)
-- VINTAGE — Only if source confirms era
-  (e.g., "1970s", "Pre-1990", "estate find", decade markers in source)
-- EXCLUSIVE — Only if source confirms exclusive distribution
-- COLLECTIBLE / COLLECTORS EDITION — Only if source marks it as such
-- MINT — Only if source describes objective criteria
-  (unused, with original box, tags attached, factory sealed)
-
-**Category C — ALWAYS ALLOWED (factual attributes from source):**
-Material, brand, model, year, size, condition, features, country of origin, etc.
-
-RULE — SOURCE-ONLY, NO INVENTION
-You may use Category B words ONLY if the source (seller text, title, images,
-description, tags, serial numbers, form input) explicitly contains evidence.
-DO NOT:
-- Guess ("this looks like it might be rare")
-- Infer from similar items
-- Use general knowledge (ChatGPT training data about product lines, catalogs)
-- Assume from visual appearance without text confirmation
-If source does not provide evidence, DO NOT include the Category B word.
+Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC, OFFICIAL: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them).
+GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Genuine Leather", "Original Box"); never add yourself.
+RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., serial numbers, decade markers, "limited to N units"); no inference, no guessing, no general knowledge.
 3. NO REPETITION: Never repeat the same keyword twice in the title (e.g., "Spinning Reel" appears once max).
 4. NO REDUNDANT CATEGORY WORDS: Do not add generic category words when a specific type is given
    (e.g., if "Baitcasting" is stated, do NOT also add generic "Fishing Reel" twice).
-5. SOFT CHAR TARGET: Length is a target, not a mandate. If source is sparse, shorter titles (40-67) are acceptable.
-   NEVER sacrifice truth for length.
+5. SOFT CHAR TARGET: Length is a target, not a mandate. NEVER sacrifice truth for length.
 6. ESSENTIAL INFO REQUIRED (when present in source): Brand, Model, Reel Type must always be included.
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 40-75 chars (ideal 68-75, shorter OK for sparse sources). If >75, shorten but keep SEO value.
+- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords. NEVER sacrifice truth for length.
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 - Do not mention guarantees/returns/refunds.
@@ -71,17 +33,6 @@ TITLE (SEO Priority)
   5. Gear info if known (High Gear, Extra High Gear, Power Gear)
   6. Hand retrieve if known (Left Hand, Right Hand)
   7. Bonus SEO words if applicable & true: Japan Made, Saltwater, Freshwater
-
-LEGITIMATE REEL KEYWORDS (use only when explicitly stated or truly applicable):
-- "Right Hand" / "Left Hand" — only when source explicitly states hand retrieve direction
-- "Saltwater" / "Freshwater" — only when source or model indicates water type (e.g., Saltiga=Saltwater)
-- "Bass" / "Trout" / "Tuna" / other species — only when source or model targets specific species
-- "Serviced" / "Overhauled" — only when source explicitly states recent service
-- "New" / "NIB" (New In Box) — only when source explicitly states unused/new
-- "Vintage" — only when source indicates older era (pre-2000 or explicit "vintage")
-- "JDM" / "Japan Market" — only when source indicates Japanese domestic model
-- "Box and Papers" — only when source explicitly states complete set
-- "High Gear" / "Low Gear" — only when source states gear ratio tier
 
 - SIZE/NUMBER RULE:
   The size number is critical for fishing reel buyers. It appears in the model name.
@@ -109,46 +60,23 @@ DESCRIPTION (SEO Priority)
   * Body material if stated (magnesium, carbon, aluminum)
   * Included items (spool, handle, case, box, papers)
 - Use keyword variations: "fishing reel" "reel" in addition to specific type.
-- BRAND/MODEL MAPPING (use correct English names):
-    - シマノ -> "Shimano"
-    - ダイワ -> "Daiwa"
-    - アブガルシア / アブ -> "Abu Garcia"
-    - ステラ -> "Stella", ツインパワー -> "Twin Power", ヴァンキッシュ -> "Vanquish"
-    - イグジスト -> "Exist", セルテート -> "Certate", ルビアス -> "Luvias"
-    - ソルティガ -> "Saltiga", カルディア -> "Caldia"
-    - スティーズ -> "Steez", ジリオン -> "Zillion", タトゥーラ -> "Tatula"
-    - メタニウム -> "Metanium", アンタレス -> "Antares", スコーピオン -> "Scorpion"
-    - アンバサダー -> "Ambassadeur", レボ -> "Revo"
-    - フォースマスター -> "ForceMaster", シーボーグ -> "Seaborg"
-- REEL TYPE MAPPING:
-    - スピニング / スピニングリール -> "Spinning Reel"
-    - ベイト / ベイトリール / 両軸 -> "Baitcasting Reel"
-    - フライリール -> "Fly Reel"
-    - 電動リール -> "Electric Reel"
-    - 太鼓リール / タイコリール -> "Centerpin Reel"
 - DEFECT/ISSUE REPORTING (CRITICAL):
   If the source mentions ANY defect, malfunction, or issue, you MUST describe it in the Description.
-  DEFECT KEYWORDS AND TRANSLATIONS:
-    - 故障 / 動かない / 壊れ -> "malfunction" or "broken"
-    - ゴリ感 / ゴリゴリ -> "grinding feel when reeling"
-    - シャリ感 / シャリシャリ -> "rough/gritty feel when reeling"
-    - ベール不良 / ベール戻り不良 -> "bail arm malfunction"
-    - ドラグ不良 -> "drag system malfunction"
-    - ハンドルガタ / ガタつき -> "handle play/looseness"
-    - 逆転不良 / 逆転する -> "anti-reverse not working"
-    - 巻き重い -> "heavy/stiff retrieve"
-    - 異音 -> "unusual noise when reeling"
-    - ジャンク -> "for parts"
-    - 不具合 -> "defect"
-    - 傷 -> "scratch"
-    - 塗装剥がれ -> "paint peeling"
-    - サビ / 錆 -> "rust" or "corrosion"
-    - 〜できず / 〜不可 / 〜できません -> always means NOT possible. NEVER translate as "works" or "functional".
+  Key reel defects: grinding feel (ゴリ感/シャリ感), bail arm malfunction (ベール不良), drag failure (ドラグ不良), anti-reverse failure (逆転不良), handle looseness (ハンドルガタ).
   If source contains "(DEFECT: ...)" markers, use the English text directly.
   Omitting known defects is a violation of eBay policy.
 - Describe operation/status only if clearly mentioned (tested/untested/issues).
 - Avoid evaluative adjectives (excellent, good, mint, used).
 - Exclude shipping/seller opinions/history/warranty.
+
+MISSING ACCESSORIES DETECTION (Reel-specific)
+If source explicitly states missing items, reflect in Title (if space allows) and Description:
+- 予備スプールなし -> "No Spare Spool"
+- ハンドルなし -> "No Handle"
+- ハンドルノブなし -> "No Handle Knob"
+- 箱なし / 元箱なし -> "No Box"
+- 取説なし / 説明書なし -> "No Manual"
+Do NOT speculate about missing items not explicitly stated.
 
 PRODUCTNAME
 - Format: [Brand] [Model] [Size] [Reel Type], English ASCII only.
@@ -168,7 +96,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 40-75 chars (ideal 68-75, shorter acceptable for sparse sources).
+1. Title length 68-75 chars.
 2. Description <= 480 chars.
 3. Only ASCII letters/numbers/spaces and allowed symbols (& / : - . ,) used throughout.
 4. No CJK characters or emoji anywhere.
@@ -180,7 +108,7 @@ VERIFICATION (must pass before returning):
 10. No forbidden symbols in Title (no " ' ( ) [ ]).
 11. If source mentions any defect/malfunction, Description MUST include it.
 12. Every spec in the output must have a corresponding source in the Japanese text. If not found in source, it must NOT appear in output.
-13. Reel-specific defects (grinding feel, bail arm issues, drag problems) are accurately translated using the defect keyword list.
+13. Reel-specific defects (grinding feel, bail arm issues, drag problems, anti-reverse failure) are accurately described in the Description.
 
 If any check fails, regenerate until all pass.
 
