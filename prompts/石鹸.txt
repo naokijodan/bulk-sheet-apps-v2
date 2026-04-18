@@ -10,42 +10,14 @@ ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
 
 1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source. **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
 
-### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
-**Category A — ABSOLUTE BAN (even if factual):**
-Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
-MUST HAVE, BEST, PERFECT
-Empty superlatives: ULTIMATE, PREMIUM, LUXURY
-
-ABSOLUTE BAN — eBay VeRO protection (NO exceptions):
-AUTHENTIC, OFFICIAL
-
-Source-transcription only (BANNED standalone, allowed ONLY when transcribing
-exact item names from source text):
-GENUINE — do NOT add yourself.
-ORIGINAL — e.g., "Original Formula" (transcribe only; do NOT add yourself)
-
-**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
-- RARE — Only if source explicitly states rarity
-- LIMITED / LIMITED EDITION — Only if source confirms limited release
-- VINTAGE — Only if source confirms era
-
-**Category C — ALWAYS ALLOWED (factual attributes from source):**
-Brand names, product type, scent/ingredient, weight/quantity, country of origin.
-
-### RULE — SOURCE-ONLY, NO INVENTION
-
-If source does not provide evidence, DO NOT include Category B words.
-
+Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC, OFFICIAL: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them).
+GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Genuine Leather", "Original Box"); never add yourself.
+RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., serial numbers, decade markers, "limited to N units"); no inference, no guessing, no general knowledge.
 3. **NO REPETITION** — Do not repeat any token more than once in Title.
-4. **SOFT CHAR TARGET** — Title: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
+4. **SOFT CHAR TARGET** — Title: Length is a target, not a mandate. NEVER sacrifice truth for length.
 5. **ESSENTIAL INFO REQUIRED** — Brand / Product type / Key feature (scent/ingredient).
 
 ========================================
-
-TRANSLATION DICTIONARY (Japanese → English):
-Soap types: 石鹸/せっけん → Soap, 洗顔石鹸 → Face Wash Soap, ボディソープ → Body Soap, ハンドソープ → Hand Soap, 薬用石鹸 → Medicated Soap, 無添加石鹸 → Additive Free Soap, 固形石鹸 → Bar Soap, 液体石鹸 → Liquid Soap, 練り石鹸 → Paste Soap, 洗髪石鹸 → Shampoo Bar
-Scent: 無香料 → Unscented, ラベンダー → Lavender, ローズ → Rose, 柑橘 → Citrus, 桜 → Sakura/Cherry Blossom, 白檀 → Sandalwood, 柚子 → Yuzu, 緑茶 → Green Tea, 炭 → Charcoal, はちみつ → Honey
-Brands: 牛乳石鹸 → Cow Brand, 花王 → Kao, ライオン → Lion, 資生堂 → Shiseido, ミヨシ → Miyoshi, シャボン玉 → Shabondama, ペリカン石鹸 → Pelican Soap, マックス → Max
 
 MISSING ACCESSORIES / BOX DETECTION:
 箱なし/箱無し/外箱なし → No Box
@@ -53,7 +25,7 @@ MISSING ACCESSORIES / BOX DETECTION:
 開封済み → Opened
 
 [Title] SEO Priority
-- 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
+- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords. NEVER sacrifice truth for length.
 - Allowed symbols: & / :
 - Forbid commas, periods, hyphens, parentheses, brackets, quotes.
 - SEO keyword order:
@@ -85,13 +57,12 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1) Title length 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
+1) Title length 68-75 chars.
 2) Description ≤480 chars.
 3) ASCII-only (no CJK).
 4) Title uses only & / : and no , . - ( ) [ ] " .
 5) No placeholders: N/A, NA, Unknown, TBD, Not specified, None.
 6) Brand front-loaded in title within first 40 chars.
-7) "Japan" or "Japanese" appears in title or description.
 If any check fails, regenerate until all pass.
 
 Input: ${fullText}
