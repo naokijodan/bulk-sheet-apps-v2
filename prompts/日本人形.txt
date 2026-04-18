@@ -8,114 +8,22 @@ GOALS
 
 ABSOLUTE RULES (must follow):
 1. TRUTH FIRST: Only output information present in source. Never invent, embellish, or pad.
-### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
-**Category A — ABSOLUTE BAN (even if factual):**
-Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
-MUST HAVE, BEST, PERFECT
-Empty superlatives: ULTIMATE, PREMIUM, LUXURY
-
-ABSOLUTE BAN — eBay rights protection (NO exceptions, even if source contains them):
-AUTHENTIC, OFFICIAL
-
-Source-transcription only (BANNED standalone, allowed ONLY when transcribing
-exact material/accessory names from source text):
-GENUINE — e.g., "Genuine Leather" (material name), "Genuine Pearl"
-ORIGINAL — e.g., "Original Box" (accessory name), "Original Packaging"
-  (Do NOT add these words yourself. Only transcribe if source contains them.)
-
-**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
-- RARE — Only if source explicitly describes rarity
-  (e.g., "limited to 500 units", "one of 100 made", "rare colorway")
-- LIMITED / LIMITED EDITION — Only if source confirms limited edition status
-  (serial number, production count, limited release marker in source text)
-- VINTAGE — Only if source confirms era
-  (e.g., "1970s", "Pre-1990", "estate find", decade markers in source)
-- EXCLUSIVE — Only if source confirms exclusive distribution
-- COLLECTIBLE / COLLECTORS EDITION — Only if source marks it as such
-- MINT — Only if source describes objective criteria
-  (unused, with original box, tags attached, factory sealed)
-
-**Category C — ALWAYS ALLOWED (factual attributes from source):**
-Material, brand, model, year, size, condition, features, country of origin, etc.
-
-### RULE — SOURCE-ONLY, NO INVENTION
-
-You may use Category B words ONLY if the source (seller text, title, images,
-description, tags, serial numbers, form input) explicitly contains evidence.
-DO NOT:
-- Guess ("this looks like it might be rare")
-- Infer from similar items
-- Use general knowledge (ChatGPT training data about product lines, catalogs)
-- Assume from visual appearance without text confirmation
-
-If source does not provide evidence, DO NOT include the Category B word.
+Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC, OFFICIAL: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them).
+GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Genuine Leather", "Original Box"); never add yourself.
+RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., serial numbers, decade markers, "limited to N units"); no inference, no guessing, no general knowledge.
+ANTIQUE: only if source confirms 100+ years old. HANDMADE: only if source confirms (手作り/職人); no inference.
 3. NO REPETITION: Each substantive keyword appears at most once in title.
 4. NO REDUNDANT CATEGORY: Do not repeat "Doll" / "Japanese Doll" multiple times.
-5. SOFT CHAR TARGET: 40-75 chars (target 65-75, shorter OK if source-bound). Going over 75 is forbidden.
+5. SOFT CHAR TARGET: Length is a target, not a mandate. NEVER sacrifice truth for length.
 6. ESSENTIAL INFO REQUIRED: Always include type / material / maker / origin / era / size if known.
-
-LEGITIMATE KEYWORDS (use only if present in source):
-Kokeshi, Hina, Hakata, Ichimatsu, Kimekomi, Gosho, Fushimi, Karakuri, Bunraku,
-Hand Carved, Hand Painted, Wood, Ceramic, Clay, Cloth, Paper Mache,
-Meiji, Taisho, Showa, Heisei, Reiwa, Edo,
-Naruko, Kyoto, Yamagata, Miyagi, Fukushima,
-Antique, Signed, Marked, Boxed, CIB (Complete in Box),
-JDM (Japan Domestic Model), Made in Japan, Traditional, Folk Art, Handmade
-
-DOLL TYPE MAPPING
-- こけし / コケシ -> Kokeshi Doll
-- 日本人形 -> Japanese Ningyo Doll
-- 博多人形 -> Hakata Doll
-- 市松人形 -> Ichimatsu Doll
-- 雛人形 / ひな人形 -> Hina Doll (Girls' Day Doll)
-- 五月人形 -> Gogatsu Ningyo (Boys' Day Doll)
-- 木目込み人形 -> Kimekomi Doll
-- 御所人形 -> Gosho Doll (Palace Doll)
-- 伏見人形 -> Fushimi Doll
-- からくり人形 -> Karakuri Doll (Mechanical Doll)
-- 土人形 -> Tsuchi Ningyo (Clay Doll)
-- 文楽人形 -> Bunraku Puppet
-
-MATERIAL MAPPING
-- 木 / 木製 -> Wood / Wooden
-- 陶器 / 陶磁器 -> Ceramic / Pottery
-- 紙 / 和紙 -> Paper / Washi Paper
-- 布 / 絹 / 正絹 -> Fabric / Silk
-- 土 / 粘土 -> Clay
-- 漆 -> Lacquer / Urushi
-- 石膏 -> Plaster / Gypsum
-- 桐 -> Paulownia Wood
-
-ORIGIN MAPPING
-- 鳴子 -> Naruko
-- 津軽 -> Tsugaru
-- 遠刈田 -> Togatta
-- 弥治郎 -> Yajiro
-- 作並 -> Sakunami
-- 蔵王 -> Zao
-- 土湯 -> Tsuchiyu
-- 博多 -> Hakata
-- 京都 -> Kyoto
-- 堺 -> Sakai
-- 岩槻 -> Iwatsuki
-- 鴻巣 -> Konosu
-
-TECHNIQUE MAPPING
-- 手彫り -> Hand Carved
-- ろくろ挽き / ろくろ -> Lathe Turned
-- 張子 / はりこ -> Papier-mache
-- 木目込み -> Kimekomi (Fabric Inlay)
-- 型抜き -> Molded
-- 手描き / 手書き -> Hand Painted
-- 焼成 -> Fired / Kiln Fired
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 40-75 chars (target 68-75, shorter OK if source-bound). Going over 75 is forbidden.
+- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords. NEVER sacrifice truth for length.
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 - SEO KEYWORD ORDER:
-  1. "Japanese" (within first 30 chars)
+  1. "Japanese" (within first 30 chars, add only if source confirms Japanese origin or maker)
   2. Doll type (Kokeshi, Hakata, Ichimatsu, Hina)
   3. Material (Wood, Ceramic)
   4. Maker/Artist if stated
@@ -128,18 +36,19 @@ DESCRIPTION (SEO Priority)
 - FIRST SENTENCE: Doll type + material + origin (Japan).
 - Include only if explicitly stated: maker/artist, origin/region, dimensions (cm and inches), weight, technique, motif/subject, era/period, included items (stand, case, box), provenance.
 - DEFECT/ISSUE REPORTING (CRITICAL): do not omit any known defect.
+Key ningyou defects: faded kimono (着物色あせ), hair disarray (髪乱れ), face chip (顔欠け), stand damage (台座損傷), mold (カビ), moth damage (虫食い), fingers broken (指欠け).
+If source contains "(DEFECT: ...)" markers, use the English text directly.
   Omitting known defects is a violation of eBay policy.
 - Exclude: shipping, seller opinions.
 
-DEFECT KEYWORDS
-- ひび / ヒビ -> crack
-- 欠け / カケ -> chip
-- 剥がれ -> peeling
-- 色あせ / 褪色 -> fading
-- 虫食い -> worm damage / insect damage
-- 傷 -> scratch
-- 直し / 修復 -> repair / restoration
-- 汚れ / シミ -> stain
+MISSING ACCESSORIES DETECTION (Ningyou-specific)
+If source explicitly states missing items, reflect in Title (if space allows) and Description:
+- ガラスケースなし -> "No Glass Case"
+- 台座なし -> "No Stand"
+- 小道具欠け -> "Missing accessories"
+- 箱なし -> "No Box"
+- 説明書なし -> "No Manual"
+Do NOT speculate about missing items not explicitly stated.
 
 PRODUCTNAME
 - Format: Japanese [Doll Type] [Material/Origin]
@@ -158,16 +67,15 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning)
-1. Title length 40-75 chars (target 68-75, shorter OK if source-bound).
+1. Title length 68-75 chars.
 2. Description <= 480 chars.
 3. Only ASCII characters used throughout.
 4. No CJK characters or emoji anywhere.
-5. "Japanese" appears in Title.
-6. Doll type uses correct romanized name.
-7. Dimensions included in Description if stated (cm and inches).
-8. Material stated in Title or Description.
-9. All stated defects are included in Description.
-10. Every spec must have a source in the Japanese text.
+5. Doll type uses correct romanized name.
+6. Dimensions included in Description if stated (cm and inches).
+7. Material stated in Title or Description.
+8. All stated defects are included in Description.
+9. Every spec must have a source in the Japanese text.
 
 If any check fails, regenerate until all pass.
 
