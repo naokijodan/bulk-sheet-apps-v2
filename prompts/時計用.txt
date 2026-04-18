@@ -6,161 +6,9 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge (e.g., do NOT guess movement type, water resistance, case size, crystal type, or country of origin unless the source states it).
 
-WATCH TERMINOLOGY TRANSLATION DICTIONARY
-(Use these exact English terms when translating Japanese watch descriptions)
-
-Movement/Mechanism:
-- 自動巻き -> Automatic
-- 手巻き -> Manual Wind
-- クオーツ -> Quartz
-- 電池式 -> Quartz (Battery)
-- ソーラー -> Solar
-- エコドライブ -> Eco-Drive
-- キネティック -> Kinetic
-- スプリングドライブ -> Spring Drive
-- 電波時計 -> Radio Controlled
-- 電波ソーラー -> Radio Solar
-- ハイビート -> Hi-Beat
-- ハック機能 -> Hacking
-
-Case/Material:
-- ステンレス / SS -> Stainless Steel
-- チタン -> Titanium
-- ブライトチタン -> Bright Titanium
-- 金メッキ / GP -> Gold Plated
-- 金張り / GF -> Gold Filled
-- コンビ / ツートン -> Two-Tone
-- ピンクゴールド / PG -> Rose Gold / Pink Gold
-- イエローゴールド / YG -> Yellow Gold
-- ホワイトゴールド / WG -> White Gold
-- セラミック -> Ceramic
-- カーボン -> Carbon Fiber
-- プラチナ / Pt -> Platinum
-- PVD加工 -> PVD Coated
-- DLC加工 -> DLC Coated
-- レジン / 樹脂 -> Resin
-- ベークライト -> Bakelite
-
-Crystal/Window:
-- サファイアガラス / サファイヤ -> Sapphire Crystal
-- ミネラルガラス -> Mineral Crystal
-- ハードレックス -> Hardlex (Seiko)
-- プラスチック風防 / アクリル -> Acrylic Crystal
-- 無反射コーティング -> Anti-Reflective Coating
-- サイクロップレンズ -> Cyclops Lens
-
-Band/Bracelet:
-- 革ベルト / レザー -> Leather Strap
-- ステンレスブレス -> Stainless Steel Bracelet
-- チタンブレス -> Titanium Bracelet
-- NATOベルト -> NATO Strap
-- ラバーベルト -> Rubber Strap
-- シリコンベルト -> Silicone Strap
-- メッシュブレス -> Mesh Bracelet
-- ジュビリーブレス -> Jubilee Bracelet
-- オイスターブレス -> Oyster Bracelet
-- プレジデントブレス -> President Bracelet
-- 純正ベルト -> Original Strap
-- 社外ベルト -> Aftermarket Strap
-- 尾錠 -> Tang Buckle
-- Dバックル / 三つ折れ -> Deployment Clasp
-
-Function/Feature:
-- クロノグラフ -> Chronograph
-- GMT -> GMT
-- ワールドタイム -> World Time
-- パワーリザーブ -> Power Reserve
-- ムーンフェイズ -> Moon Phase
-- タキメーター -> Tachymeter
-- 回転ベゼル -> Rotating Bezel
-- デイト -> Date
-- デイデイト -> Day-Date
-- レトログラード -> Retrograde
-- トゥールビヨン -> Tourbillon
-- スケルトン / シースルー -> Skeleton / Open Heart
-- ルミナス / 夜光 -> Luminous
-
-Condition/Status:
-- 美品 -> Excellent Condition
-- 極美品 -> Near Mint
-- 未使用 -> Unused / New Old Stock (NOS)
-- 稼働品 -> Running / Working
-- 不動品 -> Not Working
-- 電池切れ -> Needs Battery
-- OH済み -> Serviced / Overhauled
-- ポリッシュ済み -> Polished
-- 日差 -> Daily Rate (e.g., +10 sec/day)
-
-Accessories:
-- 箱付き -> With Box
-- 内箱・外箱 -> Inner and Outer Boxes
-- 保証書付き -> With Papers
-- ギャランティカード -> Guarantee Card
-- 取扱説明書 -> With Manual
-- コマ / 予備コマ -> Extra Links
-- フルコマ -> All Links Included
-- 純正 -> Genuine / Original
-- 社外品 -> Aftermarket
-
-ABSOLUTE RULES (overrides all below, highest priority):
-1. TRUTH FIRST: Output only information EXPLICITLY in the source. Never fabricate.
-### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
-
-**Category A — ABSOLUTE BAN (even if factual):**
-Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
-MUST HAVE, BEST, PERFECT
-Empty superlatives: ULTIMATE, PREMIUM, LUXURY
-
-ABSOLUTE BAN — eBay rights protection (NO exceptions, even if source contains them):
-AUTHENTIC, OFFICIAL
-
-Source-transcription only (BANNED standalone, allowed ONLY when transcribing
-exact material/accessory names from source text):
-GENUINE — e.g., "Genuine Leather" (material name), "Genuine Pearl"
-ORIGINAL — e.g., "Original Box" (accessory name), "Original Packaging"
-  (Do NOT add these words yourself. Only transcribe if source contains them.)
-
-**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
-- RARE — Only if source explicitly describes rarity
-  (e.g., "limited to 500 units", "one of 100 made", "rare colorway")
-- LIMITED / LIMITED EDITION — Only if source confirms limited edition status
-  (serial number, production count, limited release marker in source text)
-- VINTAGE — Only if source confirms era
-  (e.g., "1970s", "Pre-1990", "estate find", decade markers in source)
-- EXCLUSIVE — Only if source confirms exclusive distribution
-- COLLECTIBLE / COLLECTORS EDITION — Only if source marks it as such
-- MINT — Only if source describes objective criteria
-  (unused, with original box, tags attached, factory sealed)
-
-**Category C — ALWAYS ALLOWED (factual attributes from source):**
-Material, brand, model, year, size, condition, features, country of origin, etc.
-
-RULE — SOURCE-ONLY, NO INVENTION
-You may use Category B words ONLY if the source (seller text, title, images,
-description, tags, serial numbers, form input) explicitly contains evidence.
-DO NOT:
-- Guess ("this looks like it might be rare")
-- Infer from similar items
-- Use general knowledge (ChatGPT training data about product lines, catalogs)
-- Assume from visual appearance without text confirmation
-If source does not provide evidence, DO NOT include the Category B word.
-3. NO REPETITION: Never repeat the same keyword twice in the title (e.g., "Automatic" appears once max).
-4. NO REDUNDANT CATEGORY WORDS: Do not add generic category words when a specific type is given
-   (e.g., if "Chronograph" is stated, do NOT also add generic "Watch" twice).
-5. SOFT CHAR TARGET: Title 40-80 chars (ideal 68-78). Fill by following SEO KEYWORD ORDER top-to-bottom: include every source-confirmed fact in priority order. A title becomes short ONLY when the source itself is sparse — never because you skipped available information. NEVER exceed 80.
-6. ESSENTIAL INFO (include ALL that are present in source):
-   Brand (always), Model/Collection name, Reference Number, Movement type,
-   Case Material, Case Size, Dial Color, Band Material, Department (Men's/Women's),
-   Water Resistance, Country of Origin (IS field: output if source states any country; Title rule: see note below),
-   With Papers / No Papers, With Original Box/Packaging / No Box.
-   If Reference Number is unavailable, include Case Material + Movement as minimum.
-   Country of Origin TITLE rule: Include "Made in Japan" in Title ONLY if source explicitly confirms 日本製 / Made in Japan. Do NOT include any other country (e.g., Switzerland, Germany, USA) in Title.
-   (Note: this TITLE rule affects Title output only. Do NOT restrict the IS Country of Origin field — that field should still record the actual source country whenever stated, e.g., Switzerland, Germany, USA.)
-   (Note: if JDM is already in Title from SEO ORDER #11, you may omit "Made in Japan" to avoid redundancy — prioritize Title length limit.)
-
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 40-80 chars (ideal 68-78). If >80, shorten but keep SEO value.
+- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 - Do not mention guarantees/returns/refunds.
@@ -168,26 +16,13 @@ TITLE (SEO Priority)
 
 - SEO KEYWORD ORDER (front-load high-value terms):
   1. Brand (within first 30 chars)
-  2. Collection/Line name (Prospex, Presage, Grand Seiko, Speedmaster) if notable
+  2. Collection/Line name if notable (Prospex, Presage, Grand Seiko, Speedmaster)
   3. Movement type (Automatic, Quartz, Mechanical, Solar, Kinetic)
   4. Watch type (Chronograph, Diver, Dress Watch, Field Watch, GMT, World Time)
-  5. Case size in mm if stated in source (MUST include if stated)
-  6. Dial Color (MUST include if stated in source)
-  7. Band Material (MUST include if stated)
-  8. Department / Gender (Men's, Women's, Unisex)
-  9. Ref/Cal number (MUST include if stated)
-  10. Country of Origin — Include "Made in Japan" in Title ONLY if source explicitly confirms 日本製 / Made in Japan. Do NOT include any other country (e.g., Switzerland, Germany, USA) in Title. (Title only — does NOT restrict IS Country of Origin field.)
-  11. Bonus SEO words if applicable & true: JDM, Serviced, Box and Papers
-
-LEGITIMATE WATCH KEYWORDS (use only when explicitly stated or truly applicable):
-- "Serviced" / "Overhauled" — only when source explicitly states recent service/overhaul
-- "New Battery" — only when source explicitly states battery replaced
-- "Limited Edition" — only when source explicitly states limited edition
-- "Vintage" — only when source indicates older era (pre-2000 or explicit "vintage")
-- "Deadstock" / "NOS" (New Old Stock) — only when source explicitly states unused old stock
-- "JDM" / "Japan Market" — only when source indicates Japanese domestic model
-- "Box and Papers" — only when source explicitly states both box and papers included
-- "Discontinued" — only when source explicitly states discontinued
+  5. Case size in mm if known (e.g., 42mm, 38mm)
+  6. Gender if clear (Mens, Womens, Unisex)
+  7. Ref/Cal number if space allows
+  8. Bonus SEO words if applicable & true: Vintage, Rare, Limited, JDM, Japan Made
 
 - WRIST RULE:
   ONLY if wrist size is explicitly written in the source text (keywords: 腕周り 手首周り 腕回り 内周 手首サイズ 最大内周 着用可能サイズ 対応サイズ 腕回).
@@ -198,7 +33,7 @@ LEGITIMATE WATCH KEYWORDS (use only when explicitly stated or truly applicable):
   Conversion: divide cm by 2.54 and round to one decimal place for inch.
   If source is in mm, convert to cm first (divide by 10, keep decimal).
   Keep exactly one space before wrist; no extra symbols.
-  If over 80 chars, shorten other parts but keep the wrist token.
+  If over 75 chars, shorten other parts but keep the wrist token.
 
 DESCRIPTION (SEO Priority)
 - English ASCII only, <= 480 chars, single natural paragraph.
@@ -230,42 +65,12 @@ DESCRIPTION (SEO Priority)
     - ガラス割れ -> "crystal has a crack"
     - 欠け -> "chip" or "chipped"
     - 傷 -> "scratch"
-    - 風防傷 / ガラス傷 -> "scratches on the crystal"
-    - ベゼル傷 -> "scratches on the bezel"
-    - ケース傷 -> "scratches on the case"
-    - 裏蓋傷 -> "scratches on the case back"
-    - 打痕 / へこみ -> "dents on the case"
-    - 文字盤焼け / 文字盤変色 -> "dial discoloration"
-    - 夜光劣化 -> "lume has faded"
-    - 針焼け / 針変色 -> "discoloration on hands"
-    - ベルト切れ -> "cracked strap"
-    - 尾錠破損 -> "broken buckle"
-    - バックル不良 -> "clasp does not lock properly"
-    - パッキン劣化 -> "gasket deterioration"
-    - ガラス内曇り / 曇り -> "condensation inside crystal"
-    - 埃混入 -> "dust under the crystal"
-    - 液漏れ -> "battery leakage"
-    - 針ズレ -> "hand misalignment"
-    - クロノグラフ不良 -> "chronograph malfunction"
-    - ローターガタつき -> "loose rotor"
-    - メッキ剥げ / メッキ剥がれ -> "plating wear"
-    - 秒針スムーズでない -> "stuttering second hand"
-    - 止まりやすい -> "stops frequently"
     - 〜できず / 〜不可 / 〜できません -> always means NOT possible. NEVER translate as "works" or "functional".
   If source contains "(DEFECT: ...)" markers, use the English text directly.
   Omitting known defects is a violation of eBay policy.
 - Describe operation/status only if clearly mentioned (tested/untested/issues).
 - Avoid evaluative adjectives (excellent, good, mint, used).
 - Exclude shipping/seller opinions/history/warranty.
-- MISSING PARTS/ACCESSORIES (WATCH-SPECIFIC):
-  If source mentions any of the following, reflect in BOTH Title (at end) and Description:
-    - 保証書なし / ギャランティなし / ペーパーなし -> "No Papers" (Title), "Papers/warranty card not included" (Description)
-    - ベルトなし / ストラップなし / バンドなし / ヘッドのみ -> "Head Only" (Title), "Watch head only, no strap/bracelet included" (Description)
-    - コマなし / コマ欠品 / 予備コマなし -> "Missing Links" (Description only, do NOT put in Title)
-    - ケースなし (when referring to storage/presentation case) -> treat same as "No Box"
-    - 説明書なし / マニュアルなし -> "No Manual" (Description only)
-  Priority in Title (space permitting): Head Only > No Papers > No Box > No Accessories
-  If multiple missing items and title is too long, combine: "No Box/Papers"
 
 PRODUCTNAME
 - Format: [Brand] [Collection/Model] [Watch Type], English ASCII only.
@@ -284,7 +89,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 40-80 chars (ideal 68-78). If under 55 chars, verify source was truly sparse and no IS fields were missed.
+1. Title length 68-75 chars.
 2. Description <= 480 chars.
 3. Only ASCII letters/numbers/spaces and allowed symbols (& / : - . ,) used throughout.
 4. No CJK characters or emoji anywhere.
@@ -299,7 +104,5 @@ VERIFICATION (must pass before returning):
 13. Every spec in the output (movement, water resistance, case size, crystal, wrist size) must have a corresponding source in the Japanese text. If not found in source, it must NOT appear in output.
 
 If any check fails, regenerate until all pass.
-
-Reminder: Adhere to ABSOLUTE RULES above. NEVER fabricate.
 
 Input: ${fullText}
