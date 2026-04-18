@@ -6,16 +6,9 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge (e.g., do NOT guess sensor size, resolution, ISO range, or video capability unless the source states it).
 
-ABSOLUTE RULES (overrides all below, highest priority):
-1. TRUTH FIRST: Output only information EXPLICITLY in the source. Never fabricate.
-2. NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC, OFFICIAL: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them).
+Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC, OFFICIAL: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them).
 GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Genuine Leather", "Original Box"); never add yourself.
 RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., serial numbers, decade markers, "limited to N units"); no inference, no guessing, no general knowledge.
-3. NO REPETITION: Never repeat the same keyword twice in the title (e.g., "Mirrorless" appears once max).
-4. NO REDUNDANT CATEGORY WORDS: Do not add generic category words when a specific type is given
-   (e.g., if "Mirrorless" is stated, do NOT also add generic "Digital Camera" twice).
-5. SOFT CHAR TARGET: Length is a target, not a mandate. NEVER sacrifice truth for length.
-6. ESSENTIAL INFO REQUIRED (when present in source): Brand, Model, Type (DSLR/Mirrorless/Compact/Film) must always be included.
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
@@ -68,12 +61,13 @@ DESCRIPTION (SEO Priority)
   * Color
   * Included accessories (charger, strap, body cap, memory card, box)
  - Use keyword variations: "digital camera" "camera body" in addition to specific type.
- - DEFECT/ISSUE REPORTING (CRITICAL):
+- DEFECT/ISSUE REPORTING (CRITICAL):
   If the source mentions ANY defect, malfunction, or issue, you MUST describe it in the Description.
-  Camera-specific defects include: lens fungus/haze (レンズカビ/クモリ), LCD burn-in/damage (LCD 焼け), shutter malfunction (シャッター不良), AF failure (AF 不良), film camera light seal deterioration (モルト劣化).
-
+  Key camera defects: lens fungus/haze (レンズカビ/クモリ), LCD burn-in/damage (LCD 焼け), shutter malfunction (シャッター不良), AF failure (AF 不良), film camera light seal deterioration (モルト劣化).
   If source contains "(DEFECT: ...)" markers, use the English text directly.
   Omitting known defects is a violation of eBay policy.
+- MISSING ACCESSORIES (if source explicitly states missing items): ボディキャップなし -> No body cap, レンズキャップなし/前キャップなし/後キャップなし -> No lens cap/No front cap/No rear cap, バッテリーなし/充電器なし -> No battery/No charger, ストラップなし -> No strap, 箱なし/元箱なし -> No box, 説明書なし -> No manual, メモリーカードなし -> No memory card, ケースなし/ポーチなし -> No case, レンズフードなし -> No lens hood, アイカップなし -> No eyecup.
+  Title markers: append "No Box" "No Battery" "No Charger" etc. at end if space allows. Do NOT speculate about missing items not explicitly stated.
   - Describe operation/status only if clearly mentioned (tested/untested/issues).
   - Avoid evaluative adjectives (excellent, good, mint, used).
   - Exclude shipping/seller opinions/history/warranty.
@@ -93,20 +87,6 @@ Title: ...
 Description: ...
 ProductName: ...
 Category: ...
- 
-MISSING ACCESSORIES DETECTION (Category-specific):
-  If source mentions any missing items, reflect in Title (append relevant marker) and Description:
-    - ボディキャップなし -> "No body cap"
-    - レンズキャップなし / 前キャップなし / 後キャップなし -> "No lens cap" / "No front cap" / "No rear cap"
-    - バッテリーなし / 充電器なし -> "No battery" / "No charger"
-    - ストラップなし -> "No strap"
-    - 箱なし / 元箱なし -> "No box"  (append "No Box" to Title)
-    - 説明書なし -> "No manual"
-    - メモリーカードなし -> "No memory card"
-    - ケースなし / ポーチなし -> "No case"
-    - レンズフードなし -> "No lens hood"
-    - アイカップなし -> "No eyecup"
-  Title markers: append "No Box" "No Battery" "No Charger" etc. at end if space allows.
 
 VERIFICATION (must pass before returning):
 1. Title length 68-75 chars.
@@ -124,7 +104,5 @@ VERIFICATION (must pass before returning):
  13. If shutter count keywords exist in source, include count in Description. If NO shutter count keywords in source, do NOT mention shutter count.
 
 If any check fails, regenerate until all pass.
-
-Reminder: Adhere to ABSOLUTE RULES above. NEVER fabricate.
 
 Input: ${fullText}
