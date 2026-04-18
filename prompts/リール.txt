@@ -6,16 +6,9 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge (e.g., do NOT guess gear ratio, ball bearings count, or line capacity unless the source states it).
 
-ABSOLUTE RULES (overrides all below, highest priority):
-1. TRUTH FIRST: Output only information EXPLICITLY in the source. Never fabricate.
 Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC, OFFICIAL: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them).
 GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Genuine Leather", "Original Box"); never add yourself.
 RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., serial numbers, decade markers, "limited to N units"); no inference, no guessing, no general knowledge.
-3. NO REPETITION: Never repeat the same keyword twice in the title (e.g., "Spinning Reel" appears once max).
-4. NO REDUNDANT CATEGORY WORDS: Do not add generic category words when a specific type is given
-   (e.g., if "Baitcasting" is stated, do NOT also add generic "Fishing Reel" twice).
-5. SOFT CHAR TARGET: Length is a target, not a mandate. NEVER sacrifice truth for length.
-6. ESSENTIAL INFO REQUIRED (when present in source): Brand, Model, Reel Type must always be included.
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
@@ -68,15 +61,8 @@ DESCRIPTION (SEO Priority)
 - Describe operation/status only if clearly mentioned (tested/untested/issues).
 - Avoid evaluative adjectives (excellent, good, mint, used).
 - Exclude shipping/seller opinions/history/warranty.
+- MISSING ACCESSORIES (if source explicitly states missing items): 予備スプールなし -> No Spare Spool, ハンドルなし -> No Handle, ハンドルノブなし -> No Handle Knob, 箱なし/元箱なし -> No Box, 取説なし/説明書なし -> No Manual. Do NOT speculate about missing items not explicitly stated.
 
-MISSING ACCESSORIES DETECTION (Reel-specific)
-If source explicitly states missing items, reflect in Title (if space allows) and Description:
-- 予備スプールなし -> "No Spare Spool"
-- ハンドルなし -> "No Handle"
-- ハンドルノブなし -> "No Handle Knob"
-- 箱なし / 元箱なし -> "No Box"
-- 取説なし / 説明書なし -> "No Manual"
-Do NOT speculate about missing items not explicitly stated.
 
 PRODUCTNAME
 - Format: [Brand] [Model] [Size] [Reel Type], English ASCII only.
@@ -112,6 +98,5 @@ VERIFICATION (must pass before returning):
 
 If any check fails, regenerate until all pass.
 
-Reminder: Adhere to ABSOLUTE RULES above. NEVER fabricate.
 
 Input: ${fullText}
