@@ -8,56 +8,18 @@ GOALS
 
 ABSOLUTE RULES (overrides all below, highest priority):
 1. TRUTH FIRST: Output only information EXPLICITLY in the source. Never fabricate.
-### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
-
-**Category A — ABSOLUTE BAN (even if factual):**
-Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
-MUST HAVE, BEST, PERFECT
-Empty superlatives: ULTIMATE, PREMIUM, LUXURY
-
-ABSOLUTE BAN — eBay rights protection (NO exceptions, even if source contains them):
-AUTHENTIC, OFFICIAL
-
-Source-transcription only (BANNED standalone, allowed ONLY when transcribing
-exact material/accessory names from source text):
-GENUINE — e.g., "Genuine Leather" (material name), "Genuine Pearl"
-ORIGINAL — e.g., "Original Box" (accessory name), "Original Packaging"
-  (Do NOT add these words yourself. Only transcribe if source contains them.)
-
-**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
-- RARE — Only if source explicitly describes rarity
-  (e.g., "limited to 500 units", "one of 100 made", "rare colorway")
-- LIMITED / LIMITED EDITION — Only if source confirms limited edition status
-  (serial number, production count, limited release marker in source text)
-- VINTAGE — Only if source confirms era
-  (e.g., "1970s", "Pre-1990", "estate find", decade markers in source)
-- EXCLUSIVE — Only if source confirms exclusive distribution
-- COLLECTIBLE / COLLECTORS EDITION — Only if source marks it as such
-- MINT — Only if source describes objective criteria
-  (unused, with original box, tags attached, factory sealed)
-
-**Category C — ALWAYS ALLOWED (factual attributes from source):**
-Material, brand, model, year, size, condition, features, country of origin, etc.
-
-RULE — SOURCE-ONLY, NO INVENTION
-You may use Category B words ONLY if the source (seller text, title, images,
-description, tags, serial numbers, form input) explicitly contains evidence.
-DO NOT:
-- Guess ("this looks like it might be rare")
-- Infer from similar items
-- Use general knowledge (ChatGPT training data about product lines, catalogs)
-- Assume from visual appearance without text confirmation
-If source does not provide evidence, DO NOT include the Category B word.
+Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC, OFFICIAL: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them).
+GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Genuine Leather", "Original Box"); never add yourself.
+RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., serial numbers, decade markers, "limited to N units"); no inference, no guessing, no general knowledge.
 3. NO REPETITION: Never repeat the same keyword twice in the title (e.g., "Head Only" appears once max).
 4. NO REDUNDANT CATEGORY WORDS: Do not add generic category words when a specific type is given
    (e.g., if "Fairway Wood" is stated, do NOT also add "Golf Club").
-5. SOFT CHAR TARGET: Length is a target, not a mandate. If source is sparse, shorter titles (40-67) are acceptable.
-   NEVER sacrifice truth for length.
+5. SOFT CHAR TARGET: Length is a target, not a mandate. NEVER sacrifice truth for length.
 6. ESSENTIAL INFO REQUIRED (when present in source): Brand, Model, Club Type must always be included.
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 40-75 chars. Ideal is 68-75, but shorter is ACCEPTABLE when source is sparse. NEVER sacrifice truth for length. If >75, shorten but keep SEO value.
+- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords. NEVER sacrifice truth for length.
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 - Do not mention guarantees/returns/refunds.
@@ -71,14 +33,6 @@ TITLE (SEO Priority)
   5. Shaft info if known (Graphite/Steel + Flex: Regular/Stiff/Senior/Ladies/X-Stiff)
   6. Handedness if Left (Right-Handed may be omitted; if Left, include "Left-Handed")
   7. Bonus SEO: Set, Head Only, Tour Issue. (Add "Japan Spec" or "JDM" ONLY if the source text explicitly states "日本仕様", "日本モデル", or "JP").
-
-LEGITIMATE GOLF KEYWORDS (use only when explicitly stated or truly applicable):
-- "Head Only" — only when the source indicates the item is a clubhead without shaft/grip
-- "Tour Issue" — only when source explicitly states Tour Issue
-- "Japan Spec" / "JDM" — only when source explicitly states Japanese domestic spec
-- "Limited" / "Limited Edition" — only when source explicitly states it
-- "Vintage" — only when source indicates older era
-- "Left-Handed" — only when source explicitly states left-handed
 
 - LOFT/NUMBER RULE:
   Copy the loft angle and club number exactly as in the source. For drivers, use values like 9.5deg; for wedges, use values like 56deg. For iron sets, include the range (e.g., 5-PW Iron Set).
@@ -101,124 +55,10 @@ DESCRIPTION (SEO Priority)
   * Head cover included or not
   * Handedness (Right/Left)
 - Use keyword variations where natural: "golf club" "club" along with the specific type.
-- BRAND/MODEL MAPPING (use correct English names):
-    - タイトリスト -> "Titleist"
-    - テーラーメイド -> "TaylorMade"
-    - キャロウェイ -> "Callaway"
-    - ピン -> "Ping"
-    - ミズノ -> "Mizuno"
-    - コブラ -> "Cobra"
-    - クリーブランド -> "Cleveland"
-    - スコッティキャメロン -> "Scotty Cameron"
-    - オデッセイ -> "Odyssey"
-    - ブリヂストン / ブリジストン -> "Bridgestone"
-    - フォーティーン -> "Fourteen"
-    - ヤマハ -> "Yamaha"
-    - ダンロップ / スリクソン -> "Srixon"
-    - 本間 / ホンマ -> "Honma"
-    - プロギア -> "PRGR"
-    - マルマン / マジェスティ -> "Maruman" / "Majesty"
-    - フジクラ -> "Fujikura" (shaft)
-    - グラファイトデザイン -> "Graphite Design" (shaft)
-    - 三菱ケミカル / ディアマナ -> "Mitsubishi Chemical" / "Diamana" (shaft)
-    - 日本シャフト / NSプロ -> "Nippon Shaft" / "NS Pro" (shaft)
-    - トゥルーテンパー -> "True Temper" (shaft)
-    - ダイナミックゴールド -> "Dynamic Gold" (shaft)
-    - モーダス -> "Modus" (shaft)
-- CLUB TYPE MAPPING:
-    - ドライバー -> "Driver"
-    - フェアウェイウッド / FW / スプーン -> "Fairway Wood"
-    - ユーティリティ / UT / ハイブリッド -> "Hybrid" / "Utility"
-    - アイアン / アイアンセット -> "Iron" / "Iron Set"
-    - ウェッジ / SW / AW / PW / LW -> "Wedge"
-    - パター -> "Putter"
-    - ヘッド単体 / ヘッドのみ -> "Head Only"
-- FLEX MAPPING:
-    - R / レギュラー -> "Regular (R)"
-    - S / スティッフ -> "Stiff (S)"
-    - SR / エスアール -> "Regular-Stiff (SR)"
-    - X / エックス -> "X-Stiff (X)"
-    - L / レディース -> "Ladies (L)"
-    - A / シニア -> "Senior (A)"
 - DEFECT/ISSUE REPORTING (CRITICAL):
   If the source mentions ANY defect, malfunction, or issue, you MUST describe it in the Description.
-  DEFECT KEYWORDS AND TRANSLATIONS:
-    - フェース傷 / 打痕 -> "face scratches" / "ball marks"
-    - シャフト傷 / シャフト割れ -> "shaft scratch" / "shaft crack"
-    - グリップ劣化 / グリップ硬化 -> "grip wear" / "grip hardened"
-    - ソール傷 -> "sole scratches" / "sole wear"
-    - 塗装剥がれ -> "paint peeling"
-    - ネック折れ / シャフト折れ -> "neck broken" / "shaft broken"
-    - ガタつき / ぐらつき -> "looseness" / "wobble"
-    - 凹み / へこみ -> "dent"
-    - メッキ剥がれ -> "chrome peeling"
-    - ラバー劣化 -> "rubber deterioration"
-    - スコアライン摩耗 / 溝の摩耗 -> "worn grooves" or "groove wear"
-    - フェース凹み -> "face dent"
-    - ソール塗装剥げ -> "sole paint chipping"
-    - クラウン傷 -> "crown scratch"
-    - シャフト塗装剥げ -> "shaft paint peeling"
-    - グリップ滑り / グリップ擦れ -> "slippery grip" or "grip worn smooth"
-    - ヘッドカバー傷み -> "headcover damaged"
-    - フェースのヒビ -> "face crack"
-    - ウェイトネジ欠損 -> "weight screw missing"
-    - フェレール割れ -> "ferrule cracked"
-    - 異音 / カラカラ音 -> "rattling noise"
-    - 鉛貼り / バランス調整跡 -> "lead tape applied"
-    - ネームプレート剥がれ -> "name plate peeling"
-    - ソケット緩み -> "loose hosel"
-    - メッキくすみ / メッキ変色 -> "chrome tarnish" or "plating discoloration"
-    - ジャンク -> "for parts"
-    - 〜できず / 〜不可 / 〜できません -> always means NOT possible. NEVER translate as "works" or "functional".
   If source contains "(DEFECT: ...)" markers, use the English text directly.
   Omitting known defects is a violation of eBay policy.
-TRANSLATION DICTIONARY (Golf-specific Japanese to English):
-  **Club Parts:**
-    - フェース / フェイス -> clubface / face
-    - ソール -> sole
-    - トゥ -> toe
-    - ヒール -> heel
-    - ホーゼル -> hosel
-    - クラウン -> crown
-    - バックフェース -> back cavity
-    - スコアライン / 溝 -> score lines / grooves
-    - リーディングエッジ -> leading edge
-    - フェースインサート -> face insert
-    - フェレール -> ferrule
-    - ネック -> neck / hosel
-
-  **Shaft Terms:**
-    - 先調子 -> low kick point / tip flex
-    - 中調子 -> mid kick point
-    - 元調子 -> high kick point / butt flex
-    - 中先調子 -> mid-low kick point
-    - トルク -> torque
-    - 純正シャフト -> stock shaft
-    - カスタムシャフト -> aftermarket shaft / custom shaft
-    - リシャフト -> reshafted
-    - カット / 短尺 -> cut down / shortened
-    - シャフトバンド -> shaft label / shaft band
-
-  **Spec Terms:**
-    - ロフト角 -> loft angle
-    - ライ角 -> lie angle
-    - バウンス角 -> bounce angle
-    - フェース角 -> face angle
-    - バランス / スイングウェイト -> swing weight
-    - ヘッド体積 -> head volume (cc)
-    - 総重量 -> total weight
-    - クラブ長さ -> club length (inches)
-    - MOI -> MOI (moment of inertia)
-
-  **Set/Config Terms:**
-    - 番手 -> club number
-    - セット構成 -> set makeup
-    - 単品 -> single club
-    - ヘッド単体 -> head only
-    - グリップ交換済み -> regripped
-    - 日本仕様 -> Japan Spec / JDM
-    - 日本限定 -> Japan Exclusive
-
 MISSING ACCESSORIES DETECTION (Category-specific):
   If source mentions any missing items, reflect in Title (append relevant marker) and Description:
     - ヘッドカバーなし -> "No Headcover"
@@ -254,7 +94,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 40-75 chars.
+1. Title length 68-75 chars.
 2. Description <= 480 chars.
 3. Only ASCII letters/numbers/spaces and allowed symbols (& / : - . ,) used throughout.
 4. No CJK characters or emoji anywhere.
@@ -266,8 +106,7 @@ VERIFICATION (must pass before returning):
 10. If source mentions any defect/malfunction, Description MUST include it.
 11. Every spec in the output must have a corresponding source in the Japanese text. If not found in source, it must NOT appear in output.
 12. If iron set, set composition in Title or Description matches source exactly (e.g., 5-PW).
-13. Club type, flex, and brand/model terms follow the mapping rules.
-14. No marketing padding words (Today, Now, For Sale, Hot, New, Ready, Available, Must Have, Best, Perfect, etc.) are used in the Title.
+13. No marketing padding words (Today, Now, For Sale, Hot, New, Ready, Available, Must Have, Best, Perfect, etc.) are used in the Title.
 
 If any check fails, regenerate until all pass.
 
