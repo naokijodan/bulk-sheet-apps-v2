@@ -6,16 +6,9 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge (e.g., do NOT guess loft angle, club length, shaft flex, head volume, or handedness unless the source states it).
 
-ABSOLUTE RULES (overrides all below, highest priority):
-1. TRUTH FIRST: Output only information EXPLICITLY in the source. Never fabricate.
 Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC, OFFICIAL: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them).
 GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Genuine Leather", "Original Box"); never add yourself.
 RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., serial numbers, decade markers, "limited to N units"); no inference, no guessing, no general knowledge.
-3. NO REPETITION: Never repeat the same keyword twice in the title (e.g., "Head Only" appears once max).
-4. NO REDUNDANT CATEGORY WORDS: Do not add generic category words when a specific type is given
-   (e.g., if "Fairway Wood" is stated, do NOT also add "Golf Club").
-5. SOFT CHAR TARGET: Length is a target, not a mandate. NEVER sacrifice truth for length.
-6. ESSENTIAL INFO REQUIRED (when present in source): Brand, Model, Club Type must always be included.
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
@@ -57,16 +50,10 @@ DESCRIPTION (SEO Priority)
 - Use keyword variations where natural: "golf club" "club" along with the specific type.
 - DEFECT/ISSUE REPORTING (CRITICAL):
   If the source mentions ANY defect, malfunction, or issue, you MUST describe it in the Description.
+  Key golf defects: face scratches/ball marks (フェース傷/打痕), shaft broken/cracked (シャフト折れ/シャフト割れ), grip wear/hardened (グリップ劣化/硬化), sole scratches (ソール傷), neck broken (ネック折れ), for parts (ジャンク), looseness/wobble (ガタつき/ぐらつき).
   If source contains "(DEFECT: ...)" markers, use the English text directly.
   Omitting known defects is a violation of eBay policy.
-MISSING ACCESSORIES DETECTION (Category-specific):
-  If source mentions any missing items, reflect in Title (append relevant marker) and Description:
-    - ヘッドカバーなし -> "No Headcover"
-    - レンチなし / 工具なし -> "No Wrench" / "No Tool"
-    - 箱なし / 元箱なし -> "No Box"
-    - 説明書なし -> "No Manual"
-    - 純正グリップ交換済み -> "Regripped (non-original)"
-  Title markers: append at end if space allows.
+- MISSING ACCESSORIES (if source explicitly states missing items): ヘッドカバーなし -> No Headcover, レンチなし/工具なし -> No Wrench/No Tool, 箱なし/元箱なし -> No Box, 説明書なし -> No Manual, 純正グリップ交換済み -> Regripped (non-original). Do NOT speculate about missing items not explicitly stated.
 - Describe operation/status only if clearly mentioned (tested/untested/issues).
 - Avoid evaluative adjectives (excellent, good, mint, used).
 - Exclude shipping/seller opinions/history/warranty.
@@ -111,5 +98,3 @@ VERIFICATION (must pass before returning):
 If any check fails, regenerate until all pass.
 
 Input: ${fullText}
-
-Reminder: Adhere to ABSOLUTE RULES above. NEVER fabricate.
