@@ -10,51 +10,13 @@ ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
 
 1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source (title_jp, description_jp, tag_jp). **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
 
-### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
-**Category A — ABSOLUTE BAN (even if factual):**
-Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
-MUST HAVE, BEST, PERFECT
-Empty superlatives: ULTIMATE, PREMIUM, LUXURY
-
-ABSOLUTE BAN — eBay VeRO protection (NO exceptions, even if source contains them):
-AUTHENTIC, OFFICIAL
-
-Source-transcription only (BANNED standalone, allowed ONLY when transcribing
-exact material/accessory names from source text):
-GENUINE — e.g., "Genuine Leather" (material name from source). Do NOT add yourself.
-ORIGINAL — e.g., "Original Box" (accessory name from source). Do NOT add yourself.
-
-**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
-- VINTAGE — Only if source confirms era
-  (e.g., "1970s", "Pre-1990", decade markers in source)
-- RARE — Only if source explicitly describes rarity
-  (e.g., "limited to 500 units", "one of 100 made", "rare colorway")
-- LIMITED / LIMITED EDITION — Only if source confirms limited edition status
-  (serial number, production count, limited release marker in source text)
-- ANTIQUE — Only if source describes as antique (100+ years old)
-- HANDMADE — Only if source explicitly states handmade (e.g., 手作り, 職人)
-- MINT — Only if source describes objective criteria
-  (unused, with original box, tags attached, factory sealed)
-
-**Category C — ALWAYS ALLOWED (factual attributes from source):**
-Brand names, material facts, dimensions, color, model name/number,
-condition descriptions, country of manufacture.
-
-### RULE — SOURCE-ONLY, NO INVENTION
-
-You may use Category B words ONLY if the source (seller text, title, images,
-description, tags, serial numbers, form input) explicitly contains evidence.
-DO NOT:
-- Guess ("this looks like it might be rare")
-- Infer from similar items (別の出品)
-- Use general knowledge (ChatGPT training data about product lines, catalogs)
-- Assume from visual appearance without text confirmation
-
-If source does not provide evidence, DO NOT include the Category B word.
-
+Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC, OFFICIAL: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them).
+GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Genuine Leather", "Original Box"); never add yourself.
+RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., serial numbers, decade markers, "limited to N units"); no inference, no guessing, no general knowledge.
+ANTIQUE: only if source confirms 100+ years old. HANDMADE: only if source confirms (手作り/職人); no inference.
 3. **NO REPETITION** — Do not repeat any token more than once in Title.
 4. **NO REDUNDANT CATEGORY** — Do not include generic category words more than once.
-5. **SOFT CHAR TARGET** — Title: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
+5. **SOFT CHAR TARGET** — Title: Length is a target, not a mandate. NEVER sacrifice truth for length.
 6. **ESSENTIAL INFO REQUIRED** — Brand / Product type / Key specs (material, size, color) / Condition (if stated).
 
 ========================================
@@ -67,7 +29,7 @@ BABY PRODUCT SAFETY NOTE
 ========================================
 
 [Title] SEO Priority
-- 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
+- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords. NEVER sacrifice truth for length.
 - Allowed symbols: & / :
 - Forbid commas, periods, hyphens, parentheses, brackets, quotes.
 - SEO keyword order (front-load high-value terms):
@@ -75,7 +37,7 @@ BABY PRODUCT SAFETY NOTE
   2. Model number/name
   3. Product type (generic searchable term)
   4. Key differentiator (size/color/material/condition)
-  5. Bonus SEO: Vintage, Rare (Category B — source-confirmed ONLY. See Rule 2)
+  5. Bonus SEO: Vintage, Rare (source-confirmed ONLY — see Rule 2)
 - Use buyer search terms, not technical jargon.
 - Include synonyms if space allows (e.g., "Watch Timepiece" or "Wallet Billfold").
 - Never output placeholders: N/A, NA, Unknown, TBD, Not specified, None.
@@ -85,7 +47,6 @@ BABY PRODUCT SAFETY NOTE
 - First sentence: Repeat brand + model + product type (primary keywords).
 - Include: key specs, dimensions, materials, condition, functionality.
 - Use natural keyword variations (e.g., "wristwatch" and "timepiece").
-- Add buyer-focused phrases: "ready to use" / "fully functional" / "excellent condition".
 - Exclude: shipping, purchase history, opinions, warranty, seller info.
 - Never output placeholders: N/A, NA, Unknown, TBD, Not specified, None.
 
@@ -104,7 +65,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1) Title length 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
+1) Title length 68-75 chars.
 2) Description <= 480 chars.
 3) ASCII-only (no CJK characters or emoji).
 4) Title uses only & / : and no , . - ( ) [ ] " .
