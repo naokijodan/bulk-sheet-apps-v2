@@ -1131,6 +1131,262 @@
     }
   ];
 
+  /* v2.0: Reference Implementations */
+  var REFERENCE_IMPLEMENTATIONS = [
+    {
+      id: 'reel-v2',
+      label: 'リール V2.0',
+      status: 'READY',
+      file: 'prompts/リール.txt',
+      lines: 101,
+      commit: '050ae33',
+      purpose: 'Standard Reference — 全カテゴリ改修の出発点',
+      type: 'スポーツ・機械系',
+      description: '11 セクション構造・GOALS 4 原則・Rule 2 (NO PADDING + AUTHENTIC/OFFICIAL BAN + GENUINE/ORIGINAL + RARE/LIMITED)・DEFECT/ISSUE REPORTING (5 JP→EN keywords)・MISSING ACCESSORIES (5 pairs)・VERIFICATION (13 items) の完全実装例。'
+    },
+    {
+      id: 'japanese-dolls-v2',
+      label: '日本人形 V2.0',
+      status: 'PLANNED (Step 2)',
+      file: 'prompts/日本人形.txt',
+      lines: null,
+      commit: null,
+      purpose: '美術品・骨董系 Reference — 日本人形/掛軸/盆栽/仏教美術/茶道具/陶磁器 等',
+      type: '美術品・骨董系',
+      description: 'ANTIQUE/HANDMADE whitelist・文化財固有 DEFECT keywords・骨董品 VERIFICATION 追加予定。'
+    },
+    {
+      id: 'soap-v2',
+      label: '石鹸 V2.0',
+      status: 'PLANNED (Step 2)',
+      file: 'prompts/石鹸.txt',
+      lines: null,
+      commit: null,
+      purpose: '食品・消費財系 Reference — 石鹸/パイプ・喫煙具/一般商品・汎用 等',
+      type: '食品・消費財系',
+      description: 'シンプルカテゴリ (90-110 行)・M-2 DEFECT サブセクション追加 (M-2 部分修正から派生予定)。'
+    },
+    {
+      id: 'camera-v2',
+      label: 'カメラ V2.0',
+      status: 'NEEDS_VERIFICATION',
+      file: 'prompts/カメラ.txt',
+      lines: 130,
+      commit: null,
+      purpose: '電子機器系 Reference — カメラ/オーディオ・家電/ゲーム機/ゲーム用 等 (v2.0 基準適合確認必要)',
+      type: '電子機器系',
+      description: 'SHUTTER COUNT RULE 有り。v2.0 基準 (M-1〜M-6 全項目) 適合確認後に READY 昇格予定。'
+    },
+    {
+      id: 'apparel-v2',
+      label: '衣類・アクセサリ V2.0',
+      status: 'PLANNED (Step 2)',
+      file: null,
+      lines: null,
+      commit: null,
+      purpose: '衣類・アクセサリ系 Reference — アパレル・ブランド品/スニーカー/着物/サングラス/レザーグッズ 等',
+      type: '衣類・アクセサリ系',
+      description: 'アパレル・ブランド品.txt を v2.0 化して reference 化予定。'
+    }
+  ];
+
+  /* v2.0: 差し替え項目チェックリスト (リール V2.0 → 新カテゴリ) */
+  var SUBSTITUTION_ITEMS = [
+    {
+      num: 1,
+      item: 'IDENTITY 専門分野',
+      reel_example: '"fishing reels and SEO optimization"',
+      policy: 'カテゴリ固有に差し替え (例: golf clubs / watches / cameras)',
+      shared: false
+    },
+    {
+      num: 2,
+      item: 'GOALS L7 hallucination 例示スペック',
+      reel_example: '"gear ratio, ball bearings count, or line capacity"',
+      policy: 'カテゴリ固有スペック例に差し替え (例: loft / shaft flex / camera model / shutter count)',
+      shared: false
+    },
+    {
+      num: 3,
+      item: 'SEO_ORDER items 2-7 (Brand 除く)',
+      reel_example: 'Model line / Size / Reel type / Gear info / Hand retrieve / Bonus',
+      policy: 'カテゴリ固有 SEO 要素に差し替え (例: Club Type / Loft / Shaft / Flex / Hand)',
+      shared: false
+    },
+    {
+      num: 4,
+      item: 'CATEGORY_RULE (optional)',
+      reel_example: 'SIZE/NUMBER RULE + GEAR CODE RULE',
+      policy: 'カテゴリ固有高リスク抑制に差し替え。不要なら省略可 (LOFT/NUMBER / WRIST / SHUTTER COUNT 等)',
+      shared: false
+    },
+    {
+      num: 5,
+      item: 'DESCRIPTION スペックリスト',
+      reel_example: 'gear ratio / bearings / drag / line capacity / hand retrieve / body material',
+      policy: 'カテゴリ固有スペックに差し替え (例: loft / shaft / length / camera sensor / shutter count)',
+      shared: false
+    },
+    {
+      num: 6,
+      item: '<strong style="color:#dc2626;">DEFECT JP→EN keywords (CRITICAL — 3 件以上必須)</strong>',
+      reel_example: 'ゴリ感/ベール不良/ドラグ不良/逆転不良/ハンドルガタ (5 件)',
+      policy: 'カテゴリ固有欠陥用語に差し替え必須 (例: フェース傷/シャフト折れ/グリップ劣化/ヘッドクラック for Golf)',
+      shared: false
+    },
+    {
+      num: 7,
+      item: 'MISSING ACCESSORIES 5 pairs',
+      reel_example: '予備スプールなし / ハンドルなし / ハンドルノブなし / 箱なし / 取説なし',
+      policy: 'カテゴリ固有付属品に差し替え (例: ヘッドカバーなし / レンチなし / ケースなし for Golf)',
+      shared: false
+    },
+    {
+      num: 8,
+      item: 'PRODUCTNAME Examples',
+      reel_example: 'Shimano Stella 4000XG Spinning Reel / Daiwa Steez SV TW Baitcasting Reel',
+      policy: 'カテゴリ固有 brand+model+type 例に差し替え (例: Titleist TSR3 Driver / Canon EOS 5D Mark IV)',
+      shared: false
+    },
+    {
+      num: 9,
+      item: 'CATEGORY 値 (3 パターン)',
+      reel_example: 'Fishing Reels / Reel Parts &amp; Repair / N/A',
+      policy: 'eBay カテゴリ名に差し替え (例: Golf Clubs / Golf Club Parts / Cameras &amp; Photo / Wristwatches)',
+      shared: false
+    },
+    {
+      num: 10,
+      item: 'VERIFICATION items 6-13 (カテゴリ固有)',
+      reel_example: 'SIZE/NUMBER 포함 / left-hand conditional / defect in Description / reel-specific defects accurate',
+      policy: 'カテゴリ固有 Verification に差し替え (例: loft/number / left-handed / shutter count / camera-specific defects)',
+      shared: false
+    }
+  ];
+
+  /* v2.0: 74 カテゴリ × 5 商品タイプ分類 */
+  var CATEGORY_TYPE_MAP = [
+    {
+      type_id: 1,
+      type_name: 'スポーツ・機械系',
+      reference: 'リール V2.0 (READY)',
+      reference_id: 'reel-v2',
+      description: '精密機械・スポーツ用品。GEAR CODE RULE / SIZE/NUMBER RULE 等のカテゴリ固有 RULE 有り。',
+      categories: [
+        {cat_no: 1,  name: 'Watches'},
+        {cat_no: 7,  name: 'Fishing Rods'},
+        {cat_no: 16, name: 'Golf'},
+        {cat_no: 23, name: 'Fishing Reels'},
+        {cat_no: 29, name: 'Baseball'},
+        {cat_no: 31, name: 'Mecha Model Kits'},
+        {cat_no: 42, name: 'Golf Heads'},
+        {cat_no: 45, name: 'Fishing Lures'},
+        {cat_no: 48, name: 'RC & Models'},
+        {cat_no: 56, name: 'Watch Parts'},
+        {cat_no: 62, name: 'Kitchen Knives'},
+        {cat_no: 63, name: 'Tennis'}
+      ]
+    },
+    {
+      type_id: 2,
+      type_name: '美術品・骨董系',
+      reference: '日本人形 V2.0 (PLANNED Step 2)',
+      reference_id: 'japanese-dolls-v2',
+      description: '日本文化・骨董・美術品。ANTIQUE/HANDMADE whitelist 有り。文化財固有 DEFECT keywords 必要。',
+      categories: [
+        {cat_no: 10, name: 'Figures'},
+        {cat_no: 11, name: 'Bonsai'},
+        {cat_no: 18, name: 'Art'},
+        {cat_no: 19, name: 'Prints'},
+        {cat_no: 24, name: 'Collectibles'},
+        {cat_no: 51, name: 'Tetsubin'},
+        {cat_no: 54, name: 'Coins'},
+        {cat_no: 57, name: 'Stamps'},
+        {cat_no: 65, name: 'Japanese Swords'},
+        {cat_no: 67, name: 'Japanese Dolls'},
+        {cat_no: 68, name: 'Tea Ceremony'},
+        {cat_no: 69, name: 'Buddhist Art'},
+        {cat_no: 70, name: 'Pottery'},
+        {cat_no: 71, name: 'Kakejiku'}
+      ]
+    },
+    {
+      type_id: 3,
+      type_name: '食品・消費財系',
+      reference: '石鹸 V2.0 (PLANNED Step 2)',
+      reference_id: 'soap-v2',
+      description: 'シンプル消費財・生活用品・メディア。CATEGORY_RULE 省略可。行数目標 90-110 行。',
+      categories: [
+        {cat_no: 15, name: 'Trading Cards'},
+        {cat_no: 17, name: 'Dolls & Plush'},
+        {cat_no: 20, name: 'Dinnerware'},
+        {cat_no: 26, name: 'Records'},
+        {cat_no: 27, name: 'Soap'},
+        {cat_no: 30, name: 'Key Chains'},
+        {cat_no: 39, name: 'Boxes'},
+        {cat_no: 46, name: 'Anime'},
+        {cat_no: 47, name: 'Combs'},
+        {cat_no: 50, name: 'Glassware'},
+        {cat_no: 55, name: 'Snow Globes'},
+        {cat_no: 59, name: 'Pens'},
+        {cat_no: 61, name: 'Flatware'},
+        {cat_no: 64, name: 'Pipes'},
+        {cat_no: 72, name: 'Manga'},
+        {cat_no: 73, name: 'Baby'},
+        {cat_no: 74, name: 'Books & Magazines'}
+      ]
+    },
+    {
+      type_id: 4,
+      type_name: '電子機器系',
+      reference: 'カメラ V2.0 (NEEDS_VERIFICATION)',
+      reference_id: 'camera-v2',
+      description: '電子機器・楽器・ゲーム。SHUTTER COUNT RULE 等の技術固有 RULE 有り。電子部品 DEFECT keywords 必要。',
+      categories: [
+        {cat_no: 14, name: 'Electronics'},
+        {cat_no: 22, name: 'Cameras'},
+        {cat_no: 25, name: 'Guitars'},
+        {cat_no: 36, name: 'Video Game Accessories'},
+        {cat_no: 38, name: 'Video Game Consoles'},
+        {cat_no: 40, name: 'Musical Instruments'},
+        {cat_no: 44, name: 'Video Games'},
+        {cat_no: 52, name: 'Synths & Digital'},
+        {cat_no: 53, name: 'Effects & Amps'},
+        {cat_no: 60, name: 'Japanese Instruments'}
+      ]
+    },
+    {
+      type_id: 5,
+      type_name: '衣類・アクセサリ系',
+      reference: '未作成 (PLANNED Step 2)',
+      reference_id: 'apparel-v2',
+      description: '衣類・バッグ・ジュエリー・アクセサリ。サイズ表記・素材記述・ブランド認証 DEFECT 固有。',
+      categories: [
+        {cat_no: 2,  name: 'Necklaces'},
+        {cat_no: 3,  name: 'Bracelets'},
+        {cat_no: 4,  name: 'Cufflinks'},
+        {cat_no: 5,  name: 'Charms'},
+        {cat_no: 6,  name: 'Handbags'},
+        {cat_no: 8,  name: 'Earrings'},
+        {cat_no: 9,  name: 'Rings'},
+        {cat_no: 12, name: 'Shoes'},
+        {cat_no: 13, name: 'Clothing'},
+        {cat_no: 21, name: 'Brooches'},
+        {cat_no: 28, name: 'Scarves'},
+        {cat_no: 32, name: 'Tie Accessories'},
+        {cat_no: 33, name: 'Neckties'},
+        {cat_no: 34, name: 'Belts'},
+        {cat_no: 35, name: 'Belt Buckles'},
+        {cat_no: 37, name: 'Sunglasses'},
+        {cat_no: 41, name: 'Hats'},
+        {cat_no: 43, name: 'Hair Accessories'},
+        {cat_no: 49, name: 'Handkerchiefs'},
+        {cat_no: 58, name: 'Wallets'},
+        {cat_no: 66, name: 'Kimono'}
+      ]
+    }
+  ];
+
   var PROMPT_EDIT_STEPS = [
     {
       id: 'C0',
@@ -1608,7 +1864,90 @@
       '</div>' +
     '</div>';
 
-    var stepsHtml = sectionTemplateHtml + baselineFunctionsHtml + principlesHtml + PROMPT_EDIT_STEPS.map(buildPromptEditStepCard).join('');
+    /* Reference Implementations */
+    var refCards = REFERENCE_IMPLEMENTATIONS.map(function (r) {
+      var statusCls = r.status === 'READY' ? 'color:#16a34a;' : r.status === 'NEEDS_VERIFICATION' ? 'color:#d97706;' : 'color:#6b7280;';
+      var commitInfo = r.commit ? ' <code style="font-size:11px;">' + r.commit + '</code>' : '';
+      var linesInfo = r.lines ? ' ' + r.lines + ' 行' : '';
+      return '<div style="border:1px solid #e2e8f0;border-radius:6px;padding:10px 14px;margin-bottom:8px;">' +
+        '<div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">' +
+          '<strong>' + r.label + '</strong>' +
+          '<span style="' + statusCls + 'font-size:12px;font-weight:600;">[' + r.status + ']</span>' +
+          (r.file ? '<code style="font-size:11px;color:#6b7280;">' + r.file + linesInfo + '</code>' : '') +
+          commitInfo +
+        '</div>' +
+        '<div style="font-size:13px;color:#374151;">' + r.description + '</div>' +
+        '<div style="font-size:12px;color:#6b7280;margin-top:4px;">用途: ' + r.purpose + '</div>' +
+      '</div>';
+    }).join('');
+
+    var referenceHtml = '<div class="design-section" id="pe-reference-impl">' +
+      '<div class="design-section__header">' +
+        '<span class="design-section__chevron">▾</span>' +
+        '<h3 class="design-section__title">📎 第 3.5 章: Reference Implementations (判例集)</h3>' +
+      '</div>' +
+      '<div class="design-section__body">' +
+        '<p class="design-note" style="margin-bottom:8px;">' +
+          '新カテゴリ改修時は最も近い類型の Reference をコピーして <strong>差し替え 10 項目のみ編集</strong>する。' +
+          '"その都度ゼロから考える" 設計を廃止し、74 カテゴリ品質均質化を図る。' +
+        '</p>' +
+        refCards +
+      '</div>' +
+    '</div>';
+
+    /* Substitution Items table */
+    var substRows = SUBSTITUTION_ITEMS.map(function (s) {
+      return '<tr><td style="text-align:center;">' + s.num + '</td>' +
+        '<td>' + s.item + '</td>' +
+        '<td><code style="font-size:11px;">' + s.reel_example + '</code></td>' +
+        '<td>' + s.policy + '</td></tr>';
+    }).join('');
+
+    var substitutionHtml = '<div class="design-section" id="pe-substitution">' +
+      '<div class="design-section__header">' +
+        '<span class="design-section__chevron">▾</span>' +
+        '<h3 class="design-section__title">🔧 差し替え項目チェックリスト (リール V2.0 → 新カテゴリ)</h3>' +
+      '</div>' +
+      '<div class="design-section__body">' +
+        '<p class="design-note" style="margin-bottom:8px;">' +
+          '<strong>共通部分 (変更禁止):</strong> GOALS 4 原則の 3 原則 (L4-L6) / TITLE rule 共通部 / Rule 2 標準文言 / DEFECT header+intro+eBay policy 文言 / OUTPUT_FORMAT / VERIFICATION items 1-5 / <code>Input: ${fullText}</code>' +
+        '</p>' +
+        '<table class="design-table">' +
+          '<thead><tr><th>#</th><th>差し替え項目</th><th>リール V2.0 記述例</th><th>差し替え方針</th></tr></thead>' +
+          '<tbody>' + substRows + '</tbody>' +
+        '</table>' +
+      '</div>' +
+    '</div>';
+
+    /* Category Type Map */
+    var typeSections = CATEGORY_TYPE_MAP.map(function (t) {
+      var catList = t.categories.map(function (c) {
+        return '<span style="display:inline-block;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:3px;padding:1px 6px;margin:2px;font-size:12px;">Cat ' + String(c.cat_no).padStart(2, '0') + ' ' + c.name + '</span>';
+      }).join('');
+      var refStatusCls = t.reference.indexOf('READY') !== -1 ? '#16a34a' : t.reference.indexOf('NEEDS') !== -1 ? '#d97706' : '#6b7280';
+      return '<div style="margin-bottom:12px;padding:10px 14px;border:1px solid #e2e8f0;border-radius:6px;">' +
+        '<div style="margin-bottom:6px;">' +
+          '<strong>類型 ' + t.type_id + ': ' + t.type_name + '</strong>' +
+          ' <span style="color:#6b7280;font-size:12px;">(' + t.categories.length + ' カテゴリ)</span>' +
+          ' <span style="color:' + refStatusCls + ';font-size:12px;margin-left:8px;">▶ ' + t.reference + '</span>' +
+        '</div>' +
+        '<div style="font-size:12px;color:#64748b;margin-bottom:6px;">' + t.description + '</div>' +
+        '<div>' + catList + '</div>' +
+      '</div>';
+    }).join('');
+
+    var categoryTypeHtml = '<div class="design-section" id="pe-category-types">' +
+      '<div class="design-section__header">' +
+        '<span class="design-section__chevron">▾</span>' +
+        '<h3 class="design-section__title">🗂️ 第 7.5 章: 74 カテゴリ × 5 商品タイプ分類</h3>' +
+      '</div>' +
+      '<div class="design-section__body">' +
+        '<p class="design-note" style="margin-bottom:8px;">各カテゴリを 5 類型に分類し、最適な Reference Implementation を割り当てる。改修前に自カテゴリの類型を確認し、対応 Reference をコピーして着手すること。</p>' +
+        typeSections +
+      '</div>' +
+    '</div>';
+
+    var stepsHtml = baselineFunctionsHtml + referenceHtml + substitutionHtml + categoryTypeHtml + sectionTemplateHtml + principlesHtml + PROMPT_EDIT_STEPS.map(buildPromptEditStepCard).join('');
 
     /* Option G vs B comparison table */
     var optionRows = OPTION_COMPARISON.map(function (row) {
