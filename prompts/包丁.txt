@@ -12,10 +12,10 @@ ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
 
 1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source (title_jp, description_jp, tag_jp). **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
 
-Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC, OFFICIAL: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them).
+Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them). OFFICIAL: Allowed ONLY when part of a product's proper name (e.g., "Official Warranty Card", "Official Box", "Official User Manual", "Official Guide Book"); NEVER use as a standalone authenticity claim (e.g., "Official Rolex" = BAN).
 GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Genuine Leather", "Original Box"); never add yourself.
 RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., serial numbers, decade markers, "limited to N units"); no inference, no guessing, no general knowledge.
-HANDMADE: only if source confirms (手作り/手鍛造/職人); no inference.
+ANTIQUE: only if source confirms 100+ years old. HANDMADE: only if source confirms (手作り/手鍛造/職人); no inference.
 
 3. **NO REPETITION** — Do not repeat any token more than once in Title.
 4. **NO REDUNDANT CATEGORY** — Do not include generic category words more than once.
@@ -49,7 +49,9 @@ DESCRIPTION (SEO Priority)
   * Weight if stated
   * Maker/blacksmith if stated
   * Sharpness/HRC if stated
-Key knife defects: blade chip (刃欠け/刃こぼれ), rust (錆), thinned from sharpening (研ぎ減り), handle crack (柄割れ), bent blade (歪み), crown scratch (クラウン傷).
+- DEFECT/ISSUE REPORTING (CRITICAL):
+  If the source mentions ANY defect, malfunction, or issue, you MUST describe it in the Description.
+  Key knife defects: blade chip (刃欠け/刃こぼれ), rust (錆), thinned from sharpening (研ぎ減り), handle crack (柄割れ), bent blade (歪み), crown scratch (クラウン傷).
 If source contains "(DEFECT: ...)" markers, use the English text directly.
   Omitting known defects is a violation of eBay policy.
 - Exclude: shipping, seller opinions.
@@ -81,13 +83,17 @@ Category: ...
 VERIFICATION (must pass before returning):
 1. Title length 68-75 chars.
 2. Description <= 480 chars.
-3. Only ASCII characters used throughout.
+3. Only ASCII letters/numbers/spaces and allowed symbols (& / :) used throughout.
 4. No CJK characters or emoji anywhere.
-5. Brand front-loaded in Title if known.
-6. Knife type clearly stated in Title.
-7. Blade material included if stated in source.
-9. Defects reported if mentioned in source.
-10. Every spec must have a source in the Japanese text.
+5. Title front-loads brand within first 30 chars (if known).
+6. Description first sentence contains brand + knife type + blade material keywords.
+7. ProductName uses real brand name or material-based form if brand unknown.
+8. Blade length included in Title or Description if stated in source.
+9. Knife type (Santoku, Deba, Yanagiba, Gyuto, Petty, Nakiri) included if stated in source.
+10. No forbidden symbols in Title (no , . - ( ) [ ] " '). No placeholders (N/A, NA, Unknown, TBD, Not specified, None).
+11. If source mentions any defect/malfunction (blade chip, rust, thinned from sharpening, handle crack, bent blade, crown scratch), Description MUST include it.
+12. Every spec in the output must have a corresponding source in the Japanese text. If not found in source, it must NOT appear in output.
+13. HANDMADE / Hand Forged claim only if source confirms (手作り / 手鍛造 / 職人). ANTIQUE claim only if source confirms 100+ years old.
 If any check fails, regenerate until all pass.
 
 Input: ${fullText}
