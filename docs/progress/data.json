@@ -115,14 +115,14 @@
         }
       ]
     },
-    "last_updated": "2026-04-19T13:30:00+09:00",
+    "last_updated": "2026-04-19T15:00:00+09:00",
     "data_source_reports": [
       "child-b-full-73-scan.json (73 cats)",
       "child-a-obsidian-audit.json",
       "child-c-docs-and-73cats.json"
     ],
-    "latest_commit": "3811244",
-    "latest_work": "2026-04-19: V2.0.1 AUTHENTIC/OFFICIAL 分離 Rule 2 line 1 — 9 カテゴリ完了 (時計 V11 301d487/v50, 日本人形 649c9ec/v38, ゴルフ 965401a/v49, リール a1125c2/v48, フィギュア ae04a18/v47, カメラ 2275db8/v49, ジュエリー ec36fad/v50, 石鹸 61161a9/v39, 一般商品・汎用 3811244/v46)"
+    "latest_commit": "71016d4",
+    "latest_work": "2026-04-19: V2.0.1 全 13 カテゴリ完遂 — 追加 4 件: 包丁 f9639d4/v39, テニス 988e9a0/v46, アニメ 62cac53/v2, スノーグローブ 71016d4/v2"
   },
   "phases": [
     {
@@ -1683,17 +1683,18 @@
       "is_refinement": "completed",
       "sanitize_integration": "completed",
       "prompt_file": "prompts/アニメ.txt",
-      "prompt_absolute_rules": "not_completed",
+      "prompt_absolute_rules": "completed",
       "inject_country": "Japan",
       "inject_theme": "Anime & Manga",
       "inject_age_level": "13+",
       "inject_features": "Collectors Edition",
       "field_count": 14,
       "field_count_original": 21,
-      "last_commit": null,
+      "last_commit": "62cac53",
       "notes": "【要注意】専用プロンプトファイルなし。設計上フィギュア.txt を共用している。将来 Anime 専用プロンプト作成時は Rule 6 ESSENTIAL INFO の除外リスト更新が必要 (commit 3a6d03d コメント参照)。",
       "phase_1b_started": true,
-      "cpsc_target": true
+      "cpsc_target": true,
+      "prompt_rule2_applied": true
     },
     {
       "cat_no": 47,
@@ -1983,17 +1984,18 @@
       "is_refinement": "completed",
       "sanitize_integration": "completed",
       "prompt_file": "prompts/スノーグローブ.txt",
-      "prompt_absolute_rules": "not_completed",
+      "prompt_absolute_rules": "completed",
       "inject_country": "not_applicable",
       "inject_theme": "not_applicable",
       "inject_age_level": "13+",
       "inject_features": "Collectors Edition",
       "field_count": 14,
       "field_count_original": 21,
-      "last_commit": null,
+      "last_commit": "71016d4",
       "notes": "【要注意】専用プロンプトなし。一般商品・汎用.txt 共用 (ABSOLUTE RULES 未導入)。Country of Origin は国籍混在(Disney/Hallmark/Sanrio等)のため注入なし。Theme も商品多様のため注入なし。Age Level は eBay 側で無視される可能性ありだが椛島さん特例として追加。 / prompt: shared (汎用にはABSOLUTE RULES未導入) / age_level: 椛島さん特例: eBay Taxonomy に Age Level Aspect 不存在だが手動追加",
       "phase_1b_started": true,
-      "cpsc_target": true
+      "cpsc_target": true,
+      "prompt_rule2_applied": true
     },
     {
       "cat_no": 56,
@@ -2185,17 +2187,18 @@
       "is_refinement": "completed",
       "sanitize_integration": "completed",
       "prompt_file": "prompts/包丁.txt",
-      "prompt_absolute_rules": "not_completed",
+      "prompt_absolute_rules": "completed",
       "inject_country": "not_applicable",
       "inject_theme": "not_applicable",
       "inject_age_level": "not_applicable",
       "inject_features": "not_applicable",
       "field_count": 13,
       "field_count_original": 21,
-      "last_commit": null,
+      "last_commit": "f9639d4",
       "notes": "",
       "phase_1b_started": true,
-      "cpsc_target": false
+      "cpsc_target": false,
+      "prompt_rule2_applied": true
     },
     {
       "cat_no": 63,
@@ -2213,17 +2216,18 @@
       "is_refinement": "completed",
       "sanitize_integration": "completed",
       "prompt_file": "prompts/テニス.txt",
-      "prompt_absolute_rules": "not_completed",
+      "prompt_absolute_rules": "completed",
       "inject_country": "not_applicable",
       "inject_theme": "not_applicable",
       "inject_age_level": "not_applicable",
       "inject_features": "not_applicable",
       "field_count": 17,
       "field_count_original": 21,
-      "last_commit": null,
+      "last_commit": "988e9a0",
       "notes": "",
       "phase_1b_started": true,
-      "cpsc_target": false
+      "cpsc_target": false,
+      "prompt_rule2_applied": true
     },
     {
       "cat_no": 64,
@@ -3006,9 +3010,9 @@
     "version": {
       "current": "v108",
       "released_date": "2026-04-13",
-      "latest_commit": "3811244"
+      "latest_commit": "71016d4"
     },
-    "generated_at": "2026-04-19T13:30:00+09:00",
+    "generated_at": "2026-04-19T15:00:00+09:00",
     "data_sources": [
       "child-b-status-matrix.json",
       "child-c-docs-and-73cats.json",
