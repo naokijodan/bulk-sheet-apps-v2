@@ -1124,9 +1124,9 @@
     },
     {
       id: 'M-6',
-      title: 'AUTHENTIC/OFFICIAL BAN',
+      title: 'AUTHENTIC/OFFICIAL 分離ルール (V2.0.1)',
       required: true,
-      detail: 'Rule 2 (または ABSOLUTE RULES) に AUTHENTIC/OFFICIAL 使用禁止ルール (eBay VeRO 保護)。',
+      detail: 'AUTHENTIC: ABSOLUTE BAN (全カテゴリ例外なし、eBay VeRO 保護) / OFFICIAL: 製品の固有名称の一部としてのみ許容 (例: "Official Warranty Card")、独立した真正性主張は禁止 (V2.0.1 分離形式)。',
       ebay_policy: true
     }
   ];
@@ -1134,26 +1134,81 @@
   /* v2.0: Reference Implementations */
   var REFERENCE_IMPLEMENTATIONS = [
     {
+      id: 'tokei-v11',
+      label: '時計 V11',
+      status: 'READY',
+      file: 'prompts/時計用.txt',
+      lines: 111,
+      commit: '301d487',
+      purpose: 'Standard Reference V2.0.1 — 全カテゴリ改修の出発点 (AUTHENTIC/OFFICIAL 分離形式確立)',
+      type: 'スポーツ・機械系',
+      description: '11 セクション構造・GOALS 4 原則・Rule 2 V2.0.1 (AUTHENTIC: ABSOLUTE BAN / OFFICIAL: 製品固有名のみ許容)・WRIST RULE・DISPLAY TYPE RULE・DEFECT/ISSUE REPORTING (11 JP→EN keywords)・MISSING ACCESSORIES・VERIFICATION (13 items) の完全実装例。'
+    },
+    {
       id: 'reel-v2',
-      label: 'リール V2.0',
+      label: 'リール V2.0.1',
       status: 'READY',
       file: 'prompts/リール.txt',
       lines: 101,
-      commit: '050ae33',
-      purpose: 'Standard Reference — 全カテゴリ改修の出発点',
+      commit: 'a1125c2',
+      purpose: 'スポーツ・機械系 (V2.0.1 Rule 2 line 1 統一済み)',
       type: 'スポーツ・機械系',
-      description: '11 セクション構造・GOALS 4 原則・Rule 2 (NO PADDING + AUTHENTIC/OFFICIAL BAN + GENUINE/ORIGINAL + RARE/LIMITED)・DEFECT/ISSUE REPORTING (5 JP→EN keywords)・MISSING ACCESSORIES (5 pairs)・VERIFICATION (13 items) の完全実装例。'
+      description: 'V2.0.1 Rule 2 line 1 (AUTHENTIC/OFFICIAL 分離形式) 統一完了。DEFECT/ISSUE REPORTING (5 JP→EN keywords)・MISSING ACCESSORIES (5 pairs)・VERIFICATION (13 items)。'
     },
     {
-      id: 'japanese-dolls-v2',
-      label: '日本人形 V2.0',
-      status: 'PLANNED (Step 2)',
+      id: 'golf-v2',
+      label: 'ゴルフ V2.0.1',
+      status: 'READY',
+      file: 'prompts/ゴルフ.txt',
+      lines: null,
+      commit: '965401a',
+      purpose: 'スポーツ・機械系 (V2.0.1 Rule 2 line 1 統一済み)',
+      type: 'スポーツ・機械系',
+      description: 'V2.0.1 Rule 2 line 1 統一完了。LOFT/NUMBER RULE あり。'
+    },
+    {
+      id: 'camera-v2',
+      label: 'カメラ V2.0.1',
+      status: 'READY',
+      file: 'prompts/カメラ.txt',
+      lines: null,
+      commit: '2275db8',
+      purpose: '電子機器系 Reference (V2.0.1 Rule 2 line 1 統一済み)',
+      type: '電子機器系',
+      description: 'V2.0.1 Rule 2 line 1 統一完了。SHUTTER COUNT RULE あり。電子部品 DEFECT keywords 実装済み。'
+    },
+    {
+      id: 'jewelry-v2',
+      label: 'ジュエリー V2.0.1',
+      status: 'READY',
+      file: 'prompts/ジュエリー.txt',
+      lines: null,
+      commit: 'ec36fad',
+      purpose: '衣類・アクセサリ系 Reference (V2.0.1 Rule 2 line 1 統一済み)',
+      type: '衣類・アクセサリ系',
+      description: 'V2.0.1 Rule 2 line 1 統一完了。素材・ブランド認証 DEFECT keywords 実装済み。'
+    },
+    {
+      id: 'figure-v2',
+      label: 'フィギュア V2.0.1',
+      status: 'READY',
+      file: 'prompts/フィギュア.txt',
+      lines: null,
+      commit: 'ae04a18',
+      purpose: '美術品・骨董系 Reference (V2.0.1 Rule 2 line 1 統一済み)',
+      type: '美術品・骨董系',
+      description: 'V2.0.1 Rule 2 line 1 統一完了。コレクターズアイテム固有 DEFECT keywords 実装済み。'
+    },
+    {
+      id: 'nihonningyo-v2',
+      label: '日本人形 V2.0.1',
+      status: 'READY',
       file: 'prompts/日本人形.txt',
       lines: null,
-      commit: null,
-      purpose: '美術品・骨董系 Reference — 日本人形/掛軸/盆栽/仏教美術/茶道具/陶磁器 等',
+      commit: '649c9ec',
+      purpose: '美術品・骨董系 Reference (V2.0.1 Rule 2 line 1 統一済み)',
       type: '美術品・骨董系',
-      description: 'ANTIQUE/HANDMADE whitelist・文化財固有 DEFECT keywords・骨董品 VERIFICATION 追加予定。'
+      description: 'V2.0.1 Rule 2 line 1 統一完了。日本文化財固有 DEFECT keywords・ANTIQUE/HANDMADE whitelist 実装済み。'
     },
     {
       id: 'soap-v2',
@@ -1165,17 +1220,6 @@
       purpose: '食品・消費財系 Reference — 石鹸/パイプ・喫煙具/一般商品・汎用 等',
       type: '食品・消費財系',
       description: 'シンプルカテゴリ (90-110 行)・M-2 DEFECT サブセクション追加 (M-2 部分修正から派生予定)。'
-    },
-    {
-      id: 'camera-v2',
-      label: 'カメラ V2.0',
-      status: 'NEEDS_VERIFICATION',
-      file: 'prompts/カメラ.txt',
-      lines: 130,
-      commit: null,
-      purpose: '電子機器系 Reference — カメラ/オーディオ・家電/ゲーム機/ゲーム用 等 (v2.0 基準適合確認必要)',
-      type: '電子機器系',
-      description: 'SHUTTER COUNT RULE 有り。v2.0 基準 (M-1〜M-6 全項目) 適合確認後に READY 昇格予定。'
     },
     {
       id: 'apparel-v2',
@@ -1190,76 +1234,76 @@
     }
   ];
 
-  /* v2.0: 差し替え項目チェックリスト (リール V2.0 → 新カテゴリ) */
+  /* v2.0: 差し替え項目チェックリスト (時計 V11 → 新カテゴリ) */
   var SUBSTITUTION_ITEMS = [
     {
       num: 1,
       item: 'IDENTITY 専門分野',
-      reel_example: '"fishing reels and SEO optimization"',
-      policy: 'カテゴリ固有に差し替え (例: golf clubs / watches / cameras)',
+      reel_example: '"watches and SEO optimization"',
+      policy: 'カテゴリ固有に差し替え (例: golf clubs / fishing reels / cameras)',
       shared: false
     },
     {
       num: 2,
       item: 'GOALS L7 hallucination 例示スペック',
-      reel_example: '"gear ratio, ball bearings count, or line capacity"',
-      policy: 'カテゴリ固有スペック例に差し替え (例: loft / shaft flex / camera model / shutter count)',
+      reel_example: '"movement type, water resistance, case size, crystal type, or country of origin"',
+      policy: 'カテゴリ固有スペック例に差し替え (例: loft / shaft flex / gear ratio / shutter count)',
       shared: false
     },
     {
       num: 3,
       item: 'SEO_ORDER items 2-7 (Brand 除く)',
-      reel_example: 'Model line / Size / Reel type / Gear info / Hand retrieve / Bonus',
-      policy: 'カテゴリ固有 SEO 要素に差し替え (例: Club Type / Loft / Shaft / Flex / Hand)',
+      reel_example: 'Collection/Line name / Movement type / Watch type / Case size / Gender / Ref-Cal / Bonus',
+      policy: 'カテゴリ固有 SEO 要素に差し替え (例: Club Type / Loft / Shaft / Flex / Hand for Golf)',
       shared: false
     },
     {
       num: 4,
       item: 'CATEGORY_RULE (optional)',
-      reel_example: 'SIZE/NUMBER RULE + GEAR CODE RULE',
-      policy: 'カテゴリ固有高リスク抑制に差し替え。不要なら省略可 (LOFT/NUMBER / WRIST / SHUTTER COUNT 等)',
+      reel_example: 'WRIST RULE + DISPLAY TYPE RULE',
+      policy: 'カテゴリ固有高リスク抑制に差し替え。不要なら省略可 (LOFT/NUMBER / SIZE/NUMBER / SHUTTER COUNT 等)',
       shared: false
     },
     {
       num: 5,
       item: 'DESCRIPTION スペックリスト',
-      reel_example: 'gear ratio / bearings / drag / line capacity / hand retrieve / body material',
-      policy: 'カテゴリ固有スペックに差し替え (例: loft / shaft / length / camera sensor / shutter count)',
+      reel_example: 'movement type / caliber / display type / water resistance / crystal / band material / dial color',
+      policy: 'カテゴリ固有スペックに差し替え (例: loft / shaft / length / camera sensor / gear ratio)',
       shared: false
     },
     {
       num: 6,
       item: '<strong style="color:#dc2626;">DEFECT JP→EN keywords (CRITICAL — 3 件以上必須)</strong>',
-      reel_example: 'ゴリ感/ベール不良/ドラグ不良/逆転不良/ハンドルガタ (5 件)',
-      policy: 'カテゴリ固有欠陥用語に差し替え必須 (例: フェース傷/シャフト折れ/グリップ劣化/ヘッドクラック for Golf)',
+      reel_example: '故障/不動/ジャンク/カレンダー不良/リューズ破損/ガラス割れ/欠け/傷 (8 件以上)',
+      policy: 'カテゴリ固有欠陥用語に差し替え必須 (例: ゴリ感/ベール不良/ドラグ不良 for リール / フェース傷/シャフト折れ for Golf)',
       shared: false
     },
     {
       num: 7,
-      item: 'MISSING ACCESSORIES 5 pairs',
-      reel_example: '予備スプールなし / ハンドルなし / ハンドルノブなし / 箱なし / 取説なし',
-      policy: 'カテゴリ固有付属品に差し替え (例: ヘッドカバーなし / レンチなし / ケースなし for Golf)',
+      item: 'MISSING ACCESSORIES pairs',
+      reel_example: '箱なし / 保証書なし / 説明書なし / ベルトなし',
+      policy: 'カテゴリ固有付属品に差し替え (例: 予備スプールなし / ヘッドカバーなし / ケースなし)',
       shared: false
     },
     {
       num: 8,
       item: 'PRODUCTNAME Examples',
-      reel_example: 'Shimano Stella 4000XG Spinning Reel / Daiwa Steez SV TW Baitcasting Reel',
+      reel_example: 'Seiko Prospex Diver Watch / Citizen Eco-Drive Chronograph',
       policy: 'カテゴリ固有 brand+model+type 例に差し替え (例: Titleist TSR3 Driver / Canon EOS 5D Mark IV)',
       shared: false
     },
     {
       num: 9,
       item: 'CATEGORY 値 (3 パターン)',
-      reel_example: 'Fishing Reels / Reel Parts &amp; Repair / N/A',
-      policy: 'eBay カテゴリ名に差し替え (例: Golf Clubs / Golf Club Parts / Cameras &amp; Photo / Wristwatches)',
+      reel_example: 'Wristwatches / Pocket Watches / Watch Parts &amp; Accessories / Clocks',
+      policy: 'eBay カテゴリ名に差し替え (例: Golf Clubs / Fishing Reels / Cameras &amp; Photo)',
       shared: false
     },
     {
       num: 10,
       item: 'VERIFICATION items 6-13 (カテゴリ固有)',
-      reel_example: 'SIZE/NUMBER 포함 / left-hand conditional / defect in Description / reel-specific defects accurate',
-      policy: 'カテゴリ固有 Verification に差し替え (例: loft/number / left-handed / shutter count / camera-specific defects)',
+      reel_example: 'wrist rule / display type / defect in Description / spec source-only check',
+      policy: 'カテゴリ固有 Verification に差し替え (例: loft/number / left-handed / shutter count / reel-specific defects)',
       shared: false
     }
   ];
@@ -1269,8 +1313,8 @@
     {
       type_id: 1,
       type_name: 'スポーツ・機械系',
-      reference: 'リール V2.0 (READY)',
-      reference_id: 'reel-v2',
+      reference: '時計 V11 (READY, commit 301d487)',
+      reference_id: 'tokei-v11',
       description: '精密機械・スポーツ用品。GEAR CODE RULE / SIZE/NUMBER RULE 等のカテゴリ固有 RULE 有り。',
       categories: [
         {cat_no: 1,  name: 'Watches'},
@@ -1906,14 +1950,14 @@
     var substitutionHtml = '<div class="design-section" id="pe-substitution">' +
       '<div class="design-section__header">' +
         '<span class="design-section__chevron">▾</span>' +
-        '<h3 class="design-section__title">🔧 差し替え項目チェックリスト (リール V2.0 → 新カテゴリ)</h3>' +
+        '<h3 class="design-section__title">🔧 差し替え項目チェックリスト (時計 V11 → 新カテゴリ)</h3>' +
       '</div>' +
       '<div class="design-section__body">' +
         '<p class="design-note" style="margin-bottom:8px;">' +
           '<strong>共通部分 (変更禁止):</strong> GOALS 4 原則の 3 原則 (L4-L6) / TITLE rule 共通部 / Rule 2 標準文言 / DEFECT header+intro+eBay policy 文言 / OUTPUT_FORMAT / VERIFICATION items 1-5 / <code>Input: ${fullText}</code>' +
         '</p>' +
         '<table class="design-table">' +
-          '<thead><tr><th>#</th><th>差し替え項目</th><th>リール V2.0 記述例</th><th>差し替え方針</th></tr></thead>' +
+          '<thead><tr><th>#</th><th>差し替え項目</th><th>時計 V11 記述例</th><th>差し替え方針</th></tr></thead>' +
           '<tbody>' + substRows + '</tbody>' +
         '</table>' +
       '</div>' +
