@@ -115,14 +115,14 @@ window.PROGRESS_DATA = {
         }
       ]
     },
-    "last_updated": "2026-04-19T17:00:00+09:00",
+    "last_updated": "2026-04-19T18:00:00+09:00",
     "data_source_reports": [
       "child-b-full-73-scan.json (73 cats)",
       "child-a-obsidian-audit.json",
       "child-c-docs-and-73cats.json"
     ],
-    "latest_commit": "a679b1c",
-    "latest_work": "2026-04-19: V2.0.1 第 15 件 — オーディオ・家電 a679b1c/v47 完了"
+    "latest_commit": "ad385d5",
+    "latest_work": "2026-04-19: V2.0.1 第 16 件 — レコード ad385d5/v45 完了"
   },
   "phases": [
     {
@@ -1044,17 +1044,18 @@ window.PROGRESS_DATA = {
       "is_refinement": "completed",
       "sanitize_integration": "completed",
       "prompt_file": "prompts/レコード.txt",
-      "prompt_absolute_rules": "not_completed",
+      "prompt_absolute_rules": "completed",
       "inject_country": "not_applicable",
       "inject_theme": "not_applicable",
       "inject_age_level": "not_applicable",
       "inject_features": "not_applicable",
       "field_count": 17,
       "field_count_original": 21,
-      "last_commit": null,
+      "last_commit": "ad385d5",
       "notes": "",
       "phase_1b_started": true,
-      "cpsc_target": false
+      "cpsc_target": false,
+      "prompt_rule2_applied": true
     },
     {
       "cat_no": 27,
@@ -3017,9 +3018,9 @@ window.PROGRESS_DATA = {
     "version": {
       "current": "v108",
       "released_date": "2026-04-13",
-      "latest_commit": "a679b1c"
+      "latest_commit": "ad385d5"
     },
-    "generated_at": "2026-04-19T17:00:00+09:00",
+    "generated_at": "2026-04-19T18:00:00+09:00",
     "data_sources": [
       "child-b-status-matrix.json",
       "child-c-docs-and-73cats.json",
