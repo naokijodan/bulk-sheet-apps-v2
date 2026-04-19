@@ -6,103 +6,20 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge.
 
-========================================
-ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
-========================================
-
-1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source (title_jp, description_jp, tag_jp). **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
-
-### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
-**Category A — ABSOLUTE BAN (even if factual):**
-Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
-MUST HAVE, BEST, PERFECT
-Empty superlatives: ULTIMATE, PREMIUM, LUXURY
-
-ABSOLUTE BAN — eBay VeRO protection (NO exceptions, even if source contains them):
-AUTHENTIC, OFFICIAL
-
-Source-transcription only (BANNED standalone, allowed ONLY when transcribing
-exact item names from source text):
-GENUINE — e.g., "Genuine Prize Figure" (type name from source). Do NOT add yourself.
-ORIGINAL — e.g., "Original Illustration" (item description from source). Do NOT add yourself.
-
-**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
-- RARE — Only if source explicitly describes rarity (希少 stated in source)
-- LIMITED / LIMITED EDITION — Only if source confirms limited release (限定 in source)
-- VINTAGE — Only if source confirms era (decade markers in source, e.g., 1980s goods)
-
-**Category C — ALWAYS ALLOWED (factual attributes from source):**
-Franchise/series name (English), character name (English), item type,
-manufacturer/brand, scale, material, release year (if source-confirmed),
-Japan (factual if source explicitly states Japan exclusive or Japan release).
-
-### RULE — SOURCE-ONLY, NO INVENTION
-
-You may use Category B words ONLY if the source explicitly contains evidence.
-DO NOT guess, infer from similar items, or use general knowledge about anime series.
-
-If source does not provide evidence, DO NOT include the Category B word.
+Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them). OFFICIAL: Allowed ONLY when part of a product's proper name (e.g., "Official Warranty Card", "Official Box", "Official User Manual", "Official Guide Book"); NEVER use as a standalone authenticity claim (e.g., "Official Rolex" = BAN).
+GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Genuine Leather", "Original Box"); never add yourself.
+RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., serial numbers, decade markers, "limited to N units"); no inference, no guessing, no general knowledge.
+ANTIQUE: only if source confirms 100+ years old. HANDMADE: only if source confirms (手作り/職人); no inference.
+Bootleg/KO/Replica: If source explicitly states or suggests bootleg/KO/replica/unofficial, describe it clearly in Description. NEVER put "Bootleg", "KO", "Replica", "Unofficial" in Title if source does not state it; conversely, if source confirms these, MUST include them.
 
 3. **NO REPETITION** — Do not repeat any token more than once in Title.
 4. **NO REDUNDANT CATEGORY** — Do not include generic category words more than once.
-5. **SOFT CHAR TARGET** — Title: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
+5. **SOFT CHAR TARGET** — Title: 68-75 chars. NEVER sacrifice truth for length.
 6. **ESSENTIAL INFO REQUIRED** — Franchise / Character / Item type / Manufacturer (if known).
-
-========================================
-
-PRODUCT TYPE MAPPING
-- フィギュア / 人形 -> Figure / Figurine
-- ぬいぐるみ -> Plush / Stuffed Toy
-- アクリルスタンド / アクスタ -> Acrylic Stand
-- アクリルキーホルダー / アクキー -> Acrylic Keychain
-- 缶バッジ -> Pin Badge / Button Badge
-- クリアファイル -> Clear File / Plastic Folder
-- ポスター -> Poster
-- タペストリー / 抱き枕カバー -> Tapestry / Wall Scroll / Dakimakura Cover
-- セル画 / 原画 -> Cel Art / Animation Cel / Original Art
-- 色紙 / 直筆サイン入り -> Shikishi / Autograph Board
-- ラバーストラップ -> Rubber Strap / Rubber Keychain
-- 一番くじ景品 -> Ichiban Kuji Prize
-- グッズセット -> Merchandise Set
-
-FRANCHISE / SERIES TITLE TRANSLATIONS
-- 鬼滅の刃 -> Demon Slayer / Kimetsu no Yaiba
-- 呪術廻戦 -> Jujutsu Kaisen
-- 進撃の巨人 -> Attack on Titan
-- 僕のヒーローアカデミア -> My Hero Academia
-- ワンピース -> One Piece
-- ナルト -> Naruto
-- ドラゴンボール -> Dragon Ball
-- スパイファミリー -> Spy x Family
-- チェンソーマン -> Chainsaw Man
-- 初音ミク -> Hatsune Miku / Vocaloid
-- ポケモン -> Pokemon
-- ジョジョの奇妙な冒険 -> JoJo's Bizarre Adventure
-- 機動戦士ガンダム -> Mobile Suit Gundam
-- エヴァンゲリオン -> Neon Genesis Evangelion
-- 魔法少女まどか☆マギカ -> Puella Magi Madoka Magica
-- 五等分の花嫁 -> The Quintessential Quintuplets
-- リゼロ / Re:ゼロ -> Re:Zero
-- 転生したらスライムだった件 -> That Time I Got Reincarnated as a Slime
-- For lesser-known series: use English official title if known; otherwise Romaji
-
-MANUFACTURER MAPPING
-- グッドスマイルカンパニー -> Good Smile Company
-- マックスファクトリー -> Max Factory
-- コトブキヤ -> Kotobukiya
-- バンプレスト / BANPRESTO -> Banpresto
-- バンダイ -> Bandai
-- フリューイング -> FREEing
-- アルター -> Alter
-- アニプレックス -> Aniplex
-- メガハウス -> Megahouse
-- タイトー -> Taito
-- フリュー -> FuRyu
-- セガ -> Sega
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80). If >80, shorten but keep SEO value.
+- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords. NEVER sacrifice truth for length.
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 
@@ -112,7 +29,7 @@ TITLE (SEO Priority)
   3. Item type (Figure, Plush, Acrylic Stand, Cel Art, etc.)
   4. Manufacturer (if known)
   5. Japan (factual if Japan-exclusive or Japan release stated in source)
-  6. Bonus SEO: Rare, Limited (Category B — source-confirmed ONLY. See Rule 2)
+  6. Bonus SEO: Rare, Limited (source-confirmed ONLY — see Rule 2).
 
 DESCRIPTION (SEO Priority)
 - English ASCII only, <= 480 chars, single natural paragraph.
@@ -137,6 +54,7 @@ DESCRIPTION (SEO Priority)
     - 傷 -> "scratch"
     - 〜できず / 〜不可 -> always means NOT possible.
   Omitting known defects is a violation of eBay policy.
+- MISSING ACCESSORIES (if source explicitly states): 箱なし/外箱なし -> No Box, タグなし -> No Tag, 付属品なし -> No Accessories. Do NOT speculate about missing items not explicitly stated.
 - Avoid evaluative adjectives. Exclude shipping/seller opinions.
 
 PRODUCTNAME
@@ -161,16 +79,19 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 40-75 chars (target 68-75, shorter OK if source-bound, NEVER exceed 80).
+1. Title length 68-75 chars. If <68, add SEO keywords without fabrication.
 2. Description <= 480 chars.
 3. Only ASCII characters and allowed symbols used throughout.
 4. No CJK characters or emoji anywhere.
-5. Franchise/series name (English) front-loaded in Title.
-6. Character name (English) included if determinable from source.
-7. Item type clearly stated in Title.
-8. No forbidden symbols in Title.
-9. If source mentions any defect or missing parts, Description MUST include it.
-10. Every spec must have a corresponding source in the Japanese text.
+5. Title front-loads Franchise/brand within first 30 chars.
+6. Description first sentence contains Franchise + character + item type keywords.
+7. CATEGORY field uses one of the 5 valid values (Figures/Plush/Cel Art/Badges/N/A).
+8. Condition/status words appear only if explicitly stated in source.
+9. No forbidden symbols in Title.
+10. If any figure/plush defect mentioned in source, Description MUST include it.
+11. If source mentions any defect (箱なし/箱傷み/欠品/塗装ムラ/破損・割れ/ジャンク/傷/〜できず), Description MUST include it.
+12. Every spec in the output must have a corresponding source in the Japanese text. If not found in source, it must NOT appear in output.
+13. Bootleg/KO/Replica in Title only if source explicitly confirms. ANTIQUE claim only if source confirms 100+ years old. HANDMADE only if source confirms (手作り/職人).
 
 If any check fails, regenerate until all pass.
 
