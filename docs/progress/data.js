@@ -115,13 +115,13 @@ window.PROGRESS_DATA = {
         }
       ]
     },
-    "last_updated": "2026-04-19T18:00:00+09:00",
+    "last_updated": "2026-04-20T00:00:00+09:00",
     "data_source_reports": [
       "child-b-full-73-scan.json (73 cats)",
       "child-a-obsidian-audit.json",
       "child-c-docs-and-73cats.json"
     ],
-    "latest_commit": "ad385d5",
+    "latest_commit": "38ae328",
     "latest_work": "2026-04-19: V2.0.1 第 16 件 — レコード ad385d5/v45 完了"
   },
   "phases": [
@@ -416,18 +416,21 @@ window.PROGRESS_DATA = {
       "is_refinement": "completed",
       "sanitize_integration": "completed",
       "prompt_file": "prompts/釣竿.txt",
-      "prompt_absolute_rules": "not_completed",
+      "prompt_absolute_rules": "completed",
       "inject_country": "not_applicable",
       "inject_theme": "not_applicable",
       "inject_age_level": "not_applicable",
       "inject_features": "not_applicable",
       "field_count": 12,
       "field_count_original": 21,
-      "last_commit": "5cfe3ce",
+      "last_commit": "38ae328",
       "notes": "",
       "phase_1b_started": true,
       "cpsc_target": false,
-      "prompt_rule2_applied": true
+      "prompt_rule2_applied": true,
+      "library_version": "v46",
+      "completed_at_iso": "2026-04-20T00:00:00+09:00",
+      "v201_status": "completed"
     },
     {
       "cat_no": 8,
