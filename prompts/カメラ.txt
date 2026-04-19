@@ -6,7 +6,7 @@ GOALS
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
 - ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge (e.g., do NOT guess sensor size, resolution, ISO range, or video capability unless the source states it).
 
-Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC, OFFICIAL: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them).
+Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them). OFFICIAL: Allowed ONLY when part of a product's proper name (e.g., "Official Warranty Card", "Official Box", "Official User Manual", "Official Guide Book"); NEVER use as a standalone authenticity claim (e.g., "Official Rolex" = BAN).
 GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Genuine Leather", "Original Box"); never add yourself.
 RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., serial numbers, decade markers, "limited to N units"); no inference, no guessing, no general knowledge.
 
