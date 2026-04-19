@@ -12,7 +12,7 @@ ABSOLUTE RULES (READ FIRST — DO NOT VIOLATE)
 
 1. **TRUTH FIRST**: Every fact in Title / Description / ProductName MUST be derivable from the source (title_jp, description_jp, tag_jp). **Lying is worse than being short.** If something is unknown, omit it — never fabricate.
 
-Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC, OFFICIAL: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them).
+Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them). OFFICIAL: Allowed ONLY when part of a product's proper name (e.g., "Official Warranty Card", "Official Box", "Official User Manual", "Official Guide Book"); NEVER use as a standalone authenticity claim (e.g., "Official Rolex" = BAN).
 GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Genuine Leather", "Original Box"); never add yourself.
 RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., serial numbers, decade markers, "limited to N units"); no inference, no guessing, no general knowledge.
 
@@ -93,8 +93,10 @@ VERIFICATION (must pass before returning):
 7. Grip size included in Title if stated in source (both G and inch formats).
 8. Condition/status words appear only if explicitly stated in source.
 9. No forbidden symbols in Title.
-10. If source mentions any defect, Description MUST include it.
-11. Every spec must have a corresponding source in the Japanese text.
+10. If source mentions any defect (frame crack, grommet damage, paint chipping, grip deterioration, string broken, string hole wear), Description MUST include it.
+11. Every spec must have a corresponding source in the Japanese text. If not found in source, it must NOT appear in output.
+12. AUTHENTIC not used anywhere. OFFICIAL used ONLY as part of product proper name (e.g., "Official Warranty Card"); NEVER as standalone authenticity claim.
+13. RARE, LIMITED, VINTAGE, EXCLUSIVE, MINT only with explicit source evidence (serial numbers, decade markers, "limited to N units"); no inference.
 
 If any check fails, regenerate until all pass.
 
