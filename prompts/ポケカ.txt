@@ -4,53 +4,17 @@ GOALS
 - Analyze Japanese source ${fullText} and output an English listing optimized for eBay search.
 - OUTPUT MUST BE ASCII ONLY (A-Z a-z 0-9 spaces & / :), no CJK.
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
+- ONLY output information that is explicitly stated in the source. Do NOT add specs, grades, or editions from your own knowledge.
 
-ABSOLUTE RULES (must follow):
-1. TRUTH FIRST: Only output information present in source. Never invent, embellish, or pad.
-### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
-
-**Category A — ABSOLUTE BAN (even if factual):**
-Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
-MUST HAVE, BEST, PERFECT
-Empty superlatives: ULTIMATE, PREMIUM, LUXURY
-
-ABSOLUTE BAN — eBay rights protection (NO exceptions, even if source contains them):
-AUTHENTIC, OFFICIAL
-
-Source-transcription only (BANNED standalone, allowed ONLY when transcribing
-exact material/accessory names from source text):
-GENUINE — e.g., "Genuine Leather" (material name), "Genuine Pearl"
-ORIGINAL — e.g., "Original Box" (accessory name), "Original Packaging"
-  (Do NOT add these words yourself. Only transcribe if source contains them.)
-
-**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
-- RARE — Only if source explicitly describes rarity
-  (e.g., "limited to 500 units", "one of 100 made", "rare colorway")
-- LIMITED / LIMITED EDITION — Only if source confirms limited edition status
-  (serial number, production count, limited release marker in source text)
-- VINTAGE — Only if source confirms era
-  (e.g., "1970s", "Pre-1990", "estate find", decade markers in source)
-- EXCLUSIVE — Only if source confirms exclusive distribution
-- COLLECTIBLE / COLLECTORS EDITION — Only if source marks it as such
-- MINT — Only if source describes objective criteria
-  (unused, with original box, tags attached, factory sealed)
-
-**Category C — ALWAYS ALLOWED (factual attributes from source):**
-Material, brand, model, year, size, condition, features, country of origin, etc.
-
-RULE — SOURCE-ONLY, NO INVENTION
-You may use Category B words ONLY if the source (seller text, title, images,
-description, tags, serial numbers, form input) explicitly contains evidence.
-DO NOT:
-- Guess ("this looks like it might be rare")
-- Infer from similar items
-- Use general knowledge (ChatGPT training data about product lines, catalogs)
-- Assume from visual appearance without text confirmation
-If source does not provide evidence, DO NOT include the Category B word.
-3. NO REPETITION: Each substantive keyword appears at most once in title.
-4. NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "Pokemon Card Pokemon" is forbidden).
-5. SOFT CHAR TARGET: Aim for 40-75 characters in title. Going under 40 is acceptable if truth-first cannot fill more honestly. Going over 75 is forbidden.
-6. ESSENTIAL INFO REQUIRED: Always include game/character/card name, set, rarity, and language if known.
+Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them). OFFICIAL: Allowed ONLY when part of a product's proper name (e.g., "Official Pokemon Card", "Official Sleeve"); NEVER use as a standalone authenticity claim.
+GENUINE, ORIGINAL: only when transcribing exact source text; never add yourself.
+RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., print run N, 1st Edition marker, serial numbers); no inference, no guessing, no general knowledge.
+ANTIQUE: only if source confirms 100+ years old. HANDMADE: only if source confirms (手作り/職人); no inference.
+Bootleg/KO/Replica: If source explicitly states or suggests bootleg/KO/replica/unofficial, describe it clearly in Description. NEVER put "Bootleg", "KO", "Replica", "Unofficial" in Title if source does not state it; conversely, if source confirms these, MUST include them.
+Rule 3: NO REPETITION: Each substantive keyword appears at most once in title.
+Rule 4: NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "Pokemon Card Pokemon" is forbidden).
+Rule 5: SOFT CHAR TARGET: Aim for 68-75 characters in title. If <68, add SEO keywords. If >75, shorten but keep SEO value.
+Rule 6: ESSENTIAL INFO REQUIRED: Always include game/character/card name, set, rarity, and language if known.
 
 PSA GRADE DETECTION (CRITICAL for graded cards)
 Extract PSA grade from various formats in source:
@@ -68,168 +32,20 @@ Extract card name from source using these methods in order:
 3. If not found, use English name from hashtag or romanize Japanese name
 
 TRANSLATION DICTIONARY
-Use these translations. Format: Japanese=English
-
-[Sets 2025-2026 MEGA era]
-ニンジャスピナー=Ninja Spinner
-ムニキスゼロ=Munikis Zero
-MEGAドリームex=MEGA Dream ex
-インフェルノX=Inferno X
-メガシンフォニア=Mega Symphonia
-メガブレイブ=Mega Brave
-
-[Sets 2023-2025 Scarlet & Violet era]
-ブラックボルト=Black Bolt
-ホワイトフレア=White Flare
-ロケット団の栄光=Destined Rivals
-熱風アリーナ=Hot Wind Arena
-バトルパートナーズ=Battle Partners
-テラスタルフェスex=Terastal Festival ex
-超電ブレイカー=Surging Sparks
-楽園ドラゴーナ=Paradise Dragona
-ステラミラクル=Stellar Miracle
-変幻の仮面=Twilight Masquerade
-クリムゾンヘイズ=Crimson Haze
-ワイルドフォース=Wild Force
-サイバージャッジ=Cyber Judge
-シャイニートレジャーex=Shiny Treasure ex
-未来の一閃=Future Flash
-古代の咆哮=Ancient Roar
-レイジングサーフ=Raging Surf
-黒炎の支配者=Ruler of the Black Flame
-ポケモンカード151=Pokemon Card 151
-クレイバースト=Clay Burst
-スノーハザード=Snow Hazard
-トリプレットビート=Triplet Beat
-バイオレットex=Violet ex
-スカーレットex=Scarlet ex
-
-[Sets 2019-2022]
-ソード&シールド=Sword & Shield
-VMAXライジング=VMAX Rising
-シャイニースターV=Shiny Star V
-イーブイヒーローズ=Eevee Heroes
-VMAXクライマックス=VMAX Climax
-VSTARユニバース=VSTAR Universe
-白熱のアルカナ=Incandescent Arcana
-ロストアビス=Lost Abyss
-一撃マスター=Single Strike Master
-連撃マスター=Rapid Strike Master
-蒼空ストリーム=Blue Sky Stream
-フュージョンアーツ=Fusion Arts
-スターバース=Star Birth
-タイムゲイザー=Time Gazer
-スペースジャグラー=Space Juggler
-ダークファンタズマ=Dark Phantasma
-パラダイムトリガー=Paradigm Trigger
-
-[Sets 2016-2019]
-サン&ムーン=Sun & Moon
-ウルトラサン=Ultra Sun
-ウルトラムーン=Ultra Moon
-GXウルトラシャイニー=GX Ultra Shiny
-タッグオールスターズ=Tag All Stars
-ドリームリーグ=Dream League
-オルタージェネシス=Alter Genesis
-
-[Sets 1996-2015]
-ポケモンカードゲーム=Pokemon Card Game
-拡張パック=Expansion Pack
-ポケモンジャングル=Pokemon Jungle
-化石の秘密=Fossil
-ロケット団=Team Rocket
-ダイヤモンド&パール=Diamond & Pearl
-ハートゴールドコレクション=HeartGold Collection
-ブラックコレクション=Black Collection
-ホワイトコレクション=White Collection
-コレクションX=Collection X
-コレクションY=Collection Y
-
-[Promo]
-プロモ=Promo
-プロモカード=Promo
-S-P=S Promo
-SV-P=SV Promo
-SM-P=SM Promo
-
-[Pokemon]
-リザードン=Charizard
-ピカチュウ=Pikachu
-ミュウ=Mew
-ミュウツー=Mewtwo
-レックウザ=Rayquaza
-ルギア=Lugia
-ギラティナ=Giratina
-アルセウス=Arceus
-パルキア=Palkia
-ディアルガ=Dialga
-サーナイト=Gardevoir
-ゲッコウガ=Greninja
-ゲンガー=Gengar
-カイリュー=Dragonite
-イーブイ=Eevee
-ブラッキー=Umbreon
-エーフィ=Espeon
-ニンフィア=Sylveon
-グレイシア=Glaceon
-リーフィア=Leafeon
-ブースター=Flareon
-シャワーズ=Vaporeon
-サンダース=Jolteon
-コライドン=Koraidon
-ミライドン=Miraidon
-ソルガレオ=Solgaleo
-ルナアーラ=Lunala
-ゼルネアス=Xerneas
-レシラム=Reshiram
-ゼクロム=Zekrom
-ホウオウ=Ho Oh
-スイクン=Suicune
-カイオーガ=Kyogre
-グラードン=Groudon
-ダークライ=Darkrai
-ラプラス=Lapras
-フシギバナ=Venusaur
-カメックス=Blastoise
-ギャラドス=Gyarados
-ミミッキュ=Mimikyu
-ルカリオ=Lucario
-ガブリアス=Garchomp
-リザードンex=Charizard ex
-ピカチュウex=Pikachu ex
-ミュウツーex=Mewtwo ex
-
-[Trainers/Supporters]
-リーリエ=Lillie
-マリィ=Marnie
-ナンジャモ=Iono
-セレナ=Serena
-フウロ=Skyla
-シロナ=Cynthia
-カミツレ=Elesa
-N=N
-博士の研究=Professors Research
-カスミ=Misty
-アセロラ=Acerola
-グズマ=Guzma
-ルザミーネ=Lusamine
-カトレア=Caitlin
-
-[Rarity Codes]
-SAR=SAR
-SR=SR
-AR=AR
-CHR=CHR
-CSR=CSR
-HR=HR
-UR=UR
-SSR=SSR
-RR=RR
-RRR=RRR
-ACE=ACE
-S=S
-A=A
-K=K
+Translate Japanese card and set names to English. For names not listed, use official English release name if known; otherwise romanize the Japanese reading.
+[Sets 2025-2026] ニンジャスピナー=Ninja Spinner / MEGAドリームex=MEGA Dream ex / インフェルノX=Inferno X / メガシンフォニア=Mega Symphonia / メガブレイブ=Mega Brave / ムニキスゼロ=Munikis Zero
+[Sets 2023-2025] ロケット団の栄光=Destined Rivals / 超電ブレイカー=Surging Sparks / 楽園ドラゴーナ=Paradise Dragona / ステラミラクル=Stellar Miracle / 変幻の仮面=Twilight Masquerade / テラスタルフェスex=Terastal Festival ex
+[Sets 2023-2025 cont.] 未来の一閃=Future Flash / 古代の咆哮=Ancient Roar / 黒炎の支配者=Ruler of the Black Flame / レイジングサーフ=Raging Surf / バトルパートナーズ=Battle Partners / クレイバースト=Clay Burst
+[Sets 2019-2022] シャイニースターV=Shiny Star V / VMAXクライマックス=VMAX Climax / VSTARユニバース=VSTAR Universe / 白熱のアルカナ=Incandescent Arcana / ロストアビス=Lost Abyss / ダークファンタズマ=Dark Phantasma
+[Sets 2019-2022 cont.] 一撃マスター=Single Strike Master / 連撃マスター=Rapid Strike Master / スターバース=Star Birth / パラダイムトリガー=Paradigm Trigger / 蒼空ストリーム=Blue Sky Stream / フュージョンアーツ=Fusion Arts
+[Sets 2016-2019] GXウルトラシャイニー=GX Ultra Shiny / タッグオールスターズ=Tag All Stars / オルタージェネシス=Alter Genesis / ドリームリーグ=Dream League / サン&ムーン=Sun & Moon
+[Sets 1996-2015] ロケット団=Team Rocket / ダイヤモンド&パール=Diamond & Pearl / ハートゴールドコレクション=HeartGold Collection / コレクションX=Collection X / 拡張パック=Expansion Pack
+[Pokemon] コライドン=Koraidon / ミライドン=Miraidon / ニンフィア=Sylveon / ホウオウ=Ho Oh / ギラティナ=Giratina / アルセウス=Arceus / サーナイト=Gardevoir / ゲッコウガ=Greninja
+[Pokemon cont.] カイリュー=Dragonite / ルギア=Lugia / レックウザ=Rayquaza / ソルガレオ=Solgaleo / ルナアーラ=Lunala / ダークライ=Darkrai / ラプラス=Lapras / ミミッキュ=Mimikyu
+[Pokemon cont.] ゼルネアス=Xerneas / レシラム=Reshiram / ゼクロム=Zekrom / カイオーガ=Kyogre / グラードン=Groudon / ガブリアス=Garchomp / ルカリオ=Lucario / イーブイ=Eevee
+[Trainers/Supporters] ナンジャモ=Iono / マリィ=Marnie / リーリエ=Lillie / グズマ=Guzma / ルザミーネ=Lusamine / セレナ=Serena / カミツレ=Elesa / シロナ=Cynthia
+[Trainers cont.] 博士の研究=Professors Research / カスミ=Misty / アセロラ=Acerola / フウロ=Skyla / カトレア=Caitlin / N=N
+[Ex variants] リザードンex=Charizard ex / ピカチュウex=Pikachu ex / ミュウツーex=Mewtwo ex (use "ex" lowercase as official card suffix)
 
 RARITY DETECTION
 Pokemon TCG has unique rarity codes. Extract from source:
@@ -244,27 +60,62 @@ Pokemon TCG has unique rarity codes. Extract from source:
 - ACE (Ace Spec)
 Include rarity code in Title after card number.
 
+CONDITION TERMS
+For ungraded (raw) cards, use standard TCG condition scale:
+- NM (Near Mint): No visible damage, sharp corners, no scuffs. Japanese: 美品 / 美品以上 / ほぼ美品
+- LP (Lightly Played): Minor surface scratches, slight edge wear. Japanese: 小傷あり / 使用感あり
+- MP (Moderately Played): Visible wear, creases, light scuffs. Japanese: 傷あり / 使用感あり(中)
+- HP (Heavily Played): Heavy wear, creases, corner damage. Japanese: 傷多数 / ダメージあり
+- DMG (Damaged): Severe damage, bent cards, water damage. Japanese: 酷い傷 / NG品
+- Gem Mint: Only for graded cards (PSA 10 / BGS 10 / CGC 10 Pristine)
+- Mint: Only for graded cards (PSA 9 / BGS 9.5 / CGC 9.5)
+Do NOT assign condition grades from photos alone without explicit seller text.
+Anti-mistranslation: 美品 = NM, NOT Excellent or Beautiful; 良品 = LP, NOT Good Condition.
+Note: Japanese sellers may describe cards as 美品 with minor imperfections — always use source text, not assumptions.
+
+LANGUAGE VARIATIONS
+Pokemon TCG cards appear in multiple language editions. Include language in Title and Description if stated:
+- Japanese (日本語): Default for this listing context; always include "Japanese" in Title
+- English: North American and international printing
+- Korean: Korean printing, growing collector market
+- Traditional Chinese: Hong Kong / Taiwan printing
+- Simplified Chinese: Mainland China printing
+- Other: German / French / Spanish — state only if source explicitly confirms
+Assume Japanese source unless another language is explicitly stated in the source.
+For Japanese cards: "Japanese" is a mandatory Title keyword for eBay search discoverability.
+
+DEFECT/ISSUE REPORTING (CRITICAL)
+If source explicitly states any defect or issue, include it in Description. Omitting known defects is a violation of eBay policy.
+
+DEFECT KEYWORDS AND TRANSLATIONS:
+- 折れ / 折れあり / 曲がり -> bent / creased
+- ひび / ひび割れ -> cracked
+- 白かけ / 白カケ -> edge whitening / corner whitening
+- 色移り / 色写り -> color transfer
+- キラ抜け / ホロ抜け -> holo peeling
+- センタリング偏り / センタリング悪 -> off-center
+- 擦れ / 擦り傷 -> scratched / scuffed
+- ウェーブ -> warped
+- 角ダメージ / 角ツブレ -> corner damage
+- エッジ傷 -> edge damage
+
+Do NOT guess condition grades (NM/LP/MP/HP/DMG) from defect descriptions alone. If source states a specific grade, use it verbatim.
+Anti-mistranslation: 美品 = NM (Near Mint), NOT "Excellent" or "Beautiful"; do NOT output those English terms for Japanese condition descriptions.
+
 EXCLUDE FROM OUTPUT (CRITICAL)
 The source may contain seller descriptions that are NOT relevant to eBay listing:
 - Shipping information (発送, 送料, shipping, 宅急便, メルカリ便)
 - Seller opinions (美品だと思います, 値下げ不可, 神経質な方)
 - Purchase instructions (即購入OK, コメントください, 即購入者優先)
 - Storage/handling descriptions (暗所にて保管, スリーブ)
-- PSA grade explanations (公式サイトより抜粋, 完璧な状態)
 - Warnings and disclaimers (注意事項, ご遠慮下さい, トラブル防止)
 - Internal codes or long number sequences
 - Japanese hashtags that are not card/set names (#ポケカ, #PSA, #鑑定品, #GEMMINT)
 - Pack/box types (BOX, パック, box購入, ボックス)
 
-FORBIDDEN WORDS IN TITLE (NEVER include these):
-- Condition opinions: Excellent, Good, Beautiful, Perfect (Mint: allowed ONLY if source confirms unused with original box — see Category B above)
-- Authenticity words: Authentic (absolute ban), Real; Genuine and Original — banned standalone, allowed ONLY when transcribing exact material/accessory names from source (e.g., "Genuine Leather", "Original Box")
-- Filler words: Amazing, Rare Find, Must Have, Hot, Fire
-- Japanese words: Any CJK characters
-
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 40-75 chars (target 65-75, shorter OK if source-bound). If >75, shorten but keep SEO value.
+- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
 - Allowed symbols only: & / :
 - No commas, periods, hyphens, quotes, brackets, parentheses.
 
@@ -289,25 +140,14 @@ For Raw Cards:
 7. Language (Japanese)
 8. Game identifier (Pokemon TCG)
 
-EXPANSION RULES (apply when <60 chars):
-If Title is under 60 characters, add more keywords:
-1. Add card number if known
-2. Add rarity code
-3. Add year
-4. Add "Trading Card" at end
-
-SHORTENING RULES (apply when >75 chars):
-1. Remove year
-2. Shorten "Pokemon TCG" to "Pokemon"
-3. Remove rarity if still too long
-4. Never remove: Grade, Card Name, Card Number, Set Name, Japanese
-
 LEGITIMATE KEYWORDS (use only if present in source):
 - EX, GX, V, VMAX, VSTAR, ex — only when card suffix is stated in source
 - SAR, SR, AR, CHR, CSR, HR, UR, SSR, ACE, RRR, RR — rarity codes, only when stated
 - Full Art, FA, Art Rare, Illustration Rare — only when stated
 - Holo, Reverse Holo — only when finish type is stated
-- 1st Edition — only when source explicitly states first edition
+- 1st Edition / 初版 — only when source explicitly states first edition (初版 = Japanese first printing equivalent)
+- Shadowless — only when stated; Base Set era variant without artwork drop shadow; high collector value
+- Unlimited / 無印 — standard mass print run; 無印 = Japanese Base Set era unmarked equivalent
 - Promo, Pokemon Center, 25th Anniversary — only when source explicitly states
 - Parallel, Gold, Rainbow, Textured — only when variant is stated
 - Signed — only when source explicitly states signed/autograph card
@@ -317,13 +157,23 @@ DESCRIPTION (SEO Priority)
 - FIRST SENTENCE: Must contain card name + set name (primary keywords).
   Example: "Charizard SAR from Shiny Treasure ex set..."
 - Include searchable specs naturally:
-  * Grade details (PSA 10 Gem Mint, BGS 9.5)
-  * Card name and set
-  * Card number
-  * Rarity code and meaning
-  * Language (Japanese)
-- Use keyword variations: "card" "trading card" / "Pokemon" "pocket monster"
-- NEVER include: shipping info, seller opinions, price negotiations
+  * Grade details: PSA 10 Gem Mint / PSA 9 Mint / BGS 9.5 Pristine / BGS 10 Pristine / CGC 10 Pristine
+  * For raw cards: condition in standard TCG scale (NM / LP / MP / HP / DMG)
+  * Card number and rarity code with meaning (e.g., SAR = Special Art Rare, HR = Hyper Rare)
+  * Language (Japanese) and year if known
+  * Edition note if applicable: 1st Edition / Shadowless / Unlimited — only when source states
+  * Published by Nintendo/Creatures/Game Freak — mention once as game publisher context
+  * Grading company context: "graded by PSA" / "raw ungraded card" as appropriate
+- DESCRIPTION STRUCTURE GUIDE:
+  * Open: "[CardName] [Rarity] from [SetName] [Year] set."
+  * Middle: grade or condition, card number, rarity meaning, notable finish (Holo / Full Art / Textured)
+  * Close: language, edition note if applicable, missing accessories if source states
+- Use keyword variations: "card" / "trading card" / "Pokemon" / "pocket monster"
+- If source states missing accessories, include disclosure (see MISSING ACCESSORIES section).
+- For sealed products: state sealed or unsealed status if determinable from source.
+- NEVER include: shipping info, seller opinions, price negotiations, seller contact info
+- NEVER use forbidden words even in Description (no AUTHENTIC, AMAZING, FANTASTIC, etc.)
+- NEVER invent grade, condition, or edition not stated in source
 
 PRODUCTNAME
 - Format: [Card Name] [Rarity] [Set Name]
@@ -336,6 +186,26 @@ CATEGORY
 - Use: Trading Cards / Pokemon Individual Cards
 - Or: Collectible Card Games / Pokemon TCG
 
+CATEGORY_RULE (subcategory routing based on source):
+- Single Card (ungraded) -> Collectibles > Trading Card Games > Pokemon TCG > Pokemon Single Cards
+- Single Card (graded PSA/BGS/CGC) -> Collectibles > Trading Card Games > Pokemon TCG > Graded Pokemon Cards
+- Sealed Booster Pack -> Collectibles > Trading Card Games > Pokemon TCG > Pokemon Sealed Booster Packs
+- Sealed Booster Box -> Collectibles > Trading Card Games > Pokemon TCG > Pokemon Sealed Booster Boxes
+- Promo Card (individual) -> Collectibles > Trading Card Games > Pokemon TCG > Pokemon Individual Promo Cards
+- Deck / Starter Set -> Collectibles > Trading Card Games > Pokemon TCG > Pokemon Decks
+- If unclear -> Collectibles > Trading Card Games > Pokemon TCG
+
+MISSING ACCESSORIES (if source explicitly states):
+- スリーブなし -> No Sleeve
+- トップローダーなし -> No Top Loader
+- マグネットケースなし -> No Magnetic Case
+- 元箱なし -> No Original Box (for sealed products)
+- 証明書なし -> No Certificate (for graded cards without PSA/BGS/CGC cert)
+- プロモ用台紙なし -> No Promo Backing
+- プレミアムSRケースなし -> No Premium SR Case
+- 限定パック未開封タグなし -> No Sealed Pack Tag
+Do NOT speculate about missing items not explicitly stated.
+
 ITEM SPECIFICS
 Extract and output the following fields (use N/A if not determinable):
 - CardName: English card name
@@ -344,7 +214,7 @@ Extract and output the following fields (use N/A if not determinable):
 - Rarity: SAR / SR / AR / CHR / HR / UR / N/A
 - Language: Japanese
 - Grade: PSA 10 / BGS 9.5 / Raw
-- Condition: Gem Mint / Mint / NM / LP / N/A
+- Condition: Gem Mint / Mint / NM / LP / MP / HP / DMG / N/A
 - Year: Release year or N/A
 
 OUTPUT FORMAT (exactly):
@@ -363,7 +233,7 @@ ItemSpecifics:
   Year: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 60-80 chars (target 65-75).
+1. Title length 68-75 chars (target 70-73).
 2. Description <= 480 chars.
 3. Only ASCII letters/numbers/spaces/&/: used throughout.
 4. No CJK characters or emoji anywhere.
@@ -372,15 +242,14 @@ VERIFICATION (must pass before returning):
 7. Set name appears in Title IF determinable from source.
 8. "Japanese" appears in Title.
 9. "Pokemon TCG" or "Pokemon" appears at END of Title.
-10. Title contains NO forbidden words.
+10. Title contains NO forbidden words (no AUTHENTIC, AMAZING, FANTASTIC, INCREDIBLE, etc.).
 11. Description first sentence contains card name + set name.
 12. No shipping info or seller opinions in output.
 13. No forbidden symbols in Title (no , . - " ' ( ) [ ]).
 14. ProductName matches card name from Title.
 15. Rarity code appears in Title if found in source.
+16. If source states defects, they appear in Description (DEFECT section compliance).
 
 If any check fails, regenerate until all pass.
-
-REMINDER: If you cannot honestly fill 40 chars from source, output a shorter title. Lying is worse than being short.
 
 Input: ${fullText}
