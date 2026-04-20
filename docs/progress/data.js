@@ -115,14 +115,14 @@ window.PROGRESS_DATA = {
         }
       ]
     },
-    "last_updated": "2026-04-20T00:00:00+09:00",
+    "last_updated": "2026-04-20T12:00:00+09:00",
     "data_source_reports": [
       "child-b-full-73-scan.json (73 cats)",
       "child-a-obsidian-audit.json",
       "child-c-docs-and-73cats.json"
     ],
-    "latest_commit": "38ae328",
-    "latest_work": "2026-04-19: V2.0.1 第 16 件 — レコード ad385d5/v45 完了"
+    "latest_commit": "033bef5",
+    "latest_work": "2026-04-20: V2.0.1 第 18 件 — ポケカ 033bef5/v46 完了 (386→255行, -131)"
   },
   "phases": [
     {
@@ -703,15 +703,15 @@ window.PROGRESS_DATA = {
       "is_refinement": "completed",
       "sanitize_integration": "completed",
       "prompt_file": "prompts/トレカ汎用 (+ game-specific: ポケカ, MTG, 遊戯王, ヴァイスシュヴァルツ, ガンダムカード, デジモンカード, ドラゴンボールカード, ベースボールカード, ワンピースカード, 大相撲カード).txt",
-      "prompt_absolute_rules": "not_completed",
+      "prompt_absolute_rules": "completed",
       "inject_country": "Japan",
       "inject_theme": "not_applicable",
       "inject_age_level": "16+",
       "inject_features": "Collectors Edition",
       "field_count": 14,
       "field_count_original": 21,
-      "last_commit": null,
-      "notes": "11種のカードプロンプト全てにABSOLUTE RULES適用済み (commit 3082ac4)。Age Level/Features注入は 838fa87 で確立。 / theme: matchFranchise_ — Pokemon/YuGiOh/MTG等フランチャイズ別",
+      "last_commit": "033bef5",
+      "notes": "11種のカードプロンプト全てにABSOLUTE RULES適用済み (commit 3082ac4)。Age Level/Features注入は 838fa87 で確立。 / theme: matchFranchise_ — Pokemon/YuGiOh/MTG等フランチャイズ別 V2.0.1 ポケカ完了 (033bef5, v46, 2026-04-20).",
       "phase_1b_started": true,
       "cpsc_target": true,
       "prompt_rule2_applied": true
@@ -3035,5 +3035,26 @@ window.PROGRESS_DATA = {
     "phase_1b_not_started": 0,
     "phase_1b_partial": 0,
     "resolved_issues_count": 3
+  },
+  "v2_0_1": {
+    "description": "V2.0.1 Full Rewrite プロンプト改修進捗 (時計 V11 301d487 基準)",
+    "target_total": 11,
+    "completed": 1,
+    "entries": [
+      {
+        "category": "ポケカ",
+        "status": "completed",
+        "library_version": "v46",
+        "commit_hash": "033bef5",
+        "completed_at_iso": "2026-04-20T12:00:00+09:00",
+        "lines_before": 386,
+        "lines_after": 255,
+        "lines_delta": -131,
+        "strategy": "Full Rewrite",
+        "c5_verdict": "PASS",
+        "range_target": "245-300",
+        "notes": "18th V2.0.1. トレカ系 11 カテゴリの基準パターン確立. BOOTLEG MUST + DEFECT 新規 + MISSING_ACCESSORIES + CATEGORY_RULE 7-path."
+      }
+    ]
   }
 };
