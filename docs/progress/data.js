@@ -115,13 +115,13 @@ window.PROGRESS_DATA = {
         }
       ]
     },
-    "last_updated": "2026-04-20T12:00:00+09:00",
+    "last_updated": "2026-04-20T20:00:00+09:00",
     "data_source_reports": [
       "child-b-full-73-scan.json (73 cats)",
       "child-a-obsidian-audit.json",
       "child-c-docs-and-73cats.json"
     ],
-    "latest_commit": "033bef5",
+    "latest_commit": "900a248",
     "latest_work": "2026-04-20: V2.0.1 第 18 件 — ポケカ 033bef5/v46 完了 (386→255行, -131)"
   },
   "phases": [
@@ -3039,7 +3039,7 @@ window.PROGRESS_DATA = {
   "v2_0_1": {
     "description": "V2.0.1 Full Rewrite プロンプト改修進捗 (時計 V11 301d487 基準)",
     "target_total": 11,
-    "completed": 1,
+    "completed": 2,
     "entries": [
       {
         "category": "ポケカ",
@@ -3054,6 +3054,20 @@ window.PROGRESS_DATA = {
         "c5_verdict": "PASS",
         "range_target": "245-300",
         "notes": "18th V2.0.1. トレカ系 11 カテゴリの基準パターン確立. BOOTLEG MUST + DEFECT 新規 + MISSING_ACCESSORIES + CATEGORY_RULE 7-path."
+      },
+      {
+        "category": "遊戯王",
+        "status": "completed",
+        "library_version": "v45",
+        "commit_hash": "900a248",
+        "completed_at_iso": "2026-04-20T20:00:00+09:00",
+        "lines_before": 376,
+        "lines_after": 278,
+        "lines_delta": -98,
+        "strategy": "Full Rewrite",
+        "c5_verdict": "CONDITIONAL_PASS",
+        "range_target": "265-310",
+        "notes": "19th V2.0.1. トレカ系 11 カテゴリの 2 番目 完遂. BOOTLEG MUST + DEFECT enhance (既存 15+3 new) + EDITION/CARD_NUMBER preserve + MISSING_ACCESSORIES + CATEGORY_RULE 8-path."
       }
     ]
   }
