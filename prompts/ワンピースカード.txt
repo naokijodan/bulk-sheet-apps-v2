@@ -4,53 +4,17 @@ GOALS
 - Analyze Japanese source ${fullText} and output an English listing optimized for eBay search.
 - OUTPUT MUST BE ASCII ONLY (A-Z a-z 0-9 spaces & / :), no CJK.
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
+- ONLY output information that is explicitly stated in the source. Do NOT add specs, grades, set names, or rarity from your own knowledge.
 
-ABSOLUTE RULES (must follow):
-1. TRUTH FIRST: Only output information present in source. Never invent, embellish, or pad.
-### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
-
-**Category A — ABSOLUTE BAN (even if factual):**
-Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
-MUST HAVE, BEST, PERFECT
-Empty superlatives: ULTIMATE, PREMIUM, LUXURY
-
-ABSOLUTE BAN — eBay rights protection (NO exceptions, even if source contains them):
-AUTHENTIC, OFFICIAL
-
-Source-transcription only (BANNED standalone, allowed ONLY when transcribing
-exact material/accessory names from source text):
-GENUINE — e.g., "Genuine Leather" (material name), "Genuine Pearl"
-ORIGINAL — e.g., "Original Box" (accessory name), "Original Packaging"
-  (Do NOT add these words yourself. Only transcribe if source contains them.)
-
-**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
-- RARE — Only if source explicitly describes rarity
-  (e.g., "limited to 500 units", "one of 100 made", "rare colorway")
-- LIMITED / LIMITED EDITION — Only if source confirms limited edition status
-  (serial number, production count, limited release marker in source text)
-- VINTAGE — Only if source confirms era
-  (e.g., "1970s", "Pre-1990", "estate find", decade markers in source)
-- EXCLUSIVE — Only if source confirms exclusive distribution
-- COLLECTIBLE / COLLECTORS EDITION — Only if source marks it as such
-- MINT — Only if source describes objective criteria
-  (unused, with original box, tags attached, factory sealed)
-
-**Category C — ALWAYS ALLOWED (factual attributes from source):**
-Material, brand, model, year, size, condition, features, country of origin, etc.
-
-RULE — SOURCE-ONLY, NO INVENTION
-You may use Category B words ONLY if the source (seller text, title, images,
-description, tags, serial numbers, form input) explicitly contains evidence.
-DO NOT:
-- Guess ("this looks like it might be rare")
-- Infer from similar items
-- Use general knowledge (ChatGPT training data about product lines, catalogs)
-- Assume from visual appearance without text confirmation
-If source does not provide evidence, DO NOT include the Category B word.
-3. NO REPETITION: Each substantive keyword appears at most once in title.
-4. NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "One Piece Card One Piece" is forbidden).
-5. SOFT CHAR TARGET: Aim for 40-75 characters in title. Going under 40 is acceptable if truth-first cannot fill more honestly. Going over 75 is forbidden.
-6. ESSENTIAL INFO REQUIRED: Always include character name, set, rarity, and language if known.
+Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them). OFFICIAL: Allowed ONLY when part of a product's proper name (e.g., "Official Bandai Card Game", "Official One Piece Sleeve"); NEVER use as a standalone authenticity claim.
+GENUINE, ORIGINAL: only when transcribing exact source text; never add yourself.
+RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., print run N, serial numbers); no inference, no guessing, no general knowledge.
+ANTIQUE: only if source confirms 100+ years old. HANDMADE: only if source confirms (手作り/職人); no inference.
+Bootleg/KO/Replica: If source explicitly states or suggests bootleg/KO/replica/unofficial, describe it clearly in Description. NEVER put "Bootleg", "KO", "Replica", "Unofficial" in Title if source does not state it; conversely, if source confirms these, MUST include them.
+Rule 3: NO REPETITION: Each substantive keyword appears at most once in title.
+Rule 4: NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "One Piece Card One Piece" is forbidden).
+Rule 5: CHAR TARGET: Aim for 68-75 characters in title. If >75, shorten but keep SEO value. If <68, add SEO keywords.
+Rule 6: ESSENTIAL INFO REQUIRED: Always include character name, set, rarity, and language if known.
 
 PSA GRADE DETECTION (CRITICAL for graded cards)
 Extract PSA grade from various formats in source:
@@ -60,106 +24,6 @@ Format in Title: PSA 10 (with space, at the START of title)
 
 CHARACTER NAME EXTRACTION (CRITICAL)
 Extract character name from source. One Piece characters have specific English spellings:
-
-TRANSLATION DICTIONARY
-Use these translations. Format: Japanese=English
-
-[Straw Hat Pirates]
-ルフィ=Monkey D. Luffy
-ゾロ=Roronoa Zoro
-ナミ=Nami
-ウソップ=Usopp
-サンジ=Sanji
-チョッパー=Tony Tony Chopper
-ロビン=Nico Robin
-フランキー=Franky
-ブルック=Brook
-ジンベエ=Jinbe
-
-[Yonko / Emperors]
-シャンクス=Shanks
-カイドウ=Kaido
-ビッグマム=Big Mom
-白ひげ=Whitebeard
-黒ひげ=Blackbeard
-バギー=Buggy
-ロジャー=Gol D. Roger
-
-[Worst Generation]
-ロー=Trafalgar Law
-キッド=Eustass Kid
-ボニー=Jewelry Bonney
-ホーキンス=Basil Hawkins
-アプー=Scratchmen Apoo
-ベッジ=Capone Bege
-キラー=Killer
-ウルージ=Urouge
-
-[Marines]
-赤犬=Akainu
-サカズキ=Sakazuki
-青キジ=Aokiji
-クザン=Kuzan
-黄猿=Kizaru
-ボルサリーノ=Borsalino
-藤虎=Fujitora
-ガープ=Monkey D. Garp
-センゴク=Sengoku
-コビー=Koby
-スモーカー=Smoker
-
-[Warlords]
-ミホーク=Dracule Mihawk
-くま=Bartholomew Kuma
-モリア=Gecko Moria
-ドフラミンゴ=Donquixote Doflamingo
-クロコダイル=Crocodile
-ハンコック=Boa Hancock
-
-[Popular Characters]
-エース=Portgas D. Ace
-サボ=Sabo
-ドラゴン=Monkey D. Dragon
-カタクリ=Charlotte Katakuri
-キング=King
-クイーン=Queen
-ヤマト=Yamato
-レイリー=Silvers Rayleigh
-ベガパンク=Vegapunk
-おでん=Kozuki Oden
-ニカ=Nika
-ギア5=Gear 5 Nika
-ルッチ=Rob Lucci
-ビビ=Nefeltari Vivi
-ペローナ=Perona
-
-[Sets]
-ロマンスドーン=Romance Dawn
-頂上決戦=Paramount War
-強大な敵=Pillars of Strength
-謀略の王国=Kingdoms of Intrigue
-新時代の主役=Awakening of the New Era
-双璧の覇者=Wings of the Captain
-500年後の未来=500 Years in the Future
-二つの伝説=Two Legends
-新たなる皇帝=Emperors in the New World
-王族の血統=Royal Bloodlines
-神速の拳=Fists of Divine Speed
-師弟の絆=Bond of Master and Student
-受け継がれる意志=Inherited Will
-神の島の冒険=Adventure on the Isle of Gods
-
-[Rarity]
-マンガレア=Manga Rare
-スペシャルレア=Special Rare
-シークレットレア=Secret Rare
-スーパーレア=Super Rare
-リーダー=Leader
-レア=Rare
-アンコモン=Uncommon
-コモン=Common
-パラレル=Parallel
-オルタネートアート=Alternate Art
 
 RARITY DETECTION
 One Piece Card Game rarities in value order:
@@ -183,27 +47,90 @@ Parallel cards have alternate art and are highly valuable:
 - ALT, オルタネートアート -> Alternate Art
 Include "Parallel" in Title if detected.
 
-EXCLUDE FROM OUTPUT (CRITICAL)
-- Shipping information (発送, 送料, shipping)
-- Seller opinions (美品だと思います, 値下げ不可)
-- Purchase instructions (即購入OK, コメントください)
-- Storage descriptions (暗所にて保管, スリーブ)
-- Japanese hashtags (#ワンピカード, #ワンピースカード)
+TRANSLATION DICTIONARY (inline — non-obvious entries only; common names use official Viz transliteration)
+[Sets] ロマンスドーン=Romance Dawn / 頂上決戦=Paramount War / 強大な敵=Pillars of Strength / 謀略の王国=Kingdoms of Intrigue
+[Sets] 新時代の主役=Awakening of the New Era / 双璧の覇者=Wings of the Captain / 500年後の未来=500 Years in the Future
+[Sets] 二つの伝説=Two Legends / 新たなる皇帝=Emperors in the New World / 王族の血統=Royal Bloodlines
+[Sets] 神速の拳=Fists of Divine Speed / 師弟の絆=Bond of Master and Student / 受け継がれる意志=Inherited Will / 神の島の冒険=Adventure on the Isle of Gods
+[Emperors] 白ひげ=Whitebeard / 黒ひげ=Blackbeard / ロジャー=Gol D. Roger / バギー=Buggy
+[Marines] 赤犬=Akainu / 青キジ=Aokiji / 黄猿=Kizaru / 藤虎=Fujitora / ガープ=Monkey D. Garp / センゴク=Sengoku
+[Warlords] くま=Bartholomew Kuma / モリア=Gecko Moria / ドフラミンゴ=Donquixote Doflamingo / ハンコック=Boa Hancock
+[Popular] エース=Portgas D. Ace / おでん=Kozuki Oden / ニカ=Nika / ギア5=Gear 5 Nika / ルッチ=Rob Lucci
+[Straw Hats] チョッパー=Tony Tony Chopper / ジンベエ=Jinbe
+[Worst Generation] ロー=Trafalgar Law / キッド=Eustass Kid / ボニー=Jewelry Bonney / ホーキンス=Basil Hawkins
+[Worst Generation] アプー=Scratchmen Apoo / ベッジ=Capone Bege / キラー=Killer / ウルージ=Urouge
+[Other] ドラゴン=Monkey D. Dragon / ビビ=Nefeltari Vivi / ベガパンク=Vegapunk / レイリー=Silvers Rayleigh
+[Other] カタクリ=Charlotte Katakuri / ヤマト=Yamato / ペローナ=Perona
+For unlisted names, use official Viz Media transliteration.
 
-FORBIDDEN WORDS IN TITLE:
-- Condition opinions: Excellent, Good, Beautiful, Perfect (Mint: allowed ONLY if source confirms unused with original box — see Category B above)
-- Authenticity words: Authentic (absolute ban), Real; Genuine — banned standalone, allowed ONLY when transcribing exact material names from source (e.g., "Genuine Leather")
-- Filler words: Amazing, Rare Find, Must Have, Hot
+CONDITION TERMS
+Map Japanese condition descriptions to eBay condition terms:
+- 未使用/未開封/新品 -> New / Factory Sealed
+- 美品/極美品 -> Near Mint (NM)
+- 良品/良い -> Lightly Played (LP)
+- 傷あり/使用感あり -> Moderately Played (MP)
+- ダメージあり/状態悪い -> Heavily Played (HP)
+- ジャンク/破損 -> Damaged (DMG)
+Use the most conservative (lower) grade when description is ambiguous.
+For graded cards (PSA/BGS/CGC), use the numeric grade, not a verbal condition term.
+
+LANGUAGE VARIATIONS
+One Piece cards are primarily Japanese prints:
+- 日本語/日本版 -> Japanese
+- 英語版/TCG -> English TCG (if source confirms English print)
+- Korean -> Korean (if source confirms Korean print)
+Cards from different regional prints are not equivalent; confirm from source before noting language variant.
+
+DEFECT / ISSUE REPORTING V10
+Translate defect keywords and include in Description under a "Condition Notes:" label. Use exact English equivalents:
+白かけ=Edge whitening
+スレ=Surface scratches
+反り=Warping
+折れ=Crease
+初期傷=Factory defect
+インク飛び=Print error
+色あせ=Fading
+曲がり=Bent / Slight bend
+色移り=Color transfer
+センタリング偏り=Off-centering
+Do NOT mistranslate: 初期傷 is "Factory defect / Manufacturing imperfection" (not "early scratch"); スレ is surface, not skin scratch.
+Omitting known defects is a violation of eBay policy.
+
+EXCLUDE FROM OUTPUT (CRITICAL)
+The source may contain seller descriptions that are NOT relevant to eBay listing:
+- Shipping information (発送, 送料, shipping, 宅急便, メルカリ便)
+- Seller opinions (美品だと思います, 値下げ不可, 神経質な方)
+- Purchase instructions (即購入OK, コメントください)
+- Storage/handling descriptions (暗所にて保管, スリーブ, ローダー)
+- Warnings and disclaimers (注意事項, ご遠慮下さい, トラブル防止)
+- Japanese hashtags that are not card/set names (#ワンピカード, #ワンピースカード)
+- BOX/Pack types (BOX, パック, box購入, 未開封BOX)
+- Internal codes or long number sequences
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 40-75 chars (target 65-75, shorter OK if source-bound). If >75, shorten but keep SEO value.
+- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
 - Allowed symbols only: & / :
 - No commas, periods, hyphens, quotes, brackets, parentheses.
+- Forbidden words: Authentic, Real, Genuine (standalone), Original (standalone), Amazing, Rare Find, Must Have.
+- Do NOT include condition/status terms unless explicitly stated in source.
 
-SEO KEYWORD ORDER:
-For Graded: Grade / Character / Rarity / Set / Language / One Piece
-For Raw: Character / Rarity / Set / Parallel / Language / One Piece Card Game
+SEO KEYWORD ORDER (front-load high-value terms):
+For Graded Cards:
+1. Grade (PSA 10, BGS 9.5)
+2. Character Name
+3. Rarity (Manga Rare, Special Rare, Secret Rare)
+4. Set Name or Set Code (OP01, Romance Dawn)
+5. Language (Japanese)
+6. One Piece Card Game
+
+For Raw Cards:
+1. Character Name
+2. Rarity (Manga Rare, Special Rare, Secret Rare)
+3. Set Name or Set Code
+4. Parallel / Alternate Art (if applicable)
+5. Language (Japanese)
+6. One Piece Card Game
 
 LEGITIMATE KEYWORDS (use only if present in source):
 - Manga Rare — only when source explicitly states マンガレア / Manga Rare
@@ -217,36 +144,62 @@ LEGITIMATE KEYWORDS (use only if present in source):
 
 DESCRIPTION (SEO Priority)
 - English ASCII only, <= 480 chars, single natural paragraph.
-- FIRST SENTENCE: character name + set name.
-- Include: rarity, set, card number, language (Japanese), parallel status.
-- Use variations: "One Piece" "OPCG" "One Piece Card Game"
-- NEVER include: shipping info, seller opinions.
-
-DEFECT KEYWORDS
-白かけ=Edge whitening
-スレ=Surface scratches
-反り=Warping
-折れ=Crease
-初期傷=Factory defect
-インク飛び=Print error
-色あせ=Fading
+- FIRST SENTENCE: Must contain character name + rarity.
+  Example: "Monkey D. Luffy Manga Rare from the One Piece Card Game Romance Dawn set. Published by Bandai."
+- Include searchable specs naturally:
+  * Character name and rarity (highest priority)
+  * Set name and card number
+  * Parallel / Alternate Art status
+  * Language (Japanese)
+  * Grade details (PSA 10 Gem Mint, BGS 9.5) if graded
+  * Condition notes if defects listed in source
+- Use keyword variations: "One Piece" "OPCG" "One Piece Card Game"
+- Publisher: Published by Bandai (include once in Description)
+- NEVER include: shipping info, seller opinions, price negotiations
 
 PRODUCTNAME
-- Format: [Character] [Rarity] [Set]
+- Format: [Character Name] [Rarity] [Set]
 - Example: Monkey D. Luffy Manga Rare Romance Dawn
 
 CATEGORY
-- Use: Trading Cards / One Piece Individual Cards
-- Or: Collectible Card Games / One Piece Card Game
+- Default: Trading Cards > One Piece Individual Cards
+- Sealed packs/boxes: Trading Cards > One Piece Sealed Decks & Kits
+
+CATEGORY RULE
+Select category based on these conditions:
+- If graded card (PSA/BGS/CGC present) -> Trading Cards > One Piece Individual Cards
+- If ungraded single card with card number -> Trading Cards > One Piece Individual Cards
+- If Manga Rare (highest value) -> Trading Cards > One Piece Individual Cards
+- If Parallel / Alternate Art (high value) -> Trading Cards > One Piece Individual Cards
+- If sealed booster pack -> Trading Cards > One Piece Sealed Decks & Kits
+- If sealed box -> Trading Cards > One Piece Sealed Decks & Kits
+- If Promo card -> Trading Cards > One Piece Individual Cards
+- If source is a Starter Deck -> Trading Cards > One Piece Sealed Decks & Kits
+- If unclear (no card number, no rarity stated) -> Trading Cards > One Piece Individual Cards
+
+MISSING ACCESSORIES
+If source clearly shows these accessories are ABSENT, note in Description:
+- No original card sleeve
+- No card case / hard case
+- No original box / booster pack wrapper
+- No certificate (for graded cards, if certificate is separate)
+- No storage binder / binder page
+- No deck box
+- No original packaging materials
+- No COA (Certificate of Authenticity)
+Only note absence if source explicitly confirms.
+Do NOT assume missing items without source evidence.
 
 ITEM SPECIFICS
+Extract and output the following fields (use N/A if not determinable):
 - CardName: English character/card name
-- SetName: English set name
+- SetName: English set name or set code (OP01, Romance Dawn)
 - CardNumber: Card number (e.g., OP01-001) or N/A
-- Rarity: Manga Rare / Special Rare / Secret Rare / etc.
+- Rarity: Manga Rare / Special Rare / Secret Rare / Super Rare / Leader / Parallel / etc.
 - Language: Japanese
-- Grade: PSA 10 / Raw
-- Condition: NM / LP / N/A
+- Grade: PSA 10 / BGS 9.5 / Raw
+- Condition: Gem Mint / Mint / NM / LP / MP / HP / DMG
+- Year: Release year or N/A
 
 OUTPUT FORMAT (exactly):
 Title: ...
@@ -261,20 +214,25 @@ ItemSpecifics:
   Language: ...
   Grade: ...
   Condition: ...
+  Year: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 60-80 chars.
+1. Title length 68-75 chars (target 68-75).
 2. Description <= 480 chars.
-3. ASCII only throughout.
-4. No CJK characters.
-5. Character name in Title.
-6. Rarity in Title.
-7. "Japanese" in Title.
-8. "One Piece" at END of Title.
-9. No forbidden words.
-10. If Parallel detected, "Parallel" in Title.
-11. If graded, grade at START of Title.
-
-REMINDER: If you cannot honestly fill 40 chars from source, output a shorter title. Lying is worse than being short.
+3. Only ASCII letters/numbers/spaces/&/: used throughout.
+4. No CJK characters or emoji anywhere.
+5. If graded card, grade appears at START of Title.
+6. Character name appears in Title.
+7. Rarity appears in Title.
+8. "Japanese" appears in Title.
+9. "One Piece" appears in Title.
+10. If Parallel detected, "Parallel" appears in Title.
+11. Title contains NO forbidden words.
+12. Description first sentence contains character name + rarity.
+13. No shipping info or seller opinions in output.
+14. ProductName matches character name from Title.
+15. All known defects from source are reported in Description.
+16. "Published by Bandai" appears in Description (once).
+If any check fails, regenerate until all pass.
 
 Input: ${fullText}
