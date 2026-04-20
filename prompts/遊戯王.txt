@@ -4,53 +4,16 @@ GOALS
 - Analyze Japanese source ${fullText} and output an English listing optimized for eBay search.
 - OUTPUT MUST BE ASCII ONLY (A-Z a-z 0-9 spaces & / :), no CJK.
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
+- ONLY output information that is explicitly stated in the source. Do NOT add specs, grades, editions (1st Edition / Asian English), or rarity from your own knowledge.
 
-ABSOLUTE RULES (must follow):
-1. TRUTH FIRST: Only output information present in source. Never invent, embellish, or pad.
-### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
-**Category A — ABSOLUTE BAN (even if factual):**
-Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
-MUST HAVE, BEST, PERFECT
-Empty superlatives: ULTIMATE, PREMIUM, LUXURY
-
-ABSOLUTE BAN — eBay rights protection (NO exceptions, even if source contains them):
-AUTHENTIC, OFFICIAL
-
-Source-transcription only (BANNED standalone, allowed ONLY when transcribing
-exact material/accessory names from source text):
-GENUINE — e.g., "Genuine Leather" (material name), "Genuine Pearl"
-ORIGINAL — e.g., "Original Box" (accessory name), "Original Packaging"
-  (Do NOT add these words yourself. Only transcribe if source contains them.)
-
-**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
-- RARE — Only if source explicitly describes rarity
-  (e.g., "limited to 500 units", "one of 100 made", "rare colorway")
-- LIMITED / LIMITED EDITION — Only if source confirms limited edition status
-  (serial number, production count, limited release marker in source text)
-- VINTAGE — Only if source confirms era
-  (e.g., "1970s", "Pre-1990", "estate find", decade markers in source)
-- EXCLUSIVE — Only if source confirms exclusive distribution
-- COLLECTIBLE / COLLECTORS EDITION — Only if source marks it as such
-- MINT — Only if source describes objective criteria
-  (unused, with original box, tags attached, factory sealed)
-
-**Category C — ALWAYS ALLOWED (factual attributes from source):**
-Material, brand, model, year, size, condition, features, country of origin, etc.
-
-### RULE — SOURCE-ONLY, NO INVENTION
-
-You may use Category B words ONLY if the source (seller text, title, images,
-description, tags, serial numbers, form input) explicitly contains evidence.
-DO NOT:
-- Guess ("this looks like it might be rare")
-- Infer from similar items
-- Use general knowledge (ChatGPT training data about product lines, catalogs)
-- Assume from visual appearance without text confirmation
-
-If source does not provide evidence, DO NOT include the Category B word.
+Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them). OFFICIAL: Allowed ONLY when part of a product's proper name (e.g., "Official Konami Card Game", "Official Yu-Gi-Oh! Sleeve"); NEVER use as a standalone authenticity claim (e.g., "Official Konami" = BAN).
+GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Genuine Leather", "Original Box"); never add yourself.
+RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., serial numbers, decade markers, "limited to N units"); no inference, no guessing, no general knowledge.
+ANTIQUE: only if source confirms 100+ years old. HANDMADE: only if source confirms (手作り/職人); no inference.
+Bootleg/KO/Replica: If source explicitly states or suggests bootleg/KO/replica/unofficial, describe it clearly in Description. NEVER put "Bootleg", "KO", "Replica", "Unofficial" in Title if source does not state it; conversely, if source confirms these, MUST include them.
 3. NO REPETITION: Each substantive keyword appears at most once in title.
 4. NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "Yu-Gi-Oh Card Yu-Gi-Oh" is forbidden).
-5. SOFT CHAR TARGET: Aim for 40-75 characters in title. Going under 40 is acceptable if truth-first cannot fill more honestly. Going over 75 is forbidden.
+5. CHAR TARGET: Aim for 68-75 characters in title. If >75, shorten but keep SEO value. If <68, add SEO keywords.
 6. ESSENTIAL INFO REQUIRED: Always include card name, rarity, and language if known.
 
 PSA GRADE DETECTION (CRITICAL for graded cards)
@@ -69,123 +32,23 @@ Extract card name from source using these methods in order:
 3. If not found, romanize Japanese name accurately
 
 TRANSLATION DICTIONARY
-Use these translations. Format: Japanese=English
-
-[Iconic Monsters]
-青眼の白龍=Blue-Eyes White Dragon
-ブルーアイズ=Blue-Eyes White Dragon
-青眼の亜白龍=Blue-Eyes Alternative White Dragon
-ブラックマジシャン=Dark Magician
-ブラック・マジシャン=Dark Magician
-ブラックマジシャンガール=Dark Magician Girl
-ブラック・マジシャン・ガール=Dark Magician Girl
-真紅眼の黒竜=Red-Eyes Black Dragon
-レッドアイズ=Red-Eyes Black Dragon
-封印されしエクゾディア=Exodia the Forbidden One
-エクゾディア=Exodia
-死者蘇生=Monster Reborn
-カオスソルジャー=Black Luster Soldier
-カオス・ソルジャー=Black Luster Soldier
-開闢の使者=Black Luster Soldier Envoy of the Beginning
-混沌帝龍=Chaos Emperor Dragon Envoy of the End
-万物創世龍=Ten Thousand Dragon
-ホーリーナイトドラゴン=Seiyaryu
-
-[Extra Deck Monsters]
-天霆号アーゼウス=Divine Arsenal AA-ZEUS Sky Thunder
-アーゼウス=AA-ZEUS
-スターダスト・ドラゴン=Stardust Dragon
-スターダスト=Stardust Dragon
-アクセスコードトーカー=Accesscode Talker
-I:Pマスカレーナ=I:P Masquerena
-マスカレーナ=I:P Masquerena
-トロイメア・ユニコーン=Knightmare Unicorn
-クリスタルウィング=Crystal Wing Synchro Dragon
-ヴァレルソード=Borrelsword Dragon
-ヴァレルロード=Borrload Dragon
-召命の神弓アポロウーサ=Apollousa Bow of the Goddess
-超魔導竜騎士ドラグーンオブレッドアイズ=Red-Eyes Dark Dragoon
-ドラグーン=Red-Eyes Dark Dragoon
-希望皇ホープ=Number 39 Utopia
-サイバー・ドラゴン=Cyber Dragon
-E・HEROフレイムウィングマン=Elemental HERO Flame Wingman
-E・HEROネオス=Elemental HERO Neos
-
-[Hand Traps]
+Use these translations when Japanese card names appear in source. Format: Japanese=English
 灰流うらら=Ash Blossom & Joyous Spring
-うらら=Ash Blossom & Joyous Spring
 増殖するG=Maxx C
-増G=Maxx C
 屋敷わらし=Ghost Belle & Haunted Mansion
 浮幽さくら=Ghost Ogre & Snow Rabbit
 儚無みずき=Ghost Sister & Spooky Dogwood
-エフェクト・ヴェーラー=Effect Veiler
-ヴェーラー=Effect Veiler
-無限泡影=Infinite Impermanence
-ドロール&ロックバード=Droll & Lock Bird
-D.D.クロウ=D.D. Crow
-原始生命態ニビル=Nibiru the Primal Being
-ニビル=Nibiru the Primal Being
-
-[Staple Spells & Traps]
+ホーリーナイトドラゴン=Seiyaryu
+開闢の使者=Black Luster Soldier Envoy of the Beginning
+万物創世龍=Ten Thousand Dragon
+天霆号アーゼウス=Divine Arsenal AA-ZEUS Sky Thunder
+アクセスコードトーカー=Accesscode Talker
+召命の神弓アポロウーサ=Apollousa Bow of the Goddess
 墓穴の指名者=Called by the Grave
 抹殺の指名者=Crossout Designator
-三戦の才=Triple Tactics Talent
-三戦の号=Triple Tactics Thrust
 金満で謙虚な壺=Pot of Prosperity
-強欲で貪欲な壺=Pot of Desires
-強欲で金満な壺=Pot of Extravagance
-強欲な壺=Pot of Greed
-ハーピィの羽根帚=Harpies Feather Duster
-羽根帚=Harpies Feather Duster
-サンダーボルト=Raigeki
-神の宣告=Solemn Judgment
-神の警告=Solemn Warning
-神の通告=Solemn Strike
-
-[Popular Themes]
 閃刀姫=Sky Striker Ace
-閃刀姫−レイ=Sky Striker Ace Raye
-閃刀姫−ロゼ=Sky Striker Ace Roze
-閃刀姫−シズク=Sky Striker Ace Shizuku
-Evil★Twinキスキル=Evil Twin Ki-sikil
-Evil★Twinリィラ=Evil Twin Lil-la
-倶利伽羅天童=Kurikara Divincarnate
-ティアラメンツ=Tearlaments
-スプライト=Spright
-クシャトリラ=Kashtira
-ラビュリンス=Labrynth
-白き森=White Forest
-デモンスミス=Fiendsmith
-深淵の獣=Bystial
 ふわんだりぃず=Floowandereeze
-ドラゴンメイド=Dragonmaid
-
-[Rarity]
-プリズマティックシークレットレア=Prismatic Secret Rare
-プリシク=Prismatic Secret Rare
-25thシークレットレア=Quarter Century Secret Rare
-25thシク=Quarter Century Secret Rare
-20thシークレットレア=20th Secret Rare
-20thシク=20th Secret Rare
-スターライトレア=Starlight Rare
-スタレア=Starlight Rare
-ゴーストレア=Ghost Rare
-アルティメットレア=Ultimate Rare
-レリーフ=Ultimate Rare
-コレクターズレア=Collectors Rare
-ホログラフィックレア=Holographic Rare
-エクストラシークレットレア=Extra Secret Rare
-シークレットレア=Secret Rare
-シク=Secret Rare
-ウルトラレア=Ultra Rare
-スーパーレア=Super Rare
-ゴールドレア=Gold Rare
-ミレニアムレア=Millennium Rare
-パラレルレア=Parallel Rare
-KCレア=KC Rare
-ノーマルレア=Normal Rare
-ノーマル=Common
 
 RARITY DETECTION
 Yu-Gi-Oh OCG has many rarity levels. Extract from source:
@@ -201,18 +64,44 @@ Priority order for Title (highest value first):
 - Ultra Rare (ウルレア)
 - Super Rare (スーレア)
 Include rarity in Title after card name.
+If multiple rarity versions present, include highest-value rarity from source in Title.
 
 EDITION DETECTION
 Check source for edition information:
 - 初期, 1st Edition, First Edition -> 1st Edition
 - アジア版, Asia English -> Asian English
+- 無印, unlimited, アンリミ -> Unlimited Edition (lower collector value than 1st Edition for older cards)
 Include edition in Title if found (especially 1st Edition - very valuable for older cards).
 
 CARD NUMBER FORMAT
 Yu-Gi-Oh card numbers use SET CODE + number format:
 - Example: PHNI-JP001, INFO-JP025, BACH-JP045
+- Suffix tells region: JP = Japanese OCG, EN = English TCG, KR = Korean
 - Include card number in Description if found
 - The SET CODE indicates which set the card is from
+
+DEFECT / ISSUE REPORTING
+Translate defect keywords and include in Description under a "Condition Notes:" label. Use exact English equivalents:
+白かけ=Edge wear / Whitening on edges
+スレ=Surface scratches
+反り=Warping / Bending
+折れ=Crease / Fold
+色あせ=Fading / Discoloration
+シミ=Stain
+汚れ=Dirt / Soiling
+キズ=Scratch
+めくれ=Peeling
+インク飛び=Ink spot / Print error
+初期傷=Factory defect / Manufacturing imperfection
+白欠け=Corner whitening
+凹み=Dent / Indentation
+日焼け=Sun damage / Yellowing
+水濡れ跡=Water damage mark
+センタリング偏り=Off-centering
+キラ剥がれ/ホロ抜け=Holo peeling
+インクムラ=Ink unevenness
+Do NOT mistranslate: 初期傷 is "Factory defect / Manufacturing imperfection" (not "early scratch"); スレ is surface, not skin scratch.
+Omitting known defects is a violation of eBay policy.
 
 EXCLUDE FROM OUTPUT (CRITICAL)
 The source may contain seller descriptions that are NOT relevant to eBay listing:
@@ -220,30 +109,59 @@ The source may contain seller descriptions that are NOT relevant to eBay listing
 - Seller opinions (美品だと思います, 値下げ不可, 神経質な方)
 - Purchase instructions (即購入OK, コメントください)
 - Storage/handling descriptions (暗所にて保管, スリーブ, ローダー)
-- PSA grade explanations (公式サイトより抜粋, 完璧な状態)
 - Warnings and disclaimers (注意事項, ご遠慮下さい, トラブル防止)
 - Internal codes or long number sequences
 - Japanese hashtags that are not card/set names (#遊戯王, #PSA, #鑑定品)
 - BOX/Pack types (BOX, パック, box購入, 未開封BOX)
 
-FORBIDDEN WORDS IN TITLE (NEVER include these):
-- Condition opinions: Excellent, Good, Beautiful, Perfect
-- Authenticity words: Authentic (absolute ban), Genuine (banned standalone — allowed ONLY when transcribing exact material names), Original (banned standalone — allowed ONLY when transcribing accessory names e.g. "Original Box"), Real
-- Filler words: Amazing, Rare Find, Must Have, Hot, Fire
-- Japanese words: Any CJK characters
+CONDITION TERMS
+Map Japanese condition descriptions to eBay condition terms:
+- 未使用/未開封/新品 -> New / Factory Sealed
+- 美品/極美品 -> Near Mint (NM)
+- 良品/良い -> Lightly Played (LP)
+- 傷あり/使用感あり -> Moderately Played (MP)
+- ダメージあり/状態悪い -> Heavily Played (HP)
+- ジャンク/破損 -> Damaged (DMG)
+Use the most conservative (lower) grade when description is ambiguous.
+For graded cards (PSA/BGS/CGC), use the numeric grade, not a verbal condition term.
+
+LANGUAGE VARIATIONS
+Yu-Gi-Oh cards exist in multiple regional prints with different collector values:
+- 日本語/日本版/OCG -> Japanese OCG
+- アジア版/アジア英語版 -> Asian English (distinct from Japanese OCG)
+- 北米版/英語版/TCG -> English TCG
+- Korean -> Korean
+Asian English cards are printed for Southeast Asia markets; always explicitly note in Title and Description.
+Cards from different regional prints are not equivalent in grading or collector value; confirm from source.
+
+MISSING ACCESSORIES
+If source clearly shows these accessories are ABSENT, note in Description:
+- No original card sleeve
+- No card case / hard case
+- No original box / booster pack wrapper
+- No certificate (for graded cards, if certificate is separate)
+- No storage binder / binder page
+- No deck box
+- No original packaging materials
+- No COA (Certificate of Authenticity)
+Only note absence if source explicitly confirms.
+Do NOT assume missing items without source evidence.
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 40-75 chars (target 65-75, shorter OK if source-bound). If >75, shorten but keep SEO value.
-- Allowed symbols only: & / :
-- No commas, periods, hyphens, quotes, brackets, parentheses.
+- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
+- Allowed symbols: & / : - . ,
+- Forbidden symbols: " ' ( ) [ ]
+- Do not mention guarantees/returns/refunds.
+- Forbidden words: Authentic, Real, Genuine (standalone), Original (standalone), Amazing, Rare Find, Must Have.
+- Do NOT include any condition/status terms unless explicitly stated in Japanese source.
 
 SEO KEYWORD ORDER (front-load high-value terms):
 For Graded Cards:
 1. Grade (PSA 10, BGS 9.5)
 2. Card Name (Ash Blossom & Joyous Spring)
 3. Rarity (Prismatic Secret Rare)
-4. Set Name or Card Number (PHNI)
+4. Set Name or Card Number
 5. Edition (1st Edition) if applicable
 6. Language (Japanese)
 7. Game identifier (Yu-Gi-Oh)
@@ -255,19 +173,6 @@ For Raw Cards:
 4. Edition (1st Edition) if applicable
 5. Language (Japanese)
 6. Game identifier (Yu-Gi-Oh)
-
-EXPANSION RULES (apply when <60 chars):
-If Title is under 60 characters, add more keywords:
-1. Add card number if known
-2. Add rarity
-3. Add set name
-4. Add "Trading Card" at end
-
-SHORTENING RULES (apply when >75 chars):
-1. Remove set name (keep card number instead)
-2. Abbreviate rarity (Prismatic Secret Rare -> Prismatic Secret)
-3. Remove year
-4. Never remove: Grade, Card Name, Rarity, Language, Yu-Gi-Oh
 
 LEGITIMATE KEYWORDS (use only if present in source):
 - Prismatic Secret Rare — only when source states プリシク / Prismatic Secret
@@ -286,7 +191,7 @@ LEGITIMATE KEYWORDS (use only if present in source):
 DESCRIPTION (SEO Priority)
 - English ASCII only, <= 480 chars, single natural paragraph.
 - FIRST SENTENCE: Must contain card name + rarity (primary keywords).
-  Example: "Ash Blossom & Joyous Spring Prismatic Secret Rare from..."
+  Example: "Ash Blossom & Joyous Spring Prismatic Secret Rare from the Yu-Gi-Oh! OCG by Konami Digital Entertainment."
 - Include searchable specs naturally:
   * Grade details (PSA 10 Gem Mint, BGS 9.5)
   * Card name and rarity
@@ -294,25 +199,11 @@ DESCRIPTION (SEO Priority)
   * Edition (1st Edition, Unlimited)
   * Language (Japanese / OCG)
   * Card type (Monster / Spell / Trap)
+  * Publisher: Published by Konami Digital Entertainment
+  * Condition notes if defects listed in source
 - Use keyword variations: "card" "trading card" / "Yu-Gi-Oh" "Yugioh" "YGO"
+- For Asian English cards, note "Asian English print" explicitly in Description.
 - NEVER include: shipping info, seller opinions, price negotiations
-
-DEFECT KEYWORDS (Japanese to English)
-白かけ=Edge wear / Whitening on edges
-スレ=Surface scratches
-反り=Warping / Bending
-折れ=Crease / Fold
-色あせ=Fading / Discoloration
-シミ=Stain
-汚れ=Dirt / Soiling
-キズ=Scratch
-めくれ=Peeling
-インク飛び=Ink spot / Print error
-初期傷=Factory defect / Manufacturing imperfection
-白欠け=Corner whitening
-凹み=Dent / Indentation
-日焼け=Sun damage / Yellowing
-水濡れ跡=Water damage mark
 
 PRODUCTNAME
 - Format: [Card Name] [Rarity] [Set]
@@ -322,8 +213,18 @@ PRODUCTNAME
   Sky Striker Ace Raye 20th Secret Rare
 
 CATEGORY
-- Use: Trading Cards / Yu-Gi-Oh Individual Cards
-- Or: Collectible Card Games / Yu-Gi-Oh! TCG
+- Default: Trading Cards > Yu-Gi-Oh Individual Cards
+- Sealed packs/boxes: Trading Cards > Yu-Gi-Oh Sealed Decks & Kits
+
+CATEGORY RULE
+Select category based on these conditions:
+- If source is a graded card (PSA/BGS/CGC grade present) -> Trading Cards > Yu-Gi-Oh Individual Cards
+- If source is an ungraded single card with card number -> Trading Cards > Yu-Gi-Oh Individual Cards
+- If source is 1st Edition -> Trading Cards > Yu-Gi-Oh Individual Cards
+- If source is Asian English -> Trading Cards > Yu-Gi-Oh Individual Cards
+- If source is a sealed booster pack -> Trading Cards > Yu-Gi-Oh Sealed Decks & Kits
+- If source is a sealed box -> Trading Cards > Yu-Gi-Oh Sealed Decks & Kits
+- If source is unclear (no card number, no rarity stated) -> Trading Cards > Yu-Gi-Oh Individual Cards
 
 ITEM SPECIFICS
 Extract and output the following fields (use N/A if not determinable):
@@ -331,9 +232,10 @@ Extract and output the following fields (use N/A if not determinable):
 - SetName: English set name or set code (e.g., PHNI, INFO)
 - CardNumber: Full card number (e.g., PHNI-JP001) or N/A
 - Rarity: Prismatic Secret Rare / Secret Rare / Ultra Rare / etc.
+- Edition: 1st Edition / Unlimited / Asian English / N/A
 - Language: Japanese
 - Grade: PSA 10 / BGS 9.5 / Raw
-- Condition: Gem Mint / Mint / NM / LP / N/A
+- Condition: Gem Mint / Mint / NM / LP / MP / HP / DMG
 - Year: Release year or N/A
 
 OUTPUT FORMAT (exactly):
@@ -346,13 +248,14 @@ ItemSpecifics:
   SetName: ...
   CardNumber: ...
   Rarity: ...
+  Edition: ...
   Language: ...
   Grade: ...
   Condition: ...
   Year: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 60-80 chars (target 65-75).
+1. Title length 68-75 chars (target 68-75).
 2. Description <= 480 chars.
 3. Only ASCII letters/numbers/spaces/&/: used throughout.
 4. No CJK characters or emoji anywhere.
@@ -364,13 +267,12 @@ VERIFICATION (must pass before returning):
 10. Title contains NO forbidden words.
 11. Description first sentence contains card name + rarity.
 12. No shipping info or seller opinions in output.
-13. No forbidden symbols in Title (no , . - " ' ( ) [ ]).
+13. No forbidden symbols in Title (no " ' ( ) [ ]).
 14. ProductName matches card name from Title.
 15. Rarity code in Title matches source material.
 16. If 1st Edition detected in source, it appears in Title.
-
+17. All known defects from source are reported in Description.
+18. If Asian English card detected, "Asian English" appears in both Title and Description.
 If any check fails, regenerate until all pass.
-
-REMINDER: If you cannot honestly fill 40 chars from source, output a shorter title. Lying is worse than being short.
 
 Input: ${fullText}
