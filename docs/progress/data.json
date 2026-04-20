@@ -115,13 +115,13 @@
         }
       ]
     },
-    "last_updated": "2026-04-20T20:00:00+09:00",
+    "last_updated": "2026-04-20T21:00:00+09:00",
     "data_source_reports": [
       "child-b-full-73-scan.json (73 cats)",
       "child-a-obsidian-audit.json",
       "child-c-docs-and-73cats.json"
     ],
-    "latest_commit": "900a248",
+    "latest_commit": "ec439d5",
     "latest_work": "2026-04-20: V2.0.1 第 18 件 — ポケカ 033bef5/v46 完了 (386→255行, -131)"
   },
   "phases": [
@@ -3039,7 +3039,7 @@
   "v2_0_1": {
     "description": "V2.0.1 Full Rewrite プロンプト改修進捗 (時計 V11 301d487 基準)",
     "target_total": 11,
-    "completed": 2,
+    "completed": 3,
     "entries": [
       {
         "category": "ポケカ",
@@ -3068,6 +3068,20 @@
         "c5_verdict": "CONDITIONAL_PASS",
         "range_target": "265-310",
         "notes": "19th V2.0.1. トレカ系 11 カテゴリの 2 番目 完遂. BOOTLEG MUST + DEFECT enhance (既存 15+3 new) + EDITION/CARD_NUMBER preserve + MISSING_ACCESSORIES + CATEGORY_RULE 8-path."
+      },
+      {
+        "category": "ワンピースカード",
+        "status": "completed",
+        "library_version": "v45",
+        "commit_hash": "ec439d5",
+        "completed_at_iso": "2026-04-20T21:00:00+09:00",
+        "lines_before": 280,
+        "lines_after": 238,
+        "lines_delta": -42,
+        "strategy": "Full Rewrite",
+        "c5_verdict": "PASS",
+        "range_target": "220-252",
+        "notes": "20th V2.0.1. BOOTLEG MUST + DEFECT enhance (7+3 new) + CATEGORY_RULE 9-path + MISSING_ACCESSORIES. Library v44->v45."
       }
     ]
   }
