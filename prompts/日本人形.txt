@@ -32,7 +32,8 @@ TITLE (SEO Priority)
   Hina (雛人形) — Girls' Day festival dolls, often in sets
   Gosho (御所人形) — courtly ceremonial doll, chubby form
   Kimekomi (木目込み人形) — wooden body with silk/fabric attached via groove technique
-  Daruma (達磨) — round votive figure based on Bodhidharma
+  Daruma (達磨/だるま/ダルマ) — round votive figure based on Bodhidharma
+  Maneki-neko (招き猫/まねきねこ/招福猫) — beckoning lucky cat figurine
   ERA/PERIOD MARKERS (if stated): Edo (江戸), Meiji (明治), Taisho (大正), Showa (昭和), Heisei (平成).
 
 DESCRIPTION (SEO Priority)
@@ -72,7 +73,7 @@ VERIFICATION (must pass before returning):
 5. Title front-loads "Japanese" or doll type within first 30 chars if source confirms.
 6. Description first sentence contains doll type + material + origin keywords.
 7. ProductName uses correct Japanese/doll type format.
-8. Doll type uses correct romanized name (Kokeshi/Hakata/Ichimatsu/Hina/Gosho/Kimekomi/Daruma).
+8. Doll type uses correct romanized name (Kokeshi/Hakata/Ichimatsu/Hina/Gosho/Kimekomi/Daruma/Maneki-neko).
 9. ANTIQUE claim present only if source explicitly confirms 100+ years old; HANDMADE claim present only if source contains 手作り or 職人.
 10. No forbidden symbols in Title (no " ' ( ) [ ]).
 11. If source mentions any defect (faded kimono, hair disarray, face chip, stand damage, mold, moth damage, fingers broken, glass case crack, metal fitting rust, discoloration), Description MUST include it.

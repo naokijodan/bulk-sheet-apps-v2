@@ -433,6 +433,12 @@ var SANITIZE_FIELDS_ = {
     '発行年', '製造国', '題材', 'ISBN',
     '号数', 'ブランド', 'ヴィンテージ', 'シリーズ',
     '付属品', 'コンディション', '故障・不具合'
+  ],
+  // --- Board Games 追加 ---
+  'Board Games': [
+    'ゲームタイトル', 'ゲームタイプ', 'メーカー', 'プレイ人数', '対象年齢',
+    '言語', '製造国', '素材', '年代', 'ヴィンテージ',
+    'コンポーネント構成', '付属品', 'コンディション', '故障・不具合'
   ]
 };
 
@@ -1071,14 +1077,19 @@ var CATEGORY_RULES_ = {
   'Collectibles': {
     label: 'コレクティブル・アンティーク・ヴィンテージ',
     rules: [
-      '- タイプ: 具体的な物の名前で記入（ブリキ玩具/ソフビ/ピンバッジ/看板/メダル/切符/ポスター/置物/販促品/チラシ等）。',
+      '- タイプ: 具体的な物の名前で記入（ブリキ玩具/ソフビ/ピンバッジ/看板/メダル/切符/ポスター/置物/販促品/チラシ/伝統玩具/けん玉/独楽等）。',
+      '- ブランド: 山形工房(Yamagata Kobo)/SWEETS/KROM/TK16/大西工芸(Onishi Kogei)等。ソースに記載があれば必ず保持。不明ならNA。',
+      '- モデル名: 大空(Ozora)/大空 STREET(Ozora STREET)/REShape5/SLAYDAWG等。ソースに記載があれば必ず保持。不明ならNA。',
+      '- 認定: 日本けん玉協会認定(JKA Certified)/日本けん玉協会推奨品(JKA Recommended)。ソースに記載があれば保持。伝統玩具以外はNA。',
+      '- 付属品: 替え糸(spare string)/取扱説明書(manual)/ケース(case)等。ソースに記載があれば保持。なければNA。',
+      '- サイズ: 全長/高さ/幅のcm表記。ソースに記載があれば保持。なければNA。',
       '- 年代: 昭和/大正/明治/戦前/戦後/1950年代 等。「当時物」「ヴィンテージ」があれば推定年代も記入。不明ならNA。',
       '- 年代EN対応: 明治→Meiji(1868-1912)、大正→Taisho(1912-1926)、昭和→Showa(1926-1989)、平成→Heisei(1989-2019)。西暦→1950s/1960s/1970s。',
       '- キャラクター: ペコちゃん/鉄腕アトム/ゴジラ等があればそのまま記入。キャラクター商品でなければNA。',
       '- フランチャイズ: 作品名・シリーズ名があれば記入。なければNA。',
       '- テーマ: 鉄道/軍事/企業広告/観光/祭り/スポーツ 等、商品の文脈を記入。',
       '- 素材: ブリキ/金属/ホーロー/紙/木/ガラス/プラスチック/ソフトビニール/布 等。',
-      '- [EN]セクションでは: Type→Tin Toy/Sofubi/Pin Badge/Sign/Medal/Ticket/Poster/Figurine/Promotional Item。Era→Meiji/Taisho/Showa/Pre-war/Post-war/1950s。Character→英語公式名(Peko-chan/Astro Boy/Godzilla)。Theme→Railway/Military/Advertising/Tourism/Sports。Material→Tin/Metal/Enamel/Paper/Wood/Glass/Plastic/Soft Vinyl/Fabric。'
+      '- [EN]セクションでは: Type→Tin Toy/Sofubi/Pin Badge/Sign/Medal/Ticket/Poster/Figurine/Promotional Item/Traditional Toy/Kendama/Spinning Top。Brand→英語名(Yamagata Kobo/Onishi Kogei/SWEETS/KROM等)。Model→英語名(Ozora/Ozora STREET/REShape5等)。Certification→JKA Certified/JKA Recommended。Accessories→spare string/manual/case等。Size→total length Xcm。Era→Meiji/Taisho/Showa/Pre-war/Post-war/1950s。Character→英語公式名(Peko-chan/Astro Boy/Godzilla)。Theme→Railway/Military/Advertising/Tourism/Sports。Material→Tin/Metal/Enamel/Paper/Wood/Glass/Plastic/Soft Vinyl/Fabric。'
     ]
   },
   'Dolls & Plush': {
@@ -1275,7 +1286,7 @@ var CATEGORY_RULES_ = {
   'Japanese Dolls': {
     label: '日本人形',
     rules: [
-      '- タイプ: こけし/日本人形/博多人形/市松人形/雛人形/五月人形/木目込み人形/御所人形/伏見人形/からくり人形/土人形/文楽人形 のいずれかで記入。',
+      '- タイプ: こけし/日本人形/博多人形/市松人形/雛人形/五月人形/木目込み人形/御所人形/伏見人形/からくり人形/土人形/文楽人形/だるま/招き猫 のいずれかで記入。',
       '- 素材: 木製/陶器/紙/布/土/漆/石膏/桐 のいずれかで記入。複合素材の場合は主素材を記入。',
       '- 作家名: 作家名・工房名をそのまま記入。不明ならNA。',
       '- 産地: 鳴子/津軽/遠刈田/弥治郎/作並/蔵王/土湯/博多/京都/堺/岩槻/鴻巣 等で記入。不明ならNA。',
@@ -1284,7 +1295,7 @@ var CATEGORY_RULES_ = {
       '- 技法: 手彫り/ろくろ挽き/張子/木目込み/型抜き/手描き/焼成 のいずれかで記入。不明ならNA。',
       '- モチーフ: 武者/童女/舞妓/力士/歌舞伎/花嫁/童子/母子/動物 等で記入。該当なしならNA。',
       '- オリジナル/復刻: オリジナル/復刻品 のいずれかで記入。不明ならNA。',
-      '- [EN]セクションでは: Type は Kokeshi/Hakata Doll/Ichimatsu Doll/Hina Doll/Gogatsu Doll/Kimekomi Doll/Gosho Doll/Fushimi Doll/Karakuri Doll/Tsuchi Doll/Bunraku Puppet。Material は Wood/Ceramic/Paper/Fabric/Clay/Lacquer/Plaster/Paulownia。Technique は Hand Carved/Lathe Turned/Papier-mache/Kimekomi/Molded/Hand Painted/Fired。Origin は Naruko/Tsugaru/Togatta/Yajiro/Sakunami/Zao/Tsuchiyu/Hakata/Kyoto/Sakai/Iwatsuki/Konosu。Era は Showa/Taisho/Meiji/Edo/Heisei/Reiwa。'
+      '- [EN]セクションでは: Type は Kokeshi/Hakata Doll/Ichimatsu Doll/Hina Doll/Gogatsu Doll/Kimekomi Doll/Gosho Doll/Fushimi Doll/Karakuri Doll/Tsuchi Doll/Bunraku Puppet/Daruma Figurine/Maneki-neko Figurine。だるま/達磨 → Daruma Figurine。招き猫/まねきねこ/招福猫 → Maneki-neko Figurine。Material は Wood/Ceramic/Paper/Fabric/Clay/Lacquer/Plaster/Paulownia。Technique は Hand Carved/Lathe Turned/Papier-mache/Kimekomi/Molded/Hand Painted/Fired。Origin は Naruko/Tsugaru/Togatta/Yajiro/Sakunami/Zao/Tsuchiyu/Hakata/Kyoto/Sakai/Iwatsuki/Konosu。Era は Showa/Taisho/Meiji/Edo/Heisei/Reiwa。'
     ]
   },
   'Kitchen Knives': {
@@ -1307,6 +1318,25 @@ var CATEGORY_RULES_ = {
       '- 号数: 雑誌のみ記入。Vol.42 / No.10 / 2020年5月号 等の形式。書籍の場合はNA。',
       '- ISBN: 裏表紙またはISBNシールに記載の番号をそのまま記入（ISBN-10 または ISBN-13）。不明ならNA。',
       '- [EN]セクションでは: Author/Artist は英語または Romanized Name (漢字名) の形式。Publisher は英語社名（例: Shueisha/Kodansha/Shogakukan/Kadokawa）。Format は Magazine/Paperback/Hardcover/Mook/Art Book/Photo Book/Picture Book/Exhibition Catalog。Subject は英語で被写体・テーマを記入。Issue Number は Vol.XX / No.XX / Month Year の形式。'
+    ]
+  },
+
+  // --- Board Games 追加 ---
+  'Board Games': {
+    label: 'ボードゲーム・卓上ゲーム',
+    rules: [
+      '- ゲームタイトル: 商品名をそのまま記入。将棋/囲碁/麻雀/モノポリー/カタン 等。',
+      '- ゲームタイプ: 将棋/囲碁/麻雀/チェス/バックギャモン/オセロ/ボードゲーム/カードゲーム/パズル のいずれかで記入。',
+      '- メーカー: 任天堂/ホビージャパン/アークライト/Hasbro/Mattel/Ravensburger/Z-Man Games 等。不明ならNA。',
+      '- 言語: 日本語/英語/多言語（言語非依存） のいずれかで記入。',
+      '- 素材: 木製/プラスチック/紙/布 のいずれかで記入。将棋盤・囲碁盤は特に重要（桂/榧/新桂等）。',
+      '- 年代: 製造年を記入（例: 1990年代、2005年）。不明ならNA。',
+      '- ヴィンテージ: 製造から20年超または骨董的価値がある場合 Yes。それ以外 No。eBayカテゴリID分岐（新品→180349、ヴィンテージ→19100）に使用。',
+      '- コンポーネント構成: 駒/碁石/麻雀牌/カード/ダイス/ボード等の構成品を記入。欠品がある場合は「○○欠品」と明示。',
+      '- [EN]セクションでは: Game Type は Board Game/Traditional Game/Strategy Game/Shogi/Go/Mahjong/Chess/Backgammon/Othello。',
+      '- [EN]翻訳辞書: 将棋→Shogi, 将棋駒→Shogi Pieces, 将棋盤→Shogi Board, 麻雀→Mahjong, 麻雀牌→Mahjong Tiles, 麻雀セット→Mahjong Set, 囲碁→Go, 碁石→Go Stones, 碁盤→Go Board, ボードゲーム→Board Game, 卓上ゲーム→Tabletop Game, チェス→Chess, バックギャモン→Backgammon, オセロ→Othello, リバーシ→Reversi。',
+      '- [EN]素材: 木製→Wood, プラスチック→Plastic, 紙→Paper, 布→Fabric, 桂→Katsura Wood, 榧→Kaya Wood。',
+      '- [EN]Language: Japanese/English/Multilingual。Material は Wood/Plastic/Paper/Fabric。Vintage は Yes/No。'
     ]
   }
 };

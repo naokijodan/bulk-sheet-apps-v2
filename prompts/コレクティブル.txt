@@ -111,6 +111,22 @@ DECORATIVE / CULTURAL:
 - こけし -> Kokeshi Doll
 - 民芸品 -> Folk Craft / Mingei
 
+TRADITIONAL TOYS:
+- けん玉 / ケンダマ / 剣玉 -> Kendama
+- 独楽 / コマ / こま -> Spinning Top / Koma
+
+TRADITIONAL TOYS - Brand / Model / Certification Dictionary (transcribe if present in source):
+- 山形工房 -> Yamagata Kobo
+- 大西工芸 -> Onishi Kogei
+- 大空 -> Ozora
+- 大空 STREET -> Ozora STREET
+- 日本けん玉協会認定 -> JKA Certified
+- 日本けん玉協会推奨品 -> JKA Recommended
+- 替え糸 -> spare string
+- 取扱説明書 -> instruction manual
+- 競技用 -> competition grade
+- 全長 -> total length
+
 STEP 2: ERA / AGE DETECTION
 Convert Japanese era terms to Western dates:
 
@@ -155,13 +171,18 @@ TITLE (SEO Priority)
   6. Origin indicator (Japan, Japanese, Made in Japan)
   7. Size if notable
 
-DESCRIPTION
-- Structured sections using === headers (ASCII only).
-- Include: item type, era/period, maker/brand, material, dimensions if known.
-- For vintage/antique items, emphasize provenance and era.
-- For promotional items, note the company/brand and purpose.
-- For militaria, be factual and avoid glorification.
-- End with shipping note: "Ships from Japan with careful packaging."
+DESCRIPTION (SEO Priority)
+- English ASCII only, <= 480 chars, single natural paragraph. No === headers or bullet points.
+- FIRST SENTENCE: item type + material + origin/country if stated in source.
+- Include only if explicitly stated in source: brand/maker, model name, certification, era/period, dimensions, accessories/inclusions, character/IP, theme/purpose, provenance.
+- CONDITION (CRITICAL — TRUTH FIRST):
+  Preserve condition exactly as stated in source. NEVER upgrade or downgrade.
+  数回使用 / 使用感あり -> used, light use (NEVER "unused" or "new").
+  未使用 / 新品 / 未開封 -> Unused / New / Sealed.
+  中古 / 使用済み -> Used.
+  美品 / 良品 -> Good condition.
+- DEFECT REPORTING: If source mentions any defect (rust, chip, crack, stain, fading, discoloration, missing parts), MUST include in Description. Omitting known defects violates eBay policy.
+- Exclude: shipping promises, seller opinions, guarantees.
 
 OUTPUT FORMAT (exactly):
 Title: ...
@@ -177,7 +198,7 @@ VERIFICATION (must pass before returning):
 5. Brand/maker front-loaded in Title if known.
 6. Era or period included in Title if determinable.
 7. No forbidden symbols in Title (no quotes, parentheses, brackets).
-8. Description opens with product type and era.
+8. Description is a single paragraph (<= 480 chars), no === headers, opens with item type and material.
 9. Defects reported if mentioned in source.
 10. Every spec must have a source in the Japanese text.
 If any check fails, regenerate until all pass.

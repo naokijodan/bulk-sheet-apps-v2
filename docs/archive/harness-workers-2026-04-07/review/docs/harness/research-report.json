@@ -1,0 +1,31 @@
+{
+  "topic": "eBay Item Specifics for CPSC compliance",
+  "findings": [
+    "CPSC defines children's products as those intended for children 12 years of age or younger.",
+    "Using specific Age Level values like 'Adult Collector' or '17 Years & Up' helps signal the product is not for children.",
+    "eBay provides a 'Product Safety' section in the listing flow for safety warnings and pictograms.",
+    "The 'Age Level' field is the primary technical indicator on eBay to distinguish adult collectibles from toys."
+  ],
+  "recommended_fields": [
+    {
+      "field": "Age Level",
+      "recommended_values": ["Adult Collector", "17 Years & Up", "14 Years & Up"],
+      "note": "Avoid any range including ages 12 and under to bypass CPSIA requirements."
+    },
+    {
+      "field": "Product Safety / Item Disclosures",
+      "recommended_values": ["Safety Warning Statements", "Pictograms"],
+      "note": "Found in the listing editor under Item disclosures > Product Safety."
+    },
+    {
+      "field": "Title / Description Keywords",
+      "recommended_values": ["Adult Collector", "Not a Toy", "Collectible Display Piece", "Not intended for children under 14 years of age"],
+      "note": "CPSC considers marketing copy when determining intended audience."
+    }
+  ],
+  "sources": [
+    "https://www.ebay.com/help/policies/prohibited-restricted-items/product-safety-policy?id=4343",
+    "https://developer.ebay.com/api-docs/commerce/taxonomy/resources/category_tree/methods/getItemAspectsForCategory",
+    "https://www.cpsc.gov/Business--Manufacturing/Business-Education/childrens-designation"
+  ]
+}

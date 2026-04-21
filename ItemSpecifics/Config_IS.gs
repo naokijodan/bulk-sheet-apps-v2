@@ -286,7 +286,7 @@ var IS_INITIAL_DATA = [
   { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Brand', field_type: 'required', priority: 1, notes: 'メーカー・ブランド・企業名' },
   { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Character', field_type: 'recommended', priority: 2, notes: 'キャラクター名（なければNA）' },
   { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Franchise', field_type: 'recommended', priority: 3, notes: '作品名・シリーズ名（なければNA）' },
-  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Type', field_type: 'required', priority: 4, notes: 'Tin Toy, Pin Badge, Sign, Medal, Poster, Figurine, Promotional Item等' },
+  { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの,けん玉,ケンダマ,剣玉,独楽,コマ,こま', field_name: 'Type', field_type: 'required', priority: 4, notes: 'Tin Toy, Pin Badge, Sign, Medal, Poster, Figurine, Promotional Item, Traditional Toy, Kendama, Spinning Top等' },
   { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Theme', field_type: 'recommended', priority: 5, notes: 'Railway, Military, Advertising, Tourism, Sports等' },
   { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Material', field_type: 'recommended', priority: 6, notes: 'Tin, Metal, Enamel, Paper, Wood, Glass, Plastic, Soft Vinyl等' },
   { category: 'Collectibles', tag_jp: 'コレクティブル,アンティーク,ヴィンテージ,骨董品,昭和レトロ,レトロ,ブリキ,ソフビ,ノベルティ,非売品,ピンバッジ,ミリタリー,鉄道グッズ,記念品,当時物,デッドストック,景品,紙もの', field_name: 'Size', field_type: 'recommended', priority: 7, notes: '' },
@@ -3568,6 +3568,10 @@ function getBrandListForSanitize_(category) {
       return bbBrands.join(', ');
     }
 
+    if (category === 'Board Games') {
+      return '任天堂, ホビージャパン, アークライト, Hasbro, Mattel, Ravensburger, Z-Man Games, Fantasy Flight Games, Asmodee';
+    }
+
     // watch/cameraの場合はIS_BRAND_DICTからフィルタ
     if (typeof IS_BRAND_DICT === 'undefined' || !IS_BRAND_DICT) return '';
 
@@ -3981,7 +3985,15 @@ var IS_TAG_TO_TYPE = {
   'ダッドハット': 'Dad Hat',
   'サンバイザー': 'Visor',
   'ハンチング': 'Flat Cap',
-  'キャスケット': 'Newsboy Cap'
+  'キャスケット': 'Newsboy Cap',
+
+  // Traditional Toys
+  'けん玉': 'Traditional Toy',
+  'ケンダマ': 'Traditional Toy',
+  '剣玉': 'Traditional Toy',
+  '独楽': 'Spinning Top',
+  'コマ': 'Spinning Top',
+  'こま': 'Spinning Top'
 };
 
 // ==============================
@@ -4031,6 +4043,8 @@ var IS_TAG_TO_CATEGORY = {
   'ブリキ': 'Collectibles', 'ソフビ': 'Collectibles', 'ノベルティ': 'Collectibles', '非売品': 'Collectibles',
   'デッドストック': 'Collectibles', '景品': 'Collectibles', 'ピンバッジ': 'Collectibles',
   'ミリタリー': 'Collectibles', '鉄道グッズ': 'Collectibles', '記念品': 'Collectibles', '紙もの': 'Collectibles',
+  'けん玉': 'Collectibles', 'ケンダマ': 'Collectibles', '剣玉': 'Collectibles',
+  '独楽': 'Collectibles', 'コマ': 'Collectibles', 'こま': 'Collectibles',
   '人形': 'Dolls & Plush',
   // Pipes (Tobacco Pipes)
   'パイプ': 'Pipes', '喫煙パイプ': 'Pipes', '煙管': 'Pipes', 'キセル': 'Pipes', 'パイプ・喫煙具': 'Pipes',
@@ -4070,6 +4084,12 @@ IS_TAG_TO_CATEGORY['伏見人形'] = 'Japanese Dolls';
 IS_TAG_TO_CATEGORY['からくり人形'] = 'Japanese Dolls';
 IS_TAG_TO_CATEGORY['土人形'] = 'Japanese Dolls';
 IS_TAG_TO_CATEGORY['文楽人形'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['だるま'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['ダルマ'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['達磨'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['招き猫'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['まねきねこ'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['招福猫'] = 'Japanese Dolls';
 
 // Hats
 IS_TAG_TO_CATEGORY['帽子'] = 'Hats'; IS_TAG_TO_CATEGORY['キャップ'] = 'Hats'; IS_TAG_TO_CATEGORY['ハット'] = 'Hats';
@@ -4405,6 +4425,21 @@ IS_TAG_TO_CATEGORY['ルアージグ'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['ル
 IS_TAG_TO_CATEGORY['ルアーソフトベイト'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['ルアースピナーベイト'] = 'Fishing Lures';
 IS_TAG_TO_CATEGORY['ルアーバイブレーション'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['ルアーフロッグ'] = 'Fishing Lures';
 IS_TAG_TO_CATEGORY['ルアータックル'] = 'Fishing Lures';
+
+// Board Games
+IS_TAG_TO_CATEGORY['将棋'] = 'Board Games'; IS_TAG_TO_CATEGORY['将棋セット'] = 'Board Games';
+IS_TAG_TO_CATEGORY['将棋盤'] = 'Board Games'; IS_TAG_TO_CATEGORY['将棋駒'] = 'Board Games';
+IS_TAG_TO_CATEGORY['麻雀'] = 'Board Games'; IS_TAG_TO_CATEGORY['麻雀セット'] = 'Board Games';
+IS_TAG_TO_CATEGORY['麻雀牌'] = 'Board Games'; IS_TAG_TO_CATEGORY['マージャン'] = 'Board Games';
+IS_TAG_TO_CATEGORY['囲碁'] = 'Board Games'; IS_TAG_TO_CATEGORY['囲碁セット'] = 'Board Games';
+IS_TAG_TO_CATEGORY['碁盤'] = 'Board Games'; IS_TAG_TO_CATEGORY['碁石'] = 'Board Games';
+IS_TAG_TO_CATEGORY['いご'] = 'Board Games';
+IS_TAG_TO_CATEGORY['ボードゲーム'] = 'Board Games'; IS_TAG_TO_CATEGORY['board game'] = 'Board Games';
+IS_TAG_TO_CATEGORY['卓上ゲーム'] = 'Board Games'; IS_TAG_TO_CATEGORY['アナログゲーム'] = 'Board Games';
+IS_TAG_TO_CATEGORY['テーブルゲーム'] = 'Board Games';
+IS_TAG_TO_CATEGORY['チェス'] = 'Board Games'; IS_TAG_TO_CATEGORY['バックギャモン'] = 'Board Games';
+IS_TAG_TO_CATEGORY['オセロ'] = 'Board Games'; IS_TAG_TO_CATEGORY['リバーシ'] = 'Board Games';
+IS_TAG_TO_CATEGORY['ダーツ'] = 'Board Games';
 
 // ==============================
 // カテゴリ別 出力フィールド定義（5-8フィールド、順序固定）
@@ -4801,6 +4836,21 @@ var IS_CATEGORY_FIELDS = {
     'Author/Artist', 'Publisher', 'Language', 'Format',
     'Year Published', 'Country of Origin', 'Subject', 'ISBN',
     'Issue Number', 'Brand', 'Vintage', 'Series',
+  ],
+  // --- Board Games 追加 ---
+  'Board Games': [
+    'Game Title',
+    'Game Type',
+    'Brand',
+    'Number of Players',
+    'Age Level',
+    'Language',
+    'Material',
+    'Country of Origin',
+    'Year Manufactured',
+    'Vintage',
+    'Contents',
+    'Condition',
   ],
 };
 

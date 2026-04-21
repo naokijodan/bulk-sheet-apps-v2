@@ -1,0 +1,41 @@
+{
+    "task_id": "TASK-20260407-001",
+    "parent_instructions": "一括シートV3の新機能紹介記事（HTML）と動画台本を作成する。記事はGitHub Pages用スタンドアローンHTML。動画台本はナレーション＋画面説明のテキストファイル。",
+    "spec_summary": "3つの新機能（タグ管理システム、交通整理、Item Specifics自動抽出）をBefore/After形式で紹介する記事HTMLと、それに対応する動画台本を作成する。対象読者は非プログラマーのeBay転売ユーザー。",
+    "acceptance_criteria": [
+        "HTMLファイルがブラウザで正しく表示される（構文エラーなし）",
+        "5セクション（導入・タグ管理・交通整理・IS自動抽出・まとめ）が全て含まれている",
+        "各機能のBefore/Afterが明確に対比されている",
+        "タグ管理の説明が正確（ゲームソフト中古/新品の例、利益率・送料・商品状態の自動適用、EAGLEでのタグ管理、無限バリエーション）",
+        "交通整理の説明が正確（翻訳前の情報整理、対象カテゴリ=デジカメ・時計・電子機器等、コストのトレードオフ、ガードレール機能）",
+        "Item Specifics自動抽出の説明が正確（辞書ベース＝AIではない、最大10項目、時計・デジカメ高精度/骨董品低精度、SEO効果）",
+        "技術用語が非プログラマーにわかりやすく説明されている",
+        "CSSスタイルがcpsc-proposal/index.htmlのデザインシステムと一貫している",
+        "動画台本がナレーション（話す言葉）と画面説明（見せるもの）に分かれている",
+        "動画台本の口調が話し言葉（カジュアルなですます調）",
+        "動画台本の全体尺が5〜8分程度のボリューム"
+    ],
+    "relevant_files": [
+        "~/Desktop/cpsc-proposal/index.html (HTMLスタイル参考)",
+        "~/Desktop/ツール開発/一括シートApps_v3/Shipping.gs (タグ管理の実装コード)",
+        "~/Desktop/ツール開発/一括シートApps_v3/Translation.gs (交通整理の実装コード)",
+        "~/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/DESIGN.md (IS自動抽出の設計書)",
+        "~/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/ItemSpecifics.gs (IS自動抽出の実装)",
+        "~/Desktop/ツール開発/一括シートApps_v3/ItemSpecifics/Dictionary.gs (辞書ベース抽出)",
+        "~/Desktop/ツール開発/一括シートApps_v3/prompts/ (カテゴリ別翻訳プロンプト一覧)"
+    ],
+    "architecture_notes": "一括シートV3はGoogle Apps Script（GAS）で構築されたeBay一括出品ツール。ライブラリとして配布され、ユーザーのGoogle Sheetsに組み込まれる。EAGLEはeBay出品管理の外部ツール。タグはA列に入力し、Shipping.gsでタグに紐づく設定（利益率・送料・商品状態等）を自動適用する。交通整理は翻訳前にAIで情報を整理するレイヤー。IS自動抽出は辞書ベース（AIではなくパターンマッチ＋辞書参照）で最大10項目を抽出する。",
+    "project_rules": [
+        "対象読者は非プログラマーのeBay転売ユーザー",
+        "技術用語（API、JSON、プロンプト等）は避けるか噛み砕いて説明する",
+        "過度な賞賛表現は使わない。事実を淡々と伝える",
+        "Item Specificsの10件制限はEAGLEの登録制限であり、変更提案は禁止"
+    ],
+    "known_risks": [
+        "機能説明の不正確さ（実際の動作と記事の説明が異なる可能性）",
+        "専門用語の混入（非プログラマーに伝わらない表現）"
+    ],
+    "regression_targets": [
+        "既存コードへの変更なし。回帰テスト不要。"
+    ]
+}
