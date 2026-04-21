@@ -219,6 +219,50 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
   // カードパターンの遅延初期化（カスタム関数のパフォーマンス対策）
   if (typeof initCardPatterns_ === 'function') initCardPatterns_();
   switch (fieldName) {
+    case 'Category':
+      if (category === 'Baseball Cards') return 'Baseball Cards';
+      return '';
+    case 'Sport':
+      if (category === 'Baseball Cards') return 'Baseball';
+      return '';
+    case 'Card Size':
+      if (category === 'Baseball Cards') return 'Standard';
+      return '';
+    case 'Sale Type':
+      if (category === 'Baseball Cards') {
+        var saleSrc = (title + ' ' + (description || '')).toLowerCase();
+        if (/まとめ|セット|\d+枚|ロット|lot|bulk|bundle/.test(saleSrc) && !/単品|シングル/.test(saleSrc)) return 'Lot';
+        return 'Single';
+      }
+      return '';
+    case 'League':
+      if (category === 'Baseball Cards') {
+        var leagueSrc = title + ' ' + (description || '');
+        var hasMLB = /MLB|メジャー|日本人メジャーリーガー|大リーグ/.test(leagueSrc);
+        var hasNPB = /NPB|プロ野球|日本プロ野球|セリーグ|パリーグ/.test(leagueSrc);
+        if (hasMLB && hasNPB) return 'Mixed';
+        if (hasMLB) return 'MLB';
+        if (hasNPB) return 'NPB';
+        return '';
+      }
+      return '';
+    case 'Player':
+      if (category === 'Baseball Cards') {
+        if (typeof CARD_BASEBALL_PLAYERS === 'undefined' || !CARD_BASEBALL_PLAYERS.length) return '';
+        var playerSrc = String(title || '') + ' ' + String(description || '');
+        var playerMatched = [];
+        var playerSeen = {};
+        for (var pi = 0; pi < CARD_BASEBALL_PLAYERS.length; pi++) {
+          var pe = CARD_BASEBALL_PLAYERS[pi];
+          if (!pe.jp || !pe.en) continue;
+          if (playerSrc.indexOf(pe.jp) !== -1 && !playerSeen[pe.en]) {
+            playerMatched.push(pe.en);
+            playerSeen[pe.en] = true;
+          }
+        }
+        return playerMatched.join(', ');
+      }
+      return '';
     case 'Brand':
       return brandInfo ? brandInfo.name : '';
     case 'Designer':
@@ -389,11 +433,17 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       if (category === 'Figures') return '17 Years & Up';
       if (category === 'Mecha Model Kits') return '17 Years & Up';
       if (category === 'RC & Models') return '13+';
-      if (category === 'Manga') return matchMangaAgeLevel_(rowData);
+      if (category === 'Manga') return matchMangaAgeLevel_(data);
       if (category === 'Anime') return '13+';
       if (category === 'Snow Globes') return '13+';
       return '';
     case 'Language':
+      if (category === 'Baseball Cards') {
+        var langSrc = (title + ' ' + (description || '')).toLowerCase();
+        if (/japanese|日本語|日本版|nippon/.test(langSrc) || /[\u3040-\u30ff\u4e00-\u9faf]/.test(title + ' ' + (description || ''))) return 'Japanese';
+        if (/english|英語/.test(langSrc)) return 'English';
+        return '';
+      }
       return 'Japanese';
     case 'Wrist Size':
       return extractWristSize_(title + ' ' + (description || ''));

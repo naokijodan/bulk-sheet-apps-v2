@@ -240,6 +240,10 @@ function runSelectedRowsTranslate() {
         var batchDataRange = sheet.getRange(minRow, 1, maxRow - minRow + 1, CONFIG.COLUMNS.EN_TITLE);
         var batchValues = batchDataRange.getValues();
 
+        // Baseball Cards用: AW列（交通整理英語版）をバッチ読み込み
+        // K列（JP_DESC）の代わりに英語構造化データを翻訳入力とすることで精度向上
+        var awBatchValues = sheet.getRange(minRow, CONFIG.COLUMNS.EN_DESC_SANITIZED, maxRow - minRow + 1, 1).getValues();
+
         for (var k = 0; k < batch.length; k++) {
           var row = batch[k];
           var rowIndex = row - minRow;
@@ -263,6 +267,14 @@ function runSelectedRowsTranslate() {
                     item.promptId = tagToPromptMap[baseTag];
                   }
                 }
+              }
+            }
+            // Baseball Cards: AW列（英語構造化データ）を翻訳入力として優先使用
+            // K列（JP/英混在）の代わりにAW列の英語データを渡すことでAI検出精度を向上
+            if (item.promptId === 'ベースボールカード' && awBatchValues) {
+              var awVal = String((awBatchValues[rowIndex] && awBatchValues[rowIndex][0]) || '');
+              if (awVal && awVal.indexOf('Player') !== -1) {
+                item.jpDesc = awVal;
               }
             }
             items.push(item);

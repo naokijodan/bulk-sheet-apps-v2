@@ -127,6 +127,13 @@ function createAIPrompt(fullText, promptId) {
       break;
     }
   }
+  // 英語形式Baseball Cards入力の検出（BBC prefix対応: 'Sport: Baseball' / 'Category: Baseball Cards'）
+  // K列に英語構造化データが入っている場合、Japanese cardキーワードが含まれないためisCardがfalseになる問題を修正
+  if (!isCard && (fullTextLower.indexOf('sport: baseball') !== -1 || fullTextLower.indexOf('category: baseball cards') !== -1)) {
+    isCard = true;
+    detectedGame = 'Baseball';
+  }
+
   if (isCard && tmpl.indexOf('TRADING CARD TRANSLATION') === -1) {
     // ゲーム判定（翻訳辞書の絞り込み用）
     if (fullTextLower.indexOf('ポケモン') !== -1 || fullTextLower.indexOf('ポケカ') !== -1 || fullTextLower.indexOf('pokemon') !== -1) {
@@ -176,6 +183,33 @@ function createAIPrompt(fullText, promptId) {
     }
 
     tmpl = tmpl + cardHints.join('\n');
+  }
+
+  // Baseball Cards まとめ売り(Lot)用 VERIFICATION 緩和ヒント注入
+  // 'Sale Type: Lot' / 'Player Names:' / 'まとめ' を検出した場合のみ注入
+  // 他カテゴリ（Watches/ポケカ等）には影響しない（detectedGame==='Baseball'が条件）
+  if (detectedGame === 'Baseball' && tmpl.indexOf('LOT LISTING OVERRIDE') === -1) {
+    var isBaseballLot = fullTextLower.indexOf('sale type: lot') !== -1
+      || fullTextLower.indexOf('player names:') !== -1
+      || fullTextLower.indexOf('まとめ') !== -1;
+    if (isBaseballLot) {
+      var lotOverride = [
+        '',
+        '### LOT LISTING OVERRIDE (Baseball Cards Lot — overrides conflicting VERIFICATION rules below)',
+        'This input represents a multi-card lot. Apply these MODIFIED rules instead of standard single-card VERIFICATION:',
+        '- VERIFICATION Rule 7 RELAXED: Year at title start is OPTIONAL for lot listings.',
+        '  If Season/Year is "NA" or missing, start title with "Japanese" or the Set/Brand name.',
+        '- VERIFICATION Rule 6 RELAXED: Use the first listed player name only.',
+        '  For multiple players use "[Player] & Others" or "Mixed Players".',
+        '- VERIFICATION Rule 10 RELAXED: Card Number is NOT required in lot title.',
+        '- Title format examples for lots:',
+        '  "[Year] [Brand] [Player] & Others [N] Cards Lot Japanese [Condition]"',
+        '  "Japanese [Brand] Baseball Cards [N] Cards Lot NM" (when Year is NA)',
+        '- CRITICAL: Do NOT leave Title empty. Always generate the best-effort title that satisfies as many rules as possible.',
+        ''
+      ].join('\n');
+      tmpl = tmpl + lotOverride;
+    }
   }
 
   // コレクティブル・ヴィンテージ関連キーワード検出時に年号変換ヒントを動的注入

@@ -3553,9 +3553,19 @@ function getBrandListForSanitize_(category) {
         'Duel Masters(デュエルマスターズ)', 'Weiss Schwarz(ヴァイスシュヴァルツ)',
         'Cardfight Vanguard(ヴァンガード)', 'Battle Spirits(バトルスピリッツ)',
         'Dragon Ball(ドラゴンボール)', 'One Piece(ワンピース)',
-        'BBM(野球カード)', 'Sumo(大相撲カード)'
+        'Sumo(大相撲カード)'
       ];
       return games.join(', ');
+    }
+
+    if (category === 'Baseball Cards') {
+      var bbBrands = [
+        'Topps', 'Bowman', 'Panini', 'Upper Deck', 'Donruss',
+        'BBM', 'Epoch', 'Calbee',
+        'Topps Chrome', 'Bowman Chrome', 'Topps Heritage',
+        'Prizm', 'Donruss Optic', 'Topps Series 1', 'Topps Update Series'
+      ];
+      return bbBrands.join(', ');
     }
 
     // watch/cameraの場合はIS_BRAND_DICTからフィルタ
@@ -4329,8 +4339,12 @@ IS_TAG_TO_CATEGORY['ドラゴンボールカード'] = 'Trading Cards';
 IS_TAG_TO_CATEGORY['ガンダムカード'] = 'Trading Cards'; IS_TAG_TO_CATEGORY['ガンダムウォー'] = 'Trading Cards';
 IS_TAG_TO_CATEGORY['アーセナルベース'] = 'Trading Cards'; IS_TAG_TO_CATEGORY['ガンダムクロスウォー'] = 'Trading Cards';
 IS_TAG_TO_CATEGORY['カードダス'] = 'Trading Cards';
-IS_TAG_TO_CATEGORY['BBM'] = 'Trading Cards'; IS_TAG_TO_CATEGORY['ベースボールカード'] = 'Trading Cards';
-IS_TAG_TO_CATEGORY['野球カード'] = 'Trading Cards'; IS_TAG_TO_CATEGORY['大相撲カード'] = 'Trading Cards';
+// === Baseball Cards（単品）===
+IS_TAG_TO_CATEGORY['BBM']           = 'Baseball Cards';
+IS_TAG_TO_CATEGORY['ベースボールカード'] = 'Baseball Cards';
+IS_TAG_TO_CATEGORY['野球カード']      = 'Baseball Cards';
+// === 大相撲カードは Trading Cards 残留 ===
+IS_TAG_TO_CATEGORY['大相撲カード'] = 'Trading Cards';
 IS_TAG_TO_CATEGORY['PSA'] = 'Trading Cards'; IS_TAG_TO_CATEGORY['BGS'] = 'Trading Cards';
 IS_TAG_TO_CATEGORY['CGC'] = 'Trading Cards'; IS_TAG_TO_CATEGORY['SGC'] = 'Trading Cards';
 IS_TAG_TO_CATEGORY['デジモン'] = 'Trading Cards'; IS_TAG_TO_CATEGORY['デジモンカード'] = 'Trading Cards';
@@ -4502,6 +4516,23 @@ var IS_CATEGORY_FIELDS = {
   'Trading Cards': [
     'Game', 'Set', 'Character', 'Card Name', 'Card Number', 'Rarity', 'Finish', 'Graded', 'Professional Grader', 'Grade',
     'Card Type', 'Age Level', 'Features', 'Language',
+  ],
+  'Baseball Cards': [
+    'Player',              // AI 抽出（日本語/英語混在許容）
+    'Brand',               // AI 抽出
+    'Season',              // AI 抽出
+    'Set',                 // AI 抽出
+    'Card Type',           // AI 抽出
+    'Card Number',         // AI 抽出
+    'Professional Grader', // AI 抽出
+    'Grade',               // AI 抽出
+    'Serial Number',       // AI 抽出
+    'Condition',           // AI 抽出
+    'Category',            // プログラム確定値
+    'Sport',               // プログラム確定値
+    'Card Size',           // プログラム確定値
+    'Sale Type',           // プログラム検出
+    'League',              // プログラム検出
   ],
   'Brooches':      [
     'Type',               //  1. 必須

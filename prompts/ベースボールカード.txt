@@ -45,7 +45,7 @@ If source does not provide evidence, DO NOT include the Category B word.
 3. NO REPETITION: Each substantive keyword appears at most once in title.
 4. NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "Baseball Card Baseball Card" is forbidden).
 5. SOFT CHAR TARGET: Aim for 40-75 characters in title. Going under 40 is acceptable if truth-first cannot fill more honestly. Going over 75 is forbidden.
-6. ESSENTIAL INFO REQUIRED: Always include player name, year, brand, and language if known.
+6. RECOMMENDED FIELDS (use when present in source, skip otherwise): player, year, brand, language, set, card number, card type, grade, serial, lot count.
 
 LEGITIMATE KEYWORDS (use only if present in source):
 - RC (Rookie Card) — only when source explicitly states rookie card
@@ -59,7 +59,7 @@ LEGITIMATE KEYWORDS (use only if present in source):
 - NM, LP, MP — raw card condition, only when stated in source
 
 === PHASE 1: EXTRACT & FILTER ===
-Extract ONLY these elements:
+Extract the following elements when present in source (skip if not mentioned):
 
 [Card Identity]
 - Player name (official English spelling)
@@ -85,13 +85,17 @@ IGNORE: Seller policies, shipping info, opinions, Japanese condition terms, pric
 [Title Rules - 40-75 characters (target 70-75, shorter OK if source-bound)]
 - Allowed symbols: & / : #
 - FORBIDDEN: , . - ( ) [ ] "" _
-- Order: Year + Brand + Player + Card Type + Set + #Number + Serial + Grade + Japanese
+- Recommended order (not strict): Year → Brand → Player → Type → Set → #Number → Serial → Grade → Language/Lot info. Use what's available; skip what's not.
 
-[Title Formula]
-- Graded: [Year] [Brand] [Player] [Type] [Set] #XXX [Serial] PSA/BGS [Grade] Japanese
-- Raw Numbered: [Year] [Brand] [Player] [Type] [Set] #XXX [Serial] Japanese [Condition]
-- Raw Base/RC: [Year] [Brand] [Player] RC/Base [Set] #XXX Japanese [Condition]
-- Auto/Relic: [Year] [Brand] [Player] Auto/Relic [Set] #XXX [Serial] Japanese [Condition]
+[Title Composition Guidance]
+- Compose the title naturally using whatever information is available in the source.
+- No strict template. Do NOT force missing fields.
+- Examples of valid titles based on available info:
+  * Full single: `2022 Topps Chrome Julio Rodriguez RC Refractor #180 PSA 10 Japanese`
+  * Lot with multiple players: `MLB Minnesota Twins 18 Cards Lot Kenta Maeda & Others Japanese`
+  * Lot with dominant player: `2003 Topps Hideki Matsui & 7 Others 8 Cards Lot Japanese`
+  * Complete set: `1996 Pinnacle Dodgers Team Set 15 Cards Japanese`
+- Aim to maximize SEO-relevant info from the source.
 
 [Description Rules - Max 400 characters]
 - One paragraph, no bullets
@@ -102,22 +106,22 @@ IGNORE: Seller policies, shipping info, opinions, Japanese condition terms, pric
 [Output Format]
 Title: ...
 Description: ...
-PlayerName: ...
-Team: ...
-Year: ...
-Brand: ...
-SetName: ...
-CardNumber: ...
-CardType: ...
+Player: ... (NA if not in source)
+Team: ... (NA if not in source)
+Year: ... (NA if not in source)
+Brand: ... (NA if not in source)
+SetName: ... (NA if not in source)
+CardNumber: ... (NA if not in source)
+CardType: ... (NA if not in source)
 Language: Japanese
-Condition: ...
+Condition: ... (NA if not in source)
 
 === BASEBALL CARD RULES ===
-□ Always include year at title start
+□ Include year at title start if year is known
 □ RC = Rookie Card (use RC in title for space)
 □ Numbered cards: show as /XX format
 □ Graded cards: Grade MUST appear in title
-□ Player name within first 40 chars
+□ Player name within first 40 chars (if player is known and applicable; for multi-player lots, use first listed player or generic label)
 □ 1st Bowman = highly valuable, emphasize
 □ Auto cards: specify if on-card auto
 □ "Japanese" MUST appear in title (these are Japanese cards)
@@ -128,7 +132,7 @@ Condition: ...
 Example 1 - Graded RC:
 Title: 2022 Topps Chrome Julio Rodriguez RC Refractor #180 PSA 10 Japanese
 Description: 2022 Topps Chrome Julio Rodriguez Rookie Card Refractor graded PSA 10. Card number 180. Seattle Mariners AL ROY. Japanese version. Investment grade rookie in perfect condition.
-PlayerName: Julio Rodriguez
+Player: Julio Rodriguez
 Team: Seattle Mariners
 Year: 2022
 Brand: Topps Chrome
@@ -141,7 +145,7 @@ Condition: PSA 10
 Example 2 - Numbered Auto:
 Title: 2023 Bowman Chrome Elly De La Cruz 1st Auto Refractor #CDA/EDC /499 Japanese NM
 Description: 2023 Bowman Chrome Elly De La Cruz 1st Bowman Autograph Refractor. On-card auto serial numbered /499. Cincinnati Reds top prospect. Japanese version. Near Mint condition.
-PlayerName: Elly De La Cruz
+Player: Elly De La Cruz
 Team: Cincinnati Reds
 Year: 2023
 Brand: Bowman Chrome
@@ -157,12 +161,11 @@ VERIFICATION (must pass before returning):
 3. Only ASCII letters/numbers/spaces/&/:/#  used throughout.
 4. No CJK characters or emoji anywhere.
 5. If graded card, grade appears in Title.
-6. Player name appears in Title within first 40 chars.
-7. Year appears at START of Title.
-8. "Japanese" appears in Title.
-9. Title contains NO forbidden symbols (, . - " ( ) [ ] _).
-10. Card number included in Title if found in source.
-11. Language field is always "Japanese".
+6. Player name appears in Title within first 40 chars (if player is known; for multi-player lots, first listed player or generic label is acceptable).
+7. "Japanese" appears in Title.
+8. Title contains NO forbidden symbols (, . - " ( ) [ ] _).
+9. Card number included in Title if found in source.
+10. Language field is always "Japanese".
 
 If any check fails, regenerate until all pass.
 

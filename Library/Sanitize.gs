@@ -31,6 +31,10 @@ var SANITIZE_FIELDS_ = {
     '鑑定会社', '鑑定グレード', 'カードタイプ',
     'コンディション', '枚数'
   ],
+  'Baseball Cards': [
+    'Player', 'Brand', 'Season', 'Set', 'Card Type',
+    'Card Number', 'Professional Grader', 'Grade', 'Serial Number', 'Condition'
+  ],
   'Video Game Consoles': [
     'メーカー', '機種名', '型番', 'タイプ',
     'ストレージ容量', '色', 'リージョン', 'エディション',
@@ -452,7 +456,7 @@ var CATEGORY_RULES_ = {
   'Trading Cards': {
     label: 'カード',
     rules: [
-      '- ゲーム名: ポケモンカード/遊戯王/MTG/デュエルマスターズ/ヴァイスシュヴァルツ/ヴァンガード/バトルスピリッツ/ドラゴンボール/ワンピース/BBM(野球)/大相撲 のいずれかで記入。',
+      '- ゲーム名: ポケモンカード/遊戯王/MTG/デュエルマスターズ/ヴァイスシュヴァルツ/ヴァンガード/バトルスピリッツ/ドラゴンボール/ワンピース/大相撲 のいずれかで記入。',
       '- セット名: パック名・エキスパンション名をそのまま記入。コード（SV2a, SM12a等）も併記。',
       '- キャラクター名: ポケモン名/モンスター名/選手名を記入。「ex」「VMAX」等の接尾辞はカード名に含める。',
       '- カード名: カードの正式名称。種類接尾辞を含む（例: リザードンex SAR）。',
@@ -466,6 +470,23 @@ var CATEGORY_RULES_ = {
       '- 枚数: まとめ売りの場合の枚数。単品ならNA。',
       '',
       '重要: カード名とキャラクター名を混同しない。キャラクター名は「ピカチュウ」、カード名は「ピカチュウVMAX SA」のように区別する。'
+    ]
+  },
+  'Baseball Cards': {
+    label: '野球カード（英語直接出力）',
+    rules: [
+      '- Player: List all players found in the source in English. Japanese players use official English name (e.g. Shohei Ohtani, Ichiro Suzuki, Yu Darvish, Hideo Nomo). Foreign players use English name (e.g. Mookie Betts). No duplicates. List every player found.',
+      '- Brand: Topps / Bowman / BBM / Panini / Upper Deck / Calbee / Epoch etc. Only if explicitly stated in source. NA if not found.',
+      '- Season: YYYY format. YYYY-YYYY for multi-year. NA if not found.',
+      '- Set: Official set name (e.g. Topps Series 1, Bowman Chrome, BBM Rookie Edition). NA if not found.',
+      '- Card Type: Base / RC / Auto / Relic / Refractor / Parallel / Prizm / Chrome etc. NA if not found.',
+      '- Card Number: #123 / 45/99 / SP-1 etc. NA if not found.',
+      '- Professional Grader: PSA / BGS / CGC / SGC. NA if ungraded.',
+      '- Grade: 10 / 9.5 / 9 etc. NA if ungraded.',
+      '- Serial Number: /99, /25, /10, /5, /1 etc. NA if not found.',
+      '- Condition: Short English word only. Mint / Near Mint / Excellent / Good / Poor. No descriptions or sentences. NA if graded.',
+      '- Do not fabricate. If not in source, write NA.',
+      '- All values must be in English.'
     ]
   },
   'Video Game Accessories': {
@@ -1546,29 +1567,51 @@ function buildDefaultSanitizePrompt_(category) {
     'リールタイプ': 10, '巻き方向': 10, 'サイズ/番手': 10
   };
 
+  var isBaseballCards = (category === 'Baseball Cards');
+
   var lines = [
-    'この商品はeBayに英語で出品します。',
-    '翻訳AIに渡す前に、タイトルと説明文から必要な情報を抜き出してください。',
-    'ブランド名・モデル名はタイトルに含まれていることが多いです。タイトルを必ず確認してください。',
+    isBaseballCards
+      ? 'This is a baseball card listed on eBay. Extract buyer-relevant information from the title and description. Output all values in English.'
+      : 'この商品はeBayに英語で出品します。',
+    isBaseballCards
+      ? 'Extract all buyer-relevant and SEO-strong information to the maximum extent possible.'
+      : '翻訳AIに渡す前に、タイトルと説明文から必要な情報を抜き出してください。',
+    isBaseballCards
+      ? 'Brand name is often in the title. Always check the title first.'
+      : 'ブランド名・モデル名はタイトルに含まれていることが多いです。タイトルを必ず確認してください。',
     '',
-    'タイトルと説明文から以下の項目を埋めてください。',
-    'ソースに情報がない項目はNAと記入してください。',
-    '各項目の文字数上限を厳守してください。',
-    ''
+    isBaseballCards
+      ? 'Fill in the following fields from the title and description.'
+      : 'タイトルと説明文から以下の項目を埋めてください。',
+    isBaseballCards
+      ? 'If a field is not found in the source, write NA.'
+      : 'ソースに情報がない項目はNAと記入してください。'
   ];
+  if (!isBaseballCards) {
+    lines.push('各項目の文字数上限を厳守してください。');
+  }
+  lines.push('');
 
   for (var i = 0; i < fields.length; i++) {
-    var limit = charLimits[fields[i]] || 15;
-    lines.push(fields[i] + ': (' + limit + '文字以内)');
+    if (isBaseballCards) {
+      lines.push(fields[i] + ':');
+    } else {
+      var limit = charLimits[fields[i]] || 15;
+      lines.push(fields[i] + ': (' + limit + '文字以内)');
+    }
   }
 
   lines.push('');
   lines.push('ルール:');
   lines.push('1. 数値はソースのまま忠実に出力する。丸めない、変換しない。');
   lines.push('2. ソースにない情報は書かない。NAにする。');
-  lines.push('3. 出力は日本語のまま。ただしブランド名とモデル名は英語の正式名称で出力する。');
-  lines.push('4. ブランド名は下記リストにあればそのスペルを正確に使用する。リストにない場合は正式な英語表記で出力する。');
-  lines.push('5. 製造国はブランドの本国を記入する。工場の所在地（Made in China等）ではない。例: Seiko→日本、Canon→日本、Rolex→スイス、Leica→ドイツ、Casio→日本、Nikon→日本、Olympus→日本、Fujifilm→日本、Sony→日本、Panasonic→日本、TaylorMade→アメリカ、Titleist→アメリカ、Callaway→アメリカ、PING→アメリカ。ソースに「Made in ○○」と書いてあっても無視する。');
+  if (!isBaseballCards) {
+    lines.push('3. 出力は日本語のまま。ただしブランド名とモデル名は英語の正式名称で出力する。');
+  }
+  lines.push((isBaseballCards ? '3' : '4') + '. ブランド名は下記リストにあればそのスペルを正確に使用する。リストにない場合は正式な英語表記で出力する。');
+  if (!isBaseballCards) {
+    lines.push('5. 製造国はブランドの本国を記入する。工場の所在地（Made in China等）ではない。例: Seiko→日本、Canon→日本、Rolex→スイス、Leica→ドイツ、Casio→日本、Nikon→日本、Olympus→日本、Fujifilm→日本、Sony→日本、Panasonic→日本、TaylorMade→アメリカ、Titleist→アメリカ、Callaway→アメリカ、PING→アメリカ。ソースに「Made in ○○」と書いてあっても無視する。');
+  }
 
   // ブランド辞書リスト（カテゴリ別）
   var brandList = '';
@@ -1585,6 +1628,20 @@ function buildDefaultSanitizePrompt_(category) {
       lines.push('ブランド名一覧（該当するものがあればこの英語表記を正確に使用してください）:');
     }
     lines.push(brandList);
+  }
+
+  // Baseball Cards: 選手辞書注入（CARD_BASEBALL_PLAYERS → AI が即座に英語名変換できる）
+  if (isBaseballCards) {
+    if (typeof initCardPatterns_ === 'function') initCardPatterns_();
+    if (typeof CARD_BASEBALL_PLAYERS !== 'undefined' && CARD_BASEBALL_PLAYERS.length) {
+      lines.push('');
+      lines.push('Player name reference (Japanese → English). Use these exact English names when the Japanese name appears in the source:');
+      var playerLines = [];
+      for (var p = 0; p < CARD_BASEBALL_PLAYERS.length; p++) {
+        playerLines.push(CARD_BASEBALL_PLAYERS[p].jp + '=' + CARD_BASEBALL_PLAYERS[p].en);
+      }
+      lines.push(playerLines.join(', '));
+    }
   }
 
   // ゲーム機用の補足ルール（簡易カテゴリ: game）
@@ -1811,10 +1868,18 @@ function runSanitizeSelectedRows() {
         if (!r.ok) { apiFailedItems.push({ item: batchItems[j], prompt: prompts[j], error: r.error }); continue; }
         var parsed = parseSanitizedFields_(r.content, batchItems[j].category);
         if (!parsed.description) { apiFailedItems.push({ item: batchItems[j], prompt: prompts[j], error: 'PARSE_ERROR' }); continue; }
-        pass1WritePairs.push({ row: batchItems[j].row, value: parsed.description }); // B4
-        var val = validateSanitizedResult_(parsed.description, batchItems[j].category);
-        if (val.valid) { pass2Items.push({ row: batchItems[j].row, category: batchItems[j].category, jaStructured: parsed.description }); jaSuccessCount++; } // I1
-        else { validationFailedItems.push({ item: batchItems[j], errors: val.errors }); }
+        if (batchItems[j].category === 'Baseball Cards') {
+          // BBC: プログラム確定値 prefix 付加 → AV/AW 共通で使用。バリデーションスキップ
+          var bbcPrefix = buildBbcProgramValues_(batchItems[j].jpTitle, batchItems[j].jpDesc);
+          var bbcStructured = bbcPrefix + ' | ' + parsed.description;
+          pass1WritePairs.push({ row: batchItems[j].row, value: bbcStructured }); // B4 (AV)
+          pass2Items.push({ row: batchItems[j].row, category: 'Baseball Cards', jaStructured: bbcStructured }); jaSuccessCount++;
+        } else {
+          pass1WritePairs.push({ row: batchItems[j].row, value: parsed.description }); // B4
+          var val = validateSanitizedResult_(parsed.description, batchItems[j].category);
+          if (val.valid) { pass2Items.push({ row: batchItems[j].row, category: batchItems[j].category, jaStructured: parsed.description }); jaSuccessCount++; } // I1
+          else { validationFailedItems.push({ item: batchItems[j], errors: val.errors }); }
+        }
       } catch (e) { apiFailedItems.push({ item: batchItems[j], prompt: prompts[j], error: e.message || String(e) }); }
     }
     writeRowsInBlocks_(sheet, pass1WritePairs, CONFIG.COLUMNS.JP_DESC); // B4
@@ -1842,10 +1907,17 @@ function runSanitizeSelectedRows() {
         if (!ok.ok) { next.push(x); continue; }
         var p = parseSanitizedFields_(ok.content, x.item.category);
         if (!p.description) { next.push(x); continue; }
-        pass1RetryWritePairs.push({ row: x.item.row, value: p.description }); // B4
-        var v = validateSanitizedResult_(p.description, x.item.category);
-        if (v.valid) { pass2Items.push({ row: x.item.row, category: x.item.category, jaStructured: p.description }); jaSuccessCount++; } // I1
-        else { validationFailedItems.push({ item: x.item, errors: v.errors }); }
+        if (x.item.category === 'Baseball Cards') {
+          var bbcPrefix2 = buildBbcProgramValues_(x.item.jpTitle, x.item.jpDesc);
+          var bbcStructured2 = bbcPrefix2 + ' | ' + p.description;
+          pass1RetryWritePairs.push({ row: x.item.row, value: bbcStructured2 }); // B4 (AV)
+          pass2Items.push({ row: x.item.row, category: 'Baseball Cards', jaStructured: bbcStructured2 }); jaSuccessCount++;
+        } else {
+          pass1RetryWritePairs.push({ row: x.item.row, value: p.description }); // B4
+          var v = validateSanitizedResult_(p.description, x.item.category);
+          if (v.valid) { pass2Items.push({ row: x.item.row, category: x.item.category, jaStructured: p.description }); jaSuccessCount++; } // I1
+          else { validationFailedItems.push({ item: x.item, errors: v.errors }); }
+        }
       }
       writeRowsInBlocks_(sheet, pass1RetryWritePairs, CONFIG.COLUMNS.JP_DESC); // B4
       if (i + BATCH_SIZE < apiFailedItems.length) { Utilities.sleep(CONFIG.SLEEP_BETWEEN_BATCHES || 3000); }
@@ -1890,8 +1962,23 @@ function runSanitizeSelectedRows() {
     }
   }
 
-  // Pass 2: 英語化
+  // Pass 2: 英語化（Baseball Cards はPass1で既に英語出力 → AWにそのままコピー、他カテゴリは AI）
   var enSuccessCount = 0;
+  var bbcCopyPairs = [];
+  var pass2NonBBC = [];
+  for (var i = 0; i < pass2Items.length; i++) {
+    if (pass2Items[i].category === 'Baseball Cards') {
+      bbcCopyPairs.push({ row: pass2Items[i].row, value: pass2Items[i].jaStructured || '' });
+    } else {
+      pass2NonBBC.push(pass2Items[i]);
+    }
+  }
+  if (bbcCopyPairs.length > 0) {
+    writeRowsInBlocks_(sheet, bbcCopyPairs, CONFIG.COLUMNS.EN_DESC_SANITIZED);
+    enSuccessCount += bbcCopyPairs.length;
+  }
+  pass2Items = pass2NonBBC;
+
   var enApiFailedItems = [];
   var enValidationFailedItems = [];
   if (pass2Items.length > 0 && (Date.now() - startTime <= 300000)) {
@@ -2309,8 +2396,13 @@ function buildEnglishizePrompt_(category, jaStructured) {
   } catch (e) {}
 
   lines.push('');
-  lines.push('出力例（時計の場合）:');
-  lines.push('Brand: Seiko | Model: Presage | Display: Analog | Movement: Automatic | Case Material: Stainless Steel | Dial Color: Blue | Country of Origin: Japan | Accessories: Box, Manual | Condition: Used, Good');
+  if (category === 'Baseball Cards') {
+    lines.push('出力例（野球カードの場合）:');
+    lines.push('Player: Shohei Ohtani, Yoshinobu Yamamoto | Brand: Topps | Season: 2024 | Set: Topps Series 1 | Card Type: RC | Card Number: #123 | Professional Grader: PSA | Grade: 10 | Serial Number: /99 | Condition: NA');
+  } else {
+    lines.push('出力例（時計の場合）:');
+    lines.push('Brand: Seiko | Model: Presage | Display: Analog | Movement: Automatic | Case Material: Stainless Steel | Dial Color: Blue | Country of Origin: Japan | Accessories: Box, Manual | Condition: Used, Good');
+  }
   lines.push('');
   lines.push('入力（日本語構造化データ）:');
   lines.push(jaStructured);
@@ -2389,6 +2481,127 @@ function parseSanitizedFields_(content, category) {
   }
 
   return result;
+}
+
+/**
+ * Baseball Cards 用のプログラム確定値 prefix を生成
+ * @param {string} title - J列（日本語タイトル）
+ * @param {string} desc  - K列（日本語説明）
+ * @return {string} "Category: Baseball Cards | Sport: Baseball | ..."
+ */
+function buildBbcProgramValues_(title, desc) {
+  var src = String(title || '') + ' ' + String(desc || '');
+
+  // Sale Type 検出
+  var saleType = 'Single';
+  if (/まとめ|セット|\d+枚|ロット|[Ll]ot|[Bb]ulk|[Bb]undle|コンプリート/.test(src) &&
+      !/単品|シングルカード\s*1枚|single\s*card/.test(src)) {
+    saleType = 'Lot';
+  }
+
+  // League 検出
+  var hasMLB = /MLB|メジャー|日本人メジャーリーガー|大リーグ/.test(src);
+  var hasNPB = /NPB|プロ野球|日本プロ野球|セ・?リーグ|パ・?リーグ|巨人|阪神|ヤクルト|広島|中日|DeNA|ソフトバンク|日本ハム|ロッテ|オリックス|西武|楽天/.test(src);
+  var league = '';
+  if (hasMLB && hasNPB) league = 'Mixed';
+  else if (hasMLB) league = 'MLB';
+  else if (hasNPB) league = 'NPB';
+
+  var parts = [
+    'Category: Baseball Cards',
+    'Sport: Baseball',
+    'Card Size: Standard',
+    'Sale Type: ' + saleType
+  ];
+  if (league) parts.push('League: ' + league);
+
+  return parts.join(' | ');
+}
+
+// Baseball Cards Pass1 出力を辞書ベースでプログラム英語化する（未使用・参照のみ残存）
+function translateBaseballCardsToEN_(pass1Output) {
+  if (!pass1Output) return '';
+
+  var FIELD_MAP_KEYS = ['プレイヤー名', 'ブランド名', '年代', 'セット名', 'カード種別', 'カード番号', '鑑定会社', '鑑定グレード', 'シリアル番号', 'コンディション'];
+  var FIELD_MAP_VALS = ['Player Names', 'Brand', 'Season', 'Set', 'Card Type', 'Card Number', 'Professional Grader', 'Grade', 'Serial Number', 'Condition'];
+
+  // CARD_BASEBALL_PLAYERS 辞書を lookup map に変換
+  if (typeof initCardPatterns_ === 'function') initCardPatterns_();
+  var playerLookup = {};
+  var playerArray = [];
+  if (typeof CARD_BASEBALL_PLAYERS !== 'undefined') {
+    playerArray = CARD_BASEBALL_PLAYERS;
+    for (var d = 0; d < CARD_BASEBALL_PLAYERS.length; d++) {
+      playerLookup[CARD_BASEBALL_PLAYERS[d].jp] = CARD_BASEBALL_PLAYERS[d].en;
+    }
+  }
+
+  // 問題1修正: ライン単位でパース（単一フィールド入力・改行混在に対応）
+  var normalized = pass1Output.replace(/\r\n?/g, '\n');
+  var lines = normalized.split('\n');
+  var fieldMap = {};
+  var currentKey = null;
+  for (var li = 0; li < lines.length; li++) {
+    var line = lines[li].trim();
+    if (!line) continue;
+    var cPos = line.search(/[：:]/);
+    if (cPos > 0) {
+      var possibleKey = line.substring(0, cPos).trim();
+      var kidx = FIELD_MAP_KEYS.indexOf(possibleKey);
+      if (kidx >= 0) {
+        currentKey = possibleKey;
+        fieldMap[currentKey] = line.substring(cPos + 1).trim();
+        continue;
+      }
+    }
+    if (currentKey !== null) {
+      fieldMap[currentKey] += ' ' + line;
+    }
+  }
+
+  var pairs = [];
+  for (var ki = 0; ki < FIELD_MAP_KEYS.length; ki++) {
+    var key = FIELD_MAP_KEYS[ki];
+    var val = fieldMap[key];
+    if (!val || val === 'NA') continue;
+
+    var enKey = FIELD_MAP_VALS[ki];
+
+    if (key === 'プレイヤー名') {
+      var names = val.split(/[,、，]+/);
+      var allEnNames = [];
+      var seen = {};
+      for (var n = 0; n < names.length; n++) {
+        var name = names[n].trim();
+        if (!name) continue;
+        // 問題3修正: 重複除去
+        if (seen[name]) continue;
+        seen[name] = true;
+        // 問題2修正: 1. 完全一致 → 2. 姓のみ startsWith マッチ
+        var enName = playerLookup[name];
+        if (!enName) {
+          for (var d2 = 0; d2 < playerArray.length; d2++) {
+            if (playerArray[d2].jp.indexOf(name) === 0 && playerArray[d2].jp.length > name.length) {
+              enName = playerArray[d2].en;
+              break;
+            }
+          }
+        }
+        allEnNames.push(enName || name);
+      }
+      var totalNames = allEnNames.length;
+      if (totalNames === 0) continue;
+      if (totalNames > 3) {
+        val = allEnNames.slice(0, 3).join(', ') + ' and ' + (totalNames - 3) + ' others';
+      } else {
+        val = allEnNames.join(', ');
+      }
+    }
+
+    if (val) pairs.push(enKey + ': ' + val);
+  }
+
+  return pairs.join(' | ');
 }
 
 
