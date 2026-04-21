@@ -1673,6 +1673,12 @@ function buildDefaultSanitizePrompt_(category) {
     }
   }
 
+  // Trading Cards (One Piece): キャラクター辞書プレースホルダー
+  // 呼び出し元でソーステキストのワンピース検出後に実際の辞書で置換される
+  if (category === 'Trading Cards') {
+    lines.push('${onePieceCharDict}');
+  }
+
   // ゲーム機用の補足ルール（簡易カテゴリ: game）
   if (category === 'game') {
     lines.push('');
@@ -1881,7 +1887,19 @@ function runSanitizeSelectedRows() {
     for (var j = 0; j < batchItems.length; j++) {
       var cat = batchItems[j].category;
       if (!promptCache[cat]) { promptCache[cat] = buildDefaultSanitizePrompt_(cat); }
-      var prompt = promptCache[cat].replace('${jpTitle}', batchItems[j].jpTitle).replace('${jpDesc}', batchItems[j].jpDesc);
+      var rawText_ = (batchItems[j].jpTitle || '') + ' ' + (batchItems[j].jpDesc || '');
+      var onePieceDict_ = '';
+      if (cat === 'Trading Cards' && /ワンピース|ONE PIECE|ルフィ|ゾロ|OP-/.test(rawText_)) {
+        if (typeof initCardPatterns_ === 'function') initCardPatterns_();
+        if (typeof CARD_ONEPIECE_CHARACTERS !== 'undefined' && CARD_ONEPIECE_CHARACTERS.length) {
+          var opDictLines_ = ['\nOne Piece character name reference (Japanese -> English):'];
+          for (var opi_ = 0; opi_ < CARD_ONEPIECE_CHARACTERS.length; opi_++) {
+            opDictLines_.push(CARD_ONEPIECE_CHARACTERS[opi_].jp + '=' + CARD_ONEPIECE_CHARACTERS[opi_].en);
+          }
+          onePieceDict_ = opDictLines_.join('\n');
+        }
+      }
+      var prompt = promptCache[cat].replace('${onePieceCharDict}', onePieceDict_).replace('${jpTitle}', batchItems[j].jpTitle).replace('${jpDesc}', batchItems[j].jpDesc);
       prompts.push(prompt);
       requests.push(buildSanitizeRequest_(settings, prompt));
     }
@@ -1969,7 +1987,19 @@ function runSanitizeSelectedRows() {
         if (!promptCache[cat]) promptCache[cat] = buildDefaultSanitizePrompt_(cat);
         var reason = slice[s].errors && slice[s].errors.length ? slice[s].errors.join('、') : '必須項目が不足しています';
         var extra = '補足: 前回の出力では ' + reason + '。必ず抽出してください。';
-        var prompt = extra + '\n\n' + promptCache[cat].replace('${jpTitle}', it.jpTitle).replace('${jpDesc}', it.jpDesc);
+        var rawText2_ = (it.jpTitle || '') + ' ' + (it.jpDesc || '');
+        var opDict2_ = '';
+        if (cat === 'Trading Cards' && /ワンピース|ONE PIECE|ルフィ|ゾロ|OP-/.test(rawText2_)) {
+          if (typeof initCardPatterns_ === 'function') initCardPatterns_();
+          if (typeof CARD_ONEPIECE_CHARACTERS !== 'undefined' && CARD_ONEPIECE_CHARACTERS.length) {
+            var opDictLines2_ = ['\nOne Piece character name reference (Japanese -> English):'];
+            for (var opi2_ = 0; opi2_ < CARD_ONEPIECE_CHARACTERS.length; opi2_++) {
+              opDictLines2_.push(CARD_ONEPIECE_CHARACTERS[opi2_].jp + '=' + CARD_ONEPIECE_CHARACTERS[opi2_].en);
+            }
+            opDict2_ = opDictLines2_.join('\n');
+          }
+        }
+        var prompt = extra + '\n\n' + promptCache[cat].replace('${onePieceCharDict}', opDict2_).replace('${jpTitle}', it.jpTitle).replace('${jpDesc}', it.jpDesc);
         reqs.push(buildSanitizeRequest_(settings, prompt));
       }
       var resps;
