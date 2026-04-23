@@ -1674,10 +1674,11 @@ function buildDefaultSanitizePrompt_(category) {
     }
   }
 
-  // Trading Cards (One Piece): キャラクター辞書プレースホルダー
-  // 呼び出し元でソーステキストのワンピース検出後に実際の辞書で置換される
+  // Trading Cards: キャラクター辞書プレースホルダー（One Piece / Pokemon）
+  // 呼び出し元でソーステキストのゲーム検出後に実際の辞書で置換される
   if (category === 'Trading Cards') {
     lines.push('${onePieceCharDict}');
+    lines.push('${pokemonCharDict}');
   }
 
   // ゲーム機用の補足ルール（簡易カテゴリ: game）
@@ -1900,7 +1901,23 @@ function runSanitizeSelectedRows() {
           onePieceDict_ = opDictLines_.join('\n');
         }
       }
-      var prompt = promptCache[cat].replace('${onePieceCharDict}', onePieceDict_).replace('${jpTitle}', batchItems[j].jpTitle).replace('${jpDesc}', batchItems[j].jpDesc);
+      var pokemonDict_ = '';
+      if (cat === 'Trading Cards' && /ポケカ|ポケモン|Pokemon|ピカチュウ|イーブイ|リザードン|ポケットモンスター/.test(rawText_)) {
+        if (typeof initCardPatterns_ === 'function') initCardPatterns_();
+        var pkLines_ = ['\nPokemon character/trainer name reference (Japanese -> English):'];
+        if (typeof CARD_POKEMON_CHARACTERS !== 'undefined' && CARD_POKEMON_CHARACTERS.length) {
+          for (var pki_ = 0; pki_ < CARD_POKEMON_CHARACTERS.length; pki_++) {
+            pkLines_.push(CARD_POKEMON_CHARACTERS[pki_].jp + '=' + CARD_POKEMON_CHARACTERS[pki_].en);
+          }
+        }
+        if (typeof CARD_POKEMON_TRAINERS !== 'undefined' && CARD_POKEMON_TRAINERS.length) {
+          for (var pkt_ = 0; pkt_ < CARD_POKEMON_TRAINERS.length; pkt_++) {
+            pkLines_.push(CARD_POKEMON_TRAINERS[pkt_].jp + '=' + CARD_POKEMON_TRAINERS[pkt_].en);
+          }
+        }
+        pokemonDict_ = pkLines_.join('\n');
+      }
+      var prompt = promptCache[cat].replace('${onePieceCharDict}', onePieceDict_).replace('${pokemonCharDict}', pokemonDict_).replace('${jpTitle}', batchItems[j].jpTitle).replace('${jpDesc}', batchItems[j].jpDesc);
       prompts.push(prompt);
       requests.push(buildSanitizeRequest_(settings, prompt));
     }
@@ -2000,7 +2017,23 @@ function runSanitizeSelectedRows() {
             opDict2_ = opDictLines2_.join('\n');
           }
         }
-        var prompt = extra + '\n\n' + promptCache[cat].replace('${onePieceCharDict}', opDict2_).replace('${jpTitle}', it.jpTitle).replace('${jpDesc}', it.jpDesc);
+        var pkDict2_ = '';
+        if (cat === 'Trading Cards' && /ポケカ|ポケモン|Pokemon|ピカチュウ|イーブイ|リザードン|ポケットモンスター/.test(rawText2_)) {
+          if (typeof initCardPatterns_ === 'function') initCardPatterns_();
+          var pkLines2_ = ['\nPokemon character/trainer name reference (Japanese -> English):'];
+          if (typeof CARD_POKEMON_CHARACTERS !== 'undefined' && CARD_POKEMON_CHARACTERS.length) {
+            for (var pki2_ = 0; pki2_ < CARD_POKEMON_CHARACTERS.length; pki2_++) {
+              pkLines2_.push(CARD_POKEMON_CHARACTERS[pki2_].jp + '=' + CARD_POKEMON_CHARACTERS[pki2_].en);
+            }
+          }
+          if (typeof CARD_POKEMON_TRAINERS !== 'undefined' && CARD_POKEMON_TRAINERS.length) {
+            for (var pkt2_ = 0; pkt2_ < CARD_POKEMON_TRAINERS.length; pkt2_++) {
+              pkLines2_.push(CARD_POKEMON_TRAINERS[pkt2_].jp + '=' + CARD_POKEMON_TRAINERS[pkt2_].en);
+            }
+          }
+          pkDict2_ = pkLines2_.join('\n');
+        }
+        var prompt = extra + '\n\n' + promptCache[cat].replace('${onePieceCharDict}', opDict2_).replace('${pokemonCharDict}', pkDict2_).replace('${jpTitle}', it.jpTitle).replace('${jpDesc}', it.jpDesc);
         reqs.push(buildSanitizeRequest_(settings, prompt));
       }
       var resps;
