@@ -3663,6 +3663,15 @@ function ensureTagShippingSheet_(ss) {
             .setFontColor(CONFIG.TAG_SHIPPING.HEADER_FONT_COLOR);
           sheet.setColumnWidth(16, 100);
         }
+        // 既存シートの移行処理: Q列（翻訳プロンプト）ヘッダーが無ければ追加
+        var qColHeader = sheet.getRange(1, 17).getValue();
+        if (!qColHeader || String(qColHeader).trim() === '') {
+          sheet.getRange(1, 17).setValue('翻訳プロンプト')
+            .setFontWeight('bold')
+            .setBackground(CONFIG.TAG_SHIPPING.HEADER_BG_COLOR)
+            .setFontColor(CONFIG.TAG_SHIPPING.HEADER_FONT_COLOR);
+          sheet.setColumnWidth(17, 160);
+        }
         // 既存シートの移行処理: S1セルが空ならタグ一覧を初回出力
         var tagListCol = CONFIG.TAG_SHIPPING.TAG_LIST_START_COL;
         var q1Value = sheet.getRange(1, tagListCol).getValue();
@@ -3704,6 +3713,7 @@ function ensureTagShippingSheet_(ss) {
     sheet.setColumnWidth(14, 120);  // N: 送料切替基準
     sheet.setColumnWidth(15, 100);  // O: 想定関税閾値
     sheet.setColumnWidth(16, 100);  // P: 商品状態
+    sheet.setColumnWidth(17, 160);  // Q: 翻訳プロンプト
 
     // B〜D列を数値書式に設定（2行目以降）
     var maxRows = sheet.getMaxRows();
@@ -3913,6 +3923,20 @@ function applyTagShippingValidations_(sheet) {
     .setAllowInvalid(true)
     .build();
   sheet.getRange(2, 16, dataRows, 1).setDataValidation(conditionRule);
+
+  // Q列: 翻訳プロンプト（オプション・空許可。GPT_Promptsシートから動的取得）
+  try {
+    var qPromptIds = getAllPromptIds();
+    if (qPromptIds && qPromptIds.length > 0) {
+      var qPromptRule = SpreadsheetApp.newDataValidation()
+        .requireValueInList(qPromptIds, true)
+        .setAllowInvalid(true)
+        .build();
+      sheet.getRange(2, 17, dataRows, 1).setDataValidation(qPromptRule);
+    }
+  } catch (e) {
+    console.log('Q列プロンプトドロップダウン設定をスキップ: ' + e.message);
+  }
 }
 
 /**

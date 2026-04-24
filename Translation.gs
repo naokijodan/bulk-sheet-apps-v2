@@ -87,6 +87,8 @@ function runSelectedRowsTranslate() {
       console.log('AS3セルからプロンプト選択モードを読み取れませんでした: ' + e.message);
     }
 
+    var tagShippingPromptMap = buildTagShippingPromptMap_();
+
     var isContinuing = props.getProperty('isProcessing_translate') === 'true' && props.getProperty('processingMode') === SCRIPT_NAME;
 
     if (!isContinuing) {
@@ -254,9 +256,11 @@ function runSelectedRowsTranslate() {
 
           if (jpTitle && jpDesc && costYen > 0 && !enTitle) {
             var item = { row: row, jpTitle: jpTitle, jpDesc: jpDesc, costYen: costYen };
-            // 自動選択モード: D列タグからプロンプトIDを判定
-            if (autoPromptMode) {
-              var rowTag = (batchValues[rowIndex][CONFIG.COLUMNS.TAG - 1] || '').toString().trim();
+            // プロンプト選択: TagShipping Q列（最優先）→ AS3自動判定 → AS2固定/settings.promptId（フォールバック）
+            var rowTag = (batchValues[rowIndex][CONFIG.COLUMNS.TAG - 1] || '').toString().trim();
+            if (rowTag && tagShippingPromptMap[rowTag]) {
+              item.promptId = tagShippingPromptMap[rowTag];
+            } else if (autoPromptMode) {
               if (rowTag) {
                 if (tagToPromptMap[rowTag]) {
                   item.promptId = tagToPromptMap[rowTag];
@@ -611,6 +615,38 @@ function runSelectedRowsTranslate() {
     clearProcessingState_translate();
     clearAllTriggers();
   }
+}
+
+/**
+ * TagShipping シートの A 列（タグ名）+ Q 列（翻訳プロンプト ID）から
+ * { タグ名: promptId } のマップを構築する。
+ * - Q 列が空の行はスキップ
+ * - TagShipping シート不在 / 空シートでも例外を投げず空マップを返す
+ * - どんなエラーでも既存翻訳フローを止めない（空マップ fallback）
+ */
+function buildTagShippingPromptMap_() {
+  var map = {};
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var tsSheet = ss.getSheetByName('TagShipping');
+    if (!tsSheet) return map;
+    var tsLastRow = tsSheet.getLastRow();
+    if (tsLastRow < 2) return map;
+    var tsValues = tsSheet.getRange(2, 1, tsLastRow - 1, 17).getValues();
+    for (var ti = 0; ti < tsValues.length; ti++) {
+      var tsTag = (tsValues[ti][0] || '').toString().trim();
+      var tsPrompt = (tsValues[ti][16] || '').toString().trim();
+      if (tsTag && tsPrompt) {
+        map[tsTag] = tsPrompt;
+      }
+    }
+    if (Object.keys(map).length > 0) {
+      console.log('TagShipping Q列プロンプト指定: ' + Object.keys(map).length + ' タグ');
+    }
+  } catch (e) {
+    console.log('TagShipping Q列読み込みスキップ: ' + e.message);
+  }
+  return map;
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
