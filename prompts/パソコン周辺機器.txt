@@ -1,0 +1,104 @@
+# PC PERIPHERALS - Translation Rules
+
+## GOALS
+- Convert Japanese peripheral listings to English eBay-optimized titles
+- Extract IS fields (Brand / Model / Type / Connectivity / Compatibility)
+- Preserve factual defects / accessories / condition
+
+## ABSOLUTE RULES (MUST NOT)
+- TRUTH FIRST: Do not fabricate any information not in source
+- NO PADDING (Category A): Do not add "Authentic / Genuine / Original / Verified / Premium" unless source explicitly states
+- NO PADDING (Category B): Conditional keywords (New / Sealed / Complete / Working / Tested) only when source confirms
+- NO PADDING (Category C): Always allowed descriptive facts (Wireless / RGB / Mechanical when source states)
+- SOURCE-ONLY: Every claim must trace to Japanese source text
+- NO CJK: English output only (ASCII)
+
+## LEGITIMATE KEYWORDS (only if in source)
+- New / Sealed / New in Box / Unopened
+- Working / Tested
+- Wireless / Bluetooth / Wired / USB-C
+- RGB / Mechanical / Membrane
+- 4K / 1080p / Full HD
+- Noise Cancelling / Active Noise Cancellation
+- Japan Import / Japanese Market
+
+## RECOMMENDED FIELDS (use when present in source, skip otherwise)
+- Brand (Logitech / Elecom / Sanwa / Buffalo / Anker / etc.)
+- Model (型番)
+- Type (Keyboard / Mouse / Webcam / USB Hub / External HDD / External SSD / Microphone / Headset / Cable / Docking Station / Monitor)
+- Connectivity (Wired / Wireless / Bluetooth / USB-C)
+- Compatibility (PC / Mac / Universal)
+- Color
+- Features
+- Country of Origin
+
+## TYPE DETECTION (from product name / description keywords)
+- キーボード / KEYBOARD → Keyboard
+- マウス / MOUSE / トラックボール → Mouse
+- ウェブカメラ / Webカメラ / WEBCAM → Webcam
+- USBハブ / USB HUB / ハブ → USB Hub
+- 外付けHDD / 外付けハードディスク → External HDD
+- 外付けSSD / ポータブルSSD → External SSD
+- マイク / USBマイク / コンデンサーマイク → Microphone
+- ヘッドセット / ゲーミングヘッドセット → Headset
+- HDMIケーブル / USB-Cケーブル / DisplayPortケーブル / Type-Cケーブル → Cable
+- ドッキングステーション / USBドック → Docking Station
+- モニター / ディスプレイ → Monitor
+
+## TRANSLATION DICTIONARY (if present in source)
+- ロジクール → Logitech
+- エレコム → Elecom
+- サンワサプライ → Sanwa Supply
+- バッファロー → Buffalo
+- アンカー → Anker
+- ハイパーエックス → HyperX
+- スティールシリーズ → SteelSeries
+- メカニカルキーボード → Mechanical Keyboard
+- ワイヤレスマウス → Wireless Mouse
+- ゲーミングマウス → Gaming Mouse
+- トラックボール → Trackball
+- ウェブカメラ → Webcam
+- 外付けハードディスク → External HDD
+- 有線 → Wired
+- 無線 → Wireless
+- 日本語配列 → Japanese Layout (JIS)
+- 英語配列 → US Layout (ANSI)
+
+## TITLE COMPOSITION GUIDANCE (examples, not mandatory)
+- Keyboard: "[Brand] [Model] Mechanical Keyboard Wireless RGB Japanese Layout"
+- Mouse: "[Brand] [Model] Wireless Gaming Mouse Bluetooth"
+- Webcam: "[Brand] [Model] Full HD Webcam 1080p USB"
+- USB Hub: "[Brand] [Model] USB-C Hub 7-in-1 Type-C"
+- HDD/SSD: "[Brand] [Capacity] [Model] External HDD Portable USB 3.0"
+
+Compose the title naturally using whatever information is available in the source. No strict template. Do NOT force missing fields.
+
+## OUTPUT FORMAT
+Title: <80 chars max, ASCII only>
+Description: <= 480 chars, single natural paragraph, ASCII only, source-only>
+Brand: <value or NA>
+Model: <value or NA>
+Type: <value>
+Connectivity: <Wired / Wireless / Bluetooth / USB-C or NA>
+Compatibility: <PC / Mac / Universal or NA>
+Color: <value or NA>
+Features: <value or NA>
+Country of Origin: <value or NA>
+Condition: <value>
+
+## VERIFICATION (minimal, no structural enforcement)
+1. Title ASCII only, no CJK
+2. Title length <= 80 chars
+3. Output fields present (NA allowed)
+4. No fabricated numerical facts (resolution/capacity)
+5. Brand matches TRANSLATION DICTIONARY or raw English name
+6. Type detected from source keywords
+7. No "Authentic / Genuine / Verified" unless source states
+8. Condition reflects source (新品→New, 中古→Used)
+9. Connectivity only if source states (Wired/Wireless/Bluetooth)
+10. Description is single paragraph, no === headers
+
+## REMINDER
+- When info is absent, write NA. Do not fabricate.
+- Keep title concise. Shorter truthful > longer padded.
+- Type 判定を誤らないこと。商品名の日本語キーワードを優先。

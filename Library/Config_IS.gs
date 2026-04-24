@@ -91,6 +91,18 @@ var IS_INITIAL_DATA = [
   { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'With Original Box/Packaging', field_type: 'recommended', priority: 16, notes: '純正ボックス・箱付きか。Yes / No' },
   { category: 'Watches', tag_jp: '時計,腕時計,ウォッチ,懐中時計', field_name: 'Type', field_type: 'required', priority: 17, notes: '時計タイプ。Dress Watch / Sport Watch / Pocket Watch / Smartwatch / Chronograph / Diver / Field Watch等' },
 
+  // === PC Peripherals ===
+  { category: 'PC Peripherals', tag_jp: 'パソコン周辺機器', field_name: 'Brand',             field_type: 'required',    priority: 1,  notes: 'Logitech/Elecom/Sanwa/Buffalo/Anker等' },
+  { category: 'PC Peripherals', tag_jp: 'パソコン周辺機器', field_name: 'Model',             field_type: 'recommended', priority: 2,  notes: '型番' },
+  { category: 'PC Peripherals', tag_jp: 'パソコン周辺機器', field_name: 'Type',              field_type: 'required',    priority: 3,  notes: 'Keyboard/Mouse/Webcam/USB Hub等' },
+  { category: 'PC Peripherals', tag_jp: 'パソコン周辺機器', field_name: 'Connectivity',      field_type: 'recommended', priority: 4,  notes: 'Wired/Wireless/Bluetooth' },
+  { category: 'PC Peripherals', tag_jp: 'パソコン周辺機器', field_name: 'Compatibility',     field_type: 'recommended', priority: 5,  notes: 'PC/Mac/Universal' },
+  { category: 'PC Peripherals', tag_jp: 'パソコン周辺機器', field_name: 'Color',             field_type: 'optional',    priority: 6,  notes: '' },
+  { category: 'PC Peripherals', tag_jp: 'パソコン周辺機器', field_name: 'Features',          field_type: 'optional',    priority: 7,  notes: 'RGB/Mechanical/4K等' },
+  { category: 'PC Peripherals', tag_jp: 'パソコン周辺機器', field_name: 'Country of Origin', field_type: 'optional',    priority: 8,  notes: '' },
+  { category: 'PC Peripherals', tag_jp: 'パソコン周辺機器', field_name: 'Power Source',      field_type: 'optional',    priority: 9,  notes: '' },
+  { category: 'PC Peripherals', tag_jp: 'パソコン周辺機器', field_name: 'Condition',         field_type: 'required',    priority: 10, notes: '' },
+
   // === Rings ===
   { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Brand',             field_type: 'required',    priority:  1, notes: '' },
   { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Ring Size',         field_type: 'required',    priority:  2, notes: 'USサイズで記入（例: 5 / 6.5 / 7）' },
@@ -3568,6 +3580,10 @@ function getBrandListForSanitize_(category) {
       return bbBrands.join(', ');
     }
 
+    if (category === 'PC Peripherals') {
+      return 'Logitech, Elecom, Sanwa, Buffalo, Anker, Razer, Corsair, SteelSeries, HyperX, Apple, Microsoft, Dell, HP, Lenovo, Seagate, Western Digital, Samsung, Kingston, Crucial';
+    }
+
     if (category === 'Board Games') {
       return '任天堂, ホビージャパン, アークライト, Hasbro, Mattel, Ravensburger, Z-Man Games, Fantasy Flight Games, Asmodee';
     }
@@ -4426,6 +4442,8 @@ IS_TAG_TO_CATEGORY['ルアーソフトベイト'] = 'Fishing Lures'; IS_TAG_TO_C
 IS_TAG_TO_CATEGORY['ルアーバイブレーション'] = 'Fishing Lures'; IS_TAG_TO_CATEGORY['ルアーフロッグ'] = 'Fishing Lures';
 IS_TAG_TO_CATEGORY['ルアータックル'] = 'Fishing Lures';
 
+IS_TAG_TO_CATEGORY['パソコン周辺機器'] = 'PC Peripherals';
+
 // Board Games
 IS_TAG_TO_CATEGORY['将棋'] = 'Board Games'; IS_TAG_TO_CATEGORY['将棋セット'] = 'Board Games';
 IS_TAG_TO_CATEGORY['将棋盤'] = 'Board Games'; IS_TAG_TO_CATEGORY['将棋駒'] = 'Board Games';
@@ -4843,6 +4861,10 @@ var IS_CATEGORY_FIELDS = {
     'Game Title', 'Game Type', 'Brand', 'Number of Players', 'Age Level',
     'Language', 'Material', 'Country of Origin', 'Year Manufactured',
     'Vintage', 'Contents', 'Condition',
+  ],
+  'PC Peripherals': [
+    'Brand', 'Model', 'Type', 'Connectivity', 'Compatibility',
+    'Color', 'Features', 'Country of Origin', 'Power Source', 'Condition',
   ],
 };
 

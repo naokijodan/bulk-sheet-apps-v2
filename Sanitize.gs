@@ -73,6 +73,10 @@ var SANITIZE_FIELDS_ = {
     '利き手', '素材', 'ライ角', 'ヘッド形状',
     'バウンス', 'ヘッドサイズ', 'シャフト互換', '仕上げ',
     '付属品', 'コンディション', '故障・不具合', '製造国'
+  ],
+  'PC Peripherals': [
+    'ブランド', 'モデル名', 'タイプ', '接続方式', '対応機種', '色',
+    '特徴', '製造国', '電源', '付属品', 'コンディション', '故障・不具合'
   ]
   ,
   // 追加: 簡易カテゴリ（game/reel）
@@ -547,6 +551,20 @@ var CATEGORY_RULES_ = {
       '- バウンス（ウェッジの場合）: 数値+°で記入（例: 12°）。不明ならNA。',
       '- ヘッド体積（ドライバーの場合）: cc単位で記入（例: 460cc）。不明ならNA。',
       '- [EN]セクションでは: Golf Club Type は Driver/Fairway Wood/Hybrid/Iron/Iron Set/Wedge/Putter。Handedness は Right-Handed/Left-Handed。Material は Titanium/Stainless Steel/Forged Carbon Steel/Maraging Steel/Carbon Composite。Head Shape は Blade/Mallet/Mid-Mallet。'
+    ]
+  },
+  'PC Peripherals': {
+    label: 'パソコン周辺機器',
+    rules: [
+      '- ブランド: Logitech(ロジクール)/Elecom(エレコム)/Sanwa/Buffalo/Anker/Razer/Corsair/SteelSeries/HyperX/Apple/Microsoft/Dell/HP/Lenovo/Seagate/Western Digital/Samsung等',
+      '- モデル名: 型番そのまま保持 (例: MX Master 3S, G PRO X Superlight, HD Pro C920)',
+      '- タイプ: Keyboard(キーボード)/Mouse(マウス)/Webcam(ウェブカメラ)/USB Hub(USBハブ)/External HDD(外付けHDD)/External SSD(外付けSSD)/Microphone(マイク)/Headset(ヘッドセット)/Cable(ケーブル)/Docking Station(ドッキングステーション)/Monitor(モニター)',
+      '- 接続方式: Wired(有線)/Wireless(無線)/Bluetooth/USB-C',
+      '- 対応機種: PC/Mac/Universal。不明ならNA',
+      '- 色/特徴/製造国/電源: 記載があれば保持、なければNA',
+      '- 付属品: 記載された付属品をそのまま保持',
+      '- コンディション: 新品/美品/中古/訳あり等。ソース記載を優先',
+      '- [EN]セクション: Type/Brand/Connectivity/Compatibility は英語で出力'
     ]
   },
   'Watches': {
