@@ -4,53 +4,21 @@ GOALS
 - Analyze Japanese source ${fullText} and output an English listing optimized for eBay search.
 - OUTPUT MUST BE ASCII ONLY (A-Z a-z 0-9 spaces & / :), no CJK.
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
+- TRUTH FIRST — Source-bound, no fabrication, no padding
 
-ABSOLUTE RULES (must follow):
-1. TRUTH FIRST: Only output information present in source. Never invent, embellish, or pad.
-### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
+ABSOLUTE RULES
+1. TRUTH FIRST: Every fact must be derivable from the source. If unknown, omit it — never fabricate.
+2. NO PADDING: Ban hype, filler, subjective sales words, and unsupported claims; use only source-backed facts.
+3. RIGHTS-SAFE LANGUAGE: AUTHENTIC and OFFICIAL are absolutely banned; GENUINE and ORIGINAL are allowed only when transcribing exact source material/accessory names.
+**Category A — ABSOLUTE BAN (even if factual):** AMAZING, FANTASTIC, INCREDIBLE, AWESOME, MUST HAVE, BEST, PERFECT, ULTIMATE, PREMIUM, LUXURY, AUTHENTIC, OFFICIAL.
+**Category B — CONDITIONAL:** RARE / LIMITED / LIMITED EDITION / VINTAGE / EXCLUSIVE / COLLECTIBLE / COLLECTORS EDITION / MINT — only with explicit source evidence (print run, decade markers, sealed criteria).
+**Category C — ALWAYS ALLOWED:** Card name, rarity code, grade, anime title, condition, language, defects (from source).
+Rule 3: NO REPETITION: Each substantive keyword appears at most once in title.
+Rule 4: NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "Weiss Schwarz Card Weiss Schwarz" is forbidden).
+Rule 5: SOFT CHAR TARGET: Title 68-75 chars. If under 68, add source-supported SEO keywords. If over 75, shorten but keep SEO value.
+Rule 6: RECOMMENDED FIELDS: Use when present in source — character name, rarity code, anime title, card number, language, grade, condition, year.
 
-**Category A — ABSOLUTE BAN (even if factual):**
-Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
-MUST HAVE, BEST, PERFECT
-Empty superlatives: ULTIMATE, PREMIUM, LUXURY
-
-ABSOLUTE BAN — eBay rights protection (NO exceptions, even if source contains them):
-AUTHENTIC, OFFICIAL
-
-Source-transcription only (BANNED standalone, allowed ONLY when transcribing
-exact material/accessory names from source text):
-GENUINE — e.g., "Genuine Leather" (material name), "Genuine Pearl"
-ORIGINAL — e.g., "Original Box" (accessory name), "Original Packaging"
-  (Do NOT add these words yourself. Only transcribe if source contains them.)
-
-**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
-- RARE — Only if source explicitly describes rarity
-  (e.g., "limited to 500 units", "one of 100 made", "rare colorway")
-- LIMITED / LIMITED EDITION — Only if source confirms limited edition status
-  (serial number, production count, limited release marker in source text)
-- VINTAGE — Only if source confirms era
-  (e.g., "1970s", "Pre-1990", "estate find", decade markers in source)
-- EXCLUSIVE — Only if source confirms exclusive distribution
-- COLLECTIBLE / COLLECTORS EDITION — Only if source marks it as such
-- MINT — Only if source describes objective criteria
-  (unused, with original box, tags attached, factory sealed)
-
-**Category C — ALWAYS ALLOWED (factual attributes from source):**
-Material, brand, model, year, size, condition, features, country of origin, etc.
-
-RULE — SOURCE-ONLY, NO INVENTION
-You may use Category B words ONLY if the source (seller text, title, images,
-description, tags, serial numbers, form input) explicitly contains evidence.
-DO NOT:
-- Guess ("this looks like it might be rare")
-- Infer from similar items
-- Use general knowledge (ChatGPT training data about product lines, catalogs)
-- Assume from visual appearance without text confirmation
-If source does not provide evidence, DO NOT include the Category B word.
-3. NO REPETITION: Each substantive keyword appears at most once in title.
-4. NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "Weiss Schwarz Card Weiss Schwarz" is forbidden).
-5. SOFT CHAR TARGET: Aim for 40-75 characters in title. Going under 40 is acceptable if truth-first cannot fill more honestly. Going over 75 is forbidden.
-6. ESSENTIAL INFO REQUIRED: Always include character name, anime title, rarity, and language if known.
+Bootleg/KO/Replica/Fake/Counterfeit — ABSOLUTE BAN (eBay Bushiroad VeRO active). NEVER output these words in Title/Description/Specifics, even if source contains them.
 
 SIGNED CARD DETECTION (HIGHEST PRIORITY)
 Signed cards (SP/SSP) are the most valuable Weiss Schwarz cards.
@@ -126,27 +94,48 @@ RARITY DETECTION (value hierarchy)
 Include rarity code in Title after character/title name.
 For SP/SSP: ALWAYS include "Signed" in Title.
 
-EXCLUDE FROM OUTPUT
-- Shipping information
+CONDITION TERMS
+- 未使用/未開封/新品 -> New / Factory Sealed
+- 美品/極美品 -> Near Mint (NM)
+- 良品 -> Lightly Played (LP)
+- 傷あり/使用感あり/並品/普通 -> Moderately Played (MP)
+- ダメージあり/状態悪い/傷品 -> Heavily Played (HP)
+- ジャンク/破損 -> Damaged (DMG)
+- For graded cards (PSA/BGS/CGC), use the numeric grade, not a verbal condition term.
+- Use the most conservative (lower) grade when description is ambiguous.
+
+LANGUAGE VARIATIONS
+- 日本語/日本版 -> Japanese (always include in Title for eBay discoverability)
+- 英語版/EN edition -> English Edition (if source confirms)
+- Korean -> Korean (if source confirms)
+- Weiss Schwarz has official Japanese and English editions. Assume Japanese unless another language is explicitly stated.
+
+DEFECT / ISSUE REPORTING V10
+If source explicitly states any defect, include in Description under "Condition Notes:". Omitting known defects is a violation of eBay policy.
+折れ=Crease/Bent / 白かけ=Edge whitening / 色移り=Color transfer / キラ剥がれ=Holo peeling
+センタリング偏り=Off-centering / 擦れ・スレ=Surface scratches / 反り=Warping / 角ダメージ=Corner damage
+インク飛び=Print error / 初期傷=Factory defect
+Do NOT mistranslate: 初期傷 is "Factory defect" not "early scratch"
+
+EXCLUDE FROM OUTPUT (CRITICAL)
+- Shipping information (発送, 送料, shipping, 宅急便, メルカリ便)
 - Seller opinions
 - Purchase instructions
-- Storage descriptions
-- Japanese hashtags that are not card names
-- Pack/box types (BOX, pack)
-
-FORBIDDEN WORDS IN TITLE:
-- Condition opinions: Excellent, Good, Beautiful, Perfect (Mint: allowed ONLY if source confirms unused with original box — see Category B above)
-- Authenticity words: Authentic (absolute ban), Real; Genuine and Original — banned standalone, allowed ONLY when transcribing exact material/accessory names from source (e.g., "Genuine Leather", "Original Box")
-- Filler words: Amazing, Rare Find, Must Have, Hot, Fire
-- Japanese words: Any CJK characters
+- Storage/handling descriptions
+- Warnings and disclaimers
+- Japanese hashtags that are not card or anime title names
+- BOX/Pack types unless the item itself is a sealed deck, booster pack, or booster box
 
 TITLE (SEO Priority)
-- Language: English ASCII only.
-- Length: 40-75 chars (target 65-75, shorter OK if source-bound). If >75, shorten but keep SEO value.
-- Allowed symbols only: & / :
-- No commas, periods, hyphens, quotes, brackets, parentheses.
+- English ASCII only, 68-75 chars.
+- If under 68 chars, add source-supported SEO keywords.
+- If over 75 chars, shorten but keep SEO value.
+- Allowed symbols: & / :
+- Forbidden: , . - " ' ( ) [ ]
+- "Weiss Schwarz" and "Japanese" are high-value SEO terms — include when available.
+- For graded cards (PSA/BGS/CGC): grade at the START of title.
 
-SEO KEYWORD ORDER (front-load high-value terms):
+SEO KEYWORD ORDER (front-load high-value terms)
 For Graded Cards:
 1. Grade (PSA 10, BGS 9.5)
 2. Character Name
@@ -163,13 +152,7 @@ For Raw Cards:
 5. Language (Japanese)
 6. Game (Weiss Schwarz)
 
-SHORTENING RULES (apply when >75 chars):
-1. Shorten "Weiss Schwarz" to "WS"
-2. Shorten anime title if commonly abbreviated (SAO, FGO)
-3. Remove year
-4. Never remove: Grade, Character Name, Rarity, Signed, Japanese
-
-LEGITIMATE KEYWORDS (use only if present in source):
+LEGITIMATE KEYWORDS (use only if present in source)
 - SP (Signed) — only when source explicitly states サイン / SP / Signed
 - SSP (Super Special Signed) — only when source explicitly states SSP / スーパースペシャル
 - SEC (Secret Rare) — only when source explicitly states SEC / シークレット
@@ -187,32 +170,49 @@ DESCRIPTION (SEO Priority)
 - FIRST SENTENCE: Must contain character name + anime title.
 - For SP/SSP: MUST mention "signed" or "autograph" in description.
 - Include: character name, rarity, anime title, card number, language (Japanese), grade if graded.
-- Use keyword variations: "Weiss Schwarz" "WS" "Weiß Schwarz"
+- Publisher: Published by Bushiroad (include once in Description)
+- Use keyword variations: "Weiss Schwarz" "WS" "Weiss Schwarz card"
+- If source states defects, include under "Condition Notes:" in Description.
 - NEVER include: shipping info, seller opinions, price negotiations.
-
-DEFECT KEYWORDS (translate if found in source)
-白かけ=Edge whitening
-スレ=Surface scratches
-反り=Warping
-折れ=Crease
-初期傷=Factory defect
-インク飛び=Print error
 
 PRODUCTNAME
 - Format: [Character] [Rarity] [Anime Title]
 - Example: Asuna SP Signed Sword Art Online
 
 CATEGORY
-- Use: Trading Cards / Weiss Schwarz Individual Cards
+- Default: Trading Cards > Weiss Schwarz Individual Cards
+
+CATEGORY RULE
+- Ungraded single card -> Trading Cards > Weiss Schwarz Individual Cards
+- Graded card (PSA/BGS/CGC) -> Trading Cards > Weiss Schwarz Individual Cards
+- Starter Deck (sealed) -> Trading Cards > Weiss Schwarz Sealed Decks & Kits
+- Booster Pack (sealed) -> Trading Cards > Weiss Schwarz Sealed Decks & Kits
+- Booster Box (sealed) -> Trading Cards > Weiss Schwarz Sealed Decks & Kits
+- Promo card -> Trading Cards > Weiss Schwarz Individual Cards
+- If unclear -> Trading Cards > Weiss Schwarz Individual Cards
+
+MISSING ACCESSORIES
+If source clearly shows these accessories are ABSENT, note in Description:
+- No Sleeve
+- No Card Case
+- No Original Box
+- No Certificate
+- No Binder
+- No Deck Box
+- No Packaging Materials
+- No COA
+Only note absence if source explicitly confirms. Do NOT assume missing items.
 
 ITEM SPECIFICS
+Extract and output the following fields (use N/A if not determinable):
 - CardName: English character/card name
 - SetName: English anime title / set name
 - CardNumber: Card number or N/A
-- Rarity: SP / SSP / SEC / OFR / RRR / RR / R / U / C
-- Language: Japanese
-- Grade: PSA 10 / BGS 9.5 / Raw
-- Condition: NM / LP / N/A
+- Rarity: SP / SSP / SEC / OFR / RRR / RR / CR / R / U / C / CC / BPR / PR / N/A
+- Language: Japanese / English Edition / Korean
+- Grade: PSA 10 / BGS 9.5 / CGC 10 / Raw
+- Condition: New / NM / LP / MP / HP / DMG / N/A
+- Year: Release year or N/A
 
 OUTPUT FORMAT (exactly):
 Title: ...
@@ -224,27 +224,29 @@ ItemSpecifics:
   SetName: ...
   CardNumber: ...
   Rarity: ...
-  Language: Japanese
+  Language: ...
   Grade: ...
   Condition: ...
+  Year: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 60-80 chars (target 65-75).
-2. Description <= 480 chars.
-3. Only ASCII letters/numbers/spaces/&/: used throughout.
-4. No CJK characters or emoji anywhere.
-5. If graded card, grade appears at START of Title.
+1. Title is 68-75 chars and uses no forbidden symbols (, . - " ' ( ) [ ]).
+2. Description <= 480 chars, single paragraph, ASCII only, no CJK.
+3. No fabricated facts — every spec must derive from source.
+4. If graded card, grade appears at START of Title.
+5. "Published by Bushiroad" appears in Description once.
 6. Character name appears in Title.
 7. Rarity code appears in Title if found in source.
 8. If SP/SSP card, "Signed" appears in Title.
-9. "Japanese" appears in Title.
-10. "Weiss Schwarz" or "WS" appears in Title.
-11. Title contains NO forbidden words.
-12. No shipping info or seller opinions in output.
-13. Language field is always "Japanese".
+9. "Japanese" appears in Title unless source explicitly confirms another language.
+10. "Weiss Schwarz" or "WS" appears in Title when space allows.
+11. No shipping info or seller opinions in output.
+12. ProductName matches character name from Title.
+13. No CJK characters or emoji anywhere in output.
+14. Rule 2 compliance: no Category B style marketing words without source evidence.
+15. All defects from source reported in Description.
+16. No Bootleg/KO/Replica/Fake/Counterfeit/Authentic/Official anywhere in output (ABSOLUTE BAN even if source confirms — eBay Bushiroad VeRO).
 
 If any check fails, regenerate until all pass.
-
-REMINDER: If you cannot honestly fill 40 chars from source, output a shorter title. Lying is worse than being short.
 
 Input: ${fullText}
