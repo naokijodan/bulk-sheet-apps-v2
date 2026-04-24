@@ -620,8 +620,8 @@ function runSelectedRowsTranslate() {
 function applyTranslationToRow_(sheet, row, fields, conditionMode) {
   try {
     // M列・N列のみ設定
-    sheet.getRange(row, CONFIG.COLUMNS.EN_TITLE).setValue(fields.title || '');
-    sheet.getRange(row, CONFIG.COLUMNS.EN_DESC).setValue(fields.description || '');
+    sheet.getRange(row, CONFIG.COLUMNS.EN_TITLE).setValue(escapeCellFormula_(fields.title || ''));
+    sheet.getRange(row, CONFIG.COLUMNS.EN_DESC).setValue(escapeCellFormula_(fields.description || ''));
 
     // 商品状態の設定
     // AE列に既に値が入っている場合（TagShippingの数式で「新品」「中古」が設定済み）は上書きしない
@@ -662,6 +662,22 @@ function applyTranslationToRow_(sheet, row, fields, conditionMode) {
     console.error('翻訳結果の反映エラー(行' + row + '): ' + e.message);
     throw e;
   }
+}
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  数式誤認識防止: '=' 始まり文字列のエスケープ
+  Google Sheets が '=' '+' '-' '@' で始まる文字列を数式と誤認識し
+  #ERROR! になるのを防ぐ。先頭に ' (アポストロフィ) を付与。
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+function escapeCellFormula_(value) {
+  if (value == null) return '';
+  var s = String(value);
+  if (s.length === 0) return s;
+  var first = s.charAt(0);
+  if (first === '=' || first === '+' || first === '-' || first === '@') {
+    return "'" + s;
+  }
+  return s;
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -838,8 +854,8 @@ function applyTranslationBatch_(sheet, results, conditionMode) {
         // データあり：新しい翻訳結果で上書き
         var fields = res.fields;
         titleDescData.push([
-          fields.title || '',
-          fields.description || ''
+          escapeCellFormula_(fields.title || ''),
+          escapeCellFormula_(fields.description || '')
         ]);
       } else {
         // データなし：既存の値を保持
