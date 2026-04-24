@@ -1,0 +1,130 @@
+# SCIENTIFIC CALCULATORS - Translation Rules
+
+## GOALS
+- Convert Japanese calculator listings to English eBay optimized titles
+- Extract Brand / Model / Type / Display Lines / Display Type / Power Source / Country of Origin / Year Manufactured / Number of Functions / Color / Condition
+- Preserve accessories, defects, solar issues, printing issues, and missing covers exactly as stated
+
+## ABSOLUTE RULES
+- TRUTH FIRST: Use only facts supported by the source text
+- NO PADDING Category A: Do not add Amazing / Fantastic / Incredible / Best / Perfect / Premium / Luxury
+- NO PADDING Category A: AUTHENTIC and OFFICIAL are banned unless part of a direct accessory name in source
+- NO PADDING Category B: New / Sealed / Working / Tested / Battery Included / Solar / Cover Included only when source confirms
+- NO PADDING Category C: Brand / Model / Type / Display / Power / Country / Year / Color / Condition are allowed only when source states them
+- SOURCE-ONLY: Do not infer specifications from general product knowledge beyond source keywords and obvious keyword mapping below
+- NO CJK: Final output must be English ASCII only
+- DO NOT FORCE FIELDS: If the source does not support a field, write NA
+- DEFECT FIRST: If the source says junk, broken screen, no display, missing battery cover, or key failure, keep it
+
+## LEGITIMATE KEYWORDS
+- New / Used / Open Box / Unused
+- Working / Tested / Powers On
+- Battery Included / Case Included / Cover Included
+- Solar / Solar+Battery / USB
+- Graphing / Financial / Printing
+- Japan Domestic Model / Japan Import
+
+## RECOMMENDED FIELDS
+- Brand
+- Model
+- Type
+- Display Lines
+- Display Type
+- Power Source
+- Country of Origin
+- Year Manufactured
+- Number of Functions
+- Color
+- Condition
+
+## TYPE DETECTION
+- 関数 / fx- / scientific -> Scientific
+- グラフ / graphing / CG / Prime / Nspire -> Graphing
+- 金融 / ビジネス / 12C / 17BII -> Financial
+- 普通電卓 / basic -> Basic
+- プリンタ / printing -> Printing
+- If type is unclear, keep Type as NA rather than guessing
+
+## DISPLAY DETECTION
+- 1行 -> 1
+- 2行 -> 2
+- 4行 -> 4
+- 多行 / 複数行 -> Multiline
+- ドットマトリクス -> Dot Matrix
+- 液晶 -> LCD
+- カラー -> Color
+
+## TRANSLATION DICTIONARY
+- カシオ -> Casio
+- シャープ -> Sharp
+- キヤノン -> Canon
+- テキサスインスツルメンツ -> Texas Instruments
+- ヒューレットパッカード -> HP
+- 関数電卓 -> Scientific Calculator
+- グラフ電卓 -> Graphing Calculator
+- 金融電卓 -> Financial Calculator
+- 一般電卓 -> Basic Calculator
+- 高校 -> High School
+- 大学 -> College
+- 乾電池 -> Battery
+- 太陽電池 -> Solar
+- 国内版 -> Japan Domestic Model
+- 日本国内版 -> Japan Domestic Model
+- ClassWiz -> ClassWiz
+- WriteView -> WriteView
+
+## TITLE COMPOSITION GUIDANCE
+- Build the title naturally from the strongest source backed details
+- No fixed title formula
+- Prefer Brand + Model + calculator type + important feature + condition cue when space allows
+- Skip missing fields instead of padding
+- Use Calculator in the title when the item is clearly a calculator
+
+Examples:
+- Casio fx-991EX ClassWiz Scientific Calculator 552 Functions Japan
+- Texas Instruments TI-84 Plus CE Color Graphing Calculator
+- HP Prime G2 Graphing CAS Color Calculator
+- Sharp EL-W516T WriteView Scientific Calculator Japan
+
+## DESCRIPTION RULES
+- Single paragraph only
+- ASCII only
+- Keep it factual and compact
+- Mention included accessories only when present in source
+- Mention defects clearly when present in source
+- Do not claim function count, release year, or CAS support without evidence
+
+## OUTPUT FORMAT
+Title: <80 chars max, ASCII only>
+Description: <480 chars max, single paragraph, ASCII only, source-only>
+Brand: <value or NA>
+Model: <value or NA>
+Type: <Scientific / Graphing / Financial / Basic / Printing / NA>
+Display Lines: <value or NA>
+Display Type: <value or NA>
+Power Source: <value or NA>
+Country of Origin: <value or NA>
+Year Manufactured: <value or NA>
+Number of Functions: <value or NA>
+Color: <value or NA>
+Condition: <value>
+
+## VERIFICATION
+1. Title is ASCII only
+2. Title length is 80 chars or less
+3. Output uses English only
+4. No fabricated display lines, display type, function count, year, or power source
+5. Brand matches source or the translation dictionary
+6. Model is copied exactly when stated
+7. Type matches source keywords and is not guessed when unclear
+8. Condition reflects the source truthfully
+9. Missing accessories or defects are not omitted
+10. Description is one paragraph and source-only
+
+## REMINDER
+- Short truthful titles are better than long padded titles
+- Recommended fields are optional unless the source supports them
+- Keep model numbers such as fx-991EX and TI-84 Plus CE exactly as shown in source
+- Vintage calculator notes belong in the description when source states them
+
+Input: ${fullText}

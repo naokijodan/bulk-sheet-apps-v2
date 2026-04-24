@@ -1,0 +1,131 @@
+# ELECTRONIC DICTIONARIES - Translation Rules
+
+## GOALS
+- Convert Japanese electronic dictionary listings to English eBay optimized titles
+- Extract Brand / Model / Type / Dictionary Language / Number of Dictionaries / Screen Size / Features / Power Source / Country of Origin / Color / Condition
+- Preserve accessories, defects, battery issues, touch issues, and missing parts exactly as stated
+
+## ABSOLUTE RULES
+- TRUTH FIRST: Use only facts supported by the source text
+- NO PADDING Category A: Do not add Amazing / Fantastic / Incredible / Best / Perfect / Premium / Luxury
+- NO PADDING Category A: AUTHENTIC and OFFICIAL are banned unless part of a direct accessory name in source
+- NO PADDING Category B: New / Sealed / Working / Tested / Complete / Battery Included / Adapter Included only when source confirms
+- NO PADDING Category C: Brand / Model / Language / Screen Size / Features / Power Source / Color / Country / Condition are allowed only when source states them
+- SOURCE-ONLY: Do not infer from general product knowledge beyond source keywords and obvious keyword mapping below
+- NO CJK: Final output must be English ASCII only
+- DO NOT FORCE FIELDS: If the source does not support a field, write NA
+- DEFECT FIRST: If the source says junk, broken, battery leak, touch failure, missing stylus, or no power, keep it
+
+## LEGITIMATE KEYWORDS
+- New / Used / Open Box / Unused
+- Working / Tested / Powers On
+- Battery Included / AC Adapter Included / USB Cable Included
+- Touch Panel / Voice Recognition / Camera / Handwriting Input
+- Japan Import / Japanese Market
+- Multilingual / English Japanese / Japanese English
+
+## RECOMMENDED FIELDS
+- Brand
+- Model
+- Type
+- Dictionary Language
+- Number of Dictionaries
+- Screen Size
+- Features
+- Power Source
+- Country of Origin
+- Color
+- Condition
+
+## TYPE DETECTION
+- 卓上 / 据置 / デスクトップ -> Desktop
+- 携帯 / ハンディ / 折りたたみ / EX-word / Brain / wordtank -> Handheld
+- If form factor is unclear, keep title generic as Electronic Dictionary and set Type to NA
+
+## LANGUAGE DETECTION
+- 英和 / 和英 -> Japanese English
+- 国語 / 日本語 -> Japanese
+- 英語 -> English
+- 中国語 -> Chinese
+- 韓国語 -> Korean
+- 多言語 / 複数言語 -> Multilingual
+
+## TRANSLATION DICTIONARY
+- カシオ -> Casio
+- シャープ -> Sharp
+- キヤノン -> Canon
+- セイコー -> Seiko
+- フランクリン -> Franklin
+- EX-word -> EX-word
+- Brain -> Brain
+- wordtank -> wordtank
+- 電子辞書 -> Electronic Dictionary
+- 収録 -> Includes
+- 辞書 -> Dictionary
+- 英和 -> English-Japanese
+- 和英 -> Japanese-English
+- 国語辞典 -> Japanese Dictionary
+- 医学 -> Medical
+- 法律 -> Legal
+- ビジネス -> Business
+- 高校 -> High School
+- 大学 -> College
+- 手書き入力 -> Handwriting Input
+- 音声 -> Voice
+- 充電式 -> Rechargeable
+
+## TITLE COMPOSITION GUIDANCE
+- Build the title naturally from the strongest source backed details
+- No fixed title formula
+- Prefer Brand + Model + product identity + language or feature + condition cue when space allows
+- Skip missing fields instead of padding
+- Use Electronic Dictionary in the title when the item is clearly an electronic dictionary
+
+Examples:
+- Casio EX-word XD-SX8900 Electronic Dictionary Japanese English 200 Dictionaries
+- Sharp Brain PW-A7000 Electronic Dictionary English Japanese Multilingual
+- Canon wordtank IDP-920D Electronic Dictionary Handheld Japan Import
+- Seiko IC Dictionary SR Series Electronic Dictionary Used
+
+## DESCRIPTION RULES
+- Single paragraph only
+- ASCII only
+- Keep it factual and compact
+- Mention included accessories only when present in source
+- Mention defects clearly when present in source
+- Do not claim exact release year, battery life, or dictionary count without evidence
+
+## OUTPUT FORMAT
+Title: <80 chars max, ASCII only>
+Description: <480 chars max, single paragraph, ASCII only, source-only>
+Brand: <value or NA>
+Model: <value or NA>
+Type: <Handheld / Desktop / NA>
+Dictionary Language: <value or NA>
+Number of Dictionaries: <value or NA>
+Screen Size: <value or NA>
+Features: <value or NA>
+Power Source: <value or NA>
+Country of Origin: <value or NA>
+Color: <value or NA>
+Condition: <value>
+
+## VERIFICATION
+1. Title is ASCII only
+2. Title length is 80 chars or less
+3. Output uses English only
+4. No fabricated dictionary count, screen size, or language support
+5. Brand matches source or the translation dictionary
+6. Model is copied exactly when stated
+7. Type is Desktop or Handheld only when source supports it
+8. Condition reflects the source truthfully
+9. Missing accessories or defects are not omitted
+10. Description is one paragraph and source-only
+
+## REMINDER
+- Short truthful titles are better than long padded titles
+- Recommended fields are optional unless the source supports them
+- Keep EX-word / Brain / wordtank spelling exactly as shown in source
+- If the item is not working, say so plainly
+
+Input: ${fullText}

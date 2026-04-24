@@ -78,6 +78,14 @@ var SANITIZE_FIELDS_ = {
     'ブランド', 'モデル名', 'タイプ', '接続方式', '対応機種', '色',
     '特徴', '製造国', '電源', '付属品', 'コンディション', '故障・不具合'
   ],
+  'Electronic Dictionaries': [
+    'ブランド', 'モデル名', 'タイプ', '対応言語', '収録辞書数', '画面サイズ',
+    '特徴', '電源', '製造国', '色', '付属品', 'コンディション', '故障・不具合'
+  ],
+  'Scientific Calculators': [
+    'ブランド', 'モデル名', 'タイプ', '表示行数', '表示タイプ', '電源',
+    '製造国', '製造年', '関数数', '色', '付属品', 'コンディション', '故障・不具合'
+  ],
   'Laptops': [
     'ブランド', 'モデル名', 'タイプ', 'シリーズ', 'プロセッサ', 'プロセッサ速度',
     'メモリ容量', 'SSD容量', 'HDD容量', 'ストレージ種別', 'OS', '画面サイズ',
@@ -581,6 +589,36 @@ var CATEGORY_RULES_ = {
       '- 付属品: 記載された付属品をそのまま保持',
       '- コンディション: 新品/美品/中古/訳あり等。ソース記載を優先',
       '- [EN]セクション: Type/Brand/Connectivity/Compatibility は英語で出力'
+    ]
+  },
+  'Electronic Dictionaries': {
+    label: '電子辞書',
+    rules: [
+      '- ブランド: Casio(カシオ EX-word)/Sharp(シャープ Brain)/Canon(キヤノン wordtank)/Seiko(セイコー IC Dictionary)/Franklin',
+      '- モデル名: XD-SX / XD-Z / PW-A / PW-SH / IDP / 等の型番を正確に',
+      '- タイプ: Handheld(携帯型)/Desktop(据置型)',
+      '- 対応言語: Japanese(日本語)/English(英語)/Chinese(中国語)/Korean(韓国語)/Multilingual(多言語)',
+      '- 収録辞書数: 100/200/250等の数値。記載なければNA',
+      '- 画面サイズ: 3.5 in / 4.0 in / 5.7 in 等',
+      '- 特徴: Touch Panel/Voice Recognition/Camera/Handwriting Input 等',
+      '- 電源: Battery/USB/AC Adapter',
+      '- 不明な情報はNA',
+      '- [EN]セクション: Type/Brand/Dictionary Language は英語出力'
+    ]
+  },
+  'Scientific Calculators': {
+    label: '関数電卓',
+    rules: [
+      '- ブランド: Casio(カシオ)/Texas Instruments(テキサスインスツルメンツ TI)/HP(ヒューレットパッカード)/Sharp(シャープ)/Canon(キヤノン)',
+      '- モデル名: fx-CG50 / fx-991EX / fx-JP900 / TI-84 Plus CE / TI-Nspire CX II / HP Prime G2 / EL-W516T 等の型番',
+      '- タイプ: Scientific(関数電卓)/Graphing(グラフ電卓)/Financial(金融電卓)/Basic(一般電卓)/Printing(プリンタ付)',
+      '- 表示行数: 1/2/4/Multiline',
+      '- 表示タイプ: Dot Matrix/LCD/Color Display',
+      '- 電源: Battery(乾電池)/Solar(太陽電池)/Solar+Battery(ソーラー+電池)/USB',
+      '- 関数数: 記載があれば保持（例: 552 functions）',
+      '- ヴィンテージ機（HP-41C / HP-15C / Sharp PC-1211 等 RPN/pocket computer）はCollectibles寄りの扱いになる場合も記載で明示',
+      '- 不明な情報はNA',
+      '- [EN]セクション: Type/Brand/Model は英語出力'
     ]
   },
   'Laptops': {

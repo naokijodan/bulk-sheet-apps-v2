@@ -103,6 +103,32 @@ var IS_INITIAL_DATA = [
   { category: 'PC Peripherals', tag_jp: 'パソコン周辺機器', field_name: 'Power Source',      field_type: 'optional',    priority: 9,  notes: '' },
   { category: 'PC Peripherals', tag_jp: 'パソコン周辺機器', field_name: 'Condition',         field_type: 'required',    priority: 10, notes: '' },
 
+  // === Electronic Dictionaries ===
+  { category: 'Electronic Dictionaries', tag_jp: '電子辞書', field_name: 'Brand',                  field_type: 'required',    priority: 1,  notes: 'Casio/Sharp/Canon/Seiko/Franklin' },
+  { category: 'Electronic Dictionaries', tag_jp: '電子辞書', field_name: 'Model',                  field_type: 'required',    priority: 2,  notes: 'XD-SX8900 / PW-A7000 / IDP-920D等' },
+  { category: 'Electronic Dictionaries', tag_jp: '電子辞書', field_name: 'Type',                   field_type: 'required',    priority: 3,  notes: 'Handheld / Desktop' },
+  { category: 'Electronic Dictionaries', tag_jp: '電子辞書', field_name: 'Dictionary Language',    field_type: 'required',    priority: 4,  notes: 'Japanese / English / Chinese' },
+  { category: 'Electronic Dictionaries', tag_jp: '電子辞書', field_name: 'Number of Dictionaries', field_type: 'recommended', priority: 5,  notes: '例: 200 dictionaries' },
+  { category: 'Electronic Dictionaries', tag_jp: '電子辞書', field_name: 'Screen Size',            field_type: 'recommended', priority: 6,  notes: '例: 3.5 in / 4.0 in / 5.7 in' },
+  { category: 'Electronic Dictionaries', tag_jp: '電子辞書', field_name: 'Features',               field_type: 'optional',    priority: 7,  notes: 'Touch Panel / Voice Recognition / Camera' },
+  { category: 'Electronic Dictionaries', tag_jp: '電子辞書', field_name: 'Power Source',           field_type: 'recommended', priority: 8,  notes: 'Battery / USB / AC Adapter' },
+  { category: 'Electronic Dictionaries', tag_jp: '電子辞書', field_name: 'Country of Origin',      field_type: 'optional',    priority: 9,  notes: 'Japan' },
+  { category: 'Electronic Dictionaries', tag_jp: '電子辞書', field_name: 'Color',                  field_type: 'optional',    priority: 10, notes: '' },
+  { category: 'Electronic Dictionaries', tag_jp: '電子辞書', field_name: 'Condition',              field_type: 'required',    priority: 11, notes: 'New / Used' },
+
+  // === Scientific Calculators ===
+  { category: 'Scientific Calculators', tag_jp: '関数電卓', field_name: 'Brand',               field_type: 'required',    priority: 1,  notes: 'Casio / Texas Instruments / HP / Sharp / Canon' },
+  { category: 'Scientific Calculators', tag_jp: '関数電卓', field_name: 'Model',               field_type: 'required',    priority: 2,  notes: 'fx-CG50 / fx-991EX / TI-84 Plus CE / HP Prime G2 / EL-W516T' },
+  { category: 'Scientific Calculators', tag_jp: '関数電卓', field_name: 'Type',                field_type: 'required',    priority: 3,  notes: 'Scientific / Graphing / Financial / Basic / Printing' },
+  { category: 'Scientific Calculators', tag_jp: '関数電卓', field_name: 'Display Lines',       field_type: 'recommended', priority: 4,  notes: '1 / 2 / 4 / Multiline' },
+  { category: 'Scientific Calculators', tag_jp: '関数電卓', field_name: 'Display Type',        field_type: 'recommended', priority: 5,  notes: 'Dot Matrix / LCD / Color' },
+  { category: 'Scientific Calculators', tag_jp: '関数電卓', field_name: 'Power Source',        field_type: 'recommended', priority: 6,  notes: 'Battery / Solar / Solar+Battery / USB' },
+  { category: 'Scientific Calculators', tag_jp: '関数電卓', field_name: 'Country of Origin',   field_type: 'optional',    priority: 7,  notes: 'Japan / China / Malaysia' },
+  { category: 'Scientific Calculators', tag_jp: '関数電卓', field_name: 'Year Manufactured',   field_type: 'optional',    priority: 8,  notes: 'if stated' },
+  { category: 'Scientific Calculators', tag_jp: '関数電卓', field_name: 'Number of Functions', field_type: 'optional',    priority: 9,  notes: '例: 552 functions' },
+  { category: 'Scientific Calculators', tag_jp: '関数電卓', field_name: 'Color',               field_type: 'optional',    priority: 10, notes: '' },
+  { category: 'Scientific Calculators', tag_jp: '関数電卓', field_name: 'Condition',           field_type: 'required',    priority: 11, notes: 'New / Used / For parts or not working' },
+
   // === Computers: Laptops ===
   { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'Brand',                    field_type: 'required',    priority: 1,  notes: 'Apple/Lenovo/Dell/HP/ASUS/VAIO/Panasonic/Fujitsu/NEC/dynabook等' },
   { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'Model',                    field_type: 'required',    priority: 2,  notes: 'MacBook Pro 14 / ThinkPad X1 Carbon / VAIO SX14等の型番・モデル名' },
@@ -3636,6 +3662,14 @@ function getBrandListForSanitize_(category) {
       return 'Logitech, Elecom, Sanwa, Buffalo, Anker, Razer, Corsair, SteelSeries, HyperX, Apple, Microsoft, Dell, HP, Lenovo, Seagate, Western Digital, Samsung, Kingston, Crucial';
     }
 
+    if (category === 'Electronic Dictionaries') {
+      return 'Casio (EX-word), Sharp (Brain), Canon (wordtank), Seiko (IC Dictionary), Franklin';
+    }
+
+    if (category === 'Scientific Calculators') {
+      return 'Casio, Texas Instruments, HP, Sharp, Canon';
+    }
+
     if (category === 'Laptops' || category === 'Desktops' || category === 'Tablets' || category === 'Computers') {
       return 'Apple, Lenovo, Dell, HP, ASUS, Acer, Microsoft, Sony, VAIO, Panasonic, Fujitsu, NEC, Toshiba, dynabook, LG, Samsung, MSI, Razer, Alienware, Intel, Google';
     }
@@ -4500,6 +4534,8 @@ IS_TAG_TO_CATEGORY['ルアータックル'] = 'Fishing Lures';
 
 IS_TAG_TO_CATEGORY['パソコン周辺機器'] = 'PC Peripherals';
 IS_TAG_TO_CATEGORY['パソコン本体'] = 'Computers';
+IS_TAG_TO_CATEGORY['電子辞書'] = 'Electronic Dictionaries';
+IS_TAG_TO_CATEGORY['関数電卓'] = 'Scientific Calculators';
 
 // Board Games
 IS_TAG_TO_CATEGORY['将棋'] = 'Board Games'; IS_TAG_TO_CATEGORY['将棋セット'] = 'Board Games';
@@ -4922,6 +4958,16 @@ var IS_CATEGORY_FIELDS = {
   'PC Peripherals': [
     'Brand', 'Model', 'Type', 'Connectivity', 'Compatibility',
     'Color', 'Features', 'Country of Origin', 'Power Source', 'Condition',
+  ],
+  'Electronic Dictionaries': [
+    'Brand', 'Model', 'Type', 'Dictionary Language', 'Number of Dictionaries',
+    'Screen Size', 'Features', 'Power Source', 'Country of Origin',
+    'Color', 'Condition',
+  ],
+  'Scientific Calculators': [
+    'Brand', 'Model', 'Type', 'Display Lines', 'Display Type',
+    'Power Source', 'Country of Origin', 'Year Manufactured',
+    'Number of Functions', 'Color', 'Condition',
   ],
   'Laptops': [
     'Brand', 'Model', 'Type', 'Series', 'Processor', 'Processor Speed',
