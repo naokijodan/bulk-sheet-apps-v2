@@ -220,3 +220,55 @@ eBay カテゴリ調査 → IS_TAG_TO_CATEGORY / PROMPT_TAG_MAPPING / SANITIZE_F
 ### 次のステップ
 
 椛島さんの実機動作確認結果をもとに次のタスクを決定。
+
+---
+
+## 2026-04-25 追記: V2.0.1 Full Rewrite 全7本完遂
+
+### セッション
+- `harness-20260425-014356`
+
+### 完遂サマリ
+
+| # | カテゴリ | Commit | 特徴 |
+|---|---|---|---|
+| 1 | ドラゴンボールカード | ff5bbfb | Bandai VeRO / Fusion World FB codes 保持 |
+| 2 | 大相撲カード | 1e6228b | PHASE 1/2 → V2.0.1 標準、二重引用符ラッピング除去、BBM/Epoch 汎用BOOTLEG |
+| 3 | ヴァイスシュヴァルツ | 7ef699f | Bushiroad VeRO / SIGNED CARD DETECTION (SP/SSP) 保持 |
+| 4 | デジモンカード | 47c6db6 | Bandai VeRO / ALT ART / テクスチャー剥がれ・ホログラム損傷 |
+| 5 | ガンダムカード | ddc5aa1 | Bandai VeRO / GAME DETECTION 6-path / RARITY MAPPING 15 codes |
+| 6 | MTG | 9022d8b | WotC VeRO / 11言語 / フォイル浮き / Foil variants スコープ外 |
+| 7 | トレカ汎用 | 2cd6c02 | TCG VeRO汎用 / GAME DETECTION / ITEM SPECIFICS に Game フィールド |
+
+### V2.0.1 標準構造（全カテゴリ共通適用）
+
+- GOALS 4th bullet: TRUTH FIRST — Source-bound, no fabrication, no padding
+- Rule 2: Category A/B/C ラベル + 語リスト
+- BOOTLEG MUST 独立行（各ブランドの VeRO status 反映）
+- MISSING ACCESSORIES 8項目
+- CATEGORY RULE 7-path
+- DEFECT V10 10ペア + policy + guard（初期傷≠early scratch）
+- CONDITION TERMS 6段階（並品/傷品含む）
+- LANGUAGE VARIATIONS（各カテゴリで該当バリアント）
+- TITLE 68-75 統一
+- Published by [publisher] 独立必須（トレカ汎用のみ条件付き）
+- VERIFICATION 16項目
+
+### インシデント記録
+
+- **Library re.sub lambda bug** (commits 73e4d2f / ec4b2ee): `re.sub(pattern, new_entry, lib)` が `\n` を実際の改行として解釈して Library に literal newline 混入 → JavaScript Syntax Error。lambda 形式 `re.sub(pattern, lambda m: new_entry, lib)` で根治。大相撲 / デジモン / コレクティブル（スコープ外、緊急対応）の Library entry に発生していたが修正済み。
+- **アポストロフィ二重エスケープ問題**: ドラゴンボール / ヴァイス / デジモンの Library 同期時に `\\'` の二重エスケープが発生、各 rework で修正。再発防止策として Python unescape による byte-match 検証を全プロンプトで実施。
+- **コレクティブル**: 本セッションスコープ外だが、re.sub バグ影響で Library 再同期（ec4b2ee）。prompts 側は無変更、Library は健全化。
+
+### Sprint Contract A.7 の不整合メモ（将来整合修正課題）
+
+- Dragon Ball: 傷品 → Damaged (DMG) でデプロイ済み（ff5bbfb）
+- 他 6 本: 傷品 → Heavily Played (HP)（Sprint Contract A.7 準拠）
+- 将来別セッションで Dragon Ball を HP に整合修正するか、Sprint Contract A.7 を両パターン許容に更新するかを判断する。
+
+### 椛島さんへの実機確認依頼
+
+以下 7 カテゴリのテスト出品で動作確認をお願いします:
+- ドラゴンボール / 大相撲 / ヴァイス / デジモン / ガンダム / MTG / トレカ汎用
+
+問題があれば次セッションで修正対応します。

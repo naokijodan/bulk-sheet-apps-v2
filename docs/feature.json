@@ -32,7 +32,9 @@
     "status": "skipped",
     "priority": 2,
     "phase": "Phase 1B",
-    "dependencies": ["F-tokei-title-seo-refactor"],
+    "dependencies": [
+      "F-tokei-title-seo-refactor"
+    ],
     "created_at": "2026-04-18T01:55:00+09:00",
     "updated_at": "2026-04-18T14:50:00+09:00",
     "last_sprint_contract": "contracts/GOLF-DESIGN.md",
@@ -162,7 +164,9 @@
     "status": "passing",
     "priority": 1,
     "phase": "Phase 2",
-    "dependencies": ["F-reel-v2-restructure"],
+    "dependencies": [
+      "F-reel-v2-restructure"
+    ],
     "created_at": "2026-04-19T01:00:00+09:00",
     "updated_at": "2026-04-19T01:30:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/GOLF-V2-RESTRUCTURE.md",
@@ -175,7 +179,10 @@
     "status": "passing",
     "priority": 1,
     "phase": "Phase 2",
-    "dependencies": ["F-reel-v2-restructure", "F-golf-v2-restructure"],
+    "dependencies": [
+      "F-reel-v2-restructure",
+      "F-golf-v2-restructure"
+    ],
     "created_at": "2026-04-19T12:00:00+09:00",
     "updated_at": "2026-04-19T13:30:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/CAMERA-V2-RESTRUCTURE.md",
@@ -188,7 +195,11 @@
     "status": "passing",
     "priority": 1,
     "phase": "Phase 2",
-    "dependencies": ["F-reel-v2-restructure", "F-golf-v2-restructure", "F-camera-v2-restructure"],
+    "dependencies": [
+      "F-reel-v2-restructure",
+      "F-golf-v2-restructure",
+      "F-camera-v2-restructure"
+    ],
     "created_at": "2026-04-19T13:00:00+09:00",
     "updated_at": "2026-04-19T14:30:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/JEWELRY-V2-RESTRUCTURE.md",
@@ -201,7 +212,12 @@
     "status": "passing",
     "priority": 1,
     "phase": "Phase 2",
-    "dependencies": ["F-reel-v2-restructure", "F-golf-v2-restructure", "F-camera-v2-restructure", "F-jewelry-v2-restructure"],
+    "dependencies": [
+      "F-reel-v2-restructure",
+      "F-golf-v2-restructure",
+      "F-camera-v2-restructure",
+      "F-jewelry-v2-restructure"
+    ],
     "created_at": "2026-04-19T14:00:00+09:00",
     "updated_at": "2026-04-19T15:30:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/FIGURE-V2-RESTRUCTURE.md",
@@ -214,7 +230,13 @@
     "status": "passing",
     "priority": 1,
     "phase": "Phase 2",
-    "dependencies": ["F-reel-v2-restructure", "F-golf-v2-restructure", "F-camera-v2-restructure", "F-jewelry-v2-restructure", "F-figure-v2-restructure"],
+    "dependencies": [
+      "F-reel-v2-restructure",
+      "F-golf-v2-restructure",
+      "F-camera-v2-restructure",
+      "F-jewelry-v2-restructure",
+      "F-figure-v2-restructure"
+    ],
     "created_at": "2026-04-19T15:00:00+09:00",
     "updated_at": "2026-04-19T17:00:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/NIHONNINGYO-V2-RESTRUCTURE.md",
@@ -246,7 +268,6 @@
     "last_sprint_contract": null,
     "notes": "優先度 low。HEAD drift (sha a3a76fa4 vs f489bfa6) の原因調査も含む"
   },
-
   {
     "id": "F-reel-v201",
     "name": "リール V2.0.1 — Rule 2 line 1 AUTHENTIC/OFFICIAL 分離",
@@ -254,7 +275,10 @@
     "status": "passing",
     "priority": 99,
     "phase": "V2.0.1",
-    "dependencies": ["F-tokei-v11-reference", "F-reel-v2-restructure"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-reel-v2-restructure"
+    ],
     "created_at": "2026-04-19T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/REEL-V2-RESTRUCTURE.md",
@@ -267,7 +291,10 @@
     "status": "passing",
     "priority": 99,
     "phase": "V2.0.1",
-    "dependencies": ["F-tokei-v11-reference", "F-golf-v2-restructure"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-golf-v2-restructure"
+    ],
     "created_at": "2026-04-19T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -280,7 +307,10 @@
     "status": "passing",
     "priority": 99,
     "phase": "V2.0.1",
-    "dependencies": ["F-tokei-v11-reference", "F-camera-v2-restructure"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-camera-v2-restructure"
+    ],
     "created_at": "2026-04-19T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -293,7 +323,10 @@
     "status": "passing",
     "priority": 99,
     "phase": "V2.0.1",
-    "dependencies": ["F-tokei-v11-reference", "F-jewelry-v2-restructure"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-jewelry-v2-restructure"
+    ],
     "created_at": "2026-04-19T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -306,7 +339,10 @@
     "status": "passing",
     "priority": 99,
     "phase": "V2.0.1",
-    "dependencies": ["F-tokei-v11-reference", "F-figure-v2-restructure"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-figure-v2-restructure"
+    ],
     "created_at": "2026-04-19T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -319,7 +355,10 @@
     "status": "passing",
     "priority": 99,
     "phase": "V2.0.1",
-    "dependencies": ["F-tokei-v11-reference", "F-nihonningyo-v2-restructure"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-nihonningyo-v2-restructure"
+    ],
     "created_at": "2026-04-19T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -332,7 +371,9 @@
     "status": "passing",
     "priority": 99,
     "phase": "V2.0.1",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/ANIME-V2.0.1-RESTRUCTURE.md",
@@ -345,7 +386,10 @@
     "status": "passing",
     "priority": 99,
     "phase": "V2.0.1",
-    "dependencies": ["F-tokei-v11-reference", "F-soap-v10-refactor"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-soap-v10-refactor"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/SOAP-V2.0.1-RESTRUCTURE.md",
@@ -358,7 +402,10 @@
     "status": "passing",
     "priority": 99,
     "phase": "V2.0.1",
-    "dependencies": ["F-tokei-v11-reference", "F-tennis-v10-refactor"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-tennis-v10-refactor"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/TENNIS-V2.0.1-RESTRUCTURE.md",
@@ -371,7 +418,9 @@
     "status": "passing",
     "priority": 37,
     "phase": "V2.0.1",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/SNOWGLOBE-V2.0.1-RESTRUCTURE.md",
@@ -384,7 +433,9 @@
     "status": "passing",
     "priority": 99,
     "phase": "V2.0.1",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/APPAREL-V2.0.1-RESTRUCTURE.md",
@@ -397,7 +448,9 @@
     "status": "passing",
     "priority": 99,
     "phase": "V2.0.1",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/AUDIO-V2.0.1-RESTRUCTURE.md",
@@ -410,7 +463,9 @@
     "status": "passing",
     "priority": 99,
     "phase": "V2.0.1",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/RECORDS-V2.0.1-RESTRUCTURE.md",
@@ -423,7 +478,9 @@
     "status": "passing",
     "priority": 99,
     "phase": "V2.0.1",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/FISHINGROD-V2.0.1-RESTRUCTURE.md",
@@ -436,7 +493,10 @@
     "status": "passing",
     "priority": 44,
     "phase": "V2.0.1",
-    "dependencies": ["F-tokei-v11-reference", "F-general-v10-refactor"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-general-v10-refactor"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/GENERAL-V2.0.1-RESTRUCTURE.md",
@@ -449,13 +509,15 @@
     "status": "passing",
     "priority": 42,
     "phase": "V2.0.1",
-    "dependencies": ["F-tokei-v11-reference", "F-knife-v10-refactor"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-knife-v10-refactor"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/KNIFE-V2.0.1-RESTRUCTURE.md",
     "notes": "commit f9639d4、92→98行(+6)、Library 包丁 v38→v39、clasp push 済。10th V2.0.1 implementation。Master plan #42 対応カテゴリ（passing済）"
   },
-
   {
     "id": "F-v201-01-pokeka",
     "name": "ポケカ V2.0.1 Full Rewrite",
@@ -465,7 +527,9 @@
     "phase": "V2.0.1 残 44",
     "group": "トレカ A",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -480,7 +544,10 @@
     "phase": "V2.0.1 残 44",
     "group": "トレカ A",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference", "F-v201-01-pokeka"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-v201-01-pokeka"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -495,7 +562,10 @@
     "phase": "V2.0.1 残 44",
     "group": "トレカ A",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference", "F-v201-01-pokeka"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-v201-01-pokeka"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -505,76 +575,91 @@
     "id": "F-v201-04-dragonball",
     "name": "ドラゴンボールカード V2.0.1 Full Rewrite",
     "description": "トレカ A グループ。BOOTLEG MUST。R-3。",
-    "status": "failing",
+    "status": "passing",
     "priority": 4,
     "phase": "V2.0.1 残 44",
     "group": "トレカ A",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference", "F-v201-01-pokeka"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-v201-01-pokeka"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
+    "updated_at": "2026-04-24T19:56:25.267076+00:00",
     "last_sprint_contract": null,
-    "notes": "Master plan #4。prompt file: prompts/ドラゴンボールカード.txt"
+    "notes": "commit ff5bbfb でデプロイ完了 (session harness-20260425-014356, V2.0.1 Full Rewrite)"
   },
   {
     "id": "F-v201-05-digimon",
     "name": "デジモンカード V2.0.1 Full Rewrite",
     "description": "トレカ A グループ。BOOTLEG MUST。R-3。",
-    "status": "failing",
+    "status": "passing",
     "priority": 5,
     "phase": "V2.0.1 残 44",
     "group": "トレカ A",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference", "F-v201-01-pokeka"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-v201-01-pokeka"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
+    "updated_at": "2026-04-24T19:56:25.267076+00:00",
     "last_sprint_contract": null,
-    "notes": "Master plan #5。prompt file: prompts/デジモンカード.txt"
+    "notes": "commit 47c6db6 でデプロイ完了 (session harness-20260425-014356, V2.0.1 Full Rewrite)"
   },
   {
     "id": "F-v201-06-weiss",
     "name": "ヴァイスシュヴァルツ V2.0.1 Full Rewrite",
     "description": "トレカ A グループ。BOOTLEG MUST。R-3。",
-    "status": "failing",
+    "status": "passing",
     "priority": 6,
     "phase": "V2.0.1 残 44",
     "group": "トレカ A",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference", "F-v201-01-pokeka"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-v201-01-pokeka"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
+    "updated_at": "2026-04-24T19:56:25.267076+00:00",
     "last_sprint_contract": null,
-    "notes": "Master plan #6。prompt file: prompts/ヴァイスシュヴァルツ.txt"
+    "notes": "commit 7ef699f でデプロイ完了 (session harness-20260425-014356, V2.0.1 Full Rewrite)"
   },
   {
     "id": "F-v201-07-gundam-card",
     "name": "ガンダムカード V2.0.1 Full Rewrite",
     "description": "トレカ A グループ。BOOTLEG MUST。R-3。",
-    "status": "failing",
+    "status": "passing",
     "priority": 7,
     "phase": "V2.0.1 残 44",
     "group": "トレカ A",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference", "F-v201-01-pokeka"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-v201-01-pokeka"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
+    "updated_at": "2026-04-24T19:56:25.267076+00:00",
     "last_sprint_contract": null,
-    "notes": "Master plan #7。prompt file: prompts/ガンダムカード.txt"
+    "notes": "commit ddc5aa1 でデプロイ完了 (session harness-20260425-014356, V2.0.1 Full Rewrite)"
   },
   {
     "id": "F-v201-08-sumo",
     "name": "大相撲カード V2.0.1 Full Rewrite",
     "description": "トレカ A グループ。BOOTLEG MUST。R-3。",
-    "status": "failing",
+    "status": "passing",
     "priority": 8,
     "phase": "V2.0.1 残 44",
     "group": "トレカ A",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference", "F-v201-01-pokeka"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-v201-01-pokeka"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
+    "updated_at": "2026-04-24T19:56:25.267076+00:00",
     "last_sprint_contract": null,
-    "notes": "Master plan #8。prompt file: prompts/大相撲カード.txt"
+    "notes": "commit 1e6228b でデプロイ完了 (session harness-20260425-014356, V2.0.1 Full Rewrite)"
   },
   {
     "id": "F-v201-09-baseball",
@@ -585,7 +670,10 @@
     "phase": "V2.0.1 残 44",
     "group": "トレカ A",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference", "F-v201-01-pokeka"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-v201-01-pokeka"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -595,31 +683,37 @@
     "id": "F-v201-10-mtg",
     "name": "MTG V2.0.1 Full Rewrite",
     "description": "トレカ A グループ。BOOTLEG MUST。R-3。",
-    "status": "failing",
+    "status": "passing",
     "priority": 10,
     "phase": "V2.0.1 残 44",
     "group": "トレカ A",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference", "F-v201-01-pokeka"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-v201-01-pokeka"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
+    "updated_at": "2026-04-24T19:56:25.267076+00:00",
     "last_sprint_contract": null,
-    "notes": "Master plan #10。prompt file: prompts/MTG.txt"
+    "notes": "commit 9022d8b でデプロイ完了 (session harness-20260425-014356, V2.0.1 Full Rewrite)"
   },
   {
     "id": "F-v201-11-treka-general",
     "name": "トレカ汎用 V2.0.1 Full Rewrite",
     "description": "トレカ A グループ。BOOTLEG MUST。R-3。",
-    "status": "failing",
+    "status": "passing",
     "priority": 11,
     "phase": "V2.0.1 残 44",
     "group": "トレカ A",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference", "F-v201-01-pokeka"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-v201-01-pokeka"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
+    "updated_at": "2026-04-24T19:56:25.267076+00:00",
     "last_sprint_contract": null,
-    "notes": "Master plan #11。prompt file: prompts/トレカ汎用.txt"
+    "notes": "commit 2cd6c02 でデプロイ完了 (session harness-20260425-014356, V2.0.1 Full Rewrite)"
   },
   {
     "id": "F-v201-12-game-console",
@@ -630,7 +724,9 @@
     "phase": "V2.0.1 残 44",
     "group": "ゲーム B",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -645,7 +741,10 @@
     "phase": "V2.0.1 残 44",
     "group": "ゲーム B",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference", "F-v201-12-game-console"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-v201-12-game-console"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -660,7 +759,10 @@
     "phase": "V2.0.1 残 44",
     "group": "アパレル C",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference", "F-apparel-v201"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-apparel-v201"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -675,7 +777,10 @@
     "phase": "V2.0.1 残 44",
     "group": "アパレル C",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference", "F-apparel-v201"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-apparel-v201"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -690,7 +795,10 @@
     "phase": "V2.0.1 残 44",
     "group": "アパレル C",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference", "F-apparel-v201"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-apparel-v201"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -705,7 +813,10 @@
     "phase": "V2.0.1 残 44",
     "group": "アパレル C",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference", "F-apparel-v201"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-apparel-v201"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -720,7 +831,10 @@
     "phase": "V2.0.1 残 44",
     "group": "アパレル C",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference", "F-apparel-v201"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-apparel-v201"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -735,7 +849,10 @@
     "phase": "V2.0.1 残 44",
     "group": "アパレル C",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference", "F-apparel-v201"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-apparel-v201"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -750,7 +867,9 @@
     "phase": "V2.0.1 残 44",
     "group": "書籍 D",
     "bootleg": "要検討",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -765,7 +884,9 @@
     "phase": "V2.0.1 残 44",
     "group": "書籍 D",
     "bootleg": "要検討",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -780,7 +901,10 @@
     "phase": "V2.0.1 残 44",
     "group": "日本伝統 E",
     "bootleg": "不要",
-    "dependencies": ["F-tokei-v11-reference", "F-nihonningyo-v2-restructure"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-nihonningyo-v2-restructure"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -795,7 +919,10 @@
     "phase": "V2.0.1 残 44",
     "group": "日本伝統 E",
     "bootleg": "不要",
-    "dependencies": ["F-tokei-v11-reference", "F-nihonningyo-v2-restructure"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-nihonningyo-v2-restructure"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -810,7 +937,10 @@
     "phase": "V2.0.1 残 44",
     "group": "日本伝統 E",
     "bootleg": "不要",
-    "dependencies": ["F-tokei-v11-reference", "F-nihonningyo-v2-restructure"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-nihonningyo-v2-restructure"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -825,7 +955,10 @@
     "phase": "V2.0.1 残 44",
     "group": "日本伝統 E",
     "bootleg": "不要",
-    "dependencies": ["F-tokei-v11-reference", "F-nihonningyo-v2-restructure"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-nihonningyo-v2-restructure"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -840,7 +973,10 @@
     "phase": "V2.0.1 残 44",
     "group": "日本伝統 E",
     "bootleg": "不要",
-    "dependencies": ["F-tokei-v11-reference", "F-nihonningyo-v2-restructure"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-nihonningyo-v2-restructure"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -855,7 +991,10 @@
     "phase": "V2.0.1 残 44",
     "group": "日本伝統 E",
     "bootleg": "不要",
-    "dependencies": ["F-tokei-v11-reference", "F-nihonningyo-v2-restructure"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-nihonningyo-v2-restructure"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -870,7 +1009,10 @@
     "phase": "V2.0.1 残 44",
     "group": "日本伝統 E",
     "bootleg": "不要",
-    "dependencies": ["F-tokei-v11-reference", "F-nihonningyo-v2-restructure"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-nihonningyo-v2-restructure"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -885,7 +1027,10 @@
     "phase": "V2.0.1 残 44",
     "group": "日本伝統 E",
     "bootleg": "不要",
-    "dependencies": ["F-tokei-v11-reference", "F-nihonningyo-v2-restructure"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-nihonningyo-v2-restructure"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -900,7 +1045,10 @@
     "phase": "V2.0.1 残 44",
     "group": "日本伝統 E",
     "bootleg": "不要",
-    "dependencies": ["F-tokei-v11-reference", "F-nihonningyo-v2-restructure"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-nihonningyo-v2-restructure"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -915,7 +1063,9 @@
     "phase": "V2.0.1 残 44",
     "group": "日本伝統 E",
     "bootleg": "不要",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -930,7 +1080,10 @@
     "phase": "V2.0.1 残 44",
     "group": "アート F",
     "bootleg": "要検討",
-    "dependencies": ["F-tokei-v11-reference", "F-nihonningyo-v2-restructure"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-nihonningyo-v2-restructure"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -945,7 +1098,9 @@
     "phase": "V2.0.1 残 44",
     "group": "コレクション G",
     "bootleg": "要検討",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -960,7 +1115,9 @@
     "phase": "V2.0.1 残 44",
     "group": "雑貨 H",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -975,7 +1132,9 @@
     "phase": "V2.0.1 残 44",
     "group": "雑貨 H",
     "bootleg": "要検討",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -990,7 +1149,9 @@
     "phase": "V2.0.1 残 44",
     "group": "雑貨 H",
     "bootleg": "要検討",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -1005,7 +1166,9 @@
     "phase": "V2.0.1 残 44",
     "group": "雑貨 H",
     "bootleg": "不要",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/SNOWGLOBE-V2.0.1-RESTRUCTURE.md",
@@ -1020,7 +1183,9 @@
     "phase": "V2.0.1 残 44",
     "group": "模型 I",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -1035,7 +1200,10 @@
     "phase": "V2.0.1 残 44",
     "group": "模型 I",
     "bootleg": "MUST",
-    "dependencies": ["F-tokei-v11-reference", "F-v201-38-rc-model"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-v201-38-rc-model"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -1050,7 +1218,10 @@
     "phase": "V2.0.1 残 44",
     "group": "アート F",
     "bootleg": "要検討",
-    "dependencies": ["F-tokei-v11-reference", "F-nihonningyo-v2-restructure"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-nihonningyo-v2-restructure"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -1065,7 +1236,9 @@
     "phase": "V2.0.1 残 44",
     "group": "雑貨 H",
     "bootleg": "要検討",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -1080,7 +1253,9 @@
     "phase": "V2.0.1 残 44",
     "group": "日本伝統 E",
     "bootleg": "不要",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/KNIFE-V2.0.1-RESTRUCTURE.md",
@@ -1095,7 +1270,9 @@
     "phase": "V2.0.1 残 44",
     "group": "スポーツ J",
     "bootleg": "要検討",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -1110,13 +1287,14 @@
     "phase": "V2.0.1 残 44",
     "group": "汎用 Z",
     "bootleg": "要検討",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/GENERAL-V2.0.1-RESTRUCTURE.md",
     "notes": "commit 3811244。F-general-v201 と同一。参照エントリ。Master plan 最終カテゴリ（他の設計参考）"
   },
-
   {
     "id": "F-gakki-v201",
     "name": "楽器 V2.0.1 — Phase 1B 完遂済み",
@@ -1126,7 +1304,9 @@
     "phase": "V2.0.1 追加",
     "group": "楽器",
     "bootleg": "不要（C0 確認済み）",
-    "dependencies": ["F-tokei-v11-reference"],
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -1141,7 +1321,10 @@
     "phase": "V2.0.1 追加",
     "group": "楽器",
     "bootleg": "不要（C0 確認済み）",
-    "dependencies": ["F-tokei-v11-reference", "F-gakki-v201"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-gakki-v201"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -1156,7 +1339,10 @@
     "phase": "V2.0.1 追加",
     "group": "楽器",
     "bootleg": "不要（C0 確認済み）",
-    "dependencies": ["F-tokei-v11-reference", "F-gakki-v201"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-gakki-v201"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -1171,7 +1357,10 @@
     "phase": "V2.0.1 追加",
     "group": "釣具",
     "bootleg": "要検討（C0 時に判定）",
-    "dependencies": ["F-tokei-v11-reference", "F-fishingrod-v201"],
+    "dependencies": [
+      "F-tokei-v11-reference",
+      "F-fishingrod-v201"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
@@ -1186,13 +1375,14 @@
     "phase": "V2.0.1 後",
     "group": "横断タスク",
     "bootleg": "不要",
-    "dependencies": ["F-v201-44-general"],
+    "dependencies": [
+      "F-v201-44-general"
+    ],
     "created_at": "2026-04-20T00:00:00+09:00",
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
     "notes": "prompt file: prompts/タイトル並べ替え.txt。Master plan 外の横断タスク。44カテゴリ全完遂後に設計。"
   },
-
   {
     "id": "F-feature-json-setup",
     "name": "feature.json 整備 (234258 宿題)",
