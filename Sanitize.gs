@@ -77,6 +77,22 @@ var SANITIZE_FIELDS_ = {
   'PC Peripherals': [
     'ブランド', 'モデル名', 'タイプ', '接続方式', '対応機種', '色',
     '特徴', '製造国', '電源', '付属品', 'コンディション', '故障・不具合'
+  ],
+  'Laptops': [
+    'ブランド', 'モデル名', 'タイプ', 'シリーズ', 'プロセッサ', 'プロセッサ速度',
+    'メモリ容量', 'SSD容量', 'HDD容量', 'ストレージ種別', 'OS', '画面サイズ',
+    '画面解像度', 'グラフィックス種別', 'GPU', '色', '接続方式',
+    '製造年', '付属品', 'コンディション', '故障・不具合'
+  ],
+  'Desktops': [
+    'ブランド', 'モデル名', 'タイプ', 'プロセッサ', 'メモリ容量', 'SSD容量',
+    'HDD容量', 'OS', 'フォームファクター', 'GPU', '色', '接続方式',
+    '製造年', '付属品', 'コンディション', '故障・不具合'
+  ],
+  'Tablets': [
+    'ブランド', 'モデル名', 'ストレージ容量', 'OS', '画面サイズ',
+    'インターネット接続', '色', 'メモリ容量', 'プロセッサ', 'バッテリー時間',
+    '接続方式', '製造年', '付属品', 'コンディション', '故障・不具合'
   ]
   ,
   // 追加: 簡易カテゴリ（game/reel）
@@ -565,6 +581,50 @@ var CATEGORY_RULES_ = {
       '- 付属品: 記載された付属品をそのまま保持',
       '- コンディション: 新品/美品/中古/訳あり等。ソース記載を優先',
       '- [EN]セクション: Type/Brand/Connectivity/Compatibility は英語で出力'
+    ]
+  },
+  'Laptops': {
+    label: 'ノートパソコン',
+    rules: [
+      '- ブランド: Apple/Lenovo/Dell/HP/ASUS/VAIO/Panasonic/Fujitsu/NEC/dynabook/Acer/Microsoft 等。ソース記載を優先。',
+      '- モデル名: 型番や製品名をそのまま保持。例: MacBook Pro 14, ThinkPad X1 Carbon, Let\'s note CF-SV。',
+      '- タイプ: ノートパソコン/ラップトップ/ウルトラブック/ネットブック/2-in-1 のいずれかで記入。',
+      '- プロセッサ: Intel Core i3/i5/i7/i9, Apple M1/M2/M3/M4, AMD Ryzen, Celeron, Pentium 等をそのまま保持。',
+      '- メモリ容量/SSD容量/HDD容量: 数値+単位で記入（例: 16GB, 512GB, 1TB）。不明ならNA。',
+      '- ストレージ種別: SSD/HDD/eMMC/Hybrid のいずれか。両方ある場合は主ストレージを優先。',
+      '- OS: Windows 11/Windows 10/macOS/Chrome OS/Linux 等を英語で保持。',
+      '- 画面サイズ/画面解像度: 記載があれば保持。例: 13.3インチ, 1920x1080, WQXGA。',
+      '- グラフィックス種別: 内蔵/専用 → Integrated / Dedicated として英語化。',
+      '- GPU: Intel Iris Xe / RTX 4060 / Radeon Graphics 等をそのまま保持。',
+      '- 接続方式: Wi-Fi/Bluetooth/USB-C/HDMI/Thunderbolt 等。記載分のみ。',
+      '- [EN]セクションでは: Type は Notebook/Laptop / Ultrabook / Netbook / 2-in-1。Storage Type は SSD/HDD/eMMC/Hybrid。Graphics Processing Type は Integrated / Dedicated。'
+    ]
+  },
+  'Desktops': {
+    label: 'デスクトップパソコン',
+    rules: [
+      '- ブランド: Apple/Lenovo/Dell/HP/ASUS/Acer/MSI/Alienware/NEC/Fujitsu 等。ソース記載を優先。',
+      '- モデル名: 型番や製品ラインをそのまま保持。例: iMac 24, OptiPlex 7090, ThinkCentre M75q。',
+      '- タイプ: デスクトップ/一体型/ミニPC/タワー/ワークステーション のいずれかで記入。',
+      '- プロセッサ/メモリ容量/SSD容量/HDD容量: 数値や型番をそのまま保持。推測禁止。',
+      '- OS: Windows 11/Windows 10/macOS/Linux 等を英語で保持。',
+      '- フォームファクター: Tower/Mini Tower/SFF/All-in-One/NUC のいずれか。不明ならNA。',
+      '- GPU: RTX 4070 / Radeon RX 7800 XT / Intel UHD 等をそのまま保持。',
+      '- 接続方式: Wi-Fi/Bluetooth/USB-C/HDMI/Ethernet/DisplayPort 等。記載分のみ。',
+      '- [EN]セクションでは: Type は Desktop / All-in-One / Mini PC / Tower / Workstation。Form Factor は Tower / Mini Tower / SFF / All-in-One / NUC。'
+    ]
+  },
+  'Tablets': {
+    label: 'タブレット',
+    rules: [
+      '- ブランド: Apple/Microsoft/Samsung/Google/Lenovo/Amazon 等。ソース記載を優先。',
+      '- モデル名: iPad Pro, iPad Air, Surface Pro 9, Galaxy Tab S9 等のモデル名を保持。',
+      '- ストレージ容量: 数値+単位で記入（例: 64GB, 128GB, 256GB）。不明ならNA。',
+      '- OS: iPadOS/iOS/Android/Windows のいずれかで記入。',
+      '- 画面サイズ: 記載があれば保持。例: 10.9インチ, 12.9インチ。',
+      '- インターネット接続: Wi-Fi / Wi-Fi + 4G / Wi-Fi + 5G。セルラー/SIM/LTE 記載があれば反映。',
+      '- メモリ容量/プロセッサ/バッテリー時間/接続方式: 記載があれば保持、なければNA。',
+      '- [EN]セクションでは: Internet Connectivity は Wi-Fi / Wi-Fi + 4G / Wi-Fi + 5G。OS は iPadOS / iOS / Android / Windows。Type は Tablet として扱う。'
     ]
   },
   'Watches': {
@@ -1744,23 +1804,49 @@ function buildDefaultSanitizePrompt_(category) {
  * D列タグからISカテゴリ名を判定する
  * IS_TAG_TO_CATEGORY（Config_IS.gs）を参照し、64カテゴリ全てに対応
  * @param {string} tag - D列のタグ文字列
+ * @param {string=} title - J列タイトル
+ * @param {string=} description - K列説明文
  * @return {string|null} ISカテゴリ名（'Watches', 'Cameras'等）。該当なしはnull
  */
-function detectSanitizeCategory_(tag) {
+function detectSanitizeCategory_(tag, title, description) {
   if (!tag) return null;
   var t = tag.toString().trim();
   if (!t) return null;
 
+  if (t.indexOf('パソコン本体') !== -1) {
+    return detectComputerSanitizeCategory_(title, description);
+  }
+
   // IS_TAG_TO_CATEGORYで完全一致
-  if (IS_TAG_TO_CATEGORY[t]) return IS_TAG_TO_CATEGORY[t];
+  if (IS_TAG_TO_CATEGORY[t]) {
+    var category = IS_TAG_TO_CATEGORY[t];
+    return category === 'Computers' ? detectComputerSanitizeCategory_(title, description) : category;
+  }
 
   // 部分一致フォールバック（長いキーワードから順にマッチ）
   var keys = Object.keys(IS_TAG_TO_CATEGORY);
   keys.sort(function(a, b) { return b.length - a.length; });
   for (var i = 0; i < keys.length; i++) {
-    if (t.indexOf(keys[i]) !== -1) return IS_TAG_TO_CATEGORY[keys[i]];
+    if (t.indexOf(keys[i]) !== -1) {
+      var partialCategory = IS_TAG_TO_CATEGORY[keys[i]];
+      return partialCategory === 'Computers' ? detectComputerSanitizeCategory_(title, description) : partialCategory;
+    }
   }
   return null;
+}
+
+function detectComputerSanitizeCategory_(title, description) {
+  var source = String(title || '') + ' ' + String(description || '');
+  if (/(ipad|アイパッド|tablet|タブレット|surface\s*(pro|go)|android\s*tablet|galaxy\s*tab|fire\s*hd|kindle\s*(fire|tablet))/i.test(source)) {
+    return 'Tablets';
+  }
+  if (/(desktop|デスクトップ|デスクトップpc|デスクトップパソコン|imac|mac\s*mini|mac\s*pro|nuc|ミニpc|ミニパソコン|スティックpc|一体型pc|オールインワン|all[\s-]?in[\s-]?one|tower|タワー|workstation|ワークステーション|自作pc|bto|gaming\s*pc|ゲーミングpc)/i.test(source)) {
+    return 'Desktops';
+  }
+  if (/(ノートパソコン|ノートpc|ラップトップ|ノート型pc|macbook|thinkpad|thinkbook|surface\s*laptop|surface\s*book|chromebook|クロームブック|レッツノート|vaio|バイオ|dynabook|ダイナブック|lifebook|lavie|ultrabook|netbook|notebook|laptop|2[\s-]?in[\s-]?1|モバイルpc|ビジネスノート|let'?s\s*note)/i.test(source)) {
+    return 'Laptops';
+  }
+  return 'Laptops';
 }
 
 
@@ -1856,7 +1942,7 @@ function runSanitizeSelectedRows() {
     if (backupDesc) continue;
 
     var tag = String(allData[i][CONFIG.COLUMNS.TAG - 1] || '');
-    var category = detectSanitizeCategory_(tag);
+    var category = detectSanitizeCategory_(tag, jpTitle, jpDesc);
     if (!category) {
       skippedRows.push({ row: startRow + i, tag: tag || 'タグなし' });
       continue;

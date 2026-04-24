@@ -167,6 +167,7 @@ function runStep1Basic_(sheet, rows) {
       // カテゴリ不明 → Brand, Type, Country の3つだけ出力
       category = '_default';
     }
+    category = resolveDynamicCategory_(category, tag, title, description);
 
     // 2. カテゴリ別フィールドリスト取得
     var fields = IS_CATEGORY_FIELDS[category];
@@ -176,6 +177,9 @@ function runStep1Basic_(sheet, rows) {
 
     // 3. Brand情報を先に取得（複数フィールドで使うため）
     var brandInfo = matchBrandFromTitle_(title, category);
+    if (!brandInfo && isComputerCategory_(category, tag)) {
+      brandInfo = matchComputerBrandFromText_(title + ' ' + (description || ''));
+    }
 
     // 4. 各フィールドを順番に埋める
     var data = {};
@@ -212,6 +216,117 @@ function matchCategoryFromTag_(tag) {
     }
   }
   return '';
+}
+
+function isComputerCategory_(category, tag) {
+  if (category === 'Computers' || category === 'Laptops' || category === 'Desktops' || category === 'Tablets') {
+    return true;
+  }
+  var tagText = String(tag || '');
+  return tagText.indexOf('パソコン本体') !== -1;
+}
+
+function resolveDynamicCategory_(category, tag, title, description) {
+  if (isComputerCategory_(category, tag)) {
+    return detectComputerSubType_(title, description);
+  }
+  return category;
+}
+
+function detectComputerSubType_(title, description) {
+  var source = String(title || '') + ' ' + String(description || '');
+  var lower = source.toLowerCase();
+
+  if (/(ipad|アイパッド|tablet|タブレット|surface\s*(pro|go)|android\s*tablet|galaxy\s*tab|fire\s*hd|kindle\s*(fire|tablet))/i.test(source)) {
+    return 'Tablets';
+  }
+  if (/(desktop|デスクトップ|デスクトップpc|デスクトップパソコン|imac|mac\s*mini|mac\s*pro|nuc|ミニpc|ミニパソコン|スティックpc|一体型pc|オールインワン|all[\s-]?in[\s-]?one|tower|タワー|workstation|ワークステーション|自作pc|bto|gaming\s*pc|ゲーミングpc)/i.test(source)) {
+    return 'Desktops';
+  }
+  if (/(ノートパソコン|ノートpc|ラップトップ|ノート型pc|macbook|thinkpad|thinkbook|surface\s*laptop|surface\s*book|chromebook|クロームブック|レッツノート|vaio|バイオ|dynabook|ダイナブック|lifebook|lavie|ultrabook|netbook|notebook|laptop|2[\s-]?in[\s-]?1|モバイルpc|ビジネスノート|let'?s\s*note)/i.test(source)) {
+    return 'Laptops';
+  }
+
+  // 最頻出のノートPCをデフォルトにする
+  if (/surface/i.test(lower) && !/surface\s*(pro|go)/i.test(source)) {
+    return 'Laptops';
+  }
+  return 'Laptops';
+}
+
+function matchComputerBrandFromText_(text) {
+  if (!text) return null;
+  var source = text.toString();
+  var lower = source.toLowerCase();
+  var patterns = [
+    { name: 'Alienware', country: 'United States', keywords: ['alienware'] },
+    { name: 'dynabook', country: 'Japan', keywords: ['dynabook', 'ダイナブック'] },
+    { name: 'VAIO', country: 'Japan', keywords: ['vaio', 'バイオ'] },
+    { name: 'Apple', country: 'United States', keywords: ['apple', 'アップル', 'macbook', 'imac', 'mac mini', 'mac pro', 'ipad'] },
+    { name: 'Lenovo', country: 'China', keywords: ['lenovo', 'レノボ', 'thinkpad', 'thinkbook', 'ideapad', 'yoga', 'legion'] },
+    { name: 'Dell', country: 'United States', keywords: ['dell', 'デル', 'latitude', 'xps', 'inspiron', 'vostro', 'precision', 'optiplex'] },
+    { name: 'HP', country: 'United States', keywords: ['hp', 'hewlett packard', 'ヒューレットパッカード', 'elitebook', 'probook', 'spectre', 'envy', 'pavilion', 'omen'] },
+    { name: 'ASUS', country: 'Taiwan', keywords: ['asus', 'エイスース', 'zenbook', 'vivobook', 'rog'] },
+    { name: 'Acer', country: 'Taiwan', keywords: ['acer', 'エイサー', 'aspire', 'swift', 'predator'] },
+    { name: 'Microsoft', country: 'United States', keywords: ['microsoft', 'マイクロソフト', 'surface laptop', 'surface book', 'surface pro', 'surface go', 'surface'] },
+    { name: 'Panasonic', country: 'Japan', keywords: ['panasonic', 'パナソニック', 'レッツノート', "let's note", 'lets note'] },
+    { name: 'Fujitsu', country: 'Japan', keywords: ['fujitsu', '富士通', 'lifebook'] },
+    { name: 'NEC', country: 'Japan', keywords: ['nec', 'lavie'] },
+    { name: 'Toshiba', country: 'Japan', keywords: ['toshiba', '東芝'] },
+    { name: 'Samsung', country: 'South Korea', keywords: ['samsung', 'サムスン', 'galaxy tab'] },
+    { name: 'Sony', country: 'Japan', keywords: ['sony', 'ソニー'] },
+    { name: 'LG', country: 'South Korea', keywords: ['lg'] },
+    { name: 'MSI', country: 'Taiwan', keywords: ['msi'] },
+    { name: 'Razer', country: 'United States', keywords: ['razer'] },
+    { name: 'Intel', country: 'United States', keywords: ['intel', 'nuc'] },
+    { name: 'Google', country: 'United States', keywords: ['google', 'pixelbook'] }
+  ];
+  var best = null;
+  var bestLen = 0;
+
+  for (var i = 0; i < patterns.length; i++) {
+    var entry = patterns[i];
+    for (var j = 0; j < entry.keywords.length; j++) {
+      var kw = entry.keywords[j];
+      var kwLower = kw.toLowerCase();
+      var pos = lower.indexOf(kwLower);
+      if (pos === -1) continue;
+      if (/^[a-z0-9 .+-]+$/.test(kwLower) && !isWordBoundaryMatch_(lower, kwLower, pos)) continue;
+      if (kw.length > bestLen) {
+        best = { name: entry.name, country: entry.country };
+        bestLen = kw.length;
+      }
+    }
+  }
+  return best;
+}
+
+function matchComputerType_(title, description, category) {
+  var source = String(title || '') + ' ' + String(description || '');
+  if (category === 'Tablets') return 'Tablet';
+  if (category === 'Desktops') {
+    if (/(all[\s-]?in[\s-]?one|一体型|オールインワン|imac)/i.test(source)) return 'All-in-One';
+    if (/(mini\s*pc|mac\s*mini|nuc|ミニpc|ミニパソコン|スティックpc)/i.test(source)) return 'Mini PC';
+    if (/(workstation|ワークステーション)/i.test(source)) return 'Workstation';
+    if (/(tower|タワー)/i.test(source)) return 'Tower';
+    return 'Desktop';
+  }
+  if (/(2[\s-]?in[\s-]?1|コンバーチブル)/i.test(source)) return '2-in-1';
+  if (/(ultrabook|ウルトラブック)/i.test(source)) return 'Ultrabook';
+  if (/(netbook|ネットブック)/i.test(source)) return 'Netbook';
+  if (/(subnotebook|ultraportable)/i.test(source)) return 'Subnotebook/Ultraportable';
+  return 'Notebook/Laptop';
+}
+
+function matchComputerCondition_(title, description) {
+  var source = String(title || '') + ' ' + String(description || '');
+  if (/(ジャンク|junk|部品取り|for parts|not working|動作不良|不動|故障|難あり)/i.test(source)) {
+    return 'For parts or not working';
+  }
+  if (/(新品|未使用|未開封|new|brand new|factory sealed)/i.test(source)) {
+    return 'New';
+  }
+  return 'Used';
 }
 
 // フィールド名に応じた値を解決
@@ -264,6 +379,9 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       }
       return '';
     case 'Brand':
+      if (!brandInfo && isComputerCategory_(category, tag)) {
+        brandInfo = matchComputerBrandFromText_(title + ' ' + (description || ''));
+      }
       return brandInfo ? brandInfo.name : '';
     case 'Designer':
       return matchDesignerFromTitle_(title, brandInfo ? brandInfo.name : '');
@@ -275,6 +393,9 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
         if (frCountry) return frCountry.country;
         return brandInfo ? brandInfo.country : 'Japan';
       }
+      if (!brandInfo && isComputerCategory_(category, tag)) {
+        brandInfo = matchComputerBrandFromText_(title + ' ' + (description || ''));
+      }
       return brandInfo ? brandInfo.country : '';
     case 'Model':
       var model = brandInfo && brandInfo.sub_brand ? brandInfo.sub_brand : '';
@@ -285,6 +406,9 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
       }
       return model;
     case 'Type':
+      if (isComputerCategory_(category, tag)) {
+        return matchComputerType_(title, description, category);
+      }
       return matchTypeFromTag_(tag);
     // === Video Games fields ===
     case 'Platform':
@@ -334,6 +458,11 @@ function resolveFieldValue_(fieldName, tag, title, brandInfo, category, descript
     case 'Exterior Color':
     case 'Dial Color':
       return matchAllColors_(title);
+    case 'Condition':
+      if (isComputerCategory_(category, tag)) {
+        return matchComputerCondition_(title, description);
+      }
+      return '';
     case 'Features':
       if (category === 'Trading Cards') return 'Collectors Edition';
       if (category === 'Figures') return 'Collectors Edition';
@@ -1345,6 +1474,10 @@ function extractSelectedRows() {
         if (dict && typeof getCategoryByTag === 'function' && tag) {
           category = getCategoryByTag(tag, dict);
         }
+        if (!category && tag) {
+          category = matchCategoryFromTag_(tag);
+        }
+        category = resolveDynamicCategory_(category, tag, title, desc);
         if (category && typeof getFieldsForCategory === 'function') {
           fields = getFieldsForCategory(category, dict) || [];
         }
@@ -1458,6 +1591,10 @@ function extractAllRows() {
         if (dict && typeof getCategoryByTag === 'function' && tag) {
           category = getCategoryByTag(tag, dict);
         }
+        if (!category && tag) {
+          category = matchCategoryFromTag_(tag);
+        }
+        category = resolveDynamicCategory_(category, tag, title, desc);
         if (category && typeof getFieldsForCategory === 'function') {
           fields = getFieldsForCategory(category, dict) || [];
         }

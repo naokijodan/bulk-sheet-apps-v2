@@ -1,0 +1,216 @@
+# PC BODY (COMPUTERS) - Translation Rules
+
+## GOALS
+- Convert Japanese computer listings to English eBay-optimized titles
+- Detect the correct subtype from the source: Laptop / Desktop / Tablet
+- Extract subtype-specific Item Specifics without padding or invention
+- Preserve accessories, defects, missing parts, and working status exactly as stated
+
+## ABSOLUTE RULES (MUST NOT)
+- TRUTH FIRST: Do not fabricate any specification, accessory, condition, grade, or model detail
+- NO PADDING (Category A): Do not add Authentic / Genuine / Original / Verified / Premium unless source explicitly states it
+- NO PADDING (Category B): New / Sealed / Working / Tested / Refurbished / Upgraded only when source confirms it
+- NO PADDING (Category C): Descriptive facts are allowed only when they are supported by the source text
+- SOURCE-ONLY: Every output detail must trace to the Japanese source
+- NO CJK: English output only in the final result, ASCII only
+- DEFECT FIRST: If the source says junk, broken, missing parts, battery issue, screen issue, or activation lock, keep it
+- DO NOT FORCE FIELDS: Missing information should stay NA rather than guessed
+
+## LEGITIMATE KEYWORDS (only if in source)
+- New / Unused / Open Box / Used
+- Tested / Working / Fully Working
+- For parts or not working / Junk
+- SSD upgraded / RAM upgraded / Battery replaced
+- Japanese Layout (JIS) / US Layout (ANSI)
+- Japan Import / Japanese Market
+- Wi-Fi / Wi-Fi + 4G / Wi-Fi + 5G / Cellular
+- Touchscreen / Backlit Keyboard / Webcam / Fingerprint Reader
+
+## RECOMMENDED FIELDS (use when present in source, skip otherwise)
+- Brand
+- Model
+- Type
+- Series
+- Processor
+- Processor Speed
+- RAM Size
+- SSD Capacity
+- Hard Drive Capacity
+- Storage Type
+- Operating System
+- Screen Size
+- Screen Resolution
+- Graphics Processing Type
+- GPU
+- Form Factor
+- Storage Capacity
+- Internet Connectivity
+- Battery Run Time
+- Color
+- Connectivity
+- Year Manufactured
+- Condition
+
+## TYPE DETECTION (routes IS output)
+- ノートパソコン / ノートPC / ラップトップ / MacBook / ThinkPad / Chromebook / Lets note / VAIO / dynabook / LIFEBOOK / LAVIE / Ultrabook -> Type: Laptop
+- デスクトップ / デスクトップPC / iMac / Mac mini / Mac Pro / NUC / ミニPC / 一体型PC / オールインワン / ゲーミングPC / 自作PC / BTO -> Type: Desktop
+- タブレット / iPad / iPad Pro / iPad Air / iPad mini / Surface Pro / Surface Go / Android tablet / Galaxy Tab -> Type: Tablet
+- If subtype is unclear, prefer the most conservative source-based choice. Do not force Desktop or Tablet without evidence.
+
+## SUBTYPE FIELD PRIORITY
+
+### Laptop
+- Brand / Model / Type / Series
+- Processor / Processor Speed / RAM Size
+- SSD Capacity / Hard Drive Capacity / Storage Type
+- Operating System / Screen Size / Screen Resolution
+- Graphics Processing Type / GPU / Color / Connectivity / Year Manufactured
+
+### Desktop
+- Brand / Model / Type
+- Processor / RAM Size / SSD Capacity / Hard Drive Capacity
+- Operating System / Form Factor / GPU
+- Color / Connectivity / Year Manufactured
+
+### Tablet
+- Brand / Model / Storage Capacity / Operating System
+- Screen Size / Internet Connectivity / Color
+- RAM Size / Processor / Battery Run Time / Connectivity / Year Manufactured
+
+## TRANSLATION DICTIONARY (if present in source)
+- パソコン本体 -> Computer
+- ノートパソコン -> Laptop
+- ノートPC -> Laptop
+- ラップトップ -> Laptop
+- デスクトップパソコン -> Desktop
+- 一体型PC -> All-in-One PC
+- ミニPC -> Mini PC
+- タブレット -> Tablet
+- 日本語配列 -> Japanese Layout (JIS)
+- 英語配列 -> US Layout (ANSI)
+- 国内版 -> Japanese Market
+- 海外版 -> International Version
+- メモリ -> RAM
+- ストレージ -> Storage
+- 画面 -> Screen
+- 解像度 -> Resolution
+- バッテリー駆動時間 -> Battery Run Time
+- 接続方式 -> Connectivity
+- セルラー -> Cellular
+- SIMフリー -> Unlocked
+- ジャンク -> For parts or not working
+- 動作品 -> Working
+- 初期化済み -> Reset
+- アクティベーションロック -> Activation Lock
+
+## BRAND TRANSLATION
+- Apple -> Apple
+- Lenovo / レノボ -> Lenovo
+- Dell / デル -> Dell
+- HP / ヒューレットパッカード -> HP
+- ASUS / エイスース -> ASUS
+- Acer / エイサー -> Acer
+- Microsoft / マイクロソフト -> Microsoft
+- Sony / ソニー -> Sony
+- VAIO / バイオ -> VAIO
+- Panasonic / パナソニック -> Panasonic
+- Fujitsu / 富士通 -> Fujitsu
+- NEC -> NEC
+- Toshiba / 東芝 -> Toshiba
+- dynabook / ダイナブック -> dynabook
+- LG -> LG
+- Samsung / サムスン -> Samsung
+- MSI -> MSI
+- Razer -> Razer
+- Alienware -> Alienware
+- Intel -> Intel
+- Google -> Google
+
+## PROCESSOR TRANSLATION
+- Intel Core i3 / i5 / i7 / i9 -> keep as-is
+- Apple M1 / M2 / M3 / M4 -> keep as-is
+- AMD Ryzen -> keep as-is
+- Intel Celeron -> keep as-is
+- Intel Pentium -> keep as-is
+- Intel Atom -> keep as-is
+- Snapdragon -> keep as-is
+
+## STORAGE / OS NORMALIZATION
+- SSD / NVMe SSD / PCIe SSD -> SSD
+- HDD / Hard Disk -> Hard Drive Capacity field
+- eMMC -> eMMC
+- SSD + HDD -> keep both capacities if source states both
+- Windows11 / Win11 -> Windows 11
+- Windows10 / Win10 -> Windows 10
+- macOS Sonoma / Ventura / Monterey -> keep as-is
+- ChromeOS -> Chrome OS
+- iPadOS -> iPadOS
+- Android -> Android
+
+## TITLE COMPOSITION GUIDANCE (examples, not mandatory)
+- Compose naturally from the strongest source-backed details
+- Prefer Brand + Model + subtype-relevant specs + condition cue when space allows
+- Do not follow a rigid title formula if the source is sparse
+- Skip missing fields instead of padding
+- Keep subtype identity clear early in the title when helpful
+
+Examples:
+- Apple MacBook Pro 14 M3 Pro 18GB 512GB SSD Japanese Keyboard
+- Dell OptiPlex 7090 Desktop i7 16GB 512GB SSD Windows 11 Used
+- Apple iPad Pro 12.9 256GB Wi-Fi Space Gray iPadOS Used
+- Panasonic Lets note CF-SV8 i5 8GB 256GB SSD Laptop Junk
+
+## DESCRIPTION RULES
+- Single paragraph only
+- ASCII only
+- Keep it factual and compact
+- Mention accessories only when present in source
+- Mention defects clearly when present in source
+- Do not claim battery health, exact benchmark, release year, or upgrade history without evidence
+
+## OUTPUT FORMAT
+Title: <80 chars max, ASCII only>
+Description: <480 chars max, single paragraph, ASCII only, source-only>
+Type: <Laptop / Desktop / Tablet>
+Brand: <value or NA>
+Model: <value or NA>
+Series: <value or NA>
+Processor: <value or NA>
+Processor Speed: <value or NA>
+RAM Size: <value or NA>
+SSD Capacity: <value or NA>
+Hard Drive Capacity: <value or NA>
+Storage Type: <value or NA>
+Operating System: <value or NA>
+Screen Size: <value or NA>
+Screen Resolution: <value or NA>
+Graphics Processing Type: <value or NA>
+GPU: <value or NA>
+Form Factor: <value or NA>
+Storage Capacity: <value or NA>
+Internet Connectivity: <value or NA>
+Battery Run Time: <value or NA>
+Color: <value or NA>
+Connectivity: <value or NA>
+Year Manufactured: <value or NA>
+Condition: <value>
+
+## VERIFICATION
+1. Title is ASCII only
+2. Title length is 80 chars or less
+3. Output uses English only
+4. Type matches the source keywords
+5. No fabricated CPU, RAM, storage, screen size, OS, or year
+6. Condition reflects the source truthfully
+7. Junk / locked / broken / missing parts are not omitted
+8. Japanese keyboard is mentioned only when source states it
+9. Cellular / 4G / 5G is mentioned only when source states it
+10. Description is one paragraph and source-only
+
+## REMINDER
+- Short truthful titles are better than long padded titles
+- Model names and capacities should be copied exactly when the source gives them
+- If the item is for parts, say so plainly
+- Use subtype-specific fields, but do not fill fields that the source does not support
+
+Input: ${fullText}

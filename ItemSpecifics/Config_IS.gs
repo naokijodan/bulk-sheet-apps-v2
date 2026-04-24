@@ -103,6 +103,58 @@ var IS_INITIAL_DATA = [
   { category: 'PC Peripherals', tag_jp: 'パソコン周辺機器', field_name: 'Power Source',      field_type: 'optional',    priority: 9,  notes: '' },
   { category: 'PC Peripherals', tag_jp: 'パソコン周辺機器', field_name: 'Condition',         field_type: 'required',    priority: 10, notes: '' },
 
+  // === Computers: Laptops ===
+  { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'Brand',                    field_type: 'required',    priority: 1,  notes: 'Apple/Lenovo/Dell/HP/ASUS/VAIO/Panasonic/Fujitsu/NEC/dynabook等' },
+  { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'Model',                    field_type: 'required',    priority: 2,  notes: 'MacBook Pro 14 / ThinkPad X1 Carbon / VAIO SX14等の型番・モデル名' },
+  { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'Type',                     field_type: 'required',    priority: 3,  notes: 'Notebook/Laptop / Ultrabook / Netbook / 2-in-1' },
+  { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'Series',                   field_type: 'recommended', priority: 4,  notes: 'ThinkPad / Latitude / Inspiron / MacBook Air等' },
+  { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'Processor',                field_type: 'recommended', priority: 5,  notes: 'Intel Core i5 / Apple M2 / AMD Ryzen 7等' },
+  { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'Processor Speed',          field_type: 'optional',    priority: 6,  notes: '例: 2.6 GHz' },
+  { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'RAM Size',                 field_type: 'recommended', priority: 7,  notes: '例: 8 GB / 16 GB' },
+  { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'SSD Capacity',             field_type: 'recommended', priority: 8,  notes: '例: 256 GB / 512 GB / 1 TB' },
+  { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'Hard Drive Capacity',      field_type: 'optional',    priority: 9,  notes: 'HDD搭載時のみ' },
+  { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'Storage Type',             field_type: 'optional',    priority: 10, notes: 'SSD / HDD / eMMC / Hybrid' },
+  { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'Operating System',         field_type: 'recommended', priority: 11, notes: 'Windows 11 / macOS Sonoma / Chrome OS等' },
+  { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'Screen Size',              field_type: 'recommended', priority: 12, notes: '例: 13.3 in / 14 in / 15.6 in' },
+  { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'Screen Resolution',        field_type: 'optional',    priority: 13, notes: 'Full HD / 2560x1600 / 4K等' },
+  { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'Graphics Processing Type', field_type: 'optional',    priority: 14, notes: 'Integrated / Dedicated' },
+  { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'GPU',                      field_type: 'optional',    priority: 15, notes: 'Intel Iris Xe / RTX 4060等' },
+  { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'Color',                    field_type: 'optional',    priority: 16, notes: '' },
+  { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'Connectivity',             field_type: 'optional',    priority: 17, notes: 'Wi-Fi / Bluetooth / USB-C / HDMI等' },
+  { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'Year Manufactured',        field_type: 'optional',    priority: 18, notes: '西暦4桁' },
+  { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'Condition',                field_type: 'required',    priority: 19, notes: 'New / Used / For parts or not working' },
+
+  // === Computers: Desktops ===
+  { category: 'Desktops', tag_jp: 'パソコン本体', field_name: 'Brand',               field_type: 'required',    priority: 1,  notes: 'Apple/Lenovo/Dell/HP/ASUS/Acer/MSI/Alienware/NEC/Fujitsu等' },
+  { category: 'Desktops', tag_jp: 'パソコン本体', field_name: 'Model',               field_type: 'required',    priority: 2,  notes: 'iMac / OptiPlex / ThinkCentre / Legion等のモデル名' },
+  { category: 'Desktops', tag_jp: 'パソコン本体', field_name: 'Type',                field_type: 'required',    priority: 3,  notes: 'Desktop / All-in-One / Mini PC / Tower / Workstation' },
+  { category: 'Desktops', tag_jp: 'パソコン本体', field_name: 'Processor',           field_type: 'recommended', priority: 4,  notes: 'Intel Core i7 / Apple M4 / AMD Ryzen 9等' },
+  { category: 'Desktops', tag_jp: 'パソコン本体', field_name: 'RAM Size',            field_type: 'recommended', priority: 5,  notes: '例: 16 GB / 32 GB' },
+  { category: 'Desktops', tag_jp: 'パソコン本体', field_name: 'SSD Capacity',        field_type: 'recommended', priority: 6,  notes: '例: 512 GB / 1 TB' },
+  { category: 'Desktops', tag_jp: 'パソコン本体', field_name: 'Hard Drive Capacity', field_type: 'optional',    priority: 7,  notes: 'HDD搭載時のみ' },
+  { category: 'Desktops', tag_jp: 'パソコン本体', field_name: 'Operating System',    field_type: 'recommended', priority: 8,  notes: 'Windows 11 / macOS / Linux等' },
+  { category: 'Desktops', tag_jp: 'パソコン本体', field_name: 'Form Factor',         field_type: 'optional',    priority: 9,  notes: 'Tower / Mini Tower / SFF / All-in-One / NUC' },
+  { category: 'Desktops', tag_jp: 'パソコン本体', field_name: 'GPU',                 field_type: 'optional',    priority: 10, notes: 'RTX 4070 / Radeon RX 7800 XT等' },
+  { category: 'Desktops', tag_jp: 'パソコン本体', field_name: 'Color',               field_type: 'optional',    priority: 11, notes: '' },
+  { category: 'Desktops', tag_jp: 'パソコン本体', field_name: 'Connectivity',        field_type: 'optional',    priority: 12, notes: 'Wi-Fi / Bluetooth / USB-C / HDMI / Ethernet等' },
+  { category: 'Desktops', tag_jp: 'パソコン本体', field_name: 'Year Manufactured',   field_type: 'optional',    priority: 13, notes: '西暦4桁' },
+  { category: 'Desktops', tag_jp: 'パソコン本体', field_name: 'Condition',           field_type: 'required',    priority: 14, notes: 'New / Used / For parts or not working' },
+
+  // === Computers: Tablets ===
+  { category: 'Tablets', tag_jp: 'パソコン本体', field_name: 'Brand',                 field_type: 'required',    priority: 1,  notes: 'Apple/Microsoft/Samsung/Google/Lenovo/Amazon等' },
+  { category: 'Tablets', tag_jp: 'パソコン本体', field_name: 'Model',                 field_type: 'required',    priority: 2,  notes: 'iPad Pro / Surface Pro 9 / Galaxy Tab S9等' },
+  { category: 'Tablets', tag_jp: 'パソコン本体', field_name: 'Storage Capacity',      field_type: 'required',    priority: 3,  notes: '例: 64 GB / 128 GB / 256 GB' },
+  { category: 'Tablets', tag_jp: 'パソコン本体', field_name: 'Operating System',      field_type: 'required',    priority: 4,  notes: 'iPadOS / Android / Windows' },
+  { category: 'Tablets', tag_jp: 'パソコン本体', field_name: 'Screen Size',           field_type: 'recommended', priority: 5,  notes: '例: 10.9 in / 12.9 in' },
+  { category: 'Tablets', tag_jp: 'パソコン本体', field_name: 'Internet Connectivity', field_type: 'recommended', priority: 6,  notes: 'Wi-Fi / Wi-Fi + 4G / Wi-Fi + 5G' },
+  { category: 'Tablets', tag_jp: 'パソコン本体', field_name: 'Color',                 field_type: 'optional',    priority: 7,  notes: '' },
+  { category: 'Tablets', tag_jp: 'パソコン本体', field_name: 'RAM Size',              field_type: 'optional',    priority: 8,  notes: '例: 8 GB / 16 GB' },
+  { category: 'Tablets', tag_jp: 'パソコン本体', field_name: 'Processor',             field_type: 'optional',    priority: 9,  notes: 'Apple M2 / Snapdragon 8 Gen 2等' },
+  { category: 'Tablets', tag_jp: 'パソコン本体', field_name: 'Battery Run Time',      field_type: 'optional',    priority: 10, notes: '例: 10 hours' },
+  { category: 'Tablets', tag_jp: 'パソコン本体', field_name: 'Connectivity',          field_type: 'optional',    priority: 11, notes: 'USB-C / Bluetooth / Wi-Fi / Cellular等' },
+  { category: 'Tablets', tag_jp: 'パソコン本体', field_name: 'Year Manufactured',     field_type: 'optional',    priority: 12, notes: '西暦4桁' },
+  { category: 'Tablets', tag_jp: 'パソコン本体', field_name: 'Condition',             field_type: 'required',    priority: 13, notes: 'New / Used / For parts or not working' },
+
   // === Rings ===
   { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Brand',             field_type: 'required',    priority:  1, notes: '' },
   { category: 'Rings', tag_jp: 'リング,指輪,リング・指輪', field_name: 'Ring Size',         field_type: 'required',    priority:  2, notes: 'USサイズで記入（例: 5 / 6.5 / 7）' },
@@ -3584,6 +3636,10 @@ function getBrandListForSanitize_(category) {
       return 'Logitech, Elecom, Sanwa, Buffalo, Anker, Razer, Corsair, SteelSeries, HyperX, Apple, Microsoft, Dell, HP, Lenovo, Seagate, Western Digital, Samsung, Kingston, Crucial';
     }
 
+    if (category === 'Laptops' || category === 'Desktops' || category === 'Tablets' || category === 'Computers') {
+      return 'Apple, Lenovo, Dell, HP, ASUS, Acer, Microsoft, Sony, VAIO, Panasonic, Fujitsu, NEC, Toshiba, dynabook, LG, Samsung, MSI, Razer, Alienware, Intel, Google';
+    }
+
     if (category === 'Board Games') {
       return '任天堂, ホビージャパン, アークライト, Hasbro, Mattel, Ravensburger, Z-Man Games, Fantasy Flight Games, Asmodee';
     }
@@ -4443,6 +4499,7 @@ IS_TAG_TO_CATEGORY['ルアーバイブレーション'] = 'Fishing Lures'; IS_TA
 IS_TAG_TO_CATEGORY['ルアータックル'] = 'Fishing Lures';
 
 IS_TAG_TO_CATEGORY['パソコン周辺機器'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['パソコン本体'] = 'Computers';
 
 // Board Games
 IS_TAG_TO_CATEGORY['将棋'] = 'Board Games'; IS_TAG_TO_CATEGORY['将棋セット'] = 'Board Games';
@@ -4880,6 +4937,58 @@ var IS_CATEGORY_FIELDS = {
     'Features',
     'Country of Origin',
     'Power Source',
+    'Condition',
+  ],
+  'Laptops': [
+    'Brand',
+    'Model',
+    'Type',
+    'Series',
+    'Processor',
+    'Processor Speed',
+    'RAM Size',
+    'SSD Capacity',
+    'Hard Drive Capacity',
+    'Storage Type',
+    'Operating System',
+    'Screen Size',
+    'Screen Resolution',
+    'Graphics Processing Type',
+    'GPU',
+    'Color',
+    'Connectivity',
+    'Year Manufactured',
+    'Condition',
+  ],
+  'Desktops': [
+    'Brand',
+    'Model',
+    'Type',
+    'Processor',
+    'RAM Size',
+    'SSD Capacity',
+    'Hard Drive Capacity',
+    'Operating System',
+    'Form Factor',
+    'GPU',
+    'Color',
+    'Connectivity',
+    'Year Manufactured',
+    'Condition',
+  ],
+  'Tablets': [
+    'Brand',
+    'Model',
+    'Storage Capacity',
+    'Operating System',
+    'Screen Size',
+    'Internet Connectivity',
+    'Color',
+    'RAM Size',
+    'Processor',
+    'Battery Run Time',
+    'Connectivity',
+    'Year Manufactured',
     'Condition',
   ],
 };
