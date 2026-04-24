@@ -163,3 +163,60 @@ eBay カテゴリ調査 → IS_TAG_TO_CATEGORY / PROMPT_TAG_MAPPING / SANITIZE_F
 - commit `e4e6f90`: だるま/招き猫 (→Japanese Dolls) + けん玉/独楽 (→Collectibles) + Board Games 新規カテゴリ + コレクティブル翻訳修正 (`===` ヘッダー削除、CONDITION TRUTH FIRST、TRADITIONAL TOYS 辞書)
 - commit `85d5c57`: ワンピースカード 案 C 実装 (プロンプト緩和 + CARD_ONEPIECE_CHARACTERS Pass1 辞書注入)
 - ポケカ 案 C 実装 (プロンプト緩和 + CHARACTERS 146+ / TRAINERS 74 の Pass1 辞書注入、version 46→47) — clasp push 済み、git push 未実施で停止
+
+---
+
+## 2026-04-24 追記: 新セッション harness-20260424-143358 で引継ぎ対応
+
+### 旧セッション (harness-20260420-132715) の成果サマリ
+
+8 commit 全て main に push 済み（2026-04-21〜2026-04-24 にかけて実施）:
+
+| commit | date | 内容 |
+|---|---|---|
+| 3956da1 | 2026-04-21 | 野球カード独立カテゴリ分離 + 翻訳プロンプト緩和 + IS 出力修正 |
+| e4e6f90 | 2026-04-21 | だるま/招き猫/けん玉/独楽/Board Games 新規対応 + Collectibles 翻訳修正 |
+| 85d5c57 | 2026-04-22 | ワンピースカード案 C 実装（プロンプト緩和 + CARD_ONEPIECE_CHARACTERS 75 Pass1 辞書注入） |
+| 42fdd5f | 2026-04-22 | ポケカ案 C 実装（プロンプト緩和 + CARD_POKEMON 220 Pass1 辞書注入）+ アビスアイ追加 |
+| 3adea49 | 2026-04-24 | パソコン周辺機器 新規カテゴリ追加（PC Peripherals） |
+| f29c72c | 2026-04-24 | パソコン本体 3 分割（Laptops/Desktops/Tablets） |
+| f7cb017 | 2026-04-24 | Translation 予防策（escapeCellFormula_ 追加、#ERROR! 根治） |
+| cd47183 | 2026-04-24 | 電子辞書・関数電卓 新規カテゴリ追加（eBay cat 94861 / 9972） |
+
+### Obsidian ノート補完完了（新セッション 2026-04-24 実施）
+
+旧セッション時点では `一括シートV3_ポケカ改修.md` 1 本のみ作成済みだった（旧 HANDOVER.md の「Obsidian ノート作成済み: 7 本」記述は誤記）。
+新セッション `harness-20260424-143358` で child-a/b/c 並列委託により残り 7 本を補完完了:
+
+- `一括シートV3_ポケカ改修.md`（既存、commit 42fdd5f）
+- `一括シートV3_野球カード改修.md`（新規、commit 3956da1）
+- `一括シートV3_カテゴリ拡張.md`（新規、commit e4e6f90）
+- `一括シートV3_ワンピースカード改修.md`（新規、commit 85d5c57）
+- `一括シートV3_パソコン周辺機器追加.md`（新規、commit 3adea49）
+- `一括シートV3_パソコン本体追加.md`（新規、commit f29c72c）
+- `一括シートV3_Translation予防策.md`（新規、commit f7cb017）
+- `一括シートV3_電子辞書・関数電卓追加.md`（新規、commit cd47183）
+
+保存先: `/Users/naokijodan/Documents/Obsidian/MyVault/ぶんせき君/開発ログ/`
+
+各ノートは親監査で PASS（対応 commit の `git show` 出力と事実整合、推測・粉飾なし、野球カード教訓反映の有無を明記）。
+
+### 現状
+
+- git HEAD: HANDOVER.md 追記 commit（本 commit）
+- clasp push 済み（Library scriptId: 1GjyV4kQPkdXbAriCCa7VvA969s3WhKuovNp8u2wixcFWT1hndh2tLQOP）
+- 椛島さんの実機動作確認待ち
+
+### 残課題
+
+- Unknown: commit cd47183 での root `PromptTemplates.gs` 同期要否（child-c 監査で発見、diff には `Library/PromptTemplates.gs` のみ含まれる）
+- eBay 実出品時の category ID 94861 / 9972（電子辞書・関数電卓）の挙動を実データで確認
+- パソコン本体: Laptops の title からのモデル番号・スペック抽出精度の実運用テスト
+- Board Games IS フィールドの網羅性検証（将棋/麻雀/囲碁/ボードゲームでフィールドが異なる可能性）
+- TRADITIONAL TOYS 辞書 10 語の拡充（山形工房以外のブランドが出た場合）
+- ワンピース辞書 75 エントリの網羅率検証
+- Baseball Cards Bulk 対応（rollback 済み、将来再設計）
+
+### 次のステップ
+
+椛島さんの実機動作確認結果をもとに次のタスクを決定。
