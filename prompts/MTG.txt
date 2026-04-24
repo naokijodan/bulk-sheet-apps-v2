@@ -4,53 +4,20 @@ GOALS
 - Analyze Japanese source ${fullText} and output an English listing optimized for eBay search.
 - OUTPUT MUST BE ASCII ONLY (A-Z a-z 0-9 spaces & / :), no CJK.
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
+- TRUTH FIRST — Source-bound, no fabrication, no padding
 
-ABSOLUTE RULES (must follow):
-1. TRUTH FIRST: Only output information present in source. Never invent, embellish, or pad.
-### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
-
-**Category A — ABSOLUTE BAN (even if factual):**
-Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
-MUST HAVE, BEST, PERFECT
-Empty superlatives: ULTIMATE, PREMIUM, LUXURY
-
-ABSOLUTE BAN — eBay rights protection (NO exceptions, even if source contains them):
-AUTHENTIC, OFFICIAL
-
-Source-transcription only (BANNED standalone, allowed ONLY when transcribing
-exact material/accessory names from source text):
-GENUINE — e.g., "Genuine Leather" (material name), "Genuine Pearl"
-ORIGINAL — e.g., "Original Box" (accessory name), "Original Packaging"
-  (Do NOT add these words yourself. Only transcribe if source contains them.)
-
-**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
-- RARE — Only if source explicitly describes rarity
-  (e.g., "limited to 500 units", "one of 100 made", "rare colorway")
-- LIMITED / LIMITED EDITION — Only if source confirms limited edition status
-  (serial number, production count, limited release marker in source text)
-- VINTAGE — Only if source confirms era
-  (e.g., "1970s", "Pre-1990", "estate find", decade markers in source)
-- EXCLUSIVE — Only if source confirms exclusive distribution
-- COLLECTIBLE / COLLECTORS EDITION — Only if source marks it as such
-- MINT — Only if source describes objective criteria
-  (unused, with original box, tags attached, factory sealed)
-
-**Category C — ALWAYS ALLOWED (factual attributes from source):**
-Material, brand, model, year, size, condition, features, country of origin, etc.
-
-RULE — SOURCE-ONLY, NO INVENTION
-You may use Category B words ONLY if the source (seller text, title, images,
-description, tags, serial numbers, form input) explicitly contains evidence.
-DO NOT:
-- Guess ("this looks like it might be rare")
-- Infer from similar items
-- Use general knowledge (ChatGPT training data about product lines, catalogs)
-- Assume from visual appearance without text confirmation
-If source does not provide evidence, DO NOT include the Category B word.
-3. NO REPETITION: Each substantive keyword appears at most once in title.
-4. NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "MTG Card MTG" is forbidden).
-5. SOFT CHAR TARGET: Aim for 40-75 characters in title. Going under 40 is acceptable if truth-first cannot fill more honestly. Going over 75 is forbidden.
-6. ESSENTIAL INFO REQUIRED: Always include card name, set, and language if known.
+ABSOLUTE RULES
+1. TRUTH FIRST: Every fact must be derivable from the source. If unknown, omit it — never fabricate.
+2. NO PADDING: Ban hype, filler, subjective sales words, and unsupported claims; use only source-backed facts.
+3. RIGHTS-SAFE LANGUAGE: AUTHENTIC and OFFICIAL are absolutely banned; GENUINE and ORIGINAL are allowed only when transcribing exact source material/accessory names.
+**Category A — ABSOLUTE BAN (even if factual):** AMAZING, FANTASTIC, INCREDIBLE, AWESOME, MUST HAVE, BEST, PERFECT, ULTIMATE, PREMIUM, LUXURY, AUTHENTIC, OFFICIAL.
+**Category B — CONDITIONAL:** RARE / LIMITED / LIMITED EDITION / VINTAGE / EXCLUSIVE / COLLECTIBLE / COLLECTORS EDITION / MINT — only with explicit source evidence (print run, decade markers, sealed criteria).
+**Category C — ALWAYS ALLOWED:** Card name, rarity, grade, set name, condition, language, defects, foil/variant (from source).
+Rule 3: NO REPETITION: Each substantive keyword appears at most once in title.
+Rule 4: NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "MTG Card MTG" is forbidden).
+Rule 5: SOFT CHAR TARGET: Title 68-75 chars. If under 68, add source-supported SEO keywords. If over 75, shorten but keep SEO value.
+Rule 6: RECOMMENDED FIELDS (use when present in source, skip otherwise): card name, set name, foil/variant, language, grade, condition, card number.
+Bootleg/KO/Replica/Fake/Counterfeit — ABSOLUTE BAN (eBay WotC VeRO active). NEVER output these words in Title/Description/Specifics, even if source contains them.
 
 PSA GRADE DETECTION (CRITICAL for graded cards)
 Extract PSA grade from various formats in source:
@@ -205,6 +172,37 @@ Extract special versions from source:
 - レトロフレーム, 旧枠 -> Retro Frame
 Place after Foil in Title if applicable.
 
+CONDITION TERMS
+- 未使用/未開封/新品 -> New / Factory Sealed
+- 美品/極美品 -> Near Mint (NM)
+- 良品 -> Lightly Played (LP)
+- 並品 -> Moderately Played (MP)
+- 傷あり/使用感あり -> Moderately Played (MP)
+- ダメージあり/傷品 -> Heavily Played (HP)
+- ジャンク/破損 -> Damaged (DMG)
+- For graded cards (PSA/BGS/CGC), use the numeric grade, not a verbal condition term.
+- Use the most conservative (lower) grade when description is ambiguous.
+
+LANGUAGE VARIATIONS
+- 日本語/日本版 -> Japanese (always include in Title for eBay discoverability)
+- 英語版/English -> English (if source confirms)
+- 繁体字中国語版 -> Chinese Traditional (if source confirms)
+- 簡体字中国語版 -> Chinese Simplified (if source confirms)
+- 韓国語版 -> Korean (if source confirms)
+- 独語版/German -> German (if source confirms)
+- 仏語版/French -> French (if source confirms)
+- スペイン語版/Spanish -> Spanish (if source confirms)
+- イタリア語版/Italian -> Italian (if source confirms)
+- ポルトガル語版/Portuguese -> Portuguese (if source confirms)
+- ロシア語版/Russian -> Russian (if source confirms)
+- Assume Japanese unless another language is explicitly stated.
+
+DEFECT / ISSUE REPORTING V10
+If source explicitly states any defect, include in Description under "Condition Notes:". Omitting known defects is a violation of eBay policy.
+折れ=Crease / 白かけ=Edge whitening / センタリング偏り=Off-centering / 擦れ・スレ=Surface scratches / 反り=Warping
+フォイル浮き=Foil bubbling / テクスチャーフォイル剥がれ=Textured finish peeling / インク飛び=Print error / 初期傷=Factory defect / 角ダメージ=Corner damage
+Do NOT mistranslate: 初期傷 is "Factory defect" not "early scratch"
+
 EXCLUDE FROM OUTPUT (CRITICAL)
 The source may contain seller descriptions that are NOT relevant to eBay listing:
 - Shipping information (発送, 送料, shipping, 宅急便)
@@ -221,19 +219,22 @@ The source may contain seller descriptions that are NOT relevant to eBay listing
   * コレブ = Collector Booster (EXCLUDE from title)
   * 産 = origin indicator (EXCLUDE)
 
-FORBIDDEN WORDS IN TITLE (NEVER include these):
-- Condition opinions: Excellent, Good, Beautiful, Perfect (Mint: allowed ONLY if source confirms unused with original box — see Category B above)
-- Authenticity words: Authentic (absolute ban), Real; Genuine and Original — banned standalone, allowed ONLY when transcribing exact material/accessory names from source (e.g., "Genuine Leather", "Original Box")
-- Filler words: Amazing, Rare Find, Must Have, Hot
-- Japanese words: Any CJK characters
-
 TITLE (SEO Priority)
-- Language: English ASCII only.
-- Length: 40-75 chars (target 65-75, shorter OK if source-bound). If >75, shorten but keep SEO value.
-- Allowed symbols only: & / :
-- No commas, periods, hyphens, quotes, brackets, parentheses.
+- English ASCII only, 68-75 chars.
+- If under 68 chars, add source-supported SEO keywords.
+- If over 75 chars, shorten but keep SEO value.
+- Allowed symbols: & / :
+- Forbidden: , . - " ' ( ) [ ]
+- Compose naturally using available information. Do NOT force missing fields.
+- "MTG" and "Japanese" are high-value SEO terms — include when available.
+- For graded cards (PSA/BGS/CGC): grade at the START of title.
+- Examples of valid titles:
+  * Graded single: PSA 10 Stoneforge Mystic Foil Double Masters Japanese MTG
+  * Raw single: Sheoldred the Apocalypse Borderless Dominaria United NM Japanese MTG
+  * Foil: Ragavan Nimble Pilferer Foil Modern Horizons 2 NM Japanese MTG
+  * Sealed: MTG Bloomburrow Booster Box Japanese Sealed
 
-SEO KEYWORD ORDER (front-load high-value terms):
+SEO KEYWORD ORDER (front-load high-value terms)
 For Graded Cards:
 1. Grade (PSA 10, BGS 9.5)
 2. Card Name (Stoneforge Mystic)
@@ -250,20 +251,7 @@ For Raw Cards:
 5. Language (Japanese)
 6. Game identifier (MTG)
 
-EXPANSION RULES (apply when <60 chars):
-If Title is under 60 characters, add more keywords:
-1. Add card number if known (e.g., 001/287)
-2. Add rarity (Mythic Rare, Rare)
-3. Add "Trading Card" or "TCG" at end
-4. Add year if known (2020, 2021)
-
-SHORTENING RULES (apply when >75 chars):
-1. Remove year
-2. Shorten set name (Modern Horizons 2 -> MH2)
-3. Remove rarity
-4. Never remove: Grade, Card Name, Set Name, Language, MTG
-
-LEGITIMATE KEYWORDS (use only if present in source):
+LEGITIMATE KEYWORDS (use only if present in source)
 - Foil — only when source explicitly states foil / フォイル
 - Etched Foil — only when source explicitly states エッチングフォイル
 - Borderless — only when source explicitly states ボーダーレス / Borderless
@@ -279,17 +267,12 @@ LEGITIMATE KEYWORDS (use only if present in source):
 
 DESCRIPTION (SEO Priority)
 - English ASCII only, <= 480 chars, single natural paragraph.
-- FIRST SENTENCE: Must contain card name + set name (primary keywords).
-  Example: "Stoneforge Mystic Foil from Double Masters set..."
-- Include searchable specs naturally:
-  * Grade details (PSA 10 Gem Mint, BGS 9.5)
-  * Card name and set
-  * Foil/variant status
-  * Language (Japanese)
-  * Rarity if known
-  * Card number if known
-- Use keyword variations: "card" "trading card" / "foil" "premium" / "graded" "slabbed"
-- NEVER include: shipping info, seller opinions, price negotiations
+- FIRST SENTENCE: Must contain card name + set name.
+  Example: "Stoneforge Mystic Foil from Double Masters. Published by Wizards of the Coast."
+- Include searchable specs naturally: card name, foil/variant, set name, card number, language, grade details, condition notes if defects listed.
+- Publisher: Published by Wizards of the Coast (include once in Description)
+- Use keyword variations: "MTG" "Magic The Gathering" "Magic: The Gathering card"
+- NEVER include: shipping info, seller opinions, price negotiations.
 
 PRODUCTNAME
 - Format: [Card Name] [Variant] [Set Name]
@@ -299,8 +282,29 @@ PRODUCTNAME
   Ragavan Nimble Pilferer Modern Horizons 2
 
 CATEGORY
-- Use: Trading Cards / MTG Individual Cards
-- Or: Collectible Card Games / Magic: The Gathering
+- Default: Trading Cards > Magic The Gathering Individual Cards
+- Sealed: Trading Cards > Magic The Gathering Sealed Products
+
+CATEGORY RULE
+- Ungraded single card -> Trading Cards > Magic The Gathering Individual Cards
+- Graded card (PSA/BGS/CGC) -> Trading Cards > Magic The Gathering Individual Cards
+- Starter Deck (sealed) -> Trading Cards > Magic The Gathering Sealed Products
+- Booster Pack (sealed) -> Trading Cards > Magic The Gathering Sealed Products
+- Booster Box (sealed) -> Trading Cards > Magic The Gathering Sealed Products
+- Promo card -> Trading Cards > Magic The Gathering Individual Cards
+- If unclear -> Trading Cards > Magic The Gathering Individual Cards
+
+MISSING ACCESSORIES
+If source clearly shows these accessories are ABSENT, note in Description:
+- No Sleeve
+- No Top Loader
+- No Magnetic Case
+- No Certificate
+- No Original Box
+- No COA
+- No Binder
+- No Packaging Materials
+Only note absence if source explicitly confirms. Do NOT assume missing items.
 
 ITEM SPECIFICS
 Extract and output the following fields (use N/A if not determinable):
@@ -310,9 +314,9 @@ Extract and output the following fields (use N/A if not determinable):
 - Rarity: Mythic Rare / Rare / Uncommon / Common / N/A
 - Foil: Yes / No
 - Variant: Borderless / Showcase / Extended Art / Retro Frame / Standard
-- Language: Japanese
-- Grade: PSA 10 / BGS 9.5 / Raw
-- Condition: Gem Mint / Mint / NM / LP / N/A (for graded cards use grade term)
+- Language: Japanese / English / Chinese Traditional / Chinese Simplified / Korean / German / French / Spanish / Italian / Portuguese / Russian
+- Grade: PSA 10 / BGS 9.5 / CGC 10 / Raw
+- Condition: New / NM / LP / MP / HP / DMG / N/A
 
 OUTPUT FORMAT (exactly):
 Title: ...
@@ -331,25 +335,23 @@ ItemSpecifics:
   Condition: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 60-80 chars (target 65-75).
-2. Description <= 480 chars.
-3. Only ASCII letters/numbers/spaces/&/: used throughout.
-4. No CJK characters or emoji anywhere.
-5. If graded card, grade appears at START of Title.
-6. Card name appears in Title within first 30 chars (after grade if graded).
-7. Set name appears in Title IF determinable from source. If no set name found, omit and use card name + other details.
-8. "Japanese" appears in Title.
-9. "MTG" appears at END of Title.
-10. Title contains NO forbidden words.
-11. Description first sentence contains card name (+ set name if known).
-12. No shipping info or seller opinions in output.
-13. No forbidden symbols in Title (no , . - " ' ( ) [ ]).
-14. ProductName matches card name from Title.
-15. If Foil detected in source, "Foil" appears in Title.
-16. Booster types (セトブ, ドラブ, コレブ) are NOT included in output.
+1. Title is 68-75 chars and uses no forbidden symbols (, . - " ' ( ) [ ]).
+2. Description <= 480 chars, single paragraph, ASCII only, no CJK.
+3. No fabricated facts — every spec must derive from source.
+4. If graded card, grade appears at START of Title.
+5. "Published by Wizards of the Coast" appears in Description once.
+6. Card name appears in Title.
+7. If Foil or Variant detected in source, appears in Title.
+8. "Japanese" appears in Title unless source explicitly confirms another language.
+9. "MTG" appears in Title when space allows and source supports it.
+10. No shipping info or seller opinions in output.
+11. ProductName matches card name from Title.
+12. No CJK characters or emoji anywhere in output.
+13. Game name (MTG / Magic The Gathering) used correctly in Title and Description.
+14. Rule 2 compliance: no Category B style marketing words without source evidence.
+15. All defects from source reported in Description.
+16. No Bootleg/KO/Replica/Fake/Counterfeit/Authentic/Official anywhere in output.
 
 If any check fails, regenerate until all pass.
-
-REMINDER: If you cannot honestly fill 40 chars from source, output a shorter title. Lying is worse than being short.
 
 Input: ${fullText}
