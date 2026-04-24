@@ -4,53 +4,19 @@ GOALS
 - Analyze Japanese source ${fullText} and output an English listing optimized for eBay search.
 - OUTPUT MUST BE ASCII ONLY (A-Z a-z 0-9 spaces & / :), no CJK.
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
+- TRUTH FIRST — Source-bound, no fabrication, no padding.
 
-ABSOLUTE RULES (must follow):
-1. TRUTH FIRST: Only output information present in source. Never invent, embellish, or pad.
+ABSOLUTE RULES
+1. TRUTH FIRST: Every fact must be derivable from the source. If unknown, omit it — never fabricate.
 ### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
-
-**Category A — ABSOLUTE BAN (even if factual):**
-Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
-MUST HAVE, BEST, PERFECT
-Empty superlatives: ULTIMATE, PREMIUM, LUXURY
-
-ABSOLUTE BAN — eBay rights protection (NO exceptions, even if source contains them):
-AUTHENTIC, OFFICIAL
-
-Source-transcription only (BANNED standalone, allowed ONLY when transcribing
-exact material/accessory names from source text):
-GENUINE — e.g., "Genuine Leather" (material name), "Genuine Pearl"
-ORIGINAL — e.g., "Original Box" (accessory name), "Original Packaging"
-  (Do NOT add these words yourself. Only transcribe if source contains them.)
-
-**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
-- RARE — Only if source explicitly describes rarity
-  (e.g., "limited to 500 units", "one of 100 made", "rare colorway")
-- LIMITED / LIMITED EDITION — Only if source confirms limited edition status
-  (serial number, production count, limited release marker in source text)
-- VINTAGE — Only if source confirms era
-  (e.g., "1970s", "Pre-1990", "estate find", decade markers in source)
-- EXCLUSIVE — Only if source confirms exclusive distribution
-- COLLECTIBLE / COLLECTORS EDITION — Only if source marks it as such
-- MINT — Only if source describes objective criteria
-  (unused, with original box, tags attached, factory sealed)
-
-**Category C — ALWAYS ALLOWED (factual attributes from source):**
-Material, brand, model, year, size, condition, features, country of origin, etc.
-
-RULE — SOURCE-ONLY, NO INVENTION
-You may use Category B words ONLY if the source (seller text, title, images,
-description, tags, serial numbers, form input) explicitly contains evidence.
-DO NOT:
-- Guess ("this looks like it might be rare")
-- Infer from similar items
-- Use general knowledge (ChatGPT training data about product lines, catalogs)
-- Assume from visual appearance without text confirmation
-If source does not provide evidence, DO NOT include the Category B word.
-3. NO REPETITION: Each substantive keyword appears at most once in title.
-4. NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "Digimon Card Digimon" is forbidden).
-5. SOFT CHAR TARGET: Aim for 40-75 characters in title. Going under 40 is acceptable if truth-first cannot fill more honestly. Going over 75 is forbidden.
-6. ESSENTIAL INFO REQUIRED: Always include character name, set, rarity, and language if known.
+**Category A — ABSOLUTE BAN (even if factual):** Subjective hype words, empty superlatives, and eBay rights-protection words such as AUTHENTIC and OFFICIAL are forbidden.
+**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):** RARE, LIMITED / LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE / COLLECTORS EDITION, and MINT require direct source proof.
+**Category C — ALWAYS ALLOWED (factual attributes from source):** Card name, rarity code, grade, set, condition, language, defects.
+Rule 3: NO REPETITION: Each substantive keyword appears at most once in title.
+Rule 4: NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "Digimon Card Digimon" is forbidden).
+Rule 5: SOFT CHAR TARGET: Title 68-75 chars. Shorter OK if source-bound. NEVER exceed 75.
+Rule 6: RECOMMENDED FIELDS (use when present in source, skip otherwise): card name, rarity code, card number, set name/code, language, grade, condition, year.
+Bootleg/KO/Replica/Fake/Counterfeit — ABSOLUTE BAN (eBay Bandai VeRO active). NEVER output these words in Title/Description/Specifics, even if source contains them.
 
 ALT ART / PARALLEL DETECTION (HIGH VALUE)
 Alt Art and Parallel cards are significantly more valuable than standard versions.
@@ -66,11 +32,21 @@ Extract PSA grade from various formats in source:
 - CGC 10, CGC10 -> CGC 10
 Format in Title: PSA 10 (with space, at the START of title)
 
-CARD NAME EXTRACTION
-Extract card name from source using these methods in order:
+CARD NAME EXTRACTION (CRITICAL)
+Extract card name from source using the TRANSLATION DICTIONARY below.
+Priority order:
 1. Check hashtags for English name
 2. Check TRANSLATION DICTIONARY for Japanese name
-3. Romanize Japanese name if not found
+3. If not found, use official English release name or romanize Japanese name
+
+RARITY DETECTION (value hierarchy)
+- SEC (Secret Rare) = highest standard rarity
+- SR (Super Rare) = high value
+- Alt Art / Parallel of any rarity = significantly higher value
+- R / U / C = standard
+- P (Promo) = varies widely
+Include rarity code in Title after character name.
+For Alt Art: ALWAYS include "Alt Art" or "AA" in Title.
 
 TRANSLATION DICTIONARY
 Use these translations. Format: Japanese=English
@@ -117,15 +93,6 @@ Use these translations. Format: Japanese=English
 コモン=C (Common)
 プロモ=P (Promo)
 
-RARITY DETECTION (value hierarchy)
-- SEC (Secret Rare) = highest standard rarity
-- SR (Super Rare) = high value
-- Alt Art / Parallel of any rarity = significantly higher value
-- R / U / C = standard
-- P (Promo) = varies widely
-Include rarity code in Title after character name.
-For Alt Art: ALWAYS include "Alt Art" or "AA" in Title.
-
 SET CODE FORMAT
 - Main boosters: BT-XX (BT-08 through BT-16+)
 - Extra boosters: EX-XX (EX-03 through EX-06+)
@@ -133,94 +100,120 @@ SET CODE FORMAT
 - Promo: P-XXX
 Include set code in Title when known.
 
-EXCLUDE FROM OUTPUT
-- Shipping information
-- Seller opinions
-- Purchase instructions
-- Storage descriptions
-- Japanese hashtags that are not card names
-- Pack/box types (BOX, pack)
+CONDITION TERMS
+- 未使用/未開封/新品 -> New / Factory Sealed
+- 美品/極美品 -> Near Mint (NM)
+- 良品/良い -> Lightly Played (LP)
+- 傷あり/使用感あり/並品/普通 -> Moderately Played (MP)
+- ダメージあり/状態悪い/傷品 -> Heavily Played (HP)
+- ジャンク/破損 -> Damaged (DMG)
+- Gem Mint: Only for graded cards (PSA 10 / BGS 10 / CGC 10)
+- For graded cards (PSA/BGS/CGC), use the numeric grade, not a verbal condition term.
+- Anti-mistranslation: 美品 = NM (Near Mint), NOT Excellent or Beautiful.
 
-FORBIDDEN WORDS IN TITLE:
-- Condition opinions: Excellent, Good, Beautiful, Perfect (Mint: allowed ONLY if source confirms unused with original box — see Category B above)
-- Authenticity words: Authentic (absolute ban), Real; Genuine and Original — banned standalone, allowed ONLY when transcribing exact material/accessory names from source (e.g., "Genuine Leather", "Original Box")
-- Filler words: Amazing, Rare Find, Must Have, Hot, Fire
-- Japanese words: Any CJK characters
+LANGUAGE VARIATIONS
+- 日本語/日本版 -> Japanese (always include in Title for eBay discoverability)
+- 英語版 -> English
+- 韓国語版 -> Korean
+- 繁体字中国語版 -> Traditional Chinese
+- 簡体字中国語版 -> Simplified Chinese
+Assume Japanese unless another language is explicitly stated.
 
-TITLE (SEO Priority)
-- Language: English ASCII only.
-- Length: 40-75 chars (target 65-75, shorter OK if source-bound). If >75, shorten but keep SEO value.
-- Allowed symbols only: & / :
-- No commas, periods, hyphens, quotes, brackets, parentheses.
-
-SEO KEYWORD ORDER (front-load high-value terms):
-For Graded Cards:
-1. Grade (PSA 10, BGS 9.5)
-2. Character Name (Omnimon)
-3. Rarity (SEC, SR)
-4. Alt Art (if applicable)
-5. Set Code (BT-14)
-6. Language (Japanese)
-7. Game (Digimon Card Game)
-
-For Raw Cards:
-1. Character Name (Omnimon)
-2. Rarity (SEC, SR)
-3. Alt Art (if applicable)
-4. Set Code (BT-14)
-5. Condition (NM, LP)
-6. Language (Japanese)
-7. Game (Digimon Card Game)
-
-SHORTENING RULES (apply when >75 chars):
-1. Shorten "Digimon Card Game" to "Digimon TCG"
-2. Remove set name if set code is present
-3. Remove year
-4. Never remove: Grade, Character Name, Rarity, Alt Art, Japanese
-
-LEGITIMATE KEYWORDS (use only if present in source):
-- SEC (Secret Rare) — only when source explicitly states シークレットレア / SEC
-- SR (Super Rare) — only when source explicitly states スーパーレア / SR
-- Alt Art, AA — only when source explicitly states パラレル / Alt Art / 別イラスト
-- Textured — only when source explicitly states テクスチャー / Textured
-- BT-XX — booster set code only when stated in source (BT-08 through BT-16+)
-- EX-XX — extra booster code only when stated in source
-- ST-XX — starter deck code only when stated in source
-- P (Promo) — only when source explicitly states promo card
-- 1st Edition — only when source explicitly states first edition
-- Pre-release — only when source explicitly states pre-release card
-
-DESCRIPTION (SEO Priority)
-- English ASCII only, <= 480 chars, single natural paragraph.
-- FIRST SENTENCE: Must contain character name + set name or code.
-- For Alt Art: MUST mention "alternate art" or "parallel" in description.
-- Include: character name, rarity, set, card number, language (Japanese), grade if graded.
-- Use keyword variations: "Digimon" "Digimon TCG" "Digimon Card Game" "Bandai"
-- NEVER include: shipping info, seller opinions, price negotiations.
-
-DEFECT KEYWORDS (translate if found in source)
+DEFECT/ISSUE REPORTING V10
+If source explicitly states any defect, include in Description under "Condition Notes:". Omitting known defects is a violation of eBay policy.
 白かけ=Edge whitening
 スレ=Surface scratches
 反り=Warping
 折れ=Crease
 初期傷=Factory defect
 インク飛び=Print error
+色移り=Color transfer
+センタリング偏り=Off-centering
+テクスチャー剥がれ=Textured finish peeling
+ホログラム損傷=Hologram damage
+Policy: All explicit defects must be reported in Description and never hidden.
+Guard: Do NOT guess condition from defect descriptions alone. 初期傷 (factory defect) = defect present from manufacture — do not translate as 'early scratch'.
+
+EXCLUDE FROM OUTPUT (CRITICAL)
+- Shipping information
+- Seller opinions
+- Purchase instructions
+- Storage/handling descriptions
+- Japanese hashtags that are not card names
+- BOX/Pack types when they are not the actual product category
+
+TITLE (SEO Priority)
+- English ASCII only, max 75 chars (aim 68-75, shorter OK if source-bound).
+- Allowed symbols: & / :
+- Forbidden: , . - " ' ( ) [ ]
+- Compose naturally using whatever information is available. No strict template. Do NOT force missing fields.
+- Examples of valid titles:
+  * Graded single: PSA 10 Omnimon SEC Alt Art BT-14 Japanese Digimon Card Game
+  * Raw single: WarGreymon SR BT-14 NM Japanese Digimon Card Game
+  * Lot: Digimon Card Game 10 Cards Lot BT-14 EX-06 Japanese Mixed Rarity
+  * Sealed: Digimon Card Game Blast Ace BT-14 Booster Box Japanese Sealed
+- "Digimon" and "Japanese" are high-value SEO terms — include when available and not redundant.
+- For graded cards (PSA/BGS/CGC): grade at the START of title.
+- LEGITIMATE KEYWORDS (use only if present in source):
+  SEC / SR / R / U / C / P — rarity codes only when stated
+  Alt Art / AA — only when stated
+  Textured — only when stated
+  BT-XX / EX-XX / ST-XX / P-XXX — only when stated in source
+  Promo — only when source explicitly states promo
+  1st Edition — only when source explicitly states first edition
+  Pre-release — only when source explicitly states pre-release
+
+DESCRIPTION (SEO Priority)
+- English ASCII only, <= 480 chars, single natural paragraph.
+- FIRST SENTENCE: Must contain card name + set name or set code.
+  Example: "Omnimon SEC from the Blast Ace BT-14 set. Published by Bandai."
+- Include searchable specs naturally: card name, rarity, set name/code, card number, language, grade details, condition notes if defects listed.
+- For Alt Art: MUST mention "alternate art" or "parallel" in description.
+- Use keyword variations: "Digimon" "Digimon TCG" "Digimon Card Game"
+- Publisher: Published by Bandai (include once in Description)
+- NEVER include: shipping info, seller opinions, price negotiations
 
 PRODUCTNAME
-- Format: [Character] [Rarity] [Set Code]
-- Example: Omnimon SEC Alt Art BT-14
+- Format: [Card Name] [Rarity] [Set Name]
+- Example: Omnimon SEC Blast Ace
 
 CATEGORY
-- Use: Trading Cards / Digimon Individual Cards
+- Default: Trading Cards > Digimon Individual Cards
+- Graded: Trading Cards > Digimon Individual Cards
+- Sealed packs/boxes/decks: Trading Cards > Digimon Sealed Products
+
+CATEGORY RULE
+Select category based on these conditions:
+- If ungraded single card with card number -> Trading Cards > Digimon Individual Cards
+- If graded card (PSA/BGS/CGC present) -> Trading Cards > Digimon Individual Cards
+- If sealed starter deck -> Trading Cards > Digimon Sealed Products
+- If sealed booster pack -> Trading Cards > Digimon Sealed Products
+- If sealed booster box -> Trading Cards > Digimon Sealed Products
+- If promo card -> Trading Cards > Digimon Individual Cards
+- If unclear -> Trading Cards > Digimon Individual Cards
+
+MISSING ACCESSORIES
+If source clearly shows these accessories are ABSENT, note in Description:
+- No original card sleeve
+- No top loader
+- No magnetic case
+- No original BOX
+- No certificate
+- No COA
+- No binder
+- No original packaging materials
+Only note absence if source explicitly confirms. Do NOT assume missing items.
 
 ITEM SPECIFICS
-- CardName: English character/card name
-- SetName: English set name with code
+Extract and output the following fields (use N/A if not determinable):
+- CardName: English card name
+- SetName: English set name
 - CardNumber: Card number (e.g., BT14-086) or N/A
-- Rarity: SEC / SR / R / U / C / P
-- Language: Japanese
-- Grade: PSA 10 / BGS 9.5 / Raw
-- Condition: NM / LP / N/A
+- Rarity: SEC / SR / R / U / C / P / N/A
+- Language: Japanese / English / Korean / Traditional Chinese / Simplified Chinese / N/A
+- Grade: PSA 10 / BGS 9.5 / CGC 10 / Raw / N/A
+- Condition: Gem Mint / Mint / NM / LP / MP / HP / DMG / N/A
+- Year: Release year or N/A
 
 OUTPUT FORMAT (exactly):
 Title: ...
@@ -232,27 +225,28 @@ ItemSpecifics:
   SetName: ...
   CardNumber: ...
   Rarity: ...
-  Language: Japanese
+  Language: ...
   Grade: ...
   Condition: ...
+  Year: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 60-80 chars (target 65-75).
-2. Description <= 480 chars.
-3. Only ASCII letters/numbers/spaces/&/: used throughout.
-4. No CJK characters or emoji anywhere.
+1. Title <= 75 chars, targets 68-75 when source allows, no forbidden symbols (, . - " ' ( ) [ ]).
+2. Description <= 480 chars, single paragraph, ASCII only, no CJK.
+3. No fabricated facts — every spec must derive from source.
+4. Rule 2 compliance: no banned padding terms used unless Category C allows.
 5. If graded card, grade appears at START of Title.
-6. Character name appears in Title.
-7. Rarity code appears in Title if found in source.
-8. If Alt Art/Parallel, "Alt Art" or "AA" appears in Title.
-9. "Japanese" appears in Title.
-10. "Digimon" appears in Title.
-11. Title contains NO forbidden words.
-12. No shipping info or seller opinions in output.
-13. Language field is always "Japanese".
-
+6. "Published by Bandai" appears in Description exactly once.
+7. All explicit defects from source are reported in Description under "Condition Notes:".
+8. No Bootleg/KO/Replica/Fake/Counterfeit wording anywhere in output.
+9. No shipping info or seller opinions in output.
+10. ProductName matches the identified card or product from Title.
+11. No CJK characters or emoji anywhere in output.
+12. If Alt Art/Parallel detected in source, "Alt Art" or "AA" appears in Title.
+13. If rarity code is in source, it appears in Title and ItemSpecifics.
+14. If language other than Japanese is stated, it is reflected in Title or ItemSpecifics.
+15. If source confirms missing accessories, they are noted in Description.
+16. No Bootleg/KO/Replica/Fake/Counterfeit/Authentic/Official anywhere in output (even if source mentions — ABSOLUTE BAN).
 If any check fails, regenerate until all pass.
-
-REMINDER: If you cannot honestly fill 40 chars from source, output a shorter title. Lying is worse than being short.
 
 Input: ${fullText}
