@@ -4,53 +4,20 @@ GOALS
 - Analyze Japanese source ${fullText} and output an English listing optimized for eBay search.
 - OUTPUT MUST BE ASCII ONLY (A-Z a-z 0-9 spaces & / :), no CJK.
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
+- TRUTH FIRST — Source-bound, no fabrication, no padding
 
-ABSOLUTE RULES (must follow):
-1. TRUTH FIRST: Only output information present in source. Never invent, embellish, or pad.
-### Rule 2: NO PADDING — SOURCE-BASED CONDITIONAL ALLOWANCE
-
-**Category A — ABSOLUTE BAN (even if factual):**
-Subjective hype words: AMAZING, FANTASTIC, INCREDIBLE, AWESOME,
-MUST HAVE, BEST, PERFECT
-Empty superlatives: ULTIMATE, PREMIUM, LUXURY
-
-ABSOLUTE BAN — eBay rights protection (NO exceptions, even if source contains them):
-AUTHENTIC, OFFICIAL
-
-Source-transcription only (BANNED standalone, allowed ONLY when transcribing
-exact material/accessory names from source text):
-GENUINE — e.g., "Genuine Leather" (material name), "Genuine Pearl"
-ORIGINAL — e.g., "Original Box" (accessory name), "Original Packaging"
-  (Do NOT add these words yourself. Only transcribe if source contains them.)
-
-**Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
-- RARE — Only if source explicitly describes rarity
-  (e.g., "limited to 500 units", "one of 100 made", "rare colorway")
-- LIMITED / LIMITED EDITION — Only if source confirms limited edition status
-  (serial number, production count, limited release marker in source text)
-- VINTAGE — Only if source confirms era
-  (e.g., "1970s", "Pre-1990", "estate find", decade markers in source)
-- EXCLUSIVE — Only if source confirms exclusive distribution
-- COLLECTIBLE / COLLECTORS EDITION — Only if source marks it as such
-- MINT — Only if source describes objective criteria
-  (unused, with original box, tags attached, factory sealed)
-
-**Category C — ALWAYS ALLOWED (factual attributes from source):**
-Material, brand, model, year, size, condition, features, country of origin, etc.
-
-RULE — SOURCE-ONLY, NO INVENTION
-You may use Category B words ONLY if the source (seller text, title, images,
-description, tags, serial numbers, form input) explicitly contains evidence.
-DO NOT:
-- Guess ("this looks like it might be rare")
-- Infer from similar items
-- Use general knowledge (ChatGPT training data about product lines, catalogs)
-- Assume from visual appearance without text confirmation
-If source does not provide evidence, DO NOT include the Category B word.
-3. NO REPETITION: Each substantive keyword appears at most once in title.
-4. NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "Gundam Card Gundam" is forbidden).
-5. SOFT CHAR TARGET: Aim for 40-75 characters in title. Going under 40 is acceptable if truth-first cannot fill more honestly. Going over 75 is forbidden.
-6. ESSENTIAL INFO REQUIRED: Always include game name, card/unit name, rarity, and language if known.
+ABSOLUTE RULES
+1. TRUTH FIRST: Every fact must be derivable from the source. If unknown, omit it — never fabricate.
+2. NO PADDING: Ban hype, filler, subjective sales words, and unsupported claims; use only source-backed facts.
+3. RIGHTS-SAFE LANGUAGE: AUTHENTIC and OFFICIAL are absolutely banned; GENUINE and ORIGINAL are allowed only when transcribing exact source material/accessory names.
+**Category A — ABSOLUTE BAN (even if factual):** AMAZING, FANTASTIC, INCREDIBLE, AWESOME, MUST HAVE, BEST, PERFECT, ULTIMATE, PREMIUM, LUXURY, AUTHENTIC, OFFICIAL.
+**Category B — CONDITIONAL:** RARE / LIMITED / LIMITED EDITION / VINTAGE / EXCLUSIVE / COLLECTIBLE / COLLECTORS EDITION / MINT — only with explicit source evidence (print run, decade markers, sealed criteria).
+**Category C — ALWAYS ALLOWED:** Material, brand, model, year, size, condition, features, country of origin, etc. (from source).
+Rule 3: NO REPETITION: Each substantive keyword appears at most once in title.
+Rule 4: NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "Gundam Card Gundam" is forbidden).
+Rule 5: SOFT CHAR TARGET: Title 68-75 chars. If under 68, add source-supported SEO keywords. If over 75, shorten but keep SEO value.
+Rule 6: RECOMMENDED FIELDS (use when present in source, skip otherwise): card name, rarity code, card number, set name, language, grade, condition, year.
+Bootleg/KO/Replica/Fake/Counterfeit — ABSOLUTE BAN (eBay Bandai VeRO active). NEVER output these words in Title/Description/Specifics, even if source contains them.
 
 PSA GRADE DETECTION (CRITICAL for graded cards)
 Extract PSA grade from various formats in source:
@@ -93,11 +60,6 @@ Translate rarity and keep abbreviation:
 - MR -> Master Rare (MR)
 - XR -> Extra Rare (XR)
 - サイン -> Signed
-
-TITLE FORMAT
-[Grade if graded] [Game Name] [Card Name] [Rarity] [Card No.] Japanese [Condition]
-Example: Gundam War NEX-A Zeta Gundam SR NX-02-012 Japanese NM
-Example: PSA 10 Gundam Arsenal Base Freedom Gundam UR AB01-052 Japanese
 
 TRANSLATION DICTIONARY
 Use these translations. Format: Japanese=English
@@ -184,21 +146,116 @@ ZZガンダム=ZZ Gundam
 限定=Limited
 イベント限定=Event Exclusive
 
-EXCLUDE FROM OUTPUT
-- Shipping information
-- Seller opinions
-- "状態は写真で確認" or similar phrases
-- Japanese-only promotional text
+CONDITION TERMS
+- 未使用/未開封/新品 -> New / Factory Sealed
+- 美品/極美品 -> Near Mint (NM)
+- 良品 -> Lightly Played (LP)
+- 並品 -> Moderately Played (MP)
+- 傷あり/使用感あり -> Moderately Played (MP)
+- ダメージあり -> Heavily Played (HP)
+- ジャンク/破損 -> Damaged (DMG)
+- 傷品 -> Damaged (DMG)
+- For graded cards (PSA/BGS/CGC), use the numeric grade, not a verbal condition term.
+- Use the most conservative (lower) grade when description is ambiguous.
 
-LEGITIMATE KEYWORDS (use only if present in source):
-- SR, UR, LR, SEC, PR, MSR, CR, MR, XR — rarity codes, only when stated in source
-- Signed — only when source explicitly states サイン / Signed card
+LANGUAGE VARIATIONS
+- 日本語/日本版 -> Japanese (always include in Title for eBay discoverability)
+- 英語版 -> English (if source confirms)
+- 韓国語版 -> Korean (if source confirms)
+- 繁体字中国語版 -> Traditional Chinese (if source confirms)
+- 簡体字中国語版 -> Simplified Chinese (if source confirms)
+- アジア英語版 -> Asian English (if source confirms; distinct from Japanese OCG)
+- Assume Japanese unless another language is explicitly stated.
+
+DEFECT / ISSUE REPORTING V10
+If source explicitly states any defect, include in Description under "Condition Notes:". Omitting known defects is a violation of eBay policy.
+折れ=Crease / 白かけ=Edge whitening / 色移り=Color transfer / ホログラム損傷=Hologram damage
+センタリング偏り=Off-centering / 擦れ・スレ=Surface scratches / 反り=Warping / テクスチャー剥がれ=Textured finish peeling
+インク飛び=Print error / 初期傷=Factory defect
+Do NOT mistranslate: 初期傷 is "Factory defect" not "early scratch"
+
+EXCLUDE FROM OUTPUT (CRITICAL)
+- Shipping information (発送, 送料, shipping, 宅急便, メルカリ便)
+- Seller opinions
+- Purchase instructions
+- Storage/handling descriptions
+- Japanese-only promotional text
+- "状態は写真で確認" or similar phrases
+- BOX/Pack types unless the item itself is a sealed deck, booster pack, or booster box
+
+TITLE (SEO Priority)
+- English ASCII only, 68-75 chars.
+- If under 68 chars, add source-supported SEO keywords.
+- If over 75 chars, shorten but keep SEO value.
+- Allowed symbols: & / :
+- Forbidden: , . - " ' ( ) [ ]
+- Compose naturally using available information. Do NOT force missing fields.
+- "Gundam" and "Japanese" are high-value SEO terms — include when available.
+- For graded cards (PSA/BGS/CGC): grade at the START of title.
+- Examples of valid titles:
+  * Graded single: PSA 10 Freedom Gundam UR Arsenal Base Japanese Gundam Card
+  * Raw single: Zeta Gundam SR NEX-A NX-02-012 NM Japanese Gundam War
+  * Lot: Gundam Arsenal Base 10 Cards Lot Japanese Mixed Rarity
+  * Sealed: Gundam Arsenal Base Booster Box Japanese Sealed
+
+LEGITIMATE KEYWORDS (use only if present in source)
+- SR, UR, LR, SEC, PR, MSR, CR, MR, XR — rarity codes only when stated
+- Signed — only when source explicitly states サイン / Signed
 - Holo, Foil — only when source explicitly states holographic / foil finish
 - Parallel — only when source explicitly states parallel version
 - Gundam War, NEX-A, Arsenal Base, Carddass, Cross War — game names only from source
 - 1st Edition — only when source explicitly states first edition
 - Event Exclusive, Limited — only when source explicitly states event/limited
 - Starter Deck — only when source explicitly states starter deck origin
+
+DESCRIPTION (SEO Priority)
+- English ASCII only, <= 480 chars, single natural paragraph.
+- FIRST SENTENCE: Must contain card name + game name.
+  Example: "Freedom Gundam UR from Gundam Arsenal Base. Published by Bandai."
+- Include searchable specs naturally: card name, rarity, game name, card number, language, grade details, condition notes if defects listed.
+- Publisher: Published by Bandai (include once in Description)
+- Use keyword variations: "Gundam" "Gundam TCG" "Gundam Card Game"
+- NEVER include: shipping info, seller opinions, price negotiations.
+
+PRODUCTNAME
+- Format: [Card Name] [Rarity] [Game Name]
+- Example: Freedom Gundam UR Gundam Arsenal Base
+
+CATEGORY
+- Default: Trading Cards > Gundam Individual Cards
+- Sealed: Trading Cards > Gundam Sealed Products
+
+CATEGORY RULE
+- Ungraded single card -> Trading Cards > Gundam Individual Cards
+- Graded card (PSA/BGS/CGC) -> Trading Cards > Gundam Individual Cards
+- Starter Deck (sealed) -> Trading Cards > Gundam Sealed Products
+- Booster Pack (sealed) -> Trading Cards > Gundam Sealed Products
+- Booster Box (sealed) -> Trading Cards > Gundam Sealed Products
+- Promo card -> Trading Cards > Gundam Individual Cards
+- If unclear -> Trading Cards > Gundam Individual Cards
+
+MISSING ACCESSORIES
+If source clearly shows these accessories are ABSENT, note in Description:
+- No Sleeve
+- No Top Loader
+- No Magnetic Case
+- No Certificate
+- No Original Box
+- No COA
+- No Binder
+- No Packaging Materials
+Only note absence if source explicitly confirms. Do NOT assume missing items.
+
+ITEM SPECIFICS
+Extract and output the following fields (use N/A if not determinable):
+- CardName: English card/unit name
+- SetName: English game name / set name
+- CardNumber: Card number or N/A
+- Rarity: C / U / R / SR / UR / LR / SEC / PR / MSR / CR / MR / XR / N/A
+- Language: Japanese / English / Korean / Traditional Chinese / Simplified Chinese / Asian English
+- Grade: PSA 10 / BGS 9.5 / CGC 10 / Raw
+- Condition: New / NM / LP / MP / HP / DMG / N/A
+- Year: Release year or N/A
 
 OUTPUT FORMAT (exactly):
 Title: ...
@@ -216,23 +273,23 @@ ItemSpecifics:
   Year: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 40-75 chars (target 65-75, shorter OK if source-bound).
-2. Description <= 480 chars.
-3. Only ASCII letters/numbers/spaces/&/: used throughout.
-4. No CJK characters or emoji anywhere.
-5. If graded card, grade appears at START of Title.
-6. Card name appears in Title within first 30 chars (after grade if graded).
-7. Set name appears in Title IF determinable from source.
-8. Japanese appears in Title.
-9. Gundam appears in Title.
-10. Title contains NO forbidden words (Mint, Excellent, Good, Authentic).
-11. Description first sentence contains card name + set name.
-12. No shipping info or seller opinions in output.
-13. No forbidden symbols in Title (no , . - quote parentheses brackets).
-14. Rarity code appears in Title if found in source.
+1. Title is 68-75 chars and uses no forbidden symbols (, . - " ' ( ) [ ]).
+2. Description <= 480 chars, single paragraph, ASCII only, no CJK.
+3. No fabricated facts — every spec must derive from source.
+4. If graded card, grade appears at START of Title.
+5. "Published by Bandai" appears in Description once.
+6. Card name or unit name appears in Title.
+7. Rarity code appears in Title if found in source.
+8. "Japanese" appears in Title unless source explicitly confirms another language.
+9. "Gundam" appears in Title when space allows and source supports it.
+10. No shipping info or seller opinions in output.
+11. ProductName matches card name from Title.
+12. No CJK characters or emoji anywhere in output.
+13. Game name detected and used correctly in Title and Description.
+14. Rule 2 compliance: no Category B style marketing words without source evidence.
+15. All defects from source reported in Description.
+16. No Bootleg/KO/Replica/Fake/Counterfeit/Authentic/Official anywhere in output.
 
 If any check fails, regenerate until all pass.
-
-REMINDER: If you cannot honestly fill 40 chars from source, output a shorter title. Lying is worse than being short.
 
 Input: ${fullText}
