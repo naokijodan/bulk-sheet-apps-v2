@@ -31,6 +31,8 @@ Extract card name from source using these methods in order:
 2. Check TRANSLATION DICTIONARY for Japanese name
 3. If not found, romanize Japanese name accurately
 
+A character/card name dictionary is conditionally injected at the top of this prompt when source mentions 遊戯王/YuGiOh/Yu-Gi-Oh. Prefer those dictionary entries when present.
+
 TRANSLATION DICTIONARY
 Use these translations when Japanese card names appear in source. Format: Japanese=English
 灰流うらら=Ash Blossom & Joyous Spring

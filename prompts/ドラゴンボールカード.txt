@@ -46,6 +46,8 @@ Dragon Ball Super Card Game rarity codes in value order:
 - L (Leader)
 Include rarity code in Title when present in source.
 
+A character name dictionary is conditionally injected at the top of this prompt when source mentions ドラゴンボール/Dragon Ball/DBS/Fusion World. Prefer those dictionary entries when present.
+
 TRANSLATION DICTIONARY
 Use these translations. Format: Japanese=English
 
