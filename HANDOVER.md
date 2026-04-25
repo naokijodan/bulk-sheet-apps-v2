@@ -272,3 +272,40 @@ eBay カテゴリ調査 → IS_TAG_TO_CATEGORY / PROMPT_TAG_MAPPING / SANITIZE_F
 - ドラゴンボール / 大相撲 / ヴァイス / デジモン / ガンダム / MTG / トレカ汎用
 
 問題があれば次セッションで修正対応します。
+
+---
+
+## 2026-04-25 後半: V2.0.1 整合性検証 + 修正（HIGH-1/2 + LOW 完遂）
+
+### 経緯
+
+椛島さんから「翻訳プロンプトと交通整理の整合性検証」依頼。3 子並列で 10 カテゴリ全観点 (A: ItemSpecifics / B: Sanitize / C: CardPatterns / D: Tag mapping) 監査。HIGH 3件、MEDIUM 5件、LOW 6件発見。本セッション内で対応可能な範囲を完遂。
+
+### 完遂修正
+
+| Phase | 内容 | Commit |
+|---|---|---|
+| Phase 1 | ポケカ/遊戯王/ワンピース BOOTLEG ABSOLUTE BAN 化（VeRO リスク解消）+ ポケカ/ワンピース Rule 5 68-75 統一 | f5e9cae + 48f311d |
+| Phase 2 | 遊戯王/ドラゴンボール CardPatterns 辞書注入機構追加（${yugiohCharDict} / ${dragonballCharDict}） | 008ea1b |
+| Phase 4 | 大相撲 CARD_SUMO_WRESTLERS 重複削除 + Gundam IS_GAME_PATTERNS 追加 | d66bd16 |
+| Phase 5 | デジモン CARD_DIGIMON_* 辞書新規作成（次セッション送り or 並行投入） | TBD |
+
+### 修正不要と判定
+
+- **MTG Foil format 不整合**: 調査結果、AI 出力 `Foil: Yes/No` は IS に読み込まれない（AI.gs parseAIResponseToFields は title/desc/productName/category/condition/ebayCategory のみ）。IS Finish は CARD_FINISH_PATTERNS_MASTER で Title/Description から独立計算。整合性監査 MEDIUM → LOW 格下げ
+
+### 重要な発見（次セッションへの示唆）
+
+- **prompt の `ItemSpecifics:` ブロック ↔ IS_CATEGORY_FIELDS 比較は多くが装飾的**：functional には IS が AI 出力 ItemSpecifics ブロックを読まないため
+- **AI 出力で functional に重要なのは title / description / category / condition / ebayCategory**
+- HIGH-3 Edition データ損失（遊戯王）は title/description には反映される可能性 → 再評価が必要
+
+### 次セッション送り
+
+- **Phase 3 Year/Edition フィールド対応**: IS_CATEGORY_FIELDS 新フィールド追加は eBay Taxonomy API 有効性確認 + 実機テスト必須
+- **Phase 5 デジモン辞書**（並行投入なら本セッション完遂）
+
+### インシデント記録
+
+- **re.subn lambda 再発**: ワンピース Library 修正で改行 205 行混入 → fix commit 48f311d で lambda 形式に切替
+- 4/24 ドラゴンボール deploy 時の re.sub バグと同根。lambda 形式が標準
