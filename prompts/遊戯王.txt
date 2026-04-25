@@ -10,7 +10,7 @@ Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCR
 GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Genuine Leather", "Original Box"); never add yourself.
 RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., serial numbers, decade markers, "limited to N units"); no inference, no guessing, no general knowledge.
 ANTIQUE: only if source confirms 100+ years old. HANDMADE: only if source confirms (手作り/職人); no inference.
-Bootleg/KO/Replica: If source explicitly states or suggests bootleg/KO/replica/unofficial, describe it clearly in Description. NEVER put "Bootleg", "KO", "Replica", "Unofficial" in Title if source does not state it; conversely, if source confirms these, MUST include them.
+Bootleg/KO/Replica/Fake/Counterfeit — ABSOLUTE BAN (eBay Konami VeRO active). NEVER output these words in Title/Description/Specifics, even if source contains them.
 3. NO REPETITION: Each substantive keyword appears at most once in title.
 4. NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "Yu-Gi-Oh Card Yu-Gi-Oh" is forbidden).
 5. CHAR TARGET: Aim for 68-75 characters in title. If >75, shorten but keep SEO value. If <68, add SEO keywords.
@@ -273,6 +273,7 @@ VERIFICATION (must pass before returning):
 16. If 1st Edition detected in source, it appears in Title.
 17. All known defects from source are reported in Description.
 18. If Asian English card detected, "Asian English" appears in both Title and Description.
+19. No Bootleg/KO/Replica/Fake/Counterfeit/Authentic/Official anywhere in output (ABSOLUTE BAN even if source mentions).
 If any check fails, regenerate until all pass.
 
 Input: ${fullText}

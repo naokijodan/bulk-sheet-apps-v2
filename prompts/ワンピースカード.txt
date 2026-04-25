@@ -23,10 +23,10 @@ ORIGINAL — allowed ONLY when transcribing exact source text
 - MINT — only with objective unused/sealed criteria in source
 **Category C — ALWAYS ALLOWED (factual attributes from source):**
 Card name, rarity code, grade, set, condition, language, defects.
-Bootleg/KO/Replica: If source explicitly states bootleg/KO/replica/unofficial, describe clearly in Description. NEVER put these in Title if source does not state it; conversely, if source confirms these, MUST include them.
+Bootleg/KO/Replica/Fake/Counterfeit — ABSOLUTE BAN (eBay Bandai VeRO active). NEVER output these words in Title/Description/Specifics, even if source contains them.
 Rule 3: NO REPETITION: Each substantive keyword appears at most once in title.
 Rule 4: NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "One Piece Card One Piece" is forbidden).
-Rule 5: SOFT CHAR TARGET: Title 40-80 chars (aim 68-80). Shorter OK if source-bound. NEVER exceed 80.
+Rule 5: SOFT CHAR TARGET: Title 68-75 chars. If under 68, add source-supported SEO keywords. If over 75, shorten but keep SEO value.
 Rule 6: RECOMMENDED FIELDS (use when present in source, skip otherwise): character name, rarity, set/set code, card number, parallel status, language, grade, lot count.
 
 PSA GRADE DETECTION (CRITICAL for graded cards)
@@ -111,7 +111,7 @@ EXCLUDE FROM OUTPUT (CRITICAL)
 - BOX/Pack types (BOX, パック, 未開封BOX)
 
 TITLE (SEO Priority)
-- English ASCII only, max 80 chars (aim 68-80, shorter OK if source-bound).
+- English ASCII only, 68-75 chars.
 - Allowed symbols: & / :
 - Forbidden: , . - " ' ( ) [ ]
 - Compose naturally using whatever information is available. No strict template. Do NOT force missing fields.
@@ -188,7 +188,7 @@ ItemSpecifics:
   Year: ...
 
 VERIFICATION (must pass before returning):
-1. Title <= 80 chars, no forbidden symbols (, . - " ' ( ) [ ]).
+1. Title is 68-75 chars and uses no forbidden symbols (, . - " ' ( ) [ ]).
 2. Description <= 480 chars, single paragraph, ASCII only, no CJK.
 3. No fabricated facts — every spec must derive from source.
 4. If graded card, grade appears at START of Title.
@@ -196,7 +196,7 @@ VERIFICATION (must pass before returning):
 6. All defects from source reported in Description.
 7. No shipping info or seller opinions in output.
 8. ProductName matches character/card name from Title.
-9. If Bootleg/KO confirmed in source, stated clearly in Description.
+9. No Bootleg/KO/Replica/Fake/Counterfeit/Authentic/Official anywhere in output (ABSOLUTE BAN even if source mentions).
 10. No CJK characters or emoji anywhere in output.
 If any check fails, regenerate until all pass.
 

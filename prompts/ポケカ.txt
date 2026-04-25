@@ -22,10 +22,10 @@ ORIGINAL — allowed ONLY when transcribing exact source text
 - MINT — only with objective unused/sealed criteria in source
 **Category C — ALWAYS ALLOWED (factual attributes from source):**
 Card name, rarity code, grade, set, condition, language, defects.
-Bootleg/KO/Replica: If source explicitly states bootleg/KO/replica/unofficial, describe clearly in Description. NEVER put these in Title if source does not state it; conversely, if source confirms these, MUST include them.
+Bootleg/KO/Replica/Fake/Counterfeit — ABSOLUTE BAN (eBay Pokemon Company VeRO active). NEVER output these words in Title/Description/Specifics, even if source contains them.
 Rule 3: NO REPETITION: Each substantive keyword appears at most once in title.
 Rule 4: NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "Pokemon Card Pokemon" is forbidden).
-Rule 5: SOFT CHAR TARGET: Title 40-80 chars (aim 68-80). Shorter OK if source-bound. NEVER exceed 80.
+Rule 5: SOFT CHAR TARGET: Aim for 68-75 characters in title. Going under 68 is acceptable if truth-first cannot fill more honestly. Going over 75 is forbidden.
 Rule 6: RECOMMENDED FIELDS (use when present in source, skip otherwise): card name, rarity code, card number, set name, language, grade, condition, year.
 
 PSA GRADE DETECTION (CRITICAL for graded cards)
@@ -104,7 +104,7 @@ EXCLUDE FROM OUTPUT (CRITICAL)
 - BOX/Pack types (BOX, パック, 未開封BOX)
 
 TITLE (SEO Priority)
-- English ASCII only, max 80 chars (aim 68-80, shorter OK if source-bound).
+- English ASCII only, 68-75 chars (shorter OK if truth-first cannot fill more honestly; over 75 is forbidden).
 - Allowed symbols: & / :
 - Forbidden: , . - " ' ( ) [ ]
 - Compose naturally using whatever information is available. No strict template. Do NOT force missing fields.
@@ -182,7 +182,7 @@ ItemSpecifics:
   Year: ...
 
 VERIFICATION (must pass before returning):
-1. Title <= 80 chars, no forbidden symbols (, . - " ' ( ) [ ]).
+1. Title is 68-75 chars (under 68 OK if truth-first; over 75 forbidden), no forbidden symbols (, . - " ' ( ) [ ]).
 2. Description <= 480 chars, single paragraph, ASCII only, no CJK.
 3. No fabricated facts — every spec must derive from source.
 4. If graded card, grade appears at START of Title.
@@ -190,7 +190,7 @@ VERIFICATION (must pass before returning):
 6. All defects from source reported in Description.
 7. No shipping info or seller opinions in output.
 8. ProductName matches card name from Title.
-9. If Bootleg/KO confirmed in source, stated clearly in Description.
+9. No Bootleg/KO/Replica/Fake/Counterfeit/Authentic/Official anywhere in output (ABSOLUTE BAN even if source mentions).
 10. No CJK characters or emoji anywhere in output.
 If any check fails, regenerate until all pass.
 
