@@ -1675,6 +1675,193 @@ var CARD_RARITY_DRAGONBALL = [
 ];
 
 // ==============================
+// デジモンカードゲーム マスター辞書
+// ==============================
+
+var CARD_DIGIMON_SETS = [
+  // ========== BT ブースター ==========
+  {jp: 'ニューエボリューション', en: 'New Evolution', code: 'BT-01'},
+  {jp: 'アルティメットパワー', en: 'Ultimate Power', code: 'BT-02'},
+  {jp: 'ユニオンインパクト', en: 'Union Impact', code: 'BT-03'},
+  {jp: 'グレートレジェンド', en: 'Great Legend', code: 'BT-04'},
+  {jp: 'バトルオブオメガ', en: 'Battle of Omni', code: 'BT-05'},
+  {jp: 'ダブルダイヤモンド', en: 'Double Diamond', code: 'BT-06'},
+  {jp: 'ネクストアドベンチャー', en: 'Next Adventure', code: 'BT-07'},
+  {jp: 'ニューヒーロー', en: 'New Hero', code: 'BT-08'},
+  {jp: 'Xレコード', en: 'X Record', code: 'BT-09'},
+  {jp: 'クロスエンカウンター', en: 'Xros Encounter', code: 'BT-10'},
+  {jp: 'ディメンショナルフェイズ', en: 'Dimensional Phase', code: 'BT-11'},
+  {jp: 'アクロスタイム', en: 'Across Time', code: 'BT-12'},
+  {jp: 'VSロイヤルナイツ', en: 'Versus Royal Knights', code: 'BT-13'},
+  {jp: 'ブラストエース', en: 'Blast Ace', code: 'BT-14'},
+  {jp: 'エクシードアポカリプス', en: 'Exceed Apocalypse', code: 'BT-15'},
+  {jp: 'ビギニングオブサーバー', en: 'Beginning Observer', code: 'BT-16'},
+  {jp: 'シークレットクライシス', en: 'Secret Crisis', code: 'BT-17'},
+  {jp: 'インファーナルアセンション', en: 'Infernal Ascension', code: 'BT-18'},
+  {jp: 'ウィンドオブワンダー', en: 'Wind of Wonder', code: 'BT-19'},
+  // ========== EX エクストラ ==========
+  {jp: 'クラシックコレクション', en: 'Classic Collection', code: 'EX-01'},
+  {jp: 'デジタルハザード', en: 'Digital Hazard', code: 'EX-02'},
+  {jp: 'ドラゴンズロア', en: "Dragon's Roar", code: 'EX-03'},
+  {jp: 'オルタナティブビーイング', en: 'Alternative Being', code: 'EX-04'},
+  {jp: 'アニマルコロシアム', en: 'Animal Colosseum', code: 'EX-05'},
+  {jp: 'インフェルノ', en: 'Inferno', code: 'EX-06'},
+  // ========== RB リ・ボーン ==========
+  {jp: 'リターンオブグレイモン', en: 'Return of Greymon', code: 'RB-01'},
+  // ========== LM リベレーター ==========
+  {jp: 'リベレーターオブフェイディングワールド', en: 'Liberator of the Fading World', code: 'LM-01'},
+  // ========== ST スターター ==========
+  {jp: 'ガイアレッド', en: 'Gaia Red', code: 'ST-01'},
+  {jp: 'コキュートスブルー', en: 'Cocytus Blue', code: 'ST-02'},
+  {jp: 'ヘブンズイエロー', en: "Heaven's Yellow", code: 'ST-03'},
+  {jp: 'ギガグリーン', en: 'Giga Green', code: 'ST-04'},
+  {jp: 'マシンブラック', en: 'Machine Black', code: 'ST-05'},
+  {jp: 'ヴェノムヴァイオレット', en: 'Venomous Violet', code: 'ST-06'},
+  {jp: 'ガランクモン', en: 'Gallantmon', code: 'ST-07'},
+  {jp: 'アルフォースブイドラモン', en: 'UlforceVeedramon', code: 'ST-08'},
+  {jp: 'ジエスモン', en: 'Jesmon', code: 'ST-12'},
+  {jp: 'ラグナロードモン', en: 'RagnaLoardmon', code: 'ST-13'},
+  {jp: 'ベルゼブモン', en: 'Beelzemon', code: 'ST-14'},
+  {jp: 'ドラゴンオブカレッジ', en: 'Dragon of Courage', code: 'ST-15'},
+  {jp: 'ウルフオブフレンドシップ', en: 'Wolf of Friendship', code: 'ST-16'},
+  // ========== プロモ ==========
+  {jp: 'プロモ', en: 'Promo', code: 'P'},
+];
+
+var CARD_DIGIMON_CHARACTERS = [
+  // ========== アグモン進化系 ==========
+  {jp: 'コロモン', en: 'Koromon'},
+  {jp: 'アグモン', en: 'Agumon'},
+  {jp: 'グレイモン', en: 'Greymon'},
+  {jp: 'メタルグレイモン', en: 'MetalGreymon'},
+  {jp: 'ウォーグレイモン', en: 'WarGreymon'},
+  {jp: 'ブラックウォーグレイモン', en: 'BlackWarGreymon'},
+  {jp: 'スカルグレイモン', en: 'SkullGreymon'},
+  {jp: 'シャイングレイモン', en: 'ShineGreymon'},
+  // ========== ガブモン進化系 ==========
+  {jp: 'ツノモン', en: 'Tsunomon'},
+  {jp: 'ガブモン', en: 'Gabumon'},
+  {jp: 'ガルルモン', en: 'Garurumon'},
+  {jp: 'ウェアガルルモン', en: 'WereGarurumon'},
+  {jp: 'メタルガルルモン', en: 'MetalGarurumon'},
+  {jp: 'ミラージュガオガモン', en: 'MirageGaogamon'},
+  // ========== オメガモン ==========
+  {jp: 'オメガモン', en: 'Omnimon', aliases: ['Omegamon']},
+  {jp: 'オメガモンズワルト', en: 'Omnimon Zwart', aliases: ['Omegamon Zwart']},
+  {jp: 'オメガモンオルターS', en: 'Omnimon Alter-S', aliases: ['Omegamon Alter-S']},
+  {jp: 'オメガモンマーシフルモード', en: 'Omnimon Merciful Mode', aliases: ['Omegamon Merciful Mode']},
+  // ========== パタモン進化系 ==========
+  {jp: 'パタモン', en: 'Patamon'},
+  {jp: 'エンジェモン', en: 'Angemon'},
+  {jp: 'ホーリーエンジェモン', en: 'MagnaAngemon', aliases: ['HolyAngemon']},
+  {jp: 'セラフィモン', en: 'Seraphimon'},
+  // ========== テイルモン進化系 ==========
+  {jp: 'テイルモン', en: 'Gatomon', aliases: ['Tailmon']},
+  {jp: 'エンジェウーモン', en: 'Angewomon'},
+  {jp: 'オフェニモン', en: 'Ophanimon', aliases: ['Ofanimon']},
+  // ========== ピヨモン進化系 ==========
+  {jp: 'ピヨモン', en: 'Biyomon', aliases: ['Pyomon']},
+  {jp: 'バードラモン', en: 'Birdramon'},
+  {jp: 'ガルダモン', en: 'Garudamon'},
+  {jp: 'レイヴモン', en: 'Ravemon'},
+  // ========== テントモン進化系 ==========
+  {jp: 'テントモン', en: 'Tentomon'},
+  {jp: 'カブテリモン', en: 'Kabuterimon'},
+  {jp: 'アトラーカブテリモン', en: 'MegaKabuterimon', aliases: ['AtlurKabuterimon']},
+  {jp: 'ヘラクルカブテリモン', en: 'HerculesKabuterimon', aliases: ['HerakleKabuterimon']},
+  // ========== ゴマモン進化系 ==========
+  {jp: 'ゴマモン', en: 'Gomamon'},
+  {jp: 'イッカクモン', en: 'Ikkakumon'},
+  {jp: 'ズドモン', en: 'Zudomon'},
+  {jp: 'ヴァイクモン', en: 'Vikemon'},
+  // ========== パルモン進化系 ==========
+  {jp: 'パルモン', en: 'Palmon'},
+  {jp: 'トゲモン', en: 'Togemon'},
+  {jp: 'リリモン', en: 'Lillymon'},
+  {jp: 'ロゼモン', en: 'Rosemon'},
+  // ========== ブイモン進化系 ==========
+  {jp: 'ブイモン', en: 'Veemon'},
+  {jp: 'エクスブイモン', en: 'ExVeemon'},
+  {jp: 'パイルドラモン', en: 'Paildramon'},
+  {jp: 'インペリアルドラモン', en: 'ImperialDramon', aliases: ['ImperialDramon Dragon Mode']},
+  {jp: 'インペリアルドラモンファイターモード', en: 'ImperialDramon Fighter Mode'},
+  {jp: 'インペリアルドラモンパラディンモード', en: 'ImperialDramon Paladin Mode'},
+  {jp: 'マグナモン', en: 'Magnamon'},
+  // ========== ギルモン進化系（テイマーズ） ==========
+  {jp: 'ギルモン', en: 'Guilmon'},
+  {jp: 'グロウルモン', en: 'Growlmon'},
+  {jp: 'ウォーグロウルモン', en: 'WarGrowlmon'},
+  {jp: 'デュークモン', en: 'Gallantmon', aliases: ['Dukemon']},
+  {jp: 'デュークモンクリムゾンモード', en: 'Gallantmon Crimson Mode', aliases: ['Dukemon Crimson Mode']},
+  // ========== レナモン進化系 ==========
+  {jp: 'レナモン', en: 'Renamon'},
+  {jp: 'キュウビモン', en: 'Kyubimon'},
+  {jp: 'タオモン', en: 'Taomon'},
+  {jp: 'サクヤモン', en: 'Sakuyamon'},
+  // ========== テリアモン進化系 ==========
+  {jp: 'テリアモン', en: 'Terriermon'},
+  {jp: 'ガルゴモン', en: 'Gargomon'},
+  {jp: 'ラピッドモン', en: 'Rapidmon'},
+  {jp: 'セントガルゴモン', en: 'MegaGargomon', aliases: ['SaintGalgomon']},
+  // ========== インプモン進化系 ==========
+  {jp: 'インプモン', en: 'Impmon'},
+  {jp: 'ベルゼブモン', en: 'Beelzemon', aliases: ['Beelzebumon']},
+  {jp: 'ベルゼブモンブラストモード', en: 'Beelzemon Blast Mode'},
+  // ========== ロイヤルナイツ ==========
+  {jp: 'ジエスモン', en: 'Jesmon'},
+  {jp: 'アルフォースブイドラモン', en: 'UlforceVeedramon'},
+  {jp: 'ダイナスモン', en: 'Dynasmon'},
+  {jp: 'ロードナイトモン', en: 'RhodoKnightmon', aliases: ['LordKnightmon']},
+  {jp: 'クラニアモン', en: 'Craniummon'},
+  {jp: 'エクスモン', en: 'Examon'},
+  {jp: 'ガンクゥモン', en: 'Gankoomon'},
+  {jp: 'デュフトモン', en: 'Leopardmon', aliases: ['Duftmon']},
+  {jp: 'ルーチェモン', en: 'Lucemon'},
+  {jp: 'ルーチェモンフォールダウンモード', en: 'Lucemon Falldown Mode'},
+  // ========== ダークマスターズ ==========
+  {jp: 'マシンドラモン', en: 'Machinedramon', aliases: ['Mugendramon']},
+  {jp: 'メタルシードラモン', en: 'MetalSeadramon'},
+  {jp: 'ピエモン', en: 'Piedmon'},
+  {jp: 'パペットモン', en: 'Puppetmon', aliases: ['Pinochimon']},
+  // ========== フロンティア ==========
+  {jp: 'アグニモン', en: 'Agunimon'},
+  {jp: 'ベオウルフモン', en: 'BeoWolfmon'},
+  {jp: 'マグナガルルモン', en: 'MagnaGarurumon'},
+  {jp: 'カイゼルグレイモン', en: 'KaiserGreymon', aliases: ['EmperorGreymon']},
+  // ========== クロスウォーズ ==========
+  {jp: 'シャウトモン', en: 'Shoutmon'},
+  {jp: 'オメガシャウトモン', en: 'OmniShoutmon'},
+  {jp: 'ZEKEグレイモン', en: 'ZEKEGreymon'},
+  {jp: 'シャウトモンX4', en: 'Shoutmon X4'},
+  {jp: 'シャウトモンX7', en: 'Shoutmon X7'},
+  // ========== その他人気 ==========
+  {jp: 'ハックモン', en: 'Hackmon', aliases: ['Huckmon']},
+  {jp: 'サーベルレオモン', en: 'SaberLeomon'},
+  {jp: 'リリスモン', en: 'Lilithmon'},
+  {jp: 'バルバモン', en: 'Barbamon'},
+  {jp: 'ベルフェモン', en: 'Belphemon'},
+  {jp: 'プロットモン', en: 'Plotmon', aliases: ['Salamon']},
+  {jp: 'ガオモン', en: 'Gaomon'},
+  {jp: 'ガオガモン', en: 'Gaogamon'},
+  {jp: 'マッハガオガモン', en: 'MachGaogamon'},
+  {jp: 'メガロチカモン', en: 'Megidramon'},
+  {jp: 'グラニュモン', en: 'Gallantmon', aliases: ['Dukemon X']},
+];
+
+var CARD_RARITY_DIGIMON = [
+  {jp: 'コモン', en: 'Common', code: 'C'},
+  {jp: 'アンコモン', en: 'Uncommon', code: 'U'},
+  {jp: 'レア', en: 'Rare', code: 'R'},
+  {jp: 'スーパーレア', en: 'Super Rare', code: 'SR'},
+  {jp: 'シークレットレア', en: 'Secret Rare', code: 'SEC'},
+  {jp: 'オルタネイトアート', en: 'Alternate Art', code: 'AA'},
+  {jp: 'プロモ', en: 'Promo', code: 'P'},
+  {jp: 'スペシャルレア', en: 'Special Rare', code: 'SP'},
+  {jp: 'スターター', en: 'Starter', code: 'ST'},
+  {jp: 'ボックストッパー', en: 'Box Topper'},
+];
+
+// ==============================
 // ヴァイスシュヴァルツ マスター辞書
 // ==============================
 
@@ -2013,6 +2200,15 @@ function buildCardTranslationDict_(game) {
     lines.push('');
     lines.push('[Rarity]');
     lines.push(buildPromptDict_(CARD_RARITY_DRAGONBALL));
+  } else if (game === 'Digimon' || game === 'Digimon Card Game') {
+    lines.push('[Sets]');
+    lines.push(buildPromptDict_(CARD_DIGIMON_SETS));
+    lines.push('');
+    lines.push('[Characters]');
+    lines.push(buildPromptDict_(CARD_DIGIMON_CHARACTERS));
+    lines.push('');
+    lines.push('[Rarity]');
+    lines.push(buildPromptDict_(CARD_RARITY_DIGIMON));
   } else if (game === 'Weiss Schwarz') {
     lines.push('[Titles]');
     lines.push(buildPromptDict_(CARD_WEISS_TITLES));

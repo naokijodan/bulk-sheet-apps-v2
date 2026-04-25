@@ -1797,6 +1797,7 @@ function buildDefaultSanitizePrompt_(category) {
     lines.push('${pokemonCharDict}');
     lines.push('${yugiohCharDict}');
     lines.push('${dragonballCharDict}');
+    lines.push('${digimonCharDict}');
   }
 
   // ゲーム機用の補足ルール（簡易カテゴリ: game）
@@ -2083,7 +2084,18 @@ function runSanitizeSelectedRows() {
           dragonballDict_ = dbDictLines_.join('\n');
         }
       }
-      var prompt = promptCache[cat].replace('${onePieceCharDict}', onePieceDict_).replace('${pokemonCharDict}', pokemonDict_).replace('${yugiohCharDict}', yugiohDict_).replace('${dragonballCharDict}', dragonballDict_).replace('${jpTitle}', batchItems[j].jpTitle).replace('${jpDesc}', batchItems[j].jpDesc);
+      var digimonDict_ = '';
+      if (cat === 'Trading Cards' && /デジモン|Digimon/.test(rawText_)) {
+        if (typeof initCardPatterns_ === 'function') initCardPatterns_();
+        if (typeof CARD_DIGIMON_CHARACTERS !== 'undefined' && CARD_DIGIMON_CHARACTERS.length) {
+          var dgDictLines_ = ['\nDigimon character name reference (Japanese -> English):'];
+          for (var dgi_ = 0; dgi_ < CARD_DIGIMON_CHARACTERS.length; dgi_++) {
+            dgDictLines_.push(CARD_DIGIMON_CHARACTERS[dgi_].jp + '=' + CARD_DIGIMON_CHARACTERS[dgi_].en);
+          }
+          digimonDict_ = dgDictLines_.join('\n');
+        }
+      }
+      var prompt = promptCache[cat].replace('${onePieceCharDict}', onePieceDict_).replace('${pokemonCharDict}', pokemonDict_).replace('${yugiohCharDict}', yugiohDict_).replace('${dragonballCharDict}', dragonballDict_).replace('${digimonCharDict}', digimonDict_).replace('${jpTitle}', batchItems[j].jpTitle).replace('${jpDesc}', batchItems[j].jpDesc);
       prompts.push(prompt);
       requests.push(buildSanitizeRequest_(settings, prompt));
     }
@@ -2221,7 +2233,18 @@ function runSanitizeSelectedRows() {
             dragonballDict2_ = dbDictLines2_.join('\n');
           }
         }
-        var prompt = extra + '\n\n' + promptCache[cat].replace('${onePieceCharDict}', opDict2_).replace('${pokemonCharDict}', pkDict2_).replace('${yugiohCharDict}', yugiohDict2_).replace('${dragonballCharDict}', dragonballDict2_).replace('${jpTitle}', it.jpTitle).replace('${jpDesc}', it.jpDesc);
+        var digimonDict2_ = '';
+        if (cat === 'Trading Cards' && /デジモン|Digimon/.test(rawText2_)) {
+          if (typeof initCardPatterns_ === 'function') initCardPatterns_();
+          if (typeof CARD_DIGIMON_CHARACTERS !== 'undefined' && CARD_DIGIMON_CHARACTERS.length) {
+            var dgDictLines2_ = ['\nDigimon character name reference (Japanese -> English):'];
+            for (var dgi2_ = 0; dgi2_ < CARD_DIGIMON_CHARACTERS.length; dgi2_++) {
+              dgDictLines2_.push(CARD_DIGIMON_CHARACTERS[dgi2_].jp + '=' + CARD_DIGIMON_CHARACTERS[dgi2_].en);
+            }
+            digimonDict2_ = dgDictLines2_.join('\n');
+          }
+        }
+        var prompt = extra + '\n\n' + promptCache[cat].replace('${onePieceCharDict}', opDict2_).replace('${pokemonCharDict}', pkDict2_).replace('${yugiohCharDict}', yugiohDict2_).replace('${dragonballCharDict}', dragonballDict2_).replace('${digimonCharDict}', digimonDict2_).replace('${jpTitle}', it.jpTitle).replace('${jpDesc}', it.jpDesc);
         reqs.push(buildSanitizeRequest_(settings, prompt));
       }
       var resps;

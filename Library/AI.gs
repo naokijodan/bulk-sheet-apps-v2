@@ -158,6 +158,8 @@ function createAIPrompt(fullText, promptId) {
       detectedGame = 'Battle Spirits';
     } else if (fullTextLower.indexOf('ドラゴンボール') !== -1 || fullTextLower.indexOf('dragon ball') !== -1) {
       detectedGame = 'Dragon Ball';
+    } else if (fullTextLower.indexOf('デジモン') !== -1 || fullTextLower.indexOf('digimon') !== -1) {
+      detectedGame = 'Digimon';
     }
 
     var cardHints = [

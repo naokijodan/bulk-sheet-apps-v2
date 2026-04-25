@@ -48,6 +48,8 @@ RARITY DETECTION (value hierarchy)
 Include rarity code in Title after character name.
 For Alt Art: ALWAYS include "Alt Art" or "AA" in Title.
 
+A character/card name dictionary is conditionally injected at the top of this prompt when source mentions デジモン/Digimon. Prefer those dictionary entries when present.
+
 TRANSLATION DICTIONARY
 Use these translations. Format: Japanese=English
 
