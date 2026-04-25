@@ -309,3 +309,57 @@ eBay カテゴリ調査 → IS_TAG_TO_CATEGORY / PROMPT_TAG_MAPPING / SANITIZE_F
 
 - **re.subn lambda 再発**: ワンピース Library 修正で改行 205 行混入 → fix commit 48f311d で lambda 形式に切替
 - 4/24 ドラゴンボール deploy 時の re.sub バグと同根。lambda 形式が標準
+
+---
+
+## 2026-04-25 セッション中断時点（harness-20260425-014356）
+
+### 本セッション完遂
+
+| Phase | 内容 | Commit |
+|---|---|---|
+| V2.0.1 Full Rewrite 7本 | ドラゴンボール / 大相撲 / ヴァイス / デジモン / ガンダム / MTG / トレカ汎用 | ff5bbfb / 1e6228b / 7ef699f / 47c6db6 / ddc5aa1 / 9022d8b / 2cd6c02 + 0cf03fb |
+| 整合性検証 | 10カテゴリ全観点 audit + Phase 1/2/4/5 修正 | f5e9cae+48f311d / 008ea1b / d66bd16 / a759a0f + ba5a306 |
+| Codex MCP 復旧 | `~/bin/codex-new` を /opt/homebrew/bin/codex (v0.124.0) へ symlink、model=gpt-5.5 | (環境変更、commit なし) |
+| ゲーム機 V2.0.1 + 3点セット | ItemSpecifics 8フィールド新設 + BOOTLEG ABSOLUTE BAN | adb18f9 |
+| ゲーム用 V2.0.1 + 3点セット | ItemSpecifics 8フィールド + BOOTLEG (Nintendo/Sony VeRO) | 860e5cc |
+
+### 中断時点の進行中
+
+- **スニーカー V2.0.1 + 3 点セット**: C4 実装完了、未コミット（working tree に残存）
+  - prompts/スニーカー.txt v45→v46
+  - Library/PromptTemplates.gs スニーカー content sync
+  - Sprint Contract: `~/.tmux-harness/sessions/harness-20260425-014356-1641a244/contracts/SNEAKERS-V2.0.1.md`
+  - C4 報告: `reports/sneakers-c4-implement.json`
+- **サングラス C0 完了、Sprint Contract 未起草**:
+  - C0 報告: `reports/sunglasses-c0-survey.json`
+  - HIGH: BOOTLEG ABSOLUTE BAN 欠落（Ray-Ban/Oakley/Gucci VeRO active、最高リスクカテゴリ）
+  - Sanitize/IS は整備済み（変更不要）
+
+### 次セッションでの再開ポイント（順番厳守）
+
+1. **スニーカー E-02 レビュー**（child-c 検察官、instruction: `instructions/sneakers-c5-e02.md`）
+2. **スニーカー deploy**（E-02 PASS 後）
+3. **サングラス Sprint Contract 起草**（親、3点セット改修方針）
+4. **サングラス C4 実装**（child-a、Codex MCP 最小限 + Claude Task 主軸）
+5. **サングラス E-02 → deploy**
+6. priority 16 以降（ドレスシューズ / スポーツウェア / レザーグッズ / 日本ブランド / 書籍・雑誌 / 漫画 / 着物 / 茶道具 / 日本刀 / 掛軸 / 陶磁器 ...）
+
+### 内部エージェント運用方針 v2（重要）
+
+3 リソースの使い分け:
+- **Claude Task ツール（subagent）** = 最優先（自分のサブスク内、コンテキスト分離）
+- **Gemini MCP** = 第二優先（独立検証 / 第二意見）
+- **Codex MCP** = 最小限（コーディング本文生成のみ、サブスク枯渇注意）
+
+各 instruction で `internal_agents_used` / `internal_agents_consideration_notes` を必須項目化。
+
+### 環境メモ
+
+- Codex CLI 復旧済み（`~/bin/codex-new` → v0.124.0 symlink、model=gpt-5.5）
+- バックアップ: `~/bin/codex-new.bak.20260425` / `~/.codex/config.toml.bak.20260425`
+
+### feature.json
+
+- 触らない（次セッションでまとめて更新）
+- 完遂分の更新候補: F-v201-12-game-console / F-v201-13-game-software / F-v201-14-sneakers（deploy 後）
