@@ -1354,8 +1354,7 @@ var CARD_SUMO_WRESTLERS = [
   {jp: '若乃花', en: 'Wakanohana'},
   {jp: '朝青龍', en: 'Asashoryu'},
   {jp: '稀勢の里', en: 'Kisenosato'},
-  {jp: '大の里', en: 'Onosato'},
-  
+
   // ========== 現役・最近の力士 ==========
   {jp: '琴櫻', en: 'Kotozakura', aliases: ['琴ノ若']},
   {jp: '豊昇龍', en: 'Hoshoryu'},
@@ -1371,7 +1370,6 @@ var CARD_SUMO_WRESTLERS = [
   {jp: '双葉山', en: 'Futabayama'},
   {jp: '北の湖', en: 'Kitanoumi'},
   {jp: '輪島', en: 'Wajima'},
-  {jp: '若乃花', en: 'Wakanohana'},
   {jp: '栃東', en: 'Tochihigashi', aliases: ['栃東大裕']}
 ];
 
@@ -1901,7 +1899,8 @@ function getCardGamePatterns_() {
     {keywords: ['ワンピース', 'ONE PIECE', 'One Piece Card'], value: 'One Piece Card Game'},
     {keywords: ['デジモン', 'Digimon'], value: 'Digimon'},
     {keywords: ['BBM', 'ベースボールカード', 'Baseball Card', 'Topps', 'Bowman'], value: 'Baseball'},
-    {keywords: ['大相撲', 'Sumo', '力士'], value: 'Sumo Wrestling'}
+    {keywords: ['大相撲', 'Sumo', '力士'], value: 'Sumo Wrestling'},
+    {keywords: ['ガンダムカード', 'Gundam War', 'NEX-A', 'Arsenal Base', 'Gundam Card', 'BANDAI CARD GAMES', 'Carddass'], value: 'Gundam Card Game'}
   ];
 }
 
