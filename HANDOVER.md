@@ -363,3 +363,58 @@ eBay カテゴリ調査 → IS_TAG_TO_CATEGORY / PROMPT_TAG_MAPPING / SANITIZE_F
 
 - 触らない（次セッションでまとめて更新）
 - 完遂分の更新候補: F-v201-12-game-console / F-v201-13-game-software / F-v201-14-sneakers（deploy 後）
+
+---
+
+## 2026-04-26 セッション中断時点（harness-20260425-014356 継続）
+
+### 本日完遂
+
+| カテゴリ | 内容 | Commit |
+|---|---|---|
+| スニーカー | V2.0.1 + 3点セット deploy | 4deb3c9 |
+| サングラス | V2.0.1 + 3点セット deploy | aa92a15 |
+| ポケカ旧裏 (Old Back/Vintage 1996-2002) | 3点セット改修 deploy | f83f070 |
+
+ポケカ旧裏は新規対応:
+- 検証 Excel `~/Desktop/プロンプト検証_20260418.xlsx` で 48 件すべて Vintage/Old Back 反映なしを発見 → 改修
+- prompts/ポケカ.txt v50→v51: VINTAGE/OLD BACK MARKER + 18 セット辞書 (Base Set/Jungle/Fossil/Team Rocket/Gym Heroes/Gym Challenge/Neo Genesis-Discovery-Revelation-Destiny/Vending Series 1-3/Masaki Promo/Quick Starter Gift Set/Neo Premium File 2/CoroCoro Promo/ANA Promo Dragonite/3 Deck Battle) + Card-e 禁止注記 + Vintage フィールド + VERIFICATION 強制ルール
+- Sanitize.gs / Library/Sanitize.gs: Pass1/Pass2.5 旧裏検出 (34キーワード regex) 動的注入
+- Library/Config_IS.gs: Trading Cards に Vintage フィールド (priority 15)
+- E-02 1回目 FAIL (Library raw newlines 232個 SyntaxError) → C4 rework (re.sub lambda fix) → E-02 再実施 PASS
+
+### 教訓
+
+- **Library sync の `re.sub` で `\n` 展開バグ**: replacement string 内の `\n` が実際の改行として展開される。lambda `_m: new_entry` で回避必須。
+- **検察官分離の効果実証**: 1回目 deploy していたら Library 全カテゴリ破壊リスクだった。E-02 で deploy 前に止められた。
+
+### 保留タスク（明日以降）
+
+- **EAGLE 403 invalid_credentials エラー**: コードバグなしと結論。ユーザー側の検証で判明:
+  - 椛島さん本日のエラーは初発（同じトークンでリトライ成功）
+  - 第三者シートのエラーは API キー側の問題（コピーシート + 椛島さんキーでは成功）
+  - シート側でもコード側でもなく、その人の API キーが eAGLE で無効状態
+  - 推奨: その人に「API キーを eAGLE で再発行」案内するだけで解決
+  - UX 改善（生 JSON エラー表示 + 続行ダイアログ無意味問題）は別案件として保留
+  - **触ると壊すリスクが上回るため現状維持を推奨**
+
+### 次セッションでの再開ポイント
+
+1. **EAGLE UX 改善**（任意、保留判断中）
+2. priority 16 以降 V2.0.1 + 3点セット改修:
+   - F-v201-16-dress-shoes (ドレスシューズ)
+   - F-v201-17-sportswear (スポーツウェア)
+   - F-v201-18-leather (レザーグッズ)
+   - F-v201-19-japan-brand (日本ブランド)
+   - F-v201-20-books (書籍・雑誌)
+   - F-v201-21-manga (漫画)
+   - F-v201-22-kimono (着物)
+   - F-v201-23-teaceremony (茶道具)
+   - F-v201-24-sword (日本刀)
+   - F-v201-25-kakejiku (掛軸)
+   - F-v201-26-pottery (陶磁器)
+
+### feature.json
+
+- 触らない（明日まとめて更新）
+- 完遂分: F-v201-14-sneakers / F-v201-15-sunglasses / F-v201-pokeca-oldback (新規) を passing 候補
