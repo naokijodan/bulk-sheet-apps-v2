@@ -18,7 +18,7 @@ GENUINE — allowed ONLY when transcribing exact source text
 ORIGINAL — allowed ONLY when transcribing exact source text
 **Category B — CONDITIONAL ALLOWANCE (only if source contains explicit evidence):**
 - RARE, LIMITED / LIMITED EDITION — only with explicit source confirmation (print run, explicit rarity stated)
-- VINTAGE — only with decade markers in source
+- VINTAGE — only with decade markers OR 旧裏 detection keywords in source (see VINTAGE / OLD BACK MARKER section)
 - MINT — only with objective unused/sealed criteria in source
 **Category C — ALWAYS ALLOWED (factual attributes from source):**
 Card name, rarity code, grade, set, condition, language, defects.
@@ -82,6 +82,35 @@ CONDITION TERMS
 For graded cards (PSA/BGS/CGC), use the numeric grade, not a verbal condition term.
 Anti-mistranslation: 美品 = NM (Near Mint), NOT Excellent or Beautiful.
 
+VINTAGE / OLD BACK MARKER (1996-2002 era)
+Detection keywords: 旧裏 / 旧裏面 / 初期 / 初代 / 拡張パック第1弾 / 拡張パック第2弾 / 拡張パック第3弾 / 拡張パック第4弾 / 拡張シート / Base Set / ベースセット / ジャングル / 化石 / ロケット団 / リーダーズスタジアム / 闇からの挑戦 / 金銀新世界 / 遺跡をこえて / めざめる伝説 / 闇そして光へ / Neo / クイックスターター / パソコン通信 / マサキ / コロコロ / プレミアムファイル / ANA
+- If ANY detection keyword appears in source: include BOTH "Vintage" AND "Old Back" in Title.
+- "Vintage Old Back" is the eBay collector market standard — use both words together.
+- In Description: include "from the Vintage Old Back era (1996-2002)" when detected.
+- Anti-fabrication: output Vintage: Yes only if detection keyword explicitly in source.
+
+OLD BACK SET NAME MAPPING (C0 confirmed)
+拡張パック第1弾 / ベースセット -> Base Set
+拡張パック第2弾 / ポケモンジャングル -> Jungle
+拡張パック第3弾 / 化石の秘密 / 化石 -> Fossil
+拡張パック第4弾 / ロケット団 -> Team Rocket
+リーダーズスタジアム -> Gym Heroes
+闇からの挑戦 -> Gym Challenge (NOT Neo Discovery — distinct set)
+金銀新世界 / 金、銀、新世界へ -> Neo Genesis
+遺跡をこえて -> Neo Discovery
+めざめる伝説 -> Neo Revelation
+闇そして光へ / 闇、そして光へ -> Neo Destiny
+拡張シート第1弾(青版) -> Vending Series 1
+拡張シート第2弾(赤版) -> Vending Series 2
+拡張シート第3弾(緑版) -> Vending Series 3
+パソコン通信(マサキ) -> Masaki Promo (NOT パソコンけんさく / Computer Search — different card)
+クイックスターター -> Quick Starter Gift Set
+プレミアムファイル2 -> Neo Premium File 2
+コロコロコミック付録 -> CoroCoro Promo
+ANAカイリュー -> ANA Promo Dragonite
+- Card-e (e-Card era 2001-2002: Base Expansion Pack / Town on No Map / Mysterious Mountains) is PROHIBITED — do NOT use Card-e for 拡張シート (those are Vending Series 1/2/3, Japan exclusive 1998).
+- Computer Search (パソコんけんさく) is a different trainer card — do NOT confuse with Masaki Promo (パソコン通信).
+
 LANGUAGE VARIATIONS
 - 日本語/日本版 -> Japanese (always include in Title for eBay discoverability)
 - 英語版/TCG -> English TCG (if source confirms English print)
@@ -113,7 +142,9 @@ TITLE (SEO Priority)
   * Raw single: Pikachu ex 171/165 SAR Scarlet ex NM Japanese Pokemon Card
   * Lot: Pokemon TCG 10 Cards Lot Scarlet ex Violet ex Japanese Mixed Rarity
   * Sealed: Pokemon TCG Shiny Treasure ex Booster Box Japanese Sealed
+  * Vintage Old Back: Pikachu Surfing Vintage Old Back Base Set Japanese Pokemon Card
 - "Pokemon" and "Japanese" are high-value SEO terms — include when available and not redundant.
+- Vintage and Old Back are HIGH SEO for collector market: include BOTH when 旧裏 keywords detected in source.
 - For graded cards (PSA/BGS/CGC): grade at the START of title.
 - LEGITIMATE KEYWORDS (use only if present in source):
   SAR / SR / AR / CHR / CSR / HR / UR / SSR / ACE — rarity codes only when stated
@@ -129,6 +160,7 @@ DESCRIPTION (SEO Priority)
 - Include searchable specs naturally: card name, rarity, set name/code, card number, language, grade details, condition notes if defects listed.
 - Use keyword variations: "Pokemon" "Pokemon TCG" "Pokemon Card Game"
 - Publisher: Published by The Pokemon Company (include once in Description)
+- Vintage Old Back detected: include "from the Vintage Old Back era (1996-2002)" in Description.
 - NEVER include: shipping info, seller opinions, price negotiations
 
 PRODUCTNAME
@@ -165,6 +197,7 @@ Extract and output the following fields (use N/A if not determinable):
 - Grade: PSA 10 / BGS 9.5 / Raw
 - Condition: Gem Mint / Mint / NM / LP / MP / HP / DMG / N/A
 - Year: Release year or N/A
+- Vintage: Yes / No (Yes only if 旧裏 detection keywords present in source; No otherwise)
 
 OUTPUT FORMAT (exactly):
 Title: ...
@@ -180,6 +213,7 @@ ItemSpecifics:
   Grade: ...
   Condition: ...
   Year: ...
+  Vintage: ...
 
 VERIFICATION (must pass before returning):
 1. Title is 68-75 chars (under 68 OK if truth-first; over 75 forbidden), no forbidden symbols (, . - " ' ( ) [ ]).
@@ -192,6 +226,7 @@ VERIFICATION (must pass before returning):
 8. ProductName matches card name from Title.
 9. No Bootleg/KO/Replica/Fake/Counterfeit/Authentic/Official anywhere in output (ABSOLUTE BAN even if source mentions).
 10. No CJK characters or emoji anywhere in output.
+11. If 旧裏 keywords detected in source, Title MUST contain both "Vintage" and "Old Back".
 If any check fails, regenerate until all pass.
 
 REMINDER: If you cannot honestly fill 40 chars from source, output a shorter title. Lying is worse than being short.

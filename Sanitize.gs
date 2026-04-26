@@ -2062,6 +2062,9 @@ function runSanitizeSelectedRows() {
         }
         pokemonDict_ = pkLines_.join('\n');
       }
+      if (cat === 'Trading Cards' && /旧裏|旧裏面|初期|初代|拡張パック第[1-4]弾|拡張シート|ベースセット|Base Set|ポケモンジャングル|ジャングル|化石の秘密|化石|ロケット団|リーダーズスタジアム|闇からの挑戦|金.{0,3}銀.{0,5}新世界|遺跡をこえて|めざめる伝説|闇.{0,3}そして光へ|Neo Genesis|Neo Discovery|Neo Revelation|Neo Destiny|クイックスターター|パソコン通信|マサキ|プレミアムファイル|月刊コロコロ|コロコロ.*97|コロコロ.*98|コロコロ.*99|コロコロ.*200[0-2]|ANA.*カイリュー|ANAカイリュー|3デッキ戦|Vending Series/.test(rawText_)) {
+        pokemonDict_ += '\nVINTAGE/OLD BACK ERA detected: include both "Vintage" and "Old Back" in Title. "Vintage Old Back" is the eBay collector market standard (1996-2002).';
+      }
       var yugiohDict_ = '';
       if (cat === 'Trading Cards' && /遊戯王|YuGiOh|Yu-Gi-Oh|遊戯/.test(rawText_)) {
         if (typeof initCardPatterns_ === 'function') initCardPatterns_();
@@ -2210,6 +2213,9 @@ function runSanitizeSelectedRows() {
             }
           }
           pkDict2_ = pkLines2_.join('\n');
+        }
+        if (cat === 'Trading Cards' && /旧裏|旧裏面|初期|初代|拡張パック第[1-4]弾|拡張シート|ベースセット|Base Set|ポケモンジャングル|ジャングル|化石の秘密|化石|ロケット団|リーダーズスタジアム|闇からの挑戦|金.{0,3}銀.{0,5}新世界|遺跡をこえて|めざめる伝説|闇.{0,3}そして光へ|Neo Genesis|Neo Discovery|Neo Revelation|Neo Destiny|クイックスターター|パソコン通信|マサキ|プレミアムファイル|月刊コロコロ|コロコロ.*97|コロコロ.*98|コロコロ.*99|コロコロ.*200[0-2]|ANA.*カイリュー|ANAカイリュー|3デッキ戦|Vending Series/.test(rawText2_)) {
+          pkDict2_ += '\nVINTAGE/OLD BACK ERA detected: include both "Vintage" and "Old Back" in Title. "Vintage Old Back" is the eBay collector market standard (1996-2002).';
         }
         var yugiohDict2_ = '';
         if (cat === 'Trading Cards' && /遊戯王|YuGiOh|Yu-Gi-Oh|遊戯/.test(rawText2_)) {

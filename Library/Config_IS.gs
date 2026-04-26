@@ -296,6 +296,7 @@ var IS_INITIAL_DATA = [
   { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Age Level', field_type: 'recommended', priority: 12, notes: '' },
   { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Features', field_type: 'optional', priority: 13, notes: '' },
   { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Language', field_type: 'optional', priority: 14, notes: '' },
+  { category: 'Trading Cards', tag_jp: 'トレカ,カード,トレーディングカード,ポケカ,遊戯王,MTG', field_name: 'Vintage', field_type: 'optional', priority: 15, notes: 'Yes (旧裏 1996-2002 era) / No' },
 
   // === Video Games ===
   { category: 'Video Games', tag_jp: 'ゲーム,ゲームソフト,テレビゲーム,Switch,PS5,PS4,PS3,PS2,Xbox,ファミコン,スーファミ,ゲームボーイ', field_name: 'Platform', field_type: 'required', priority: 1, notes: 'Nintendo Switch, PlayStation 5, Xbox Series X等' },
