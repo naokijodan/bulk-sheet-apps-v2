@@ -719,7 +719,7 @@
     "id": "F-v201-12-game-console",
     "name": "ゲーム機 V2.0.1 Full Rewrite",
     "description": "ゲーム B グループ。BOOTLEG MUST (偽物 Nintendo/Sony VeRO)。",
-    "status": "failing",
+    "status": "passing",
     "priority": 12,
     "phase": "V2.0.1 残 44",
     "group": "ゲーム B",
@@ -728,15 +728,15 @@
       "F-tokei-v11-reference"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
-    "notes": "Master plan #12。prompt file: prompts/ゲーム機.txt。ゲームBグループで一括SC化可能。"
+    "updated_at": "2026-04-26T18:00:00+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260425-014356-1641a244/contracts/GAME-CONSOLE-V2.0.1.md",
+    "notes": "Master plan #12。prompt file: prompts/ゲーム機.txt。ゲームBグループで一括SC化可能。 Deploy commit adb18f9 (2026-04-25, harness-20260425-014356)。"
   },
   {
     "id": "F-v201-13-game-software",
     "name": "ゲーム用 V2.0.1 Full Rewrite",
     "description": "ゲーム B グループ。BOOTLEG MUST。R-3。",
-    "status": "failing",
+    "status": "passing",
     "priority": 13,
     "phase": "V2.0.1 残 44",
     "group": "ゲーム B",
@@ -746,15 +746,15 @@
       "F-v201-12-game-console"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
-    "notes": "Master plan #13。prompt file: prompts/ゲーム用.txt"
+    "updated_at": "2026-04-26T18:00:00+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260425-014356-1641a244/contracts/GAME-SOFTWARE-V2.0.1.md",
+    "notes": "Master plan #13。prompt file: prompts/ゲーム用.txt Deploy commit 860e5cc (2026-04-25, harness-20260425-014356)。"
   },
   {
     "id": "F-v201-14-sneakers",
     "name": "スニーカー V2.0.1 Full Rewrite",
     "description": "アパレル C グループ。BOOTLEG MUST (Nike/Adidas VeRO)。",
-    "status": "failing",
+    "status": "passing",
     "priority": 14,
     "phase": "V2.0.1 残 44",
     "group": "アパレル C",
@@ -764,15 +764,15 @@
       "F-apparel-v201"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
-    "notes": "Master plan #14。prompt file: prompts/スニーカー.txt"
+    "updated_at": "2026-04-26T18:00:00+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260425-014356-1641a244/contracts/SNEAKERS-V2.0.1.md",
+    "notes": "Master plan #14。prompt file: prompts/スニーカー.txt Deploy commit 4deb3c9 (2026-04-26, harness-20260425-014356)。"
   },
   {
     "id": "F-v201-15-sunglasses",
     "name": "サングラス V2.0.1 Full Rewrite",
     "description": "アパレル C グループ。BOOTLEG MUST (Ray-Ban/Oakley VeRO)。",
-    "status": "failing",
+    "status": "passing",
     "priority": 15,
     "phase": "V2.0.1 残 44",
     "group": "アパレル C",
@@ -782,9 +782,9 @@
       "F-apparel-v201"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
-    "notes": "Master plan #15。prompt file: prompts/サングラス.txt"
+    "updated_at": "2026-04-26T18:00:00+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260425-014356-1641a244/contracts/SUNGLASSES-V2.0.1.md",
+    "notes": "Master plan #15。prompt file: prompts/サングラス.txt Deploy commit aa92a15 (2026-04-26, harness-20260425-014356)。"
   },
   {
     "id": "F-v201-16-dress-shoes",
@@ -1434,5 +1434,22 @@
     "updated_at": "2026-04-20T00:00:00+09:00",
     "last_sprint_contract": null,
     "notes": "修正設計は HANDOVER.md §3 に記載済み、未修正。(2026-04-17 Title品質改善ノートで発見)"
+  },
+  {
+    "id": "F-pokeca-oldback-v1",
+    "name": "ポケカ旧裏 (Old Back / Vintage 1996-2002) 3点セット対応",
+    "description": "prompts/ポケカ.txt + Sanitize.gs + Library/Config_IS.gs 3点セット改修。VINTAGE/OLD BACK MARKER + 18セット辞書 + Card-e 禁止注記 + Vintage フィールド + VERIFICATION 強制ルール。検証 Excel 48件で Vintage/Old Back 反映なしを発見 → 改修。",
+    "status": "passing",
+    "priority": 99,
+    "phase": "派生対応",
+    "group": "トレカ A 派生",
+    "bootleg": "MUST",
+    "dependencies": [
+      "F-v201-01-pokeka"
+    ],
+    "created_at": "2026-04-26T18:00:00+09:00",
+    "updated_at": "2026-04-26T18:00:00+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260425-014356-1641a244/contracts/POKECA-OLDBACK-V1.md",
+    "notes": "Deploy commit f83f070 (2026-04-26, harness-20260425-014356)。E-02 1回目 FAIL (Library raw newlines 232個 SyntaxError) → C4 rework (re.sub lambda fix) → E-02 再実施 PASS。C0 で 5 訂正発見 (闇からの挑戦=Gym Challenge / 遺跡をこえて=Neo Discovery / 美しき海削除 / Masaki Promo / Card-e 禁止)。"
   }
 ]
