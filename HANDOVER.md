@@ -414,7 +414,12 @@ eBay カテゴリ調査 → IS_TAG_TO_CATEGORY / PROMPT_TAG_MAPPING / SANITIZE_F
    - F-v201-25-kakejiku (掛軸)
    - F-v201-26-pottery (陶磁器)
 
-### feature.json
+### feature.json — 2026-04-26 中断前に整合済み (commit 57e3301)
 
-- 触らない（明日まとめて更新）
-- 完遂分: F-v201-14-sneakers / F-v201-15-sunglasses / F-v201-pokeca-oldback (新規) を passing 候補
+- F-v201-12-game-console: failing → passing (deploy adb18f9)
+- F-v201-13-game-software: failing → passing (deploy 860e5cc)
+- F-v201-14-sneakers: failing → passing (deploy 4deb3c9)
+- F-v201-15-sunglasses: failing → passing (deploy aa92a15)
+- F-pokeca-oldback-v1: 新規追加 passing (deploy f83f070, priority 99 派生対応)
+
+過去分 (P1-P11 ポケカ V2.0.1 Full Rewrite 完了済 033bef5 等) の整合は別途まとめて確認予定。
