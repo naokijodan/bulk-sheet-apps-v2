@@ -1451,5 +1451,20 @@
     "updated_at": "2026-04-26T18:00:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260425-014356-1641a244/contracts/POKECA-OLDBACK-V1.md",
     "notes": "Deploy commit f83f070 (2026-04-26, harness-20260425-014356)。E-02 1回目 FAIL (Library raw newlines 232個 SyntaxError) → C4 rework (re.sub lambda fix) → E-02 再実施 PASS。C0 で 5 訂正発見 (闇からの挑戦=Gym Challenge / 遺跡をこえて=Neo Discovery / 美しき海削除 / Masaki Promo / Card-e 禁止)。"
+  },
+  {
+    "id": "F-watch-v52-redesign-2026-04-28",
+    "name": "時計用プロンプト V2.0.1 Full Rewrite (PROMPT_DESIGN_PRINCIPLE.md v1.0)",
+    "description": "PROMPT_DESIGN_PRINCIPLE.md v1.0 準拠の時計用プロンプト全面改修。TITLE §4.2 reason-based (80 hard cap)、BOOTLEG MUST standalone (14 VeRO brands)、BRAND DICTIONARY 25 entries、SET/SERIES 32 entries、ACCESSORY DICTIONARY 13 entries、ERA/YEAR MARKER 9 entries、CONDITION TERMS 9-stage watch standard、DEFECT MAPPING 26 pairs、NICKNAME GUARD。Library version 50→52。E-02 PASS by child-c.",
+    "status": "passing",
+    "priority": 1,
+    "phase": "Phase 1 - Watch Category",
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
+    "created_at": "2026-04-28T07:00:00Z",
+    "updated_at": "2026-04-28T07:00:00Z",
+    "last_sprint_contract": null,
+    "notes": "harness-20260428-002258-06e8cb5d. C0 ammo→C4 implement→E02→rework→E02-rerun PASS→C6 deploy. Library v52 byte-match OK."
   }
 ]

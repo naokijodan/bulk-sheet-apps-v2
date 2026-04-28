@@ -4,19 +4,76 @@ GOALS
 - Analyze Japanese source ${fullText} and output an English listing optimized for eBay search.
 - OUTPUT MUST BE ASCII ONLY (A-Z a-z 0-9 spaces and symbols listed below), no CJK.
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
-- ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge (e.g., do NOT guess movement type, water resistance, case size, crystal type, or country of origin unless the source states it).
+- TRUTH FIRST: Only include facts explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge (e.g., do NOT guess movement type, water resistance, case size, crystal type, or country of origin unless the source states it).
 
-Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them). OFFICIAL: Allowed ONLY when part of a product's proper name (e.g., "Official Warranty Card", "Official Box", "Official User Manual", "Official Guide Book"); NEVER use as a standalone authenticity claim (e.g., "Official Rolex" = BAN).
+Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them). OFFICIAL: Allowed ONLY when part of a product's proper name (e.g., "Official Warranty Card", "Official Box", "Official User Manual"); NEVER use as a standalone authenticity claim.
 GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Genuine Leather", "Original Box"); never add yourself.
 RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., serial numbers, decade markers, "limited to N units"); no inference, no guessing, no general knowledge.
 
+BOOTLEG MUST — ABSOLUTE BAN
+NEVER output: Replica / Counterfeit / Fake / Imitation / Copy watch / Clone / Homage / AAA quality / Swiss replica / 1:1 copy
+High-risk VeRO brands (any mention in context of non-authenticity is BANNED): Rolex, Omega, Patek Philippe, Audemars Piguet, Breitling, Panerai, Cartier, Hublot, IWC, Tudor, TAG Heuer, Vacheron Constantin, Jaeger-LeCoultre, Richard Mille
+If source implies or states the watch is a replica/counterfeit, output ONLY: Title: [Cannot list], Description: [Cannot list], ProductName: N/A, Category: N/A
+
+NICKNAME / COLLECTOR ALIAS GUARD — ABSOLUTE BAN
+NEVER use collector nicknames or community-coined aliases unless the source text explicitly contains them. Examples of forbidden inferences:
+- 雪白文字盤 → "Snow White" only (NEVER "Snowflake")
+- Tuna Can / Turtle / Pepsi / Hulk / Batman / Coke / Root Beer and similar
+  These are unofficial nicknames. Use only the model's official name unless source uses the nickname verbatim.
+
+BRAND DICTIONARY (Japanese source → English output, use standardized names only)
+セイコー → Seiko | グランドセイコー → Grand Seiko | クレドール → Credor
+シチズン → Citizen | カシオ → Casio | オリエント → Orient
+ロレックス → Rolex | パテックフィリップ → Patek Philippe | オーデマピゲ → Audemars Piguet
+ヴァシュロンコンスタンタン → Vacheron Constantin | ジャガールクルト → Jaeger-LeCoultre
+リシャールミル → Richard Mille | ブレゲ → Breguet | ランゲゾーネ → A. Lange & Sohne
+オメガ → Omega | IWC → IWC Schaffhausen | パネライ → Panerai | カルティエ → Cartier
+ブライトリング → Breitling | ウブロ → Hublot | チューダー / チュードル → Tudor
+タグホイヤー → TAG Heuer | ロンジン → Longines | ティソ → Tissot | ハミルトン → Hamilton
+
+SET / SERIES DICTIONARY (use these English names, never translate literally)
+Seiko: セイコー5 → Seiko 5 | プロスペックス → Prospex | プレザージュ → Presage | アストロン → Astron | ルキア → Lukia | ドルチェ → Dolce & Exceline | ブライツ → Brightz
+Citizen: エコドライブ → Eco-Drive | プロマスター → Promaster | ザシチズン → The CITIZEN | エクシード → Exceed | クロスシー → xC | アテッサ → Attesa
+Casio: ジーショック → G-Shock | エディフィス → EDIFICE | プロトレック → Pro Trek | オシアナス → Oceanus | ウェーブセプター → Wave Ceptor | ベイビージー → Baby-G
+Orient: オリエントスター → Orient Star | マコ → Mako | レイ → Ray
+Omega: スピードマスター → Speedmaster | シーマスター → Seamaster | コンステレーション → Constellation | デビル → De Ville | アクアテラ → Aqua Terra
+Rolex: サブマリーナー → Submariner | デイトナ → Daytona | エクスプローラー → Explorer | GMTマスター → GMT-Master | デイデイト → Day-Date
+
+ACCESSORY DICTIONARY (translate accessory terms consistently)
+箱付き → With Original Box | 外箱付き → With Outer Box | フルセット → Full Set (Box + Papers)
+保証書付き → With Warranty Card | 取扱説明書付き → With Manual | 純正ベルト付き → With Original Strap
+コマ付き / 余りコマあり → With Extra Links | 工具付き → With Tool | ピン外し付き → With Pin Remover
+クロス付き → With Cleaning Cloth | タグ付き → With Tag | ケース付き → With Case
+付属品なし → No Accessories
+
+ERA / YEAR MARKER (use these English terms when source mentions era or decade)
+ビンテージ → Vintage | アンティーク → Antique
+1960年代 → 1960s | 1970年代 → 1970s | 1980年代 → 1980s | 1990年代 → 1990s
+昭和 → Showa era | 平成 → Heisei era | 令和 → Reiwa era
+
+CONDITION TERMS (watch industry standard — use ONLY when source mentions condition)
+未使用 / 新品同様 / 未着用 → New / Unworn
+NOS / デッドストック → NOS (New Old Stock)
+美品（ほぼ未使用） → Mint
+極美品（使用感ほぼなし） → Excellent
+良品（軽微な使用感あり） → Very Good
+普通品 / 並品 → Good
+やや難あり（目立つ傷・凹み） → Fair
+難あり（大きな傷・欠け） → Poor
+ジャンク / 不動品 / 部品取り → For Parts Only
+Do NOT use TCG-style terms (NM/LP/MP/HP/DMG) for watches.
+Do NOT infer condition — only use if source explicitly states it.
+
 TITLE (SEO Priority)
+- HARD LIMIT: 80 chars maximum. eBay rejects titles exceeding 80 chars.
+- GOAL: Maximize SEO discoverability by packing every source-derived fact (brand, model, reference, movement, complication, case material, dial color, bracelet, year, accessories such as Box/Papers/Full Set) within the 80-char budget. Unused characters = lost search visibility.
+- TRUTH BOUND: Only include facts derivable from the source text.
+- Shorter title is acceptable when source provides limited information.
 - Language: English ASCII only.
-- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 - Do not mention guarantees/returns/refunds.
-- **IMPORTANT**: Do NOT include any condition/status terms (like Junk, Not Working, For Parts, Untested, Battery Dead, As-Is Condition) unless they are **explicitly and clearly written** in the Japanese source text.
+- Do NOT include condition/status terms unless explicitly written in source.
 
 - SEO KEYWORD ORDER (front-load high-value terms):
   1. Brand (within first 30 chars)
@@ -26,7 +83,8 @@ TITLE (SEO Priority)
   5. Case size in mm if known (e.g., 42mm, 38mm)
   6. Gender if clear (Mens, Womens, Unisex)
   7. Ref/Cal number if space allows
-  8. Bonus SEO words if applicable & true: Vintage, Rare, Limited, JDM, Japan Made
+  8. Era/condition token if explicitly stated (Vintage, NOS, JDM, Japan Made)
+  9. Accessory token if applicable (w/ Box, Full Set, w/ Papers)
 
 - WRIST RULE:
   ONLY if wrist size is explicitly written in the source text (keywords: 腕周り 手首周り 腕回り 内周 手首サイズ 最大内周 着用可能サイズ 対応サイズ 腕回).
@@ -37,7 +95,7 @@ TITLE (SEO Priority)
   Conversion: divide cm by 2.54 and round to one decimal place for inch.
   If source is in mm, convert to cm first (divide by 10, keep decimal).
   Keep exactly one space before wrist; no extra symbols.
-  If over 75 chars, shorten other parts but keep the wrist token.
+  If over 80 chars, shorten other parts but keep the wrist token.
 
 DESCRIPTION (SEO Priority)
 - English ASCII only, <= 480 chars, single natural paragraph.
@@ -59,17 +117,33 @@ DESCRIPTION (SEO Priority)
 - DEFECT/ISSUE REPORTING (CRITICAL):
   If the source mentions ANY defect, malfunction, or issue, you MUST describe it in the Description.
   DEFECT KEYWORDS AND TRANSLATIONS:
-    - 故障 / 不動 / 動かない / 壊れ -> "malfunction" or "broken"
-    - 操作できず / 操作不可 / 設定不可 -> "not operational"
-    - 調整できません / 調整不可 -> "adjustment not possible"
-    - ジャンク -> "for parts"
-    - 不具合 -> "defect"
-    - カレンダー不良 -> "calendar function not working"
-    - リューズ破損 -> "crown is damaged"
-    - ガラス割れ -> "crystal has a crack"
-    - 欠け -> "chip" or "chipped"
-    - 傷 -> "scratch"
-    - 〜できず / 〜不可 / 〜できません -> always means NOT possible. NEVER translate as "works" or "functional".
+    - 故障 / 不動 / 動かない / 壊れ → "malfunction" or "broken"
+    - 操作できず / 操作不可 / 設定不可 → "not operational"
+    - 調整できません / 調整不可 → "adjustment not possible"
+    - ジャンク → "for parts"
+    - 不具合 → "defect"
+    - カレンダー不良 → "calendar function not working"
+    - リューズ / 竜頭破損 / 竜頭不良 → "crown is damaged" or "crown malfunction"
+    - ガラス割れ / 風防割れ → "crystal has a crack"
+    - 風防傷 → "crystal scratches"
+    - 欠け → "chip" or "chipped"
+    - 傷 → "scratch"
+    - ベゼル傷 → "bezel scratches"
+    - ケース傷 → "case scratches"
+    - 文字盤傷 → "dial scratches"
+    - ブレス伸び / ブレスレット伸び → "bracelet stretched"
+    - ブレス傷 → "bracelet scratches"
+    - 夜光劣化 / 夜光褪色 → "lume degraded"
+    - 巻き上げ不良 → "winding mechanism issue"
+    - 日付合わせ不良 → "date setting issue"
+    - 研磨済み → "case has been polished (refinished)"
+    - メッキはがれ → "plating worn"
+    - ルーペ傷 → "magnifier scratched"
+    - 防水不良 → "water resistance compromised"
+    - 文字盤焼け / 文字盤変色 → "dial discoloration"
+    - 針外れ / 秒針外れ → "hand detached"
+    - 電池切れ → "battery dead"
+    - 〜できず / 〜不可 / 〜できません → always means NOT possible. NEVER translate as "works" or "functional".
   If source contains "(DEFECT: ...)" markers, use the English text directly.
   Omitting known defects is a violation of eBay policy.
 - Describe operation/status only if clearly mentioned (tested/untested/issues).
@@ -81,10 +155,12 @@ PRODUCTNAME
 - Example: Seiko Prospex Diver Watch, Citizen Eco-Drive Chronograph
 
 CATEGORY
-- Use eBay watch category style if determinable.
-- Example: Wristwatches, Pocket Watches, Watch Parts & Accessories
-- If product is a desk clock or wall clock: Clocks
+- Wristwatches (eBay ID: 31387)
+- Pocket Watches (eBay ID: 3937)
+- Watch Parts & Accessories
+- Clocks
 - If unclear: N/A
+Route: If wristwatch → Wristwatches. If pocket watch / 懐中時計 → Pocket Watches. If strap/band/part/tool → Watch Parts & Accessories. If desk/wall clock / 置き時計 / 掛け時計 → Clocks.
 
 OUTPUT FORMAT (exactly):
 Title: ...
@@ -93,19 +169,21 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 68-75 chars.
+1. Title does not exceed 80 chars (eBay hard limit).
 2. Description <= 480 chars.
 3. Only ASCII letters/numbers/spaces and allowed symbols (& / : - . ,) used throughout.
 4. No CJK characters or emoji anywhere.
 5. Title front-loads brand within first 30 chars.
 6. Description first sentence contains brand + product type keywords.
 7. ProductName uses real brand name (not N/A for brand).
-8. If wrist size keywords exist in source, Title ENDS with "wrist {cm}cm/{inch}in" using the EXACT source value. If NO wrist keywords in source, Title must NOT contain "wrist".
+8. If wrist size keywords exist in source, Title ends with "wrist {cm}cm/{inch}in" using the EXACT source value. If NO wrist keywords in source, Title must NOT contain "wrist".
 9. Condition/status words appear only if explicitly stated in source Japanese.
 10. No forbidden symbols in Title (no " ' ( ) [ ]).
 11. If source mentions display type, Description MUST contain the exact phrase ("analog display" / "digital display" / "analog and digital display"). If source does NOT mention display type, do NOT include it.
 12. If source mentions any defect/malfunction, Description MUST include it.
 13. Every spec in the output (movement, water resistance, case size, crystal, wrist size) must have a corresponding source in the Japanese text. If not found in source, it must NOT appear in output.
+14. No bootleg/replica/counterfeit language appears in any output field.
+15. If source implies replica/counterfeit watch, ALL fields must read [Cannot list].
 
 If any check fails, regenerate until all pass.
 
