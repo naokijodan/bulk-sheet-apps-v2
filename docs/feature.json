@@ -1466,5 +1466,20 @@
     "updated_at": "2026-04-28T07:00:00Z",
     "last_sprint_contract": null,
     "notes": "harness-20260428-002258-06e8cb5d. C0 ammo→C4 implement→E02→rework→E02-rerun PASS→C6 deploy. Library v52 byte-match OK."
+  },
+  {
+    "id": "F-camera-v51-redesign-2026-04-28",
+    "name": "カメラプロンプト V2.0.1 Full Rewrite (PROMPT_DESIGN_PRINCIPLE.md v1.0 準拠)",
+    "description": "PROMPT_DESIGN_PRINCIPLE.md v1.0 準拠フルリライト。BOOTLEG MUST (19 VeRO brands + Soviet copy guard), NICKNAME/COLLECTOR ALIAS GUARD, BRAND DICTIONARY (33 JP→EN), CAMERA FORMAT DICTIONARY (14 entries), LENS DICTIONARY (16 mounts + 9 types), ACCESSORY DICTIONARY, ERA/YEAR MARKER (9 entries, NOS重複除去), CONDITION TERMS (11-stage camera industry standard), DEFECT MAPPING (42+ pairs), OPERATION CHECK DICTIONARY, TYPE-CONDITIONAL/LENS RULE/SHUTTER COUNT preserved, VERIFICATION 15 items. Library v51. E-02 PASS (child-c 独立検察官). F-02 (NOS重複) 修正済み。",
+    "status": "passing",
+    "priority": 2,
+    "phase": "Phase 1B",
+    "dependencies": [
+      "F-watch-v52-redesign-2026-04-28"
+    ],
+    "created_at": "2026-04-28T15:07:07+09:00",
+    "updated_at": "2026-04-28T15:07:07+09:00",
+    "last_sprint_contract": null,
+    "notes": "child-a (C4 implement + C4-rework), child-c (C0 ammo eval + E-02 review + E-02 rerun). E-02 verdict: PASS. F-02 NOS duplicated in ERA/YEAR MARKER → FIXED (v51). Deferred: F-01 count discrepancy (no functional impact), F-03 non-standard condition terms (LOW), F-04 eBay IDs unverified (LOW), F-05 camera type inference (LOW/acceptable trade-off)."
   }
 ]
