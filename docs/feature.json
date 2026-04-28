@@ -1511,5 +1511,20 @@
     "updated_at": "2026-04-28T17:30:00+09:00",
     "last_sprint_contract": null,
     "notes": "child-a (C4 implement), child-c (C0 ammo eval + E-02 review). E-02 verdict: PASS_WITH_MINORS. Deferred: F-M1 ACCESSORY 11件(req 12+, no functional impact), I-03 defect count self-report discrepancy (29 reported vs 30 actual, no impact). NOS correctly placed: ERA exclusion note + CONDITION TERMS only."
+  },
+  {
+    "id": "F-tackle-v45-redesign-2026-04-28",
+    "name": "釣具汎用プロンプト V2.0.1 Full Rewrite (PROMPT_DESIGN_PRINCIPLE.md v1.0 準拠)",
+    "description": "PROMPT_DESIGN_PRINCIPLE.md v1.0 準拠フルリライト。BOOTLEG MUST (18 trusted brands, Rapala VeRO warning), NICKNAME GUARD, BRAND DICTIONARY (38 JP→EN entries), MODEL/SERIES REFERENCE (8 brands: Megabass/Jackall/O.S.P/Deps/Gan Craft/Lucky Craft/DUO/Rapala), ITEM TYPE DICTIONARY (71 entries, 5 sub-categories: Hard Baits/Soft Baits/Terminal Tackle/Line/Accessories), APPLICATION DICTIONARY (25 JP→EN fishing method/target terms), SPEC DICTIONARY + PE LINE RATING TABLE (PE#0.4→8lb through PE#3.0→55lb), ACCESSORY DICTIONARY (9 positive 付き-format + 6 negative), ERA/YEAR MARKER (15 entries incl. 1960s-1990s/JDM/廃盤/限定カラー, NOS excluded), CONDITION TERMS (9-stage: MIB/NIP/Mint/Excellent/Very Good/Good/Fair/Poor/NOS + TCG guard + DEFECT GUARD), DEFECT MAPPING (39 pairs, 4 sub-types: Hard Baits/Hooks/Soft Baits/Line/General), CATEGORY (11 with eBay IDs). Library v44→v45. E-02 PASS_WITH_MINORS by child-c.",
+    "status": "passing",
+    "priority": 5,
+    "phase": "Phase 1B",
+    "dependencies": [
+      "F-rod-v47-redesign-2026-04-28"
+    ],
+    "created_at": "2026-04-28T19:30:00+09:00",
+    "updated_at": "2026-04-28T19:30:00+09:00",
+    "last_sprint_contract": null,
+    "notes": "child-a (C4 implement: tackle-c4-implement), child-c (C0 ammo eval: tackle-c0-ammo + E-02 review: tackle-e02-review + C6 deploy: tackle-c6-deploy). E-02 verdict: PASS_WITH_MINORS. F-M1: BOOTLEG MUST trusted list (18 entries) does not cover Fina/Decoy/BlueBlue etc. (low risk, rarely counterfeited). Byte-match OK (16183 chars). I-01/I-02 PASS. NOS correctly placed in CONDITION TERMS only."
   }
 ]
