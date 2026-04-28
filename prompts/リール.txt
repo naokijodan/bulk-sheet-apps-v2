@@ -4,39 +4,187 @@ GOALS
 - Analyze Japanese source ${fullText} and output an English listing optimized for eBay search.
 - OUTPUT MUST BE ASCII ONLY (A-Z a-z 0-9 spaces and symbols listed below), no CJK.
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
-- ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge (e.g., do NOT guess gear ratio, ball bearings count, or line capacity unless the source states it).
+- TRUTH FIRST: Only include facts explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge (e.g., do NOT guess gear ratio, ball bearings count, or line capacity unless the source states it).
 
-Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them). OFFICIAL: Allowed ONLY when part of a product's proper name (e.g., "Official Warranty Card", "Official Box", "Official User Manual", "Official Guide Book"); NEVER use as a standalone authenticity claim (e.g., "Official Rolex" = BAN).
-GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Genuine Leather", "Original Box"); never add yourself.
-RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., serial numbers, decade markers, "limited to N units"); no inference, no guessing, no general knowledge.
+Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them). OFFICIAL: Allowed ONLY when part of a product's proper name (e.g., "Official Warranty Card"); NEVER use as a standalone authenticity claim. GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Genuine Leather", "Original Box"); never add yourself.
+RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence; no inference, no guessing, no general knowledge.
+
+BOOTLEG MUST
+Trusted reel brands: Shimano, Daiwa, Abu Garcia, Penn, Okuma, Pflueger, Quantum, Lew's, 13 Fishing.
+Absolutely banned terms (no exceptions): Replica, Counterfeit, Fake, Clone, Homage, AAA quality.
+Prohibited claims without explicit source evidence: Authentic, Official (standalone), Genuine (standalone), OEM, Original (standalone), Licensed.
+
+NICKNAME GUARD
+Popular collector nicknames (e.g., Old Stradic, Original Cardinal, Vintage Ambassadeur) may only be included when the source text explicitly uses that name. Do not apply nicknames from general knowledge.
+
+BRAND DICTIONARY (JP -> EN)
+ダイワ -> Daiwa
+シマノ -> Shimano
+アブガルシア / アブ・ガルシア / アブ -> Abu Garcia
+メガバス -> Megabass
+オリンピック -> Olympic
+ティムコ -> Tiemco
+リョービ -> Ryobi
+スミス -> Smith
+ジャッカル -> Jackall
+イマカツ -> Imakatsu
+ペン -> Penn
+オクマ -> Okuma
+プフリューガー -> Pflueger
+クァンタム -> Quantum
+ルーズ -> Lew's
+ミッチェル -> Mitchell
+ハーディ -> Hardy
+オービス -> Orvis
+レディントン -> Redington
+セージ -> Sage
+ガイア -> Gaeia
+
+MODEL / SERIES REFERENCE (do not translate; preserve exactly)
+Daiwa: Steez, Tatula, Zillion, Saltiga, Certate, Caldia, Exist, Luvias, Freams, Crest, Gekka Bijin
+Shimano: Stella, Twin Power, Vanquish, Stradic, Sustain, Sahara, Nasci, Ultegra, Antares, Aldebaran, Bantam, Curado, Calcutta, Tranx, Tekota
+Abu Garcia: Ambassadeur, Revo, Black Max, Silver Max, Pro Max
+Penn: Battle, Spinfisher, Pursuit, Slammer, International, Senator
+Okuma: Ceymar, Avenger, Helios, Cedros
+
+REEL TYPE DICTIONARY (JP -> EN)
+スピニング -> Spinning Reel
+ベイトキャスティング / ベイト -> Baitcasting Reel
+コンベンショナル -> Conventional Reel
+フライリール -> Fly Reel
+トローリング -> Trolling Reel
+スピンキャスト -> Spincast Reel
+サーフキャスティング -> Surfcasting Reel
+両軸リール -> Conventional Reel
+電動リール -> Electric Reel
+ソルトウォーター / 海水 -> Saltwater
+フレッシュウォーター / 淡水 -> Freshwater
+バス -> Bass
+インショア -> Inshore
+オフショア -> Offshore
+エギング -> Eging / Squid Fishing
+タイラバ -> Tai-Rubber
+スロージギング -> Slow Pitch Jigging
+ジギング -> Jigging
 
 TITLE (SEO Priority)
-- Language: English ASCII only.
-- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords. NEVER sacrifice truth for length.
+- HARD LIMIT: 80 chars maximum. eBay rejects titles exceeding 80 chars.
+- GOAL: Maximize SEO discoverability by packing every source-derived fact (brand, model, type, size/number, gear ratio, accessories, era) within the 80-char budget. Unused characters = lost search visibility.
+- TRUTH BOUND: Only include facts derivable from source text.
+- Shorter title is acceptable when source provides limited information.
 - Allowed symbols: & / : - . ,
 - Forbidden symbols: " ' ( ) [ ]
 - Do not mention guarantees/returns/refunds.
-- **IMPORTANT**: Do NOT include any condition/status terms (like Junk, Not Working, For Parts, Untested, As-Is Condition) unless they are **explicitly and clearly written** in the Japanese source text.
+- Do NOT include condition/status terms (Junk, Not Working, For Parts, Untested) unless explicitly written in source.
 
 - SEO KEYWORD ORDER (front-load high-value terms):
-  1. Brand (within first 30 chars) - Shimano, Daiwa, Abu Garcia, Penn, Okuma
-  2. Model line (e.g., Stella, Exist, Metanium, Ambassadeur, Certate)
+  1. Brand (within first 30 chars)
+  2. Model line (e.g., Stella, Exist, Ambassadeur, Certate)
   3. Size/Number (e.g., 2500, C3000, 4000XG, 103, 150H)
   4. Reel type (Spinning Reel, Baitcasting Reel, Fly Reel, Electric Reel)
   5. Gear info if known (High Gear, Extra High Gear, Power Gear)
   6. Hand retrieve if known (Left Hand, Right Hand)
-  7. Bonus SEO words if applicable & true: Japan Made, Saltwater, Freshwater
+  7. Bonus SEO words if applicable and true: Japan Made, Saltwater, Freshwater, Vintage
 
-- SIZE/NUMBER RULE:
-  The size number is critical for fishing reel buyers. It appears in the model name.
-  Examples: Stella 4000XG -> "4000XG", Steez SV TW 1016SV-SHL -> "1016SV-SHL"
-  Copy the size/number EXACTLY from source. Do NOT modify or interpret.
-  Always include in Title if present.
+SIZE/NUMBER RULE
+The size number is critical for fishing reel buyers. It appears in the model name.
+Examples: Stella 4000XG -> "4000XG", Steez SV TW 1016SV-SHL -> "1016SV-SHL"
+Copy the size/number EXACTLY from source. Do NOT modify or interpret.
+Always include in Title if present.
 
-- GEAR CODE RULE:
-  Common Shimano codes: XG = Extra High Gear, HG = High Gear, PG = Power Gear, C = Compact body
-  Common Daiwa codes: H = High Gear, SH = Super High Gear, P = Power Gear
-  If gear code is in model name, keep it as-is. Optionally expand in Description.
+GEAR CODE RULE
+Shimano: XG = Extra High Gear, HG = High Gear, PG = Power Gear, C = Compact body
+Daiwa: H = High Gear, SH = Super High Gear, P = Power Gear
+Abu Garcia: HS = High Speed, SHL = Super High Level (Left Hand)
+If gear code is in model name, keep it as-is. Optionally expand in Description.
+
+SPEC DICTIONARY (JP -> EN, source-stated only)
+ギア比 -> Gear Ratio (e.g., 6.2:1)
+ベアリング数 -> Bearings (e.g., 12+1BB)
+ライン容量 -> Line Capacity
+自重 -> Weight (e.g., 205g)
+最大ドラグ -> Max Drag (e.g., 11kg)
+最大巻取り -> Max Retrieve (e.g., 99cm per handle turn)
+右巻き -> Right Hand
+左巻き -> Left Hand
+両対応 -> Interchangeable Handle
+マグネシウムボディ -> Magnesium Body
+カーボン -> Carbon
+アルミ -> Aluminum
+
+ACCESSORY DICTIONARY (positive - include only if source states)
+箱付き / 元箱付き -> With Original Box
+フルセット -> Full Set
+予備スプール付き -> With Spare Spool
+取扱説明書付き / 説明書付き -> With Manual
+保証書付き -> With Warranty Card
+純正ハンドル付き -> With Original Handle
+ハンドルノブ付き -> With Handle Knob
+ベアリングポーチ付き -> With Bearing Pouch
+ロッドホルダー付き -> With Rod Holder
+リールスタンド付き -> With Reel Stand
+ロッドケース付き -> With Rod Case
+ハンタグ付き / タグ付き -> With Hang Tag
+
+ERA / YEAR MARKER
+ビンテージ -> Vintage
+クラシック -> Classic
+アンティーク -> Antique
+オールド / オールドタックル -> Old / Vintage
+1960年代 -> 1960s
+1970年代 -> 1970s
+1980年代 -> 1980s
+1990年代 -> 1990s
+昭和 -> Showa era
+廃盤 / 生産終了 -> Discontinued
+
+CONDITION TERMS (Fishing Industry Standard)
+New / Brand New - factory sealed, never used
+NOS (New Old Stock) - vintage stock, never used
+Mint - flawless, no marks whatsoever
+Near Mint - nearly flawless, minimal signs of handling
+Excellent+ - light use, minor cosmetic marks only
+Excellent - moderate use, no functional issues
+Very Good - visible wear, fully functional
+Good - heavy wear or minor defects, functional
+For Parts - non-functional or sold as-is
+GUARD: Do NOT use TCG condition terms (NM / LP / MP / HP / DMG). These are Trading Card Grade codes; using them on fishing reels misleads buyers.
+DEFECT GUARD: If source mentions any defect or malfunction, do NOT include Mint or Near Mint in TITLE.
+
+DEFECT MAPPING (include in Description when source mentions)
+ゴリ感 / シャリ感 -> grinding feel / sandy feel
+ベール不良 -> bail malfunction
+ドラグ不良 / ドラグ滑り -> drag failure / drag slipping
+逆転不良 -> anti-reverse failure
+ハンドルガタ / ハンドルぐらつき -> handle looseness
+ベアリング不良 -> bearing issues
+ハンドル軋み / キシミ -> handle squeak / creaking
+ドラグ固着 -> drag stuck / seized
+スプール変形 -> spool deformed
+スプール傷 -> spool scratched
+ローター変形 -> rotor deformed
+クラッチ不良 -> clutch malfunction
+異音 -> abnormal noise
+ラインローラー固着 -> line roller seized
+ベール曲がり -> bent bail
+塗装剥げ / 塗装剥離 -> paint chipping
+サビ / 錆 -> rust / corrosion
+塩噛み -> salt corrosion / salt damage
+経年汚れ / 経年変色 -> age discoloration
+傷 / キズ -> scratch / scratches
+ガリ感 / ジャリ感 -> gritty feel
+ベタつき -> sticky feel
+動作未確認 / ジャンク -> untested / for parts
+DEFECT reporting is MANDATORY: If source mentions any defect, MUST describe it in Description. Omitting known defects violates eBay policy.
+
+OPERATION CHECK DICTIONARY (source-stated only)
+ハンドル回転スムーズ -> handle rotates smoothly
+ドラグ正常 -> drag functions correctly
+スプール放出正常 -> spool line release smooth
+クラッチ正常 -> clutch engages and disengages properly
+逆転防止正常 -> anti-reverse works correctly
+ラインローラー正常 -> line roller rotates smoothly
+Do NOT add operation status unless explicitly stated in source.
 
 DESCRIPTION (SEO Priority)
 - English ASCII only, <= 480 chars, single natural paragraph.
@@ -46,34 +194,30 @@ DESCRIPTION (SEO Priority)
   * Reel type (Spinning, Baitcasting, Fly, Electric, Conventional)
   * Gear ratio if stated (e.g., 6.2:1)
   * Ball bearings if stated (e.g., 12+1 bearings)
-  * Max drag if stated (e.g., 11kg max drag)
-  * Weight if stated (e.g., 205g)
+  * Max drag if stated
+  * Weight if stated
   * Line capacity if stated
   * Hand retrieve (left/right/interchangeable)
-  * Body material if stated (magnesium, carbon, aluminum)
-  * Included items (spool, handle, case, box, papers)
-- Use keyword variations: "fishing reel" "reel" in addition to specific type.
-- DEFECT/ISSUE REPORTING (CRITICAL):
-  If the source mentions ANY defect, malfunction, or issue, you MUST describe it in the Description.
-  Key reel defects: grinding feel (ゴリ感/シャリ感), bail arm malfunction (ベール不良), drag failure (ドラグ不良), anti-reverse failure (逆転不良), handle looseness (ハンドルガタ).
-  If source contains "(DEFECT: ...)" markers, use the English text directly.
-  Omitting known defects is a violation of eBay policy.
-- Describe operation/status only if clearly mentioned (tested/untested/issues).
-- Avoid evaluative adjectives (excellent, good, mint, used).
+  * Body material if stated
+  * Included accessories (from ACCESSORY DICTIONARY)
+- Use keyword variations: "fishing reel" and specific reel type.
+- DEFECT/ISSUE REPORTING (CRITICAL): If source mentions ANY defect, MUST describe it. Use DEFECT MAPPING for English terms.
+- Describe operation status only if explicitly mentioned in source.
+- MISSING ACCESSORIES (include only if source explicitly states): 予備スプールなし -> No Spare Spool, ハンドルなし -> No Handle, ハンドルノブなし -> No Handle Knob, 箱なし / 元箱なし -> No Box, 取説なし / 説明書なし -> No Manual. Do NOT speculate about missing items.
+- Avoid evaluative adjectives (excellent, good, mint).
 - Exclude shipping/seller opinions/history/warranty.
-- MISSING ACCESSORIES (if source explicitly states missing items): 予備スプールなし -> No Spare Spool, ハンドルなし -> No Handle, ハンドルノブなし -> No Handle Knob, 箱なし/元箱なし -> No Box, 取説なし/説明書なし -> No Manual. Do NOT speculate about missing items not explicitly stated.
-
 
 PRODUCTNAME
 - Format: [Brand] [Model] [Size] [Reel Type], English ASCII only.
-- Example: Shimano Stella 4000XG Spinning Reel, Daiwa Steez SV TW Baitcasting Reel, Abu Garcia Ambassadeur 5500C Baitcasting Reel
+- Example: Shimano Stella 4000XG Spinning Reel, Daiwa Steez SV TW 1016SV-SHL Baitcasting Reel, Abu Garcia Ambassadeur 5500C Baitcasting Reel
 
-CATEGORY
-- Use eBay fishing reel category style if determinable.
-- Fishing Reels
-- If spool only: Reel Parts & Repair
-- If handle/knob only: Reel Parts & Repair
-- If unclear: N/A
+CATEGORY (with eBay IDs)
+- Fishing Reels (261030) - all current production reels
+- Vintage Spinning Fishing Reels (36178) - vintage spinning reels
+- Vintage Casting Fishing Reels (36176) - vintage baitcasting / casting reels
+- Vintage Fishing Reels (36175) - vintage reels (type unclear)
+- Sea Fishing Reels (1492) - dedicated saltwater / offshore reels
+- Reel Parts & Repair - spool only, handle only, or parts lot
 
 OUTPUT FORMAT (exactly):
 Title: ...
@@ -82,7 +226,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 68-75 chars.
+1. Title length <= 80 chars (HARD LIMIT, eBay system limit).
 2. Description <= 480 chars.
 3. Only ASCII letters/numbers/spaces and allowed symbols (& / : - . ,) used throughout.
 4. No CJK characters or emoji anywhere.
@@ -90,11 +234,13 @@ VERIFICATION (must pass before returning):
 6. Description first sentence contains brand + model + reel type keywords.
 7. ProductName uses real brand name (not N/A for brand).
 8. Size/number from source is included in Title exactly as-is.
-9. Condition/status words appear only if explicitly stated in source Japanese.
+9. Condition/status words appear only if explicitly stated in source.
 10. No forbidden symbols in Title (no " ' ( ) [ ]).
 11. If source mentions any defect/malfunction, Description MUST include it.
-12. Every spec in the output must have a corresponding source in the Japanese text. If not found in source, it must NOT appear in output.
-13. Reel-specific defects (grinding feel, bail arm issues, drag problems, anti-reverse failure) are accurately described in the Description.
+12. Every spec in output must have explicit source evidence. If not in source, omit.
+13. Reel-specific defects (grinding feel, bail issues, drag problems, anti-reverse failure) accurately described using DEFECT MAPPING terms.
+14. BOOTLEG MUST: No banned terms (Replica/Fake/Clone). No prohibited claims (Authentic/OEM/Licensed) without source evidence.
+15. DEFECT GUARD: If defect present in source, Mint / Near Mint must NOT appear in Title.
 
 If any check fails, regenerate until all pass.
 
