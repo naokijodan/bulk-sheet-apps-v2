@@ -1571,5 +1571,20 @@
     "updated_at": "2026-04-28T22:30:00Z",
     "last_sprint_contract": null,
     "notes": "E-02 PASS_WITH_MINORS by child-c. minors: M-M1 example char annotations(low), M-M2 SM-era set dict gaps(low). blockers 0. clasp push 済み."
+  },
+  {
+    "id": "F-mtg-v46-redesign-2026-04-28",
+    "name": "MTGプロンプト V2.0.1 Full Rewrite (PROMPT_DESIGN_PRINCIPLE.md v1.0 準拠)",
+    "description": "MTG.txt v45→v46 全面改修。CV違反5件(68/75/SOFT CHAR TARGET)修正。BOOTLEG MUST(WotC/Hasbro VeRO + NICKNAME GUARD) / SET DICT 35→88エントリ(Universes Beyond/Vintage追加) / CARD NAME DICT 31→55エントリ(Power 9/Dual Lands/Fetchlands) / FORMAT DICT新設(Commander/Pioneer/Legacy/Vintage/Pauper) / RARITY 4→8エントリ / VARIANT 7→19エントリ(Textured Foil/Surge Foil/Serialized等) / DEFECT MAPPING 10→27ペア / SGC+BGS Black Label追加 / ACCESSORY DICT新設 / CATEGORY 6 eBay IDs追加 / ITEM SPECIFICS削除(§3準拠) / §4.2 HARD LIMIT 80準拠 / §7 TCG CONDITION TERMS(NM/LP/MP/HP/DMG) / Library v46 byte-match OK / E-02 PASS_WITH_MINORS(blockers 0)",
+    "status": "passing",
+    "priority": 8,
+    "phase": "Phase TCG",
+    "dependencies": [
+      "F-pokeca-v52-redesign-2026-04-28"
+    ],
+    "created_at": "2026-04-28T23:30:00Z",
+    "updated_at": "2026-04-28T23:30:00Z",
+    "last_sprint_contract": null,
+    "notes": "E-02 PASS_WITH_MINORS by child-c. minors: M-M1 Reserved List AI推論 vs TRUTH FIRST(low), M-M2 MM3年次曖昧(low), M-M3 TITLE/VERIFICATION Japanese表現不一致(low). blockers 0. clasp push 済み."
   }
 ]

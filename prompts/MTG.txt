@@ -4,81 +4,167 @@ GOALS
 - Analyze Japanese source ${fullText} and output an English listing optimized for eBay search.
 - OUTPUT MUST BE ASCII ONLY (A-Z a-z 0-9 spaces & / :), no CJK.
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
-- TRUTH FIRST — Source-bound, no fabrication, no padding
+- TRUTH FIRST — Source-bound, no fabrication, no padding.
+- "Japanese" is the highest-value SEO keyword for MTG listings targeting international buyers.
 
 ABSOLUTE RULES
 1. TRUTH FIRST: Every fact must be derivable from the source. If unknown, omit it — never fabricate.
 2. NO PADDING: Ban hype, filler, subjective sales words, and unsupported claims; use only source-backed facts.
-3. RIGHTS-SAFE LANGUAGE: AUTHENTIC and OFFICIAL are absolutely banned; GENUINE and ORIGINAL are allowed only when transcribing exact source material/accessory names.
+3. RIGHTS-SAFE LANGUAGE: AUTHENTIC and OFFICIAL are absolutely banned; GENUINE and ORIGINAL are allowed only when transcribing exact source material names.
 **Category A — ABSOLUTE BAN (even if factual):** AMAZING, FANTASTIC, INCREDIBLE, AWESOME, MUST HAVE, BEST, PERFECT, ULTIMATE, PREMIUM, LUXURY, AUTHENTIC, OFFICIAL.
-**Category B — CONDITIONAL:** RARE / LIMITED / LIMITED EDITION / VINTAGE / EXCLUSIVE / COLLECTIBLE / COLLECTORS EDITION / MINT — only with explicit source evidence (print run, decade markers, sealed criteria).
-**Category C — ALWAYS ALLOWED:** Card name, rarity, grade, set name, condition, language, defects, foil/variant (from source).
+**Category B — CONDITIONAL:** RARE / LIMITED / LIMITED EDITION / VINTAGE / EXCLUSIVE / COLLECTIBLE / MINT — only with explicit source evidence (print run, decade markers, sealed criteria).
+**Category C — ALWAYS ALLOWED:** Card name, rarity, set name, grade, condition, language, foil/variant, edition, defects (all from source).
 Rule 3: NO REPETITION: Each substantive keyword appears at most once in title.
 Rule 4: NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "MTG Card MTG" is forbidden).
-Rule 5: SOFT CHAR TARGET: Title 68-75 chars. If under 68, add source-supported SEO keywords. If over 75, shorten but keep SEO value.
-Rule 6: RECOMMENDED FIELDS (use when present in source, skip otherwise): card name, set name, foil/variant, language, grade, condition, card number.
-Bootleg/KO/Replica/Fake/Counterfeit — ABSOLUTE BAN (eBay WotC VeRO active). NEVER output these words in Title/Description/Specifics, even if source contains them.
+Rule 5: RECOMMENDED FIELDS (use when present in source, skip otherwise): card name, set name, foil/variant, language, grade, condition, card number, format.
+
+BOOTLEG MUST
+WotC (Wizards of the Coast) / Hasbro VeRO active on eBay. Counterfeits and proxies sold as authentic result in immediate account suspension.
+ABSOLUTE BAN: Proxy / Custom / Counterfeit / Replica / Fake / Imitation / Reprint (without source confirming it is authentic WotC product).
+NEVER output these terms in Title/Description/Category, even if source contains them.
+NICKNAME GUARD: Collector aliases (Black Lotus, Mox, Power Nine, Reserved List) — use ONLY when source explicitly names the card or collector term. Never extrapolate.
 
 PSA GRADE DETECTION (CRITICAL for graded cards)
-Extract PSA grade from various formats in source:
+Extract grade from various formats in source:
 - PSA10, PSA 10, 【PSA10】, 【PSA 10】 -> PSA 10
 - PSA9, PSA 9, 【PSA9】 -> PSA 9
 - BGS 9.5, BGS9.5 -> BGS 9.5
+- BGS 10 (all subgrades 10) -> BGS Black Label 10
 - CGC 10, CGC10 -> CGC 10
+- SGC 10, SGC10 -> SGC 10
 Format in Title: PSA 10 (with space, at the START of title)
-Format in Description: PSA 10 Gem Mint grade (or PSA 9 Mint grade)
+Format in Description: PSA 10 Gem Mint grade / PSA 9 Mint grade / BGS 9.5 Gem Mint / BGS Black Label 10
 
 CARD NAME EXTRACTION (CRITICAL)
 Extract card name from source using these methods in order:
-1. Check hashtags for English name (e.g., #Stoneforge Mystic -> Stoneforge Mystic)
+1. Check hashtags for English name (e.g., #Ragavan Nimble Pilferer -> Ragavan Nimble Pilferer)
 2. Check TRANSLATION DICTIONARY for Japanese name
 3. If not found, use English name from hashtag or romanize Japanese name
 
 TRANSLATION DICTIONARY
 Use these translations. Format: Japanese=English
 
-[Set Names]
-FINAL FANTASY=MTG FINAL FANTASY
-ファイナルファンタジー=MTG FINAL FANTASY
-FF=MTG FINAL FANTASY
+[Set Names — Recent 2019-2025]
 ファウンデーションズ=Foundations
 ダスクモーン=Duskmourn House of Horror
 ブルームバロウ=Bloomburrow
 モダンホライゾン3=Modern Horizons 3
-モダンホライゾン2=Modern Horizons 2
 サンダージャンクション=Outlaws of Thunder Junction
 カルロフ邸殺人事件=Murders at Karlov Manor
-ファイレクシア完全なる統一=Phyrexia All Will Be One
-機械兵団の進軍=March of the Machine
-指輪物語=Lord of the Rings Tales of Middle earth
+失われし洞窟=The Lost Caverns of Ixalan
 エルドレインの森=Wilds of Eldraine
-神河輝ける世界=Kamigawa Neon Dynasty
-団結のドミナリア=Dominaria United
+指輪物語=Lord of the Rings Tales of Middle-earth
+機械兵団の進軍=March of the Machine
+機械兵団の進軍決戦の後に=March of the Machine Aftermath
+ファイレクシア完全なる統一=Phyrexia All Will Be One
 兄弟たちの戦争=The Brothers War
+団結のドミナリア=Dominaria United
+神河輝ける世界=Kamigawa Neon Dynasty
+ニューカペナの街角=Streets of New Capenna
+イニストラード真紅の誓約=Innistrad Crimson Vow
 イニストラード真夜中の狩り=Innistrad Midnight Hunt
-カルドハイム=Kaldheim
+フォーゴトン・レルム探訪=Adventures in the Forgotten Realms
 ストリクスヘイヴン=Strixhaven School of Mages
 ストリクトヘイブン=Strixhaven School of Mages
-ストリクスヘイブン=Strixhaven School of Mages
-神河=Kamigawa Neon Dynasty
+カルドハイム=Kaldheim
 ゼンディカーの夜明け=Zendikar Rising
+モダンホライゾン2=Modern Horizons 2
+イコリア=Ikoria Lair of Behemoths
+テーロス還魂記=Theros Beyond Death
+スローンエルドレイン=Throne of Eldraine
 灯争大戦=War of the Spark
 ラヴニカの献身=Ravnica Allegiance
+ラヴニカのギルド=Guilds of Ravnica
 ドミナリア=Dominaria
+イクサランの相克=Rivals of Ixalan
 イクサラン=Ixalan
+破滅の刻=Hour of Devastation
 アモンケット=Amonkhet
+霊気紛争=Aether Revolt
 カラデシュ=Kaladesh
-ダブルマスターズ=Double Masters
-アルティメットマスターズ=Ultimate Masters
-モダンマスターズ=Modern Masters
+異界月=Eldritch Moon
+イニストラードを覆う影=Shadows over Innistrad
+
+[Set Names — Classic/Vintage 1993-2014]
 アルファ=Alpha
 ベータ=Beta
+アンリミテッド=Unlimited
+リバイズド=Revised
+第4版=4th Edition
+第5版=5th Edition
+第6版=6th Edition
+アイスエイジ=Ice Age
+アライアンス=Alliances
+ミラージュ=Mirage
+テンペスト=Tempest
+エクソダス=Exodus
+ウルザズサーガ=Urza's Saga
+メルカディアンマスクス=Mercadian Masques
+インベイジョン=Invasion
+オデッセイ=Odyssey
+オンスロート=Onslaught
+ミラディン=Mirrodin
+神河物語=Champions of Kamigawa
+神河謀叛=Betrayers of Kamigawa
+神河救済=Saviors of Kamigawa
+ラヴニカ=Ravnica City of Guilds
+タイムスパイラル=Time Spiral
+ローウィン=Lorwyn
+シャーズオブアラーラ=Shards of Alara
+ゼンディカー=Zendikar
+ミラディン傷跡=Scars of Mirrodin
+新ファイレクシア=New Phyrexia
+イニストラード=Innistrad
+ラヴニカへの回帰=Return to Ravnica
+テーロス=Theros
+タルキール覇王譚=Khans of Tarkir
+
+[Set Names — Special/Premium Products]
+FINAL FANTASY=MTG Final Fantasy
+ファイナルファンタジー=MTG Final Fantasy
+FF=MTG Final Fantasy
+ダブルマスターズ=Double Masters
+ダブルマスターズ2022=Double Masters 2022
+アルティメットマスターズ=Ultimate Masters
+モダンマスターズ=Modern Masters
+コマンダーマスターズ=Commander Masters
+コマンダーレジェンズ=Commander Legends
+シークレットレア=Secret Lair
+ミステリーブースター=Mystery Booster
+アサシンクリード=Assassins Creed
+ドクターフー=Doctor Who
+ウォーハンマー40K=Warhammer 40000
+フォールアウト=Fallout
+ジュラシックワールド=Jurassic World
 
 [Popular Cards]
+ブラックロータス=Black Lotus
+モックスサファイア=Mox Sapphire
+モックスジェット=Mox Jet
+モックスパール=Mox Pearl
+モックスルビー=Mox Ruby
+モックスエメラルド=Mox Emerald
+先祖の召喚=Ancestral Recall
+タイムウォーク=Time Walk
+タイムツイスター=Timetwister
+ロータスの花びら=Lotus Petal
+稲妻=Lightning Bolt
+極楽鳥=Birds of Paradise
+太陽の指輪=Sol Ring
+アレクサンドリアの図書館=Library of Alexandria
+ミシュラの工房=Mishras Workshop
+精神を刻む者ジェイス=Jace the Mind Sculptor
+ヴェリアナの最後の望み=Liliana of the Veil
+ヴェリアナの誓い=Liliana of the Veil
+瞬唱の魔道士=Snapcaster Mage
+真の名の宿敵=True-Name Nemesis
+暗黒の大臣ロナン=Dark Confidant
+闇の腹心=Dark Confidant
 石鍛冶の神秘家=Stoneforge Mystic
 石鍛治の神秘家=Stoneforge Mystic
 黙示録シェオルドレッド=Sheoldred the Apocalypse
 敏捷なこそ泥ラガバン=Ragavan Nimble Pilferer
+敏捷なこそ泥=Ragavan Nimble Pilferer
 一つの指輪=The One Ring
 鏡割りの寓話=Fable of the Mirror Breaker
 タルモゴイフ=Tarmogoyf
@@ -91,21 +177,28 @@ FF=MTG FINAL FANTASY
 激情=Fury
 孤独=Solitude
 忍耐=Endurance
-稲妻のらせん=Lightning Helix
-稲妻の螺旋=Lightning Helix
-現実チップ=Reality Chip
-リアリティチップ=Reality Chip
-敏捷なこそ泥=Ragavan Nimble Pilferer
-致命的な一押し=Fatal Push
-虹色の終焉=Prismatic Ending
-レンと六番=Wrenn and Six
-時を超えた英雄=Timeless Hero
 オークの弓使い=Orcish Bowmasters
-暗黒の儀式=Dark Ritual
-対抗呪文=Counterspell
+レンと六番=Wrenn and Six
 渦まく知識=Brainstorm
 師範の占い独楽=Sensei Divining Top
 秘儀の印鑑=Arcane Signet
+サイクロンの裂け目=Cyclonic Rift
+亡霊の牢獄=Rhystic Study
+吸血の教示者=Vampiric Tutor
+地底の川=Underground Sea
+火山の島=Volcanic Island
+熱帯の島=Tropical Island
+沸騰する小湖=Scalding Tarn
+霧深い雨林=Misty Rainforest
+新緑の地下墓地=Verdant Catacombs
+乾燥台地=Arid Mesa
+湿地の干潟=Marsh Flats
+致命的な一押し=Fatal Push
+虹色の終焉=Prismatic Ending
+現実チップ=Reality Chip
+リアリティチップ=Reality Chip
+暗黒の儀式=Dark Ritual
+対抗呪文=Counterspell
 
 [FINAL FANTASY Cards]
 威名のソルジャーセフィロス=Sephiroth Legendary Soldier
@@ -141,28 +234,74 @@ FF=MTG FINAL FANTASY
 レア=Rare
 アンコモン=Uncommon
 コモン=Common
+スペシャル=Special Rare
+タイムシフト=Timeshifted
+マスターピース=Masterpiece
+ボーナスシート=Bonus Sheet
 
-[Variants]
+[Special Treatments / Variants]
 ボーダーレス=Borderless
 拡張アート=Extended Art
 ショーケース=Showcase
 フォイル=Foil
-エッチングフォイル=Etched Foil
+エッチングフォイル=Foil Etched
 レトロフレーム=Retro Frame
 旧枠=Old Frame
+フルアート=Full Art
+テクスチャーフォイル=Textured Foil
+サージフォイル=Surge Foil
+ギャラクシーフォイル=Galaxy Foil
+コンフェッティフォイル=Confetti Foil
+ネオンインクフォイル=Neon Ink Foil
+オイルスリック=Oil Slick Raised Foil
+ステップアンドコンプリートフォイル=Step-and-Compleat Foil
+ダブルレインボーフォイル=Double Rainbow Foil
+シリアライズド=Serialized
+シリアルナンバー入り=Serialized
+
+[Formats]
+スタンダード=Standard
+モダン=Modern
+パイオニア=Pioneer
+レガシー=Legacy
+ヴィンテージ=Vintage
+統率者=Commander
+EDH=Commander
+コマンダー=Commander
+パウパー=Pauper
+ヒストリック=Historic
+タイムレス=Timeless
+
+[Vintage / Edition Markers]
+アルファ版=Alpha
+ベータ版=Beta
+アンリミテッド版=Unlimited
+リバイズド版=Revised
+4版=4th Edition
+外国語黒枠=Foreign Black Border
+FBB=Foreign Black Border
+初版=1st Edition
+プロモ=Promo
+プレリリース=Prerelease
+ジャッジプロモ=Judge Foil
+バイアボックスプロモ=Buy-a-Box Promo
+予約済みリスト=Reserved List
 
 SET NAME EXTRACTION
 Extract set name from source using these methods:
-1. Check hashtags (e.g., #Double Masters, #Modern Horizons 2)
+1. Check hashtags (e.g., #Modern Horizons 3, #Bloomburrow)
 2. Check Japanese text against TRANSLATION DICTIONARY
-3. Look for English set name in description
-Format: Use English name without special characters (Double Masters, not Double Masters 2022)
+3. Look for English set name in source
+Format: Use full English set name without special characters (Modern Horizons 3, not MH3)
 
 FOIL DETECTION
 If source mentions foil, include in Title:
 - foil, Foil, FOIL, フォイル -> Foil
-- エッチングフォイル -> Etched Foil
-Place after card name in Title.
+- エッチングフォイル -> Foil Etched
+- テクスチャーフォイル -> Textured Foil
+- サージフォイル -> Surge Foil
+- ネオンインクフォイル -> Neon Ink Foil
+Place foil type after card name in Title.
 
 VARIANT DETECTION
 Extract special versions from source:
@@ -170,172 +309,202 @@ Extract special versions from source:
 - 拡張アート, Extended Art -> Extended Art
 - ショーケース, Showcase -> Showcase
 - レトロフレーム, 旧枠 -> Retro Frame
+- シリアライズド, Serialized -> Serialized
+- フルアート -> Full Art
 Place after Foil in Title if applicable.
 
-CONDITION TERMS
+CONDITION TERMS (TCG Standard — 6 stage)
 - 未使用/未開封/新品 -> New / Factory Sealed
-- 美品/極美品 -> Near Mint (NM)
+- ミント/完全美品/パック直 -> Mint (M) — Pack fresh, never played
+- 美品/極美品/NM -> Near Mint (NM)
 - 良品 -> Lightly Played (LP)
 - 並品 -> Moderately Played (MP)
 - 傷あり/使用感あり -> Moderately Played (MP)
 - ダメージあり/傷品 -> Heavily Played (HP)
 - ジャンク/破損 -> Damaged (DMG)
-- For graded cards (PSA/BGS/CGC), use the numeric grade, not a verbal condition term.
-- Use the most conservative (lower) grade when description is ambiguous.
+Anti-mistranslation: 美品=NM (NOT Excellent or Beautiful). 並品=MP (NOT Good or Fair).
+DEFECT GUARD: If source states any defect, condition MUST NOT be Mint or NM.
+For graded cards (PSA/BGS/CGC/SGC): use the numeric grade in title, not a verbal condition term.
+Conservative grading: use the most conservative (lower) grade when source description is ambiguous.
 
 LANGUAGE VARIATIONS
-- 日本語/日本版 -> Japanese (always include in Title for eBay discoverability)
-- 英語版/English -> English (if source confirms)
-- 繁体字中国語版 -> Chinese Traditional (if source confirms)
-- 簡体字中国語版 -> Chinese Simplified (if source confirms)
-- 韓国語版 -> Korean (if source confirms)
-- 独語版/German -> German (if source confirms)
-- 仏語版/French -> French (if source confirms)
-- スペイン語版/Spanish -> Spanish (if source confirms)
-- イタリア語版/Italian -> Italian (if source confirms)
-- ポルトガル語版/Portuguese -> Portuguese (if source confirms)
-- ロシア語版/Russian -> Russian (if source confirms)
+- 日本語/日本版/JP -> Japanese (always include in Title for eBay discoverability)
+- 英語版/English/EN -> English (if source confirms)
+- 繁体字中国語版/TW -> Chinese Traditional (if source confirms)
+- 簡体字中国語版/CN -> Chinese Simplified (if source confirms)
+- 韓国語版/KR -> Korean (if source confirms)
+- 独語版/German/DE -> German (if source confirms)
+- 仏語版/French/FR -> French (if source confirms)
+- スペイン語版/Spanish/ES -> Spanish (if source confirms)
+- イタリア語版/Italian/IT -> Italian (if source confirms)
+- ポルトガル語版/Portuguese/PT -> Portuguese (if source confirms)
+- ロシア語版/Russian/RU -> Russian (if source confirms)
 - Assume Japanese unless another language is explicitly stated.
 
-DEFECT / ISSUE REPORTING V10
-If source explicitly states any defect, include in Description under "Condition Notes:". Omitting known defects is a violation of eBay policy.
-折れ=Crease / 白かけ=Edge whitening / センタリング偏り=Off-centering / 擦れ・スレ=Surface scratches / 反り=Warping
-フォイル浮き=Foil bubbling / テクスチャーフォイル剥がれ=Textured finish peeling / インク飛び=Print error / 初期傷=Factory defect / 角ダメージ=Corner damage
-Do NOT mistranslate: 初期傷 is "Factory defect" not "early scratch"
+DEFECT MAPPING (JP -> EN)
+If source explicitly states any defect, include under "Condition Notes:" in Description. Omitting known defects violates eBay policy.
+折れ / 折れ目=Crease
+軽微な折れ=Light crease
+白かけ / エッジ白かけ=Edge whitening / Edge wear
+コーナー白かけ=Corner wear / Corner whitening
+欠け / 角欠け=Corner chip / Missing corner
+センタリング偏り=Off-center / Mis-center
+カット悪=Miscut / Bad cut
+傷 / 擦れ / スレ=Surface scratch
+ニック=Nick
+反り / カール=Warping / Curling
+フォイル浮き / フォイルカール=Foil bubbling / Foil curling
+フォイル波打ち=Foil pringling
+フォイル剥がれ=Foil peeling
+テクスチャーフォイル剥がれ=Textured finish peeling
+ラミネート分離=Delamination
+インク飛び / 印刷ミス=Print error / Misprint
+印刷ズレ=Print misalignment
+シミ / 汚れ=Stain / Smudge
+カビ=Mold / Mildew damage
+水ダメージ / 波打ち=Water damage
+日焼け / ヤケ=Yellowing / Sun damage
+テープ跡=Tape residue
+書き込み / マーク=Writing / Pen marks
+穴あき=Hole / Puncture
+裂け=Tear
+臭い=Odor / Smoke smell
+初期傷=Factory defect (NOT "early scratch")
+NOTE: Foil bubbles >1mm diameter = auto Damaged (TCGPlayer standard). Disclose bubble presence and size.
+
+ACCESSORY DICTIONARY
+POSITIVE (note if source confirms):
+- PSA/BGS/CGC/SGC鑑定済み -> PSA/BGS/CGC/SGC Graded (includes slab)
+- スリーブ入り -> With Sleeve
+- トップローダー入り -> With Top Loader
+- マグネットケース入り -> With Magnetic Case
+NEGATIVE (note only if source explicitly confirms absence):
+- スリーブなし -> No Sleeve
+- トップローダーなし -> No Top Loader
+- ケースなし -> No Grading Case
 
 EXCLUDE FROM OUTPUT (CRITICAL)
-The source may contain seller descriptions that are NOT relevant to eBay listing:
+The source may contain seller descriptions NOT relevant to eBay listing:
 - Shipping information (発送, 送料, shipping, 宅急便)
 - Seller opinions (美品だと思います, 値下げ不可, 神経質な方)
-- Purchase instructions (即購入OK, コメントください, 即購入者優先)
-- Storage/handling descriptions (暗所にて保管, クリスタルパック)
-- PSA grade explanations (公式サイトより抜粋, 完璧な状態)
+- Purchase instructions (即購入OK, コメントください)
+- Storage/handling (暗所にて保管, クリスタルパック)
+- PSA grade explanations (公式サイトより抜粋)
 - Warnings and disclaimers (注意事項, ご遠慮下さい)
+- Japanese hashtags that are NOT card/set names (#MTG, #PSA, #鑑定品, #GEMMINT, #日絵, #DAKEN)
+- Booster type indicators (these define the sealed product type, not card identity):
+  * セトブ = Set Booster / ドラブ = Draft Booster / コレブ = Collector Booster
+  (include in title ONLY when the sealed product itself is what is being sold)
 - Internal codes or long number sequences
-- Japanese hashtags that are not card/set names (#MTG, #PSA, #鑑定品, #GEMMINT, #日絵, #DAKEN)
-- Booster type indicators (these are NOT set names):
-  * セトブ = Set Booster (EXCLUDE from title)
-  * ドラブ = Draft Booster (EXCLUDE from title)
-  * コレブ = Collector Booster (EXCLUDE from title)
-  * 産 = origin indicator (EXCLUDE)
+
+ERA / EDITION MARKER
+Detect and include in Title/Description when source confirms:
+- Alpha / Beta / Unlimited (1993): black-border. Highest value.
+- Revised / 3rd Edition (1994): white-border. Common vintage.
+- Foreign Black Border (FBB): Japanese 4th Edition black-bordered = collector premium.
+- 1st Edition / First Edition: detect from 初版 / 1st Edition / First Edition in source.
+- Reserved List: WotC's 572 cards never to be reprinted. Include "Reserved List" in Description for these.
+- Promo: Prerelease / Judge Foil / Buy-a-Box / Arena / Launch Party — include promo type if stated.
+NICKNAME GUARD: Use Reserved List only when source states it or you can confirm the card is on the Reserved List. Never fabricate.
 
 TITLE (SEO Priority)
-- English ASCII only, 68-75 chars.
-- If under 68 chars, add source-supported SEO keywords.
-- If over 75 chars, shorten but keep SEO value.
+- HARD LIMIT: 80 chars maximum. eBay rejects titles exceeding 80 chars.
+- GOAL: Maximize SEO discoverability by packing every source-derived fact (card name, set name, foil/variant, language, grade, condition, edition) within the 80-char budget. Unused characters = lost search visibility.
+- TRUTH BOUND: Only include facts derivable from source. Fabricated keywords (RARE / VINTAGE / AUTHENTIC without source confirmation) violate Rule 2 and risk eBay VeRO account suspension.
+- Shorter title is acceptable when source provides limited information. Lying is worse than being short.
 - Allowed symbols: & / :
-- Forbidden: , . - " ' ( ) [ ]
+- Forbidden symbols: , . - " ' ( ) [ ]
 - Compose naturally using available information. Do NOT force missing fields.
-- "MTG" and "Japanese" are high-value SEO terms — include when available.
-- For graded cards (PSA/BGS/CGC): grade at the START of title.
-- Examples of valid titles:
-  * Graded single: PSA 10 Stoneforge Mystic Foil Double Masters Japanese MTG
-  * Raw single: Sheoldred the Apocalypse Borderless Dominaria United NM Japanese MTG
+- "MTG" and "Japanese" are high-value SEO terms — include when space allows.
+- For graded cards (PSA/BGS/CGC/SGC): grade at the START of title.
+- Example titles (for reference only — do not copy blindly):
+  * Graded: PSA 10 Stoneforge Mystic Foil Double Masters Japanese MTG
+  * Raw: Sheoldred Apocalypse Borderless Dominaria United NM Japanese MTG
   * Foil: Ragavan Nimble Pilferer Foil Modern Horizons 2 NM Japanese MTG
   * Sealed: MTG Bloomburrow Booster Box Japanese Sealed
+  * Vintage: Black Lotus Alpha LP MTG Reserved List
 
-SEO KEYWORD ORDER (front-load high-value terms)
+SEO KEYWORD ORDER
 For Graded Cards:
-1. Grade (PSA 10, BGS 9.5)
-2. Card Name (Stoneforge Mystic)
-3. Foil/Variant if applicable (Foil, Borderless)
-4. Set Name (Double Masters)
+1. Grade (PSA 10 / BGS 9.5 / CGC 10 / SGC 10)
+2. Card Name
+3. Foil/Variant if applicable (Foil / Borderless / Showcase)
+4. Set Name
 5. Language (Japanese)
 6. Game identifier (MTG)
 
 For Raw Cards:
-1. Card Name (Stoneforge Mystic)
-2. Foil/Variant if applicable (Foil, Borderless)
-3. Set Name (Double Masters)
-4. Condition (NM, LP)
+1. Card Name
+2. Foil/Variant if applicable (Foil / Borderless / Showcase / Serialized)
+3. Set Name
+4. Condition (NM / LP)
 5. Language (Japanese)
 6. Game identifier (MTG)
 
+For Sealed Products:
+1. Product type (Booster Box / Collector Booster / Commander Deck)
+2. Set Name
+3. Language (Japanese)
+4. Sealed / Factory Sealed
+5. Game identifier (MTG)
+
 LEGITIMATE KEYWORDS (use only if present in source)
-- Foil — only when source explicitly states foil / フォイル
-- Etched Foil — only when source explicitly states エッチングフォイル
-- Borderless — only when source explicitly states ボーダーレス / Borderless
-- Extended Art — only when source explicitly states 拡張アート / Extended Art
-- Showcase — only when source explicitly states ショーケース / Showcase
-- Full Art — only when source explicitly states Full Art
-- Retro Frame — only when source explicitly states レトロフレーム / 旧枠
-- Promo, Pre-release — only when source explicitly states promo status
-- Judge Foil — only when source explicitly states judge promo
-- Mythic Rare, Rare, Uncommon, Common — only when rarity is stated in source
-- 1st Edition — only when source explicitly states Alpha / Beta / 1st Edition
-- Collector Booster — only when source explicitly states collector booster origin
+- Foil / Foil Etched / Textured Foil / Surge Foil / Neon Ink Foil — only when source explicitly states foil type
+- Borderless / Extended Art / Showcase / Retro Frame / Full Art — only when source states treatment
+- Serialized — only when source states serialized / numbered variant
+- Alpha / Beta / Unlimited / Revised / 4th Edition — only when source states edition
+- Foreign Black Border / FBB — only when source states this
+- Reserved List — only when source states reserved list or confirms a known reserved list card
+- 1st Edition / First Edition — only when source states 初版 / 1st Edition
+- Judge Foil / Prerelease / Buy-a-Box Promo — only when source states promo type
+- Commander / EDH — only when source states this format context
+- Mythic Rare / Rare / Uncommon / Common — only when rarity is stated in source
 
 DESCRIPTION (SEO Priority)
 - English ASCII only, <= 480 chars, single natural paragraph.
 - FIRST SENTENCE: Must contain card name + set name.
   Example: "Stoneforge Mystic Foil from Double Masters. Published by Wizards of the Coast."
-- Include searchable specs naturally: card name, foil/variant, set name, card number, language, grade details, condition notes if defects listed.
-- Publisher: Published by Wizards of the Coast (include once in Description)
+- Include searchable specs naturally: card name, foil/variant, set name, card number, language, grade, condition notes.
+- Publisher: "Published by Wizards of the Coast" — include once in Description.
 - Use keyword variations: "MTG" "Magic The Gathering" "Magic: The Gathering card"
+- For Reserved List cards: include "Reserved List" in Description.
 - NEVER include: shipping info, seller opinions, price negotiations.
 
 PRODUCTNAME
 - Format: [Card Name] [Variant] [Set Name]
 - Examples:
   Stoneforge Mystic Foil Double Masters
-  Sheoldred the Apocalypse Dominaria United
-  Ragavan Nimble Pilferer Modern Horizons 2
+  Sheoldred the Apocalypse Borderless Dominaria United
+  Ragavan Nimble Pilferer Showcase Modern Horizons 2
+  Black Lotus Alpha
 
 CATEGORY
-- Default: Trading Cards > Magic The Gathering Individual Cards
-- Sealed: Trading Cards > Magic The Gathering Sealed Products
+- Single card (graded or ungraded): 38292
+- Sealed booster pack: 183456
+- Sealed booster box / display box: 261044
+- Sealed commander deck / precon deck: 183457
+- Mixed lot / bulk card lot: 183455
+- Complete set: 183459
 
 CATEGORY RULE
-- Ungraded single card -> Trading Cards > Magic The Gathering Individual Cards
-- Graded card (PSA/BGS/CGC) -> Trading Cards > Magic The Gathering Individual Cards
-- Starter Deck (sealed) -> Trading Cards > Magic The Gathering Sealed Products
-- Booster Pack (sealed) -> Trading Cards > Magic The Gathering Sealed Products
-- Booster Box (sealed) -> Trading Cards > Magic The Gathering Sealed Products
-- Promo card -> Trading Cards > Magic The Gathering Individual Cards
-- If unclear -> Trading Cards > Magic The Gathering Individual Cards
-
-MISSING ACCESSORIES
-If source clearly shows these accessories are ABSENT, note in Description:
-- No Sleeve
-- No Top Loader
-- No Magnetic Case
-- No Certificate
-- No Original Box
-- No COA
-- No Binder
-- No Packaging Materials
-Only note absence if source explicitly confirms. Do NOT assume missing items.
-
-ITEM SPECIFICS
-Extract and output the following fields (use N/A if not determinable):
-- CardName: English card name
-- SetName: English set name
-- CardNumber: Card number (e.g., 001/287) or N/A
-- Rarity: Mythic Rare / Rare / Uncommon / Common / N/A
-- Foil: Yes / No
-- Variant: Borderless / Showcase / Extended Art / Retro Frame / Standard
-- Language: Japanese / English / Chinese Traditional / Chinese Simplified / Korean / German / French / Spanish / Italian / Portuguese / Russian
-- Grade: PSA 10 / BGS 9.5 / CGC 10 / Raw
-- Condition: New / NM / LP / MP / HP / DMG / N/A
+- Single card raw (any condition) -> 38292
+- Single card graded (PSA/BGS/CGC/SGC) -> 38292
+- Promo card -> 38292
+- Booster pack (sealed) -> 183456
+- Booster box / display (sealed) -> 261044
+- Commander precon / Sealed deck -> 183457
+- Mixed lot / bulk -> 183455
+- Complete set -> 183459
+- If unclear -> 38292
 
 OUTPUT FORMAT (exactly):
 Title: ...
 Description: ...
 ProductName: ...
 Category: ...
-ItemSpecifics:
-  CardName: ...
-  SetName: ...
-  CardNumber: ...
-  Rarity: ...
-  Foil: ...
-  Variant: ...
-  Language: ...
-  Grade: ...
-  Condition: ...
 
 VERIFICATION (must pass before returning):
-1. Title is 68-75 chars and uses no forbidden symbols (, . - " ' ( ) [ ]).
+1. Title is 80 chars or under HARD LIMIT, uses no forbidden symbols (, . - " ' ( ) [ ]).
 2. Description <= 480 chars, single paragraph, ASCII only, no CJK.
 3. No fabricated facts — every spec must derive from source.
 4. If graded card, grade appears at START of Title.
@@ -346,11 +515,9 @@ VERIFICATION (must pass before returning):
 9. "MTG" appears in Title when space allows and source supports it.
 10. No shipping info or seller opinions in output.
 11. ProductName matches card name from Title.
-12. No CJK characters or emoji anywhere in output.
-13. Game name (MTG / Magic The Gathering) used correctly in Title and Description.
-14. Rule 2 compliance: no Category B style marketing words without source evidence.
-15. All defects from source reported in Description.
-16. No Bootleg/KO/Replica/Fake/Counterfeit/Authentic/Official anywhere in output.
+12. DEFECT GUARD: If defect noted in source, condition is NOT Mint or NM.
+13. No Bootleg/Proxy/Counterfeit/Replica/Fake anywhere in output.
+14. No CJK characters or emoji anywhere in output.
 
 If any check fails, regenerate until all pass.
 
