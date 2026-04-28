@@ -1496,5 +1496,20 @@
     "updated_at": "2026-04-28T15:38:59+09:00",
     "last_sprint_contract": null,
     "notes": "child-a (C4 implement + C4-rework), child-c (C0 ammo eval + E-02 review + E-02 rerun). E-02 verdict: PASS. F-01 Vanquish removed from BRAND DICTIONARY (model, not brand) → correctly placed in MODEL/SERIES REFERENCE. F-02 NOS removed from ERA/YEAR MARKER → CONDITION TERMS only. Deferred: F-03 count discrepancy (corrected in rework), F-04 JP positive condition mapping (deferred), F-05 REEL TYPE naming (cosmetic)."
+  },
+  {
+    "id": "F-rod-v47-redesign-2026-04-28",
+    "name": "釣竿プロンプト V2.0.1 Full Rewrite (PROMPT_DESIGN_PRINCIPLE.md v1.0 準拠)",
+    "description": "PROMPT_DESIGN_PRINCIPLE.md v1.0 準拠フルリライト。BOOTLEG MUST (23 trusted brands, 7 banned terms), NICKNAME GUARD, BRAND DICTIONARY (35 JP→EN entries), MODEL/SERIES REFERENCE (Shimano/Daiwa/Gamakatsu/Megabass/Major Craft/Tenryu/Yamaga Blanks/G.Loomis/St.Croix/Sage/Orvis/Hardy 12 brands), ROD TYPE DICTIONARY (24 entries), POWER & ACTION DICTIONARY (UL/L/ML/M/MH/H/XH + 5 actions + 4 pieces), SPEC DICTIONARY (15 entries), ACCESSORY DICTIONARY (11 positive), ERA/YEAR MARKER (10 entries, NOS excluded per established pattern), CONDITION TERMS (8-stage fishing standard + NOS + TCG guard + DEFECT GUARD), DEFECT MAPPING (30 pairs), OPERATION CHECK DICTIONARY (5 entries). MODEL NUMBER RULE / CATEGORY_RULE (eBay IDs 36150/36149/11144/261028) preserved. Library v47. E-02 PASS_WITH_MINORS (child-c 独立検察官)。F-M1 (ACCESSORY 11件, req 12+ — deferred) / I-03 count discrepancy (no impact)。",
+    "status": "passing",
+    "priority": 4,
+    "phase": "Phase 1B",
+    "dependencies": [
+      "F-reel-v50-redesign-2026-04-28"
+    ],
+    "created_at": "2026-04-28T17:30:00+09:00",
+    "updated_at": "2026-04-28T17:30:00+09:00",
+    "last_sprint_contract": null,
+    "notes": "child-a (C4 implement), child-c (C0 ammo eval + E-02 review). E-02 verdict: PASS_WITH_MINORS. Deferred: F-M1 ACCESSORY 11件(req 12+, no functional impact), I-03 defect count self-report discrepancy (29 reported vs 30 actual, no impact). NOS correctly placed: ERA exclusion note + CONDITION TERMS only."
   }
 ]

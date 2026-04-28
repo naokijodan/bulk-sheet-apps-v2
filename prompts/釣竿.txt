@@ -4,125 +4,272 @@ GOALS
 - Analyze Japanese source ${fullText} and output an English listing optimized for eBay search.
 - OUTPUT MUST BE ASCII ONLY (A-Z a-z 0-9 spaces and symbols listed below), no CJK.
 - Never copy source verbatim; rewrite naturally with buyer-focused language.
-- ONLY output information that is explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge (e.g., do NOT guess rod power, action, lure weight range, or line rating unless the source states it).
+- TRUTH FIRST: Only include facts explicitly stated in the source. Do NOT add specs, features, or details from your own knowledge (e.g., do NOT guess rod power, action, lure weight range, or line rating unless the source states it).
 
-Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them). OFFICIAL: Allowed ONLY when part of a product's proper name (e.g., "Official Warranty Card", "Official Box", "Official User Manual", "Official Guide Book"); NEVER use as a standalone authenticity claim (e.g., "Official Rolex" = BAN).
-GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Genuine Leather", "Original Box"); never add yourself.
-RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence (e.g., serial numbers, decade markers, "limited to N units"); no inference, no guessing, no general knowledge.
+Rule 2: NO PADDING — No subjective hype/superlatives (AMAZING, FANTASTIC, INCREDIBLE, ULTIMATE, PREMIUM, MUST HAVE, BEST, PERFECT). AUTHENTIC: ABSOLUTE BAN (eBay rights protection, NO exceptions even if source contains them). OFFICIAL: Allowed ONLY when part of a product's proper name (e.g., "Official Warranty Card"); NEVER use as a standalone authenticity claim. GENUINE, ORIGINAL: only when transcribing exact source text (e.g., "Original Box"); never add yourself.
+RARE, LIMITED/LIMITED EDITION, VINTAGE, EXCLUSIVE, COLLECTIBLE/COLLECTORS EDITION, MINT: only with explicit source evidence; no inference, no guessing, no general knowledge.
 ANTIQUE: only if source confirms 100+ years old. HANDMADE: only if source confirms (手作り/職人); no inference.
-Bootleg/KO/Replica: If source explicitly states or suggests bootleg/KO/replica/unofficial, describe it clearly in Description. NEVER put "Bootleg", "KO", "Replica", "Unofficial" in Title if source does not state it; conversely, if source confirms these, MUST include them.
 
-3. NO REPETITION — Each keyword appears at most once in the Title (e.g., no "Rod Rod" or "Spinning Spinning Rod"). Avoid doubling category words.
-4. NO REDUNDANT CATEGORY — Do not repeat the item type unnecessarily (e.g., avoid "Spinning Rod Spinning" or "Jigging Rod Jigging Rod"). Choose the most specific term once.
-5. SOFT CHAR TARGET — Title should be 68-75 characters. See TITLE section below for exact rules.
-6. ESSENTIAL INFO REQUIRED — Always include when identifiable: brand (Shimano, Daiwa, Gamakatsu, etc.), model line and full model number (Expride, 172MH, etc.), rod type (Spinning Rod, Casting Rod, Jigging Rod, etc.), length and power if stated in source, condition (Pre-Owned, New).
+BOOTLEG MUST
+Trusted rod brands: Shimano, Daiwa, Gamakatsu, Megabass, Major Craft, Tenryu, Yamaga Blanks, Zenaq, Olympic, Smith, Tiemco, Abu Garcia, G.Loomis, St. Croix, Sage, Orvis, Hardy, Redington, Penn, Ugly Stik, Ripple Fisher, Jumprize, Palms.
+Absolutely banned terms (no exceptions): Replica, Counterfeit, Fake, Imitation, Clone, Knock-off, AAA quality.
+Prohibited claims without explicit source evidence: Authentic, Official (standalone), Genuine (standalone), OEM, Original (standalone), Licensed, Authorized.
+Compatible parts only: describe as "for Shimano rod" or "fits Daiwa blank" — not as the brand's own product.
 
-ROD TYPE (non-obvious): 磯竿 -> ISO Rod / Rock Fishing Rod; エギングロッド -> Eging Rod / Squid Jigging Rod; タイラバロッド -> Tai Rubber Rod; テンカラ竿 -> Tenkara Rod; 鮎竿 -> Ayu Rod; へら竿 -> Hera Rod; 渓流竿 -> Keiryu Rod / Stream Rod; メバリングロッド -> Mebaring Rod / Light Game Rod.
+NICKNAME GUARD
+Collector nicknames (e.g., Old Expride, Original Heartland, Antique Phantom) may only be used when the source text explicitly states that name. Do not apply collector aliases from general knowledge.
 
-BRAND (non-obvious): 天龍 / テンリュウ -> Tenryu; ヤマガブランクス -> Yamaga Blanks; オリムピック / グラファイトリーダー -> Olympic / Graphiteleader; ツララ -> Tulala; リップルフィッシャー -> Ripple Fisher; ジャンプライズ -> Jumprize; パームス -> Palms; フィッシュマン -> Fishman.
+BRAND DICTIONARY (JP -> EN)
+シマノ -> Shimano
+ダイワ -> Daiwa
+がまかつ / ガマカツ -> Gamakatsu
+メガバス -> Megabass
+メジャークラフト -> Major Craft
+天龍 / テンリュウ -> Tenryu
+ヤマガブランクス -> Yamaga Blanks
+ゼナック -> Zenaq
+オリンピック / オリムピック -> Olympic
+グラファイトリーダー -> Graphiteleader
+スミス -> Smith
+ティムコ -> Tiemco
+アブガルシア / アブ・ガルシア -> Abu Garcia
+ジー・ルーミス -> G.Loomis
+セントクロイ -> St. Croix
+セージ -> Sage
+オービス -> Orvis
+ハーディ -> Hardy
+レディントン -> Redington
+ペン -> Penn
+アグリースティック -> Ugly Stik
+リップルフィッシャー -> Ripple Fisher
+ジャンプライズ -> Jumprize
+パームス -> Palms
+フィッシュマン -> Fishman
+ツララ -> Tulala
+ジャクソン -> Jackson
+エバーグリーン -> Evergreen
+デプス -> Deps
+テイルウォーク -> Tailwalk
+ノリーズ -> Nories
+ゼスタ -> Xesta
+宇崎日新 / ニッシン -> Nissin
+ヤマシタ / ヤマリア -> Yamashita
+アピア -> Apia
 
-POPULAR MODEL LINES (include in Title for SEO)
-- **Shimano**: Expride (エクスプライド), Scorpion (スコーピオン), Soare (ソアレ), Dialuna (ディアルーナ), Zodias (ゾディアス), Poison Adrena (ポイズンアドレナ), World Shaula (ワールドシャウラ), Lunamis (ルナミス), Colt Sniper (コルトスナイパー)
-- **Daiwa**: Steez (スティーズ), Heartland (ハートランド), Branzino (ブランジーノ), Emeraldas (エメラルダス), Morethan (モアザン), Lateo (ラテオ), Gekkabijin (月下美人), Shore Spartan (ショアスパルタン), Saltiga (ソルティガ)
-- **Gamakatsu**: Luxxe (ラグゼ)
+MODEL / SERIES REFERENCE (do not translate; preserve exactly)
+Shimano: Expride, Zodias, Bantam, World Shaula, Poison Adrena, Poison Glorious, Poison Ultima, Soare, Sephia, Ocea Plugger, Ocea Jigger, Grappler, Lunamis, Dialuna, Colt Sniper
+Daiwa: Steez, Black Label, Morethan, Labrax, Emeraldas, Heartland, Gekkabijin, Lateo, Saltiga, Vade Mecum, Presso, Shore Spartan, HRF
+Gamakatsu: Luxxe
+Megabass: Destroyer, Levante, Orochi
+Major Craft: N-ONE, Crostage, Benkei, Basspara, Triple Cross, Solpara, Trapara, Firstcast, Skyroad, Finetail
+Tenryu: Rayz, Rayz Spectra, Rayz Alter, Rayz Integral, Riplout, Injection, Power Master, Swat, Flair
+Yamaga Blanks: EARLY Plus, Ballistick, BlueCurrent, Arzante, Galahad
+G.Loomis: GLX, NRX, NRX+, E6X, IMX-PRO, Conquest, Pro Blue
+St. Croix: Legend Elite, Triumph, Premier, Avid, Mojo Bass, Tidemaster, Mojo Inshore
+Sage: X, IGNITER, PAYLOAD, FOUNDATION, SONIC, MOTIVE, SALT HD, ESN, TROUT LL
+Orvis: Helios 3D, Helios 3F, Recon, Encounter, Clearwater
+Hardy: Ultralite NSS, Ultralite MTX, Wraith, Zane, Classic, Palakona
 
-ROD SPECIFICATION TERMS
-These specs are critical search terms for rod buyers. Include all that source provides:
-- Length: Copy EXACTLY from source. Common formats: 6'6", 7'2", 8'6", 2.59m, 2ピース
-  If in meters, also show feet: 2.59m/8'6"
-  If in feet/inches, keep as-is.
-- Power/Stiffness (硬さ): UL (Ultra Light), L (Light), ML (Medium Light), M (Medium), MH (Medium Heavy), H (Heavy), XH (Extra Heavy)
-  Copy from source exactly. Include in Title.
-- Action (調子/テーパー): Extra Fast, Fast, Regular Fast, Regular, Moderate, Slow
-  先調子 -> Fast, 胴調子 -> Regular/Slow
-- Sections (継数): 1 Piece, 2 Piece, 3 Piece, Multi-Piece
-- Closed Length (仕舞寸法): Transport length for travel rods
-- Lure Weight (適合ルアーウェイト / ルアーウエイト): e.g., 1/8-3/8 oz, 3.5-10g
-- Line Rating (適合ライン): e.g., 8-16 lb, PE #0.8-1.5
-- Rod Weight (自重): e.g., 120g, 4.2oz
-- Material (素材): Carbon (カーボン), Fiberglass (グラス), Composite
-- Guide (ガイド): Fuji guides, SiC, Titanium frame
+ROD TYPE DICTIONARY (JP -> EN)
+スピニングロッド / スピニング -> Spinning Rod
+ベイトロッド / ベイトキャスティングロッド / ベイト -> Baitcasting Rod / Casting Rod
+フライロッド / フライ -> Fly Rod
+サーフロッド / 投げロッド / 投竿 -> Surf Rod / Casting Rod
+トローリングロッド -> Trolling Rod
+振出 / テレスコピック -> Telescopic Rod
+両軸 / コンベンショナル -> Conventional Rod
+旅行用 / トラベル -> Travel Rod
+エリア / 管釣り -> Area Trout Rod
+磯竿 / 磯ロッド -> ISO Rod / Rock Fishing Rod
+エギングロッド -> Eging Rod / Squid Jigging Rod
+タイラバロッド -> Tai Rubber Rod
+テンカラ竿 -> Tenkara Rod
+鮎竿 -> Ayu Rod / Sweetfish Rod
+へら竿 -> Hera Rod
+渓流竿 / 渓流ロッド -> Mountain Stream Rod / Keiryu Rod
+メバリングロッド -> Rock Fish Rod / Mebaring Rod
+アジングロッド -> Light Game Rod / Ajing Rod
+シーバスロッド -> Sea Bass Rod / Seabass Rod
+ジギングロッド -> Jigging Rod
+スロージギング / スロージギングロッド -> Slow Pitch Jigging Rod
+ボートロッド -> Boat Rod / Offshore Rod
+タコロッド -> Octopus Rod
+バスロッド -> Bass Rod
+
+POWER & ACTION DICTIONARY
+Power (硬さ / パワー):
+ウルトラライト / UL -> Ultra Light (UL)
+ライト / L -> Light (L)
+ミディアムライト / ML -> Medium Light (ML)
+ミディアム / M -> Medium (M)
+ミディアムヘビー / MH -> Medium Heavy (MH)
+ヘビー / H -> Heavy (H)
+エクストラヘビー / XH -> Extra Heavy (XH)
+
+Action (テーパー / 調子):
+スーパーファスト / エクストラファスト -> Extra Fast
+先調子 / ファスト -> Fast
+ミディアムファスト -> Moderate Fast
+胴調子 / ミディアム / モデレート -> Moderate
+スロー -> Slow
+
+Pieces (継数):
+ワンピース / 1本継 / 1ピース -> One-piece
+2本継 / 2ピース -> Two-piece
+3本継 / 3ピース -> 3-Piece
+振出 / テレスコピック -> Telescopic
+
+TITLE (SEO Priority)
+- HARD LIMIT: 80 chars maximum. eBay rejects titles exceeding 80 chars.
+- GOAL: Maximize SEO discoverability by packing every source-derived fact (brand, model, type, length, power, action, accessories, era) within the 80-char budget. Unused characters = lost search visibility.
+- TRUTH BOUND: Only include facts derivable from source text.
+- Shorter title is acceptable when source provides limited information.
+- Allowed symbols: & / : - . ,
+- Forbidden symbols: " ' ( ) [ ]
+- Do not mention guarantees/returns/refunds.
+- Do NOT include condition/status terms (Junk, Not Working, For Parts) unless explicitly written in source.
+
+- SEO KEYWORD ORDER (front-load high-value terms):
+  1. Brand (within first 30 chars) - Shimano, Daiwa, Gamakatsu, Tenryu, etc.
+  2. Model line (Expride, Steez, Rayz, etc.)
+  3. Model number exactly as-is (S906M, B66ML-2, etc.)
+  4. Rod type (Spinning Rod, Baitcasting Rod, Fly Rod, etc.)
+  5. Length if not in model number (9ft, 8'6", 2.7m)
+  6. Power if not in model number (MH, ML, H)
+  7. Pieces if notable (2-Piece, Travel Rod, Telescopic)
+  8. Application if space allows (Bass, Saltwater, Jigging, Eging)
+
+SPEC DICTIONARY (JP -> EN, source-stated only)
+長さ / 全長 -> Length (ft/in and m if source states both)
+硬さ / パワー -> Power (UL/L/ML/M/MH/H/XH)
+調子 / テーパー -> Action (Fast/Moderate/Slow)
+継数 / ピース数 -> Pieces (1-Piece/2-Piece/Telescopic)
+仕舞寸法 / 仕舞 -> Collapsed Length / Closed Length
+自重 / 重量 -> Weight (g or oz)
+ルアーウエイト / 適合ルアー -> Lure Weight (oz or g range)
+適合ライン -> Line Weight (lb or PE #)
+カーボン含有率 -> Carbon Content (%)
+ガイド素材 / ガイドリング -> Guide Ring (SiC / Torzite / Alconite)
+ガイドフレーム -> Guide Frame (Titanium / Stainless)
+グリップ素材 -> Grip (Cork / EVA / Carbon)
+リールシート -> Reel Seat
+ソリッドティップ -> Solid Tip
+チューブラーティップ -> Tubular Tip
 
 MODEL NUMBER RULE (CRITICAL)
 Rod model numbers encode specifications and are essential search terms.
 Examples:
 - Shimano: S906M (Spinning, 9'6", Medium), B6102MH (Bait, 6'10", 2-piece, MH)
-- Daiwa: 862ML (8'6", 2-piece, ML)
+- Daiwa: 862ML (8'6", 2-piece, ML), 68ML-S (6'8", ML, Solid tip)
 Copy the FULL model number EXACTLY from source. Do NOT modify, abbreviate, or interpret.
+Always include in Title if present.
 
-TITLE (SEO Priority)
-- Language: English ASCII only.
-- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
-- Allowed symbols: & / : - . ,
-- Forbidden symbols: " ' ( ) [ ]
-- Do not mention guarantees/returns/refunds.
-- **IMPORTANT**: Do NOT include any condition/status terms (like Junk, Not Working, For Parts) unless they are **explicitly and clearly written** in the Japanese source text.
+ACCESSORY DICTIONARY (positive - include only if source states)
+竿袋付き / ロッドソック付き -> With Rod Bag / With Rod Sock
+ロッドケース付き / ハードケース付き -> With Rod Case / With Hard Case
+元箱付き / 箱付き -> With Original Box
+取扱説明書付き / 説明書付き -> With Manual
+保証書付き -> With Warranty Card
+ティップカバー付き -> With Tip Cover
+スピゴット付き -> With Ferrule Cap / With Spigot
+ロッドベルト付き -> With Rod Belt
+フルセット -> Full Set (Rod + Tube + Cloth + Tag)
+タグ付き / ハンタグ付き -> With Hang Tag
+ステッカー付き -> With Stickers
 
-- SEO KEYWORD ORDER (front-load high-value terms):
-  1. Brand (within first 30 chars) - Shimano, Daiwa, Gamakatsu, etc.
-  2. Model line name (Expride, Steez, Luxxe, etc.)
-  3. Model number (S906M, 862ML, etc.)
-  4. Rod type (Spinning Rod, Casting Rod, Jigging Rod, etc.)
-  5. Length if not in model number (8'6", 7ft)
-  6. Power if not in model number (MH, ML)
-  7. Pieces if notable (2 Piece, Travel Rod)
+ERA / YEAR MARKER
+ビンテージ -> Vintage
+クラシック -> Classic
+アンティーク -> Antique
+オールド / オールドモデル -> Old / Vintage
+1960年代 -> 1960s
+1970年代 -> 1970s
+1980年代 -> 1980s
+1990年代 -> 1990s
+昭和 -> Showa era
+廃盤 / 生産終了 -> Discontinued
+NOS / デッドストック: do NOT list here — define only in CONDITION TERMS
+
+CONDITION TERMS (Fishing Industry Standard)
+Mint - flawless, no marks, all guides original and intact
+Near Mint - extremely light handling only, barely perceptible marks, no damage
+Excellent+ - light scratches from careful use, fully functional, no guide replacements
+Excellent - visible wear from use, fully functional, guides intact
+Very Good - noticeable wear, usable condition, may have minor guide wrap fraying
+Good - significant cosmetic wear, functional, may have repaired grip or replaced guides
+For Parts / Not Working - broken blank, cracked tip, missing guides, non-functional
+NOS (New Old Stock) - old stock, never fished
+GUARD: Do NOT use TCG condition terms (NM / LP / MP / HP / DMG). These are Trading Card Grade codes; using them on fishing rods misleads buyers.
+DEFECT GUARD: If source mentions broken tip, cracked blank, or missing guides, do NOT include Mint or Near Mint in TITLE.
+
+DEFECT MAPPING (include in Description when source mentions)
+穂先折れ / 竿先折れ -> tip section broken
+ブランク折れ -> blank broken
+ブランク割れ / ブランクスひび -> blank cracked
+ブランクキズ / ブランクス傷 -> blank scratched
+曲がりグセ / ベリー曲がり -> permanent bend / set bend
+折れ修理跡 / 修理歴あり -> previously repaired
+ガイドリング割れ -> guide ring cracked
+ガイドリング欠け -> guide ring chipped
+ガイドリング脱落 / ガイド欠損 -> guide ring missing
+ガイド曲がり -> guide frame bent
+ガイドスレッド劣化 -> guide wrapping frayed / deteriorated
+ガイドスレッド巻き直し -> guide re-wrapped (modified)
+トップガイド欠損 -> tip guide missing
+トップガイド曲がり -> tip guide bent
+リールシート緩み -> reel seat loose
+リールシート割れ -> reel seat cracked
+リールシート固着 -> reel seat seized
+グリップコルク劣化 / コルク欠け -> cork grip deteriorated / chipped
+EVAグリップ劣化 / EVAグリップ破れ -> EVA grip worn / torn
+グリップ剥がれ -> grip material peeling / separated
+継ぎ目緩み -> ferrule loose
+継ぎ目割れ / 継ぎ目欠け -> ferrule cracked / chipped
+塗装剥げ / 塗装剥離 -> paint chipping / flaking
+コーティング劣化 / エポキシクラック -> epoxy / coating deteriorated
+傷 / キズ -> scratch marks
+サビ / 錆 -> rust / corrosion (metal components)
+スレッドほつれ -> thread unraveling
+保管キズ -> storage scratches
+穂先補修 -> tip has been repaired
+ガイド外れ -> guide detached
+〜できず / 〜不可 / 〜できません: always means NOT possible. NEVER translate as "works" or "functional".
+DEFECT reporting is MANDATORY: If source mentions any defect, MUST describe it in Description. Omitting known defects violates eBay policy.
+
+OPERATION CHECK DICTIONARY (source-stated only)
+ガイド全通し正常 -> line passes through all guides smoothly
+ブランク曲がりなし / スパイン正常 -> no blank bend / spine alignment confirmed
+穂先折れなし -> tip section intact, no breakage
+関節正常 -> joints (ferrules) connect securely
+動作確認済み -> condition checked and functional
+Do NOT add operation status unless explicitly stated in source.
 
 DESCRIPTION (SEO Priority)
 - English ASCII only, <= 480 chars, single natural paragraph.
 - FIRST SENTENCE: Must contain brand + model + rod type (primary keywords).
-  Example: "This Shimano Expride 172MH baitcasting rod is designed for bass fishing..."
-- Include searchable specs naturally:
-  * Rod type (Spinning, Casting, Jigging, etc.)
+  Example: "This Shimano Expride B66ML-2 baitcasting rod is a premium bass fishing rod..."
+- Include searchable specs naturally (all source-stated only):
+  * Rod type (Spinning, Baitcasting, Fly, Surf, Jigging, Telescopic, etc.)
   * Model line and full model number
-  * Length (in both ft/in and meters if source provides)
+  * Length (ft/in; if source gives cm, convert: 270cm approx 9ft)
   * Power and action
-  * Sections and closed length
+  * Sections and collapsed length
   * Lure weight range
-  * Line rating (mono and/or PE)
+  * Line rating (lb or PE)
   * Rod weight
-  * Guide type (Fuji, SiC, etc.)
-  * Material (carbon, fiberglass)
-  * Grip type (cork, EVA) if stated
-  * Target species/fishing style if stated
-  * Included accessories (rod case, rod belt, tip cover)
-  * Made in Japan if stated
-- Use keyword variations: "rod" "pole" / "casting rod" "baitcasting rod"
-- DEFECT/ISSUE REPORTING (CRITICAL):
-  If the source mentions ANY defect, you MUST describe it in the Description.
-  DEFECT KEYWORDS AND TRANSLATIONS:
-    - 折れ / 破損 -> "broken" or "snapped"
-    - 穂先折れ / ティップ折れ -> "broken tip" or "tip section broken"
-    - 穂先補修 / ティップ補修 -> "tip has been repaired"
-    - ガイド外れ -> "guide detached" or "missing guide"
-    - ガイド割れ / ガイドリング割れ -> "cracked guide ring" or "damaged guide insert"
-    - ガイド不良 / ガイド緩み -> "loose guide" or "guide malfunction"
-    - グリップ劣化 / グリップべたつき -> "grip deterioration" or "sticky grip"
-    - コルク欠け / コルク劣化 -> "cork damage" or "cork deterioration"
-    - EVA劣化 -> "EVA grip wear"
-    - ブランク傷 / ブランクス傷 -> "blank scratches"
-    - ブランクスひび / ブランクスクラック / ブランクス割れ -> "blank crack" or "fracture"
-    - 塗装剥がれ -> "finish peeling" or "paint chips"
-    - エポキシクラック / エポキシ割れ -> "epoxy cracks on guide wraps"
-    - サビ / 錆 -> "rust" or "corrosion"
-    - ジャンク -> "for parts"
-    - 不具合 -> "defect"
-    - 傷 -> "scratch"
-    - リールシート不良 / リールシート緩み -> "reel seat malfunction" or "loose reel seat"
-    - 〜できず / 〜不可 / 〜できません -> always means NOT possible. NEVER translate as "works" or "functional".
-  If source contains "(DEFECT: ...)" markers, use the English text directly.
-  Omitting known defects is a violation of eBay policy.
-- Describe condition only if clearly mentioned in source.
-- Avoid evaluative adjectives (excellent, good, mint, used).
+  * Guide type / ring material (SiC, Torzite, Fuji, etc.)
+  * Blank material (carbon, fiberglass, bamboo, composite)
+  * Grip type (cork, EVA, carbon) if stated
+  * Tip type (solid, tubular) if stated
+  * Target species / fishing style if stated
+  * Included accessories (from ACCESSORY DICTIONARY)
+  * Made in Japan / JDM if stated
+- Use keyword variations: "rod" / "fishing rod" / specific rod type.
+- DEFECT/ISSUE REPORTING (CRITICAL): If source mentions ANY defect, MUST describe it. Use DEFECT MAPPING for English terms.
+- MISSING ACCESSORIES (include only if source explicitly states): 竿袋なし -> No Rod Bag, ロッドケースなし -> No Rod Case, 元箱なし -> No Original Box, 取説なし / 説明書なし -> No Manual, 保証書なし -> No Warranty Card, ティップカバーなし -> No Tip Cover. Do NOT speculate about missing items.
+- Describe condition / operation only if explicitly mentioned in source.
+- Avoid evaluative adjectives (excellent, good, mint).
 - Exclude shipping/seller opinions/history/warranty.
-
-MISSING ACCESSORIES (if source explicitly states):
-- 竿袋なし -> No Rod Bag
-- ロッドケースなし -> No Rod Case
-- 取説なし / 説明書なし -> No Manual
-- 保証書なし -> No Warranty Card
-- ティップカバーなし -> No Tip Cover
-- 元箱なし -> No Original Box
-Do NOT speculate about missing items not explicitly stated.
 
 PRODUCTNAME
 - Format: [Brand] [Model Line] [Model Number] [Rod Type], English ASCII only.
@@ -132,23 +279,25 @@ PRODUCTNAME
   Gamakatsu Luxxe Jigdrive S62ML Jigging Rod
   Shimano Dialuna S96M Spinning Rod
   Daiwa Emeraldas MX 86M Eging Rod
+  Tenryu Rayz RZ53UL Trout Spinning Rod
 
-CATEGORY
-- Use eBay fishing rod category style if determinable.
-- Spinning Rods, Casting Rods, Fly Fishing Rods, Surf Rods
-- If rod parts only (tip section, grip section): Rod Building & Repair
-- If unclear: Fishing Rods & Poles
+CATEGORY (with eBay IDs)
+- Spinning Fishing Rods (36150) - all spinning rods (seabass, trout, eging, light lure, shore)
+- Casting Fishing Rods (36149) - baitcasting rods (bass, jigging, boat casting)
+- Vintage Fishing Rods (11144) - pre-1990 bamboo, fiberglass, classic graphite
+- Fishing Rods & Poles (261028) - fly rods, surf rods, trolling rods, telescopic, boat, all others
+- Rod Building & Repair - tip section only, blank only, grip section only, or parts lot
 
-CATEGORY_RULE (subcategory routing based on source):
-- Spinning Rod -> Sporting Goods > Fishing > Fishing Rods & Poles > Spinning Rods
-- Casting / Baitcasting Rod -> Sporting Goods > Fishing > Fishing Rods & Poles > Casting Rods
-- Fly Rod -> Sporting Goods > Fishing > Fishing Rods & Poles > Fly Fishing Rods
-- Surf Rod -> Sporting Goods > Fishing > Fishing Rods & Poles > Surf Rods
-- Jigging / Slow Jigging / Shore Jigging -> Sporting Goods > Fishing > Fishing Rods & Poles > Saltwater Rods
-- Boat / Tairaba Rod -> Sporting Goods > Fishing > Fishing Rods & Poles > Boat & Trolling Rods
-- ISO / Tenkara / Ayu / Hera / Keiryu -> Sporting Goods > Fishing > Fishing Rods & Poles > [specialized type]
-- Rod Building & Repair (tip section, grip section, blank only) -> Sporting Goods > Fishing > Rod Building & Repair
-- If unclear -> Sporting Goods > Fishing > Fishing Rods & Poles
+CATEGORY_RULE (subcategory routing):
+- スピニングロッド -> Spinning Fishing Rods (36150)
+- ベイトロッド / キャスティングロッド -> Casting Fishing Rods (36149)
+- フライロッド -> Fishing Rods & Poles (261028)
+- サーフロッド / 投げロッド -> Fishing Rods & Poles (261028)
+- ジギング / スロージギング / ボートロッド -> Fishing Rods & Poles (261028)
+- テレスコピック / 振出 -> Fishing Rods & Poles (261028)
+- ビンテージ (pre-1990, bamboo/glass) -> Vintage Fishing Rods (11144)
+- 穂先のみ / ブランクのみ / グリップのみ -> Rod Building & Repair
+- 不明 -> Fishing Rods & Poles (261028)
 
 OUTPUT FORMAT (exactly):
 Title: ...
@@ -157,19 +306,23 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title 68-75 chars; allowed symbols: & / : - . , ; no: " ' ( ) [ ]. If <68, add SEO keywords without fabrication.
+1. Title length <= 80 chars (HARD LIMIT, eBay system limit).
 2. Description <= 480 chars.
-3. Only ASCII characters and allowed symbols (& / : - . ,) throughout. No CJK or emoji.
-4. Title front-loads brand within first 30 chars.
-5. Description first sentence contains brand + model + rod type keywords.
-6. ProductName uses real brand name (not N/A for brand).
-7. Full model number from source is included in Title exactly as-is.
-8. Power rating (ML, M, MH, etc.) is included in Title if stated in source.
-9. Condition/status words appear only if explicitly stated in source Japanese.
-10. If source mentions any defect (broken tip, cracked blank, loose guide, loose reel seat), Description MUST include it.
-11. Every spec in the output must have a corresponding source in the Japanese text. If not found in source, it must NOT appear in output.
-12. Rod-specific defects accurately translated (not generic).
-13. Rule 2 compliance: AUTHENTIC not used; OFFICIAL only as proper name; RARE/LIMITED/VINTAGE/EXCLUSIVE/COLLECTIBLE/MINT only with source evidence; ANTIQUE only if 100+ years confirmed; HANDMADE only if source confirms (手作り/職人); Bootleg/KO/Replica only if source explicitly confirms.
+3. Only ASCII letters/numbers/spaces and allowed symbols (& / : - . ,) used throughout.
+4. No CJK characters or emoji anywhere.
+5. Title front-loads brand within first 30 chars.
+6. Description first sentence contains brand + model + rod type keywords.
+7. ProductName uses real brand name (not N/A for brand).
+8. Full model number from source included in Title exactly as-is.
+9. Power rating (ML/M/MH etc.) included in Title if stated in source.
+10. Condition/status words appear only if explicitly stated in source.
+11. No forbidden symbols in Title (no " ' ( ) [ ]).
+12. If source mentions any defect (broken tip, cracked blank, loose guide, loose reel seat), Description MUST include it.
+13. Every spec in output must have explicit source evidence. If not in source, omit.
+14. BOOTLEG MUST: No banned terms (Replica/Fake/Clone). No prohibited claims (Authentic/OEM/Licensed) without source evidence.
+15. DEFECT GUARD: If broken tip / cracked blank / missing guide in source, Mint / Near Mint must NOT appear in Title.
 
 If any check fails, regenerate until all pass.
-${fullText}
+
+
+Input: ${fullText}
