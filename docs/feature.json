@@ -1556,5 +1556,20 @@
     "updated_at": "2026-04-28T22:00:00Z",
     "last_sprint_contract": null,
     "notes": "ammo richness 30% → 82%。v50 (110行/7940字) → v51 (421行/17585字)。minors: F-M1 NO-PADDING欠如, F-M2 SV単独未マッピング, F-M3 スタージュエリー重複, F-M4 NOS ERA内に→矢印, F-M5 DESCRIPTION形容詞禁止とCONDITION TERMS用語の見た目上の矛盾。"
+  },
+  {
+    "id": "F-pokeca-v52-redesign-2026-04-28",
+    "name": "ポケカプロンプト V2.0.1 Full Rewrite (PROMPT_DESIGN_PRINCIPLE.md v1.0 準拠)",
+    "description": "ポケカ.txt v51→v52 全面改修。CV違反4件(68/75/40)修正。BOOTLEG MUST(TPCi VeRO via Corsearch) / RARITY DICT拡充(C/U/R/RH→SAR/SIR/IR/ACE) / LANGUAGE DICT 3→11言語 / DEFECT MAPPING 8→26ペア / ACCESSORY DICT POSITIVE新設(PSA/BGS/CGC/SGC/TopLoader/Sleeve) / CATEGORY 6 eBay IDs追加 / 旧裏18セット辞書保持 + VSシリーズ新追加 / §4.2 HARD LIMIT 80準拠 / §7 TCG CONDITION TERMS(NM/LP/MP/HP/DMG) / Library v52 byte-match OK / E-02 PASS_WITH_MINORS(blockers 0)",
+    "status": "passing",
+    "priority": 8,
+    "phase": "Phase TCG",
+    "dependencies": [
+      "F-jewelry-v51-redesign-2026-04-28"
+    ],
+    "created_at": "2026-04-28T22:30:00Z",
+    "updated_at": "2026-04-28T22:30:00Z",
+    "last_sprint_contract": null,
+    "notes": "E-02 PASS_WITH_MINORS by child-c. minors: M-M1 example char annotations(low), M-M2 SM-era set dict gaps(low). blockers 0. clasp push 済み."
   }
 ]
