@@ -1739,5 +1739,18 @@
     "updated_at": "2026-04-30T03:25:00Z",
     "last_sprint_contract": null,
     "notes": "deploy commit d8777a0 / clasp push 24 files。E-02 verdict: PASS_WITH_MINORS by child-c (can_deploy true, 5x NF LOW/INFO only, all 9 CV resolved)。child-c が org monthly usage limit に到達したが回復後再開して完了。CATEGORY ROUTING numeric IDs は PARTIAL (text-based、確定 numeric ID は別 Phase)。"
+  },
+  {
+    "id": "F-gundam-v44-redesign-2026-04-30",
+    "name": "ガンダムカード v43→v44 V2.0.1 改修完成 (SOT v1.1 §4.4 準拠 + 弾薬充実)",
+    "description": "priority 17 ガンダムカード V2.0.1 改修。GOALS 4 bullet / Rule 2 A/B/C / BOOTLEG MUST VeRO HIGH (Bandai/Sotsu/Sunrise) / BRAND 3/SET 16/PILOT 62/MOBILE SUIT 58/CARD_TYPE/RARITY/EDITION/DEFECT 25/GRADING 各辞書追加 / CATEGORY ROUTING / CONDITION TERMS 4 guards。version 43→44、行数 415、bytes ~16K。byte-match PASS / I-01 0 / I-02 0 / cv 0 / degraded 0。動的辞書注入なし、プロンプト内静的辞書。",
+    "status": "passing",
+    "priority": 17,
+    "phase": "Phase 1 - Gundam TCG SOT v1.1",
+    "dependencies": [],
+    "created_at": "2026-04-30T04:00:00Z",
+    "updated_at": "2026-04-30T04:00:00Z",
+    "last_sprint_contract": null,
+    "notes": "deploy commit 2a18f50 / clasp push 24 files。E-02 verdict: PASS_WITH_MINORS by child-c (can_deploy true, NF-01 LOW only — '30 chars' SEO positioning guideline)。Mobile Suit モデル番号 (RX-78-2 等) が ALLOWED hyphen で正しく扱える。"
   }
 ]
