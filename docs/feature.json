@@ -1586,5 +1586,20 @@
     "updated_at": "2026-04-28T23:30:00Z",
     "last_sprint_contract": null,
     "notes": "E-02 PASS_WITH_MINORS by child-c. minors: M-M1 Reserved List AI推論 vs TRUTH FIRST(low), M-M2 MM3年次曖昧(low), M-M3 TITLE/VERIFICATION Japanese表現不一致(low). blockers 0. clasp push 済み."
+  },
+  {
+    "id": "F-figure-phase1-bootleg-removal-2026-04-29",
+    "name": "フィギュアカテゴリ Phase 1: 正規品/海賊版フィールド完全削除 (VeRO緊急対応)",
+    "description": "Sanitize.gs Figures ルールが '正規品/海賊版: 正規品/海賊版' をstructured explanationに出力し、AI が 'Official/Bootleg: Official' に翻訳→Title に 'Official' が混入するVeROリスクを即時除去。Sanitize.gs・Library/Sanitize.gs (4箇所) / Library/Config_IS.gs IS_INITIAL_DATA + IS_CATEGORY_FIELDS (2箇所) / prompts/フィギュア.txt ESSENTIAL INFO PRIORITY / Library/PromptTemplates.gs フィギュア entry v47→v48 (re.sub lambda byte-match OK) の計9箇所を削除・同期。フィールド削除理由: リネーム案(Brand Verification等)は概念を残存させるため完全削除を選択。Phase 2 (V2.0.1全面改修 / BOOTLEG MUST / CONDITION TERMS / BRAND DICT等) は別タスク。",
+    "status": "passing",
+    "priority": 9,
+    "phase": "Phase Figure",
+    "dependencies": [
+      "F-mtg-v46-redesign-2026-04-28"
+    ],
+    "created_at": "2026-04-29T00:50:00Z",
+    "updated_at": "2026-04-29T00:50:00Z",
+    "last_sprint_contract": null,
+    "notes": "commit b94f276 push済 + clasp push済 (24 files). E-02 PASS_WITH_MINORS by child-c (2nd pass after child-a rework). minors: M-01 prompts/フィギュア.txt CV violations 68-75 (Phase 2 scope), M-02 Library/Sanitize.gs 1行空行差分 pre-existing artifact, M-03 Bootleg mentions L12/L90 correct by design. blockers 0. VeRO risk fully eliminated on both paths (structured field + prompt instruction)."
   }
 ]
