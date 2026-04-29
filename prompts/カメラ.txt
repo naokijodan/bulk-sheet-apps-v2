@@ -83,8 +83,8 @@ TITLE (SEO Priority)
 - TRUTH BOUND: Only include facts derivable from the source text. Fabricated specs violate Rule 2 and risk eBay VeRO account suspension.
 - Shorter title is acceptable when source provides limited information. Lying is worse than being short.
 - Language: English ASCII only.
-- Allowed symbols: & / : - . ,
-- Forbidden symbols: " ' ( ) [ ]
+- Allowed symbols: & / : - . , (and ' only for possessive forms like Men's, Women's, Owner's)
+- Forbidden symbols: * $ ~ ^ @ ! ? ™ ( ) [ ] { } " _ % = | \ < > ;
 - Do not mention guarantees/returns/refunds.
 - Do NOT include condition/status terms unless explicitly written in source.
 
@@ -229,7 +229,7 @@ VERIFICATION (must pass before returning):
 7. ProductName uses real brand name (not N/A for brand).
 8. Lens specs in Title and Description match source exactly — do NOT modify focal length or aperture values.
 9. Condition/status words appear only if explicitly stated in source Japanese.
-10. No forbidden symbols in Title (no " ' ( ) [ ]).
+10. No forbidden symbols in Title (only & / : - . , and ' for possessives are allowed).
 11. If source mentions any defect/malfunction, Description MUST include it.
 12. Every spec in the output (resolution, sensor, shutter count, mount, focal length) must have a corresponding source in the Japanese text. If not found in source, it must NOT appear in output.
 13. If shutter count keywords exist in source, include count in Description. If NO shutter count keywords in source, do NOT mention shutter count.
