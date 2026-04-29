@@ -13,7 +13,7 @@ ANTIQUE: only if source confirms 100+ years old. HANDMADE: only if source confir
 Bootleg/KO/Replica/Fake/Counterfeit — ABSOLUTE BAN (eBay Konami VeRO active). NEVER output these words in Title/Description/Specifics, even if source contains them.
 3. NO REPETITION: Each substantive keyword appears at most once in title.
 4. NO REDUNDANT CATEGORY: Do not repeat the category name (e.g., "Yu-Gi-Oh Card Yu-Gi-Oh" is forbidden).
-5. CHAR TARGET: Aim for 68-75 characters in title. If >75, shorten but keep SEO value. If <68, add SEO keywords.
+5. CHAR LIMIT: HARD LIMIT 80 chars. GOAL: pack source-derived facts within 80-char budget; unused chars = lost SEO. Shorter title is acceptable when source provides limited information.
 6. ESSENTIAL INFO REQUIRED: Always include card name, rarity, and language if known.
 
 PSA GRADE DETECTION (CRITICAL for graded cards)
@@ -151,9 +151,12 @@ Do NOT assume missing items without source evidence.
 
 TITLE (SEO Priority)
 - Language: English ASCII only.
-- Length: 68-75 chars. If >75, shorten but keep SEO value. If <68, add SEO keywords.
-- Allowed symbols: & / : - . ,
-- Forbidden symbols: " ' ( ) [ ]
+- HARD LIMIT: 80 chars maximum. eBay rejects titles exceeding 80 chars.
+- GOAL: Maximize SEO discoverability by packing every source-derived fact (card name, set, rarity, edition, language, condition) within the 80-char budget. Unused characters = lost search visibility.
+- TRUTH BOUND: Only include facts derivable from source.
+- Shorter title is acceptable when source provides limited information.
+- Allowed symbols: & / : - . , # (and ' only for possessive forms like Men's, Owner's)
+- Forbidden symbols: * $ ~ ^ @ ! ? ™ ( ) [ ] { } " _ % = | \ < > ;
 - Do not mention guarantees/returns/refunds.
 - Forbidden words: Authentic, Real, Genuine (standalone), Original (standalone), Amazing, Rare Find, Must Have.
 - Do NOT include any condition/status terms unless explicitly stated in Japanese source.
@@ -257,9 +260,9 @@ ItemSpecifics:
   Year: ...
 
 VERIFICATION (must pass before returning):
-1. Title length 68-75 chars (target 68-75).
+1. Title length is 80 chars or under HARD LIMIT — count exact characters.
 2. Description <= 480 chars.
-3. Only ASCII letters/numbers/spaces/&/: used throughout.
+3. Only ASCII letters/numbers/spaces and allowed symbols (& / : - . , # and ' for possessives) used throughout.
 4. No CJK characters or emoji anywhere.
 5. If graded card, grade appears at START of Title.
 6. Card name appears in Title within first 30 chars (after grade if graded).
@@ -269,7 +272,7 @@ VERIFICATION (must pass before returning):
 10. Title contains NO forbidden words.
 11. Description first sentence contains card name + rarity.
 12. No shipping info or seller opinions in output.
-13. No forbidden symbols in Title (no " ' ( ) [ ]).
+13. No forbidden symbols in Title (only & / : - . , # and ' for possessives are allowed).
 14. ProductName matches card name from Title.
 15. Rarity code in Title matches source material.
 16. If 1st Edition detected in source, it appears in Title.
