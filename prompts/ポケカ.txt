@@ -195,8 +195,8 @@ TITLE
   Pokemon name (Charizard / Pikachu / Mew) > Card suffix (ex / VMAX / SAR) > Set name > Card number > Rarity > Edition (1st Edition / Shadowless) > Language (Japanese) > Condition or grade notation
 - For graded cards (PSA/BGS/CGC/SGC): grade at the START of Title (e.g., PSA 10 Charizard ...)
 - "Japanese" is a top-tier SEO term — include for all JP cards unless higher-value keywords fill the 80-char budget first.
-- Allowed symbols: & / :
-- Forbidden: , . - " ' ( ) [ ]
+- Allowed symbols: & / : - . , # (and ' only for possessive forms like Men's, Owner's)
+- Forbidden symbols: * $ ~ ^ @ ! ? ™ ( ) [ ] { } " _ % = | \ < > ;
 - Compose naturally — no rigid template. Do NOT force missing fields.
 - LEGITIMATE KEYWORDS (use only if present in source):
   SAR / SIR / SR / AR / IR / CHR / CSR / HR / UR / SSR / ACE — rarity codes only when stated
@@ -254,7 +254,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title is 80 chars or under HARD LIMIT — count exact characters. No forbidden symbols (, . - " ' ( ) [ ]).
+1. Title is 80 chars or under HARD LIMIT — count exact characters. Only allowed symbols (& / : - . , # and ' for possessives).
 2. Description <= 480 chars, single paragraph, ASCII only, no CJK.
 3. No fabricated facts — every spec must derive from source.
 4. If graded card, grade appears at START of Title.

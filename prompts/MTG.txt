@@ -412,8 +412,8 @@ TITLE (SEO Priority)
 - GOAL: Maximize SEO discoverability by packing every source-derived fact (card name, set name, foil/variant, language, grade, condition, edition) within the 80-char budget. Unused characters = lost search visibility.
 - TRUTH BOUND: Only include facts derivable from source. Fabricated keywords (RARE / VINTAGE / AUTHENTIC without source confirmation) violate Rule 2 and risk eBay VeRO account suspension.
 - Shorter title is acceptable when source provides limited information. Lying is worse than being short.
-- Allowed symbols: & / :
-- Forbidden symbols: , . - " ' ( ) [ ]
+- Allowed symbols: & / : - . , # (and ' only for possessive forms like Men's, Owner's)
+- Forbidden symbols: * $ ~ ^ @ ! ? ™ ( ) [ ] { } " _ % = | \ < > ;
 - Compose naturally using available information. Do NOT force missing fields.
 - "MTG" and "Japanese" are high-value SEO terms — include when space allows.
 - For graded cards (PSA/BGS/CGC/SGC): grade at the START of title.
@@ -504,7 +504,7 @@ ProductName: ...
 Category: ...
 
 VERIFICATION (must pass before returning):
-1. Title is 80 chars or under HARD LIMIT, uses no forbidden symbols (, . - " ' ( ) [ ]).
+1. Title is 80 chars or under HARD LIMIT, uses only allowed symbols (& / : - . , # and ' for possessives).
 2. Description <= 480 chars, single paragraph, ASCII only, no CJK.
 3. No fabricated facts — every spec must derive from source.
 4. If graded card, grade appears at START of Title.

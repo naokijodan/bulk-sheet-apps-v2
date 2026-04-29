@@ -174,8 +174,8 @@ GOAL: Fit as many SEO-critical facts as possible within 80 chars
 TRUTH BOUND: Only include facts present in source — do not pad to fill space
 Shorter OK: A 45-char title built from real facts is better than an 80-char title with invented details
 
-ALLOWED SYMBOLS: & / : #
-FORBIDDEN SYMBOLS: " ' ( ) [ ] , . - _ * % @ ! ?
+ALLOWED SYMBOLS: & / : - . , # (and ' only for possessive forms like Men's, Owner's)
+FORBIDDEN SYMBOLS: * $ ~ ^ @ ! ? ™ ( ) [ ] { } " _ % = | \ < > ;
 
 SEO KEYWORD ORDER (priority high→low, include what source supports):
 Player Name > Year > Brand > Set Name > Card Number > Rarity/Parallel > RC > Grade > Team > Language > Edition
@@ -219,7 +219,7 @@ Condition: ... (NA if not in source)
 === VERIFICATION (must pass before returning) ===
 1. Title is at most 80 characters — count and confirm (HARD LIMIT, never exceed)
 2. Description is at most 480 characters
-3. All output uses ASCII letters/numbers/spaces/& / : # only — no CJK, no emoji, no forbidden symbols
+3. All output uses ASCII letters/numbers/spaces and allowed symbols (& / : - . , # and ' for possessives) only — no CJK, no emoji, no forbidden symbols
 4. No CJK characters or emoji appear in any field
 5. If graded card: grade (PSA X / BGS X / SGC X / CGC X) appears in Title
 6. Player name appears near the front of title (lead with player when player is the primary identity)
