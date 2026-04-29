@@ -1674,5 +1674,18 @@
     "updated_at": "2026-04-29T16:00:00Z",
     "last_sprint_contract": null,
     "notes": "deploy commit 5d109a5 / clasp push 24 files。最小修正方針 (記号のみ) で進行。3 行の差分のみ。E-02 は親が grep + byte-match で代替 (L0-3 小規模修正例外条項)。"
+  },
+  {
+    "id": "F-yugioh-v50-redesign-2026-04-30",
+    "name": "遊戯王 v47→v50 V2.0.1 改修完成 (SOT v1.1 §4.4 準拠 + 弾薬充実)",
+    "description": "priority 11 大相撲までと同じ方式の本来の V2.0.1 改修。GOALS 4 bullet / Rule 2 A/B/C / BOOTLEG MUST VeRO HIGH (Konami) / BRAND/SET/CARD_NAME/CARD_TYPE/RARITY/EDITION/GRADING/ERA/DEFECT 各辞書追加 / CATEGORY ROUTING 6 numeric IDs / CONDITION TERMS 4 guards / CARD NAME 4-step extraction。version 47→50、行数 281→332。byte-match PASS / I-01 0 / I-02 0 / cv 0 / degraded 0。M-H01 (hyphen-symbol-conflict) は SOT v1.1 §4.4.1 で自動解消。",
+    "status": "passing",
+    "priority": 12,
+    "phase": "Phase 1 - Yu-Gi-Oh SOT v1.1",
+    "dependencies": [],
+    "created_at": "2026-04-30T01:10:00Z",
+    "updated_at": "2026-04-30T01:10:00Z",
+    "last_sprint_contract": null,
+    "notes": "deploy commit 850b555 / clasp push 24 files。E-02 verdict: PASS by child-c (blocker 0, F-01/F-02/M-H01 全解消)。NF-01 (LOW: VERIFICATION 9 位置制約緩和) / NF-02 (LOW: 辞書カウント差異) は次回 Phase 改善対象。child-a/b/c 並列 C0 → child-a C4 v48 (大改修破棄) → 親が v49 に最小修正 → child-a rework v50 で本来の V2.0.1 改修完成 → child-c E-02 PASS の経緯。"
   }
 ]
