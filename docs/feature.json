@@ -1687,5 +1687,18 @@
     "updated_at": "2026-04-30T01:10:00Z",
     "last_sprint_contract": null,
     "notes": "deploy commit 850b555 / clasp push 24 files。E-02 verdict: PASS by child-c (blocker 0, F-01/F-02/M-H01 全解消)。NF-01 (LOW: VERIFICATION 9 位置制約緩和) / NF-02 (LOW: 辞書カウント差異) は次回 Phase 改善対象。child-a/b/c 並列 C0 → child-a C4 v48 (大改修破棄) → 親が v49 に最小修正 → child-a rework v50 で本来の V2.0.1 改修完成 → child-c E-02 PASS の経緯。"
+  },
+  {
+    "id": "F-onepiece-v49-redesign-2026-04-30",
+    "name": "ワンピースカード v48→v49 V2.0.1 改修完成 (SOT v1.1 §4.4 準拠 + 弾薬充実)",
+    "description": "priority 13 ワンピースカード V2.0.1 改修。GOALS 4 bullet / Rule 2 A/B/C / BOOTLEG MUST VeRO HIGH (Bandai/Shueisha/Toei) / BRAND/SET/CARD_TYPE/CHARACTER/RARITY/EDITION/GRADING/DEFECT 各辞書追加 / CATEGORY ROUTING numeric IDs / CONDITION TERMS 4 guards。動的辞書注入 ${onePieceCharDict} 維持。version 48→49、行数 205→331。byte-match PASS / I-01 0 / I-02 0 / cv 0 / degraded 0。",
+    "status": "passing",
+    "priority": 13,
+    "phase": "Phase 1 - One Piece TCG SOT v1.1",
+    "dependencies": [],
+    "created_at": "2026-04-30T01:30:00Z",
+    "updated_at": "2026-04-30T01:30:00Z",
+    "last_sprint_contract": null,
+    "notes": "deploy commit 4c10ed0 / clasp push 24 files。E-02 verdict: PASS_WITH_MINORS by child-c (blocker 0, all v48 CRITICAL 全解消, MEDIUM 1 / LOW 3)。child-a/b/c 並列 C0 → child-a C4 → child-c E-02 のフルワークフロー。"
   }
 ]
