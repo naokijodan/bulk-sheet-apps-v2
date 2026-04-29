@@ -1616,5 +1616,18 @@
     "updated_at": "2026-04-29T01:30:00Z",
     "last_sprint_contract": null,
     "notes": "commit b4e9638 push済 + clasp push --force済 (24 files). E-02 PASS_WITH_MINORS by child-c. minors: M-01 VERIFICATION L366 '40 chars' positional(low), M-02 NOS ERA配置のみ CONDITION TERMSなし(low), M-03 例示タイトル 'New'混入+61-67chars短め(low), M-04 ボニー CHARACTER DICT未収録(low), M-05 超サイヤ人 dict未収録(low). blockers 0."
+  },
+  {
+    "id": "F-baseball-v47-redesign-2026-04-29",
+    "name": "ベースボールカード V2.0.1 全面書き換え",
+    "description": "PROMPT_DESIGN_PRINCIPLE.md v1.0 準拠。TITLE §4.2、BOOTLEG MUST (MLB Properties/MLBPA/NPB)、PLAYER DICT 30+154動的注入、BRAND DICT 14、SET DICT 47、TEAM DICT MLB30+NPB12、RARITY/PARALLEL全階層、GRADING PSA/BGS/SGC/CGC/BCCG、CONDITION TERMS TCG6段階、DEFECT MAPPING 27、ERA MARKER全時代、CATEGORY ROUTING 261328-261333。E-02 PASS_WITH_MINORS (blockers 0)。",
+    "status": "passing",
+    "priority": 10,
+    "phase": "Phase Baseball",
+    "dependencies": [],
+    "created_at": "2026-04-29T00:00:00Z",
+    "updated_at": "2026-04-29T00:00:00Z",
+    "last_sprint_contract": null,
+    "notes": "M-01: VERIFICATION #10 Language矛盾 / M-02: '45-char' §4.1軽微 / M-03: PLAYER DICTにNPBチーム名3件混入 — 全てLOW severity、Phase 3で修正予定"
   }
 ]
