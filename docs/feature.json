@@ -1659,5 +1659,20 @@
     "updated_at": "2026-04-29T15:00:00Z",
     "last_sprint_contract": null,
     "notes": "deploy commit 0e6a6bd / SOT v1.1 commit 48cab87。GPT-5+Gemini 3者協議+child-c E-02 検察官レビュー承認。本来は §4.4.5 アポストロフィ削除のみで SOT 違反解消可だったが、C0 child-a が rewrite_priorities high として §6/§5 改善案を提示し、親が指示書に採用。結果として弾薬充実 +119 行を含む大規模改修になった。priority 2 以降は記号修正のみに絞る方針。new findings NF-01 (LOW count-discrepancy-only) は次回改修で対応。"
+  },
+  {
+    "id": "F-camera-v52-sot-v1.1-2026-04-29",
+    "name": "カメラ v51→v52 SOT v1.1 §4.4 最小修正",
+    "description": "PROMPT_DESIGN_PRINCIPLE v1.1 §4.4.5 違反 (apostrophe ' を Forbidden に含む 2 行) のみ修正。時計用 v54 改修の反省を踏まえて記号修正のみに絞る。L86 Allowed 注記 'and ' for possessives' 追加、L87 Forbidden 完全リスト化、L232 VERIFICATION item 10 修正。version 51→52、行数変化なし、byte-match PASS、§4.1 0 件、§4.4.5 0 件。",
+    "status": "passing",
+    "priority": 2,
+    "phase": "Phase 1 - Camera Category SOT v1.1",
+    "dependencies": [
+      "F-camera-v51-redesign-2026-04-28"
+    ],
+    "created_at": "2026-04-29T16:00:00Z",
+    "updated_at": "2026-04-29T16:00:00Z",
+    "last_sprint_contract": null,
+    "notes": "deploy commit 5d109a5 / clasp push 24 files。最小修正方針 (記号のみ) で進行。3 行の差分のみ。E-02 は親が grep + byte-match で代替 (L0-3 小規模修正例外条項)。"
   }
 ]
