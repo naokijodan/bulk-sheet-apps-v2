@@ -1700,5 +1700,18 @@
     "updated_at": "2026-04-30T01:30:00Z",
     "last_sprint_contract": null,
     "notes": "deploy commit 4c10ed0 / clasp push 24 files。E-02 verdict: PASS_WITH_MINORS by child-c (blocker 0, all v48 CRITICAL 全解消, MEDIUM 1 / LOW 3)。child-a/b/c 並列 C0 → child-a C4 → child-c E-02 のフルワークフロー。"
+  },
+  {
+    "id": "F-dragonball-v48-redesign-2026-04-30",
+    "name": "ドラゴンボールカード v46→v48 V2.0.1 改修完成 (SOT v1.1 §4.4 準拠 + 弾薬充実)",
+    "description": "priority 14 ドラゴンボールカード V2.0.1 改修。GOALS 4 bullet / Rule 2 A/B/C / BOOTLEG MUST VeRO HIGH (Bandai/Toei/Shueisha/Akira Toriyama Estate) / BRAND 6/SET 19 (5 FW + 14 Masters)/CHARACTER 動的注入/CARD_TYPE/RARITY/EDITION/GRADING/DEFECT 25 各辞書追加 / CATEGORY ROUTING numeric IDs / CONDITION TERMS 4 guards。version 46→48 (v47 で §4.1 違反 2 件 → v48 rework で解消)。byte-match PASS (336 行) / I-01 0 / I-02 0 / cv 0 / degraded 0。",
+    "status": "passing",
+    "priority": 14,
+    "phase": "Phase 1 - Dragon Ball TCG SOT v1.1",
+    "dependencies": [],
+    "created_at": "2026-04-30T01:55:00Z",
+    "updated_at": "2026-04-30T01:55:00Z",
+    "last_sprint_contract": null,
+    "notes": "deploy commit 4a5e839 / clasp push 24 files。E-02 v47 verdict FAIL (§4.1 violations L269/L271 60-79/30-59) → child-a rework v48 → E-02 rerun verdict PASS_WITH_MINORS (regressions 0, NF-01 LOW-cosmetic)。child-a/b/c 並列 C0 → child-a C4 → child-c E-02 → child-a rework → child-c E-02 rerun のフルワークフロー。"
   }
 ]
