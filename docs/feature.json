@@ -1726,5 +1726,18 @@
     "updated_at": "2026-04-30T02:30:00Z",
     "last_sprint_contract": null,
     "notes": "deploy commit 7186806 / clasp push 24 files。E-02 verdict: PASS_WITH_MINORS by child-c (regressions 0, can_deploy true)。F-01 (MEDIUM, 公式作品名 Love Live!/SPY x FAMILY 等の ! @ ? 文字の構造的課題、Source-bound 公式名は特殊扱い) / F-02 (LOW, non-ASCII Weiß) は次回 Phase 改善対象。"
+  },
+  {
+    "id": "F-digimon-v47-redesign-2026-04-30",
+    "name": "デジモンカード v46→v47 V2.0.1 改修完成 (SOT v1.1 §4.4 準拠 + 弾薬充実)",
+    "description": "priority 16 デジモンカード V2.0.1 改修。GOALS 4 bullet / Rule 2 A/B/C / BOOTLEG MUST VeRO HIGH (Bandai/Toei Animation) / BRAND/SET 39/CHARACTER 動的注入/CARD_TYPE/RARITY/EDITION/DEFECT 25/GRADING (PSA 14 + BGS 7 + CGC 5 + SGC 7) 各辞書追加 / CATEGORY ROUTING / CONDITION TERMS 4 guards。version 46→47、行数 351、bytes 16213。byte-match PASS / I-01 0 / I-02 0 / cv 0 / degraded 0 / all 9 CV resolved。",
+    "status": "passing",
+    "priority": 16,
+    "phase": "Phase 1 - Digimon TCG SOT v1.1",
+    "dependencies": [],
+    "created_at": "2026-04-30T03:25:00Z",
+    "updated_at": "2026-04-30T03:25:00Z",
+    "last_sprint_contract": null,
+    "notes": "deploy commit d8777a0 / clasp push 24 files。E-02 verdict: PASS_WITH_MINORS by child-c (can_deploy true, 5x NF LOW/INFO only, all 9 CV resolved)。child-c が org monthly usage limit に到達したが回復後再開して完了。CATEGORY ROUTING numeric IDs は PARTIAL (text-based、確定 numeric ID は別 Phase)。"
   }
 ]
