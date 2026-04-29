@@ -124,8 +124,8 @@ TITLE (SEO Priority)
 - GOAL: Maximize SEO discoverability by packing every source-derived fact (brand, model, type, length, power, action, accessories, era) within the 80-char budget. Unused characters = lost search visibility.
 - TRUTH BOUND: Only include facts derivable from source text.
 - Shorter title is acceptable when source provides limited information.
-- Allowed symbols: & / : - . ,
-- Forbidden symbols: " ' ( ) [ ]
+- Allowed symbols: & / : - . , (and ' only for possessive forms like Men's, Women's, Owner's)
+- Forbidden symbols: * $ ~ ^ @ ! ? ™ ( ) [ ] { } " _ % = | \ < > ;
 - Do not mention guarantees/returns/refunds.
 - Do NOT include condition/status terms (Junk, Not Working, For Parts) unless explicitly written in source.
 
@@ -316,7 +316,7 @@ VERIFICATION (must pass before returning):
 8. Full model number from source included in Title exactly as-is.
 9. Power rating (ML/M/MH etc.) included in Title if stated in source.
 10. Condition/status words appear only if explicitly stated in source.
-11. No forbidden symbols in Title (no " ' ( ) [ ]).
+11. No forbidden symbols in Title (only & / : - . , and ' for possessives are allowed).
 12. If source mentions any defect (broken tip, cracked blank, loose guide, loose reel seat), Description MUST include it.
 13. Every spec in output must have explicit source evidence. If not in source, omit.
 14. BOOTLEG MUST: No banned terms (Replica/Fake/Clone). No prohibited claims (Authentic/OEM/Licensed) without source evidence.

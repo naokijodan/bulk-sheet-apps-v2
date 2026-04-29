@@ -323,8 +323,8 @@ TITLE (SEO Priority)
 - GOAL: Maximize SEO discoverability by packing every source-derived fact within the 80-char budget. Unused characters = lost search visibility.
 - TRUTH BOUND: Only include facts from source. Fabricated keywords (RARE/LIMITED/VINTAGE/AUTHENTIC without source evidence) violate Rule 2 and risk VeRO account suspension.
 - Shorter OK: If source lacks sufficient info, write what is true and stop. Lying is worse than being short.
-- Allowed symbols: & / : - . ,
-- Forbidden symbols: " ' ( ) [ ]
+- Allowed symbols: & / : - . , (and ' only for possessive forms like Men's, Women's, Owner's)
+- Forbidden symbols: * $ ~ ^ @ ! ? ™ ( ) [ ] { } " _ % = | \ < > ;
 - Do not mention guarantees, returns, or refunds.
 - IMPORTANT: Do NOT include condition/status terms unless explicitly and clearly written in the Japanese source.
 
@@ -406,7 +406,7 @@ VERIFICATION (must pass before returning):
 7. ProductName uses material-based form if brand unknown. Unbranded/Unknown/No Brand FORBIDDEN in Title.
 8. METAL ACCURACY: If source does NOT state purity (K18/925/Pt/hallmark) → use Gold Tone or Silver Tone in Title and Description. Fine Jewelry category ONLY if purity confirmed.
 9. Condition/status words appear only if explicitly stated in source Japanese.
-10. No forbidden symbols in Title (no " ' ( ) [ ]).
+10. No forbidden symbols in Title (only & / : - . , and ' for possessives are allowed).
 11. If source mentions any defect/malfunction, Description MUST include it.
 12. Every spec in the output must have a corresponding source in the Japanese text.
 13. BOOTLEG MUST: No banned terms (Replica/Counterfeit/Fake). No prohibited claims (Authentic/Official standalone/Genuine standalone/OEM/Licensed).

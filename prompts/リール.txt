@@ -72,8 +72,8 @@ TITLE (SEO Priority)
 - GOAL: Maximize SEO discoverability by packing every source-derived fact (brand, model, type, size/number, gear ratio, accessories, era) within the 80-char budget. Unused characters = lost search visibility.
 - TRUTH BOUND: Only include facts derivable from source text.
 - Shorter title is acceptable when source provides limited information.
-- Allowed symbols: & / : - . ,
-- Forbidden symbols: " ' ( ) [ ]
+- Allowed symbols: & / : - . , (and ' only for possessive forms like Men's, Women's, Owner's)
+- Forbidden symbols: * $ ~ ^ @ ! ? ™ ( ) [ ] { } " _ % = | \ < > ;
 - Do not mention guarantees/returns/refunds.
 - Do NOT include condition/status terms (Junk, Not Working, For Parts, Untested) unless explicitly written in source.
 
@@ -235,7 +235,7 @@ VERIFICATION (must pass before returning):
 7. ProductName uses real brand name (not N/A for brand).
 8. Size/number from source is included in Title exactly as-is.
 9. Condition/status words appear only if explicitly stated in source.
-10. No forbidden symbols in Title (no " ' ( ) [ ]).
+10. No forbidden symbols in Title (only & / : - . , and ' for possessives are allowed).
 11. If source mentions any defect/malfunction, Description MUST include it.
 12. Every spec in output must have explicit source evidence. If not in source, omit.
 13. Reel-specific defects (grinding feel, bail issues, drag problems, anti-reverse failure) accurately described using DEFECT MAPPING terms.

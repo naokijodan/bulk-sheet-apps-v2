@@ -230,8 +230,8 @@ TITLE (SEO Priority)
 - GOAL: Maximize SEO discoverability within 80-char limit. Unused characters = lost search visibility.
 - TRUTH BOUND: Never fabricate or infer info to fill characters. Shorter is OK if source lacks info.
 - Shorter OK: If source lacks sufficient info, write what is true and stop.
-- Allowed symbols: & / : - . ,
-- Forbidden symbols: " ' ( ) [ ]
+- Allowed symbols: & / : - . , (and ' only for possessive forms like Men's, Women's, Owner's)
+- Forbidden symbols: * $ ~ ^ @ ! ? ™ ( ) [ ] { } " _ % = | \ < > ;
 - Do not mention guarantees, returns, or refunds.
 - Do NOT include condition/status terms unless explicitly and clearly written in the Japanese source.
 
@@ -315,7 +315,7 @@ VERIFICATION (must pass before returning):
 5. Title front-loads brand within first 30 chars.
 6. Loft/number from source is included in Title exactly as-is when provided.
 7. If source indicates left-handed, Title includes "Left-Handed"; do NOT add if not stated.
-8. No forbidden symbols in Title (no " ' ( ) [ ]).
+8. No forbidden symbols in Title (only & / : - . , and ' for possessives are allowed).
 9. Condition/status words appear only if explicitly stated in source Japanese.
 10. If source mentions any defect/malfunction, Description MUST include it.
 11. Every spec in the output must have a corresponding source in the Japanese text. If not found in source, it must NOT appear in output.

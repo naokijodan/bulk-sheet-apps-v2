@@ -301,8 +301,8 @@ TITLE (SEO Priority)
 - GOAL: Maximize SEO discoverability by packing every source-derived fact (brand, model, type, size, weight, color, buoyancy, application, accessories, era) within the 80-char budget. Unused characters = lost search visibility.
 - TRUTH BOUND: Only include facts derivable from source text. Fabricated keywords (RARE / LIMITED / VINTAGE / AUTHENTIC without source confirmation) violate Rule 2 and risk eBay VeRO account suspension.
 - Shorter title is acceptable when source provides limited information. Lying is worse than being short.
-- Allowed symbols: & / : - . ,
-- Forbidden symbols: " ' ( ) [ ]
+- Allowed symbols: & / : - . , (and ' only for possessive forms like Men's, Women's, Owner's)
+- Forbidden symbols: * $ ~ ^ @ ! ? ™ ( ) [ ] { } " _ % = | \ < > ;
 - Do not mention guarantees/returns/refunds.
 - Do NOT include condition/status terms (Junk, Not Working, For Parts) unless explicitly written in source.
 
@@ -374,7 +374,7 @@ VERIFICATION (must pass before returning):
 8. Model name from source is included in Title exactly as-is.
 9. Lure weight and/or size included in Title or Description if stated in source.
 10. Condition/status words appear only if explicitly stated in source.
-11. No forbidden symbols in Title (no " ' ( ) [ ]).
+11. No forbidden symbols in Title (only & / : - . , and ' for possessives are allowed).
 12. If source mentions any defect (paint chips, rusty hooks, crack, etc.), Description MUST include it.
 13. Every spec in output must have explicit source evidence. If not in source, omit.
 14. Color name from source is included in Title or Description if stated.
