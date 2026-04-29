@@ -1629,5 +1629,20 @@
     "updated_at": "2026-04-29T00:00:00Z",
     "last_sprint_contract": null,
     "notes": "M-01: VERIFICATION #10 Language矛盾 / M-02: '45-char' §4.1軽微 / M-03: PLAYER DICTにNPBチーム名3件混入 — 全てLOW severity、Phase 3で修正予定"
+  },
+  {
+    "id": "F-sumo-v47-redesign-2026-04-29",
+    "name": "大相撲カード V2.0.1 全面書き換え (PROMPT_DESIGN_PRINCIPLE.md v1.0 準拠)",
+    "description": "prompts/大相撲カード.txt v46→v47 全面書き換え。§4.1 CV違反修正 (全削除、80のみ)。§4.2パターン (HARD LIMIT 80/GOAL/TRUTH BOUND/Shorter OK)。BOOTLEG MUST (JSA/BBM/Epoch LOW, Amada NONE)。WRESTLER DICT 32エントリ (横綱16レジェンド+現役16)。RANK DICT 12エントリ。STABLE DICT 15エントリ。BRAND DICT 3確認済み (BBM/Epoch/Amada、Calbee/Konami/Topps除外)。SET DICT BBM確認シリーズ+ビンテージ4種。RARITY/PARALLEL全階層 (Mawashi Relic含む)。GRADING PSA/BGS/SGC/CGC。CONDITION TERMS TCG6段階+3ガード (GRADED/DEFECT/MENKO)。DEFECT MAPPING 22ペア (ビンテージ特有含む)。ERA/YEAR MARKER全時代 (昭和/平成/令和+BBM時代+場所マーカー+めんこ時代注記)。CATEGORY ROUTING 183435 PRIMARY/261328/261329/261331/261332/217。OUTPUT FORMAT フラット (ItemSpecifics除外、§3.3準拠)。VERIFICATION 14項目。Library v46→v47 byte-match OK (13191 chars/14535 bytes)。E-02 PASS_WITH_MINORS (blockers 0, 4シミュ PASS)。",
+    "status": "passing",
+    "priority": 11,
+    "phase": "Phase Sumo",
+    "dependencies": [
+      "F-v201-08-sumo"
+    ],
+    "created_at": "2026-04-29T05:00:00Z",
+    "updated_at": "2026-04-29T05:00:00Z",
+    "last_sprint_contract": null,
+    "notes": "M-01: L189 '50-char' §4.1軽微 / M-02: VERIFICATION #10 Language矛盾(cosmetic) / M-03: 琴桜→Kotonowaka誤マッピング(正: Kotozakura) — 全てLOW severity、Phase 3で修正予定。CardPatterns.gs CARD_SUMO_WRESTLERS Sanitize.gs未注入問題もPhase 3スコープ。"
   }
 ]
