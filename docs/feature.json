@@ -1601,5 +1601,20 @@
     "updated_at": "2026-04-29T00:50:00Z",
     "last_sprint_contract": null,
     "notes": "commit b94f276 push済 + clasp push済 (24 files). E-02 PASS_WITH_MINORS by child-c (2nd pass after child-a rework). minors: M-01 prompts/フィギュア.txt CV violations 68-75 (Phase 2 scope), M-02 Library/Sanitize.gs 1行空行差分 pre-existing artifact, M-03 Bootleg mentions L12/L90 correct by design. blockers 0. VeRO risk fully eliminated on both paths (structured field + prompt instruction)."
+  },
+  {
+    "id": "F-figure-phase2-v49-redesign-2026-04-29",
+    "name": "フィギュアカテゴリ Phase 2: V2.0.1 全面改修 (PROMPT_DESIGN_PRINCIPLE.md v1.0 準拠)",
+    "description": "prompts/フィギュア.txt v48→v49 全面書き換え。§4.1 CV違反修正 (68/75削除、80のみ)。BOOTLEG MUST スタンドアローンセクション追加 (VeRO IPホルダーHIGH/MEDIUM分類)。BRAND DICT 29エントリ / FRANCHISE DICT 46エントリ / CHARACTER DICT 57キャラ (8フランチャイズ) / FIGURE TYPE DICT 25エントリ / SERIES-LINE DICT 29エントリ / SCALE DICT / ACCESSORY DICT / ERA-YEAR MARKER / CONDITION TERMS 2階層 (Item+Box) / DEFECT MAPPING 28ペア / GUNPLA GRADE RULE / CATEGORY ROUTING 4 eBay IDs+7ルール / VERIFICATION 14項目。Library v48→v49 byte-match OK。E-02 PASS_WITH_MINORS (blockers 0, minors 5 all LOW)。",
+    "status": "passing",
+    "priority": 9,
+    "phase": "Phase Figure",
+    "dependencies": [
+      "F-figure-phase1-bootleg-removal-2026-04-29"
+    ],
+    "created_at": "2026-04-29T01:30:00Z",
+    "updated_at": "2026-04-29T01:30:00Z",
+    "last_sprint_contract": null,
+    "notes": "commit b4e9638 push済 + clasp push --force済 (24 files). E-02 PASS_WITH_MINORS by child-c. minors: M-01 VERIFICATION L366 '40 chars' positional(low), M-02 NOS ERA配置のみ CONDITION TERMSなし(low), M-03 例示タイトル 'New'混入+61-67chars短め(low), M-04 ボニー CHARACTER DICT未収録(low), M-05 超サイヤ人 dict未収録(low). blockers 0."
   }
 ]
