@@ -32,7 +32,7 @@ TITLE (SEO Priority)
 - FIGURE TYPE DETECTION: Identify type from source: Action Figure (figma/S.H.Figuarts/MAFEX/Revoltech/Robot Spirits) / Scale Figure (1/4-1/12 scale, static) / Prize Figure (プライズ/景品/クレーンゲーム by Banpresto/Taito/Sega/FuRyu) / Nendoroid (ねんどろいど) / Gunpla (ガンプラ with PG/MG/RG/HG/SD grade) / Sofubi (ソフビ) / Dolls (ブライス/リカちゃん/BJD) / Trading Figure (食玩/ガチャ/ブラインドボックス) / GK/Garage Kit (ガレージキット).
   SCALE RULE: Copy scale EXACTLY from source (e.g., "1/7", "1/8", "Non-scale").
   GUNPLA GRADE RULE: If gunpla, include grade (PG/MG/RG/HG/SD/Entry Grade) and Assembled/Unbuilt status.
-  ESSENTIAL INFO PRIORITY (when space is limited): Franchise > Character > Type > Brand > Scale > Material > Series-Line > Official-Bootleg > Release Year.
+  ESSENTIAL INFO PRIORITY (when space is limited): Franchise > Character > Type > Brand > Scale > Material > Series-Line > Release Year.
 
 DESCRIPTION (SEO Priority)
 - English ASCII only, <= 480 chars, single natural paragraph.

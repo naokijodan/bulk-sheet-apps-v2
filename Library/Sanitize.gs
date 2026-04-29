@@ -212,7 +212,7 @@ var SANITIZE_FIELDS_ = {
   // --- Phase 3 追加 (模型系 3 カテゴリ) ---
   'Figures': [
     'フランチャイズ', 'キャラクター', 'タイプ', 'ブランド', 'スケール',
-    '素材', 'シリーズ/ライン', '正規品/海賊版', '発売年', '製造国',
+    '素材', 'シリーズ/ライン', '発売年', '製造国',
     'テーマ', '対象年齢', '特徴',
     '付属品', 'コンディション', '故障・不具合'
   ],
@@ -1250,8 +1250,7 @@ var CATEGORY_RULES_ = {
       '- タイプ: アクションフィギュア/スタチュー/ねんどろいど/figma/プライズフィギュア/一番くじ/ガレージキット/トレーディングフィギュア 等で記入。',
       '- シリーズ/ライン: Figma/Nendoroid/Pop Up Parade/S.H.Figuarts/Ichiban Kuji/Portrait.Of.Pirates/GEM Series 等で記入。不明ならNA。',
       '- スケール: 1/6/1/7/1/8/1/4 等で記入。ノンスケールの場合は「ノンスケール」。',
-      '- 正規品/海賊版: 正規品/海賊版 のいずれかで記入。',
-      '- [EN]セクションでは: Character / Franchise は英語の公式名称。Type は Action Figure/Statue/Nendoroid/Figma/Prize Figure/Ichiban Kuji/Garage Kit/Trading Figure。Series/Line は Figma/Nendoroid/Pop Up Parade/S.H.Figuarts/Ichiban Kuji/Portrait.Of.Pirates/GEM Series。Scale は 1/6/1/7/1/8/Non-scale。Official/Bootleg は Official/Bootleg(Counterfeit)。'
+      '- [EN]セクションでは: Character / Franchise は英語の公式名称。Type は Action Figure/Statue/Nendoroid/Figma/Prize Figure/Ichiban Kuji/Garage Kit/Trading Figure。Series/Line は Figma/Nendoroid/Pop Up Parade/S.H.Figuarts/Ichiban Kuji/Portrait.Of.Pirates/GEM Series。Scale は 1/6/1/7/1/8/Non-scale。'
     ]
   },
   'Mecha Model Kits': {
@@ -1595,7 +1594,7 @@ var FIELD_EN_TO_JP_ = {
   'Title': 'タイトル', 'Author': '作者', 'Volume/Set': '巻数/セット',
   'Publication Year': '出版年', 'Official/Unofficial': '公式/非公式',
   'Number of Volumes': '全巻数',
-  'Official/Bootleg': '正規品/海賊版', 'Series/Line': 'シリーズ/ライン',
+  'Series/Line': 'シリーズ/ライン',
   'Series/Franchise': 'シリーズ/フランチャイズ', 'Character/Mecha': 'キャラクター/メカ',
   'Grade': 'グレード', 'Built Status': '組立状態', 'Vehicle Type': '車種/機種',
   'Model/Series': 'モデル/シリーズ', 'Power Type': '動力源',
