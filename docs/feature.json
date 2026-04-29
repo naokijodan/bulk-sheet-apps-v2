@@ -1644,5 +1644,20 @@
     "updated_at": "2026-04-29T05:00:00Z",
     "last_sprint_contract": null,
     "notes": "M-01: L189 '50-char' §4.1軽微 / M-02: VERIFICATION #10 Language矛盾(cosmetic) / M-03: 琴桜→Kotonowaka誤マッピング(正: Kotozakura) — 全てLOW severity、Phase 3で修正予定。CardPatterns.gs CARD_SUMO_WRESTLERS Sanitize.gs未注入問題もPhase 3スコープ。"
+  },
+  {
+    "id": "F-watch-v54-sot-v1.1-2026-04-29",
+    "name": "時計用 v52→v54 SOT v1.1 §4.4 ALLOWED SYMBOLS 準拠 + 弾薬充実",
+    "description": "PROMPT_DESIGN_PRINCIPLE v1.1 §4.4 違反修正 (apostrophe ' を Forbidden から削除、L74→L191・L181→L300)。Allowed symbols 注記 'and ' for possessives' 追加。Forbidden 完全リスト化。並行で C0/C4 が新規辞書追加 (MOVEMENT 12/WATCH TYPE 10/CASE-CRYSTAL 14/DIAL-COMPLICATION 14)、BRAND 25→35、SET/SERIES 32→60+、ACCESSORY 13→16+title短縮形、Smart Watches (178893) routing、Rule 2 A/B/C 構造化、BOOTLEG MUST VeRO リスクレベル付与、NICKNAME GUARD Snowflake 等捏造防止、TRUTH FIRST AI 訓練データ知識禁止明記。version 52→54、189→308 行。byte-match PASS / I-01/I-02 CLEAN / cv 0 / degraded 0。E-02 verdict: PASS (initial→rerun、F-01〜F-04 全解消)。",
+    "status": "passing",
+    "priority": 1,
+    "phase": "Phase 1 - Watch Category SOT v1.1",
+    "dependencies": [
+      "F-watch-v52-redesign-2026-04-28"
+    ],
+    "created_at": "2026-04-29T15:00:00Z",
+    "updated_at": "2026-04-29T15:00:00Z",
+    "last_sprint_contract": null,
+    "notes": "deploy commit 0e6a6bd / SOT v1.1 commit 48cab87。GPT-5+Gemini 3者協議+child-c E-02 検察官レビュー承認。本来は §4.4.5 アポストロフィ削除のみで SOT 違反解消可だったが、C0 child-a が rewrite_priorities high として §6/§5 改善案を提示し、親が指示書に採用。結果として弾薬充実 +119 行を含む大規模改修になった。priority 2 以降は記号修正のみに絞る方針。new findings NF-01 (LOW count-discrepancy-only) は次回改修で対応。"
   }
 ]
