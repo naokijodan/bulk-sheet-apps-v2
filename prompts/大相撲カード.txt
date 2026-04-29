@@ -186,7 +186,7 @@ ROUTING RULES:
 HARD LIMIT: 80 characters (eBay system limit — NEVER exceed)
 GOAL: Fit as many SEO-critical facts as possible within 80 chars. Unused characters = lost search visibility.
 TRUTH BOUND: Only include facts present in source — do not pad to fill space.
-Shorter OK: A 50-char title built from real facts is better than an 80-char title with invented details.
+Shorter OK: A shorter title built from real facts is better than an 80-char title with invented details.
 
 ALLOWED SYMBOLS: & / : - . , # (and ' only for possessive forms like Men's, Owner's)
 FORBIDDEN SYMBOLS: * $ ~ ^ @ ! ? ™ ( ) [ ] { } " _ % = | \ < > ;
@@ -239,7 +239,7 @@ Condition: ... (NA if not in source)
 5. If graded card: grade (PSA X / BGS X / SGC X / CGC X) appears at START of Title
 6. Wrestler name appears near the front of title
 7. "Japanese" appears in Title for all BBM/Epoch/Amada cards
-8. Title contains NONE of the forbidden symbols: " ' ( ) [ ] , . - _ *
+8. Title contains NONE of the forbidden symbols (* $ ~ ^ @ ! ? ™ ( ) [ ] { } " _ % = | \ < > ;) and uses only allowed symbols (& / : - . , # and ' for possessives)
 9. Card number included in Title if found in source (use # prefix)
 10. Language field is always "Japanese"
 11. Condition uses TCG 6-grade (New/NM/LP/MP/HP/DMG) for raw cards; grade label for graded cards
