@@ -1778,5 +1778,20 @@
     "updated_at": "2026-04-30T20:00:00Z",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-tools-handheld-c4.md",
     "notes": "C0 → C4 → 親監査 → E-02 PASS (child-c CRITICAL/MAJOR/MINOR 0) → HOMAGE 修正 → E-02 スポット PASS → 椛島さん deploy 承認 → git push + clasp push 完了。"
+  },
+  {
+    "id": "F-tools-power-v1-create-2026-04-30",
+    "name": "電動工具カテゴリ新規追加 v1 (prompts/電動工具.txt + 6軸)",
+    "description": "電動工具（Power Tools）カテゴリを一括シートV3 に新規追加。PROMPT_DESIGN_PRINCIPLE.md v1.1 完全準拠。12セクション構成 / VeRO HIGH (Makita/DEWALT/Bosch/Milwaukee/HiKOKI/Festool/Hilti) / BOOTLEG MUST 3層防御 (Category A + BOOTLEG MUST + VERIFICATION item 17) / 手工具境界宣言 (電動なし→Use Hand Tools Prompt) / Air/Hydraulic境界宣言 (エアコンプレッサー/エア工具/空圧/油圧 → N/A, エア単独は対象外) / CONDITION TERMS 参照辞書のみ / OUTPUT 4行のみ / BATTERY STATUS MANDATORY (Body Only 明記) / 100V Step-down Transformer 注意定型句 / Battery compat source限定 / JP 10ブランド + Global 17ブランド + 16タイプ + 18バッテリーシリーズ / eBay 14カテゴリルーティング (Cordless Drills 184655 / Impact Drivers 168134 等) / VERIFICATION 21項目。6軸: prompts/電動工具.txt + Library/PromptTemplates.gs v1 + Config.gs + Library/Config.gs (11タグ) + Sanitize.gs + Library/Sanitize.gs (Power Tools) + ItemSpecifics/Config_IS.gs + Library/Config_IS.gs (IS_INITIAL_DATA 14カテゴリ + IS_TAG_TO_CATEGORY JP+EN exact 27件 + IS_CATEGORY_FIELDS 14 leaf + getBrandListForSanitize_)。",
+    "status": "passing",
+    "priority": 20,
+    "phase": "Phase 2 - Power Tools",
+    "dependencies": [
+      "F-tools-handheld-v1-create-2026-04-30"
+    ],
+    "created_at": "2026-04-30T21:00:00Z",
+    "updated_at": "2026-04-30T21:30:00Z",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-tools-power-c4.md",
+    "notes": "Phase 1 (prompts/電動工具.txt 作成) + Phase 2 (6軸ファイル編集) 完了。E-02 レビュー待ち。git push / clasp push は E-02 + 椛島さん承認まで保留。 deploy 完了 (git push + clasp push)。"
   }
 ]

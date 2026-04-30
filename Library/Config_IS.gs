@@ -134,6 +134,78 @@ var IS_INITIAL_DATA = [
   { category: 'Hand Tools',        tag_jp: '手工具,プライヤー,ノギス,ヤスリ,砥石,墨壺,曲尺', field_name: 'Type',                        field_type: 'required',    priority: 2,  notes: 'Pliers / Caliper / File / Whetstone / Chalk Line / Square 等' },
   { category: 'Hand Tools',        tag_jp: '手工具,プライヤー,ノギス,ヤスリ,砥石,墨壺,曲尺', field_name: 'Country/Region of Manufacture', field_type: 'optional',    priority: 3,  notes: 'Japan / Germany / USA / China' },
   { category: 'Hand Tools',        tag_jp: '手工具,プライヤー,ノギス,ヤスリ,砥石,墨壺,曲尺', field_name: 'Condition',                   field_type: 'required',    priority: 4,  notes: 'New / Used / For parts or not working' },
+  // === Power Tools ===
+  { category: 'Power Tools',           tag_jp: '電動工具',                              field_name: 'Brand',                       field_type: 'required',    priority: 1, notes: 'Makita / HiKOKI / DEWALT / Milwaukee 等' },
+  { category: 'Power Tools',           tag_jp: '電動工具',                              field_name: 'Type',                        field_type: 'required',    priority: 2, notes: 'Impact Driver / Circular Saw / Drill 等' },
+  { category: 'Power Tools',           tag_jp: '電動工具',                              field_name: 'Voltage',                     field_type: 'required',    priority: 3, notes: '18V / 36V / 100V / Unknown if not stated' },
+  { category: 'Power Tools',           tag_jp: '電動工具',                              field_name: 'Power Source',                field_type: 'optional',    priority: 4, notes: 'Battery / Corded Electric' },
+  { category: 'Power Tools',           tag_jp: '電動工具',                              field_name: 'Country/Region of Manufacture', field_type: 'optional',  priority: 5, notes: 'Japan / China / USA' },
+  { category: 'Power Tools',           tag_jp: '電動工具',                              field_name: 'Condition',                   field_type: 'required',    priority: 6, notes: 'New / Used / For parts or not working' },
+  { category: 'Impact Drivers',        tag_jp: 'インパクトドライバー,インパクト',        field_name: 'Brand',                       field_type: 'required',    priority: 1, notes: 'Makita / HiKOKI / DEWALT / Milwaukee 等' },
+  { category: 'Impact Drivers',        tag_jp: 'インパクトドライバー,インパクト',        field_name: 'Type',                        field_type: 'required',    priority: 2, notes: 'Impact Driver / Cordless Impact Driver' },
+  { category: 'Impact Drivers',        tag_jp: 'インパクトドライバー,インパクト',        field_name: 'Voltage',                     field_type: 'required',    priority: 3, notes: '18V / 36V / Unknown if not stated' },
+  { category: 'Impact Drivers',        tag_jp: 'インパクトドライバー,インパクト',        field_name: 'Power Source',                field_type: 'optional',    priority: 4, notes: 'Battery / Corded Electric' },
+  { category: 'Impact Drivers',        tag_jp: 'インパクトドライバー,インパクト',        field_name: 'Condition',                   field_type: 'required',    priority: 5, notes: 'New / Used / For parts or not working' },
+  { category: 'Cordless Drills',       tag_jp: '充電式ドライバードリル,ドリル,充電式',   field_name: 'Brand',                       field_type: 'required',    priority: 1, notes: 'Makita / HiKOKI / DEWALT / Milwaukee 等' },
+  { category: 'Cordless Drills',       tag_jp: '充電式ドライバードリル,ドリル,充電式',   field_name: 'Type',                        field_type: 'required',    priority: 2, notes: 'Cordless Drill / Drill/Driver' },
+  { category: 'Cordless Drills',       tag_jp: '充電式ドライバードリル,ドリル,充電式',   field_name: 'Voltage',                     field_type: 'required',    priority: 3, notes: '18V / 36V / Unknown if not stated' },
+  { category: 'Cordless Drills',       tag_jp: '充電式ドライバードリル,ドリル,充電式',   field_name: 'Power Source',                field_type: 'optional',    priority: 4, notes: 'Battery' },
+  { category: 'Cordless Drills',       tag_jp: '充電式ドライバードリル,ドリル,充電式',   field_name: 'Condition',                   field_type: 'required',    priority: 5, notes: 'New / Used / For parts or not working' },
+  { category: 'Corded Drills',         tag_jp: '電動ドリル,振動ドリル,ハンマードリル',   field_name: 'Brand',                       field_type: 'required',    priority: 1, notes: 'Makita / HiKOKI / Bosch 等' },
+  { category: 'Corded Drills',         tag_jp: '電動ドリル,振動ドリル,ハンマードリル',   field_name: 'Type',                        field_type: 'required',    priority: 2, notes: 'Electric Drill / Hammer Drill / Rotary Drill' },
+  { category: 'Corded Drills',         tag_jp: '電動ドリル,振動ドリル,ハンマードリル',   field_name: 'Voltage',                     field_type: 'required',    priority: 3, notes: '100V / 120V / Unknown if not stated' },
+  { category: 'Corded Drills',         tag_jp: '電動ドリル,振動ドリル,ハンマードリル',   field_name: 'Power Source',                field_type: 'optional',    priority: 4, notes: 'Corded Electric' },
+  { category: 'Corded Drills',         tag_jp: '電動ドリル,振動ドリル,ハンマードリル',   field_name: 'Condition',                   field_type: 'required',    priority: 5, notes: 'New / Used / For parts or not working' },
+  { category: 'Circular Saws',         tag_jp: '丸ノコ,丸鋸,マルノコ',                  field_name: 'Brand',                       field_type: 'required',    priority: 1, notes: 'Makita / HiKOKI / DEWALT / Bosch 等' },
+  { category: 'Circular Saws',         tag_jp: '丸ノコ,丸鋸,マルノコ',                  field_name: 'Type',                        field_type: 'required',    priority: 2, notes: 'Circular Saw / Cordless Circular Saw' },
+  { category: 'Circular Saws',         tag_jp: '丸ノコ,丸鋸,マルノコ',                  field_name: 'Voltage',                     field_type: 'required',    priority: 3, notes: '18V / 36V / 100V / Unknown if not stated' },
+  { category: 'Circular Saws',         tag_jp: '丸ノコ,丸鋸,マルノコ',                  field_name: 'Power Source',                field_type: 'optional',    priority: 4, notes: 'Battery / Corded Electric' },
+  { category: 'Circular Saws',         tag_jp: '丸ノコ,丸鋸,マルノコ',                  field_name: 'Condition',                   field_type: 'required',    priority: 5, notes: 'New / Used / For parts or not working' },
+  { category: 'Jig Saws',              tag_jp: 'ジグソー,じぐそー,ジグ鋸',               field_name: 'Brand',                       field_type: 'required',    priority: 1, notes: 'Makita / HiKOKI / Bosch / DEWALT 等' },
+  { category: 'Jig Saws',              tag_jp: 'ジグソー,じぐそー,ジグ鋸',               field_name: 'Type',                        field_type: 'required',    priority: 2, notes: 'Jigsaw / Cordless Jigsaw' },
+  { category: 'Jig Saws',              tag_jp: 'ジグソー,じぐそー,ジグ鋸',               field_name: 'Voltage',                     field_type: 'required',    priority: 3, notes: '18V / 100V / Unknown if not stated' },
+  { category: 'Jig Saws',              tag_jp: 'ジグソー,じぐそー,ジグ鋸',               field_name: 'Power Source',                field_type: 'optional',    priority: 4, notes: 'Battery / Corded Electric' },
+  { category: 'Jig Saws',              tag_jp: 'ジグソー,じぐそー,ジグ鋸',               field_name: 'Condition',                   field_type: 'required',    priority: 5, notes: 'New / Used / For parts or not working' },
+  { category: 'Reciprocating Saws',    tag_jp: 'レシプロソー,セーバーソー',               field_name: 'Brand',                       field_type: 'required',    priority: 1, notes: 'Makita / HiKOKI / Milwaukee / DEWALT 等' },
+  { category: 'Reciprocating Saws',    tag_jp: 'レシプロソー,セーバーソー',               field_name: 'Type',                        field_type: 'required',    priority: 2, notes: 'Reciprocating Saw / Cordless Reciprocating Saw' },
+  { category: 'Reciprocating Saws',    tag_jp: 'レシプロソー,セーバーソー',               field_name: 'Voltage',                     field_type: 'required',    priority: 3, notes: '18V / 100V / Unknown if not stated' },
+  { category: 'Reciprocating Saws',    tag_jp: 'レシプロソー,セーバーソー',               field_name: 'Power Source',                field_type: 'optional',    priority: 4, notes: 'Battery / Corded Electric' },
+  { category: 'Reciprocating Saws',    tag_jp: 'レシプロソー,セーバーソー',               field_name: 'Condition',                   field_type: 'required',    priority: 5, notes: 'New / Used / For parts or not working' },
+  { category: 'Grinders',              tag_jp: 'グラインダー,ディスクグラインダー',        field_name: 'Brand',                       field_type: 'required',    priority: 1, notes: 'Makita / HiKOKI / DEWALT / Bosch 等' },
+  { category: 'Grinders',              tag_jp: 'グラインダー,ディスクグラインダー',        field_name: 'Type',                        field_type: 'required',    priority: 2, notes: 'Angle Grinder / Cordless Angle Grinder' },
+  { category: 'Grinders',              tag_jp: 'グラインダー,ディスクグラインダー',        field_name: 'Voltage',                     field_type: 'required',    priority: 3, notes: '18V / 36V / 100V / Unknown if not stated' },
+  { category: 'Grinders',              tag_jp: 'グラインダー,ディスクグラインダー',        field_name: 'Power Source',                field_type: 'optional',    priority: 4, notes: 'Battery / Corded Electric' },
+  { category: 'Grinders',              tag_jp: 'グラインダー,ディスクグラインダー',        field_name: 'Condition',                   field_type: 'required',    priority: 5, notes: 'New / Used / For parts or not working' },
+  { category: 'Sanders',               tag_jp: 'サンダー,オービタルサンダー',              field_name: 'Brand',                       field_type: 'required',    priority: 1, notes: 'Makita / HiKOKI / Bosch / DEWALT 等' },
+  { category: 'Sanders',               tag_jp: 'サンダー,オービタルサンダー',              field_name: 'Type',                        field_type: 'required',    priority: 2, notes: 'Random Orbital Sander / Belt Sander / Sheet Sander' },
+  { category: 'Sanders',               tag_jp: 'サンダー,オービタルサンダー',              field_name: 'Voltage',                     field_type: 'required',    priority: 3, notes: '18V / 100V / Unknown if not stated' },
+  { category: 'Sanders',               tag_jp: 'サンダー,オービタルサンダー',              field_name: 'Power Source',                field_type: 'optional',    priority: 4, notes: 'Battery / Corded Electric' },
+  { category: 'Sanders',               tag_jp: 'サンダー,オービタルサンダー',              field_name: 'Condition',                   field_type: 'required',    priority: 5, notes: 'New / Used / For parts or not working' },
+  { category: 'Routers & Joiners',     tag_jp: 'トリマー,ルーター,ルータ',                field_name: 'Brand',                       field_type: 'required',    priority: 1, notes: 'Makita / HiKOKI / Bosch / Porter-Cable 等' },
+  { category: 'Routers & Joiners',     tag_jp: 'トリマー,ルーター,ルータ',                field_name: 'Type',                        field_type: 'required',    priority: 2, notes: 'Router / Trimmer / Plunge Router' },
+  { category: 'Routers & Joiners',     tag_jp: 'トリマー,ルーター,ルータ',                field_name: 'Voltage',                     field_type: 'required',    priority: 3, notes: '18V / 100V / Unknown if not stated' },
+  { category: 'Routers & Joiners',     tag_jp: 'トリマー,ルーター,ルータ',                field_name: 'Power Source',                field_type: 'optional',    priority: 4, notes: 'Battery / Corded Electric' },
+  { category: 'Routers & Joiners',     tag_jp: 'トリマー,ルーター,ルータ',                field_name: 'Condition',                   field_type: 'required',    priority: 5, notes: 'New / Used / For parts or not working' },
+  { category: 'Planers',               tag_jp: '電動カンナ,電気カンナ',                    field_name: 'Brand',                       field_type: 'required',    priority: 1, notes: 'Makita / HiKOKI / Bosch 等' },
+  { category: 'Planers',               tag_jp: '電動カンナ,電気カンナ',                    field_name: 'Type',                        field_type: 'required',    priority: 2, notes: 'Electric Plane / Power Planer / Cordless Planer' },
+  { category: 'Planers',               tag_jp: '電動カンナ,電気カンナ',                    field_name: 'Voltage',                     field_type: 'required',    priority: 3, notes: '18V / 100V / Unknown if not stated' },
+  { category: 'Planers',               tag_jp: '電動カンナ,電気カンナ',                    field_name: 'Power Source',                field_type: 'optional',    priority: 4, notes: 'Battery / Corded Electric' },
+  { category: 'Planers',               tag_jp: '電動カンナ,電気カンナ',                    field_name: 'Condition',                   field_type: 'required',    priority: 5, notes: 'New / Used / For parts or not working' },
+  { category: 'Heat Guns',             tag_jp: 'ヒートガン',                               field_name: 'Brand',                       field_type: 'required',    priority: 1, notes: 'Makita / Bosch / DEWALT / Milwaukee 等' },
+  { category: 'Heat Guns',             tag_jp: 'ヒートガン',                               field_name: 'Type',                        field_type: 'required',    priority: 2, notes: 'Heat Gun / Hot Air Gun' },
+  { category: 'Heat Guns',             tag_jp: 'ヒートガン',                               field_name: 'Voltage',                     field_type: 'required',    priority: 3, notes: '18V / 100V / Unknown if not stated' },
+  { category: 'Heat Guns',             tag_jp: 'ヒートガン',                               field_name: 'Power Source',                field_type: 'optional',    priority: 4, notes: 'Battery / Corded Electric' },
+  { category: 'Heat Guns',             tag_jp: 'ヒートガン',                               field_name: 'Condition',                   field_type: 'required',    priority: 5, notes: 'New / Used / For parts or not working' },
+  { category: 'Screw Guns & Screwdrivers', tag_jp: '電動ドライバー,コードレスドライバー', field_name: 'Brand',                       field_type: 'required',    priority: 1, notes: 'Makita / HiKOKI / Bosch / DEWALT 等' },
+  { category: 'Screw Guns & Screwdrivers', tag_jp: '電動ドライバー,コードレスドライバー', field_name: 'Type',                        field_type: 'required',    priority: 2, notes: 'Cordless Screwdriver / Screw Gun' },
+  { category: 'Screw Guns & Screwdrivers', tag_jp: '電動ドライバー,コードレスドライバー', field_name: 'Voltage',                     field_type: 'required',    priority: 3, notes: '12V / 18V / Unknown if not stated' },
+  { category: 'Screw Guns & Screwdrivers', tag_jp: '電動ドライバー,コードレスドライバー', field_name: 'Power Source',                field_type: 'optional',    priority: 4, notes: 'Battery / Corded Electric' },
+  { category: 'Screw Guns & Screwdrivers', tag_jp: '電動ドライバー,コードレスドライバー', field_name: 'Condition',                   field_type: 'required',    priority: 5, notes: 'New / Used / For parts or not working' },
+  { category: 'Power Tool Sets',       tag_jp: 'セット品',                                field_name: 'Brand',                       field_type: 'required',    priority: 1, notes: 'Makita / HiKOKI / DEWALT / Milwaukee 等' },
+  { category: 'Power Tool Sets',       tag_jp: 'セット品',                                field_name: 'Type',                        field_type: 'required',    priority: 2, notes: 'Power Tool Set / Combo Kit' },
+  { category: 'Power Tool Sets',       tag_jp: 'セット品',                                field_name: 'Voltage',                     field_type: 'required',    priority: 3, notes: '18V / 36V / Unknown if not stated' },
+  { category: 'Power Tool Sets',       tag_jp: 'セット品',                                field_name: 'Power Source',                field_type: 'optional',    priority: 4, notes: 'Battery / Corded Electric' },
+  { category: 'Power Tool Sets',       tag_jp: 'セット品',                                field_name: 'Condition',                   field_type: 'required',    priority: 5, notes: 'New / Used / For parts or not working' },
   { category: 'Planes',            tag_jp: 'カンナ,鉋',                                      field_name: 'Brand',                       field_type: 'required',    priority: 1,  notes: 'Tasai / Chiyotsuru / Tsunesaburo / Ouchi / Stanley 等' },
   { category: 'Planes',            tag_jp: 'カンナ,鉋',                                      field_name: 'Type',                        field_type: 'required',    priority: 2,  notes: 'Japanese Plane / Block Plane / Jack Plane / Smoothing Plane' },
   { category: 'Planes',            tag_jp: 'カンナ,鉋',                                      field_name: 'Blade Material',              field_type: 'recommended', priority: 3,  notes: 'High Carbon Steel / White Steel / Blue Steel / HSS' },
@@ -3715,6 +3787,18 @@ function getBrandListForSanitize_(category) {
               'Klein Tools', 'Estwing', 'Vaughan', 'Channellock', 'Irwin', 'Bahco'];
     }
 
+    if (category === 'Power Tools' || category === 'Impact Drivers' || category === 'Cordless Drills' ||
+        category === 'Corded Drills' || category === 'Circular Saws' || category === 'Jig Saws' ||
+        category === 'Reciprocating Saws' || category === 'Grinders' || category === 'Sanders' ||
+        category === 'Routers & Joiners' || category === 'Planers' || category === 'Heat Guns' ||
+        category === 'Screw Guns & Screwdrivers' || category === 'Power Tool Sets') {
+      return ['Makita', 'HiKOKI', 'Ryobi', 'Panasonic', 'Shindaiwa', 'MAX', 'Takagi', 'Ikura Tools',
+              'Hitachi Power Tools', 'Kyocera Industrial Tools',
+              'DEWALT', 'Milwaukee', 'Bosch', 'Festool', 'Hilti', 'Black+Decker', 'Ridgid',
+              'Husky', 'Skil', 'Craftsman', 'Porter-Cable', 'Metabo', 'Metabo HPT',
+              'Kobalt', 'Ingersoll Rand', 'Worx', 'Stanley'];
+    }
+
     if (category === 'Laptops' || category === 'Desktops' || category === 'Tablets' || category === 'Computers') {
       return 'Apple, Lenovo, Dell, HP, ASUS, Acer, Microsoft, Sony, VAIO, Panasonic, Fujitsu, NEC, Toshiba, dynabook, LG, Samsung, MSI, Razer, Alienware, Intel, Google';
     }
@@ -4594,6 +4678,36 @@ IS_TAG_TO_CATEGORY['墨壺'] = 'Hand Tools'; IS_TAG_TO_CATEGORY['曲尺'] = 'Han
 IS_TAG_TO_CATEGORY['プライヤー'] = 'Hand Tools'; IS_TAG_TO_CATEGORY['ノギス'] = 'Hand Tools';
 IS_TAG_TO_CATEGORY['ヤスリ'] = 'Hand Tools'; IS_TAG_TO_CATEGORY['砥石'] = 'Hand Tools';
 
+// Power Tools (Japanese tags)
+IS_TAG_TO_CATEGORY['電動工具'] = 'Power Tools';
+IS_TAG_TO_CATEGORY['インパクトドライバー'] = 'Impact Drivers'; IS_TAG_TO_CATEGORY['インパクトドライバ'] = 'Impact Drivers'; IS_TAG_TO_CATEGORY['インパクト'] = 'Impact Drivers';
+IS_TAG_TO_CATEGORY['充電式ドライバードリル'] = 'Cordless Drills'; IS_TAG_TO_CATEGORY['ドリル'] = 'Cordless Drills';
+IS_TAG_TO_CATEGORY['電動ドリル'] = 'Corded Drills'; IS_TAG_TO_CATEGORY['振動ドリル'] = 'Corded Drills'; IS_TAG_TO_CATEGORY['ハンマードリル'] = 'Corded Drills';
+IS_TAG_TO_CATEGORY['丸ノコ'] = 'Circular Saws'; IS_TAG_TO_CATEGORY['丸鋸'] = 'Circular Saws'; IS_TAG_TO_CATEGORY['マルノコ'] = 'Circular Saws'; IS_TAG_TO_CATEGORY['まるのこ'] = 'Circular Saws';
+IS_TAG_TO_CATEGORY['ジグソー'] = 'Jig Saws'; IS_TAG_TO_CATEGORY['じぐそー'] = 'Jig Saws'; IS_TAG_TO_CATEGORY['ジグ鋸'] = 'Jig Saws';
+IS_TAG_TO_CATEGORY['レシプロソー'] = 'Reciprocating Saws'; IS_TAG_TO_CATEGORY['セーバーソー'] = 'Reciprocating Saws';
+IS_TAG_TO_CATEGORY['ディスクグラインダー'] = 'Grinders'; IS_TAG_TO_CATEGORY['グラインダー'] = 'Grinders'; IS_TAG_TO_CATEGORY['アングルグラインダー'] = 'Grinders';
+IS_TAG_TO_CATEGORY['サンダー'] = 'Sanders'; IS_TAG_TO_CATEGORY['オービタルサンダー'] = 'Sanders';
+IS_TAG_TO_CATEGORY['トリマー'] = 'Routers & Joiners'; IS_TAG_TO_CATEGORY['ルーター'] = 'Routers & Joiners'; IS_TAG_TO_CATEGORY['ルータ'] = 'Routers & Joiners';
+IS_TAG_TO_CATEGORY['電動カンナ'] = 'Planers'; IS_TAG_TO_CATEGORY['電気カンナ'] = 'Planers';
+IS_TAG_TO_CATEGORY['ヒートガン'] = 'Heat Guns';
+IS_TAG_TO_CATEGORY['電動ドライバー'] = 'Screw Guns & Screwdrivers'; IS_TAG_TO_CATEGORY['コードレスドライバー'] = 'Screw Guns & Screwdrivers';
+// Power Tools (Category output exact match — v2 GPT-5 CRITICAL #2)
+IS_TAG_TO_CATEGORY['Power Tools'] = 'Power Tools';
+IS_TAG_TO_CATEGORY['Impact Drivers'] = 'Impact Drivers';
+IS_TAG_TO_CATEGORY['Cordless Drills'] = 'Cordless Drills';
+IS_TAG_TO_CATEGORY['Corded Drills'] = 'Corded Drills';
+IS_TAG_TO_CATEGORY['Circular Saws'] = 'Circular Saws';
+IS_TAG_TO_CATEGORY['Jig Saws'] = 'Jig Saws';
+IS_TAG_TO_CATEGORY['Reciprocating Saws'] = 'Reciprocating Saws';
+IS_TAG_TO_CATEGORY['Grinders'] = 'Grinders';
+IS_TAG_TO_CATEGORY['Sanders'] = 'Sanders';
+IS_TAG_TO_CATEGORY['Routers & Joiners'] = 'Routers & Joiners';
+IS_TAG_TO_CATEGORY['Planers'] = 'Planers';
+IS_TAG_TO_CATEGORY['Heat Guns'] = 'Heat Guns';
+IS_TAG_TO_CATEGORY['Screw Guns & Screwdrivers'] = 'Screw Guns & Screwdrivers';
+IS_TAG_TO_CATEGORY['Power Tool Sets'] = 'Power Tool Sets';
+
 // Board Games
 IS_TAG_TO_CATEGORY['将棋'] = 'Board Games'; IS_TAG_TO_CATEGORY['将棋セット'] = 'Board Games';
 IS_TAG_TO_CATEGORY['将棋盤'] = 'Board Games'; IS_TAG_TO_CATEGORY['将棋駒'] = 'Board Games';
@@ -5027,6 +5141,20 @@ var IS_CATEGORY_FIELDS = {
     'Number of Functions', 'Color', 'Condition',
   ],
   'Hand Tools': ['Brand', 'Type', 'Country/Region of Manufacture', 'Condition'],
+  'Power Tools': ['Brand', 'Type', 'Voltage', 'Power Source', 'Country/Region of Manufacture', 'Condition'],
+  'Impact Drivers': ['Brand', 'Type', 'Voltage', 'Power Source', 'Country/Region of Manufacture', 'Condition'],
+  'Cordless Drills': ['Brand', 'Type', 'Voltage', 'Power Source', 'Country/Region of Manufacture', 'Condition'],
+  'Corded Drills': ['Brand', 'Type', 'Voltage', 'Power Source', 'Country/Region of Manufacture', 'Condition'],
+  'Circular Saws': ['Brand', 'Type', 'Voltage', 'Power Source', 'Country/Region of Manufacture', 'Condition'],
+  'Jig Saws': ['Brand', 'Type', 'Voltage', 'Power Source', 'Country/Region of Manufacture', 'Condition'],
+  'Reciprocating Saws': ['Brand', 'Type', 'Voltage', 'Power Source', 'Country/Region of Manufacture', 'Condition'],
+  'Grinders': ['Brand', 'Type', 'Voltage', 'Power Source', 'Country/Region of Manufacture', 'Condition'],
+  'Sanders': ['Brand', 'Type', 'Voltage', 'Power Source', 'Country/Region of Manufacture', 'Condition'],
+  'Routers & Joiners': ['Brand', 'Type', 'Voltage', 'Power Source', 'Country/Region of Manufacture', 'Condition'],
+  'Planers': ['Brand', 'Type', 'Voltage', 'Power Source', 'Country/Region of Manufacture', 'Condition'],
+  'Heat Guns': ['Brand', 'Type', 'Voltage', 'Power Source', 'Country/Region of Manufacture', 'Condition'],
+  'Screw Guns & Screwdrivers': ['Brand', 'Type', 'Voltage', 'Power Source', 'Country/Region of Manufacture', 'Condition'],
+  'Power Tool Sets': ['Brand', 'Type', 'Voltage', 'Power Source', 'Country/Region of Manufacture', 'Condition'],
   'Planes': ['Brand', 'Type', 'Blade Material', 'Country/Region of Manufacture', 'Condition'],
   'Chisels': ['Brand', 'Type', 'Blade Material', 'Country/Region of Manufacture', 'Condition'],
   'Hammers & Mallets': ['Brand', 'Type', 'Material', 'Country/Region of Manufacture', 'Condition'],
