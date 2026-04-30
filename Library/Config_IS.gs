@@ -129,6 +129,42 @@ var IS_INITIAL_DATA = [
   { category: 'Scientific Calculators', tag_jp: '関数電卓', field_name: 'Color',               field_type: 'optional',    priority: 10, notes: '' },
   { category: 'Scientific Calculators', tag_jp: '関数電卓', field_name: 'Condition',           field_type: 'required',    priority: 11, notes: 'New / Used / For parts or not working' },
 
+  // === Hand Tools ===
+  { category: 'Hand Tools',        tag_jp: '手工具,プライヤー,ノギス,ヤスリ,砥石,墨壺,曲尺', field_name: 'Brand',                       field_type: 'required',    priority: 1,  notes: 'KTC / VESSEL / TONE / 土牛 / KAKURI / Snap-on / Stanley 等' },
+  { category: 'Hand Tools',        tag_jp: '手工具,プライヤー,ノギス,ヤスリ,砥石,墨壺,曲尺', field_name: 'Type',                        field_type: 'required',    priority: 2,  notes: 'Pliers / Caliper / File / Whetstone / Chalk Line / Square 等' },
+  { category: 'Hand Tools',        tag_jp: '手工具,プライヤー,ノギス,ヤスリ,砥石,墨壺,曲尺', field_name: 'Country/Region of Manufacture', field_type: 'optional',    priority: 3,  notes: 'Japan / Germany / USA / China' },
+  { category: 'Hand Tools',        tag_jp: '手工具,プライヤー,ノギス,ヤスリ,砥石,墨壺,曲尺', field_name: 'Condition',                   field_type: 'required',    priority: 4,  notes: 'New / Used / For parts or not working' },
+  { category: 'Planes',            tag_jp: 'カンナ,鉋',                                      field_name: 'Brand',                       field_type: 'required',    priority: 1,  notes: 'Tasai / Chiyotsuru / Tsunesaburo / Ouchi / Stanley 等' },
+  { category: 'Planes',            tag_jp: 'カンナ,鉋',                                      field_name: 'Type',                        field_type: 'required',    priority: 2,  notes: 'Japanese Plane / Block Plane / Jack Plane / Smoothing Plane' },
+  { category: 'Planes',            tag_jp: 'カンナ,鉋',                                      field_name: 'Blade Material',              field_type: 'recommended', priority: 3,  notes: 'High Carbon Steel / White Steel / Blue Steel / HSS' },
+  { category: 'Planes',            tag_jp: 'カンナ,鉋',                                      field_name: 'Country/Region of Manufacture', field_type: 'optional',  priority: 4,  notes: 'Japan / Germany / USA' },
+  { category: 'Planes',            tag_jp: 'カンナ,鉋',                                      field_name: 'Condition',                   field_type: 'required',    priority: 5,  notes: 'New / Used / For parts or not working' },
+  { category: 'Chisels',           tag_jp: 'のみ,鑿',                                        field_name: 'Brand',                       field_type: 'required',    priority: 1,  notes: 'Tasai / Ouchi Nomi / Iyoroi / Gennosha / Stanley / Marples 等' },
+  { category: 'Chisels',           tag_jp: 'のみ,鑿',                                        field_name: 'Type',                        field_type: 'required',    priority: 2,  notes: 'Bench Chisel / Paring Chisel / Mortise Chisel / Japanese Chisel' },
+  { category: 'Chisels',           tag_jp: 'のみ,鑿',                                        field_name: 'Blade Material',              field_type: 'recommended', priority: 3,  notes: 'High Carbon Steel / White Steel / Blue Steel / Chrome Vanadium' },
+  { category: 'Chisels',           tag_jp: 'のみ,鑿',                                        field_name: 'Country/Region of Manufacture', field_type: 'optional',  priority: 4,  notes: 'Japan / Germany / UK / USA' },
+  { category: 'Chisels',           tag_jp: 'のみ,鑿',                                        field_name: 'Condition',                   field_type: 'required',    priority: 5,  notes: 'New / Used / For parts or not working' },
+  { category: 'Hammers & Mallets', tag_jp: '玄能,げんのう',                                  field_name: 'Brand',                       field_type: 'required',    priority: 1,  notes: 'Gennoya / DOGYU / Estwing / Vaughan / Picard 等' },
+  { category: 'Hammers & Mallets', tag_jp: '玄能,げんのう',                                  field_name: 'Type',                        field_type: 'required',    priority: 2,  notes: 'Japanese Hammer / Claw Hammer / Wooden Mallet / Ball-Peen' },
+  { category: 'Hammers & Mallets', tag_jp: '玄能,げんのう',                                  field_name: 'Material',                    field_type: 'recommended', priority: 3,  notes: 'Steel / Titanium / Fiberglass / Wood handle' },
+  { category: 'Hammers & Mallets', tag_jp: '玄能,げんのう',                                  field_name: 'Country/Region of Manufacture', field_type: 'optional',  priority: 4,  notes: 'Japan / Germany / USA' },
+  { category: 'Hammers & Mallets', tag_jp: '玄能,げんのう',                                  field_name: 'Condition',                   field_type: 'required',    priority: 5,  notes: 'New / Used / For parts or not working' },
+  { category: 'Saws',              tag_jp: '鋸,のこぎり',                                    field_name: 'Brand',                       field_type: 'required',    priority: 1,  notes: 'SUIZAN / Gyokucho / Nakaya / Irwin / Stanley 等' },
+  { category: 'Saws',              tag_jp: '鋸,のこぎり',                                    field_name: 'Type',                        field_type: 'required',    priority: 2,  notes: 'Japanese Pull Saw / Japanese Ryoba Saw / Hand Saw / Hacksaw' },
+  { category: 'Saws',              tag_jp: '鋸,のこぎり',                                    field_name: 'Blade Material',              field_type: 'recommended', priority: 3,  notes: 'High Carbon Steel / Impulse Hardened / HSS' },
+  { category: 'Saws',              tag_jp: '鋸,のこぎり',                                    field_name: 'Country/Region of Manufacture', field_type: 'optional',  priority: 4,  notes: 'Japan / Germany / USA' },
+  { category: 'Saws',              tag_jp: '鋸,のこぎり',                                    field_name: 'Condition',                   field_type: 'required',    priority: 5,  notes: 'New / Used / For parts or not working' },
+  { category: 'Trowels',           tag_jp: 'コテ,鏝',                                        field_name: 'Brand',                       field_type: 'required',    priority: 1,  notes: 'Marshalltown / OX Tools / Kraft Tool / 松尾 等' },
+  { category: 'Trowels',           tag_jp: 'コテ,鏝',                                        field_name: 'Type',                        field_type: 'required',    priority: 2,  notes: 'Finishing Trowel / Japanese Trowel / Pointing Trowel / Margin Trowel' },
+  { category: 'Trowels',           tag_jp: 'コテ,鏝',                                        field_name: 'Material',                    field_type: 'recommended', priority: 3,  notes: 'Stainless Steel / Carbon Steel / Aluminum' },
+  { category: 'Trowels',           tag_jp: 'コテ,鏝',                                        field_name: 'Country/Region of Manufacture', field_type: 'optional',  priority: 4,  notes: 'Japan / USA / UK' },
+  { category: 'Trowels',           tag_jp: 'コテ,鏝',                                        field_name: 'Condition',                   field_type: 'required',    priority: 5,  notes: 'New / Used / For parts or not working' },
+  { category: 'Wrench Sets',       tag_jp: 'スパナ',                                          field_name: 'Brand',                       field_type: 'required',    priority: 1,  notes: 'KTC / TONE / Knipex / HAZET / Snap-on / FACOM 等' },
+  { category: 'Wrench Sets',       tag_jp: 'スパナ',                                          field_name: 'Type',                        field_type: 'required',    priority: 2,  notes: 'Combination Wrench / Open End Wrench / Box Wrench / Ratchet Wrench' },
+  { category: 'Wrench Sets',       tag_jp: 'スパナ',                                          field_name: 'Number of Pieces',            field_type: 'recommended', priority: 3,  notes: '例: 6 Pc / 10 Pc / 14 Pc' },
+  { category: 'Wrench Sets',       tag_jp: 'スパナ',                                          field_name: 'Country/Region of Manufacture', field_type: 'optional',  priority: 4,  notes: 'Japan / Germany / USA / France' },
+  { category: 'Wrench Sets',       tag_jp: 'スパナ',                                          field_name: 'Condition',                   field_type: 'required',    priority: 5,  notes: 'New / Used / For parts or not working' },
+
   // === Computers: Laptops ===
   { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'Brand',                    field_type: 'required',    priority: 1,  notes: 'Apple/Lenovo/Dell/HP/ASUS/VAIO/Panasonic/Fujitsu/NEC/dynabook等' },
   { category: 'Laptops', tag_jp: 'パソコン本体', field_name: 'Model',                    field_type: 'required',    priority: 2,  notes: 'MacBook Pro 14 / ThinkPad X1 Carbon / VAIO SX14等の型番・モデル名' },
@@ -3670,6 +3706,15 @@ function getBrandListForSanitize_(category) {
       return 'Casio, Texas Instruments, HP, Sharp, Canon';
     }
 
+    if (category === 'Hand Tools' || category === 'Planes' || category === 'Chisels' ||
+        category === 'Hammers & Mallets' || category === 'Saws' || category === 'Trowels' ||
+        category === 'Wrench Sets') {
+      return ['KTC', 'VESSEL', 'TONE', 'Ko-ken', 'KAKURI', 'DOGYU', 'SUIZAN', 'Gyokucho',
+              'Tasai', 'Chiyotsuru', 'Tsunesaburo', 'Ouchi Nomi',
+              'Snap-on', 'MAC Tools', 'FACOM', 'Knipex', 'HAZET', 'DEWALT', 'Stanley',
+              'Klein Tools', 'Estwing', 'Vaughan', 'Channellock', 'Irwin', 'Bahco'];
+    }
+
     if (category === 'Laptops' || category === 'Desktops' || category === 'Tablets' || category === 'Computers') {
       return 'Apple, Lenovo, Dell, HP, ASUS, Acer, Microsoft, Sony, VAIO, Panasonic, Fujitsu, NEC, Toshiba, dynabook, LG, Samsung, MSI, Razer, Alienware, Intel, Google';
     }
@@ -4537,6 +4582,18 @@ IS_TAG_TO_CATEGORY['パソコン本体'] = 'Computers';
 IS_TAG_TO_CATEGORY['電子辞書'] = 'Electronic Dictionaries';
 IS_TAG_TO_CATEGORY['関数電卓'] = 'Scientific Calculators';
 
+// Hand Tools
+IS_TAG_TO_CATEGORY['手工具'] = 'Hand Tools';
+IS_TAG_TO_CATEGORY['カンナ'] = 'Planes'; IS_TAG_TO_CATEGORY['鉋'] = 'Planes';
+IS_TAG_TO_CATEGORY['のみ'] = 'Chisels'; IS_TAG_TO_CATEGORY['鑿'] = 'Chisels';
+IS_TAG_TO_CATEGORY['コテ'] = 'Trowels'; IS_TAG_TO_CATEGORY['鏝'] = 'Trowels';
+IS_TAG_TO_CATEGORY['玄能'] = 'Hammers & Mallets'; IS_TAG_TO_CATEGORY['げんのう'] = 'Hammers & Mallets';
+IS_TAG_TO_CATEGORY['鋸'] = 'Saws'; IS_TAG_TO_CATEGORY['のこぎり'] = 'Saws';
+IS_TAG_TO_CATEGORY['スパナ'] = 'Wrench Sets';
+IS_TAG_TO_CATEGORY['墨壺'] = 'Hand Tools'; IS_TAG_TO_CATEGORY['曲尺'] = 'Hand Tools';
+IS_TAG_TO_CATEGORY['プライヤー'] = 'Hand Tools'; IS_TAG_TO_CATEGORY['ノギス'] = 'Hand Tools';
+IS_TAG_TO_CATEGORY['ヤスリ'] = 'Hand Tools'; IS_TAG_TO_CATEGORY['砥石'] = 'Hand Tools';
+
 // Board Games
 IS_TAG_TO_CATEGORY['将棋'] = 'Board Games'; IS_TAG_TO_CATEGORY['将棋セット'] = 'Board Games';
 IS_TAG_TO_CATEGORY['将棋盤'] = 'Board Games'; IS_TAG_TO_CATEGORY['将棋駒'] = 'Board Games';
@@ -4969,6 +5026,13 @@ var IS_CATEGORY_FIELDS = {
     'Power Source', 'Country of Origin', 'Year Manufactured',
     'Number of Functions', 'Color', 'Condition',
   ],
+  'Hand Tools': ['Brand', 'Type', 'Country/Region of Manufacture', 'Condition'],
+  'Planes': ['Brand', 'Type', 'Blade Material', 'Country/Region of Manufacture', 'Condition'],
+  'Chisels': ['Brand', 'Type', 'Blade Material', 'Country/Region of Manufacture', 'Condition'],
+  'Hammers & Mallets': ['Brand', 'Type', 'Material', 'Country/Region of Manufacture', 'Condition'],
+  'Saws': ['Brand', 'Type', 'Blade Material', 'Country/Region of Manufacture', 'Condition'],
+  'Trowels': ['Brand', 'Type', 'Material', 'Country/Region of Manufacture', 'Condition'],
+  'Wrench Sets': ['Brand', 'Type', 'Number of Pieces', 'Country/Region of Manufacture', 'Condition'],
   'Laptops': [
     'Brand', 'Model', 'Type', 'Series', 'Processor', 'Processor Speed',
     'RAM Size', 'SSD Capacity', 'Hard Drive Capacity', 'Storage Type',

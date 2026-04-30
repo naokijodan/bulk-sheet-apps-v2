@@ -1765,5 +1765,18 @@
     "updated_at": "2026-04-30T04:25:00Z",
     "last_sprint_contract": null,
     "notes": "deploy commit 8c13364 / clasp push 24 files。E-02 verdict: PASS_WITH_MINORS by child-c (can_deploy true, 4x NF all INFO only)。汎用プロンプトの source_bound EXCELLENT 評価。"
+  },
+  {
+    "id": "F-tools-handheld-v1-create-2026-04-30",
+    "name": "手工具カテゴリ新規追加 v1 (prompts/手工具.txt + 6軸)",
+    "description": "手工具（Hand Tools）カテゴリを一括シートV3 に新規追加。PROMPT_DESIGN_PRINCIPLE.md v1.1 完全準拠。12セクション構成 / VeRO HIGH (Snap-on/DEWALT/Stanley/Makita/HiKOKI) / BOOTLEG MUST 偽物語彙のみ / 電動・油圧・空圧境界宣言 4行 N/A stop / CONDITION TERMS 参照辞書のみ（OUTPUT 出力なし）/ OUTPUT 4行 / 弾薬庫 JP 32ブランド + Global 32ブランド + 24タイプ + 18銘柄・年代語 / eBay 6カテゴリ ルーティング (Planes 122855 / Chisels 178972 / Hammers 20763 / Saws 122853 / Trowels 168791 / Wrench Sets 29527)。6軸完了: prompts/手工具.txt + Library/PromptTemplates.gs + Config.gs + Library/Config.gs + Sanitize.gs + Library/Sanitize.gs + ItemSpecifics/Config_IS.gs + Library/Config_IS.gs。",
+    "status": "passing",
+    "priority": 19,
+    "phase": "Phase 2 - Hand Tools",
+    "dependencies": [],
+    "created_at": "2026-04-30T14:05:00Z",
+    "updated_at": "2026-04-30T20:00:00Z",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-tools-handheld-c4.md",
+    "notes": "C0 → C4 → 親監査 → E-02 PASS (child-c CRITICAL/MAJOR/MINOR 0) → HOMAGE 修正 → E-02 スポット PASS → 椛島さん deploy 承認 → git push + clasp push 完了。"
   }
 ]

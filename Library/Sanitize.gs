@@ -87,6 +87,9 @@ var SANITIZE_FIELDS_ = {
     'ブランド', 'モデル名', 'タイプ', '表示行数', '表示タイプ', '電源',
     '製造国', '製造年', '関数数', '色', '付属品', 'コンディション', '故障・不具合'
   ],
+  'Hand Tools': [
+    'ブランド', 'タイプ', '刃素材', '製造国', '状態', '傷・不具合'
+  ],
   'Laptops': [
     'ブランド', 'モデル名', 'タイプ', 'シリーズ', 'プロセッサ', 'プロセッサ速度',
     'メモリ容量', 'SSD容量', 'HDD容量', 'ストレージ種別', 'OS', '画面サイズ',
@@ -620,6 +623,17 @@ var CATEGORY_RULES_ = {
       '- ヴィンテージ機（HP-41C / HP-15C / Sharp PC-1211 等 RPN/pocket computer）はCollectibles寄りの扱いになる場合も記載で明示',
       '- 不明な情報はNA',
       '- [EN]セクション: Type/Brand/Model は英語出力'
+    ]
+  },
+  'Hand Tools': {
+    label: '手工具',
+    rules: [
+      '- ブランド: KTC / VESSEL / TONE / 土牛 / KAKURI 等のメーカー名。ソース記載を優先',
+      '- タイプ: 鉋→Plane / 鑿→Chisel / 鋸→Saw / 玄能→Hammer / 鏝→Trowel / スパナ→Wrench 等',
+      '- 刃素材: 白紙→White Steel / 青紙→Blue Steel / 安来鋼→Yasugi Steel / 炭素鋼→Carbon Steel',
+      '- 製造国: 日本製 → Made in Japan（ソース記載がある場合のみ）',
+      '- 状態: 未使用→New / 中古→Used / ジャンク→For Parts Only',
+      '- 傷・不具合: 錆/刃こぼれ/柄折れ等があれば記載。なければNA'
     ]
   },
   'Laptops': {
