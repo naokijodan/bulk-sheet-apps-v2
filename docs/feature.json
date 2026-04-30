@@ -1265,18 +1265,18 @@
     "id": "F-v201-41-collectible",
     "name": "コレクティブル V2.0.1 Full Rewrite",
     "description": "雑貨 H グループ。BOOTLEG 要検討。カテゴリ横断。R-3。",
-    "status": "failing",
+    "status": "passing",
     "priority": 41,
     "phase": "V2.0.1 残 44",
     "group": "雑貨 H",
-    "bootleg": "要検討",
+    "bootleg": "実装済み (ABSOLUTE BAN 17語、VeRO VERY HIGH Disney/Lucasfilm)",
     "dependencies": [
       "F-tokei-v11-reference"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
-    "notes": "Master plan #41。prompt file: prompts/コレクティブル.txt"
+    "updated_at": "2026-05-01T05:00:00+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-collectibles-c4.md",
+    "notes": "Master plan #41。prompt file: prompts/コレクティブル.txt。v46 Full Rewrite C4 実装中。E-02 PASS 後に passing へ。"
   },
   {
     "id": "F-v201-42-knife",
