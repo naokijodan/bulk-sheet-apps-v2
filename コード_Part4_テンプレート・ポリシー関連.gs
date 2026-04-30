@@ -865,8 +865,14 @@ function applyUnifiedSettingsBatch_(sheet, batchRows, category, templateName, te
             ' tag=' + tagForLog +
             ' shippingType=' + shippingType +
             ' condition=' + condition +
-            ' axValue=' + rowAxValueRaw + ' → 該当なし');
-          policyId = '該当なし';
+            ' axValue=' + rowAxValueRaw + ' → DDUフォールバック');
+          var rowCategory = category;
+          if (settings && settings.tagOverrideShippingCategory) {
+            var tagCat = getTagVal_(row, 'shippingCat');
+            if (tagCat != null) rowCategory = tagCat;
+          }
+          var policyCategory = getCategoryForShippingPolicy(rowCategory);
+          policyId = findShippingPolicyIdFromCache_(cache.policies, policyCategory, condition, shippingType, estimatedTax);
         }
         console.log('  DDPポリシーID: ' + policyId + ' (AX=' + rowAxValue + ')');
       } else {
@@ -1980,21 +1986,8 @@ function writePoliciesToMaster(masterSheet, sourceSheet, startRow) {
     dataRow++;
 
     var ddpRows = ddpPolicies.map(function(p) { return [p[0], p[1], '']; });
-    var ddpDataStartRow = ddpHeaderRow + 1;
     masterSheet.getRange(dataRow, 1, ddpRows.length, 3).setValues(ddpRows);
     dataRow += ddpRows.length;
-
-    // Named Range 登録（O 列の式から参照）
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var existingRanges = ss.getNamedRanges();
-    for (var nr = 0; nr < existingRanges.length; nr++) {
-      if (existingRanges[nr].getName() === 'DDP_POLICY_RANGE') {
-        existingRanges[nr].remove();
-        break;
-      }
-    }
-    ss.setNamedRange('DDP_POLICY_RANGE',
-      masterSheet.getRange(ddpDataStartRow, 1, ddpRows.length, 3));
 
     masterSheet.getRange(ddpHeaderRow, 1, dataRow - ddpHeaderRow, 3)
       .setBorder(true, true, true, true, true, true, '#000000', SpreadsheetApp.BorderStyle.SOLID);
