@@ -878,6 +878,12 @@
               <label class="checkbox-label"><input type="checkbox" id="tagOverrideCondition" checked> 商品状態（新品/中古/AI）</label>
             </div>
           </div>
+          <div style="margin-bottom:12px;">
+            <strong>関税モード</strong>
+            <div class="checkbox-group" style="margin-left:16px;margin-top:4px;">
+              <label class="checkbox-label"><input type="checkbox" id="tagOverrideDdpMode"> DDP/DDU設定（タグ別関税モード）</label>
+            </div>
+          </div>
           <div style="margin-top:16px; padding-top:12px; border-top:1px dashed var(--line);">
             <strong>タグ一覧</strong>
             <div class="checkbox-group" style="margin-left:16px;margin-top:4px;">
@@ -1074,6 +1080,7 @@
       if ('<?= currentTagOverrideHighShipping ?>' === 'false') document.getElementById('tagOverrideHighShipping').checked = false;
       if ('<?= currentTagOverrideThreshold ?>' === 'false') document.getElementById('tagOverrideThreshold').checked = false;
       if ('<?= currentTagOverrideCondition ?>' === 'false') document.getElementById('tagOverrideCondition').checked = false;
+      if ('<?= currentTagOverrideDdpMode ?>' === 'true') document.getElementById('tagOverrideDdpMode').checked = true;
       // 個別トグルに基づきUI連動を初期化
       toggleTagOverrideItems();
     });
@@ -1453,6 +1460,7 @@
         tagOverrideHighShipping: document.getElementById('tagOverrideHighShipping').checked ? 'true' : 'false',
         tagOverrideThreshold: document.getElementById('tagOverrideThreshold').checked ? 'true' : 'false',
         tagOverrideCondition: document.getElementById('tagOverrideCondition').checked ? 'true' : 'false',
+        tagOverrideDdpMode: document.getElementById('tagOverrideDdpMode').checked ? 'true' : 'false',
 
         // プリセット設定
         presetGenre: document.querySelector('input[name="presetGenre"]:checked').value,

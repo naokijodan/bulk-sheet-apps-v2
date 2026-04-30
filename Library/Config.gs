@@ -71,7 +71,8 @@ var CONFIG = {
     USED_PROMPT: 47,         // AU列: 使用プロンプトID
     // AV列: 交通整理バックアップ
     JP_DESC_BACKUP: 48,      // AV列: 商品説明バックアップ
-    EN_DESC_SANITIZED: 49    // AW列: 交通整理英語版
+    EN_DESC_SANITIZED: 49,   // AW列: 交通整理英語版
+    DDP_MODE: 50             // AX列: DDP/DDUフラグ (タグ別関税モード)
   },
 
   // 交通整理: カテゴリ判定は IS_TAG_TO_CATEGORY（Config_IS.gs）に統合済み
@@ -204,8 +205,8 @@ var CONFIG = {
     HEADERS: ['タグ名', 'EP送料', 'CE送料', 'CF/CD送料', '参考eBay ID', 'SKU略称',
               'テンプレート名', '送料上限カテゴリ', '利益率', '広告費率', '手数料率',
               '低価格配送', '高価格配送', '送料切替基準', '想定関税閾値', '商品状態',
-              '翻訳プロンプト'],
-    TAG_LIST_START_COL: 19,
+              '翻訳プロンプト', 'DDP/DDU設定'],
+    TAG_LIST_START_COL: 21,
     HEADER_BG_COLOR: '#4285F4',
     HEADER_FONT_COLOR: '#FFFFFF'
   }
@@ -359,7 +360,8 @@ function getSettings() {
     tagOverrideLowShipping: docProps.getProperty('TAG_OVERRIDE_LOW_SHIPPING') === 'true',
     tagOverrideHighShipping: docProps.getProperty('TAG_OVERRIDE_HIGH_SHIPPING') === 'true',
     tagOverrideThreshold: docProps.getProperty('TAG_OVERRIDE_THRESHOLD') === 'true',
-    tagOverrideCondition: docProps.getProperty('TAG_OVERRIDE_CONDITION') === 'true'
+    tagOverrideCondition: docProps.getProperty('TAG_OVERRIDE_CONDITION') === 'true',
+    tagOverrideDdpMode: docProps.getProperty('TAG_OVERRIDE_DDP_MODE') === 'true'
   };
 
   var missing = [];
@@ -421,12 +423,16 @@ function updateListingSheetPriceFormula(workSheetName, priceDisplayMode) {
     }
 
     var formula;
+    var ws = workSheetName;
     if (priceDisplayMode === 'TAX_INCLUDED') {
-      // DDP（関税込み）モード → S列を参照
-      formula = '={"出品価格";ARRAYFORMULA(IF(\'' + workSheetName + '\'!R5:R="","", \'' + workSheetName + '\'!S5:S))}';
+      // グローバルDDP(関税込み)モード → AG手動上書き > S列(全行)
+      formula = '={"出品価格";ARRAYFORMULA(IF(\'' + ws + '\'!R5:R="","",' +
+        'IF((NOT(ISBLANK(\'' + ws + '\'!AG5:AG)))*(ISNUMBER(\'' + ws + '\'!AG5:AG)),\'' + ws + '\'!AG5:AG,\'' + ws + '\'!S5:S)))}';
     } else {
-      // DDU（通常）モード → AG優先、なければR列
-      formula = '={"出品価格";ARRAYFORMULA(IF((NOT(ISBLANK(\'' + workSheetName + '\'!AG5:AG)))*(ISNUMBER(\'' + workSheetName + '\'!AG5:AG)), \'' + workSheetName + '\'!AG5:AG, \'' + workSheetName + '\'!R5:R))}';
+      // NORMAL(DDU)モード → AG手動上書き > AX="DDP"ならS列 > R列 (per-row切替)
+      formula = '={"出品価格";ARRAYFORMULA(IF(\'' + ws + '\'!R5:R="","",' +
+        'IF((NOT(ISBLANK(\'' + ws + '\'!AG5:AG)))*(ISNUMBER(\'' + ws + '\'!AG5:AG)),\'' + ws + '\'!AG5:AG,' +
+        'IF(UPPER(TRIM(\'' + ws + '\'!AX5:AX))="DDP",\'' + ws + '\'!S5:S,\'' + ws + '\'!R5:R))))}';
     }
 
     listingSheet.getRange('H2').setFormula(formula);

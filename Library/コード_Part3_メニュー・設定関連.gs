@@ -2999,6 +2999,7 @@ function saveIntegratedSettings(formData) {
     docProps.setProperty('TAG_OVERRIDE_HIGH_SHIPPING', formData.tagOverrideHighShipping || 'false');
     docProps.setProperty('TAG_OVERRIDE_THRESHOLD', formData.tagOverrideThreshold || 'false');
     docProps.setProperty('TAG_OVERRIDE_CONDITION', formData.tagOverrideCondition || 'false');
+    docProps.setProperty('TAG_OVERRIDE_DDP_MODE', formData.tagOverrideDdpMode || 'false');
 
     // 価格表示モードの保存
     setPriceDisplayMode(priceDisplayMode);
@@ -3143,7 +3144,7 @@ function saveIntegratedSettings(formData) {
         var tsSheet = ss.getSheetByName(CONFIG.TAG_SHIPPING.SHEET_NAME);
         if (tsSheet) {
           writeTagListToSheet_(tsSheet);
-          msg += '\n\n【TagShippingタグ一覧更新】\nS列のタグ一覧を最新に更新しました。';
+          msg += '\n\n【TagShippingタグ一覧更新】\nU列のタグ一覧を最新に更新しました。';
           Logger.log('TagShippingシートのタグ一覧を更新しました');
         } else {
           msg += '\n\n【TagShippingタグ一覧更新】\nTagShippingシートが見つかりません。';
@@ -3672,7 +3673,46 @@ function ensureTagShippingSheet_(ss) {
             .setFontColor(CONFIG.TAG_SHIPPING.HEADER_FONT_COLOR);
           sheet.setColumnWidth(17, 160);
         }
-        // 既存シートの移行処理: S1セルが空ならタグ一覧を初回出力
+        // 既存シートの移行処理: R列(18) DDP/DDU設定 ヘッダー追加（既存ユーザーデータ保護込み）
+        var rColHeader = sheet.getRange(1, 18).getValue();
+        if (!rColHeader || String(rColHeader).trim() === '') {
+          var rDataLastRow = sheet.getLastRow();
+          if (rDataLastRow >= 2) {
+            var rExistingValues = sheet.getRange(2, 18, Math.min(rDataLastRow - 1, 50), 1).getValues();
+            var hasRData = rExistingValues.some(function(row) {
+              var v = row[0];
+              return v !== '' && v !== null && v !== undefined;
+            });
+            if (hasRData) {
+              Logger.log('[ensureTagShippingSheet_] WARNING: R列(2行目以降)に既存データ検出。DDP/DDU移行のためクリアします');
+              sheet.getRange(2, 18, rDataLastRow - 1, 1).clearContent();
+            }
+          }
+          sheet.getRange(1, 18).setValue('DDP/DDU設定')
+            .setFontWeight('bold')
+            .setBackground(CONFIG.TAG_SHIPPING.HEADER_BG_COLOR)
+            .setFontColor(CONFIG.TAG_SHIPPING.HEADER_FONT_COLOR);
+          sheet.setColumnWidth(18, 100);
+          Logger.log('[ensureTagShippingSheet_] R列(DDP/DDU設定) ヘッダーを追加しました');
+        } else if (String(rColHeader).trim() !== 'DDP/DDU設定') {
+          Logger.log('[ensureTagShippingSheet_] CRITICAL: R1に既存ヘッダー "' + rColHeader + '" が存在。DDP/DDU移行をスキップ。手動確認要');
+        }
+        // 旧S-T列(19-20)を新U-V列(21-22)へ移行するための明示クリア（安全条件付き）
+        var oldTagStartCol = 19;
+        var newTagStartCol = CONFIG.TAG_SHIPPING.TAG_LIST_START_COL;
+        if (newTagStartCol !== oldTagStartCol) {
+          var oldS1 = String(sheet.getRange(1, oldTagStartCol).getValue() || '').trim();
+          if (oldS1 === '使えるタグ名') {
+            var stLastRow = sheet.getLastRow();
+            if (stLastRow >= 1) {
+              sheet.getRange(1, oldTagStartCol, stLastRow, 2).clearContent();
+              Logger.log('[ensureTagShippingSheet_] 旧S-T列(タグ一覧)をU-V列移行に伴いクリアしました');
+            }
+          } else if (oldS1 !== '') {
+            Logger.log('[ensureTagShippingSheet_] WARNING: S1="' + oldS1 + '" は旧タグ一覧ヘッダーではない。S-T列クリアをスキップ');
+          }
+        }
+        // 既存シートの移行処理: U1セルが空ならタグ一覧を初回出力（TAG_LIST_START_COL=21）
         var tagListCol = CONFIG.TAG_SHIPPING.TAG_LIST_START_COL;
         var q1Value = sheet.getRange(1, tagListCol).getValue();
         if (!q1Value || String(q1Value).trim() === '') {
@@ -3714,6 +3754,7 @@ function ensureTagShippingSheet_(ss) {
     sheet.setColumnWidth(15, 100);  // O: 想定関税閾値
     sheet.setColumnWidth(16, 100);  // P: 商品状態
     sheet.setColumnWidth(17, 160);  // Q: 翻訳プロンプト
+    sheet.setColumnWidth(18, 100);  // R: DDP/DDU設定
 
     // B〜D列を数値書式に設定（2行目以降）
     var maxRows = sheet.getMaxRows();
@@ -3937,6 +3978,14 @@ function applyTagShippingValidations_(sheet) {
   } catch (e) {
     console.log('Q列プロンプトドロップダウン設定をスキップ: ' + e.message);
   }
+
+  // R列: DDP/DDU設定 ドロップダウン
+  var ddpRule = SpreadsheetApp.newDataValidation()
+    .requireValueInList(['DDP', 'DDU'], true)
+    .setAllowInvalid(false)
+    .setHelpText('DDP (関税込み) または DDU (関税別) を選択')
+    .build();
+  sheet.getRange(2, 18, Math.max(sheet.getLastRow(), 100) - 1, 1).setDataValidation(ddpRule);
 }
 
 /**
@@ -4575,6 +4624,38 @@ function applyCalculationFormulas(sheetName, settings) {
     // デフォルト値は設定しない（既存値を保持）
 
     console.log('設定セル（O1, O2, P2, F1, F2, H2, L2, M2, N2, R1）のドロップダウンを設定しました');
+
+    // AX列(CONFIG.COLUMNS.DDP_MODE): DDPフラグ（タグ別関税モード ON 時のみ数式生成）
+    sheet.getRange(4, CONFIG.COLUMNS.DDP_MODE).setValue('DDPフラグ');
+    if (fullSettings && fullSettings.tagOverrideDdpMode && tagMap) {
+      // ON: AX列に行ごとのINDEX/MATCH式（UPPER/TRIMで値ブレ許容）
+      var axFormulas = [];
+      for (var axRow = 5; axRow <= dataLastRow; axRow++) {
+        var axFormula = '=IFERROR(' +
+          'IF(OR(UPPER(TRIM(INDEX(' + tsName + '!R:R,MATCH(D' + axRow + ',' + tsName + '!A:A,0))))="DDP",' +
+          'UPPER(TRIM(INDEX(' + tsName + '!R:R,MATCH(D' + axRow + ',' + tsName + '!A:A,0))))="DDU"),' +
+          'UPPER(TRIM(INDEX(' + tsName + '!R:R,MATCH(D' + axRow + ',' + tsName + '!A:A,0)))),' +
+          '"DDU"),' +
+          '"DDU")';
+        axFormulas.push([axFormula]);
+      }
+      if (axFormulas.length > 0) {
+        sheet.getRange(5, CONFIG.COLUMNS.DDP_MODE, axFormulas.length, 1).setFormulas(axFormulas);
+      }
+      console.log('AX列(DDPフラグ) tagOverrideDdpMode=ON: INDEX/MATCH式を' + axFormulas.length + '行に設定しました');
+    } else {
+      // OFF: 既存セルが式である場合のみクリア（ユーザー手動入力の値は保護）
+      if (dataLastRow >= 5) {
+        var axRangeOff = sheet.getRange(5, CONFIG.COLUMNS.DDP_MODE, dataLastRow - 4, 1);
+        var axFormulasExisting = axRangeOff.getFormulas();
+        for (var axI = 0; axI < axFormulasExisting.length; axI++) {
+          if (axFormulasExisting[axI][0] && String(axFormulasExisting[axI][0]).indexOf('=') === 0) {
+            sheet.getRange(5 + axI, CONFIG.COLUMNS.DDP_MODE).clearContent();
+          }
+        }
+      }
+      console.log('AX列(DDPフラグ) tagOverrideDdpMode=OFF: 式のみクリア（手動値は保護）');
+    }
 
     return { success: true };
 

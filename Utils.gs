@@ -1149,18 +1149,19 @@ function buildTagOverrideMap_(ss, settings) {
     settings.tagOverrideAdRate || settings.tagOverrideFeeRate ||
     settings.tagOverrideShipping || settings.tagOverrideLowShipping ||
     settings.tagOverrideHighShipping || settings.tagOverrideThreshold ||
-    settings.tagOverrideCondition;
+    settings.tagOverrideCondition || settings.tagOverrideDdpMode;
   if (!anyOverride) return null;
   var tsSheet = ss.getSheetByName(CONFIG.TAG_SHIPPING.SHEET_NAME);
   if (!tsSheet) return null;
   var lastRow = tsSheet.getLastRow();
   if (lastRow < 2) return null;
   var headers = CONFIG.TAG_SHIPPING.HEADERS;
-  var data = tsSheet.getRange(2, 1, lastRow - 1, headers.length).getValues();
+  var data = tsSheet.getRange(2, 1, lastRow - 1, 18).getValues();  // 17→18列に拡張(R列=DDP/DDU設定)
   var map = {};
   for (var i = 0; i < data.length; i++) {
     var tag = String(data[i][0] || '').trim();
     if (!tag) continue;
+    var rawDdp = String(data[i][17] || '').trim().toUpperCase();
     map[tag] = {
       template: data[i][headers.indexOf('テンプレート名')] || null,
       shippingCat: data[i][headers.indexOf('送料上限カテゴリ')] || null,
@@ -1170,7 +1171,8 @@ function buildTagOverrideMap_(ss, settings) {
       lowShip: data[i][headers.indexOf('低価格配送')] || null,
       highShip: data[i][headers.indexOf('高価格配送')] || null,
       threshold: (function(v) { var n = Number(v); return isNaN(n) ? null : n; })(data[i][headers.indexOf('送料切替基準')]),
-      condition: data[i][headers.indexOf('商品状態')] || null
+      condition: data[i][headers.indexOf('商品状態')] || null,
+      ddpMode: (rawDdp === 'DDP' || rawDdp === 'DDU') ? rawDdp : null
     };
   }
   return map;
@@ -1213,6 +1215,14 @@ function getShippingLimitForCategory_(categoryDisplay) {
   } catch (e) {
     return null;
   }
+}
+
+/**
+ * ポリシー判定用の調整後価格を計算（外部呼び出し互換ラッパー）
+ * sheet 引数は後方互換のために受け取るが無視する
+ */
+function calculateAdjustedPriceForPolicy(sheet, priceUSD) {
+  return calculateAdjustedPriceForPolicy_(priceUSD);
 }
 
 /**

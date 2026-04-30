@@ -356,12 +356,33 @@ function loadPolicyMasterCache_() {
       }
     }
 
-    console.log('✅ キャッシュ作成: テンプレート' + templateMap.size + '件, ポリシー' + policiesArray.length + '件');
-    return { templates: templateMap, policies: policiesArray };
+    // E-G列: DDP専用ポリシー(手動選択用セクション)を読み込む
+    var ddpPolicies = [];
+    if (lastRow >= 2) {
+      var ddpData = sheet.getRange(2, 5, lastRow - 1, 3).getValues();  // E-G列
+      for (var di = 0; di < ddpData.length; di++) {
+        var ddpId = ddpData[di][0];
+        var ddpName = String(ddpData[di][1] || '');
+        if (ddpId && ddpName) {
+          var ddpMatch = ddpName.match(/_(eco|xp)_(new|used)_free/);
+          if (ddpMatch) {
+            ddpPolicies.push({
+              id: String(ddpId),
+              name: ddpName,
+              shippingType: ddpMatch[1],
+              condition: ddpMatch[2]
+            });
+          }
+        }
+      }
+    }
+
+    console.log('✅ キャッシュ作成: テンプレート' + templateMap.size + '件, ポリシー' + policiesArray.length + '件, DDPポリシー' + ddpPolicies.length + '件');
+    return { templates: templateMap, policies: policiesArray, ddpPolicies: ddpPolicies };
 
   } catch (e) {
     console.error('キャッシュ作成エラー: ' + e.message);
-    return { templates: new Map(), policies: [] };
+    return { templates: new Map(), policies: [], ddpPolicies: [] };
   }
 }
 
@@ -425,6 +446,24 @@ function findShippingPolicyIdFromCache_(policyCache, category, condition, shippi
     console.error('キャッシュからのポリシー検索エラー: ' + e.message);
     return null;
   }
+}
+
+/**
+ * DDP専用ポリシーをキャッシュから検索して返す（Policy_Masterの都度読み禁止）。
+ * @param {Array<Object>} ddpPolicies - cache.ddpPolicies (loadPolicyMasterCache_で構築済み)
+ * @param {string} shippingType - 'eco' | 'xp'
+ * @param {string} condition - 'new' | 'used'
+ * @return {string|null} ポリシーID、見つからない場合はnull
+ */
+function findDdpPolicyIdFromCache_(ddpPolicies, shippingType, condition) {
+  if (!ddpPolicies || !ddpPolicies.length) return null;
+  for (var i = 0; i < ddpPolicies.length; i++) {
+    var p = ddpPolicies[i];
+    if (p.shippingType === shippingType && p.condition === condition) {
+      return p.id;
+    }
+  }
+  return null;
 }
 
 /**
@@ -699,6 +738,10 @@ function applyUnifiedSettingsBatch_(sheet, batchRows, category, templateName, te
   var methodValues = sheet.getRange(minRow, CONFIG.COLUMNS.METHOD, rowCount, 1).getValues();
   var estimatedTaxValues = sheet.getRange(minRow, CONFIG.COLUMNS.ESTIMATED_TAX, rowCount, 1).getValues();
 
+  // AX列(CONFIG.COLUMNS.DDP_MODE) batch read: ポリシー判定の真実の源
+  SpreadsheetApp.flush();  // AX列数式の再計算を確実に完了させてから読み取る
+  var axColValues = sheet.getRange(minRow, CONFIG.COLUMNS.DDP_MODE, rowCount, 1).getValues();
+
   var templateData = [];
   var policyData = [];
   
@@ -785,18 +828,42 @@ function applyUnifiedSettingsBatch_(sheet, batchRows, category, templateName, te
       policyId = Number(manualPolicyId);
       console.log('  手動ポリシーID: ' + policyId);
     } else {
-      // 自動判定
-      var rowCategory = category;
-      if (settings && settings.tagOverrideShippingCategory) {
-        var tagCat = getTagVal_(row, 'shippingCat');
-        if (tagCat != null) rowCategory = tagCat;
+      // 自動判定: AX列の値でDDP/DDU分岐
+      var rowAxValueRaw = axColValues[rowIndex][0];
+      var rowAxValue = String(rowAxValueRaw || '').trim().toUpperCase();
+      var isDdpRow = (rowAxValue === 'DDP');
+
+      if (isDdpRow) {
+        policyId = findDdpPolicyIdFromCache_(cache.ddpPolicies, shippingType, condition);
+        if (!policyId) {
+          var tagForLog = tagMap ? String((tagValues ? tagValues[rowIndex][0] : '') || '').trim() : '(tagMap未構築)';
+          console.warn('[applyUnifiedSettingsBatch_] DDPポリシー未発見 row=' + row +
+            ' tag=' + tagForLog +
+            ' shippingType=' + shippingType +
+            ' condition=' + condition +
+            ' axValue=' + rowAxValueRaw + ' → DDUフォールバック');
+          var rowCategory = category;
+          if (settings && settings.tagOverrideShippingCategory) {
+            var tagCat = getTagVal_(row, 'shippingCat');
+            if (tagCat != null) rowCategory = tagCat;
+          }
+          var policyCategory = getCategoryForShippingPolicy(rowCategory);
+          policyId = findShippingPolicyIdFromCache_(cache.policies, policyCategory, condition, shippingType, estimatedTax);
+        }
+        console.log('  DDPポリシーID: ' + policyId + ' (AX=' + rowAxValue + ')');
+      } else {
+        var rowCategory = category;
+        if (settings && settings.tagOverrideShippingCategory) {
+          var tagCat = getTagVal_(row, 'shippingCat');
+          if (tagCat != null) rowCategory = tagCat;
+        }
+        var policyCategory = getCategoryForShippingPolicy(rowCategory);
+        // 🚀 キャッシュから検索（高速化）
+        policyId = findShippingPolicyIdFromCache_(cache.policies, policyCategory, condition, shippingType, estimatedTax);
+        console.log('  自動ポリシーID: ' + policyId);
       }
-      var policyCategory = getCategoryForShippingPolicy(rowCategory);
-      // 🚀 キャッシュから検索（高速化）
-      policyId = findShippingPolicyIdFromCache_(cache.policies, policyCategory, condition, shippingType, estimatedTax);
-      console.log('  自動ポリシーID: ' + policyId);
     }
-    
+
     if (policyId !== null && !isNaN(policyId)) {
       policyData.push([policyId]);
       successCount++;
