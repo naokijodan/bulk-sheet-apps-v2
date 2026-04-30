@@ -291,12 +291,12 @@ function loadPolicyMasterCache_() {
 
     if (!sheet) {
       console.error('Policy_Master シートが見つかりません');
-      return { templates: new Map(), policies: [] };
+      return { templates: new Map(), policies: [], ddpPolicies: [] };
     }
 
     var lastRow = sheet.getLastRow();
     if (lastRow < 2) {
-      return { templates: new Map(), policies: [] };
+      return { templates: new Map(), policies: [], ddpPolicies: [] };
     }
 
     var data = sheet.getRange(1, 1, lastRow, 3).getValues();
