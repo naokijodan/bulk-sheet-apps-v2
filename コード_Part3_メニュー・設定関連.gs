@@ -3004,9 +3004,6 @@ function saveIntegratedSettings(formData) {
     // 価格表示モードの保存
     setPriceDisplayMode(priceDisplayMode);
 
-    // 出品用シートの価格式を更新（価格表示モードに応じてH2のARRAYFORMULAを変更）
-    updateListingSheetPriceFormula(sheetName, priceDisplayMode);
-
     // 重複チェック設定の保存
     if (duplicateCheckEnabled && duplicateSettings) {
       saveIntegratedDuplicateCheckSettings(duplicateSettings);
@@ -3065,6 +3062,10 @@ function saveIntegratedSettings(formData) {
     if (!formulaResult.success) {
       throw new Error('計算式の適用に失敗しました: ' + formulaResult.error);
     }
+
+    // 出品用シートの価格式を更新（価格表示モードに応じてH2のARRAYFORMULAを変更）
+    // ※ applyCalculationFormulas の後に呼ぶこと（AX列確保後でないと参照がシフトする）
+    updateListingSheetPriceFormula(sheetName, priceDisplayMode);
 
     // 成功メッセージ
     var platformNames = { openai:'OpenAI', claude:'Claude (Anthropic)', gemini:'Gemini (Google)' };
@@ -4174,7 +4175,9 @@ function applyCalculationFormulas(sheetName, settings) {
         guards.push('ISBLANK(AD' + row + ')');
         guards.push('ISBLANK(AE' + row + ')');
         guards.push('ISBLANK(X' + row + ')');
-        var formula = '=IF(OR(' + guards.join(',') + '),"",GET_SHIPPING_POLICY_FROM_IMPORT(' + rowCatRef + ',IF(AND($AP$2="ON",AD' + row + '>=' + rowThreshRef + '),' + rowThreshRef + ',AD' + row + '),AE' + row + ',X' + row + '))';
+        var dduCall = 'GET_SHIPPING_POLICY_FROM_IMPORT(' + rowCatRef + ',IF(AND($AP$2="ON",AD' + row + '>=' + rowThreshRef + '),' + rowThreshRef + ',AD' + row + '),AE' + row + ',X' + row + ')';
+        var ddpCall = 'GET_DDP_POLICY_FROM_MASTER(AE' + row + ',X' + row + ')';
+        var formula = '=IF(OR(' + guards.join(',') + '),"",IF(UPPER(TRIM(AX' + row + '))="DDP",' + ddpCall + ',' + dduCall + '))';
         policyFormulas.push([formula]);
       }
       if (policyFormulas.length > 0) {
