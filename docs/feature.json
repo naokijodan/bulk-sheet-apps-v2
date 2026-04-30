@@ -768,6 +768,23 @@
     "notes": "C4 Full Rewrite。Sprint Contract v2 (GPT-5 HIGH 3件反映)。C0 調査 child-a/b/c 完了。prompts/ゲーム用.txt + Library/PromptTemplates.gs version 45→46。E-02 レビュー pending (git push / clasp push は E-02 PASS まで保留)。"
   },
   {
+    "id": "F-game-console-v46-redesign-2026-05-01",
+    "name": "ゲーム機プロンプト V2.0.1 Full Rewrite (v45→v46)",
+    "description": "PROMPT_DESIGN_PRINCIPLE.md v1.1 §3-§9.2 完全準拠。14件§違反解消。Brand/Model 41/Defect 28/Limited Edition 22 弾薬庫。BOOTLEG: Modded Console / Modified Console / Clone Console / Fake Console 追加 (Nintendo/Sony/Microsoft/SEGA VeRO 対応)。100V Japan Spec/Step-down transformer 適用条件明文化。Routing 優先順位明記 (本体>コントローラ>充電器>ケーブル>Mixed Lots)。3者協議 v1→v2 改訂後実装。Codex 不使用、child-a 直接実装。",
+    "status": "passing",
+    "priority": 20,
+    "phase": "V2.0.1",
+    "group": "ゲーム B",
+    "bootleg": "MUST",
+    "dependencies": [
+      "F-game-software-v46-redesign-2026-04-30"
+    ],
+    "created_at": "2026-05-01T00:00:00+09:00",
+    "updated_at": "2026-05-01T03:20:00+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-game-console-c4.md",
+    "notes": "C4 Full Rewrite。Sprint Contract v2 (GPT-5 HIGH 3件反映)。C0 調査 child-a/b/c 完了。prompts/ゲーム機.txt + Library/PromptTemplates.gs version 45→v46。IS_TAG_TO_CATEGORY 4件追加 (Controllers/Chargers/Cables/Mixed Lots)。E-02 後に passing 更新。git push / clasp push は E-02 PASS まで保留。"
+  },
+  {
     "id": "F-v201-14-sneakers",
     "name": "スニーカー V2.0.1 Full Rewrite",
     "description": "アパレル C グループ。BOOTLEG MUST (Nike/Adidas VeRO)。",

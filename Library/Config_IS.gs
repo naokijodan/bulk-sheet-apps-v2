@@ -4631,6 +4631,10 @@ IS_TAG_TO_CATEGORY['ゲームソフトゲームボーイ'] = 'Video Games'; IS_T
 IS_TAG_TO_CATEGORY['ゲームソフトPlayStation'] = 'Video Games';
 IS_TAG_TO_CATEGORY['ゲームマニュアル'] = 'Manuals, Inserts & Box Art'; IS_TAG_TO_CATEGORY['ゲーム説明書'] = 'Manuals, Inserts & Box Art';
 IS_TAG_TO_CATEGORY['ゲーム攻略本'] = 'Strategy Guides & Cheats'; IS_TAG_TO_CATEGORY['攻略本'] = 'Strategy Guides & Cheats';
+IS_TAG_TO_CATEGORY['ゲーム機コントローラー'] = 'Controllers & Attachments'; IS_TAG_TO_CATEGORY['コントローラー単品'] = 'Controllers & Attachments';
+IS_TAG_TO_CATEGORY['ゲーム機充電器'] = 'Chargers & Charging Docks'; IS_TAG_TO_CATEGORY['充電ドック'] = 'Chargers & Charging Docks';
+IS_TAG_TO_CATEGORY['ゲーム機ケーブル'] = 'Cables & Adapters'; IS_TAG_TO_CATEGORY['映像ケーブル'] = 'Cables & Adapters';
+IS_TAG_TO_CATEGORY['ゲームまとめ'] = 'Mixed Lots'; IS_TAG_TO_CATEGORY['ゲーム機セット混在'] = 'Mixed Lots';
 
 // Video Game Accessories 追加
 IS_TAG_TO_CATEGORY['コントローラー'] = 'Video Game Accessories'; IS_TAG_TO_CATEGORY['ジョイスティック'] = 'Video Game Accessories';
