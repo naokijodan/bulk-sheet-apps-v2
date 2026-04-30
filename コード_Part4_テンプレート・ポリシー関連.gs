@@ -1768,40 +1768,44 @@ function writeTemplatesToMaster(masterSheet, sourceSheet, startRow) {
     .setBackground('#34a853').setFontColor('white').setHorizontalAlignment('center');
   
   startRow++;
-  
-  // 列ヘッダー
-  masterSheet.getRange(startRow, 1).setValue('Template ID');
-  masterSheet.getRange(startRow, 2).setValue('Template Name');
-  masterSheet.getRange(startRow, 3).setValue('説明');
+
+  // 列ヘッダー（バッチ書き込み）
+  masterSheet.getRange(startRow, 1, 1, 3).setValues([['Template ID', 'Template Name', '説明']]);
   masterSheet.getRange(startRow, 1, 1, 3).setFontWeight('bold').setBackground('#d9ead3');
-  
+
   startRow++;
-  
-  // データ書き込み + 日本語名を収集
+
+  // データ書き込み + 日本語名を収集（入力一括取得・出力バッチ書き込み）
   var lastRow = sourceSheet.getLastRow();
   var dataRow = startRow;
   var templateJapaneseNames = []; // 日本語名を収集する配列
-  
-  for (var i = 2; i <= lastRow; i++) {
-    var id = sourceSheet.getRange(i, 1).getValue();
-    var jaName = sourceSheet.getRange(i, 2).getValue();
-    var standardName = sourceSheet.getRange(i, 3).getValue();
-    
-    if (!id || !standardName || String(id).indexOf('（例）') !== -1) continue;
-    if (String(standardName).indexOf('⚠️') !== -1) continue; // エラー行スキップ
-    
-    masterSheet.getRange(dataRow, 1).setValue(id);
-    masterSheet.getRange(dataRow, 2).setValue(standardName);
-    masterSheet.getRange(dataRow, 3).setValue(jaName);
-    dataRow++;
-    
-    // 🔹 日本語名を抽出（Template_{ここ}_{状態}_{配送}）
-    var match = String(standardName).match(/^Template_(.+?)_(?:new|used)_(?:eco|xp)$/);
-    if (match && match[1]) {
-      templateJapaneseNames.push(match[1]);
+  var templateRows = [];          // バッチ書き込み用 2D 配列
+
+  if (lastRow >= 2) {
+    var srcData = sourceSheet.getRange(2, 1, lastRow - 1, 3).getValues();
+    for (var i = 0; i < srcData.length; i++) {
+      var id = srcData[i][0];
+      var jaName = srcData[i][1];
+      var standardName = srcData[i][2];
+
+      if (!id || !standardName || String(id).indexOf('（例）') !== -1) continue;
+      if (String(standardName).indexOf('⚠️') !== -1) continue; // エラー行スキップ
+
+      templateRows.push([id, standardName, jaName]);
+
+      // 🔹 日本語名を抽出（Template_{ここ}_{状態}_{配送}）
+      var match = String(standardName).match(/^Template_(.+?)_(?:new|used)_(?:eco|xp)$/);
+      if (match && match[1]) {
+        templateJapaneseNames.push(match[1]);
+      }
     }
   }
-  
+
+  if (templateRows.length > 0) {
+    masterSheet.getRange(dataRow, 1, templateRows.length, 3).setValues(templateRows);
+    dataRow += templateRows.length;
+  }
+
   // 罫線
   if (dataRow > startRow) {
     masterSheet.getRange(startRow - 1, 1, dataRow - startRow + 1, 3)
@@ -1907,51 +1911,56 @@ function writePoliciesToMaster(masterSheet, sourceSheet, startRow) {
     .setBackground('#4285f4').setFontColor('white').setHorizontalAlignment('center');
   
   startRow++;
-  
-  // 列ヘッダー
-  masterSheet.getRange(startRow, 1).setValue('Policy ID');
-  masterSheet.getRange(startRow, 2).setValue('Policy Name');
-  masterSheet.getRange(startRow, 3).setValue('送料上乗せ（USD）');
+
+  // 列ヘッダー（バッチ書き込み）
+  masterSheet.getRange(startRow, 1, 1, 3).setValues([['Policy ID', 'Policy Name', '送料上乗せ（USD）']]);
   masterSheet.getRange(startRow, 1, 1, 3).setFontWeight('bold').setBackground('#cfe2f3');
-  
+
   startRow++;
-  
-  // 自動判定用データを書き込み
+
+  // ソースデータを一括読み込み
   var lastRow = sourceSheet.getLastRow();
   var DDP_PATTERNS_WRITE = ['eco_new_free', 'eco_used_free', 'xp_new_free', 'xp_used_free'];
   var dataRow = startRow;
-  var manualPolicies = []; // 真の手動用（DDP でない）
-  var ddpPolicies = [];    // DDP 専用（_free を含む）
+  var manualPolicies = []; // 真の手動用（DDP でない）[id, name]
+  var ddpPolicies = [];    // DDP 専用（_free を含む）[id, name]
+  var autoRows = [];       // 自動判定用データ行
 
-  for (var i = 2; i <= lastRow; i++) {
-    var id = sourceSheet.getRange(i, 1).getValue();
-    var name = sourceSheet.getRange(i, 2).getValue();
-    var fee = sourceSheet.getRange(i, 3).getValue();
+  if (lastRow >= 2) {
+    var srcData = sourceSheet.getRange(2, 1, lastRow - 1, 3).getValues();
+    for (var i = 0; i < srcData.length; i++) {
+      var id = srcData[i][0];
+      var name = srcData[i][1];
+      var fee = srcData[i][2];
 
-    if (!id || !name || String(id).indexOf('（例）') !== -1) continue;
+      if (!id || !name || String(id).indexOf('（例）') !== -1) continue;
 
-    if (typeof fee === 'number' && !isNaN(fee)) {
-      // 自動判定用 → A-C 列上部
-      masterSheet.getRange(dataRow, 1).setValue(id);
-      masterSheet.getRange(dataRow, 2).setValue(name);
-      masterSheet.getRange(dataRow, 3).setValue(fee);
-      dataRow++;
-    } else if (String(fee) === '手動用') {
-      // 手動用 → DDP かどうかで振り分け
-      var nameStr = String(name);
-      var isDdp = false;
-      for (var dp = 0; dp < DDP_PATTERNS_WRITE.length; dp++) {
-        if (nameStr.indexOf(DDP_PATTERNS_WRITE[dp]) !== -1) {
-          isDdp = true;
-          break;
+      if (typeof fee === 'number' && !isNaN(fee)) {
+        // 自動判定用 → A-C 列上部
+        autoRows.push([id, name, fee]);
+      } else if (String(fee) === '手動用') {
+        // 手動用 → DDP かどうかで振り分け
+        var nameStr = String(name);
+        var isDdp = false;
+        for (var dp = 0; dp < DDP_PATTERNS_WRITE.length; dp++) {
+          if (nameStr.indexOf(DDP_PATTERNS_WRITE[dp]) !== -1) {
+            isDdp = true;
+            break;
+          }
+        }
+        if (isDdp) {
+          ddpPolicies.push([id, name]);
+        } else {
+          manualPolicies.push([id, name]);
         }
       }
-      if (isDdp) {
-        ddpPolicies.push({ id: id, name: name });
-      } else {
-        manualPolicies.push({ id: id, name: name });
-      }
     }
+  }
+
+  // 自動判定用データを一括書き込み
+  if (autoRows.length > 0) {
+    masterSheet.getRange(dataRow, 1, autoRows.length, 3).setValues(autoRows);
+    dataRow += autoRows.length;
   }
 
   // 罫線（自動判定セクション）
@@ -1970,20 +1979,15 @@ function writePoliciesToMaster(masterSheet, sourceSheet, startRow) {
       .setBackground('#9c27b0').setFontColor('white').setHorizontalAlignment('center');
     dataRow++;
 
-    masterSheet.getRange(dataRow, 1).setValue('Policy ID');
-    masterSheet.getRange(dataRow, 2).setValue('Policy Name');
-    masterSheet.getRange(dataRow, 3).setValue('');
+    masterSheet.getRange(dataRow, 1, 1, 3).setValues([['Policy ID', 'Policy Name', '']]);
     masterSheet.getRange(dataRow, 1, 1, 3).setFontWeight('bold').setBackground('#e1bee7');
 
     var ddpHeaderRow = dataRow;
     dataRow++;
 
-    for (var d = 0; d < ddpPolicies.length; d++) {
-      masterSheet.getRange(dataRow, 1).setValue(ddpPolicies[d].id);
-      masterSheet.getRange(dataRow, 2).setValue(ddpPolicies[d].name);
-      masterSheet.getRange(dataRow, 3).setValue('');
-      dataRow++;
-    }
+    var ddpRows = ddpPolicies.map(function(p) { return [p[0], p[1], '']; });
+    masterSheet.getRange(dataRow, 1, ddpRows.length, 3).setValues(ddpRows);
+    dataRow += ddpRows.length;
 
     masterSheet.getRange(ddpHeaderRow, 1, dataRow - ddpHeaderRow, 3)
       .setBorder(true, true, true, true, true, true, '#000000', SpreadsheetApp.BorderStyle.SOLID);
@@ -2000,20 +2004,14 @@ function writePoliciesToMaster(masterSheet, sourceSheet, startRow) {
 
     manualStartRow++;
 
-    masterSheet.getRange(manualStartRow, 5).setValue('Policy ID');
-    masterSheet.getRange(manualStartRow, 6).setValue('Policy Name');
-    masterSheet.getRange(manualStartRow, 7).setValue('備考');
+    masterSheet.getRange(manualStartRow, 5, 1, 3).setValues([['Policy ID', 'Policy Name', '備考']]);
     masterSheet.getRange(manualStartRow, 5, 1, 3).setFontWeight('bold').setBackground('#ffe0b2');
 
     manualStartRow++;
 
-    for (var j = 0; j < manualPolicies.length; j++) {
-      var manual = manualPolicies[j];
-      masterSheet.getRange(manualStartRow, 5).setValue(manual.id);
-      masterSheet.getRange(manualStartRow, 6).setValue(manual.name);
-      masterSheet.getRange(manualStartRow, 7).setValue('価格範囲不明・手動選択用');
-      manualStartRow++;
-    }
+    var manualRows = manualPolicies.map(function(p) { return [p[0], p[1], '価格範囲不明・手動選択用']; });
+    masterSheet.getRange(manualStartRow, 5, manualRows.length, 3).setValues(manualRows);
+    manualStartRow += manualRows.length;
 
     masterSheet.getRange(1, 5, manualStartRow - 1, 3)
       .setBorder(true, true, true, true, true, true, '#000000', SpreadsheetApp.BorderStyle.SOLID);
