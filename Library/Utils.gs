@@ -933,7 +933,7 @@ function GET_DDP_POLICY_FROM_MASTER(condition, shippingMethod) {
              shippingMethod === 'EL' || shippingMethod === 'EMS') shippingType = 'xp';
     else return 'エラー';
 
-    var pattern = '_' + shippingType + '_' + conditionEn + '_free';
+    var pattern = shippingType + '_' + conditionEn + '_free';
 
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName('Policy_Master');

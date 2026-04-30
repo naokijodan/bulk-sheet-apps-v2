@@ -364,14 +364,22 @@ function loadPolicyMasterCache_() {
         var ddpId = ddpData[di][0];
         var ddpName = String(ddpData[di][1] || '');
         if (ddpId && ddpName) {
-          var ddpMatch = ddpName.match(/_(eco|xp)_(new|used)_free/);
-          if (ddpMatch) {
-            ddpPolicies.push({
-              id: String(ddpId),
-              name: ddpName,
-              shippingType: ddpMatch[1],
-              condition: ddpMatch[2]
-            });
+          var DDP_PATTERNS = [
+            { pattern: 'eco_new_free',  shippingType: 'eco', condition: 'new' },
+            { pattern: 'eco_used_free', shippingType: 'eco', condition: 'used' },
+            { pattern: 'xp_new_free',   shippingType: 'xp',  condition: 'new' },
+            { pattern: 'xp_used_free',  shippingType: 'xp',  condition: 'used' }
+          ];
+          for (var p = 0; p < DDP_PATTERNS.length; p++) {
+            if (ddpName.indexOf(DDP_PATTERNS[p].pattern) !== -1) {
+              ddpPolicies.push({
+                id: String(ddpId),
+                name: ddpName,
+                shippingType: DDP_PATTERNS[p].shippingType,
+                condition: DDP_PATTERNS[p].condition
+              });
+              break;
+            }
           }
         }
       }
