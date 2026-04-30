@@ -4176,7 +4176,9 @@ function applyCalculationFormulas(sheetName, settings) {
         guards.push('ISBLANK(AE' + row + ')');
         guards.push('ISBLANK(X' + row + ')');
         var dduCall = 'GET_SHIPPING_POLICY_FROM_IMPORT(' + rowCatRef + ',IF(AND($AP$2="ON",AD' + row + '>=' + rowThreshRef + '),' + rowThreshRef + ',AD' + row + '),AE' + row + ',X' + row + ')';
-        var ddpCall = 'GET_DDP_POLICY_FROM_MASTER(AE' + row + ',X' + row + ')';
+        var shippingTypeExpr = 'IF(OR(X' + row + '="EP",X' + row + '="CE"),"eco",IF(OR(X' + row + '="CF",X' + row + '="CD",X' + row + '="EL",X' + row + '="EMS"),"xp",""))';
+        var conditionExpr = 'IF(AE' + row + '="新品","new",IF(AE' + row + '="中古","used",""))';
+        var ddpCall = 'IFERROR(INDEX(Policy_Master!A:A,MATCH("*"&' + shippingTypeExpr + '&"_"&' + conditionExpr + '&"_free",Policy_Master!B:B,0)),"該当なし")';
         var formula = '=IF(OR(' + guards.join(',') + '),"",IF(UPPER(TRIM(AX' + row + '))="DDP",' + ddpCall + ',' + dduCall + '))';
         policyFormulas.push([formula]);
       }

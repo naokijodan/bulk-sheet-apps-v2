@@ -301,25 +301,45 @@ function loadPolicyMasterCache_() {
 
     var data = sheet.getRange(1, 1, lastRow, 3).getValues();
     var templateMap = new Map(); // テンプレート名 → ID
-    var policiesArray = [];       // ポリシー配列
+    var policiesArray = [];       // DDU 自動判定ポリシー配列
+    var ddpPolicies = [];         // DDP 専用ポリシー配列（A-C 列下部セクションから）
 
     var inTemplateSection = false;
     var inPolicySection = false;
+    var inDdpSection = false;
+
+    var DDP_CACHE_PATTERNS = [
+      { pattern: 'eco_new_free',  shippingType: 'eco', condition: 'new' },
+      { pattern: 'eco_used_free', shippingType: 'eco', condition: 'used' },
+      { pattern: 'xp_new_free',   shippingType: 'xp',  condition: 'new' },
+      { pattern: 'xp_used_free',  shippingType: 'xp',  condition: 'used' }
+    ];
 
     for (var i = 0; i < data.length; i++) {
       var cellA = String(data[i][0] || '');
 
-      // セクション判定
+      // セクション判定（DDP 専用を先にチェックして誤マッチ防止）
       if (cellA.indexOf('【Templates】') !== -1) {
         inTemplateSection = true;
         inPolicySection = false;
+        inDdpSection = false;
+        i++; // ヘッダー行スキップ
+        continue;
+      }
+
+      if (cellA.indexOf('【Shipping Policies - DDP') !== -1) {
+        inTemplateSection = false;
+        inPolicySection = false;
+        inDdpSection = true;
         i++; // ヘッダー行スキップ
         continue;
       }
 
       if (cellA.indexOf('【Shipping Policies') !== -1) {
+        // 自動判定用セクション
         inTemplateSection = false;
         inPolicySection = true;
+        inDdpSection = false;
         i++; // ヘッダー行スキップ
         continue;
       }
@@ -337,7 +357,7 @@ function loadPolicyMasterCache_() {
         templateMap.set(name, typeof id === 'number' ? id : Number(id));
       }
 
-      // ポリシーデータ
+      // DDU 自動判定ポリシーデータ
       if (inPolicySection) {
         var policyId = data[i][0];
         var policyName = String(data[i][1] || '');
@@ -354,29 +374,25 @@ function loadPolicyMasterCache_() {
           shippingFee: typeof shippingFee === 'number' ? shippingFee : null
         });
       }
-    }
 
-    // E-G列: DDP専用ポリシー(手動選択用セクション)を読み込む
-    var ddpPolicies = [];
-    if (lastRow >= 2) {
-      var ddpData = sheet.getRange(2, 5, lastRow - 1, 3).getValues();  // E-G列
-      for (var di = 0; di < ddpData.length; di++) {
-        var ddpId = ddpData[di][0];
-        var ddpName = String(ddpData[di][1] || '');
-        if (ddpId && ddpName) {
-          var DDP_PATTERNS = [
-            { pattern: 'eco_new_free',  shippingType: 'eco', condition: 'new' },
-            { pattern: 'eco_used_free', shippingType: 'eco', condition: 'used' },
-            { pattern: 'xp_new_free',   shippingType: 'xp',  condition: 'new' },
-            { pattern: 'xp_used_free',  shippingType: 'xp',  condition: 'used' }
-          ];
-          for (var p = 0; p < DDP_PATTERNS.length; p++) {
-            if (ddpName.indexOf(DDP_PATTERNS[p].pattern) !== -1) {
+      // DDP 専用ポリシーデータ（A-C 列下部セクションから）
+      if (inDdpSection) {
+        var ddpId = data[i][0];
+        var ddpName = String(data[i][1] || '');
+
+        if (!ddpName || cellA.indexOf('【') !== -1) {
+          inDdpSection = false;
+          continue;
+        }
+
+        if (ddpId) {
+          for (var p = 0; p < DDP_CACHE_PATTERNS.length; p++) {
+            if (ddpName.indexOf(DDP_CACHE_PATTERNS[p].pattern) !== -1) {
               ddpPolicies.push({
                 id: String(ddpId),
                 name: ddpName,
-                shippingType: DDP_PATTERNS[p].shippingType,
-                condition: DDP_PATTERNS[p].condition
+                shippingType: DDP_CACHE_PATTERNS[p].shippingType,
+                condition: DDP_CACHE_PATTERNS[p].condition
               });
               break;
             }
@@ -1902,39 +1918,81 @@ function writePoliciesToMaster(masterSheet, sourceSheet, startRow) {
   
   // 自動判定用データを書き込み
   var lastRow = sourceSheet.getLastRow();
+  var DDP_PATTERNS_WRITE = ['eco_new_free', 'eco_used_free', 'xp_new_free', 'xp_used_free'];
   var dataRow = startRow;
-  var manualPolicies = []; // 手動用を一時保存
-  
+  var manualPolicies = []; // 真の手動用（DDP でない）
+  var ddpPolicies = [];    // DDP 専用（_free を含む）
+
   for (var i = 2; i <= lastRow; i++) {
     var id = sourceSheet.getRange(i, 1).getValue();
     var name = sourceSheet.getRange(i, 2).getValue();
     var fee = sourceSheet.getRange(i, 3).getValue();
-    
+
     if (!id || !name || String(id).indexOf('（例）') !== -1) continue;
-    
+
     if (typeof fee === 'number' && !isNaN(fee)) {
-      // 自動判定用
+      // 自動判定用 → A-C 列上部
       masterSheet.getRange(dataRow, 1).setValue(id);
       masterSheet.getRange(dataRow, 2).setValue(name);
       masterSheet.getRange(dataRow, 3).setValue(fee);
       dataRow++;
     } else if (String(fee) === '手動用') {
-      // 手動用を保存
-      manualPolicies.push({ id: id, name: name });
+      // 手動用 → DDP かどうかで振り分け
+      var nameStr = String(name);
+      var isDdp = false;
+      for (var dp = 0; dp < DDP_PATTERNS_WRITE.length; dp++) {
+        if (nameStr.indexOf(DDP_PATTERNS_WRITE[dp]) !== -1) {
+          isDdp = true;
+          break;
+        }
+      }
+      if (isDdp) {
+        ddpPolicies.push({ id: id, name: name });
+      } else {
+        manualPolicies.push({ id: id, name: name });
+      }
     }
   }
-  
-  // 罫線
+
+  // 罫線（自動判定セクション）
   if (dataRow > startRow) {
     masterSheet.getRange(startRow - 1, 1, dataRow - startRow + 1, 3)
       .setBorder(true, true, true, true, true, true, '#000000', SpreadsheetApp.BorderStyle.SOLID);
   }
-  
-  // 🔹 手動選択用ポリシーセクション（E-G列に出力）
+
+  // 🔹 DDP 専用セクション（A-C 列下部）
+  if (ddpPolicies.length > 0) {
+    dataRow += 2; // 空行を挟む
+
+    masterSheet.getRange(dataRow, 1, 1, 3).mergeAcross();
+    masterSheet.getRange(dataRow, 1).setValue('【Shipping Policies - DDP 専用】');
+    masterSheet.getRange(dataRow, 1).setFontWeight('bold').setFontSize(12)
+      .setBackground('#9c27b0').setFontColor('white').setHorizontalAlignment('center');
+    dataRow++;
+
+    masterSheet.getRange(dataRow, 1).setValue('Policy ID');
+    masterSheet.getRange(dataRow, 2).setValue('Policy Name');
+    masterSheet.getRange(dataRow, 3).setValue('');
+    masterSheet.getRange(dataRow, 1, 1, 3).setFontWeight('bold').setBackground('#e1bee7');
+
+    var ddpHeaderRow = dataRow;
+    dataRow++;
+
+    for (var d = 0; d < ddpPolicies.length; d++) {
+      masterSheet.getRange(dataRow, 1).setValue(ddpPolicies[d].id);
+      masterSheet.getRange(dataRow, 2).setValue(ddpPolicies[d].name);
+      masterSheet.getRange(dataRow, 3).setValue('');
+      dataRow++;
+    }
+
+    masterSheet.getRange(ddpHeaderRow, 1, dataRow - ddpHeaderRow, 3)
+      .setBorder(true, true, true, true, true, true, '#000000', SpreadsheetApp.BorderStyle.SOLID);
+  }
+
+  // 🔹 手動選択用ポリシーセクション（E-G列に出力、DDP 以外）
   if (manualPolicies.length > 0) {
     var manualStartRow = 1; // E列の開始行
 
-    // ヘッダー
     masterSheet.getRange(manualStartRow, 5, 1, 3).mergeAcross();
     masterSheet.getRange(manualStartRow, 5).setValue('【Shipping Policies - 手動選択用】');
     masterSheet.getRange(manualStartRow, 5).setFontWeight('bold').setFontSize(12)
@@ -1942,7 +2000,6 @@ function writePoliciesToMaster(masterSheet, sourceSheet, startRow) {
 
     manualStartRow++;
 
-    // 列ヘッダー
     masterSheet.getRange(manualStartRow, 5).setValue('Policy ID');
     masterSheet.getRange(manualStartRow, 6).setValue('Policy Name');
     masterSheet.getRange(manualStartRow, 7).setValue('備考');
@@ -1950,7 +2007,6 @@ function writePoliciesToMaster(masterSheet, sourceSheet, startRow) {
 
     manualStartRow++;
 
-    // 手動用データを書き込み
     for (var j = 0; j < manualPolicies.length; j++) {
       var manual = manualPolicies[j];
       masterSheet.getRange(manualStartRow, 5).setValue(manual.id);
@@ -1959,11 +2015,9 @@ function writePoliciesToMaster(masterSheet, sourceSheet, startRow) {
       manualStartRow++;
     }
 
-    // 罫線
     masterSheet.getRange(1, 5, manualStartRow - 1, 3)
       .setBorder(true, true, true, true, true, true, '#000000', SpreadsheetApp.BorderStyle.SOLID);
 
-    // 列幅設定
     masterSheet.setColumnWidth(5, 130); // E列
     masterSheet.setColumnWidth(6, 350); // F列
     masterSheet.setColumnWidth(7, 280); // G列

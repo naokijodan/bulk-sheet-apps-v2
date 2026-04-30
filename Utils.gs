@@ -908,56 +908,6 @@ function GET_SHIPPING_POLICY_FROM_IMPORT(categoryDisplay, estimatedTax, conditio
 }
 
 /**
- * DDP 専用ポリシーを Policy_Master E-G 列から検索して返す（カスタム関数）
- * O 列の式から呼ばれる。AX="DDP" の行のシッピングポリシー判定に使う。
- *
- * @param {string} condition - 商品状態（AE 列: '新品' or '中古'）
- * @param {string} shippingMethod - 配送方法（X 列: 'EP'/'CE'/'CF'/'CD'/'EL'/'EMS' 等）
- * @return {string} DDP 専用ポリシー ID、見つからない場合は '該当なし'
- * @customfunction
- */
-function GET_DDP_POLICY_FROM_MASTER(condition, shippingMethod) {
-  try {
-    if (!condition || !shippingMethod) return '';
-
-    // condition: 新品/中古 → new/used
-    var conditionEn;
-    if (condition === '新品') conditionEn = 'new';
-    else if (condition === '中古') conditionEn = 'used';
-    else return 'エラー';
-
-    // shippingMethod: EP/CE → eco, CF/CD/EL/EMS → xp
-    var shippingType;
-    if (shippingMethod === 'EP' || shippingMethod === 'CE') shippingType = 'eco';
-    else if (shippingMethod === 'CF' || shippingMethod === 'CD' ||
-             shippingMethod === 'EL' || shippingMethod === 'EMS') shippingType = 'xp';
-    else return 'エラー';
-
-    var pattern = shippingType + '_' + conditionEn + '_free';
-
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheet = ss.getSheetByName('Policy_Master');
-    if (!sheet) return '';
-    var lastRow = sheet.getLastRow();
-    if (lastRow < 2) return '';
-
-    // E-G 列（5-7 列目）= 手動選択用セクション。E=ID, F=名前, G=備考
-    var data = sheet.getRange(2, 5, lastRow - 1, 3).getValues();
-    for (var i = 0; i < data.length; i++) {
-      var id = data[i][0];
-      var name = String(data[i][1] || '');
-      if (id && name.indexOf(pattern) >= 0) {
-        return String(id);
-      }
-    }
-    return '該当なし';
-  } catch (e) {
-    console.error('[GET_DDP_POLICY_FROM_MASTER] エラー: ' + e.message);
-    return 'エラー';
-  }
-}
-
-/**
  * ポリシー名をパースして分解データを返す（Import_Policies用）
  *
  * @param {string} policyName - ポリシー名（例: "Egl_202510_eco_new_0001_0050"）
