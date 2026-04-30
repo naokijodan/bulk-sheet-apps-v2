@@ -58,19 +58,19 @@ Snap-on | MAC Tools | FACOM | Knipex | HAZET | DEWALT | Stanley | Klein Tools | 
 
 鉋 / かんな / カンナ → Plane
 鑿 / のみ / ノミ → Chisel
-鋸 / のこぎり → Saw
-玄能 / げんのう / 玄翁 → Japanese Hammer | Hammer | Mallet
+鋸 / のこぎり / ノコギリ → Saw
+玄能 / げんのう / 玄翁 / ゲンノウ → Japanese Hammer | Hammer | Mallet
 木槌 / きづち → Wooden Mallet
 金槌 / かなづち → Steel Hammer | Hammer
-墨壺 / すみつぼ → Ink Pot | Chalk Line
-曲尺 / かねじゃく / 矩尺 → Carpenter's Square | Try Square
-鏝 / こて → Trowel | Plasterer's Trowel
+墨壺 / すみつぼ / スミツボ → Ink Pot | Chalk Line
+曲尺 / かねじゃく / 矩尺 / さしがね → Carpenter's Square | Try Square
+鏝 / こて / コテ → Trowel | Plasterer's Trowel
 スパナ → Wrench | Spanner
 レンチ → Wrench
 プライヤー → Pliers
 ノギス → Caliper | Vernier Caliper
-ヤスリ → File
-砥石 / といし → Whetstone | Sharpening Stone
+ヤスリ / やすり / 鑢 → File
+砥石 / といし / トイシ → Whetstone | Sharpening Stone
 マルノコ → Circular Saw (※手工具ではない場合は境界宣言適用)
 手ノコ / 手鋸 → Hand Saw
 引き回し → Compass Saw | Keyhole Saw
