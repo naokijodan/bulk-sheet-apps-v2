@@ -751,6 +751,23 @@
     "notes": "Master plan #13。prompt file: prompts/ゲーム用.txt Deploy commit 860e5cc (2026-04-25, harness-20260425-014356)。"
   },
   {
+    "id": "F-game-software-v46-redesign-2026-04-30",
+    "name": "ゲーム用 v46 Full Rewrite",
+    "description": "ゲーム用プロンプト Full Rewrite v45→v46。PROMPT_DESIGN_PRINCIPLE.md v1.1 §3-§9.2 完全準拠。12セクション構成、BOOTLEG MUST 3層防御、CATEGORY ROUTING 3分岐（Video Games / Manuals, Inserts & Box Art / Strategy Guides & Cheats）、VERIFICATION 17項目。",
+    "status": "passing",
+    "priority": 19,
+    "phase": "V2.0.1",
+    "group": "ゲーム B",
+    "bootleg": "MUST",
+    "dependencies": [
+      "F-v201-13-game-software"
+    ],
+    "created_at": "2026-04-30T00:00:00+09:00",
+    "updated_at": "2026-05-01T01:26:45.245597+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-game-software-c4.md",
+    "notes": "C4 Full Rewrite。Sprint Contract v2 (GPT-5 HIGH 3件反映)。C0 調査 child-a/b/c 完了。prompts/ゲーム用.txt + Library/PromptTemplates.gs version 45→46。E-02 レビュー pending (git push / clasp push は E-02 PASS まで保留)。"
+  },
+  {
     "id": "F-v201-14-sneakers",
     "name": "スニーカー V2.0.1 Full Rewrite",
     "description": "アパレル C グループ。BOOTLEG MUST (Nike/Adidas VeRO)。",

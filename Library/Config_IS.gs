@@ -4629,6 +4629,8 @@ IS_TAG_TO_CATEGORY['ゲームソフトSwitch'] = 'Video Games'; IS_TAG_TO_CATEGO
 IS_TAG_TO_CATEGORY['ゲームソフトファミコン'] = 'Video Games'; IS_TAG_TO_CATEGORY['ゲームソフトスーファミ'] = 'Video Games';
 IS_TAG_TO_CATEGORY['ゲームソフトゲームボーイ'] = 'Video Games'; IS_TAG_TO_CATEGORY['ゲームソフトNintendo'] = 'Video Games';
 IS_TAG_TO_CATEGORY['ゲームソフトPlayStation'] = 'Video Games';
+IS_TAG_TO_CATEGORY['ゲームマニュアル'] = 'Manuals, Inserts & Box Art'; IS_TAG_TO_CATEGORY['ゲーム説明書'] = 'Manuals, Inserts & Box Art';
+IS_TAG_TO_CATEGORY['ゲーム攻略本'] = 'Strategy Guides & Cheats'; IS_TAG_TO_CATEGORY['攻略本'] = 'Strategy Guides & Cheats';
 
 // Video Game Accessories 追加
 IS_TAG_TO_CATEGORY['コントローラー'] = 'Video Game Accessories'; IS_TAG_TO_CATEGORY['ジョイスティック'] = 'Video Game Accessories';
