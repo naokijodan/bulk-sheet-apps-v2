@@ -4604,6 +4604,22 @@ IS_TAG_TO_CATEGORY['置き時計'] = 'Watches';
 // Cameras 追加
 IS_TAG_TO_CATEGORY['レンズ'] = 'Cameras';
 
+// AudioElectronics 追加（オーディオ・家電 v23 — 2026-05-01）
+IS_TAG_TO_CATEGORY['Headphones'] = 'AudioElectronics';
+IS_TAG_TO_CATEGORY['Earbuds'] = 'AudioElectronics';
+IS_TAG_TO_CATEGORY['In-Ear Monitors'] = 'AudioElectronics';
+IS_TAG_TO_CATEGORY['Speakers'] = 'AudioElectronics';
+IS_TAG_TO_CATEGORY['Subwoofers'] = 'AudioElectronics';
+IS_TAG_TO_CATEGORY['Bookshelf Speakers'] = 'AudioElectronics';
+IS_TAG_TO_CATEGORY['Amplifier'] = 'AudioElectronics';
+IS_TAG_TO_CATEGORY['Receiver'] = 'AudioElectronics';
+IS_TAG_TO_CATEGORY['Turntable'] = 'AudioElectronics';
+IS_TAG_TO_CATEGORY['CD Player'] = 'AudioElectronics';
+IS_TAG_TO_CATEGORY['Cassette Deck'] = 'AudioElectronics';
+IS_TAG_TO_CATEGORY['Television'] = 'AudioElectronics';
+IS_TAG_TO_CATEGORY['Soundbar'] = 'AudioElectronics';
+IS_TAG_TO_CATEGORY['DAC'] = 'AudioElectronics';
+
 // Trading Cards 追加（カードゲーム固有名詞・略称・鑑定会社）
 IS_TAG_TO_CATEGORY['ポケモンカード'] = 'Trading Cards';
 IS_TAG_TO_CATEGORY['マジックザギャザリング'] = 'Trading Cards';
