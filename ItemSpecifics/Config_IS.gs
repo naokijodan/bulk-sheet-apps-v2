@@ -4543,6 +4543,12 @@ IS_TAG_TO_CATEGORY['色紙'] = 'Anime'; IS_TAG_TO_CATEGORY['ラバスト'] = 'An
 IS_TAG_TO_CATEGORY['ポスター'] = 'Anime'; IS_TAG_TO_CATEGORY['セル画'] = 'Anime';
 IS_TAG_TO_CATEGORY['原画'] = 'Anime'; IS_TAG_TO_CATEGORY['ブロマイド'] = 'Anime';
 IS_TAG_TO_CATEGORY['キーホルダー'] = 'Anime';
+IS_TAG_TO_CATEGORY['Animation Art'] = 'Anime';
+IS_TAG_TO_CATEGORY['DVDs & Blu-ray Discs'] = 'Anime';
+IS_TAG_TO_CATEGORY['Posters & Wall Scrolls'] = 'Anime';
+IS_TAG_TO_CATEGORY['Keychains'] = 'Anime';
+IS_TAG_TO_CATEGORY['CDs'] = 'Anime';
+IS_TAG_TO_CATEGORY['Other Animation Merchandise'] = 'Anime';
 
 // Books & Magazines
 IS_TAG_TO_CATEGORY['書籍・雑誌'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['書籍'] = 'Books & Magazines';

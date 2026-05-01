@@ -1857,5 +1857,20 @@
     "updated_at": "2026-05-01T12:55:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-figure-c4.md",
     "notes": "child-a C4 直接実装、E-02 spot PASS 後 passing 更新"
+  },
+  {
+    "id": "F-anime-v3-redesign-2026-05-01",
+    "name": "アニメ V2.0.1 v1.1 大規模 Full Rewrite v3",
+    "description": "v2→v3: §3-§10 全観点 Full Rewrite — IS_TAG_TO_CATEGORY 6件EN追加、弾薬庫充実(Studio26/Franchise44/Character77+/Format44/DVD14/Era8)、BOOTLEG MUST 3層(HIGH10/MEDIUM-HIGH7/MEDIUM10)+ABSOLUTE BAN+Cannot-list4行、CATEGORY ROUTING 6系統数値ID+境界ルール、CONDITION TERMS 3系統分岐、LANGUAGE VARIATIONS 4軸(Region媒体別分岐)、DEFECT MAPPING 20件、VERIFICATION 14項目再構成、TCG terms禁止ガード。E-02検察官レビュー PASS (HIGH 0/MEDIUM 3 spot-fix済/LOW 2 spot-fix済)。",
+    "status": "passing",
+    "priority": 23,
+    "phase": "C4",
+    "dependencies": [
+      "F-anime-v201"
+    ],
+    "created_at": "2026-05-01T13:00:00+09:00",
+    "updated_at": "2026-05-01T14:00:00+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-anime-c4.md",
+    "notes": "child-a C4 直接実装 → 親監査 PASS → E-02 検察官レビュー PASS (HIGH 0/MEDIUM 3 spot-fix済/LOW 2 spot-fix済) → child-a spot-fix 完了 → 親監査 PASS → deploy。Region媒体別分岐 (DVD: Region 2 Japan / Blu-ray: Region A Japan)。BOOTLEG MUST語彙 ABSOLUTE BAN 10語完全一致 (count=2)。"
   }
 ]
