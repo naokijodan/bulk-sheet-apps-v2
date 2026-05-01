@@ -1227,21 +1227,21 @@
   },
   {
     "id": "F-v201-39-mecha",
-    "name": "メカプラモ V2.0.1 Full Rewrite",
-    "description": "模型 I グループ。BOOTLEG MUST (Gundam/Bandai VeRO)。R-3。",
-    "status": "failing",
+    "name": "メカプラモ V2.0.1 v1.1 Full Rewrite (v1.0→v23)",
+    "description": "prompts/メカプラモ.txt Full Rewrite v1.0(319行)→v23(587行)。PROMPT_DESIGN_PRINCIPLE §3-§10全観点。GPT-5協議反映(v2): BOOTLEG MUST 詳細化 (Rights/IP Owners VERY HIGH 9: Bandai/Bandai Spirits/PB/Sunrise/Sotsu/Khara/GAINAX/Big West/Studio Nue/Tomy / Trusted Manufacturers / **High-Risk Copy-Brand Triggers (Daban/TT GG/GaoGao/Dragon Momoko/Star Mortal/AOK)** 条件付き Cannot-list / Banned Terms / Description 禁止語) / Title 順序 (Brand → Grade → Scale → Mobile Suit → Series → Edition → Build Status → Country) / **PB は Edition 扱い** / 1980s 旧版 vs Reissue source-only / **ItemSpecifics ブロック出力禁止** / 公式名 `+` 例外 (MGEX 等)。Brand 31/Series 55/Grade 14/Mobile Suit 55/Era 9 (Heisei追加)/Made In 2/Build Status 11/Edition 9/Accessory 9/DEFECT 33。境界: RC・模型→RC・模型 prompt / 完成塗装可動フィギュア→フィギュア / アニメグッズ非プラモ→アニメ。CONDITION 3系統 (Build Status/Functional/Cosmetic) + TCG terms 禁止ガード。E-02 検察官レビュー verdict FAIL (HIGH 1: Category ID 衝突 / MEDIUM 1: HG-MS スケール誤記 / LOW 1: Heisei 欠落) → spot-fix 全修正で PASS。",
+    "status": "passing",
     "priority": 39,
     "phase": "V2.0.1 残 44",
     "group": "模型 I",
-    "bootleg": "MUST",
+    "bootleg": "BOOTLEG MUST 詳細化: Rights/IP Owners VERY HIGH 9 / Trusted Manufacturers / Copy-Brand Triggers Cannot-list / Banned Terms / Description 禁止語",
     "dependencies": [
       "F-tokei-v11-reference",
       "F-v201-38-rc-model"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
-    "notes": "Master plan #39。prompt file: prompts/メカプラモ.txt"
+    "updated_at": "2026-05-01T21:00:00+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-mecha-c4.md",
+    "notes": "C4 Full Rewrite 完了 2026-05-01。prompt file: prompts/メカプラモ.txt v23 (587行)。Library/PromptTemplates.gs version:39→23。IS_TAG_TO_CATEGORY 8件EN追加。C0→GPT-5協議(HIGH 8/MEDIUM 5反映)→C4 child-a直接実装→親監査 PASS→**E-02 child-c verdict FAIL (HIGH 1: Category ID 2619/4781/87480/45986 が RC・模型 と重複衝突 / MEDIUM 1: HG-MS 1/100→1/144 訂正 / LOW 1: Heisei 追加)** → child-a spot-fix で全修正→deploy。RC・模型 v23 と整合性確保のため衝突 ID 削除。"
   },
   {
     "id": "F-v201-40-art",

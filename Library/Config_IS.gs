@@ -4534,6 +4534,10 @@ IS_TAG_TO_CATEGORY['PG'] = 'Mecha Model Kits'; IS_TAG_TO_CATEGORY['SD'] = 'Mecha
 IS_TAG_TO_CATEGORY['BB戦士'] = 'Mecha Model Kits'; IS_TAG_TO_CATEGORY['プレバン'] = 'Mecha Model Kits';
 IS_TAG_TO_CATEGORY['ゾイド'] = 'Mecha Model Kits'; IS_TAG_TO_CATEGORY['フレームアームズ'] = 'Mecha Model Kits';
 IS_TAG_TO_CATEGORY['メカプラモ'] = 'Mecha Model Kits'; IS_TAG_TO_CATEGORY['ロボットプラモ'] = 'Mecha Model Kits';
+IS_TAG_TO_CATEGORY['Gundam Models'] = 'Mecha Model Kits'; IS_TAG_TO_CATEGORY['HG Gundam'] = 'Mecha Model Kits';
+IS_TAG_TO_CATEGORY['MG Gundam'] = 'Mecha Model Kits'; IS_TAG_TO_CATEGORY['RG Gundam'] = 'Mecha Model Kits';
+IS_TAG_TO_CATEGORY['PG Gundam'] = 'Mecha Model Kits'; IS_TAG_TO_CATEGORY['Mecha Plastic Kits'] = 'Mecha Model Kits';
+IS_TAG_TO_CATEGORY['Robot Models'] = 'Mecha Model Kits'; IS_TAG_TO_CATEGORY['Evangelion Model Kits'] = 'Mecha Model Kits';
 
 // RC & Scale Models
 IS_TAG_TO_CATEGORY['ラジコン'] = 'RC & Models'; IS_TAG_TO_CATEGORY['RC'] = 'RC & Models';
