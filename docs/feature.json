@@ -1846,16 +1846,16 @@
   {
     "id": "F-figure-v51-redesign-2026-05-01",
     "name": "フィギュア V2.0.1 v1.1 本格 Full Rewrite v51",
-    "description": "v50→v51: §3-§10 全観点 Full Rewrite — IS_TAG_TO_CATEGORY 11件追加、IS Edition field追加、弾薬庫充実(Brand29/Series30/Franchise35+/Character57+/Type17/Scale11/Edition17)、OUTPUT FORMAT 4lines、BOOTLEG/VERIFICATION diff=0",
-    "status": "in_progress",
+    "description": "v50→v51: §3-§10 全観点 Full Rewrite — IS_TAG_TO_CATEGORY 11件追加、IS Edition field追加、弾薬庫充実(Brand29/Series30/Franchise35+/Character57+/Type17/Scale11/Edition17)、OUTPUT FORMAT 4lines、BOOTLEG/VERIFICATION diff=0、E-02 FAIL→fix(commit 41c0e46)→E-02 spot PASS",
+    "status": "passing",
     "priority": 1,
     "phase": "C4",
     "dependencies": [
       "F-figure-v50-fix-2026-05-01"
     ],
     "created_at": "2026-05-01T00:00:00+09:00",
-    "updated_at": "2026-05-01T00:00:00+09:00",
+    "updated_at": "2026-05-01T12:55:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-figure-c4.md",
-    "notes": "child-a C4 直接実装"
+    "notes": "child-a C4 直接実装、E-02 spot PASS 後 passing 更新"
   }
 ]
