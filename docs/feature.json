@@ -1142,20 +1142,20 @@
   },
   {
     "id": "F-v201-34-pen",
-    "name": "万年筆・筆記具 V2.0.1 Full Rewrite",
-    "description": "雑貨 H グループ。BOOTLEG MUST (Montblanc/Parker VeRO)。R-3。",
-    "status": "failing",
-    "priority": 34,
+    "name": "万年筆・筆記具 V2.0.1 v1.1 Full Rewrite (v1.0→v23)",
+    "description": "prompts/万年筆・筆記具.txt Full Rewrite v1.0(194行)→v23(430行)。PROMPT_DESIGN_PRINCIPLE §3-§10全観点。GPT-5協議反映: **Vintage 万年筆 source-only** (Pre-1960s Montblanc 149 等は source 明記時のみ可、authentic 禁止) / **apostrophe ALLOWED** (Caran d'Ache のため必須) / **Maki-e / 高級素材 source-only** (蒔絵/漆/作家名/Sterling Silver/Solid Gold 明記時のみ Title 上位) / **Title 前方優先順位** (固定列禁止) / ニブ太さ・材質 (18K M Nib 標準形)。BOOTLEG MUST 4層 (VERY HIGH 11: Montblanc/Pelikan/Pilot/Sailor/Platinum/Parker/Waterman/Sheaffer/Cross/Visconti/Aurora / IP-specific HIGH Vintage 4 / MEDIUM-HIGH 5: Lamy/Faber-Castell/Caran d'Ache/Yard-O-Led/Conway Stewart / MEDIUM)。Brand 33/Type 14/Nib 6+15 (ST 追加)/Filling 10/Era 11/Made In 6/Edition 10/Cap 4/Material 12/DEFECT 28/Accessory 9。CONDITION 2軸 (Functional: Writes Smoothly/Ink Flow Good/Hard Starting/Skipping/Filling Mechanism Working / Cosmetic: Mint〜Poor/Maki-e Chipping等)。E-02検察官レビュー PASS (HIGH 0/MEDIUM 1 spot-fix済 ST追加/LOW 1 spot-fix済 DEFECT カウント訂正)。",
+    "status": "passing",
+    "priority": 32,
     "phase": "V2.0.1 残 44",
     "group": "雑貨 H",
-    "bootleg": "MUST",
+    "bootleg": "BOOTLEG MUST 4層: VERY HIGH 11 / IP-specific HIGH Vintage 4 / MEDIUM-HIGH 5 / MEDIUM",
     "dependencies": [
       "F-tokei-v11-reference"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
-    "notes": "Master plan #34。prompt file: prompts/万年筆・筆記具.txt"
+    "updated_at": "2026-05-02T02:00:00+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-pens-c4.md",
+    "notes": "C4 Full Rewrite 完了 2026-05-02。prompt file: prompts/万年筆・筆記具.txt v23 (430行)。Library/PromptTemplates.gs version:44→23。IS_TAG_TO_CATEGORY 6件EN追加 (Fountain Pens/Ballpoint Pens/Mechanical Pencils/Roller Ball Pens/Calligraphy Pens/Multi-Pens)。**プロセス: child-a 容量不足のため C0 既存把握・C4 レポート・spot-fix を child-b/child-c に振り替えで完遂** (レコードと同パターン)。C0→GPT-5協議(HIGH 4反映)→C4 child-a実装→child-b レポート振り替え→親監査 PASS→E-02 child-c PASS→child-c spot-fix→deploy。"
   },
   {
     "id": "F-v201-35-pipe",

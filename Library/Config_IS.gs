@@ -4356,6 +4356,9 @@ IS_TAG_TO_CATEGORY['Audio Interface'] = 'Instruments'; IS_TAG_TO_CATEGORY['Studi
 IS_TAG_TO_CATEGORY['万年筆'] = 'Pens'; IS_TAG_TO_CATEGORY['ボールペン'] = 'Pens';
 IS_TAG_TO_CATEGORY['ペン'] = 'Pens'; IS_TAG_TO_CATEGORY['シャープペンシル'] = 'Pens';
 IS_TAG_TO_CATEGORY['筆記具'] = 'Pens'; IS_TAG_TO_CATEGORY['メカニカルペンシル'] = 'Pens';
+IS_TAG_TO_CATEGORY['Fountain Pens'] = 'Pens'; IS_TAG_TO_CATEGORY['Ballpoint Pens'] = 'Pens';
+IS_TAG_TO_CATEGORY['Mechanical Pencils'] = 'Pens'; IS_TAG_TO_CATEGORY['Roller Ball Pens'] = 'Pens';
+IS_TAG_TO_CATEGORY['Calligraphy Pens'] = 'Pens'; IS_TAG_TO_CATEGORY['Multi-Pens'] = 'Pens';
 
 // Wallets
 IS_TAG_TO_CATEGORY['財布'] = 'Wallets'; IS_TAG_TO_CATEGORY['長財布'] = 'Wallets';
