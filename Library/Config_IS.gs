@@ -844,6 +844,7 @@ var IS_INITIAL_DATA = [
   { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Theme',            field_type: 'optional',    priority: 11, notes: 'auto-injected: Anime & Manga' },
   { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Age Level',        field_type: 'recommended', priority: 12, notes: 'auto-injected: 17 Years & Up (CPSC compliance)' },
   { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Features',         field_type: 'optional',    priority: 13, notes: 'auto-injected: Collectors Edition' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Edition',          field_type: 'optional',    priority: 14, notes: 'Limited / DX / Special Color / Pearl / TWE / WonFes / Convention Exclusive' },
 
   // === Stamps ===
   { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Certification', field_type: 'required', priority: 1, notes: 'PCGS / NGC等' },
@@ -4557,6 +4558,17 @@ IS_TAG_TO_CATEGORY['洋書'] = 'Books & Magazines';
 // Figures（フィギュアをCollectiblesから上書き）
 IS_TAG_TO_CATEGORY['フィギュア'] = 'Figures'; IS_TAG_TO_CATEGORY['アクションフィギュア'] = 'Figures';
 IS_TAG_TO_CATEGORY['スタチュー'] = 'Figures';
+IS_TAG_TO_CATEGORY['Action Figures'] = 'Figures';
+IS_TAG_TO_CATEGORY['Collectible Figures & Bobbleheads'] = 'Figures';
+IS_TAG_TO_CATEGORY['Animation Figures & Statues'] = 'Figures';
+IS_TAG_TO_CATEGORY['Stuffed Animals & Plush'] = 'Dolls & Plush';
+IS_TAG_TO_CATEGORY['Models, Kits & Figures'] = 'Mecha Model Kits';
+IS_TAG_TO_CATEGORY['Anime Figures'] = 'Figures';
+IS_TAG_TO_CATEGORY['Scale Figure'] = 'Figures';
+IS_TAG_TO_CATEGORY['Nendoroid'] = 'Figures';
+IS_TAG_TO_CATEGORY['Plush'] = 'Dolls & Plush';
+IS_TAG_TO_CATEGORY['Garage Kit'] = 'Figures';
+IS_TAG_TO_CATEGORY['Trading Figure'] = 'Figures';
 
 // Stamps
 IS_TAG_TO_CATEGORY['切手'] = 'Stamps'; IS_TAG_TO_CATEGORY['記念切手'] = 'Stamps'; IS_TAG_TO_CATEGORY['普通切手'] = 'Stamps';

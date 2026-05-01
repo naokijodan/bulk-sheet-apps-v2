@@ -838,12 +838,12 @@ var IS_INITIAL_DATA = [
   { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Scale',            field_type: 'recommended', priority: 6,  notes: '1/6 / 1/7 / 1/8 / Non-scale' },
   { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Material',         field_type: 'recommended', priority: 7,  notes: 'PVC / ABS / Resin' },
   { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Series/Line',      field_type: 'recommended', priority: 8,  notes: 'Figma / Nendoroid / Pop Up Parade / S.H.Figuarts等' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Official/Bootleg', field_type: 'recommended', priority: 9,  notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Release Year',     field_type: 'recommended', priority: 10, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Country of Origin',field_type: 'recommended', priority: 11, notes: '' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Theme',            field_type: 'optional',    priority: 12, notes: 'auto-injected: Anime & Manga' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Age Level',        field_type: 'recommended', priority: 13, notes: 'auto-injected: 17 Years & Up (CPSC compliance)' },
-  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Features',         field_type: 'optional',    priority: 14, notes: 'auto-injected: Collectors Edition' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Release Year',     field_type: 'recommended', priority: 9,  notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Country of Origin',field_type: 'recommended', priority: 10, notes: '' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Theme',            field_type: 'optional',    priority: 11, notes: 'auto-injected: Anime & Manga' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Age Level',        field_type: 'recommended', priority: 12, notes: 'auto-injected: 17 Years & Up (CPSC compliance)' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Features',         field_type: 'optional',    priority: 13, notes: 'auto-injected: Collectors Edition' },
+  { category: 'Figures', tag_jp: 'フィギュア,アクションフィギュア,スタチュー', field_name: 'Edition',          field_type: 'optional',    priority: 14, notes: 'Limited / DX / Special Color / Pearl / TWE / WonFes / Convention Exclusive' },
 
   // === Stamps ===
   { category: 'Stamps', tag_jp: '切手,記念切手,普通切手', field_name: 'Certification', field_type: 'required', priority: 1, notes: 'PCGS / NGC等' },
@@ -4557,6 +4557,17 @@ IS_TAG_TO_CATEGORY['洋書'] = 'Books & Magazines';
 // Figures（フィギュアをCollectiblesから上書き）
 IS_TAG_TO_CATEGORY['フィギュア'] = 'Figures'; IS_TAG_TO_CATEGORY['アクションフィギュア'] = 'Figures';
 IS_TAG_TO_CATEGORY['スタチュー'] = 'Figures';
+IS_TAG_TO_CATEGORY['Action Figures'] = 'Figures';
+IS_TAG_TO_CATEGORY['Collectible Figures & Bobbleheads'] = 'Figures';
+IS_TAG_TO_CATEGORY['Animation Figures & Statues'] = 'Figures';
+IS_TAG_TO_CATEGORY['Stuffed Animals & Plush'] = 'Dolls & Plush';
+IS_TAG_TO_CATEGORY['Models, Kits & Figures'] = 'Mecha Model Kits';
+IS_TAG_TO_CATEGORY['Anime Figures'] = 'Figures';
+IS_TAG_TO_CATEGORY['Scale Figure'] = 'Figures';
+IS_TAG_TO_CATEGORY['Nendoroid'] = 'Figures';
+IS_TAG_TO_CATEGORY['Plush'] = 'Dolls & Plush';
+IS_TAG_TO_CATEGORY['Garage Kit'] = 'Figures';
+IS_TAG_TO_CATEGORY['Trading Figure'] = 'Figures';
 
 // Stamps
 IS_TAG_TO_CATEGORY['切手'] = 'Stamps'; IS_TAG_TO_CATEGORY['記念切手'] = 'Stamps'; IS_TAG_TO_CATEGORY['普通切手'] = 'Stamps';
@@ -5112,7 +5123,7 @@ var IS_CATEGORY_FIELDS = {
   'RC & Models': ['Listed By', 'Brand', 'Type', 'Scale', 'Vehicle Type', 'Model/Series', 'Power Type', 'Built Status', 'Country of Origin', 'Motor Type', '4WD/2WD', 'Year Manufactured', 'Features', 'Age Level'],
   'Manga': ['Listed By', 'Title', 'Author', 'Volume/Set', 'Format', 'Publisher', 'Language', 'Genre', 'Edition', 'Country of Origin', 'Theme', 'Publication Year', 'Features', 'Age Level'],
   'Anime': ['Listed By', 'Character', 'Franchise', 'Type', 'Official/Unofficial', 'Brand', 'Year', 'Country of Origin', 'TV Show', 'Theme', 'Edition', 'Features', 'Age Level', 'Material'],
-  'Figures': ['Listed By', 'Franchise', 'Character', 'Type', 'Brand', 'Scale', 'Material', 'Series/Line', 'Official/Bootleg', 'Release Year', 'Country of Origin', 'Theme', 'Age Level', 'Features'],
+  'Figures': ['Listed By', 'Franchise', 'Character', 'Type', 'Brand', 'Scale', 'Material', 'Series/Line', 'Release Year', 'Country of Origin', 'Theme', 'Age Level', 'Features', 'Edition'],
   'Stamps': [
     'Certification', 'Type', 'Year of Issue', 'Topic', 'Quality', 'Country of Origin',
     'Grade', 'Series', 'Denomination', 'Vintage', 'Number of Pieces',

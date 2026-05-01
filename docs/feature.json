@@ -1658,7 +1658,9 @@
     "status": "passing",
     "priority": 22,
     "phase": "V2.0.1 §4.4 patch",
-    "dependencies": ["F-figure-phase2-v49-redesign-2026-04-29"],
+    "dependencies": [
+      "F-figure-phase2-v49-redesign-2026-04-29"
+    ],
     "created_at": "2026-05-01T05:30:00+09:00",
     "updated_at": "2026-05-01T05:30:00+09:00",
     "last_sprint_contract": null,
@@ -1840,5 +1842,20 @@
     "updated_at": "2026-04-30T21:30:00Z",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-tools-power-c4.md",
     "notes": "Phase 1 (prompts/電動工具.txt 作成) + Phase 2 (6軸ファイル編集) 完了。E-02 レビュー待ち。git push / clasp push は E-02 + 椛島さん承認まで保留。 deploy 完了 (git push + clasp push)。"
+  },
+  {
+    "id": "F-figure-v51-redesign-2026-05-01",
+    "name": "フィギュア V2.0.1 v1.1 本格 Full Rewrite v51",
+    "description": "v50→v51: §3-§10 全観点 Full Rewrite — IS_TAG_TO_CATEGORY 11件追加、IS Edition field追加、弾薬庫充実(Brand29/Series30/Franchise35+/Character57+/Type17/Scale11/Edition17)、OUTPUT FORMAT 4lines、BOOTLEG/VERIFICATION diff=0",
+    "status": "in_progress",
+    "priority": 1,
+    "phase": "C4",
+    "dependencies": [
+      "F-figure-v50-fix-2026-05-01"
+    ],
+    "created_at": "2026-05-01T00:00:00+09:00",
+    "updated_at": "2026-05-01T00:00:00+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-figure-c4.md",
+    "notes": "child-a C4 直接実装"
   }
 ]
