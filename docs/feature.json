@@ -1366,21 +1366,21 @@
   },
   {
     "id": "F-amp-v201",
-    "name": "楽器_アンプ V2.0.1 — Phase 1B 完遂済み",
-    "description": "prompts/楽器_アンプ.txt が commit 986f040 (2026-04-16) で新規作成・V2.0.1 マーカー適用済み。",
+    "name": "楽器_アンプ V2.0.1 v1.1 Full Rewrite (v1.0→v23)",
+    "description": "prompts/楽器_アンプ.txt Full Rewrite v1.0(269行)→v23(538行)。PROMPT_DESIGN_PRINCIPLE §3-§10全観点。GPT-5協議反映(v2): Pro Audio (PA/Mixing Console/Stage Monitor)→楽器 prompt 境界確定 / CATEGORY ROUTING 内部分岐(Amp branch 38072/Pedal branch 181222) / TITLE順序(Brand→Model→Type→Wattage→Speaker→Tube→Country→Era) / Vintage Tweed/Plexi/Black Panel特殊扱い(authenticated禁止/with provenance source-only) / CONDITION 3系統分割 (Operational-Electronics/Cosmetic/Functional-Tube-Bypass) / POWER SPECIFICATION独立(step-down/step-up may be required) / Tube Type条件付きTitle / Impedance辞書 (4Ω/8Ω/16Ω)。BOOTLEG MUST 4層必須 (VERY HIGH 7: Marshall/Fender/Vox/Mesa Boogie/Orange/Roland/Yamaha / IP-specific HIGH Vintage 4: 50s Tweed Fender/60s Plexi Marshall/Black Panel Fender/VOX AC30 Vintage / MEDIUM-HIGH 6: Boss/EHX/Strymon/Eventide/Bogner/Friedman / MEDIUM)。Brand 53+/Type 38/Wattage 13/Speaker Size 9/Tube Type 9/Era 8/Vintage Era 8/Made In 8/Impedance/Edition 7/Accessory 10/DEFECT 35。IS_TAG_TO_CATEGORY 8件EN追加(両ファイル)。E-02検察官レビュー PASS (HIGH 0/MEDIUM 1 spot-fix済 Buzz追加/LOW 2)。",
     "status": "passing",
-    "priority": 52,
+    "priority": 28,
     "phase": "V2.0.1 追加",
     "group": "楽器",
-    "bootleg": "不要（C0 確認済み）",
+    "bootleg": "BOOTLEG MUST 4層必須: VERY HIGH 7 / IP-specific HIGH Vintage 4 / MEDIUM-HIGH 6 / ABSOLUTE BAN 10",
     "dependencies": [
       "F-tokei-v11-reference",
       "F-gakki-v201"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
-    "notes": "commit 986f040 (2026-04-16)。楽器.txt と同一コミットで新規作成済み。prompt file: prompts/楽器_アンプ.txt"
+    "updated_at": "2026-05-01T19:00:00+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-amp-c4.md",
+    "notes": "C4 Full Rewrite 完了 2026-05-01。prompt file: prompts/楽器_アンプ.txt v23 (538行)。Library/PromptTemplates.gs version:16→23。IS_TAG_TO_CATEGORY 8件EN追加(両ファイル)。Amp branch 38072 / Pedal branch 181222。PA/Stage Monitor/Mixing Console は楽器 prompt 担当（楽器 v23 で確定）。C0→GPT-5協議(HIGH 4/MEDIUM 4反映)→C4 child-a直接実装→親監査 PASS→E-02 child-c PASS→spot-fix(MEDIUM-1 Buzz CONDITION追加 / LOW-1 IS layered design 仕様確認 / LOW-2 Yamaha Brand配置整理)→deploy。"
   },
   {
     "id": "F-fishing-general-v201",

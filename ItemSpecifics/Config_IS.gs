@@ -4503,6 +4503,10 @@ IS_TAG_TO_CATEGORY['リバーブ'] = 'Effects & Amps'; IS_TAG_TO_CATEGORY['コ�
 IS_TAG_TO_CATEGORY['コンプレッサー'] = 'Effects & Amps'; IS_TAG_TO_CATEGORY['ワウ'] = 'Effects & Amps';
 IS_TAG_TO_CATEGORY['ルーパー'] = 'Effects & Amps'; IS_TAG_TO_CATEGORY['ブースター'] = 'Effects & Amps';
 IS_TAG_TO_CATEGORY['ギターアンプ'] = 'Effects & Amps'; IS_TAG_TO_CATEGORY['ベースアンプ'] = 'Effects & Amps';
+IS_TAG_TO_CATEGORY['Guitar Amplifiers'] = 'Effects & Amps'; IS_TAG_TO_CATEGORY['Bass Guitar Amplifiers'] = 'Effects & Amps';
+IS_TAG_TO_CATEGORY['Combo Amps'] = 'Effects & Amps'; IS_TAG_TO_CATEGORY['Amp Heads'] = 'Effects & Amps';
+IS_TAG_TO_CATEGORY['Speaker Cabinets'] = 'Effects & Amps'; IS_TAG_TO_CATEGORY['Effects Pedals'] = 'Effects & Amps';
+IS_TAG_TO_CATEGORY['Multi-Effects'] = 'Effects & Amps'; IS_TAG_TO_CATEGORY['Tube Amplifier'] = 'Effects & Amps';
 
 // Synths & Digital（Musical Instrumentsから上書き）
 IS_TAG_TO_CATEGORY['キーボード'] = 'Synths & Digital'; IS_TAG_TO_CATEGORY['シンセサイザー'] = 'Synths & Digital';
