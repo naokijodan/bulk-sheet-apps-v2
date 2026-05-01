@@ -1652,6 +1652,19 @@
     "notes": "commit b4e9638 push済 + clasp push --force済 (24 files). E-02 PASS_WITH_MINORS by child-c. minors: M-01 VERIFICATION L366 '40 chars' positional(low), M-02 NOS ERA配置のみ CONDITION TERMSなし(low), M-03 例示タイトル 'New'混入+61-67chars短め(low), M-04 ボニー CHARACTER DICT未収録(low), M-05 超サイヤ人 dict未収録(low). blockers 0."
   },
   {
+    "id": "F-figure-v50-fix-2026-05-01",
+    "name": "フィギュア v49→v50 §4.4.1 apostrophe 許可修正",
+    "description": "PROMPT_DESIGN_PRINCIPLE.md v1.1 §4.4.1 準拠。Forbidden symbols から ' (apostrophe) 削除。Demon's/Men's 等所有格に必要。L317 + L371 の2箇所修正。Library v49→v50 同期。",
+    "status": "passing",
+    "priority": 22,
+    "phase": "V2.0.1 §4.4 patch",
+    "dependencies": ["F-figure-phase2-v49-redesign-2026-04-29"],
+    "created_at": "2026-05-01T05:30:00+09:00",
+    "updated_at": "2026-05-01T05:30:00+09:00",
+    "last_sprint_contract": null,
+    "notes": "軽量修正 (Full Rewrite 不要)。L317 Forbidden symbols: \" ( ) [ ] + 所有格許可注記追加。L371 VERIFICATION item 10 同様修正。Library/PromptTemplates.gs v49→v50 Python readlines() 同期、192行維持、node PASS。"
+  },
+  {
     "id": "F-baseball-v47-redesign-2026-04-29",
     "name": "ベースボールカード V2.0.1 全面書き換え",
     "description": "PROMPT_DESIGN_PRINCIPLE.md v1.0 準拠。TITLE §4.2、BOOTLEG MUST (MLB Properties/MLBPA/NPB)、PLAYER DICT 30+154動的注入、BRAND DICT 14、SET DICT 47、TEAM DICT MLB30+NPB12、RARITY/PARALLEL全階層、GRADING PSA/BGS/SGC/CGC/BCCG、CONDITION TERMS TCG6段階、DEFECT MAPPING 27、ERA MARKER全時代、CATEGORY ROUTING 261328-261333。E-02 PASS_WITH_MINORS (blockers 0)。",

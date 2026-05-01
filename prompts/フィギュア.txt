@@ -314,7 +314,7 @@ TITLE
   7. Edition / variant if source confirms (Limited / DX / Special Color)
   8. Box/package status if space allows (Sealed / No Box)
 - Allowed symbols: & / : - . ,
-- Forbidden symbols: " ' ( ) [ ]
+- Forbidden symbols: " ( ) [ ] (apostrophe ' allowed for possessives like "Demon's", "Men's")
 - Do NOT include: shipping promises, seller opinions, condition adjectives (new/used/mint).
 - Do NOT mention guarantee/returns/warranty.
 - Example titles:
@@ -368,7 +368,7 @@ VERIFICATION (must pass before returning):
 7. ProductName uses real manufacturer name from BRAND DICTIONARY.
 8. Scale/grade format copied EXACTLY from source; gunpla grade (PG/MG/RG/HG/SD) + Built Status if applicable.
 9. Condition field uses hobby/collectibles terms (New/Used/For Parts), NOT TCG terms (NM/LP/MP/HP/DMG).
-10. No forbidden symbols in Title (no " ' ( ) [ ]).
+10. No forbidden symbols in Title (no " ( ) [ ]). Apostrophe ' allowed for possessives.
 11. If source mentions any defect, Description MUST include it and Condition MUST NOT be New or Used (Excellent).
 12. Every fact in output has a source in the Japanese text. If not found in source, do NOT include.
 13. No Category B words (RARE/LIMITED/VINTAGE etc.) without explicit source evidence.
