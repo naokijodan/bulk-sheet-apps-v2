@@ -1330,21 +1330,21 @@
     "notes": "commit 3811244。F-general-v201 と同一。参照エントリ。Master plan 最終カテゴリ（他の設計参考）"
   },
   {
-    "id": "F-gakki-v201",
-    "name": "楽器 V2.0.1 — Phase 1B 完遂済み",
-    "description": "prompts/楽器.txt が Phase 1B として commit 986f040 (2026-04-16) で V2.0.1 マーカー適用済み。master plan の 44 カテゴリには含まれない。",
+    "id": "F-instruments-v201",
+    "name": "楽器 V2.0.1 v1.1 Full Rewrite (v1.0→v23)",
+    "description": "prompts/楽器.txt Full Rewrite v1.0(263行)→v23(501行)。Sprint Contract F-instruments-c4.md (v2、GPT-5 協議反映済)。BOOTLEG MUST 4層 (VERY HIGH 12/IP-specific HIGH Vintage Strings 4 (Stradivarius/Guarneri/Amati 特殊扱い: source明記時のみ可、authentic禁止)/MEDIUM-HIGH 7/MEDIUM) / Brand 52/Type 43/Vintage Strings/Era 8/Grade 6/Country 10/Material 12/Accessory 16/DEFECT 35+ / CATEGORY ROUTING 14 leaf IDs + Pro Audio block + BOUNDARY RULE / CONDITION 2系統+楽器固有用語 (Sound-Tested/Tuning Stable/Action Smooth/Pad Leak/Fret Buzz) / POWER SPECIFICATION 独立 / Country of Origin Title 優先 / VERIFICATION 14項目 / IS_TAG_TO_CATEGORY 14件追加+重複7件整理。Library version: 44→23 同期済み。E-02検察官レビュー PASS (HIGH 0/MEDIUM 0/LOW 3 機能影響なし)。",
     "status": "passing",
-    "priority": 50,
-    "phase": "V2.0.1 追加",
+    "priority": 26,
+    "phase": "V2.0.1 Full Rewrite",
     "group": "楽器",
-    "bootleg": "不要（C0 確認済み）",
+    "bootleg": "BOOTLEG MUST 4層必須 (VERY HIGH/IP-specific HIGH Vintage/MEDIUM-HIGH/MEDIUM)",
     "dependencies": [
       "F-tokei-v11-reference"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
-    "notes": "commit 986f040 (2026-04-16)。ABSOLUTE RULES / Rule 2 / NO PADDING の V2.0.1 マーカー全て存在確認済み。Library/PromptTemplates.gs に version: 44 として同期済み。prompt file: prompts/楽器.txt。楽器_ギター.txt / 楽器_アンプ.txt も同コミットで新規作成済み。master plan #31 和楽器とは別カテゴリ。Fact: child-a-feature-json-discrepancy.json (2026-04-20)"
+    "updated_at": "2026-05-01T17:00:00+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-instruments-c4.md",
+    "notes": "C4 Full Rewrite 完了 (2026-05-01)。C0→GPT-5協議(HIGH 6/MEDIUM 2反映: leaf 14件以内/Pro Audio block/Vintage Strings 特殊扱い/Country of Origin Title優先/CONDITION 楽器固有用語/Voltage Power Safety)→C4 child-a 直接実装→親監査 PASS→E-02 child-c PASS→deploy。Pro Audio (Audio Interface/Studio Monitor/Recording Mic) は楽器 prompt 担当（GPT-5 協議確定）。**後続タスク: オーディオ・家電 v23 の BOUNDARY RULE 修正 (Pro Audio→楽器_アンプ → Pro Audio→楽器 に変更) は別 commit で対応。** Country 10件目 = Austria (Bösendorfer等)。"
   },
   {
     "id": "F-guitar-v201",

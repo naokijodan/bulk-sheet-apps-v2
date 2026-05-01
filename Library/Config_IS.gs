@@ -4335,14 +4335,20 @@ IS_TAG_TO_CATEGORY['ニット帽'] = 'Hats'; IS_TAG_TO_CATEGORY['ベレー帽'] 
 IS_TAG_TO_CATEGORY['パナマハット'] = 'Hats'; IS_TAG_TO_CATEGORY['キャスケット'] = 'Hats'; IS_TAG_TO_CATEGORY['ハンチング'] = 'Hats';
 IS_TAG_TO_CATEGORY['ダッドハット'] = 'Hats'; IS_TAG_TO_CATEGORY['サンバイザー'] = 'Hats';
 
-// Musical Instruments
-IS_TAG_TO_CATEGORY['楽器'] = 'Musical Instruments'; IS_TAG_TO_CATEGORY['ギター'] = 'Musical Instruments';
-IS_TAG_TO_CATEGORY['ベース'] = 'Musical Instruments'; IS_TAG_TO_CATEGORY['キーボード'] = 'Musical Instruments';
-IS_TAG_TO_CATEGORY['シンセサイザー'] = 'Musical Instruments'; IS_TAG_TO_CATEGORY['バイオリン'] = 'Musical Instruments';
+// Musical Instruments (JP tags — generic; specific overrides below)
+IS_TAG_TO_CATEGORY['楽器'] = 'Musical Instruments'; IS_TAG_TO_CATEGORY['バイオリン'] = 'Musical Instruments';
 IS_TAG_TO_CATEGORY['フルート'] = 'Musical Instruments'; IS_TAG_TO_CATEGORY['サックス'] = 'Musical Instruments';
 IS_TAG_TO_CATEGORY['トランペット'] = 'Musical Instruments'; IS_TAG_TO_CATEGORY['ドラム'] = 'Musical Instruments';
-IS_TAG_TO_CATEGORY['ウクレレ'] = 'Musical Instruments'; IS_TAG_TO_CATEGORY['ハーモニカ'] = 'Musical Instruments';
-IS_TAG_TO_CATEGORY['エフェクター'] = 'Musical Instruments'; IS_TAG_TO_CATEGORY['アンプ'] = 'Musical Instruments';
+IS_TAG_TO_CATEGORY['ハーモニカ'] = 'Musical Instruments';
+
+// Instruments (EN tags — 楽器 prompt leaf categories, 14 entries)
+IS_TAG_TO_CATEGORY['Pianos'] = 'Instruments'; IS_TAG_TO_CATEGORY['Upright Pianos'] = 'Instruments';
+IS_TAG_TO_CATEGORY['Grand Pianos'] = 'Instruments'; IS_TAG_TO_CATEGORY['Digital Pianos'] = 'Instruments';
+IS_TAG_TO_CATEGORY['Synthesizers'] = 'Instruments'; IS_TAG_TO_CATEGORY['Saxophones'] = 'Instruments';
+IS_TAG_TO_CATEGORY['Clarinets'] = 'Instruments'; IS_TAG_TO_CATEGORY['Flutes'] = 'Instruments';
+IS_TAG_TO_CATEGORY['Trumpets'] = 'Instruments'; IS_TAG_TO_CATEGORY['Violins'] = 'Instruments';
+IS_TAG_TO_CATEGORY['Cellos'] = 'Instruments'; IS_TAG_TO_CATEGORY['Drum Kits'] = 'Instruments';
+IS_TAG_TO_CATEGORY['Audio Interface'] = 'Instruments'; IS_TAG_TO_CATEGORY['Studio Monitor'] = 'Instruments';
 
 // Pens & Writing Instruments
 IS_TAG_TO_CATEGORY['万年筆'] = 'Pens'; IS_TAG_TO_CATEGORY['ボールペン'] = 'Pens';
