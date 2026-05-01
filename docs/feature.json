@@ -458,18 +458,18 @@
   },
   {
     "id": "F-records-v201",
-    "name": "レコード V2.0.1 Full Rewrite",
-    "description": "IDENTITY L1 復帰 + Rule 2 V2.0.1 + BOOTLEG 要検討 + R-3",
+    "name": "レコード V2.0.1 v1.1 Full Rewrite (v1.0→v23)",
+    "description": "prompts/レコード.txt Full Rewrite v1.0(168行)→v23(399行)。PROMPT_DESIGN_PRINCIPLE §3-§10全観点。GPT-5協議反映(v2): **Title 優先制 (固定順序ではない)** / **City Pop 推定禁止** (source 明記時のみ Title 上位、Artist 名だけで自動付与禁止) / **Goldmine 自動変換禁止** (「美品→NM」「並品→VG」のような自動変換禁止、source 明示時のみ) / **CD/カセット境界停止** (レコード prompt は Vinyl 専用、CD/カセットは別 prompt) / Vinyl Grading + Sleeve Condition 2 系統分離 / TCG terms 衝突回避 (Records use Goldmine, NOT TCG LP/MP/HP/DMG) / Promo・Test Pressing source 明記時のみ。BOOTLEG MUST 4層 (VERY HIGH 8: Sony Music/Warner/Universal/EMI/Toshiba EMI/CBS Sony/Victor/King Record / IP-specific HIGH Vintage / MEDIUM-HIGH 6 / MEDIUM)。ABSOLUTE BAN 12語 (Pirate/Unauthorized 追加)。Genre 25 (City Pop 含む) / Artist 50 (邦楽 City Pop 25+ + 洋楽 25+) / Label 25 / Format 13 + Audio Format 4 / Pressing 国 10 / Era 8 / Edition 11 / Vinyl Grading 8 (Goldmine) / Sleeve Condition / Obi 4 / Insert 5 / DEFECT 36+ (needle jump/spindle marks/writing on label/foxing/water damage 等含む)。IS Config 誤設定修正 (Format=required→recommended / Speed=recommended→optional / Inlay Condition・Case Type 追加)。E-02検察官レビュー PASS (HIGH 0/MEDIUM 3 spot-fix済 (Foxing追加・DEFECT拡充・ABSOLUTE BAN統一)/LOW 3 spot-fix済 (各カウント訂正))。",
     "status": "passing",
-    "priority": 99,
+    "priority": 31,
     "phase": "V2.0.1",
     "dependencies": [
       "F-tokei-v11-reference"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/RECORDS-V2.0.1-RESTRUCTURE.md",
-    "notes": "commit ad385d5、+68/-123、clasp push 済 (24 files)"
+    "updated_at": "2026-05-02T01:00:00+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-records-c4.md",
+    "notes": "C4 Full Rewrite 完了 2026-05-02。prompt file: prompts/レコード.txt v23 (399行)。Library/PromptTemplates.gs version:45→23。IS_TAG_TO_CATEGORY 6件EN追加 (Vinyl Records/LP Records/EP Records/45 RPM Singles/Picture Disc/Promo Vinyl)。**プロセス: child-a 容量不足のため C0 既存把握・C4 レポート・spot-fix を child-b/child-c に振り替えで完遂**。C0→GPT-5協議(HIGH 4反映)→C4 child-a実装→child-b レポート振り替え→親監査 PASS→E-02 child-c PASS→child-c spot-fix→deploy。"
   },
   {
     "id": "F-fishingrod-v201",

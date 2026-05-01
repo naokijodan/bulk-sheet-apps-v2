@@ -879,7 +879,7 @@ var IS_INITIAL_DATA = [
   { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Genre', field_type: 'recommended', priority: 3, notes: 'Rock / Jazz / Pop / Classical等' },
   { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Record Grading', field_type: 'recommended', priority: 4, notes: 'Mint / Near Mint / Very Good Plus等' },
   { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Record Label', field_type: 'recommended', priority: 5, notes: '' },
-  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Format', field_type: 'required', priority: 6, notes: 'LP / EP / Single / CD / Cassette' },
+  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Format', field_type: 'recommended', priority: 6, notes: 'LP / EP / Single / CD / Cassette' },
   { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Record Size', field_type: 'recommended', priority: 7, notes: '7" / 10" / 12"' },
   { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Release Year', field_type: 'recommended', priority: 8, notes: '' },
   { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Sleeve Grading', field_type: 'recommended', priority: 9, notes: '' },
@@ -887,10 +887,12 @@ var IS_INITIAL_DATA = [
   { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Material', field_type: 'recommended', priority: 11, notes: '' },
   { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Type', field_type: 'recommended', priority: 12, notes: '' },
   { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Color', field_type: 'recommended', priority: 13, notes: '' },
-  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Speed', field_type: 'recommended', priority: 14, notes: '33/45/78 RPM' },
+  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Speed', field_type: 'optional', priority: 14, notes: '33/45/78 RPM' },
   { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Edition', field_type: 'optional', priority: 15, notes: '' },
   { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Pressing Country', field_type: 'optional', priority: 16, notes: '' },
   { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Vintage', field_type: 'optional', priority: 17, notes: '' },
+  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Inlay Condition', field_type: 'optional', priority: 18, notes: 'Mint / Near Mint / VG+ / VG等' },
+  { category: 'Records', tag_jp: 'レコード,LP,EP,シングル,CD,カセット', field_name: 'Case Type', field_type: 'optional', priority: 19, notes: 'Cardboard Sleeve / Paper Sleeve / Plastic Slipcover' },
 
   // === Necklaces ===
   { category: 'Necklaces', tag_jp: 'ネックレス,ペンダント,チェーン', field_name: 'Style',          field_type: 'required',    priority:  1, notes: '' },
@@ -4611,6 +4613,9 @@ IS_TAG_TO_CATEGORY['メダル'] = 'Coins';
 IS_TAG_TO_CATEGORY['レコード'] = 'Records'; IS_TAG_TO_CATEGORY['LP'] = 'Records';
 IS_TAG_TO_CATEGORY['EP'] = 'Records'; IS_TAG_TO_CATEGORY['CD'] = 'Records';
 IS_TAG_TO_CATEGORY['カセット'] = 'Records';
+IS_TAG_TO_CATEGORY['Vinyl Records'] = 'Records'; IS_TAG_TO_CATEGORY['LP Records'] = 'Records';
+IS_TAG_TO_CATEGORY['EP Records'] = 'Records'; IS_TAG_TO_CATEGORY['45 RPM Singles'] = 'Records';
+IS_TAG_TO_CATEGORY['Picture Disc'] = 'Records'; IS_TAG_TO_CATEGORY['Promo Vinyl'] = 'Records';
 
 // ==============================
 // 交通整理（Sanitize）用 追加キーワード
