@@ -911,20 +911,20 @@
   },
   {
     "id": "F-v201-21-manga",
-    "name": "漫画 V2.0.1 Full Rewrite",
-    "description": "書籍 D グループ。BOOTLEG 要検討（海賊版リスク）。R-3。",
-    "status": "failing",
+    "name": "漫画 V2.0.1 Full Rewrite (v22→v23)",
+    "description": "書籍 D グループ。§3-§10 Full Rewrite (315→451行)。BOOTLEG MUST 3層階層化(VERY HIGH JP出版社7/IP-specific HIGH 4/MEDIUM-HIGH EN出版社6)。CATEGORY ROUTING 6 leaf (259109/259110/259111/144062/3984/29223)+境界ルール(Light Novel→書籍 prompt)。CONDITION TERMS 2系統分岐(Standard/Graded CGC-CBCS-PGX-PSA)。LANGUAGE VARIATIONS 3軸(Text Language/Translation Type/Publication Market)。Publisher 27/Series 60/Mangaka 47/Format 14/Grading 25段階/Era 8/Edition 8/DEFECT 33。E-02検察官レビュー PASS (HIGH 0/MEDIUM 2 spot-fix済/LOW 3 spot-fix済)。",
+    "status": "passing",
     "priority": 21,
     "phase": "V2.0.1 残 44",
     "group": "書籍 D",
-    "bootleg": "要検討",
+    "bootleg": "VERY HIGH (JP publishers) / IP-specific HIGH (Disney/TPCi/Nintendo/Ghibli) / MEDIUM-HIGH (EN publishers)",
     "dependencies": [
       "F-tokei-v11-reference"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
-    "notes": "Master plan #21。prompt file: prompts/漫画.txt"
+    "updated_at": "2026-05-01T15:00:00+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-manga-c4.md",
+    "notes": "Master plan #21。prompt file: prompts/漫画.txt v23 (451行)。C0→GPT-5協議→C4 child-a 実装→親監査 PASS→E-02 child-c PASS (HIGH 0/MEDIUM 2 spot-fix済/LOW 3 spot-fix済)→deploy。Light Novel 境界ルール明示で書籍 prompt との責務分離。"
   },
   {
     "id": "F-v201-22-kimono",

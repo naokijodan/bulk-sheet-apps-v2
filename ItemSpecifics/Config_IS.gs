@@ -4534,6 +4534,9 @@ IS_TAG_TO_CATEGORY['コミック'] = 'Manga'; IS_TAG_TO_CATEGORY['単行本'] = 
 IS_TAG_TO_CATEGORY['文庫本'] = 'Manga'; IS_TAG_TO_CATEGORY['全巻セット'] = 'Manga';
 IS_TAG_TO_CATEGORY['初版'] = 'Manga'; IS_TAG_TO_CATEGORY['同人誌'] = 'Manga';
 IS_TAG_TO_CATEGORY['画集'] = 'Manga';
+IS_TAG_TO_CATEGORY['Manga'] = 'Manga'; IS_TAG_TO_CATEGORY['Single Volumes'] = 'Manga';
+IS_TAG_TO_CATEGORY['Doujinshi'] = 'Manga'; IS_TAG_TO_CATEGORY['Manga Magazines'] = 'Manga';
+IS_TAG_TO_CATEGORY['Manga Boxset'] = 'Manga';
 
 // Anime Merchandise
 IS_TAG_TO_CATEGORY['アニメ'] = 'Anime'; IS_TAG_TO_CATEGORY['アニメグッズ'] = 'Anime';
