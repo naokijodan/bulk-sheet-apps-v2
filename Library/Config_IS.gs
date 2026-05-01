@@ -4491,6 +4491,9 @@ IS_TAG_TO_CATEGORY['ギター'] = 'Guitars'; IS_TAG_TO_CATEGORY['ベース'] = '
 IS_TAG_TO_CATEGORY['ウクレレ'] = 'Guitars'; IS_TAG_TO_CATEGORY['エレキギター'] = 'Guitars';
 IS_TAG_TO_CATEGORY['アコースティックギター'] = 'Guitars'; IS_TAG_TO_CATEGORY['クラシックギター'] = 'Guitars';
 IS_TAG_TO_CATEGORY['エレキベース'] = 'Guitars';
+IS_TAG_TO_CATEGORY['Electric Guitars'] = 'Guitars'; IS_TAG_TO_CATEGORY['Acoustic Guitars'] = 'Guitars';
+IS_TAG_TO_CATEGORY['Bass Guitars'] = 'Guitars'; IS_TAG_TO_CATEGORY['Classical Guitars'] = 'Guitars';
+IS_TAG_TO_CATEGORY['Ukuleles'] = 'Guitars'; IS_TAG_TO_CATEGORY['Mandolins'] = 'Guitars';
 
 // Effects & Amps（Musical Instrumentsから上書き）
 IS_TAG_TO_CATEGORY['エフェクター'] = 'Effects & Amps'; IS_TAG_TO_CATEGORY['アンプ'] = 'Effects & Amps';

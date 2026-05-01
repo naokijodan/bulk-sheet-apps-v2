@@ -1348,21 +1348,21 @@
   },
   {
     "id": "F-guitar-v201",
-    "name": "楽器_ギター V2.0.1 — Phase 1B 完遂済み",
-    "description": "prompts/楽器_ギター.txt が commit 986f040 (2026-04-16) で新規作成・V2.0.1 マーカー適用済み。",
+    "name": "楽器_ギター V2.0.1 v1.1 Full Rewrite (v1.0→v23)",
+    "description": "prompts/楽器_ギター.txt Full Rewrite v1.0(245行)→v23(513行)。PROMPT_DESIGN_PRINCIPLE §3-§10全観点。GPT-5協議反映(v2): Effects Pedals→楽器_アンプ境界 / Vintage Pre-CBS/Burst特殊扱い (authentic禁止/with provenance source-only) / CONDITION 3系統分割 (Operational-Electronics/Playability-Setup/Cosmetic-Structural) / Brand不明時Unbranded / Country of Origin Title優先 (Brand→Model→Type→Country→Year/Finish)。BOOTLEG MUST 4層必須 (VERY HIGH 7/IP-specific HIGH Vintage 2/MEDIUM-HIGH 3/MEDIUM)。Brand 56/Type 43/Body Material 11/Fretboard 7/Era 8/Made In 8/Vintage Era 10/Edition 8/Accessory 16/DEFECT 40。CATEGORY ROUTING: 33034 Electric/33021 Acoustic/4713 Bass/119544 Classical/Ukulele/Mandolin + Banjo/Lap Steel/Pedal Steel→Acoustic 33021。E-02 検察官レビュー PASS (HIGH 0/MEDIUM 3 spot-fix済/LOW 1 spot-fix済)。",
     "status": "passing",
-    "priority": 51,
+    "priority": 27,
     "phase": "V2.0.1 追加",
     "group": "楽器",
-    "bootleg": "不要（C0 確認済み）",
+    "bootleg": "BOOTLEG MUST 4層必須: VERY HIGH 7 / IP-specific HIGH Vintage 2 / MEDIUM-HIGH 3 / ABSOLUTE BAN 10",
     "dependencies": [
       "F-tokei-v11-reference",
       "F-gakki-v201"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
-    "notes": "commit 986f040 (2026-04-16)。楽器.txt と同一コミットで新規作成済み。prompt file: prompts/楽器_ギター.txt"
+    "updated_at": "2026-05-01T18:00:00+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-guitar-c4.md",
+    "notes": "C4 Full Rewrite 完了 2026-05-01。prompt file: prompts/楽器_ギター.txt v23 (513行)。Library/PromptTemplates.gs version:16→23。IS_TAG_TO_CATEGORY 6件EN追加(両ファイル)。C0→GPT-5協議(HIGH 4/MEDIUM 3反映)→C4 child-a直接実装→親監査 PASS→E-02 child-c PASS→spot-fix(MEDIUM-1 Banjo/Lap Steel routing追加 / MEDIUM-2 CONDITION Pot/Jack/Switch追加 / MEDIUM-3 MII/MIC/MIK Title優先 / LOW-1 TYPE件数訂正)→deploy。Effects Pedals は楽器_アンプ責務維持（既存 Config_IS.gs 整合）。"
   },
   {
     "id": "F-amp-v201",
