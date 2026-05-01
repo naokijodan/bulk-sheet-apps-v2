@@ -1210,20 +1210,20 @@
   },
   {
     "id": "F-v201-38-rc-model",
-    "name": "RC・模型 V2.0.1 Full Rewrite",
-    "description": "模型 I グループ。BOOTLEG MUST (Tamiya/Kyosho VeRO)。R-3。",
-    "status": "failing",
+    "name": "RC・模型 V2.0.1 v1.1 Full Rewrite (v1.0→v23)",
+    "description": "prompts/RC・模型.txt Full Rewrite v1.0(297行)→v23(502行)。PROMPT_DESIGN_PRINCIPLE §3-§10全観点。GPT-5協議反映(v2): **Gundam/Gunpla/HG/RG/MG/PG/SD/HGUC/プレバン/モビルスーツ → メカプラモ prompt 完全境界 STOP** / **Airsoft Gun/Pistol/Rifle 除外**(輸入規制リスク) / Build Status (Sealed/NIB/Unbuilt/Built/Painted/Weathered) Title 優先 / Vintage 70s-80s Tamiya/Hot Wheels Redline/Vintage Tomica MIJ/Vintage Kato 鉄道 特殊扱い (authentic禁止/source-only) / Train 弾薬拡張 (N/HO/Z Scale + Set/Car Number/Railway Company/Powered Car/Lights Tested) / LiPo disposal risk 警告 / Battery辞書 included-not included-degraded-charging untested。BOOTLEG MUST 4層 (VERY HIGH 8: Tamiya/Bandai非ガンプラ/Kyosho/Kato/Tomix/Hot Wheels/Tomica/Hasegawa / IP-specific HIGH Vintage 4 / MEDIUM-HIGH 6 / MEDIUM)。Brand 50/Type 40/Scale 15/Era 8/Made In 5/Edition 8/Battery 7/Build Status 7/DEFECT 32。CATEGORY ROUTING numeric ID + 境界。CONDITION 3系統 (Build Status/Functional/Cosmetic) + Power-On Confirmed単独禁止 + TCG terms禁止ガード。Library version: 47→23。E-02検察官レビュー PASS (HIGH 0/MEDIUM 0/LOW 0、issues 0件 — 完璧)。",
+    "status": "passing",
     "priority": 38,
     "phase": "V2.0.1 残 44",
     "group": "模型 I",
-    "bootleg": "MUST",
+    "bootleg": "BOOTLEG MUST 4層: VERY HIGH 8 / IP-specific HIGH Vintage 4 / MEDIUM-HIGH 6 / MEDIUM",
     "dependencies": [
       "F-tokei-v11-reference"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
-    "notes": "Master plan #38。prompt file: prompts/RC・模型.txt"
+    "updated_at": "2026-05-01T20:00:00+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-rc-c4.md",
+    "notes": "C4 Full Rewrite 完了 2026-05-01。prompt file: prompts/RC・模型.txt v23 (502行)。Library/PromptTemplates.gs version:47→23。IS_TAG_TO_CATEGORY 8件EN追加(両ファイル)。**Gundam/Gunpla 完全境界**（メカプラモ priority 30 担当、本契約スコープ外）。**Airsoft Gun 除外**（輸入規制リスク）。Hot Wheels/Tomica は本契約内同居、本格扱いは将来 Diecast 専用 prompt 分離検討。C0→GPT-5協議(HIGH 5/MEDIUM 4反映)→C4 child-a直接実装→親監査 PASS→E-02 child-c PASS (issues 0件)→deploy。spot-fix 不要 (E-02 完璧 PASS)。"
   },
   {
     "id": "F-v201-39-mecha",
