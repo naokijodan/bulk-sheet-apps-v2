@@ -964,21 +964,20 @@
   },
   {
     "id": "F-v201-24-sword",
-    "name": "日本刀 V2.0.1 Full Rewrite",
-    "description": "日本伝統 E グループ。BOOTLEG 不要。高額・認証重視。R-3。",
-    "status": "failing",
-    "priority": 24,
-    "phase": "V2.0.1 残 44",
+    "name": "日本刀 V2.0.1 v1.1 Full Rewrite (v44→v45)",
+    "description": "priority 33 日本刀 C4 Full Rewrite。Safety Classifier 最上流配置（CANNOT_LIST 6 / NEEDS_LEGAL_REVIEW / NEEDS_EVIDENCE / LISTABLE）。GPT-5 白紙批判 HIGH 8 / MEDIUM 4 / LOW 3 反映。Mei 表現辞書 6 段階（VERY HIGH 偽銘 Smith signed 禁止）。TYPE 11 / ERA 10 / SCHOOL 5 / AUTHENTICATION 11 / SMITHS 12 / DIMENSION 8 / FITTINGS 12 / MATERIAL 8 / DECORATION 5 / MILITARY VARIANTS 5 / DEFECT 31 / CONDITION 7。BOOTLEG MUST（映画 IP + 偽銘リスク階層）。IS_TAG_TO_CATEGORY 11 件追加。539 行。",
+    "status": "passing",
+    "priority": 33,
+    "phase": "V2.0.1 v1.1",
     "group": "日本伝統 E",
-    "bootleg": "不要",
+    "bootleg": "Safety Classifier + 偽銘リスク階層（VERY HIGH/HIGH/MEDIUM-HIGH）",
     "dependencies": [
-      "F-tokei-v11-reference",
-      "F-nihonningyo-v2-restructure"
+      "F-tokei-v11-reference"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
-    "notes": "Master plan #24。prompt file: prompts/日本刀.txt"
+    "updated_at": "2026-05-02T13:45:13+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260502-093617-a9f4e7c6/contracts/F-swords-c4.md",
+    "notes": "2026-05-02: priority 33 日本刀 V2.0.1 v1.1 Full Rewrite (v44→v45)、Safety Classifier 最上流配置、GPT-5 批判 HIGH 8/M 4/L 3 反映。child-a C4 実装完了、親監査 PASS、E-02 verdict FAIL → spot-fix MEDIUM 1/LOW 1 全修正、再親監査 PASS。Safety シナリオテスト 7/7 PASS。prompt file: prompts/日本刀.txt"
   },
   {
     "id": "F-v201-25-kakejiku",

@@ -4807,6 +4807,19 @@ IS_TAG_TO_CATEGORY['季節コレクション'] = 'Holiday & Seasonal Collectible
 IS_TAG_TO_CATEGORY['宗教コレクション'] = 'Religion & Spirituality Collectibles';
 IS_TAG_TO_CATEGORY['昭和レトロ'] = 'Other Collectibles';
 
+// Japanese Swords & Fittings (priority 33 — Safety Classifier required)
+IS_TAG_TO_CATEGORY['Japanese Sword'] = 'JapaneseSwords';
+IS_TAG_TO_CATEGORY['Katana'] = 'JapaneseSwords';
+IS_TAG_TO_CATEGORY['Wakizashi'] = 'JapaneseSwords';
+IS_TAG_TO_CATEGORY['Tanto'] = 'JapaneseSwords';
+IS_TAG_TO_CATEGORY['Tachi'] = 'JapaneseSwords';
+IS_TAG_TO_CATEGORY['Iaito'] = 'JapaneseSwords';
+IS_TAG_TO_CATEGORY['Replica Sword'] = 'JapaneseSwords';
+IS_TAG_TO_CATEGORY['Tsuba'] = 'JapaneseSwordFittings';
+IS_TAG_TO_CATEGORY['Menuki'] = 'JapaneseSwordFittings';
+IS_TAG_TO_CATEGORY['Kozuka'] = 'JapaneseSwordFittings';
+IS_TAG_TO_CATEGORY['Gunto'] = 'MilitariaJapanWWII';
+
 // ==============================
 // カテゴリ別 出力フィールド定義（5-8フィールド、順序固定）
 // ==============================
