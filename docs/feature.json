@@ -1891,13 +1891,13 @@
     "id": "F-v201-42-pc-peripheral",
     "name": "パソコン周辺機器 V2.0.1 Full Rewrite",
     "description": "PC 周辺機器カテゴリ。VeRO (Apple/Nintendo/Sony/Microsoft/Razer)、リチウム電池 Hazmat 三層開示、MODCHIP/CHEAT_FIRMWARE Gate、Storage Special Gate 実装。Translation-rules 104 行 → v1 Full Rewrite。",
-    "status": "in_progress",
+    "status": "passing",
     "priority": 42,
     "phase": "V2.0.1 残",
     "group": "雑貨",
     "dependencies": [],
     "created_at": "2026-05-03T00:00:00+09:00",
-    "updated_at": "2026-05-03T00:00:00+09:00",
+    "updated_at": "2026-05-03T03:10:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260502-093617-a9f4e7c6/contracts/F-pcperi-c4.md",
     "notes": "prompt file: prompts/パソコン周辺機器.txt。C0: HIGH 4/MEDIUM 4/LOW 3。C4: Full Rewrite 749 lines, Library BYTE-MATCH diff=0, IS_TAG 21 EN entries added."
   }
