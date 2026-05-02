@@ -4691,6 +4691,30 @@ IS_TAG_TO_CATEGORY['Plush'] = 'Dolls & Plush';
 IS_TAG_TO_CATEGORY['Garage Kit'] = 'Figures';
 IS_TAG_TO_CATEGORY['Trading Figure'] = 'Figures';
 
+
+// PC Peripherals & Computer Accessories
+IS_TAG_TO_CATEGORY['キーボード（PC）'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['メカニカルキーボード'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['マウス'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['トラックボール'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['ウェブカメラ'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['ヘッドホン'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['ヘッドセット'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['マイク'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['USBハブ'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['外付けHDD'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['外付けSSD'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['ドッキングステーション'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['ゲームコントローラー'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['ペンタブレット'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['液晶タブレット'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['モニター'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['ディスプレイ'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['USBメモリ'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['SDカード'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['マウスパッド'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['スピーカー'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['Keyboard'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Mechanical Keyboard'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Mouse'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['Trackball'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Trackpad'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Webcam'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['Headphones'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Headset'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Gaming Headset'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['Microphone'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['USB Microphone'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['USB Hub'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['External HDD'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['External SSD'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Portable HDD'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['Portable SSD'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Docking Station'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['USB-C Dock'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['Game Controller'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Gamepad'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Joystick'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['Racing Wheel'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Flight Stick'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Pen Tablet'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['Pen Display'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Graphics Tablet'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Monitor'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['USB Flash Drive'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['SD Card'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['MicroSD Card'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['Mouse Pad'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Gaming Mouse Pad'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Desk Mat'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['Capture Card'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Audio Interface'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Sound Card'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['KVM Switch'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Wi-Fi Adapter'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['NAS'] = 'PC Peripherals';
+IS_TAG_TO_CATEGORY['Speakers'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Desktop Speakers'] = 'PC Peripherals';
+
 // Stamps
 IS_TAG_TO_CATEGORY['切手'] = 'Stamps'; IS_TAG_TO_CATEGORY['記念切手'] = 'Stamps'; IS_TAG_TO_CATEGORY['普通切手'] = 'Stamps';
 
