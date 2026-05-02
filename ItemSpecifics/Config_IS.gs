@@ -4866,7 +4866,13 @@ IS_TAG_TO_CATEGORY['EX-word'] = 'Electronic Dictionaries'; IS_TAG_TO_CATEGORY['B
 IS_TAG_TO_CATEGORY['Pocketalk'] = 'Electronic Dictionaries'; IS_TAG_TO_CATEGORY['Pocket Translator'] = 'Electronic Dictionaries'; IS_TAG_TO_CATEGORY['翻訳機'] = 'Electronic Dictionaries';
 IS_TAG_TO_CATEGORY['Translator Pen'] = 'Electronic Dictionaries'; IS_TAG_TO_CATEGORY['ペン型翻訳機'] = 'Electronic Dictionaries';
 IS_TAG_TO_CATEGORY['Electronic Translator'] = 'Electronic Dictionaries'; IS_TAG_TO_CATEGORY['AI Translator'] = 'Electronic Dictionaries';
-IS_TAG_TO_CATEGORY['関数電卓'] = 'Scientific Calculators';
+// Scientific Calculators
+IS_TAG_TO_CATEGORY['関数電卓'] = 'Scientific Calculators'; IS_TAG_TO_CATEGORY['グラフ電卓'] = 'Scientific Calculators';
+IS_TAG_TO_CATEGORY['金融電卓'] = 'Scientific Calculators'; IS_TAG_TO_CATEGORY['印刷電卓'] = 'Scientific Calculators';
+IS_TAG_TO_CATEGORY['Scientific Calculator'] = 'Scientific Calculators'; IS_TAG_TO_CATEGORY['Graphing Calculator'] = 'Scientific Calculators';
+IS_TAG_TO_CATEGORY['Financial Calculator'] = 'Scientific Calculators'; IS_TAG_TO_CATEGORY['Printing Calculator'] = 'Scientific Calculators';
+IS_TAG_TO_CATEGORY['Programmable Calculator'] = 'Scientific Calculators'; IS_TAG_TO_CATEGORY['Basic Calculator'] = 'Scientific Calculators';
+IS_TAG_TO_CATEGORY['ClassWiz'] = 'Scientific Calculators'; IS_TAG_TO_CATEGORY['WriteView'] = 'Scientific Calculators';
 
 // Hand Tools
 IS_TAG_TO_CATEGORY['手工具'] = 'Hand Tools';

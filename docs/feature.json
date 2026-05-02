@@ -1928,5 +1928,19 @@
     "updated_at": "2026-05-03T04:13:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260502-093617-a9f4e7c6/contracts/F-edict-c4.md",
     "notes": "prompt file: prompts/電子辞書.txt。C0: HIGH 4/MEDIUM 5/LOW 3。C4: Full Rewrite 552 lines, Library BYTE-MATCH diff=0, IS_TAG 14 entries (Electronic Dictionaries) added."
+  },
+  {
+    "id": "F-v201-45-scientific-calc",
+    "name": "関数電卓 V2.0.1 Full Rewrite",
+    "description": "prompts/関数電卓.txt 130行 → v1 (713行) Full Rewrite。COUNTERFEIT_CALCULATOR/SWOLLEN_BATTERY/CONFIRMED_SPEC_MISREP/FORGED_CERT 4トリガー。EXAM_RESTRICTION_GATE新設（CAS電卓SAT/ACT禁止/NCEES/CFA承認モデル正開示）。Battery Gate USB充電Li-ionモデルのみUN 3481。DEFECT 25ペア。Brand辞書大幅拡充。Library single-quote format変換。IS_TAG 12タグ展開。",
+    "status": "in_progress",
+    "priority": 45,
+    "phase": "V2.0.1 残",
+    "group": "雑貨",
+    "dependencies": [],
+    "created_at": "2026-05-03T00:00:00+09:00",
+    "updated_at": "2026-05-03T00:00:00+09:00",
+    "last_sprint_contract": "contracts/F-calc-c4.md",
+    "notes": "C0完了: HIGH 4/MEDIUM 5/LOW 3。C4実装完了: 713行 v1 Full Rewrite。Library byte-match diff=0 (single-quote format変換)。IS_TAG 12タグ両Config_IS.gs MATCH。"
   }
 ]
