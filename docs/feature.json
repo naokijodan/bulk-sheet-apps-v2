@@ -1942,5 +1942,19 @@
     "updated_at": "2026-05-03T04:50:00+09:00",
     "last_sprint_contract": "contracts/F-calc-c4.md",
     "notes": "C0完了: HIGH 4/MEDIUM 5/LOW 3。C4実装完了: 713行 v1 Full Rewrite。Library byte-match diff=0 (single-quote format変換)。IS_TAG 12タグ両Config_IS.gs MATCH。"
+  },
+  {
+    "id": "F-v201-46-board-game",
+    "name": "ボードゲーム V2.0.1 Full Rewrite",
+    "description": "prompts/ボードゲーム.txt 173行 → v1 (662行) Full Rewrite。IVORY_PIECES/CITES_TORTOISESHELL/NATIONAL_CULTURAL_PROPERTY/CONFIRMED_COUNTERFEIT_GAME/CONFIRMED_SPEC_MISREPRESENTATION 5トリガー。SET_COMPLETENESS_GATE新設（Complete/Incomplete/For Parts）。LANGUAGE_DEPENDENCY_GATE新設。100年超将棋盤→priority 52振分注記。VeRO Tier 1: Nintendo/Hasbro/Mattel。EbayCategory 2550。Library {version:1,content:'...'}形式。IS_TAG 12タグ追加。",
+    "status": "in_progress",
+    "priority": 46,
+    "phase": "V2.0.1 残",
+    "group": "ボードゲーム",
+    "dependencies": [],
+    "created_at": "2026-05-03T00:00:00+09:00",
+    "updated_at": "2026-05-03T00:00:00+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260502-093617-a9f4e7c6/contracts/F-board-c4.md",
+    "notes": "新規追加: priority 46 ボードゲーム。IS_TAG 35タグ追加。SET_COMPLETENESS_GATE / LANGUAGE_DEPENDENCY_GATE 実装済み。"
   }
 ]

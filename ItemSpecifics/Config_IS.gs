@@ -4930,6 +4930,12 @@ IS_TAG_TO_CATEGORY['テーブルゲーム'] = 'Board Games';
 IS_TAG_TO_CATEGORY['チェス'] = 'Board Games'; IS_TAG_TO_CATEGORY['バックギャモン'] = 'Board Games';
 IS_TAG_TO_CATEGORY['オセロ'] = 'Board Games'; IS_TAG_TO_CATEGORY['リバーシ'] = 'Board Games';
 IS_TAG_TO_CATEGORY['ダーツ'] = 'Board Games';
+IS_TAG_TO_CATEGORY['花札'] = 'Board Games'; IS_TAG_TO_CATEGORY['百人一首'] = 'Board Games';
+IS_TAG_TO_CATEGORY['カルタ'] = 'Board Games'; IS_TAG_TO_CATEGORY['かるた'] = 'Board Games';
+IS_TAG_TO_CATEGORY['Shogi'] = 'Board Games'; IS_TAG_TO_CATEGORY['Go Game'] = 'Board Games';
+IS_TAG_TO_CATEGORY['Mahjong'] = 'Board Games'; IS_TAG_TO_CATEGORY['Hanafuda'] = 'Board Games';
+IS_TAG_TO_CATEGORY['Hyakunin Isshu'] = 'Board Games'; IS_TAG_TO_CATEGORY['Karuta'] = 'Board Games';
+IS_TAG_TO_CATEGORY['Board Game'] = 'Board Games'; IS_TAG_TO_CATEGORY['Tabletop Game'] = 'Board Games';
 
 IS_TAG_TO_CATEGORY['ディズニーアナ'] = 'Disneyana';
 IS_TAG_TO_CATEGORY['コカコーラグッズ'] = 'Coca-Cola Collectibles';
