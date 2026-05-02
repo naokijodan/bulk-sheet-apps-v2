@@ -4859,7 +4859,13 @@ IS_TAG_TO_CATEGORY['ルアータックル'] = 'Fishing Lures';
 
 IS_TAG_TO_CATEGORY['パソコン周辺機器'] = 'PC Peripherals';
 IS_TAG_TO_CATEGORY['パソコン本体'] = 'Computers';
-IS_TAG_TO_CATEGORY['電子辞書'] = 'Electronic Dictionaries';
+// Electronic Dictionary
+IS_TAG_TO_CATEGORY['電子辞書'] = 'Electronic Dictionaries'; IS_TAG_TO_CATEGORY['でんしじしょ'] = 'Electronic Dictionaries';
+IS_TAG_TO_CATEGORY['Electronic Dictionary'] = 'Electronic Dictionaries'; IS_TAG_TO_CATEGORY['Handheld Electronic Dictionary'] = 'Electronic Dictionaries';
+IS_TAG_TO_CATEGORY['EX-word'] = 'Electronic Dictionaries'; IS_TAG_TO_CATEGORY['Brain'] = 'Electronic Dictionaries'; IS_TAG_TO_CATEGORY['wordtank'] = 'Electronic Dictionaries';
+IS_TAG_TO_CATEGORY['Pocketalk'] = 'Electronic Dictionaries'; IS_TAG_TO_CATEGORY['Pocket Translator'] = 'Electronic Dictionaries'; IS_TAG_TO_CATEGORY['翻訳機'] = 'Electronic Dictionaries';
+IS_TAG_TO_CATEGORY['Translator Pen'] = 'Electronic Dictionaries'; IS_TAG_TO_CATEGORY['ペン型翻訳機'] = 'Electronic Dictionaries';
+IS_TAG_TO_CATEGORY['Electronic Translator'] = 'Electronic Dictionaries'; IS_TAG_TO_CATEGORY['AI Translator'] = 'Electronic Dictionaries';
 IS_TAG_TO_CATEGORY['関数電卓'] = 'Scientific Calculators';
 
 // Hand Tools
