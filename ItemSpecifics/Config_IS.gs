@@ -4402,6 +4402,11 @@ IS_TAG_TO_CATEGORY['Mixed Media'] = 'Art'; IS_TAG_TO_CATEGORY['Giclee'] = 'Art';
 // Kakejiku (掛軸)
 IS_TAG_TO_CATEGORY['掛軸'] = 'Kakejiku'; IS_TAG_TO_CATEGORY['掛け軸'] = 'Kakejiku';
 IS_TAG_TO_CATEGORY['床掛け'] = 'Kakejiku';
+IS_TAG_TO_CATEGORY['一行書'] = 'Kakejiku'; IS_TAG_TO_CATEGORY['双幅'] = 'Kakejiku'; IS_TAG_TO_CATEGORY['三幅対'] = 'Kakejiku';
+IS_TAG_TO_CATEGORY['茶掛'] = 'Kakejiku'; IS_TAG_TO_CATEGORY['茶軸'] = 'Kakejiku'; IS_TAG_TO_CATEGORY['禅画'] = 'Kakejiku';
+IS_TAG_TO_CATEGORY['花鳥画'] = 'Kakejiku'; IS_TAG_TO_CATEGORY['山水画'] = 'Kakejiku'; IS_TAG_TO_CATEGORY['人物画'] = 'Kakejiku';
+IS_TAG_TO_CATEGORY['仏画'] = 'Kakejiku'; IS_TAG_TO_CATEGORY['漢詩'] = 'Kakejiku';
+IS_TAG_TO_CATEGORY['Hanging Scroll'] = 'Kakejiku'; IS_TAG_TO_CATEGORY['Kakemono'] = 'Kakejiku'; IS_TAG_TO_CATEGORY['Zenga'] = 'Kakejiku';
 
 // Pottery & Ceramics（茶碗はDinnerwareから上書き: 陶器としての出品が主）
 IS_TAG_TO_CATEGORY['陶磁器'] = 'Pottery'; IS_TAG_TO_CATEGORY['陶器'] = 'Pottery';

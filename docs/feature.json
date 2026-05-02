@@ -983,7 +983,7 @@
     "id": "F-v201-25-kakejiku",
     "name": "掛軸 V2.0.1 Full Rewrite",
     "description": "日本伝統 E グループ。BOOTLEG 不要。ドメイン固有。R-3。",
-    "status": "failing",
+    "status": "in_progress",
     "priority": 25,
     "phase": "V2.0.1 残 44",
     "group": "日本伝統 E",
@@ -993,9 +993,9 @@
       "F-nihonningyo-v2-restructure"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
-    "notes": "Master plan #25。prompt file: prompts/掛軸.txt"
+    "updated_at": "2026-05-03T00:00:00+09:00",
+    "last_sprint_contract": "/Users/naokijodan/.tmux-harness/sessions/harness-20260502-093617-a9f4e7c6/contracts/F-kakejiku-c4.md",
+    "notes": "Master plan #25。prompt file: prompts/掛軸.txt。2026-05-03: child-a C4 Full Rewrite 241→720行 v1。Library sync byte-match diff=0、entries 70。IS_TAG 7行追加（一行書/双幅/三幅対/茶掛/茶軸/禅画/花鳥画/山水画/人物画/仏画/漢詩/Hanging Scroll/Kakemono/Zenga）。"
   },
   {
     "id": "F-v201-26-pottery",
