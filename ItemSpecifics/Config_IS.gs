@@ -4482,6 +4482,14 @@ IS_TAG_TO_CATEGORY['盆器'] = 'Bonsai'; IS_TAG_TO_CATEGORY['水石'] = 'Bonsai'
 IS_TAG_TO_CATEGORY['盆栽道具'] = 'Bonsai'; IS_TAG_TO_CATEGORY['盆栽ハサミ'] = 'Bonsai';
 IS_TAG_TO_CATEGORY['飾台'] = 'Bonsai'; IS_TAG_TO_CATEGORY['卓'] = 'Bonsai';
 IS_TAG_TO_CATEGORY['水盤'] = 'Bonsai';
+IS_TAG_TO_CATEGORY['Bonsai Pot'] = 'Bonsai'; IS_TAG_TO_CATEGORY['Bonsai Container'] = 'Bonsai';
+IS_TAG_TO_CATEGORY['Bonsai Scissors'] = 'Bonsai'; IS_TAG_TO_CATEGORY['Bonsai Shears'] = 'Bonsai';
+IS_TAG_TO_CATEGORY['Bonsai Wire'] = 'Bonsai'; IS_TAG_TO_CATEGORY['Bonsai Tools'] = 'Bonsai';
+IS_TAG_TO_CATEGORY['Suiseki'] = 'Bonsai'; IS_TAG_TO_CATEGORY['Viewing Stone'] = 'Bonsai';
+IS_TAG_TO_CATEGORY['Display Stone'] = 'Bonsai'; IS_TAG_TO_CATEGORY['Daiza'] = 'Bonsai';
+IS_TAG_TO_CATEGORY['Tokoname Pot'] = 'Bonsai'; IS_TAG_TO_CATEGORY['Bonsai Display Stand'] = 'Bonsai';
+IS_TAG_TO_CATEGORY['Concave Cutter'] = 'Bonsai'; IS_TAG_TO_CATEGORY['Jin Pliers'] = 'Bonsai';
+IS_TAG_TO_CATEGORY['Training Wire'] = 'Bonsai'; IS_TAG_TO_CATEGORY['Shoku'] = 'Bonsai';
 
 // Prints（浮世絵・版画・木版画・リトグラフをArtから上書き）
 IS_TAG_TO_CATEGORY['浮世絵'] = 'Prints'; IS_TAG_TO_CATEGORY['版画'] = 'Prints';
