@@ -452,9 +452,9 @@
       "F-tokei-v11-reference"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-05-01T16:00:00+09:00",
+    "updated_at": "2026-05-02T00:00:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-audio-c4.md",
-    "notes": "v23 Full Rewrite 2026-05-01。C0→GPT-5協議(HIGH 6/MEDIUM 3反映)→C4 child-a直接実装→親監査 PASS→E-02 child-c PASS→spot-fix(MEDIUM-1 Headphone 2軸分離 / LOW-1 TYPE header件数訂正 / LOW-2 U-matic削除)→deploy。VeRO ラベル正確化 (Confirmed Public Profile vs High Counterfeit Risk)。Power Specification を LANGUAGE から分離して独立セクション化。"
+    "notes": "v23 Full Rewrite 2026-05-01。C0→GPT-5協議(HIGH 6/MEDIUM 3反映)→C4 child-a直接実装→親監査 PASS→E-02 child-c PASS→spot-fix(MEDIUM-1 Headphone 2軸分離 / LOW-1 TYPE header件数訂正 / LOW-2 U-matic削除)→deploy。VeRO ラベル正確化 (Confirmed Public Profile vs High Counterfeit Risk)。Power Specification を LANGUAGE から分離して独立セクション化。2026-05-02: 整合性負債清算（Pro Audio 境界文言を「→ 楽器 prompt」に修正）— commit <pending>"
   },
   {
     "id": "F-records-v201",
@@ -1342,9 +1342,9 @@
       "F-tokei-v11-reference"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-05-01T17:00:00+09:00",
+    "updated_at": "2026-05-02T00:00:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-instruments-c4.md",
-    "notes": "C4 Full Rewrite 完了 (2026-05-01)。C0→GPT-5協議(HIGH 6/MEDIUM 2反映: leaf 14件以内/Pro Audio block/Vintage Strings 特殊扱い/Country of Origin Title優先/CONDITION 楽器固有用語/Voltage Power Safety)→C4 child-a 直接実装→親監査 PASS→E-02 child-c PASS→deploy。Pro Audio (Audio Interface/Studio Monitor/Recording Mic) は楽器 prompt 担当（GPT-5 協議確定）。**後続タスク: オーディオ・家電 v23 の BOUNDARY RULE 修正 (Pro Audio→楽器_アンプ → Pro Audio→楽器 に変更) は別 commit で対応。** Country 10件目 = Austria (Bösendorfer等)。"
+    "notes": "C4 Full Rewrite 完了 (2026-05-01)。C0→GPT-5協議(HIGH 6/MEDIUM 2反映: leaf 14件以内/Pro Audio block/Vintage Strings 特殊扱い/Country of Origin Title優先/CONDITION 楽器固有用語/Voltage Power Safety)→C4 child-a 直接実装→親監査 PASS→E-02 child-c PASS→deploy。Pro Audio (Audio Interface/Studio Monitor/Recording Mic) は楽器 prompt 担当（GPT-5 協議確定）。**後続タスク: オーディオ・家電 v23 の BOUNDARY RULE 修正 (Pro Audio→楽器_アンプ → Pro Audio→楽器 に変更) は別 commit で対応。** Country 10件目 = Austria (Bösendorfer等)。2026-05-02: 整合性負債清算（Country dict に Mexico 追加 11 件化、Pro Audio 境界文言修正）— commit <pending>"
   },
   {
     "id": "F-guitar-v201",
