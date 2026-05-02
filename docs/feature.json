@@ -514,9 +514,9 @@
       "F-knife-v10-refactor"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/KNIFE-V2.0.1-RESTRUCTURE.md",
-    "notes": "commit f9639d4、92→98行(+6)、Library 包丁 v38→v39、clasp push 済。10th V2.0.1 implementation。Master plan #42 対応カテゴリ（passing済）"
+    "updated_at": "2026-05-02T19:01:23+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260502-093617-a9f4e7c6/contracts/F-houcho-c4.md",
+    "notes": "prompts/包丁.txt v39→v40 (98→663行). Library/PromptTemplates.gs 包丁 v39→v40, byte-match diff=0 PASS. IS_TAG_TO_CATEGORY: Hocho / Japanese Kitchen Knife / Yanagiba / Deba / Usuba / Gyuto / Santoku / Nakiri / Sashimi Knife / Sushi Knife / Kiritsuke / Bunka / Petty Knife / Wa-Bocho / Honyaki / Kasumi Knife 追加 (両Config_IS.gs MATCH=True). 13 sections: Safety/Marketplace Gate 4値 / Brand B1-B6 / Function-Condition Gate / Evidence Gate / Honyaki-Kasumi-Lamination hierarchy / Category Routing 177005 / Title Ammunition / BOOTLEG MUST 12 + COUNTERFEIT_RISK_BRAND / Defect Mapping / Condition Terms / Marketplace-Shipping Rules / Output Format 6 fields / Verification 25 items. Sprint Contract F-houcho-c4 全受け入れ基準達成. / 2026-05-02: priority 38 V2.0.1 v1.1 Full Rewrite v39→v40、Safety/Marketplace Gate + Brand B1-B6、E-02 PASS spot-fix LOW 2 後、Safety シナリオ 10/10。"
   },
   {
     "id": "F-v201-01-pokeka",
@@ -1290,9 +1290,9 @@
       "F-tokei-v11-reference"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260418-121702/contracts/KNIFE-V2.0.1-RESTRUCTURE.md",
-    "notes": "commit f9639d4。F-knife-v201 と同一。参照エントリ。"
+    "updated_at": "2026-05-02T19:01:23+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260502-093617-a9f4e7c6/contracts/F-houcho-c4.md",
+    "notes": "prompts/包丁.txt v39→v40 (98→663行). Library/PromptTemplates.gs 包丁 v39→v40, byte-match diff=0 PASS. IS_TAG_TO_CATEGORY: Hocho / Japanese Kitchen Knife / Yanagiba / Deba / Usuba / Gyuto / Santoku / Nakiri / Sashimi Knife / Sushi Knife / Kiritsuke / Bunka / Petty Knife / Wa-Bocho / Honyaki / Kasumi Knife 追加 (両Config_IS.gs MATCH=True). 13 sections: Safety/Marketplace Gate 4値 / Brand B1-B6 / Function-Condition Gate / Evidence Gate / Honyaki-Kasumi-Lamination hierarchy / Category Routing 177005 / Title Ammunition / BOOTLEG MUST 12 + COUNTERFEIT_RISK_BRAND / Defect Mapping / Condition Terms / Marketplace-Shipping Rules / Output Format 6 fields / Verification 25 items. Sprint Contract F-houcho-c4 全受け入れ基準達成. / 2026-05-02: priority 38 V2.0.1 v1.1 Full Rewrite v39→v40、Safety/Marketplace Gate + Brand B1-B6、E-02 PASS spot-fix LOW 2 後、Safety シナリオ 10/10。"
   },
   {
     "id": "F-v201-43-baseball",

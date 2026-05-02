@@ -4517,6 +4517,14 @@ IS_TAG_TO_CATEGORY['刺身包丁'] = 'Kitchen Knives'; IS_TAG_TO_CATEGORY['柳�
 IS_TAG_TO_CATEGORY['三徳包丁'] = 'Kitchen Knives'; IS_TAG_TO_CATEGORY['牛刀'] = 'Kitchen Knives';
 IS_TAG_TO_CATEGORY['菜切包丁'] = 'Kitchen Knives'; IS_TAG_TO_CATEGORY['ペティナイフ'] = 'Kitchen Knives';
 IS_TAG_TO_CATEGORY['和包丁'] = 'Kitchen Knives'; IS_TAG_TO_CATEGORY['薄刃包丁'] = 'Kitchen Knives';
+IS_TAG_TO_CATEGORY['Hocho'] = 'Kitchen Knives'; IS_TAG_TO_CATEGORY['Japanese Kitchen Knife'] = 'Kitchen Knives';
+IS_TAG_TO_CATEGORY['Yanagiba'] = 'Kitchen Knives'; IS_TAG_TO_CATEGORY['Deba'] = 'Kitchen Knives';
+IS_TAG_TO_CATEGORY['Usuba'] = 'Kitchen Knives'; IS_TAG_TO_CATEGORY['Gyuto'] = 'Kitchen Knives';
+IS_TAG_TO_CATEGORY['Santoku'] = 'Kitchen Knives'; IS_TAG_TO_CATEGORY['Nakiri'] = 'Kitchen Knives';
+IS_TAG_TO_CATEGORY['Sashimi Knife'] = 'Kitchen Knives'; IS_TAG_TO_CATEGORY['Sushi Knife'] = 'Kitchen Knives';
+IS_TAG_TO_CATEGORY['Kiritsuke'] = 'Kitchen Knives'; IS_TAG_TO_CATEGORY['Bunka'] = 'Kitchen Knives';
+IS_TAG_TO_CATEGORY['Petty Knife'] = 'Kitchen Knives'; IS_TAG_TO_CATEGORY['Wa-Bocho'] = 'Kitchen Knives';
+IS_TAG_TO_CATEGORY['Honyaki'] = 'Kitchen Knives'; IS_TAG_TO_CATEGORY['Kasumi Knife'] = 'Kitchen Knives';
 
 // Golf
 IS_TAG_TO_CATEGORY['ゴルフ'] = 'Golf'; IS_TAG_TO_CATEGORY['ゴルフクラブ'] = 'Golf';
