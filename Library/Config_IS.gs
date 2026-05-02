@@ -4525,6 +4525,16 @@ IS_TAG_TO_CATEGORY['木版画'] = 'Prints'; IS_TAG_TO_CATEGORY['リトグラフ'
 IS_TAG_TO_CATEGORY['シルクスクリーン'] = 'Prints'; IS_TAG_TO_CATEGORY['エッチング'] = 'Prints';
 IS_TAG_TO_CATEGORY['銅版画'] = 'Prints'; IS_TAG_TO_CATEGORY['新版画'] = 'Prints';
 IS_TAG_TO_CATEGORY['創作版画'] = 'Prints';
+IS_TAG_TO_CATEGORY['メゾチント'] = 'Prints'; IS_TAG_TO_CATEGORY['アクアチント'] = 'Prints';
+IS_TAG_TO_CATEGORY['ドライポイント'] = 'Prints'; IS_TAG_TO_CATEGORY['リノカット'] = 'Prints';
+IS_TAG_TO_CATEGORY['ジクレー'] = 'Prints'; IS_TAG_TO_CATEGORY['石版画'] = 'Prints';
+IS_TAG_TO_CATEGORY['木口木版'] = 'Prints'; IS_TAG_TO_CATEGORY['Ukiyo-e'] = 'Prints';
+IS_TAG_TO_CATEGORY['Woodblock Print'] = 'Prints'; IS_TAG_TO_CATEGORY['Lithograph'] = 'Prints';
+IS_TAG_TO_CATEGORY['Etching'] = 'Prints'; IS_TAG_TO_CATEGORY['Silkscreen'] = 'Prints';
+IS_TAG_TO_CATEGORY['Mezzotint'] = 'Prints'; IS_TAG_TO_CATEGORY['Aquatint'] = 'Prints';
+IS_TAG_TO_CATEGORY['Drypoint'] = 'Prints'; IS_TAG_TO_CATEGORY['Linocut'] = 'Prints';
+IS_TAG_TO_CATEGORY['Giclee'] = 'Prints'; IS_TAG_TO_CATEGORY['Engraving'] = 'Prints';
+IS_TAG_TO_CATEGORY['Shin-hanga'] = 'Prints'; IS_TAG_TO_CATEGORY['Sosaku-hanga'] = 'Prints';
 
 // Buddhist Art
 IS_TAG_TO_CATEGORY['仏像'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['仏具'] = 'Buddhist Art';

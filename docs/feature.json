@@ -1123,7 +1123,7 @@
     "id": "F-v201-32-hanga",
     "name": "版画 V2.0.1 Full Rewrite",
     "description": "アート F グループ。BOOTLEG 要検討（偽作リスク）。R-3 (ANTIQUE)。",
-    "status": "failing",
+    "status": "passing",
     "priority": 32,
     "phase": "V2.0.1 残 44",
     "group": "アート F",
@@ -1133,8 +1133,8 @@
       "F-nihonningyo-v2-restructure"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
+    "updated_at": "2026-05-03T08:20:00+09:00",
+    "last_sprint_contract": "contracts/F-hanga-c4.md",
     "notes": "Master plan #32。prompt file: prompts/版画.txt"
   },
   {
