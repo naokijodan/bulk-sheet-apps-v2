@@ -4714,6 +4714,21 @@ IS_TAG_TO_CATEGORY['Capture Card'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Audio
 IS_TAG_TO_CATEGORY['KVM Switch'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Wi-Fi Adapter'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['NAS'] = 'PC Peripherals';
 IS_TAG_TO_CATEGORY['Speakers'] = 'PC Peripherals'; IS_TAG_TO_CATEGORY['Desktop Speakers'] = 'PC Peripherals';
 
+// PC Body (Laptops)
+IS_TAG_TO_CATEGORY['ノートパソコン'] = 'Laptops'; IS_TAG_TO_CATEGORY['ノートPC'] = 'Laptops'; IS_TAG_TO_CATEGORY['ラップトップ'] = 'Laptops';
+IS_TAG_TO_CATEGORY['Laptop'] = 'Laptops'; IS_TAG_TO_CATEGORY['Notebook'] = 'Laptops'; IS_TAG_TO_CATEGORY['Ultrabook'] = 'Laptops';
+IS_TAG_TO_CATEGORY['2-in-1 Convertible'] = 'Laptops'; IS_TAG_TO_CATEGORY['Detachable 2-in-1'] = 'Laptops';
+IS_TAG_TO_CATEGORY['Chromebook'] = 'Laptops'; IS_TAG_TO_CATEGORY['Mac Laptop'] = 'Laptops'; IS_TAG_TO_CATEGORY['Gaming Laptop'] = 'Laptops';
+IS_TAG_TO_CATEGORY['MacBook Pro'] = 'Laptops'; IS_TAG_TO_CATEGORY['MacBook Air'] = 'Laptops';
+
+// PC Body (Desktops)
+IS_TAG_TO_CATEGORY['デスクトップPC'] = 'Desktops'; IS_TAG_TO_CATEGORY['デスクトップパソコン'] = 'Desktops'; IS_TAG_TO_CATEGORY['一体型PC'] = 'Desktops';
+IS_TAG_TO_CATEGORY['ミニPC'] = 'Desktops'; IS_TAG_TO_CATEGORY['ゲーミングPC'] = 'Desktops'; IS_TAG_TO_CATEGORY['自作PC'] = 'Desktops';
+IS_TAG_TO_CATEGORY['Desktop PC'] = 'Desktops'; IS_TAG_TO_CATEGORY['Desktop'] = 'Desktops'; IS_TAG_TO_CATEGORY['Mini PC'] = 'Desktops';
+IS_TAG_TO_CATEGORY['All-in-One PC'] = 'Desktops'; IS_TAG_TO_CATEGORY['Mac Desktop'] = 'Desktops'; IS_TAG_TO_CATEGORY['Gaming Desktop'] = 'Desktops';
+IS_TAG_TO_CATEGORY['Workstation'] = 'Desktops'; IS_TAG_TO_CATEGORY['Custom Desktop PC'] = 'Desktops'; IS_TAG_TO_CATEGORY['Mac Workstation'] = 'Desktops';
+IS_TAG_TO_CATEGORY['Mac mini'] = 'Desktops'; IS_TAG_TO_CATEGORY['iMac'] = 'Desktops'; IS_TAG_TO_CATEGORY['Mac Studio'] = 'Desktops';
+
 // Stamps
 IS_TAG_TO_CATEGORY['切手'] = 'Stamps'; IS_TAG_TO_CATEGORY['記念切手'] = 'Stamps'; IS_TAG_TO_CATEGORY['普通切手'] = 'Stamps';
 
