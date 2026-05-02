@@ -1091,7 +1091,7 @@
     "id": "F-v201-31-wagakki",
     "name": "和楽器 V2.0.1 Full Rewrite",
     "description": "日本伝統 E グループ。BOOTLEG 不要。ドメイン固有。R-3。",
-    "status": "failing",
+    "status": "in_progress",
     "priority": 31,
     "phase": "V2.0.1 残 44",
     "group": "日本伝統 E",
@@ -1100,9 +1100,9 @@
       "F-tokei-v11-reference"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
-    "notes": "Master plan #31。prompt file: prompts/和楽器.txt。楽器.txt/楽器_ギター.txt/楽器_アンプ.txt は別カテゴリ（Section D参照）"
+    "updated_at": "2026-05-03T00:00:00Z",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260502-093617-a9f4e7c6/contracts/F-wagakki-c4.md",
+    "notes": "C4 Full Rewrite started: child-a implementing v45 (638 lines, 19 sections)"
   },
   {
     "id": "F-v201-32-hanga",

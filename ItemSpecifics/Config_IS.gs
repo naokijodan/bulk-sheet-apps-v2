@@ -4546,6 +4546,12 @@ IS_TAG_TO_CATEGORY['琴'] = 'Japanese Instruments'; IS_TAG_TO_CATEGORY['篠笛']
 IS_TAG_TO_CATEGORY['太鼓'] = 'Japanese Instruments'; IS_TAG_TO_CATEGORY['和太鼓'] = 'Japanese Instruments';
 IS_TAG_TO_CATEGORY['琵琶'] = 'Japanese Instruments'; IS_TAG_TO_CATEGORY['鼓'] = 'Japanese Instruments';
 IS_TAG_TO_CATEGORY['和楽器'] = 'Japanese Instruments'; IS_TAG_TO_CATEGORY['雅楽'] = 'Japanese Instruments';
+IS_TAG_TO_CATEGORY['Shamisen'] = 'Japanese Instruments'; IS_TAG_TO_CATEGORY['Koto'] = 'Japanese Instruments';
+IS_TAG_TO_CATEGORY['Shakuhachi'] = 'Japanese Instruments'; IS_TAG_TO_CATEGORY['Taiko'] = 'Japanese Instruments';
+IS_TAG_TO_CATEGORY['Sanshin'] = 'Japanese Instruments'; IS_TAG_TO_CATEGORY['Biwa'] = 'Japanese Instruments';
+IS_TAG_TO_CATEGORY['Sho'] = 'Japanese Instruments'; IS_TAG_TO_CATEGORY['Nohkan'] = 'Japanese Instruments';
+IS_TAG_TO_CATEGORY['Shinobue'] = 'Japanese Instruments'; IS_TAG_TO_CATEGORY['Tsuzumi'] = 'Japanese Instruments';
+IS_TAG_TO_CATEGORY['Taisho Koto'] = 'Japanese Instruments'; IS_TAG_TO_CATEGORY['Wagakki'] = 'Japanese Instruments';
 
 // Guitars（Musical Instrumentsから上書き）
 IS_TAG_TO_CATEGORY['ギター'] = 'Guitars'; IS_TAG_TO_CATEGORY['ベース'] = 'Guitars';

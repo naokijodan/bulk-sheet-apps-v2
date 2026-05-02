@@ -1,13 +1,39 @@
 # 一括シートV3 開発ルール
 
+---
+
+## 【最重要・絶対基準】設計判断は PROMPT_DESIGN_PRINCIPLE.md のみ
+
+**プロンプト改修・TITLE 文字数・CONDITION TERMS・VERIFICATION 項目数・MISSING ACCESSORIES 項目数等の設計判断は、必ず [`docs/PROMPT_DESIGN_PRINCIPLE.md`](docs/PROMPT_DESIGN_PRINCIPLE.md) (v1.0) を参照すること。**
+
+### 引用してはならない（退化の元）
+- 過去のノート・コミットメッセージ・削除済み Sprint Contract に書かれた以下の記述:
+  - 「TITLE 68-75 文字統一」
+  - 「6段階 CONDITION TERMS NM/LP/MP/HP/DMG 統一」
+  - 「VERIFICATION 16項目」
+  - 「MISSING ACCESSORIES 8項目」
+  - 「CATEGORY RULE 7-path」
+  - 「target XX-YY」「下限 XX」等の数値固定
+- Obsidian ノート（`一括シートV3_*.md`）内の数値設計記述
+
+### プロンプトに書く数値は「80」のみ
+- 80 = eBay TITLE 上限（システム制限、Fact）
+- それ以外（68 / 75 / 40 / 6段階 / 16項目 等）は **書かない**
+- 数値ではなく **理由（なぜそうするか）** をプロンプトに書く
+
+### 「探してきて」で AI が古い設計を見つけたら
+それは退化の元。**`docs/PROMPT_DESIGN_PRINCIPLE.md` のみが根源基準**。それ以外の数値固定記述は無視・採用しない。
+
+---
+
 ## 最重要ルール：推測禁止・事実確認必須
 
 **開発ログや実際のコードを確認せずに、セル番地・機能仕様・設定値などを推測で発言することは禁止。**
 
 必ず以下を確認してから発言すること：
-1. `~/Desktop/開発ログ/V3開発ログ/` 内の関連ログファイル
+1. `~/Desktop/開発ログ/V3開発ログ/` 内の関連ログファイル（**ただし設計基準は PROMPT_DESIGN_PRINCIPLE.md を優先**）
 2. 実際のコード（.gsファイル、.txtファイル）
-3. Obsidianの開発ログ
+3. Obsidianの開発ログ（**ただし設計基準は PROMPT_DESIGN_PRINCIPLE.md を優先**）
 
 **やってはいけないこと：**
 - 「AB2, AC2に固定値が入る」など、確認せずにセル番地を言う
