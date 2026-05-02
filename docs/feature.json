@@ -1105,6 +1105,21 @@
     "notes": "C4 Full Rewrite started: child-a implementing v45 (638 lines, 19 sections)"
   },
   {
+    "id": "F-v201-40-doll-fullrewrite",
+    "name": "日本人形 V2.0.1 v1.1 Full Rewrite",
+    "description": "勧告 §12 priority 40。SAFETY CLASSIFIER (CITES Ivory/Bekko/Cultural Property) + BLOCKED_UNTIL_AUTHENTICATED LNT + Set Completeness + Per-Component CITES + Brand Risk Tier",
+    "status": "in_progress",
+    "priority": 40,
+    "phase": "V2.0.1 残 44",
+    "group": "日本伝統 E",
+    "bootleg": "改名 AUTHENTICITY_CLAIMS",
+    "dependencies": [],
+    "created_at": "2026-05-03T00:00:00Z",
+    "updated_at": "2026-05-03T00:00:00Z",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260502-093617-a9f4e7c6/contracts/F-doll-c4.md",
+    "notes": "C4 Full Rewrite complete: child-a v1 (660 lines, 21 sections). Library sync BYTE-MATCH diff=0. IS_TAG 12 English entries added."
+  },
+  {
     "id": "F-v201-32-hanga",
     "name": "版画 V2.0.1 Full Rewrite",
     "description": "アート F グループ。BOOTLEG 要検討（偽作リスク）。R-3 (ANTIQUE)。",

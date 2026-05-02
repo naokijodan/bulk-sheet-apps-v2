@@ -4328,6 +4328,17 @@ IS_TAG_TO_CATEGORY['達磨'] = 'Japanese Dolls';
 IS_TAG_TO_CATEGORY['招き猫'] = 'Japanese Dolls';
 IS_TAG_TO_CATEGORY['まねきねこ'] = 'Japanese Dolls';
 IS_TAG_TO_CATEGORY['招福猫'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['Hina Ningyo'] = 'Japanese Dolls'; IS_TAG_TO_CATEGORY['Hina Doll'] = 'Japanese Dolls'; IS_TAG_TO_CATEGORY['Hina-ningyo'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['Gogatsu Ningyo'] = 'Japanese Dolls'; IS_TAG_TO_CATEGORY['Gogatsu Doll'] = 'Japanese Dolls'; IS_TAG_TO_CATEGORY['Gogatsu-ningyo'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['Gosho Ningyo'] = 'Japanese Dolls'; IS_TAG_TO_CATEGORY['Gosho Doll'] = 'Japanese Dolls'; IS_TAG_TO_CATEGORY['Gosho-ningyo'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['Hakata Ningyo'] = 'Japanese Dolls'; IS_TAG_TO_CATEGORY['Hakata Doll'] = 'Japanese Dolls'; IS_TAG_TO_CATEGORY['Hakata-ningyo'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['Kamo Ningyo'] = 'Japanese Dolls'; IS_TAG_TO_CATEGORY['Kamo Doll'] = 'Japanese Dolls'; IS_TAG_TO_CATEGORY['Kamo-ningyo'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['Ichimatsu Ningyo'] = 'Japanese Dolls'; IS_TAG_TO_CATEGORY['Ichimatsu Doll'] = 'Japanese Dolls'; IS_TAG_TO_CATEGORY['Ichimatsu-ningyo'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['Kokeshi'] = 'Japanese Dolls'; IS_TAG_TO_CATEGORY['Kokeshi Doll'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['Bunraku Ningyo'] = 'Japanese Dolls'; IS_TAG_TO_CATEGORY['Bunraku Puppet'] = 'Japanese Dolls'; IS_TAG_TO_CATEGORY['Bunraku-ningyo'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['Deku Ningyo'] = 'Japanese Dolls'; IS_TAG_TO_CATEGORY['Awa Puppet'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['Kimekomi Ningyo'] = 'Japanese Dolls'; IS_TAG_TO_CATEGORY['Kimekomi Doll'] = 'Japanese Dolls';
+IS_TAG_TO_CATEGORY['Japanese Doll'] = 'Japanese Dolls'; IS_TAG_TO_CATEGORY['Japanese Art Doll'] = 'Japanese Dolls';
 
 // Hats
 IS_TAG_TO_CATEGORY['帽子'] = 'Hats'; IS_TAG_TO_CATEGORY['キャップ'] = 'Hats'; IS_TAG_TO_CATEGORY['ハット'] = 'Hats';
