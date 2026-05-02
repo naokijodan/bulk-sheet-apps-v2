@@ -4394,6 +4394,26 @@ IS_TAG_TO_CATEGORY['美濃焼'] = 'Pottery'; IS_TAG_TO_CATEGORY['唐津焼'] = '
 IS_TAG_TO_CATEGORY['京焼'] = 'Pottery'; IS_TAG_TO_CATEGORY['清水焼'] = 'Pottery';
 IS_TAG_TO_CATEGORY['織部'] = 'Pottery'; IS_TAG_TO_CATEGORY['志野'] = 'Pottery';
 IS_TAG_TO_CATEGORY['薩摩焼'] = 'Pottery';
+// English kiln/ware tags (v38 addition — tojiki-c4)
+IS_TAG_TO_CATEGORY['Arita Ware'] = 'Pottery'; IS_TAG_TO_CATEGORY['Imari Ware'] = 'Pottery';
+IS_TAG_TO_CATEGORY['Ko-Imari'] = 'Pottery'; IS_TAG_TO_CATEGORY['Kutani Ware'] = 'Pottery';
+IS_TAG_TO_CATEGORY['Bizen Ware'] = 'Pottery'; IS_TAG_TO_CATEGORY['Hagi Ware'] = 'Pottery';
+IS_TAG_TO_CATEGORY['Shigaraki Ware'] = 'Pottery'; IS_TAG_TO_CATEGORY['Karatsu Ware'] = 'Pottery';
+IS_TAG_TO_CATEGORY['Mashiko Ware'] = 'Pottery'; IS_TAG_TO_CATEGORY['Raku Ware'] = 'Pottery';
+IS_TAG_TO_CATEGORY['Satsuma Ware'] = 'Pottery'; IS_TAG_TO_CATEGORY['Kyoto Ware'] = 'Pottery';
+IS_TAG_TO_CATEGORY['Kiyomizu Ware'] = 'Pottery'; IS_TAG_TO_CATEGORY['Nabeshima Ware'] = 'Pottery';
+IS_TAG_TO_CATEGORY['Kakiemon Style'] = 'Pottery'; IS_TAG_TO_CATEGORY['Mino Ware'] = 'Pottery';
+IS_TAG_TO_CATEGORY['Seto Ware'] = 'Pottery'; IS_TAG_TO_CATEGORY['Tokoname Ware'] = 'Pottery';
+IS_TAG_TO_CATEGORY['Tamba Ware'] = 'Pottery'; IS_TAG_TO_CATEGORY['Echizen Ware'] = 'Pottery';
+IS_TAG_TO_CATEGORY['Tobe Ware'] = 'Pottery'; IS_TAG_TO_CATEGORY['Iga Ware'] = 'Pottery';
+IS_TAG_TO_CATEGORY['Onta Ware'] = 'Pottery'; IS_TAG_TO_CATEGORY['Ohi Ware'] = 'Pottery';
+// English product form tags (v38 addition — tojiki-c4)
+IS_TAG_TO_CATEGORY['Chawan'] = 'Pottery'; IS_TAG_TO_CATEGORY['Tea Bowl'] = 'Pottery';
+IS_TAG_TO_CATEGORY['Kyusu'] = 'Pottery'; IS_TAG_TO_CATEGORY['Teapot'] = 'Pottery';
+IS_TAG_TO_CATEGORY['Yunomi'] = 'Pottery'; IS_TAG_TO_CATEGORY['Tokkuri'] = 'Pottery';
+IS_TAG_TO_CATEGORY['Sake Bottle'] = 'Pottery'; IS_TAG_TO_CATEGORY['Guinomi'] = 'Pottery';
+IS_TAG_TO_CATEGORY['Mizusashi'] = 'Pottery'; IS_TAG_TO_CATEGORY['Kogo'] = 'Pottery';
+IS_TAG_TO_CATEGORY['Hanaire'] = 'Pottery'; IS_TAG_TO_CATEGORY['Koro'] = 'Pottery';
 // 茶道具 → Tea Ceremonyで上書き
 IS_TAG_TO_CATEGORY['茶道具'] = 'Pottery'; IS_TAG_TO_CATEGORY['茶碗'] = 'Pottery';
 IS_TAG_TO_CATEGORY['壺'] = 'Pottery';

@@ -1001,7 +1001,7 @@
     "id": "F-v201-26-pottery",
     "name": "陶磁器 V2.0.1 Full Rewrite",
     "description": "日本伝統 E グループ。BOOTLEG 不要。R-3。",
-    "status": "failing",
+    "status": "passing",
     "priority": 26,
     "phase": "V2.0.1 残 44",
     "group": "日本伝統 E",
@@ -1011,9 +1011,9 @@
       "F-nihonningyo-v2-restructure"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
-    "notes": "Master plan #26。prompt file: prompts/陶磁器.txt"
+    "updated_at": "2026-05-02T15:45:14+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260502-093617-a9f4e7c6/contracts/F-tojiki-c4.md",
+    "notes": "Master plan #26。prompt file: prompts/陶磁器.txt。v37→v38 Full Rewrite 2026-05-02: Evidence & Export Gate, Maker 6-Level, ammo 38 kilns/25 makers/35 forms/29 glazes/22 techniques. Pending E-02 review → passing. / 親監査+E-02 PASS (spot-fix MEDIUM 2/LOW 2 全修正後)、Safety シナリオテスト 8/8 PASS、deploy 完了。"
   },
   {
     "id": "F-v201-27-tetsubin",
