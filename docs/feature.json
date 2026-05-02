@@ -1019,7 +1019,7 @@
     "id": "F-v201-27-tetsubin",
     "name": "鉄瓶 V2.0.1 Full Rewrite",
     "description": "日本伝統 E グループ。BOOTLEG 不要。R-3。",
-    "status": "failing",
+    "status": "passing",
     "priority": 27,
     "phase": "V2.0.1 残 44",
     "group": "日本伝統 E",
@@ -1029,9 +1029,9 @@
       "F-nihonningyo-v2-restructure"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
-    "notes": "Master plan #27。prompt file: prompts/鉄瓶.txt"
+    "updated_at": "2026-05-02T17:41:23+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260502-093617-a9f4e7c6/contracts/F-tetsubin-c4.md",
+    "notes": "Master plan #27。prompt file: prompts/鉄瓶.txt。v38 Full Rewrite 2026-05-02: Safety/Function/Workshop Gate, Object Routing, Nambu trademark, Ashiya 8 ICP, W1-W6 hierarchy, 25 VERIFICATION items。child-c E-02 pending。 / 親監査+E-02 PASS (spot-fix MEDIUM 1/LOW 2 全修正後)、Safety シナリオ 10/10 PASS、deploy 完了。"
   },
   {
     "id": "F-v201-28-buddhist",

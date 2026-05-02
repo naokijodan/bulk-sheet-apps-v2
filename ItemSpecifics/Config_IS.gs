@@ -4466,6 +4466,16 @@ IS_TAG_TO_CATEGORY['Kogo Lacquer'] = 'Tea Ceremony'; IS_TAG_TO_CATEGORY['Kensui 
 IS_TAG_TO_CATEGORY['Futaoki'] = 'Tea Ceremony'; IS_TAG_TO_CATEGORY['Chasen'] = 'Tea Ceremony';
 IS_TAG_TO_CATEGORY['Chakin'] = 'Tea Ceremony'; IS_TAG_TO_CATEGORY['Tea Whisk'] = 'Tea Ceremony';
 
+// 鉄瓶 / Iron Kettle
+IS_TAG_TO_CATEGORY['Tetsubin'] = 'Iron Kettle'; IS_TAG_TO_CATEGORY['Iron Kettle'] = 'Iron Kettle';
+IS_TAG_TO_CATEGORY['Chagama'] = 'Iron Kettle'; IS_TAG_TO_CATEGORY['Cha-gama'] = 'Iron Kettle';
+IS_TAG_TO_CATEGORY['Tea Ceremony Iron Kettle'] = 'Iron Kettle'; IS_TAG_TO_CATEGORY['Nambu Tekki'] = 'Iron Kettle';
+IS_TAG_TO_CATEGORY['Iron Furo Body'] = 'Iron Kettle'; IS_TAG_TO_CATEGORY['Iron Hibachi'] = 'Iron Kettle';
+IS_TAG_TO_CATEGORY['Cast Iron Teapot'] = 'Iron Kettle'; IS_TAG_TO_CATEGORY['Ginbin'] = 'Iron Kettle';
+IS_TAG_TO_CATEGORY['Dobin'] = 'Iron Kettle'; IS_TAG_TO_CATEGORY['Silver Kettle'] = 'Iron Kettle';
+IS_TAG_TO_CATEGORY['Copper Kettle'] = 'Iron Kettle'; IS_TAG_TO_CATEGORY['Ryubundo'] = 'Iron Kettle';
+IS_TAG_TO_CATEGORY['Kibundo'] = 'Iron Kettle'; IS_TAG_TO_CATEGORY['Kinjudo'] = 'Iron Kettle';
+
 // Bonsai（※生きた木/植物は輸出不可）
 IS_TAG_TO_CATEGORY['盆栽'] = 'Bonsai'; IS_TAG_TO_CATEGORY['盆栽鉢'] = 'Bonsai';
 IS_TAG_TO_CATEGORY['盆器'] = 'Bonsai'; IS_TAG_TO_CATEGORY['水石'] = 'Bonsai';
