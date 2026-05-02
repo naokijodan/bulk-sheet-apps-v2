@@ -1261,7 +1261,7 @@
     "id": "F-v201-40-art",
     "name": "アート V2.0.1 Full Rewrite",
     "description": "アート F グループ。BOOTLEG 要検討（偽作リスク）。R-3 (ANTIQUE/HANDMADE)。",
-    "status": "failing",
+    "status": "in_progress",
     "priority": 40,
     "phase": "V2.0.1 残 44",
     "group": "アート F",
@@ -1271,8 +1271,8 @@
       "F-nihonningyo-v2-restructure"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
+    "updated_at": "2026-05-03T00:00:00+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260502-093617-a9f4e7c6/contracts/F-art-c4.md",
     "notes": "Master plan #40。prompt file: prompts/アート.txt"
   },
   {
