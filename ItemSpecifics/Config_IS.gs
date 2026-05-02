@@ -4454,6 +4454,17 @@ IS_TAG_TO_CATEGORY['蓋置'] = 'Tea Ceremony'; IS_TAG_TO_CATEGORY['香合'] = 'T
 IS_TAG_TO_CATEGORY['花入'] = 'Tea Ceremony'; IS_TAG_TO_CATEGORY['茶筅'] = 'Tea Ceremony';
 IS_TAG_TO_CATEGORY['柄杓'] = 'Tea Ceremony'; IS_TAG_TO_CATEGORY['菓子器'] = 'Tea Ceremony';
 IS_TAG_TO_CATEGORY['炉縁'] = 'Tea Ceremony';
+// Tea Ceremony English tags (非陶磁器: 漆器・木・金物・布・竹)
+IS_TAG_TO_CATEGORY['Natsume'] = 'Tea Ceremony'; IS_TAG_TO_CATEGORY['Tea Caddy Lacquer'] = 'Tea Ceremony';
+IS_TAG_TO_CATEGORY['Chashaku'] = 'Tea Ceremony'; IS_TAG_TO_CATEGORY['Tea Scoop'] = 'Tea Ceremony';
+IS_TAG_TO_CATEGORY['Shifuku'] = 'Tea Ceremony'; IS_TAG_TO_CATEGORY['Tea Caddy Pouch'] = 'Tea Ceremony';
+IS_TAG_TO_CATEGORY['Kobukusa'] = 'Tea Ceremony'; IS_TAG_TO_CATEGORY['Fukusa'] = 'Tea Ceremony';
+IS_TAG_TO_CATEGORY['Furo'] = 'Tea Ceremony'; IS_TAG_TO_CATEGORY['Tea Brazier'] = 'Tea Ceremony';
+IS_TAG_TO_CATEGORY['Tana'] = 'Tea Ceremony'; IS_TAG_TO_CATEGORY['Tea Shelf'] = 'Tea Ceremony';
+IS_TAG_TO_CATEGORY['Chabako'] = 'Tea Ceremony'; IS_TAG_TO_CATEGORY['Tea Ceremony Box'] = 'Tea Ceremony';
+IS_TAG_TO_CATEGORY['Kogo Lacquer'] = 'Tea Ceremony'; IS_TAG_TO_CATEGORY['Kensui Metal'] = 'Tea Ceremony';
+IS_TAG_TO_CATEGORY['Futaoki'] = 'Tea Ceremony'; IS_TAG_TO_CATEGORY['Chasen'] = 'Tea Ceremony';
+IS_TAG_TO_CATEGORY['Chakin'] = 'Tea Ceremony'; IS_TAG_TO_CATEGORY['Tea Whisk'] = 'Tea Ceremony';
 
 // Bonsai（※生きた木/植物は輸出不可）
 IS_TAG_TO_CATEGORY['盆栽'] = 'Bonsai'; IS_TAG_TO_CATEGORY['盆栽鉢'] = 'Bonsai';
