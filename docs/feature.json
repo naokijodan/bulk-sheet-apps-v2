@@ -1905,13 +1905,13 @@
     "id": "F-v201-43-pc-body",
     "name": "パソコン本体 V2.0.1 Full Rewrite",
     "description": "PC 本体カテゴリ。ANTI_THEFT_LOCK/MDM_ENROLLMENT/PERSONAL_DATA_WIPED/Battery Hazmat 三層/DO_NOT_CLAIM Spec 実装。216 行 → v1 Full Rewrite。",
-    "status": "in_progress",
+    "status": "passing",
     "priority": 43,
     "phase": "V2.0.1 残",
     "group": "雑貨",
     "dependencies": [],
     "created_at": "2026-05-03T00:00:00+09:00",
-    "updated_at": "2026-05-03T00:00:00+09:00",
+    "updated_at": "2026-05-03T03:50:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260502-093617-a9f4e7c6/contracts/F-pcbody-c4.md",
     "notes": "prompt file: prompts/パソコン本体.txt。C0: HIGH 4/MEDIUM 5/LOW 3。C4: Full Rewrite 730 lines, Library BYTE-MATCH diff=0, IS_TAG PC Body (Laptops+Desktops) added."
   }
