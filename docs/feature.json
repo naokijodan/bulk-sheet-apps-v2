@@ -896,7 +896,7 @@
     "id": "F-v201-20-books",
     "name": "書籍・雑誌 V2.0.1 Full Rewrite",
     "description": "書籍 D グループ。BOOTLEG 要検討（海賊版リスク）。R-3。",
-    "status": "failing",
+    "status": "in_progress",
     "priority": 20,
     "phase": "V2.0.1 残 44",
     "group": "書籍 D",
@@ -905,8 +905,8 @@
       "F-tokei-v11-reference"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
+    "updated_at": "2026-05-03T02:30:00+09:00",
+    "last_sprint_contract": "contracts/F-books-c4.md",
     "notes": "Master plan #20。prompt file: prompts/書籍・雑誌.txt。BOOTLEG 判定は C0 時に実施。"
   },
   {

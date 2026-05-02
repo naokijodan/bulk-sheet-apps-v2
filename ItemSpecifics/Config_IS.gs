@@ -4662,6 +4662,18 @@ IS_TAG_TO_CATEGORY['MOOK'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['ムック'
 IS_TAG_TO_CATEGORY['専門誌'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['文庫'] = 'Books & Magazines';
 IS_TAG_TO_CATEGORY['新書'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['絵本'] = 'Books & Magazines';
 IS_TAG_TO_CATEGORY['洋書'] = 'Books & Magazines';
+IS_TAG_TO_CATEGORY['Photobook'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['Photography Book'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['Photo Book'] = 'Books & Magazines';
+IS_TAG_TO_CATEGORY['Art Book'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['Art Books'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['Illustration Book'] = 'Books & Magazines';
+IS_TAG_TO_CATEGORY['Light Novel'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['Light Novels'] = 'Books & Magazines';
+IS_TAG_TO_CATEGORY['Strategy Guide'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['Game Strategy Guide'] = 'Books & Magazines';
+IS_TAG_TO_CATEGORY['Antiquarian Book'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['Antiquarian Books'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['Old Book'] = 'Books & Magazines';
+IS_TAG_TO_CATEGORY['Sheet Music'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['Music Score'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['Score Book'] = 'Books & Magazines';
+IS_TAG_TO_CATEGORY['Magazine'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['Back Issue'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['Manga Magazine'] = 'Books & Magazines';
+IS_TAG_TO_CATEGORY['Novel'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['Essay'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['Academic Book'] = 'Books & Magazines';
+IS_TAG_TO_CATEGORY['Recipe Book'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['Cookbook'] = 'Books & Magazines';
+IS_TAG_TO_CATEGORY['Travel Guide'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['Guidebook'] = 'Books & Magazines';
+IS_TAG_TO_CATEGORY['Encyclopedia'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['Dictionary'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['Textbook'] = 'Books & Magazines';
+IS_TAG_TO_CATEGORY['Picture Book'] = 'Books & Magazines'; IS_TAG_TO_CATEGORY['Childrens Book'] = 'Books & Magazines';
 
 // Figures（フィギュアをCollectiblesから上書き）
 IS_TAG_TO_CATEGORY['フィギュア'] = 'Figures'; IS_TAG_TO_CATEGORY['アクションフィギュア'] = 'Figures';
