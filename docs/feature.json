@@ -1919,13 +1919,13 @@
     "id": "F-v201-44-electronic-dict",
     "name": "電子辞書 V2.0.1 Full Rewrite",
     "description": "電子辞書・翻訳機カテゴリ。COUNTERFEIT_DICTIONARY/SWOLLEN_BATTERY/FRP_LOCK/POCKETALK_SPECIAL/Battery AA vs Li-ion Gate 実装。131 行 → v1 Full Rewrite。",
-    "status": "in_progress",
+    "status": "passing",
     "priority": 44,
     "phase": "V2.0.1 残",
     "group": "雑貨",
     "dependencies": [],
     "created_at": "2026-05-03T00:00:00+09:00",
-    "updated_at": "2026-05-03T00:00:00+09:00",
+    "updated_at": "2026-05-03T04:13:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260502-093617-a9f4e7c6/contracts/F-edict-c4.md",
     "notes": "prompt file: prompts/電子辞書.txt。C0: HIGH 4/MEDIUM 5/LOW 3。C4: Full Rewrite 552 lines, Library BYTE-MATCH diff=0, IS_TAG 14 entries (Electronic Dictionaries) added."
   }
