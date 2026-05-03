@@ -4568,6 +4568,23 @@ IS_TAG_TO_CATEGORY['達磨'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['念珠'] = 'B
 IS_TAG_TO_CATEGORY['香炉'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['燭台'] = 'Buddhist Art';
 IS_TAG_TO_CATEGORY['五鈷杵'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['三鈷杵'] = 'Buddhist Art';
 
+// Japanese Antiques catch-all (priority 52 — 屏風/古武具/甲冑/古文書/古銅器/古鏡/漆器/印籠/化石)
+IS_TAG_TO_CATEGORY['屏風'] = 'Japanese Antiques'; IS_TAG_TO_CATEGORY['金屏風'] = 'Japanese Antiques';
+IS_TAG_TO_CATEGORY['銀屏風'] = 'Japanese Antiques'; IS_TAG_TO_CATEGORY['絵巻物'] = 'Japanese Antiques';
+IS_TAG_TO_CATEGORY['絵巻'] = 'Japanese Antiques'; IS_TAG_TO_CATEGORY['古文書'] = 'Japanese Antiques';
+IS_TAG_TO_CATEGORY['古典籍'] = 'Japanese Antiques'; IS_TAG_TO_CATEGORY['古地図'] = 'Japanese Antiques';
+IS_TAG_TO_CATEGORY['甲冑'] = 'Japanese Antiques'; IS_TAG_TO_CATEGORY['鎧兜'] = 'Japanese Antiques';
+IS_TAG_TO_CATEGORY['鎧'] = 'Japanese Antiques'; IS_TAG_TO_CATEGORY['兜'] = 'Japanese Antiques';
+IS_TAG_TO_CATEGORY['鐔'] = 'Japanese Antiques'; IS_TAG_TO_CATEGORY['刀装具'] = 'Japanese Antiques';
+IS_TAG_TO_CATEGORY['目貫'] = 'Japanese Antiques'; IS_TAG_TO_CATEGORY['小柄'] = 'Japanese Antiques';
+IS_TAG_TO_CATEGORY['古銅器'] = 'Japanese Antiques'; IS_TAG_TO_CATEGORY['古銀器'] = 'Japanese Antiques';
+IS_TAG_TO_CATEGORY['古鏡'] = 'Japanese Antiques'; IS_TAG_TO_CATEGORY['銅鏡'] = 'Japanese Antiques';
+IS_TAG_TO_CATEGORY['漆器'] = 'Japanese Antiques'; IS_TAG_TO_CATEGORY['蒔絵'] = 'Japanese Antiques';
+IS_TAG_TO_CATEGORY['重箱'] = 'Japanese Antiques'; IS_TAG_TO_CATEGORY['印籠'] = 'Japanese Antiques';
+IS_TAG_TO_CATEGORY['化石'] = 'Japanese Antiques'; IS_TAG_TO_CATEGORY['隕石'] = 'Japanese Antiques';
+IS_TAG_TO_CATEGORY['籠'] = 'Japanese Antiques'; IS_TAG_TO_CATEGORY['竹細工'] = 'Japanese Antiques';
+IS_TAG_TO_CATEGORY['剥製'] = 'Japanese Antiques'; IS_TAG_TO_CATEGORY['煙管骨董'] = 'Japanese Antiques';
+
 // Tetsubin（急須をPotteryから上書き）
 IS_TAG_TO_CATEGORY['鉄瓶'] = 'Tetsubin'; IS_TAG_TO_CATEGORY['銀瓶'] = 'Tetsubin';
 IS_TAG_TO_CATEGORY['南部鉄器'] = 'Tetsubin'; IS_TAG_TO_CATEGORY['茶釜'] = 'Tetsubin';

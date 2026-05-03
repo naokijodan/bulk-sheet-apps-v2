@@ -1055,7 +1055,7 @@
     "id": "F-v201-29-kokkotsu",
     "name": "日本伝統・骨董 V2.0.1 Full Rewrite",
     "description": "日本伝統 E グループ。BOOTLEG 不要。ANTIQUE 中心。R-3。",
-    "status": "failing",
+    "status": "passing",
     "priority": 29,
     "phase": "V2.0.1 残 44",
     "group": "日本伝統 E",
@@ -1065,9 +1065,9 @@
       "F-nihonningyo-v2-restructure"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
-    "notes": "Master plan #29。prompt file: prompts/日本伝統・骨董.txt"
+    "updated_at": "2026-05-03T13:00:00+09:00",
+    "last_sprint_contract": "contracts/F-kokkotsu-c4.md",
+    "notes": "Master plan #29。prompt file: prompts/日本伝統・骨董.txt。v1 Full Rewrite 808行 2026-05-03"
   },
   {
     "id": "F-v201-30-bonsai",
