@@ -1141,7 +1141,7 @@
     "id": "F-v201-33-stamps-coins",
     "name": "切手・コイン V2.0.1 Full Rewrite",
     "description": "コレクション G グループ。BOOTLEG 要検討（偽造リスク）。R-3。",
-    "status": "failing",
+    "status": "passing",
     "priority": 33,
     "phase": "V2.0.1 残 44",
     "group": "コレクション G",
@@ -1150,8 +1150,8 @@
       "F-tokei-v11-reference"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
-    "last_sprint_contract": null,
+    "updated_at": "2026-05-03T13:55:00+09:00",
+    "last_sprint_contract": "contracts/F-stamps-coins-c4.md",
     "notes": "Master plan #33。prompt file: prompts/切手・コイン.txt"
   },
   {
