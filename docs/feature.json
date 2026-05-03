@@ -1313,7 +1313,7 @@
     "id": "F-v201-43-baseball",
     "name": "野球 V2.0.1 Full Rewrite",
     "description": "スポーツ J グループ。BOOTLEG 要検討。グッズ中心。R-3。",
-    "status": "failing",
+    "status": "in_progress",
     "priority": 43,
     "phase": "V2.0.1 残 44",
     "group": "スポーツ J",
@@ -1322,9 +1322,9 @@
       "F-tokei-v11-reference"
     ],
     "created_at": "2026-04-20T00:00:00+09:00",
-    "updated_at": "2026-04-20T00:00:00+09:00",
+    "updated_at": "2026-05-03T05:25:28.805468+00:00",
     "last_sprint_contract": null,
-    "notes": "Master plan #43。prompt file: prompts/野球.txt"
+    "notes": "Master plan #43。prompt file: prompts/野球.txt | 2026-05-03 IN_PROGRESS: Codex MCP 経由で C4 実装中 (child-a Sonnet 4.6 weekly limit 93% のため切替)"
   },
   {
     "id": "F-v201-44-general",
@@ -1956,5 +1956,22 @@
     "updated_at": "2026-05-03T05:30:00+09:00",
     "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260502-093617-a9f4e7c6/contracts/F-board-c4.md",
     "notes": "新規追加: priority 46 ボードゲーム。IS_TAG 35タグ追加。SET_COMPLETENESS_GATE / LANGUAGE_DEPENDENCY_GATE 実装済み。"
+  },
+  {
+    "id": "F-v201-55-tennis",
+    "name": "テニス V2.0.1 Full Rewrite",
+    "description": "prompts/テニス.txt 102行→674行 v1 Full Rewrite。CANNOT_LIST 3 triggers (COUNTERFEIT_RACQUET/FORGED_SIGNATURE/FORGED_AUTOGRAPH_TOURNAMENT)、NEEDS_AUTHENTICATION_EVIDENCE (著名選手サイン品 PSA/JSA/Beckett)、BOOTLEG MUST (Wilson RF97/Babolat/HEAD/Yonex偽造検出)、OBJECT ROUTING (パデル/ピックルボール/スクワッシュ/一般スポーツウェア除外)、CONDITION 4段階、eBay Category 7 leaf。",
+    "status": "passing",
+    "priority": 55,
+    "phase": "V2.0.1 残 44",
+    "group": "スポーツ G",
+    "bootleg": "HIGH (Wilson/Babolat/HEAD/Yonex VeRO)",
+    "dependencies": [
+      "F-tokei-v11-reference"
+    ],
+    "created_at": "2026-05-03T00:00:00+09:00",
+    "updated_at": "2026-05-03T05:39:00+09:00",
+    "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260502-093617-a9f4e7c6/contracts/F-tennis-c4.md",
+    "notes": "prompt file: prompts/テニス.txt | E-02 PASS HIGH 0/MED 0/LOW 3 (機能影響なし) | byte-match diff=0 entries 70 IS_TAG 17 MATCH"
   }
 ]
