@@ -4557,6 +4557,16 @@ IS_TAG_TO_CATEGORY['仏教美術'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['神具'
 IS_TAG_TO_CATEGORY['木彫'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['銅像'] = 'Buddhist Art';
 IS_TAG_TO_CATEGORY['観音'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['如来'] = 'Buddhist Art';
 IS_TAG_TO_CATEGORY['数珠'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['木魚'] = 'Buddhist Art';
+IS_TAG_TO_CATEGORY['不動明王'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['地蔵'] = 'Buddhist Art';
+IS_TAG_TO_CATEGORY['阿弥陀'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['大日如来'] = 'Buddhist Art';
+IS_TAG_TO_CATEGORY['薬師如来'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['菩薩'] = 'Buddhist Art';
+IS_TAG_TO_CATEGORY['明王'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['天部'] = 'Buddhist Art';
+IS_TAG_TO_CATEGORY['仏壇'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['厨子'] = 'Buddhist Art';
+IS_TAG_TO_CATEGORY['位牌'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['写経'] = 'Buddhist Art';
+IS_TAG_TO_CATEGORY['曼荼羅'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['仏画'] = 'Buddhist Art';
+IS_TAG_TO_CATEGORY['達磨'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['念珠'] = 'Buddhist Art';
+IS_TAG_TO_CATEGORY['香炉'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['燭台'] = 'Buddhist Art';
+IS_TAG_TO_CATEGORY['五鈷杵'] = 'Buddhist Art'; IS_TAG_TO_CATEGORY['三鈷杵'] = 'Buddhist Art';
 
 // Tetsubin（急須をPotteryから上書き）
 IS_TAG_TO_CATEGORY['鉄瓶'] = 'Tetsubin'; IS_TAG_TO_CATEGORY['銀瓶'] = 'Tetsubin';
