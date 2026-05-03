@@ -4463,6 +4463,21 @@ IS_TAG_TO_CATEGORY['色無地'] = 'Kimono'; IS_TAG_TO_CATEGORY['反物'] = 'Kimo
 IS_TAG_TO_CATEGORY['草履'] = 'Kimono'; IS_TAG_TO_CATEGORY['下駄'] = 'Kimono';
 IS_TAG_TO_CATEGORY['名古屋帯'] = 'Kimono'; IS_TAG_TO_CATEGORY['袋帯'] = 'Kimono';
 IS_TAG_TO_CATEGORY['半幅帯'] = 'Kimono';
+IS_TAG_TO_CATEGORY['喪服'] = 'Kimono'; IS_TAG_TO_CATEGORY['絣'] = 'Kimono';
+IS_TAG_TO_CATEGORY['道行'] = 'Kimono'; IS_TAG_TO_CATEGORY['道中着'] = 'Kimono';
+IS_TAG_TO_CATEGORY['色留袖'] = 'Kimono'; IS_TAG_TO_CATEGORY['黒留袖'] = 'Kimono';
+IS_TAG_TO_CATEGORY['帯締め'] = 'Kimono'; IS_TAG_TO_CATEGORY['帯揚げ'] = 'Kimono';
+IS_TAG_TO_CATEGORY['帯留'] = 'Kimono'; IS_TAG_TO_CATEGORY['簪'] = 'Kimono';
+IS_TAG_TO_CATEGORY['根付'] = 'Kimono'; IS_TAG_TO_CATEGORY['足袋'] = 'Kimono';
+IS_TAG_TO_CATEGORY['丸帯'] = 'Kimono'; IS_TAG_TO_CATEGORY['兵児帯'] = 'Kimono';
+IS_TAG_TO_CATEGORY['長襦袢'] = 'Kimono'; IS_TAG_TO_CATEGORY['作務衣'] = 'Kimono';
+IS_TAG_TO_CATEGORY['Furisode'] = 'Kimono'; IS_TAG_TO_CATEGORY['Tomesode'] = 'Kimono';
+IS_TAG_TO_CATEGORY['Homongi'] = 'Kimono'; IS_TAG_TO_CATEGORY['Tsukesage'] = 'Kimono';
+IS_TAG_TO_CATEGORY['Tsumugi'] = 'Kimono'; IS_TAG_TO_CATEGORY['Kasuri'] = 'Kimono';
+IS_TAG_TO_CATEGORY['Haori'] = 'Kimono'; IS_TAG_TO_CATEGORY['Hakama'] = 'Kimono';
+IS_TAG_TO_CATEGORY['Obi'] = 'Kimono'; IS_TAG_TO_CATEGORY['Yukata'] = 'Kimono';
+IS_TAG_TO_CATEGORY['Fukuro Obi'] = 'Kimono'; IS_TAG_TO_CATEGORY['Nagoya Obi'] = 'Kimono';
+IS_TAG_TO_CATEGORY['Kanzashi'] = 'Kimono'; IS_TAG_TO_CATEGORY['Netsuke'] = 'Kimono';
 
 // Japanese Swords（刀身は海外発送不可。鍔/拵え等の刀装具のみ出品可能）
 IS_TAG_TO_CATEGORY['日本刀'] = 'Japanese Swords'; IS_TAG_TO_CATEGORY['刀'] = 'Japanese Swords';
