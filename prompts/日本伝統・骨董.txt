@@ -77,6 +77,13 @@ inoperable): MAY be listable — verify with eBay's specific antique firearms ex
 before listing. Add disclosure: "Non-functional antique display piece only."
 Replica / model guns: check eBay Replica & Counterfeit Arms policy.
 
+TRIGGER 6 — CITES_RHINOCEROS_HORN
+Condition: Material contains rhinoceros horn (サイの角 / 犀角) in any form — carved
+objects, decorative inlay, or ground / powdered form.
+Legal basis: CITES Appendix I (Rhinocerotidae spp.); eBay Wildlife Policy — absolute
+global ban. No antique exception applies to rhinoceros horn on eBay.
+Applies to: 犀角杯 / 犀角印籠 / 犀角置物 / 犀角装飾 / any object described as 犀角.
+
 --- GATE A: NEEDS_EXPORT_CLEARANCE ---
 Condition: Item manufactured before 1926 (more than 100 years ago as of 2026).
 Applies to: Ancient bronze mirrors (古鏡 — especially Kofun-period) / Classical
@@ -116,8 +123,8 @@ Output action: Strip the unsupported claim. Add disclaimer in ProductName:
 "attributed to [school]" only if source states attribution.
 
 --- GATE E: KOKKOTSU_ALLOWED (Source-only Disclosure) ---
-Condition: Item contains amber / coral / rhinoceros horn / antler / animal bone
-(non-prohibited species).
+Condition: Item contains amber / coral / antler / animal bone (non-prohibited species).
+Note: rhinoceros horn → CANNOT_LIST (TRIGGER 6). Do NOT place here.
 Output action: Continue listing. Include material disclosure in Description.
 Antler netsuke: "Made from deer antler / shika no tsuno."
 Coral netsuke: "Made from red coral / sangoshu." Verify CITES App II status — red
@@ -437,7 +444,7 @@ Lying is worse than being short.
 Rule 2 — NO PADDING: SOURCE-BASED CONDITIONAL ALLOWANCE
 
 Category A — ABSOLUTE BAN (even if factual):
-  Subjective hype: AMAZING / FANTASTIC / INCREDIBLE / AWESOME / MUST HAVE / BEST
+  Subjective hype: AMAZING / FANTASTIC / INCREDIBLE / AWESOME / MUST HAVE / BEST / PERFECT
   Empty superlatives: ULTIMATE / PREMIUM / LUXURY
   eBay VeRO ban: AUTHENTIC / OFFICIAL
 
@@ -481,7 +488,7 @@ Allowed symbols: & / : - . , ' (apostrophe for Maker's mark / School's attributi
 Artist's seal notation)
 
 Forbidden symbols: * $ ~ ^ @ ! ? (TM) ( ) [ ] { } " _ % = | \ < > ;
-(§4.4.2 standard 20-symbol prohibition)
+(23-symbol prohibition)
 
 ========================================
 §11 TITLE RULES

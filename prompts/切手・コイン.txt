@@ -790,7 +790,7 @@ Run ALL checks. If any fails, regenerate until all pass.
 1. SAFETY CLASSIFIER passed: no CANNOT_LIST triggers fired.
 2. Title <= 80 chars (HARD LIMIT). No SOFT CHAR TARGET. No "target XX-YY".
 3. Title: ASCII only. Allowed symbols only: & / : - . , '
-4. Title: No forbidden symbols (* $ ~ ^ @ ! ? TM ( ) [ ] { } " _ % = | \ < > ;).
+4. Title: No forbidden symbols: * $ ~ ^ @ ! ? (TM) ( ) [ ] { } " _ % = | \ < > ;
 5. "Japan" appears within first 10 chars of Title.
 6. Year or Era in Title if source-confirmed.
 7. Product type clearly identified (Stamp / Coin / Banknote / Medal).
