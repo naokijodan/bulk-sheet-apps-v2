@@ -15,17 +15,12 @@
         sheet = spreadsheet.insertSheet(sheetName);
       }
 
-      // 貼り付け開始列の決定
-      // - 'インポート用2' は A列から（A列がタグ列）
-      // - それ以外（'インポート用' 等）は B列から（A列はユーザーがタグを手入力する欄）
-      const startCol = (sheetName === 'インポート用2') ? 1 : 2;
-
-      // 3行目以降で startCol が空白の行を探す
+      // 3行目以降でB列が空白の行を探す
       let row = null;
       const maxRow = sheet.getMaxRows();
 
       for (let i = 3; i <= maxRow; i++) {
-        const cellValue = sheet.getRange(i, startCol).getValue();
+        const cellValue = sheet.getRange(i, 2).getValue();
         if (cellValue === '' || cellValue === null) {
           row = i;
           break;
@@ -37,14 +32,14 @@
         row = sheet.getLastRow() + 1;
       }
 
-      // values を startCol から貼り付け
+      // valuesをB列から貼り付け
       if (values.length > 0) {
-        sheet.getRange(row, startCol, 1, values.length).setValues([values]);
+        sheet.getRange(row, 2, 1, values.length).setValues([values]);
       }
 
       return ContentService.createTextOutput(JSON.stringify({
         success: true,
-        message: sheetName + 'に追加しました（行: ' + row + ', 列: ' + startCol + '）'
+        message: sheetName + 'に追加しました（行: ' + row + '）'
       })).setMimeType(ContentService.MimeType.JSON);
 
     } catch (error) {
