@@ -1,5 +1,6 @@
 # macOS
 .DS_Store
+**/.DS_Store
 
 # HTML files (guides)
 *.html
@@ -10,3 +11,15 @@
 # Backup files
 *_backup.*
 UserSheet/RAKUDA.js
+
+# ハーネスセッションの一時報告ファイル（本来 ~/.tmux-harness/ 配下に置くべきもの）
+reports/
+
+# シークレット混入防止
+.env
+.env.local
+.env.*
+secrets.json
+credentials.*
+*.key
+*.pem
