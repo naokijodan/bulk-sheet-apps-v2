@@ -3055,7 +3055,7 @@ function saveIntegratedSettings(formData) {
       actualShippingCalcMethod = getShippingCalcMethodFromLabel_(sheet);
     }
 
-    // 🆕 計算式ARRAYFORMULAを作業シートに適用（V3）
+    // 🆕 計算式ARRAYFORMULAを作業シートに適用
     var formulaResult = applyCalculationFormulas(sheetName, {
       profitCalc: profitCalc,
       shippingCalcMethod: actualShippingCalcMethod
@@ -3063,19 +3063,6 @@ function saveIntegratedSettings(formData) {
 
     if (!formulaResult.success) {
       throw new Error('計算式の適用に失敗しました: ' + formulaResult.error);
-    }
-
-    // 🆕 V5 作業シートにも計算式を適用（タグ自動判定 全 ON / F列スキップ）
-    if (v5Sheet) {
-      try {
-        applyCalculationFormulas(
-          v5Sheet.getName(),
-          { profitCalc: profitCalc, shippingCalcMethod: actualShippingCalcMethod },
-          true
-        );
-      } catch (e) {
-        Logger.log('V5 計算式適用エラー: ' + e.message);
-      }
     }
 
     // 出品用シートの価格式を更新（価格表示モードに応じてH2のARRAYFORMULAを変更）
@@ -4039,7 +4026,7 @@ function updateTagList() {
  * @param {Object} settings - 設定オブジェクト
  * @return {Object} 適用結果
  */
-function applyCalculationFormulas(sheetName, settings, v5Mode) {
+function applyCalculationFormulas(sheetName, settings) {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName(sheetName);
@@ -4052,16 +4039,6 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
 
     // タグ自動判定 前処理
     var fullSettings = getSettings();
-    if (v5Mode) {
-      // V5 モード: タグ自動判定を全 ON として扱う
-      fullSettings = Object.assign({}, fullSettings || {}, {
-        tagOverrideShipping: true,
-        tagOverrideThreshold: true,
-        tagOverrideCondition: true,
-        tagOverrideDdpMode: true,
-        tagOverrideAdRate: true
-      });
-    }
     var tagMap = buildTagOverrideMap_(ss, fullSettings);
     var effectiveShippingCalc = shippingCalc;
     if (fullSettings && fullSettings.tagOverrideShipping && tagMap) {
@@ -4272,8 +4249,7 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
     if (shippingFormulas.length > 0) {
       sheet.getRange(5, CONFIG.COLUMNS.SHIPPING, shippingFormulas.length, 1).setFormulas(shippingFormulas);
     }
-    // V5 モードでは F列 (参考eBay ID) の式は入れない
-    if (!v5Mode && hasRefFormulas && refFormulas.length > 0) {
+    if (hasRefFormulas && refFormulas.length > 0) {
       sheet.getRange(5, CONFIG.COLUMNS.REF_EBAY, refFormulas.length, 1).setFormulas(refFormulas);
     }
 
