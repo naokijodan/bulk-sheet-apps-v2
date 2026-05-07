@@ -3055,7 +3055,7 @@ function saveIntegratedSettings(formData) {
       actualShippingCalcMethod = getShippingCalcMethodFromLabel_(sheet);
     }
 
-    // 🆕 計算式ARRAYFORMULAを作業シートに適用（V3 作業シート）
+    // 🆕 計算式ARRAYFORMULAを作業シートに適用
     var formulaResult = applyCalculationFormulas(sheetName, {
       profitCalc: profitCalc,
       shippingCalcMethod: actualShippingCalcMethod
@@ -3063,26 +3063,6 @@ function saveIntegratedSettings(formData) {
 
     if (!formulaResult.success) {
       throw new Error('計算式の適用に失敗しました: ' + formulaResult.error);
-    }
-
-    // 🆕 V5 作業シートにも計算式を適用（タグ自動判定 全 ON 相当 / F列の式は入れない）
-    // 椛島さん指示 (2026-05-08): V5 はタグ管理ベースなので tagOverride 全 ON の式が入る
-    // 前提: ensureV5WorkSheet_ で F1/F2/H2/J2/L2/M2/N2/AA2/AF2/AJ4/AP2/AP3/AQ2/AQ3 等のデフォルト値が書き込まれている
-    if (v5Sheet) {
-      try {
-        var v5FormulaResult = applyCalculationFormulas(
-          v5Sheet.getName(),
-          { profitCalc: profitCalc, shippingCalcMethod: actualShippingCalcMethod },
-          true // v5Mode = true
-        );
-        if (!v5FormulaResult.success) {
-          Logger.log('V5 作業シートの計算式適用に失敗: ' + v5FormulaResult.error);
-        } else {
-          Logger.log('V5 作業シートに計算式を適用しました');
-        }
-      } catch (e) {
-        Logger.log('V5 作業シートの計算式適用でエラー: ' + e.message);
-      }
     }
 
     // 出品用シートの価格式を更新（価格表示モードに応じてH2のARRAYFORMULAを変更）
@@ -4046,7 +4026,7 @@ function updateTagList() {
  * @param {Object} settings - 設定オブジェクト
  * @return {Object} 適用結果
  */
-function applyCalculationFormulas(sheetName, settings, v5Mode) {
+function applyCalculationFormulas(sheetName, settings) {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName(sheetName);
@@ -4059,19 +4039,6 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
 
     // タグ自動判定 前処理
     var fullSettings = getSettings();
-
-    // V5 モード: タグ自動判定を全 ON として扱う（V5 作業シートはタグ管理ベース）
-    // 椛島さん指示 (2026-05-08): 「タグ自動判定設定に全てチェックを入れた状態の式」を V5 に入れる
-    if (v5Mode) {
-      fullSettings = Object.assign({}, fullSettings || {}, {
-        tagOverrideShipping: true,
-        tagOverrideThreshold: true,
-        tagOverrideCondition: true,
-        tagOverrideDdpMode: true,
-        tagOverrideAdRate: true
-      });
-    }
-
     var tagMap = buildTagOverrideMap_(ss, fullSettings);
     var effectiveShippingCalc = shippingCalc;
     if (fullSettings && fullSettings.tagOverrideShipping && tagMap) {
@@ -4282,9 +4249,7 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
     if (shippingFormulas.length > 0) {
       sheet.getRange(5, CONFIG.COLUMNS.SHIPPING, shippingFormulas.length, 1).setFormulas(shippingFormulas);
     }
-    // V5 モードでは F列 (参考eBay ID) の式は入れない（v5インポート から値が直接入るため）
-    // 椛島さん指示: V5 作業シートの F列は式不要
-    if (!v5Mode && hasRefFormulas && refFormulas.length > 0) {
+    if (hasRefFormulas && refFormulas.length > 0) {
       sheet.getRange(5, CONFIG.COLUMNS.REF_EBAY, refFormulas.length, 1).setFormulas(refFormulas);
     }
 
