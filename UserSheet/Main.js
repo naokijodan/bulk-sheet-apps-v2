@@ -285,12 +285,16 @@ function doPost(e) {
     // - それ以外（'インポート用' 等）は B列から（A列はユーザーがタグを手入力する欄）
     var startCol = (sheetName === 'インポート用2') ? 1 : 2;
 
-    // 3行目以降で startCol が空白の行を探す
+    // 空白行の検索は「必ず値が入る列」= B列（仕入先）で行う
+    // ※ A列（タグ列）で検索すると、タグ未選択時に永遠に同じ行を上書きしてしまうため
+    var searchCol = 2;
+
+    // 3行目以降で searchCol（B列）が空白の行を探す
     var row = null;
     var maxRow = sheet.getMaxRows();
 
     for (var i = 3; i <= maxRow; i++) {
-      var cellValue = sheet.getRange(i, startCol).getValue();
+      var cellValue = sheet.getRange(i, searchCol).getValue();
       if (cellValue === '' || cellValue === null) {
         row = i;
         break;
