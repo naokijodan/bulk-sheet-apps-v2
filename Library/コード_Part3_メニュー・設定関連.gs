@@ -4159,6 +4159,15 @@ function applyCalculationFormulas(sheetName, settings) {
       if (templateFormulas.length > 0) {
         sheet.getRange(5, 5, templateFormulas.length, 1).setFormulas(templateFormulas);
         console.log('E列（テンプレートID）設定完了（5～' + dataLastRow + '行）[INDEX/MATCH版]');
+
+        // V5作業シート にも同じ E列式を書き込む（椛島さん指示 2026-05-08）
+        var v5NameForE = (typeof CONFIG !== 'undefined' && CONFIG.V5_WORK_SHEET_NAME) || 'v5作業シート';
+        var v5SheetForE = ss.getSheetByName(v5NameForE);
+        if (v5SheetForE) {
+          v5SheetForE.getRange('E4').setValue('テンプレート');
+          v5SheetForE.getRange(5, 5, templateFormulas.length, 1).setFormulas(templateFormulas);
+          console.log('V5作業シート の E列にも同じ式を書き込みました');
+        }
       }
     } catch (eTemplate) {
       console.error('E列（テンプレート）設定エラー: ' + eTemplate.message);
