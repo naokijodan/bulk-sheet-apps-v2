@@ -151,14 +151,10 @@ function updateExchangeRateAutomatically() {
 }
 
 /**
- * V5 作業シートを確保（無ければ作成）し、必要なセルを初期化する
- * - A1/C1: 為替ラベル / A2: GOOGLEFINANCE / C2: 為替レート初期値
- * - F1/F2/H2: 手数料率 / 広告費率 / 利益率 のデフォルト
- *   （タグ自動判定 ON で TagShipping から TAG 参照に置き換わるが、安全のためデフォルト値も入れる）
- * - J2/L2/M2/N2: 重量・長さ・幅・高さ のデフォルト
- * - AA2: 実関税率 / AF2: 調整後関税率 / AJ4: 送料切替基準
- * - AP2/AP3: DDU 調整 ON/OFF, 閾値
- * - AQ2/AQ3: 低/高価格配送方法略称
+ * V5 作業シートを確保（無ければ作成）し、A1/A2/C1/C2 を初期化する
+ * - A1: "参考為替(GF)" / C1: "使用為替(API)"
+ * - A2: =GOOGLEFINANCE("CURRENCY:USDJPY") （参考値）
+ * - C2: 空なら 145 をセット（実値は initialSetup の updateExchangeRate で上書きされる）
  *
  * @return {Sheet|null} 確保された v5作業シート（失敗時 null）
  */
@@ -192,49 +188,10 @@ function ensureV5WorkSheet_() {
       c2.setValue(145);
     }
 
-    // applyCalculationFormulas が依存するデフォルト値セル
-    // 既存値があれば尊重、空欄時のみセット（ユーザーが手動で変更可能）
-    setIfBlankV5_(sheet, 'F1', 0.13);   // 手数料率（13%）
-    setIfBlankV5_(sheet, 'F2', 0);      // 広告費率（0%）
-    setIfBlankV5_(sheet, 'H1', 1000);   // 利益額（1000 円、デフォルト）
-    setIfBlankV5_(sheet, 'H2', 0.20);   // 利益率（20%）
-    setIfBlankV5_(sheet, 'J2', 200);    // 重量（g）
-    setIfBlankV5_(sheet, 'L2', 20);     // 長さ（cm）
-    setIfBlankV5_(sheet, 'M2', 20);     // 幅（cm）
-    setIfBlankV5_(sheet, 'N2', 5);      // 高さ（cm）
-    setIfBlankV5_(sheet, 'AA2', 0.15);  // 実関税率（15%）
-    setIfBlankV5_(sheet, 'AJ4', 5000);  // 送料切替基準（5000 円）
-    setIfBlankV5_(sheet, 'AP2', 'OFF'); // DDU 調整 ON/OFF
-    setIfBlankV5_(sheet, 'AP3', 0);     // DDU 想定関税閾値
-    setIfBlankV5_(sheet, 'AQ2', 'EP');  // 低価格配送略称
-    setIfBlankV5_(sheet, 'AQ3', 'CF');  // 高価格配送略称
-
-    // AF2: 調整後関税率の式（F1/F2 が埋まっているので動く）
-    var af2 = sheet.getRange('AF2');
-    if (af2.getFormula() === '' && (af2.getValue() === '' || af2.getValue() === null)) {
-      af2.setFormula('=$AA$2/(1-$F$1-$F$2)*1.03');
-    }
-
     return sheet;
   } catch (e) {
     Logger.log('ensureV5WorkSheet_ エラー: ' + e.message);
     return null;
-  }
-}
-
-/**
- * V5 作業シートのセルが空欄なら値をセットするヘルパー
- * （ユーザーが手動で変更したセルは尊重）
- */
-function setIfBlankV5_(sheet, cellRef, value) {
-  try {
-    var cell = sheet.getRange(cellRef);
-    var current = cell.getValue();
-    if (current === '' || current === null) {
-      cell.setValue(value);
-    }
-  } catch (e) {
-    Logger.log('setIfBlankV5_ エラー (' + cellRef + '): ' + e.message);
   }
 }
 
