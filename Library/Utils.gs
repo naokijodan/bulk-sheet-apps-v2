@@ -269,6 +269,9 @@ function setupTagFormatToggle_() {
     if (current !== '参考eBay ID' && current !== 'カテゴリーID') {
       d2.setValue('参考eBay ID');
     }
+
+    // F4: D2 の値を反映する式（出品用シート側も F4 を読み取って連動できるようにするため）
+    sheet.getRange('F4').setFormula('=$D$2');
   } catch (e) {}
 }
 
