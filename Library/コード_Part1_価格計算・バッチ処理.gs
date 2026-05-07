@@ -1689,15 +1689,7 @@ function runSelectedRows() {
         logType: 'success'
       });
 
-      // 5行ごとにSTOP制御チェック
-      if (processedInThisBatch > 0 && processedInThisBatch % 5 === 0) {
-        if (!checkStopControl()) {
-          clearProcessingState();
-          clearAllTriggers();
-          conditionalShowAlert('ユーザーにより処理が停止されました（D2=STOP）。\n処理済み: ' + processedCount + '件', 'warning');
-          return;
-        }
-      }
+      // 旧 GO/STOP 緊急停止制御は廃止 (D2 はタグ書式トグルに転用)
 
       rowsSeenInThisRun += batch.length;
       props.setProperty('lastProcessedRowIndex', (startRowIndex + rowsSeenInThisRun).toString());
@@ -2296,15 +2288,7 @@ function runSelectedRowsComplete() {
           logType: 'success'
         });
 
-        // 5行ごとにSTOP制御チェック
-        if (processedInThisBatch > 0 && processedInThisBatch % 5 === 0) {
-          if (!checkStopControl()) {
-            clearProcessingStateComplete_();
-            clearAllTriggers();
-            conditionalShowAlert('ユーザーにより処理が停止されました（D2=STOP）。\n処理済み: ' + processedCount + '件', 'warning');
-            return;
-          }
-        }
+        // 旧 GO/STOP 緊急停止制御は廃止 (D2 はタグ書式トグルに転用)
 
         rowsSeenInThisRun += batch.length;
         props.setProperty('lastProcessedRowIndex_complete', (startRowIndex + rowsSeenInThisRun).toString());
@@ -2449,15 +2433,7 @@ function runSelectedRowsComplete() {
           });
         }
 
-        // STOP制御チェック
-        if ((templateSuccessCount + policySuccessCount) > 0 && (templateSuccessCount + policySuccessCount) % 5 === 0) {
-          if (!checkStopControl()) {
-            clearProcessingStateComplete_();
-            clearAllTriggers();
-            conditionalShowAlert('ユーザーにより処理が停止されました（D2=STOP）。\nPHASE2処理済み: ' + templateSuccessCount + '件', 'warning');
-            return;
-          }
-        }
+        // 旧 GO/STOP 緊急停止制御は廃止 (D2 はタグ書式トグルに転用)
 
         props.setProperty('lastProcessedRowIndex_complete', batchEnd.toString());
 
@@ -3126,12 +3102,7 @@ function runSelectedRowsCalculate() {
         applyCalculationBatch_(sheet, batchRows, settings, manualWeight, manualSize);
         processedCount += batchRows.length;
 
-        if (processedCount > 0 && processedCount % 5 === 0) {
-          if (!checkStopControl()) {
-            conditionalShowAlert('ユーザーにより処理が停止されました（D2=STOP）。\n処理済み: ' + processedCount + '件', 'warning');
-            return;
-          }
-        }
+        // 旧 GO/STOP 緊急停止制御は廃止 (D2 はタグ書式トグルに転用)
 
       } catch (e) {
         errorCount += batchRows.length;

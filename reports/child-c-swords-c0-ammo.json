@@ -1,0 +1,501 @@
+{
+  "task": "child-c-swords-c0-ammo",
+  "feature": "F-swords-c0-2026-05-02",
+  "sprint": "C0",
+  "created_at": "2026-05-02",
+  "executor": "child-c",
+  "status": "DONE",
+
+  "type_dict": {
+    "classification": "Fact",
+    "source": "https://ja.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E5%88%80",
+    "count": 11,
+    "real_swords": [
+      {
+        "jp": "太刀",
+        "en": "Tachi",
+        "detail": "騎馬戦闘用。刃長60cm以上、強い反り。刃を下に向けて腰から吊るす。平安〜南北朝時代の主力。"
+      },
+      {
+        "jp": "打刀",
+        "en": "Katana",
+        "detail": "徒歩戦闘用。刃長60cm以上。刃を上に向けて帯刀。室町時代以降の主流。"
+      },
+      {
+        "jp": "脇差",
+        "en": "Wakizashi",
+        "detail": "刃長30〜60cm。打刀と組み合わせて大小として携帯。室内護身用。"
+      },
+      {
+        "jp": "短刀",
+        "en": "Tanto",
+        "detail": "刃長30cm未満。護身・切腹用。女性も携帯した。"
+      },
+      {
+        "jp": "大太刀 / 野太刀",
+        "en": "Nodachi / Odachi",
+        "detail": "刃長90cm以上の大型太刀。主に歩兵が両手で使用。南北朝時代に多用。"
+      },
+      {
+        "jp": "薙刀",
+        "en": "Naginata",
+        "detail": "長柄武器。刀身と長い柄から構成。主に女性武士（なぎなた術）にも継承。"
+      },
+      {
+        "jp": "槍",
+        "en": "Yari",
+        "detail": "直線的な穂先を持つ槍。日本の槍は穂先の種類が多様（素槍・菊池槍・十文字槍等）。"
+      },
+      {
+        "jp": "直刀",
+        "en": "Chokuto",
+        "detail": "古墳・飛鳥・奈良時代の反りのない直刀。日本刀の前身。"
+      },
+      {
+        "jp": "小太刀",
+        "en": "Kodachi",
+        "detail": "太刀より短い小型の太刀。刃長60cm未満。片手で使用可能。"
+      }
+    ],
+    "replica_training": [
+      {
+        "jp": "居合刀 / 模造刀",
+        "en": "Iaito",
+        "detail": "居合道練習用模造刀。刃付けなし。亜鉛合金製が多く、銃刀法の対象外（要確認）。eBayでの出品規制最低リスク。"
+      },
+      {
+        "jp": "観賞用模造刀",
+        "en": "Replica Sword / Decorative Sword",
+        "detail": "鑑賞・装飾・コスプレ用。刃なし。材質は亜鉛合金・ステンレス等。"
+      }
+    ]
+  },
+
+  "era_dict": {
+    "classification": "Fact",
+    "source": "https://ja.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E5%88%80",
+    "count": 4,
+    "entries": [
+      {
+        "jp": "古刀",
+        "en": "Koto",
+        "period": "〜1596年（慶長元年）",
+        "detail": "平安時代後期〜安土桃山時代。五箇伝が成立・発展した時代。正宗・長光・国光などの名工輩出。"
+      },
+      {
+        "jp": "新刀",
+        "en": "Shinto",
+        "period": "1596〜1781年（慶長〜安永）",
+        "detail": "江戸時代前〜中期。京・大阪・江戸を中心に刀剣生産が集中。助広・虎徹活躍。"
+      },
+      {
+        "jp": "新々刀",
+        "en": "Shinshinto",
+        "period": "1781〜1876年（安永〜廃刀令）",
+        "detail": "江戸時代後期〜明治初期。復古運動で古刀様式の復興。廃刀令（1876年）で時代終了。"
+      },
+      {
+        "jp": "現代刀",
+        "en": "Gendaito",
+        "period": "1876年〜現在（明治以降）",
+        "detail": "廃刀令以降の刀剣。現在も文化庁認定刀匠が製作。銃刀法上の登録制度継続。"
+      }
+    ]
+  },
+
+  "school_dict": {
+    "classification": "Fact",
+    "source": "https://www.meihaku.jp/touken-woman-recommend/woman-toukenshool/",
+    "note": "五箇伝 (Five Traditions) — 日本刀の5大産地",
+    "count": 5,
+    "entries": [
+      {
+        "jp": "相州伝",
+        "en": "Soshu-den",
+        "region": "相模国（現神奈川県）",
+        "center": "鎌倉",
+        "peak": "鎌倉〜南北朝時代",
+        "representative": "正宗 / Masamune",
+        "detail": "荒々しい沸（にえ）が特徴。正宗がこの伝を完成。現代刀剣美術に最大の影響。"
+      },
+      {
+        "jp": "備前伝",
+        "en": "Bizen-den",
+        "region": "備前国（現岡山県東部）",
+        "center": "長船（おさふね）",
+        "peak": "鎌倉〜室町時代",
+        "representative": "長光 / Nagamitsu、兼光 / Kanemitsu",
+        "detail": "量産体制で有名。匂い（におい）が豊かな互の目乱れが特徴。"
+      },
+      {
+        "jp": "山城伝",
+        "en": "Yamashiro-den",
+        "region": "山城国（現京都府）",
+        "center": "京都・粟田口",
+        "peak": "平安後期〜鎌倉時代",
+        "representative": "三条宗近 / Sanjo Munechika、粟田口吉光 / Awataguchi Yoshimitsu",
+        "detail": "細身・深い反りの優美な姿。来派（らいは）も山城伝の流れ。"
+      },
+      {
+        "jp": "大和伝",
+        "en": "Yamato-den",
+        "region": "大和国（現奈良県）",
+        "center": "奈良（春日大社・東大寺関連）",
+        "peak": "平安後期〜室町時代",
+        "representative": "手掻派 / Tegai、千手院派 / Senjuin",
+        "detail": "宗教的背景が強い。細身で直刃（すぐは）の多いすっきりした姿。"
+      },
+      {
+        "jp": "美濃伝",
+        "en": "Mino-den",
+        "region": "美濃国（現岐阜県）",
+        "center": "関（せき）",
+        "peak": "南北朝〜室町時代",
+        "representative": "兼定 / Kanesada、兼元（孫六） / Kanemoto (Magoroku)",
+        "detail": "実戦的な刀が多い。関は現代も刃物の産地として著名。"
+      }
+    ]
+  },
+
+  "certification_bodies": {
+    "classification": "Fact",
+    "source": "https://new.uniquejapan.com/nbthk-nihon-bijutsu-token-hozon-kyokai-certification-paper-ranking/",
+    "count": 4,
+    "entries": [
+      {
+        "jp": "公益財団法人日本美術刀剣保存協会",
+        "en_abbr": "NBTHK",
+        "en_full": "Society for the Preservation of Japanese Art Swords",
+        "founded": 1948,
+        "status": "最高権威",
+        "shinsa_location": "日本国内のみ",
+        "verification_service": "¥5,000 (~$35) で登録番号による真正性確認可能",
+        "forgery_risk": "国際市場の約30%が偽造（Dr. Markus Sesko）"
+      },
+      {
+        "jp": "日本刀剣保存会",
+        "en_abbr": "NTHK",
+        "en_full": "Society for the Preservation of Japanese Swords",
+        "status": "権威ある第2機関",
+        "shinsa_location": "日本 + 米国・欧州でも実施",
+        "detail": "日本国外でのshinsa開催がNBTHKとの主要な差異"
+      },
+      {
+        "jp": "日本刀剣保存会（NPO法人）",
+        "en_abbr": "NTHK-NPO",
+        "status": "NPO法人版",
+        "detail": "NTHK系列のNPO法人。証書はNTHKと区別して記載必要。"
+      },
+      {
+        "jp": "刀剣美術書",
+        "en_abbr": "Token Bijutsu Sho",
+        "status": "その他鑑定書",
+        "detail": "古い証書・非公式証書を指す場合あり。真正性確認を特に推奨。"
+      }
+    ]
+  },
+
+  "grade_dict": {
+    "classification": "Fact",
+    "source": "https://tokyo-nihonto.com/blogs/nihonto-blog/nbthk-certificates-explained-what-every-buyer-needs-to-know-2026-guide",
+    "note": "格付けは高位から低位の順",
+    "entries": [
+      {
+        "rank": 1,
+        "jp": "国宝",
+        "en": "National Treasure",
+        "authority": "日本国文化庁",
+        "detail": "最高位国家指定。輸出絶対禁止。eBay出品不可（法的に絶対禁止）。",
+        "ebay_status": "PROHIBITED — export illegal"
+      },
+      {
+        "rank": 2,
+        "jp": "重要文化財",
+        "en": "Important Cultural Property",
+        "en_abbr": "ICP",
+        "authority": "日本国文化庁",
+        "detail": "国宝に次ぐ指定。輸出には特別許可が必要（原則禁止）。",
+        "ebay_status": "EFFECTIVELY PROHIBITED"
+      },
+      {
+        "rank": 3,
+        "jp": "重要美術品",
+        "en": "Important Art Object",
+        "authority": "日本国文化庁（旧制度）",
+        "detail": "1933年重要美術品等ノ保存ニ関スル法律による指定。輸出には許可が必要。"
+      },
+      {
+        "rank": 4,
+        "jp": "特別重要刀剣",
+        "en": "Tokubetsu Juyo Token",
+        "authority": "NBTHK",
+        "detail": "NBTHKが授与できる最高位。約700振のみ（200万振中）。天文学的価値。投資グレード最上位。",
+        "market_impact": "最高水準の価値増加"
+      },
+      {
+        "rank": 5,
+        "jp": "重要刀剣",
+        "en": "Juyo Token",
+        "authority": "NBTHK",
+        "detail": "NBTHK第2位。約10,000振のみ。Tokubetsu Hozonからの昇格が必要。",
+        "market_impact": "価格200〜600%上昇"
+      },
+      {
+        "rank": 6,
+        "jp": "特別保存刀剣",
+        "en": "Tokubetsu Hozon Token",
+        "authority": "NBTHK",
+        "paper_color": "茶色 / Brown",
+        "detail": "NBTHK第3位。Hozonの7基準を卓越した水準で満たす。"
+      },
+      {
+        "rank": 7,
+        "jp": "保存刀剣",
+        "en": "Hozon Token",
+        "authority": "NBTHK",
+        "paper_color": "黄色 / Yellow",
+        "detail": "NBTHK入門認定。提出10振中約2振のみ合格。真正性・署名・致命的損傷なしを証明。"
+      }
+    ],
+    "discontinued_nbthk_certs": [
+      {"jp": "貴重刀剣",       "en": "Kicho Token",                "paper": "White", "period": "1948-1982"},
+      {"jp": "特別貴重刀剣",   "en": "Tokubetsu Kicho Token",      "paper": "Green", "period": "1950-1982"},
+      {"jp": "甲種特別貴重刀剣","en": "Koshu Tokubetsu Kicho Token","paper": "Blue",  "period": "1973-1982"}
+    ]
+  },
+
+  "swordsmith_dict": {
+    "classification": "Fact",
+    "source": "https://www.touken-world.jp/sword-artisan-directory/",
+    "count": 12,
+    "entries": [
+      {
+        "jp": "正宗",
+        "en": "Masamune",
+        "school": "相州伝",
+        "period": "鎌倉時代末期〜南北朝時代初期",
+        "detail": "日本刀史上最も著名な刀工。相州伝を完成。現存作品は希少で高価値。"
+      },
+      {
+        "jp": "村正",
+        "en": "Muramasa",
+        "school": "千子派（美濃伝系）",
+        "period": "室町時代（1501〜1555年頃）",
+        "region": "伊勢国桑名",
+        "detail": "「妖刀」伝説で有名。切れ味が鋭く徳川家に祟ったとされる。6代以上継承。"
+      },
+      {
+        "jp": "兼定",
+        "en": "Kanesada",
+        "school": "美濃伝",
+        "period": "室町時代〜江戸時代",
+        "region": "美濃国関",
+        "detail": "関の代表的刀工。複数代にわたり継承。歴史上の著名人の愛刀多数。"
+      },
+      {
+        "jp": "虎徹（長曽祢虎徹）",
+        "en": "Kotetsu (Nagasone Kotetsu)",
+        "school": "新刀期江戸",
+        "period": "江戸時代中期",
+        "region": "江戸",
+        "detail": "もとは甲冑師。50歳過ぎて刀工転向。近藤勇の愛刀として著名。切れ味伝説あり。"
+      },
+      {
+        "jp": "津田助広",
+        "en": "Tsuda Sukehiro",
+        "school": "新刀期大阪",
+        "period": "江戸時代前期",
+        "region": "大阪",
+        "detail": "「涛瀾乱れ（とうらんみだれ）」の創案者。大阪新刀の代表的刀工。"
+      },
+      {
+        "jp": "堀川国広",
+        "en": "Horikawa Kunihiro",
+        "school": "山城伝（堀川派）",
+        "period": "慶長年間（1596〜1615）",
+        "region": "京都",
+        "detail": "古刀復興を目指した慶長期の代表的刀工。新刀期の幕開けを担う。"
+      },
+      {
+        "jp": "井上真改（国貞）",
+        "en": "Inoue Shinkai (Kunisada)",
+        "school": "新刀期大阪",
+        "period": "江戸時代前期",
+        "region": "大阪",
+        "detail": "大阪新刀の最高峰刀工の一人。匂い口の深い傑作多数。"
+      },
+      {
+        "jp": "長光",
+        "en": "Nagamitsu",
+        "school": "備前伝（長船派）",
+        "period": "鎌倉時代",
+        "region": "備前国長船",
+        "detail": "長船派の中興の祖。備前長船の名を世に広めた。国宝・重要文化財指定作品多数。"
+      },
+      {
+        "jp": "兼光",
+        "en": "Kanemitsu",
+        "school": "備前伝（長船派）",
+        "period": "室町時代",
+        "region": "備前国長船",
+        "detail": "長光の子孫。備前長船最後の黄金期を担う。"
+      },
+      {
+        "jp": "一文字（福岡一文字）",
+        "en": "Ichimonji (Fukuoka Ichimonji)",
+        "school": "備前伝",
+        "period": "鎌倉時代",
+        "region": "備前国",
+        "detail": "天皇家御用刀剣。「菊一文字」等の伝説的名刀。銘に「一」の字のみ切る。"
+      },
+      {
+        "jp": "来国光",
+        "en": "Rai Kunimitsu",
+        "school": "山城伝（来派）",
+        "period": "鎌倉時代後期",
+        "region": "山城国",
+        "detail": "来派の代表的刀工。細身で優美な京風の作風。"
+      },
+      {
+        "jp": "信国",
+        "en": "Nobukuni",
+        "school": "山城伝",
+        "period": "室町時代",
+        "region": "京都",
+        "detail": "南北朝〜室町期の山城伝を代表する刀工。"
+      }
+    ]
+  },
+
+  "fittings_dict": {
+    "classification": "Fact",
+    "source": "https://new.uniquejapan.com/glossary/",
+    "count": 12,
+    "entries": [
+      {"jp": "鍔",     "en": "Tsuba",        "detail": "刀の鍔。手の保護と装飾を兼ねる。eBay独立カテゴリ[162978]あり。材質・流派・年代が価値を決定。"},
+      {"jp": "目貫",   "en": "Menuki",       "detail": "柄の握り部分の装飾金具。一対で使用。武将・花鳥風月・龍などの意匠が多い。"},
+      {"jp": "小柄",   "en": "Kozuka",       "detail": "鞘に差し込む小刀の柄。実用と装飾を兼ねる。"},
+      {"jp": "笄",     "en": "Kogai",        "detail": "鞘に差し込む細長い具。元来は髪を整える道具。"},
+      {"jp": "縁頭",   "en": "Fuchi-Kashira","detail": "柄の両端の金具一対。縁（ふち）=刀鍔側、頭（かしら）=刀尻側。"},
+      {"jp": "鯉口",   "en": "Koiguchi",     "detail": "鞘口の補強金具。抜刀時の手触りにも関わる重要パーツ。"},
+      {"jp": "柄",     "en": "Tsuka",        "detail": "握り部分全体。鮫皮（same-kawa）を巻き、さらに柄糸で巻く。"},
+      {"jp": "鞘",     "en": "Saya",         "detail": "刀の納める鞘。木製に漆を塗る。傷・割れが価値に影響。"},
+      {"jp": "切羽",   "en": "Seppa",        "detail": "鍔の前後に挟む薄い金属板。刀身固定の役割。"},
+      {"jp": "栗形",   "en": "Kurikata",     "detail": "鞘の握り紐（下緒）を通す突起。"},
+      {"jp": "鐺",     "en": "Kojiri",       "detail": "鞘尻（先端）の補強金具。"},
+      {"jp": "下緒",   "en": "Sageo",        "detail": "鞘に結ぶ紐。絹製が多い。帯への固定や武道の作法に使用。"}
+    ]
+  },
+
+  "material_dict": {
+    "classification": "Fact",
+    "source": "https://new.uniquejapan.com/glossary/",
+    "count": 8,
+    "entries": [
+      {"jp": "赤銅",   "en": "Shakudo",   "detail": "銅と金（4%前後）の合金。化学処理で紫黒色に発色。最高級刀装具材料の一つ。"},
+      {"jp": "真鍮",   "en": "Shinchu",   "detail": "黄銅（銅+亜鉛）。金色の光沢。比較的廉価な装具材料。"},
+      {"jp": "銀",     "en": "Silver",    "detail": "銀。装具の地金・象嵌・金具等に広く使用。"},
+      {"jp": "金",     "en": "Gold",      "detail": "金。象嵌・鍍金等に使用。純金使用は最高級品のみ。"},
+      {"jp": "銀無垢", "en": "Solid Silver","detail":"純銀製。価値高い。"},
+      {"jp": "金無垢", "en": "Solid Gold", "detail": "純金製。極めて高価。"},
+      {"jp": "鉄",     "en": "Iron / Tetsu","detail": "鍛鉄製の鍔が最も一般的。各種技法（彫り・透かし等）を施す。"},
+      {"jp": "朧銀",   "en": "Oborogin",  "detail": "銀と銅の合金。青みがかった銀色。赤銅と同様、化学処理で発色を調整。"}
+    ]
+  },
+
+  "decoration_techniques": {
+    "classification": "Fact",
+    "source": "https://new.uniquejapan.com/glossary/",
+    "count": 5,
+    "entries": [
+      {"jp": "象嵌",     "en": "Zogan",        "en_alt": "Inlay",       "detail": "金属に溝を彫り、別の金属を埋め込む技法。平象嵌・高肉象嵌・布目象嵌等の種類がある。"},
+      {"jp": "蒔絵",     "en": "Maki-e",       "en_alt": "Lacquer",     "detail": "漆器装飾技法。漆で文様を描き、金銀粉を蒔く。鞘・柄の装飾に使用。"},
+      {"jp": "透かし彫り","en": "Sukashi-bori", "en_alt": "Openwork",   "detail": "金属を透かして文様を浮かび上がらせる技法。鍔に多用（陽透かし・陰透かし）。"},
+      {"jp": "高肉彫",   "en": "Takaniku-bori","en_alt": "High Relief", "detail": "表面から高く浮き出した彫り。目貫・縁頭等の立体的装飾に多用。"},
+      {"jp": "平象嵌",   "en": "Hira-zogan",   "en_alt": "Flat Inlay",  "detail": "象嵌の基本形。金属板を平面に埋め込む。文様の輪郭線等に使用。"}
+    ]
+  },
+
+  "historical_period_dict": {
+    "classification": "Fact",
+    "source": "https://ja.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E5%88%80",
+    "count": 6,
+    "entries": [
+      {"jp": "平安時代", "en": "Heian",           "period": "794-1185",  "detail": "日本刀の黎明期。湾刀（彎曲刀）の成立。"},
+      {"jp": "鎌倉時代", "en": "Kamakura",         "period": "1185-1333", "detail": "日本刀の最盛期。正宗・備前長船・粟田口など五箇伝の確立。"},
+      {"jp": "室町時代", "en": "Muromachi",         "period": "1336-1573", "detail": "応仁の乱等で大量生産。打刀の台頭。"},
+      {"jp": "安土桃山時代","en": "Azuchi-Momoyama","period": "1573-1603", "detail": "短期だが茶道との融合で装具が発達。"},
+      {"jp": "江戸時代", "en": "Edo",               "period": "1603-1868", "detail": "平和の時代。刀は武器から美術品・武士の魂へ。新刀・新々刀の興隆。"},
+      {"jp": "明治時代以降","en": "Meiji+",          "period": "1868-",    "detail": "廃刀令（1876）以降。現代刀（文化財・武道用）。銃刀法による登録制度。"}
+    ]
+  },
+
+  "defect_dict": {
+    "classification": "Fact",
+    "source": "https://www.japaneseswordindex.com/kizu.htm",
+    "count": 22,
+    "blade_defects": [
+      {"jp": "錆",         "en": "Rust",               "severity": "高（程度による）", "detail": "刃・地・棟の酸化。軽微なら研磨で除去可能。深錆は致命傷。"},
+      {"jp": "刃こぼれ",   "en": "Edge Chip / Hagire", "severity": "致命的（hamon超えの場合）", "detail": "刃の欠け。焼きを超えるとFatal Flaw。"},
+      {"jp": "切先欠け",   "en": "Kissaki Damage",     "severity": "致命的（boshi超えの場合）", "detail": "切先（きっさき）の損傷。研磨で修正可能な場合あり。"},
+      {"jp": "曲がり",     "en": "Bent / Sori Loss",   "severity": "高", "detail": "刀身の歪み。反りの消失や曲がり。"},
+      {"jp": "刃疵",       "en": "Hada Flaw / Ji-are", "severity": "中〜高", "detail": "地肌（はだ）の荒れ・不規則な盛り上がり。内部損傷の可能性。"},
+      {"jp": "鎬割れ",     "en": "Shinogi Damage",     "severity": "高", "detail": "鎬筋（しのぎすじ）の損傷。"},
+      {"jp": "鋩子損傷",   "en": "Boshi Damage",       "severity": "高", "detail": "切先の焼き（ぼうし）の損傷。"},
+      {"jp": "焼き戻し",   "en": "Re-tempered / Yaki-modoshi", "severity": "致命的", "detail": "刃文の再焼き入れ跡。水影（みずかげ）が現れる。価値を著しく損なう。"},
+      {"jp": "亀裂（ふくれ）","en": "Fukure / Blister", "severity": "高", "detail": "鍛錬時の空気・炭素泡。表面の膨れ。"},
+      {"jp": "しない",     "en": "Shinae",             "severity": "中", "detail": "曲がりを修正した際の表面のしわ・波紋。"},
+      {"jp": "埋金",       "en": "Umegane",            "severity": "高", "detail": "損傷修復のため別鋼を埋めた跡。価値低下。"},
+      {"jp": "水影",       "en": "Mizukage",           "severity": "高", "detail": "再焼き入れによる地の霞状の線。焼き戻しの証拠。"},
+      {"jp": "割れ（ウエ）","en": "Ware",               "severity": "高", "detail": "鍛接不良による横割れ。"},
+      {"jp": "匂い切れ",   "en": "Nioi Gire",          "severity": "致命的", "detail": "刃文の途切れ。Fatal Flaw。"}
+    ],
+    "saya_defects": [
+      {"jp": "鞘割れ",   "en": "Saya Crack",     "severity": "中", "detail": "鞘の割れ。乾燥・衝撃によるもの。"},
+      {"jp": "鞘剥がれ", "en": "Saya Peeling",   "severity": "低〜中", "detail": "鞘表面の剥がれ。"},
+      {"jp": "漆剥がれ", "en": "Lacquer Chipping","severity": "低〜中", "detail": "漆塗りの剥がれ。"}
+    ],
+    "tsuka_defects": [
+      {"jp": "柄糸ほつれ",  "en": "Tsukamaki Worn",      "severity": "低〜中", "detail": "柄巻きの傷み・ほつれ。"},
+      {"jp": "柄破損",      "en": "Tsuka Damage",         "severity": "中〜高", "detail": "柄（木部）の割れ・損傷。"},
+      {"jp": "鮫皮剥がれ",  "en": "Same-Kawa Peeling",    "severity": "中", "detail": "柄の下地の鮫皮（さめかわ）の剥がれ。"}
+    ],
+    "fittings_defects": [
+      {"jp": "鍔錆",       "en": "Tsuba Rust",           "severity": "低〜高（程度による）", "detail": "鍔の錆。鉄鍔は特に影響を受けやすい。"},
+      {"jp": "目貫欠落",   "en": "Missing Menuki",       "severity": "中", "detail": "目貫の欠落（一対のうち片方または両方）。"},
+      {"jp": "縁頭損傷",   "en": "Fuchi-Kashira Damage", "severity": "中", "detail": "縁・頭の損傷・欠け。"}
+    ],
+    "documentation_defects": [
+      {"jp": "登録証なし", "en": "No Registration Certificate", "severity": "致命的（日本国内）", "detail": "日本国内での所持・売買には登録証（都道府県教育委員会発行）が法律上必須。eBay出品でも状態として必ず記載すべき重要事項。"},
+      {"jp": "鑑定書なし", "en": "No Authentication Certificate", "severity": "高（価値に影響）", "detail": "NBTHK/NTHK等の鑑定書がない場合、真正性の証明が困難で価格が大幅に低下。"}
+    ]
+  },
+
+  "sources": [
+    "https://new.uniquejapan.com/nbthk-nihon-bijutsu-token-hozon-kyokai-certification-paper-ranking/",
+    "https://tokyo-nihonto.com/blogs/nihonto-blog/nbthk-certificates-explained-what-every-buyer-needs-to-know-2026-guide",
+    "https://www.samuraimuseum.jp/shop/ep-10-perfect-guide-to-reading-the-nbthk-nthk-certificate/",
+    "https://www.japaneseswordindex.com/kizu.htm",
+    "https://www.touken-world.jp/sword-artisan-directory/",
+    "https://www.meihaku.jp/touken-woman-recommend/woman-toukenshool/",
+    "https://ja.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E5%88%80",
+    "https://new.uniquejapan.com/glossary/",
+    "https://www.kyoiku.metro.tokyo.lg.jp/lifelong/cultural_property/firearms_and_swords/registration_03_02.html",
+    "https://www.touken-collection-kuwana.jp/touken-information-miegifu/sword-artisan-muramasa/"
+  ],
+
+  "summary": {
+    "type_count": 11,
+    "era_count": 4,
+    "school_count": 5,
+    "certification_body_count": 4,
+    "grade_count": 7,
+    "swordsmith_count": 12,
+    "fittings_count": 12,
+    "material_count": 8,
+    "decoration_technique_count": 5,
+    "historical_period_count": 6,
+    "defect_count": 22,
+    "sources_count": 10
+  }
+}

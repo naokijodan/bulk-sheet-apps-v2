@@ -3014,7 +3014,7 @@ function saveIntegratedSettings(formData) {
 
     // システム設定
     ensureSurchargeCellsOnWorkSheet();
-    setupStopControlCell();
+    setupTagFormatToggle_();
 
     // 設定値を作業シートのAI列以降に書き出し
     var writeResult = writeSettingsToSheet(sheetName, {

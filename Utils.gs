@@ -241,46 +241,35 @@ function createBatches(array, size) {
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  処理制御
+  D2 セル: タグ書式トグル（参考eBay ID / カテゴリーID 切替）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-
-function setupStopControlCell() {
+// 旧 GO/STOP 緊急停止制御は機能していなかったため廃止 (椛島さん指示 2026-05-08)。
+// 代わりに D2 を「F列の式分岐の入力ソース」として使う。
+// 参考eBay ID = TagShipping から検索 / カテゴリーID = v5インポート から取得
+function setupTagFormatToggle_() {
   try {
     var docProps = PropertiesService.getDocumentProperties();
     var sheetName = docProps.getProperty('SHEET_NAME') || '作業シート';
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName(sheetName);
     if (!sheet) return;
-    sheet.getRange("D2").setValue("GO");
+
+    var rule = SpreadsheetApp.newDataValidation()
+      .requireValueInList(['参考eBay ID', 'カテゴリーID'], true)
+      .setAllowInvalid(false)
+      .setHelpText('F列の式分岐の入力ソース。参考eBay ID = TagShipping から検索 / カテゴリーID = v5インポートから取得')
+      .build();
+    var d2 = sheet.getRange('D2');
+    d2.setDataValidation(rule);
+
+    // 値の初期化:
+    //  - 既に '参考eBay ID' / 'カテゴリーID' のいずれかが入っていれば尊重
+    //  - 空欄、または旧値（'GO'/'STOP' 等）が残っていれば '参考eBay ID' をセット
+    var current = d2.getValue();
+    if (current !== '参考eBay ID' && current !== 'カテゴリーID') {
+      d2.setValue('参考eBay ID');
+    }
   } catch (e) {}
-}
-
-function checkStopControl() {
-  try {
-    var docProps = PropertiesService.getDocumentProperties();
-    var sheetName = docProps.getProperty('SHEET_NAME') || '作業シート';
-    var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
-    if (!sh) return true; // シートが見つからない場合は続行
-
-    var stopValue = sh.getRange('D2').getValue();
-    return stopValue === 'GO'; // GOなら続行、STOPなら停止
-  } catch (e) {
-    return true; // エラー時は続行
-  }
-}
-
-function shouldContinueProcessing() {
-  try {
-    var docProps = PropertiesService.getDocumentProperties();
-    var sheetName = docProps.getProperty('SHEET_NAME') || '作業シート';
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheet = ss.getSheetByName(sheetName);
-    if (!sheet) return true;
-    var val = sheet.getRange("D2").getValue();
-    return (val !== "STOP");
-  } catch (e) {
-    return true;
-  }
 }
 
 function clearProcessingState() {

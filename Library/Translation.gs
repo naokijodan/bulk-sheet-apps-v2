@@ -512,14 +512,7 @@ function runSelectedRowsTranslate() {
         logType: 'success'
       });
 
-      if (processedInThisBatch > 0 && processedInThisBatch % 5 === 0) {
-        if (!checkStopControl()) {
-          clearProcessingState_translate();
-          clearAllTriggers();
-          conditionalShowAlert('ユーザーにより処理が停止されました(D2=STOP)。\n処理済み: ' + processedCount + '件', 'warning');
-          return;
-        }
-      }
+      // 旧 GO/STOP 緊急停止制御は廃止 (D2 はタグ書式トグルに転用)
 
       rowsSeenInThisRun += batch.length;
       props.setProperty('lastProcessedRowIndex_translate', (startRowIndex + rowsSeenInThisRun).toString());

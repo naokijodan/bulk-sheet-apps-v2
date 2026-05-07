@@ -1,0 +1,158 @@
+{
+  "task_id": "child-a-pens-c4",
+  "task_name": "priority 32「万年筆・筆記具」V2.0.1 v1.1 Full Rewrite C4",
+  "worker": "child-a",
+  "session": "harness-20260430-121932-417fa6db",
+  "completed_at": "2026-05-02",
+  "sprint_contract": "F-pens-c4.md",
+  "status": "DONE",
+
+  "phases": {
+    "phase1_prompt_rewrite": {
+      "file": "prompts/万年筆・筆記具.txt",
+      "status": "COMPLETE",
+      "version_before": "v1.0 (version:44, 194 lines)",
+      "version_after": "v23 (430 lines)",
+      "header": "// version: 23 — Full Rewrite 2026-05-02 (V2.0.1 v1.1 PROMPT_DESIGN_PRINCIPLE §3-§10)",
+      "structure": [
+        "SCOPE (Fountain/Ballpoint/Roller Ball/Mechanical/Multi/Calligraphy/Brush/Dip; NOT 毛筆/書道/インク単体/スタイラス)",
+        "GOALS (TRUTH FIRST + BOUNDARY RULE + IS block ban)",
+        "BOUNDARY RULE (毛筆→一般商品 STOP, Ink standalone STOP, Stylus STOP, Pen Stand STOP)",
+        "RULE 2 A/B/C (A=ABSOLUTE BAN, B=Source-confirmed including Maki-e/Sterling/Vintage, C=Always-use facts)",
+        "BOOTLEG MUST (4-layer detection)",
+        "TITLE (HARD LIMIT 80, priority system)",
+        "DESCRIPTION",
+        "§5 DICTIONARIES (Brand/Type/Nib/Filling/Era/Made In/Edition/Cap/Material/Accessory/DEFECT)",
+        "CONDITION TERMS (2 AXES: Functional + Cosmetic)",
+        "MAKI-E / PREMIUM MATERIAL SPECIAL RULES",
+        "CATEGORY ROUTING + BOUNDARY",
+        "PRODUCTNAME",
+        "OUTPUT FORMAT",
+        "CRITICAL (2 items)",
+        "VERIFICATION (14 items)"
+      ],
+      "key_implementations": {
+        "bootleg_4_layers": {
+          "VERY_HIGH_11": "Montblanc/Pelikan/Pilot/Sailor/Platinum/Parker/Waterman/Sheaffer/Cross/Visconti/Aurora",
+          "IP_specific_HIGH_4": "Pre-1960s Montblanc 149/146 / Vintage Pelikan 100/100N / Vintage Parker 51/21 / Vintage Sheaffer Snorkel",
+          "MEDIUM_HIGH_5": "Lamy/Faber-Castell/Caran d'Ache/Yard-O-Led/Conway Stewart",
+          "MEDIUM": "Onoto/Pineider/Maruzen/Ohto/Namiki/Nakaya/Kaweco/TWSBI etc."
+        },
+        "cannot_list_output": "Title: [Cannot list] / Description: This item appears to be an unlicensed/counterfeit/bootleg writing instrument. Cannot be listed on eBay due to potential VeRO violation. / ProductName: [Cannot list] / Category: N/A",
+        "absolute_ban_10_terms": "Bootleg / KO / Knock-off / Replica / Counterfeit / Fake / Unofficial / Unlicensed / Authentic (standalone) / Official (standalone)",
+        "absolute_ban_occurrences": 2,
+        "apostrophe_in_allowed": true,
+        "apostrophe_in_forbidden": false,
+        "caran_dache_preserved": "7 occurrences in prompt",
+        "title_priority_system": "Required: Brand → Model/Series → Type; Additional: Maki-e/Material → Nib (18K M Nib) → Filling System → Edition → Era → Country",
+        "maki_e_source_only": "5 explicit rules — 蒔絵/漆/artist name in source required; DO NOT infer from visual pattern",
+        "vintage_source_only": "Source must confirm era (decade/昭和/year); DO NOT auto-assign from brand/model name",
+        "sterling_silver_source_only": "純銀/純金/sterling in source required; DO NOT infer from model number",
+        "condition_2_axes": {
+          "functional": "Writes Smoothly / Ink Flow Good / Hard Starting / Skipping / Filling Mechanism Working / Filling Issue / Tested-Working / For Parts",
+          "cosmetic": "Mint / Excellent / VG / Good / Fair / Poor / Scratches / Plating Wear / Maki-e Chipping / Body Discoloration / Celluloid Yellowing / Ebonite Oxidation"
+        },
+        "tcg_prohibition": "LP/MP/HP/DMG/PSA/BGS PROHIBITED for pens",
+        "dictionaries": {
+          "Brand": 33,
+          "Type": 14,
+          "Nib_material": 6,
+          "Nib_size": 14,
+          "Filling_system": 10,
+          "Era": 11,
+          "Made_in": 6,
+          "Edition": 10,
+          "Cap": 4,
+          "Body_material": 12,
+          "Accessory": 9,
+          "DEFECT": 27
+        }
+      }
+    },
+    "phase2_library_templates": {
+      "file": "Library/PromptTemplates.gs",
+      "status": "COMPLETE",
+      "line": 129,
+      "key": "PROMPT_TEMPLATES['万年筆・筆記具']",
+      "version_before": 44,
+      "version_after": 23,
+      "content_length_chars": 21258,
+      "syntax_check": "PASS (node --check)",
+      "method": "Python script /tmp/fix_pens_gs.py (encoding-safe)"
+    },
+    "phase3_config_is": {
+      "files": ["Library/Config_IS.gs", "ItemSpecifics/Config_IS.gs"],
+      "status": "COMPLETE",
+      "is_tag_to_category_additions": {
+        "count": 6,
+        "entries": [
+          "IS_TAG_TO_CATEGORY['Fountain Pens'] = 'Pens'",
+          "IS_TAG_TO_CATEGORY['Ballpoint Pens'] = 'Pens'",
+          "IS_TAG_TO_CATEGORY['Mechanical Pencils'] = 'Pens'",
+          "IS_TAG_TO_CATEGORY['Roller Ball Pens'] = 'Pens'",
+          "IS_TAG_TO_CATEGORY['Calligraphy Pens'] = 'Pens'",
+          "IS_TAG_TO_CATEGORY['Multi-Pens'] = 'Pens'"
+        ],
+        "insert_location": "After existing Japanese Pens IS_TAG_TO_CATEGORY entries (Library line 4358 / ItemSpecifics line 4357)"
+      }
+    },
+    "phase4_feature_json": {
+      "file": "docs/feature.json",
+      "status": "COMPLETE",
+      "feature_id": "F-v201-34-pen",
+      "changes": {
+        "status": "failing → in_progress",
+        "priority": "34 → 32",
+        "updated_at": "2026-05-02",
+        "last_sprint_contract": "~/.tmux-harness/sessions/harness-20260430-121932-417fa6db/contracts/F-pens-c4.md"
+      }
+    }
+  },
+
+  "verification_results": {
+    "line_count": 430,
+    "syntax_library_templates": "PASS",
+    "numeric_40_75_violations": 0,
+    "numeric_68_75_violations": 0,
+    "soft_char_target_violations": 0,
+    "absolute_ban_occurrence_count": 2,
+    "caran_dache_apostrophe_preserved": true,
+    "apostrophe_in_forbidden": false,
+    "apostrophe_in_allowed": true,
+    "maki_e_source_only_rules": 5,
+    "bootleg_must_present": true,
+    "condition_2_axes": true,
+    "tcg_prohibition_present": true,
+    "is_tag_to_category_6_en_entries_library": "3 lines × 2 entries = 6 entries CONFIRMED",
+    "is_tag_to_category_6_en_entries_itemspecifics": "3 lines × 2 entries = 6 entries CONFIRMED",
+    "library_version_23": true
+  },
+
+  "c0_violations_fixed": {
+    "H1_soft_char_target_removed": true,
+    "H1_40_75_removed_from_3_locations": true,
+    "H1_68_75_removed_from_3_locations": true,
+    "H2_bootleg_must_added": true,
+    "H3_apostrophe_removed_from_forbidden": true,
+    "H3_apostrophe_added_to_allowed": true,
+    "M1_condition_terms_added": true,
+    "M2_made_in_language_added": true,
+    "M3_category_routing_added": true,
+    "M4_hard_limit_80_reason_based_added": true,
+    "M5_verification_item1_fixed": true
+  },
+
+  "sprint_contract_checklist": {
+    "read_sprint_contract": true,
+    "read_prompt_design_principle_v11": true,
+    "read_record_v23_reference": true,
+    "phase1_prompt_complete": true,
+    "phase2_library_templates_complete": true,
+    "phase3_config_is_both_files_complete": true,
+    "phase4_feature_json_complete": true,
+    "verification_all_pass": true,
+    "report_written_before_done": true
+  },
+
+  "notes": "Full Rewrite v1.0→v23, 194→430 lines. ABSOLUTE BAN 10-term string appears exactly 2x (BOOTLEG MUST + VERIFICATION item 14). Title priority system (not fixed slots). Maki-e/Sterling/Vintage source-only. Apostrophe ALLOWED (Caran d'Ache protection). CONDITION 2 axes (Functional + Cosmetic). TCG terms prohibited. BOOTLEG MUST 4-layer (11 VERY HIGH + 4 Vintage IP + 5 MEDIUM-HIGH + MEDIUM). 6 IS_TAG EN entries added to both Config_IS files."
+}
