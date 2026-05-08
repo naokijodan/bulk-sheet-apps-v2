@@ -351,7 +351,9 @@ function applyV5WorkSheetFormulas_() {
       return;
     }
 
-    // ARRAYFORMULA: ヘッダーセル(4行目) に書く列とヘッダー名・参照先列の対応表
+    // 11 列（A,B,C,D,G,I,J,K,L,M,N）: ヘッダーセル(4行目) に MAP + LAMBDA で 1 度だけ setFormula
+    // ARRAYFORMULA + INDEX/MATCH は MATCH が配列対応しないため使えない（各列で同じ値が返る不具合）
+    // MAP + LAMBDA は各行で個別に MATCH を実行するので、各行で異なる値が正しく返る
     var arrayFormulaCells = {
       'A4': { name: '日付',                   importCol: 'A' },
       'B4': { name: '担当',                   importCol: 'B' },
@@ -368,24 +370,11 @@ function applyV5WorkSheetFormulas_() {
 
     Object.keys(arrayFormulaCells).forEach(function(cell) {
       var cfg = arrayFormulaCells[cell];
-      var f = '={"' + cfg.name + '";ARRAYFORMULA(IF(H5:H="","",IFERROR(INDEX(v5インポート!' + cfg.importCol + ':' + cfg.importCol + ',MATCH(H5:H,v5インポート!H:H,0)),"")))}';
+      var f = '={"' + cfg.name + '";MAP(H5:H,LAMBDA(h,IF(h="","",IFERROR(INDEX(v5インポート!' + cfg.importCol + ':' + cfg.importCol + ',MATCH(h,v5インポート!H:H,0)),""))))}';
       sheet.getRange(cell).setFormula(f);
     });
 
-    // E列・F列: 個別行式（5 行目から最終行まで）
-    var maxRow = sheet.getMaxRows();
-    var rowCount = maxRow - 4; // 5行目から最終行
-    if (rowCount > 0) {
-      var eFormulas = [];
-      var fFormulas = [];
-      for (var r = 5; r <= maxRow; r++) {
-        eFormulas.push(['=IF(OR(D' + r + '="",ISBLANK(IFERROR(INDEX(TagShipping!G:G,MATCH(D' + r + ',TagShipping!A:A,0)),$O$2)),ISBLANK(AE' + r + '),ISBLANK(X' + r + ')),"",IFERROR(INDEX(Import_Templates!$A$2:$A$50,MATCH("Template_"&IFERROR(INDEX(TagShipping!G:G,MATCH(D' + r + ',TagShipping!A:A,0)),$O$2)&"_"&IF(AE' + r + '="新品","new","used")&"_"&IF(X' + r + '="EP","eco",IF(X' + r + '="CE","eco","xp")),Import_Templates!$C$2:$C$50,0)),"該当なし"))']);
-        fFormulas.push(['=IF($F$4="参考eBay ID",IFERROR(INDEX(TagShipping!E:E,MATCH(D' + r + ',TagShipping!A:A,0)),""),IF($F$4="カテゴリーID",IFERROR(INDEX(v5インポート!F:F,MATCH(H' + r + ',v5インポート!H:H,0)),IFERROR(INDEX(タグカテゴリ!B:B,MATCH(D' + r + ',タグカテゴリ!A:A,0)),"")),""))']);
-      }
-      // E列(5列目) / F列(6列目) に一括書込
-      sheet.getRange(5, 5, rowCount, 1).setFormulas(eFormulas);
-      sheet.getRange(5, 6, rowCount, 1).setFormulas(fFormulas);
-    }
+    // 注意: E列・F列の式は applyCalculationFormulas (v5Mode=true) が書くため、ここでは書かない（重複防止）
   } catch (e) {
     Logger.log('applyV5WorkSheetFormulas_ エラー: ' + e.message);
   }
