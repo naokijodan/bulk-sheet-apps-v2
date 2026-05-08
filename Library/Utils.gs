@@ -126,72 +126,23 @@ function setupExchangeRateUpdateTrigger(silent) {
 
 /**
  * トリガーから呼ばれる為替レート更新関数
- * V3 作業シート + V5 作業シート の両方を更新する
  */
 function updateExchangeRateAutomatically() {
   try {
     var docProps = PropertiesService.getDocumentProperties();
-    var v3Name = docProps.getProperty('SHEET_NAME') || '作業シート';
-    var v5Name = (typeof CONFIG !== 'undefined' && CONFIG.V5_WORK_SHEET_NAME) || 'v5作業シート';
+    var sheetName = docProps.getProperty('SHEET_NAME') || '作業シート';
     var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(sheetName);
 
-    var targets = [v3Name, v5Name];
-    for (var i = 0; i < targets.length; i++) {
-      var sheet = ss.getSheetByName(targets[i]);
-      if (!sheet) {
-        Logger.log(targets[i] + ' が見つかりません（スキップ）');
-        continue;
-      }
-      var rate = updateExchangeRate(sheet);
-      Logger.log(targets[i] + ' の為替レートを更新しました: ' + rate + '円');
+    if (!sheet) {
+      Logger.log('作業シートが見つかりません');
+      return;
     }
+
+    var rate = updateExchangeRate(sheet);
+    Logger.log('為替レートを更新しました: ' + rate + '円');
   } catch (e) {
     Logger.log('為替レート自動更新エラー: ' + e.message);
-  }
-}
-
-/**
- * V5 作業シートを確保（無ければ作成）し、A1/A2/C1/C2 を初期化する
- * - A1: "参考為替(GF)" / C1: "使用為替(API)"
- * - A2: =GOOGLEFINANCE("CURRENCY:USDJPY") （参考値）
- * - C2: 空なら 145 をセット（実値は initialSetup の updateExchangeRate で上書きされる）
- *
- * @return {Sheet|null} 確保された v5作業シート（失敗時 null）
- */
-function ensureV5WorkSheet_() {
-  try {
-    var v5Name = (typeof CONFIG !== 'undefined' && CONFIG.V5_WORK_SHEET_NAME) || 'v5作業シート';
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheet = ss.getSheetByName(v5Name);
-    if (!sheet) {
-      sheet = ss.insertSheet(v5Name);
-    }
-
-    // A1 / C1 ラベル（既存ラベルを尊重、空欄時のみセット）
-    if (sheet.getRange('A1').getValue() === '') {
-      sheet.getRange('A1').setValue('参考為替(GF)');
-    }
-    if (sheet.getRange('C1').getValue() === '') {
-      sheet.getRange('C1').setValue('使用為替(API)');
-    }
-
-    // A2: GOOGLEFINANCE 式（既存式・値があれば尊重）
-    var a2 = sheet.getRange('A2');
-    if (a2.getFormula() === '' && (a2.getValue() === '' || a2.getValue() === null)) {
-      a2.setFormula('=GOOGLEFINANCE("CURRENCY:USDJPY")');
-    }
-
-    // C2: 数値が空なら初期値 145 を入れる（後で updateExchangeRate で上書き）
-    var c2 = sheet.getRange('C2');
-    var c2val = Number(c2.getValue());
-    if (!c2val || c2val < 100 || c2val > 200) {
-      c2.setValue(145);
-    }
-
-    return sheet;
-  } catch (e) {
-    Logger.log('ensureV5WorkSheet_ エラー: ' + e.message);
-    return null;
   }
 }
 

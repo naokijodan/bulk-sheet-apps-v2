@@ -85,31 +85,29 @@ function onOpen() {
 function notifyExchangeRateUpdateStatus_() {
   try {
     var docProps = PropertiesService.getDocumentProperties();
-    var v3Name = docProps.getProperty('SHEET_NAME') || '作業シート';
-    var v5Name = (typeof CONFIG !== 'undefined' && CONFIG.V5_WORK_SHEET_NAME) || 'v5作業シート';
+    var sheetName = docProps.getProperty('SHEET_NAME') || '作業シート';
     var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(sheetName);
+
+    if (!sheet) return;
 
     var isActive = isExchangeRateUpdateTriggerActive();
-    var targets = [v3Name, v5Name];
+    var a2Value = sheet.getRange("A2").getValue();
+    var c2Value = sheet.getRange("C2").getValue();
 
-    for (var i = 0; i < targets.length; i++) {
-      var sheet = ss.getSheetByName(targets[i]);
-      if (!sheet) continue; // シートが無ければスキップ
-
-      // A2 と C2 のセルに背景色で状態を示す
-      if (isActive) {
-        // 自動更新が有効な場合
-        sheet.getRange("A2").setBackground("#e3f2fd"); // 薄い青（参考値）
-        sheet.getRange("C2").setBackground("#d4edda"); // 薄い緑（使用値）
-        sheet.getRange("A1").setValue("参考為替(GF)");
-        sheet.getRange("C1").setValue("使用為替(API)");
-      } else {
-        // 自動更新が無効な場合
-        sheet.getRange("A2").setBackground("#e3f2fd"); // 薄い青
-        sheet.getRange("C2").setBackground("#fff3cd"); // 薄い黄色（警告）
-        sheet.getRange("A1").setValue("参考為替(GF)");
-        sheet.getRange("C1").setValue("使用為替");
-      }
+    // A2とC2のセルに背景色で状態を示す
+    if (isActive) {
+      // 自動更新が有効な場合
+      sheet.getRange("A2").setBackground("#e3f2fd"); // 薄い青（参考値）
+      sheet.getRange("C2").setBackground("#d4edda"); // 薄い緑（使用値）
+      sheet.getRange("A1").setValue("参考為替(GF)");
+      sheet.getRange("C1").setValue("使用為替(API)");
+    } else {
+      // 自動更新が無効な場合
+      sheet.getRange("A2").setBackground("#e3f2fd"); // 薄い青
+      sheet.getRange("C2").setBackground("#fff3cd"); // 薄い黄色（警告）
+      sheet.getRange("A1").setValue("参考為替(GF)");
+      sheet.getRange("C1").setValue("使用為替");
     }
   } catch (e) {
     // エラーは無視
@@ -3196,26 +3194,11 @@ function saveIntegratedSettings(formData) {
       ui.alert('設定保存', msg, ui.ButtonSet.OK);
     }
 
-    // 🆕 V5 作業シートを確保（無ければ作成し、A1/C1 ラベル + A2 GOOGLEFINANCE + C2 初期値）
-    var v5Sheet = null;
-    try {
-      v5Sheet = ensureV5WorkSheet_();
-      if (v5Sheet) {
-        Logger.log('V5 作業シートを確保しました: ' + v5Sheet.getName());
-      }
-    } catch (e) {
-      Logger.log('V5 作業シートの確保に失敗: ' + e.message);
-    }
-
-    // 🆕 為替レートを即座に更新（A2→C2）— V3 + V5 の両方
+    // 🆕 為替レートを即座に更新（A2→C2）
     try {
       if (sheet) {
         updateExchangeRate(sheet);
-        Logger.log('V3 作業シートの為替レートを更新しました');
-      }
-      if (v5Sheet) {
-        updateExchangeRate(v5Sheet);
-        Logger.log('V5 作業シートの為替レートを更新しました');
+        Logger.log('為替レートを更新しました');
       }
     } catch (e) {
       Logger.log('為替レート更新に失敗: ' + e.message);

@@ -209,10 +209,7 @@ var CONFIG = {
     TAG_LIST_START_COL: 21,
     HEADER_BG_COLOR: '#4285F4',
     HEADER_FONT_COLOR: '#FFFFFF'
-  },
-
-  // V5 作業シート（取り込み君AI 経由の翻訳済データを処理する計算専用シート）
-  V5_WORK_SHEET_NAME: 'v5作業シート'
+  }
 };
 
 // 交通整理キーワードカテゴリ（レガシー互換・拡張用）
