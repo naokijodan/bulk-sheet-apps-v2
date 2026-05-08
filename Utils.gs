@@ -287,8 +287,9 @@ function ensureV5ListingSheet_() {
       var importIsfLetter = colNumToA1_(importIsfCol);
       var importIsValLetter = colNumToA1_(importIsValCol);
 
-      headerRow[idxBase]     = '={"ISF' + n + '";ARRAYFORMULA(IF(F2:F="","",IFERROR(INDEX(' + v5ImportName + '!' + importIsfLetter + ':' + importIsfLetter + ',MATCH(F2:F,' + v5ImportName + '!H:H,0)),"")))}';
-      headerRow[idxBase + 1] = '={"IS値' + n + '";ARRAYFORMULA(IF(F2:F="","",IFERROR(INDEX(' + v5ImportName + '!' + importIsValLetter + ':' + importIsValLetter + ',MATCH(F2:F,' + v5ImportName + '!H:H,0)),"")))}';
+      // ARRAYFORMULA 内 MATCH は配列対応しない（各行で同じ値が返る）→ MAP+LAMBDA で各行 MATCH
+      headerRow[idxBase]     = '={"ISF' + n + '";MAP(F2:F,LAMBDA(f,IF(f="","",IFERROR(INDEX(' + v5ImportName + '!' + importIsfLetter + ':' + importIsfLetter + ',MATCH(f,' + v5ImportName + '!H:H,0)),""))))}';
+      headerRow[idxBase + 1] = '={"IS値' + n + '";MAP(F2:F,LAMBDA(f,IF(f="","",IFERROR(INDEX(' + v5ImportName + '!' + importIsValLetter + ':' + importIsValLetter + ',MATCH(f,' + v5ImportName + '!H:H,0)),""))))}';
     }
 
     // 1 度の setFormulas で全 56 列ヘッダーを一括書き込み
