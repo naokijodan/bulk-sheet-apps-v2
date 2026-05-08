@@ -1006,6 +1006,34 @@
       </div>
 
       <!-- 6. 表示設定 -->
+      <div class="section" data-section="v5-sheet">
+        <div class="section-header" onclick="toggleSection('v5-sheet')">
+          <div class="section-title">
+            <span class="priority-badge priority-optional">任意</span>
+            <div>
+              <div>V5用シート設定</div>
+              <div class="section-description">V5 出品ルートのシート（V5出品）と式を自動セットアップ</div>
+            </div>
+          </div>
+          <div class="section-controls">
+            <div class="edit-toggle">
+              <label><input type="radio" name="edit-v5-sheet" value="maintain" checked> 維持</label>
+              <label><input type="radio" name="edit-v5-sheet" value="edit"> 編集</label>
+            </div>
+            <button type="button" class="collapse-btn">▼</button>
+          </div>
+        </div>
+        <div class="section-content" id="content-v5-sheet">
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="v5SheetEnabled" name="v5SheetEnabled">
+              V5用シートを作成する
+            </label>
+          </div>
+          <div class="help-text">ON にすると、保存時に V5出品 シートが自動で作成・初期化されます（既存セルの式は上書きされます）。デフォルトは OFF。</div>
+        </div>
+      </div>
+
       <div class="section" data-section="display">
         <div class="section-header" onclick="toggleSection('display')">
           <div class="section-title">
@@ -1478,7 +1506,10 @@
         duplicateOutputRange: document.getElementById('outputRange').value,
         
         // 表示設定
-        showPopups: document.querySelector('input[name="showPopups"]:checked').value
+        showPopups: document.querySelector('input[name="showPopups"]:checked').value,
+
+        // V5 用シート設定
+        v5SheetEnabled: document.getElementById('v5SheetEnabled').checked
       };
 
       setLoading(true);

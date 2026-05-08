@@ -241,6 +241,92 @@ function createBatches(array, size) {
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  V5出品 シート: 作成・初期化（椛島さん指示 2026-05-08）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+// V5出品 シートが無ければ作成し、各列のヘッダー + 式を 1 行目に書き込む。
+// ARRAYFORMULA で 2 行目以降にデータを縦展開。
+// L列のみ、各行に値（TRUE）と DataValidation [TRUE/FALSE] を設定。
+function ensureV5ListingSheet_() {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var v5ListingName = 'V5出品';
+    var v5ImportName = 'v5インポート';
+    var sheet = ss.getSheetByName(v5ListingName);
+    if (!sheet) {
+      sheet = ss.insertSheet(v5ListingName);
+    }
+
+    // 1 行目: ヘッダー + ARRAYFORMULA 式（A〜I, M〜N）
+    var formulaMap = {
+      'A1': '={"タグ";ARRAYFORMULA(\'作業シート\'!D5:D)}',
+      'B1': '={"テンプレ";ARRAYFORMULA(\'作業シート\'!E5:E)}',
+      'C1': '={"参考eBay ID";ARRAYFORMULA(IF(\'作業シート\'!$F$4="参考eBay ID",\'作業シート\'!F5:F,""))}',
+      'D1': '={"カテゴリーID";ARRAYFORMULA(IF(\'作業シート\'!$F$4="カテゴリーID",\'作業シート\'!F5:F,""))}',
+      'E1': '={"仕入先";ARRAYFORMULA(\'作業シート\'!G5:G)}',
+      'F1': '={"仕入先コード";ARRAYFORMULA(\'作業シート\'!H5:H)}',
+      'G1': '={"出品価格";ARRAYFORMULA(IF(\'作業シート\'!R5:R="","",IF((NOT(ISBLANK(\'作業シート\'!AG5:AG)))*(ISNUMBER(\'作業シート\'!AG5:AG)),\'作業シート\'!AG5:AG,IF(UPPER(TRIM(\'作業シート\'!AX5:AX))="DDP",\'作業シート\'!S5:S,\'作業シート\'!R5:R))))}',
+      'H1': '={"title";ARRAYFORMULA(\'作業シート\'!M5:M)}',
+      'I1': '={"label";ARRAYFORMULA(\'作業シート\'!C5:C)}',
+      'M1': '={"Condition/DIscription";ARRAYFORMULA(\'作業シート\'!N5:N)}',
+      'N1': '={"shipping policy";ARRAYFORMULA(\'作業シート\'!O5:O)}'
+    };
+    Object.keys(formulaMap).forEach(function(cell) {
+      sheet.getRange(cell).setFormula(formulaMap[cell]);
+    });
+
+    // J, K列: ヘッダーのみ（手入力欄）
+    sheet.getRange('J1').setValue('offer了承金額');
+    sheet.getRange('K1').setValue('offer拒否金額');
+
+    // L列: ヘッダー + 値 TRUE 初期書込 + DataValidation [TRUE, FALSE]
+    sheet.getRange('L1').setValue('private_listing');
+    var lValues = [];
+    for (var li = 0; li < 999; li++) lValues.push([true]);
+    sheet.getRange('L2:L1000').setValues(lValues);
+    var lRule = SpreadsheetApp.newDataValidation()
+      .requireValueInList([true, false], true)
+      .setAllowInvalid(false)
+      .build();
+    sheet.getRange('L2:L1000').setDataValidation(lRule);
+
+    // O〜BD列: ISF1/IS値1 〜 ISF20/IS値20 のマッチング式（V5出品 F列 ↔ v5インポート H列）
+    // V5出品: O(15)=ISF1, P(16)=IS値1, Q(17)=ISF2, R(18)=IS値2, ..., BC(55)=ISF20, BD(56)=IS値20
+    // v5インポート: P(16)=ISF1, Q(17)=IS値1, R(18)=ISF2, S(19)=IS値2, ..., BC(55)=ISF20, BD(56)=IS値20
+    for (var i = 0; i < 20; i++) {
+      var n = i + 1;
+      var listingIsfCol = 15 + i * 2;        // O=15
+      var listingIsValCol = listingIsfCol + 1;
+      var importIsfCol = 16 + i * 2;          // P=16
+      var importIsValCol = importIsfCol + 1;
+
+      var listingIsfA1 = colNumToA1_(listingIsfCol) + '1';
+      var listingIsValA1 = colNumToA1_(listingIsValCol) + '1';
+      var importIsfLetter = colNumToA1_(importIsfCol);
+      var importIsValLetter = colNumToA1_(importIsValCol);
+
+      var isfFormula = '={"ISF' + n + '";ARRAYFORMULA(IF(F2:F="","",IFERROR(INDEX(' + v5ImportName + '!' + importIsfLetter + ':' + importIsfLetter + ',MATCH(F2:F,' + v5ImportName + '!H:H,0)),"")))}';
+      var isValFormula = '={"IS値' + n + '";ARRAYFORMULA(IF(F2:F="","",IFERROR(INDEX(' + v5ImportName + '!' + importIsValLetter + ':' + importIsValLetter + ',MATCH(F2:F,' + v5ImportName + '!H:H,0)),"")))}';
+
+      sheet.getRange(listingIsfA1).setFormula(isfFormula);
+      sheet.getRange(listingIsValA1).setFormula(isValFormula);
+    }
+  } catch (e) {
+    Logger.log('ensureV5ListingSheet_ エラー: ' + e.message);
+  }
+}
+
+// 列番号 (1-based) を A1 表記の列文字に変換
+function colNumToA1_(col) {
+  var s = '';
+  while (col > 0) {
+    var rem = (col - 1) % 26;
+    s = String.fromCharCode(65 + rem) + s;
+    col = Math.floor((col - 1) / 26);
+  }
+  return s;
+}
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   D2 セル: タグ書式トグル（参考eBay ID / カテゴリーID 切替）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 // 旧 GO/STOP 緊急停止制御は機能していなかったため廃止 (椛島さん指示 2026-05-08)。

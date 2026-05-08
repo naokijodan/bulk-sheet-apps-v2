@@ -3212,6 +3212,16 @@ function saveIntegratedSettings(formData) {
       Logger.log('為替レート自動更新トリガーの設定に失敗: ' + e.message);
     }
 
+    // 🆕 V5用シート設定: ON の場合 V5出品 シートを作成・初期化
+    try {
+      if (formData && formData.v5SheetEnabled === true) {
+        ensureV5ListingSheet_();
+        Logger.log('V5出品 シートを作成・初期化しました');
+      }
+    } catch (e) {
+      Logger.log('V5出品 シート作成エラー: ' + e.message);
+    }
+
     return { success: true };
   } catch (e) {
     ui.alert('設定保存エラー', 'エラー: ' + e.message, ui.ButtonSet.OK);
