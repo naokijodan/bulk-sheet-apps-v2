@@ -3012,38 +3012,44 @@ function saveIntegratedSettings(formData) {
       docProps.setProperty('DUPLICATE_CHECK_ENABLED', 'false');
     }
 
-    // システム設定
-    ensureSurchargeCellsOnWorkSheet();
+    // V5 ルートを使うかどうか
+    var isV5 = (formData && formData.v5SheetEnabled === true);
+
+    // システム設定（V5 ON 時はセル注釈付与をスキップ）
+    if (!isV5) {
+      ensureSurchargeCellsOnWorkSheet();
+    }
     setupTagFormatToggle_();
 
-    // 設定値を作業シートのAI列以降に書き出し
-    var writeResult = writeSettingsToSheet(sheetName, {
-      platform: platform,
-      model: model,
-      promptId: promptId,
-      profitCalc: profitCalc,
-      shippingCalcMethod: shippingCalcMethod,
-      shippingThreshold: shippingThreshold,
-      lowPriceMethod: lowPriceMethod,
-      highPriceMethod: highPriceMethod,
-      dduAdjustmentEnabled: dduAdjustmentEnabled,
-      dduThreshold: dduThreshold,
-      dduAdjustment: dduAdjustment,
-      autoPromptSelect: autoPromptSelect,
-      syncPromptAdd: syncPromptAdd,
-      syncPromptUpdate: syncPromptUpdate,
-      duplicateCheckEnabled: duplicateCheckEnabled,
-      duplicateSettings: duplicateSettings
-    });
-
-    if (!writeResult.success) {
-      throw new Error('設定値のシートへの書き込みに失敗しました: ' + writeResult.error);
+    // 設定値を作業シートのAI列以降に書き出し（V5 ON 時はスキップ）
+    if (!isV5) {
+      var writeResult = writeSettingsToSheet(sheetName, {
+        platform: platform,
+        model: model,
+        promptId: promptId,
+        profitCalc: profitCalc,
+        shippingCalcMethod: shippingCalcMethod,
+        shippingThreshold: shippingThreshold,
+        lowPriceMethod: lowPriceMethod,
+        highPriceMethod: highPriceMethod,
+        dduAdjustmentEnabled: dduAdjustmentEnabled,
+        dduThreshold: dduThreshold,
+        dduAdjustment: dduAdjustment,
+        autoPromptSelect: autoPromptSelect,
+        syncPromptAdd: syncPromptAdd,
+        syncPromptUpdate: syncPromptUpdate,
+        duplicateCheckEnabled: duplicateCheckEnabled,
+        duplicateSettings: duplicateSettings
+      });
+      if (!writeResult.success) {
+        throw new Error('設定値のシートへの書き込みに失敗しました: ' + writeResult.error);
+      }
     }
 
     // 📝 デバッグ: 書き込みが実際に反映されたか確認
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName(sheetName);
-    if (sheet) {
+    if (sheet && !isV5) {
       var actualAJ2 = sheet.getRange('AJ2').getValue();
       Logger.log('初期設定後のAJ2の実際の値: ' + actualAJ2);
     }
@@ -3053,19 +3059,20 @@ function saveIntegratedSettings(formData) {
       actualShippingCalcMethod = getShippingCalcMethodFromLabel_(sheet);
     }
 
-    // 🆕 計算式ARRAYFORMULAを作業シートに適用
+    // 🆕 計算式ARRAYFORMULAを作業シートに適用（V5 ON 時は v5Mode で tagOverride 全 ON 相当）
     var formulaResult = applyCalculationFormulas(sheetName, {
       profitCalc: profitCalc,
       shippingCalcMethod: actualShippingCalcMethod
-    });
+    }, isV5);
 
     if (!formulaResult.success) {
       throw new Error('計算式の適用に失敗しました: ' + formulaResult.error);
     }
 
-    // 出品用シートの価格式を更新（価格表示モードに応じてH2のARRAYFORMULAを変更）
-    // ※ applyCalculationFormulas の後に呼ぶこと（AX列確保後でないと参照がシフトする）
-    updateListingSheetPriceFormula(sheetName, priceDisplayMode);
+    // 出品用シートの価格式を更新（V5 ON 時はスキップ。V5 ルートは v5出品 シートを使う）
+    if (!isV5) {
+      updateListingSheetPriceFormula(sheetName, priceDisplayMode);
+    }
 
     // 成功メッセージ
     var platformNames = { openai:'OpenAI', claude:'Claude (Anthropic)', gemini:'Gemini (Google)' };
@@ -3212,26 +3219,21 @@ function saveIntegratedSettings(formData) {
       Logger.log('為替レート自動更新トリガーの設定に失敗: ' + e.message);
     }
 
-    // 🆕 V5用シート設定: ON の場合 v5出品 + v5インポート シートを作成・初期化
+    // 🆕 V5 ルート設定（v5SheetEnabled = ON）: V5 関連処理を一括実行
+    // - v5出品 シート作成・初期化
+    // - v5インポート シート作成・初期化
+    // - 作業シートの A,B,C,D,G,I,J,K,L,M,N 列を V5 用 ARRAYFORMULA で書き換え
     try {
-      if (formData && formData.v5SheetEnabled === true) {
+      if (isV5) {
         ensureV5ListingSheet_();
         Logger.log('v5出品 シートを作成・初期化しました');
         ensureV5ImportSheet_();
         Logger.log('v5インポート シートを作成・初期化しました');
-      }
-    } catch (e) {
-      Logger.log('V5 シート作成エラー: ' + e.message);
-    }
-
-    // 🆕 作業シート設定（V5 ルート用）: ON の場合、作業シートの A〜N 列を V5 用に書き換え
-    try {
-      if (formData && formData.worksheetV5Enabled === true) {
         applyV5WorkSheetFormulas_();
         Logger.log('作業シートに V5 ルート用の式を適用しました');
       }
     } catch (e) {
-      Logger.log('作業シート設定エラー: ' + e.message);
+      Logger.log('V5 ルート設定エラー: ' + e.message);
     }
 
     return { success: true };
@@ -4031,7 +4033,7 @@ function updateTagList() {
  * @param {Object} settings - 設定オブジェクト
  * @return {Object} 適用結果
  */
-function applyCalculationFormulas(sheetName, settings) {
+function applyCalculationFormulas(sheetName, settings, v5Mode) {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName(sheetName);
@@ -4044,6 +4046,23 @@ function applyCalculationFormulas(sheetName, settings) {
 
     // タグ自動判定 前処理
     var fullSettings = getSettings();
+
+    // V5 モード: tagOverride* を全 true で強制上書き（ユーザー設定に依存しない）
+    if (v5Mode) {
+      fullSettings = Object.assign({}, fullSettings || {}, {
+        tagOverrideShipping: true,
+        tagOverrideThreshold: true,
+        tagOverrideCondition: true,
+        tagOverrideDdpMode: true,
+        tagOverrideAdRate: true,
+        tagOverrideFeeRate: true,
+        tagOverrideProfitRate: true,
+        tagOverrideTemplate: true,
+        tagOverrideShippingCategory: true,
+        tagOverrideLowShipping: true,
+        tagOverrideHighShipping: true
+      });
+    }
     var tagMap = buildTagOverrideMap_(ss, fullSettings);
     var effectiveShippingCalc = shippingCalc;
     if (fullSettings && fullSettings.tagOverrideShipping && tagMap) {
@@ -4244,7 +4263,11 @@ function applyCalculationFormulas(sheetName, settings) {
     for (var row = 5; row <= dataLastRow; row++) {
       var formulas = buildShippingFormulas_(row, shippingCalc);
       shippingFormulas.push([formulas.shippingFormula]);
-      if (formulas.refEbayFormula) {
+      if (v5Mode) {
+        // V5 モード: F 列は 3 ルート式に置換（参考eBay ID = TagShipping / カテゴリーID = v5インポート + タグカテゴリ フォールバック）
+        refFormulas.push(['=IF($F$4="参考eBay ID",IFERROR(INDEX(TagShipping!E:E,MATCH(D' + row + ',TagShipping!A:A,0)),""),IF($F$4="カテゴリーID",IFERROR(INDEX(v5インポート!F:F,MATCH(H' + row + ',v5インポート!H:H,0)),IFERROR(INDEX(タグカテゴリ!B:B,MATCH(D' + row + ',タグカテゴリ!A:A,0)),"")),""))']);
+        hasRefFormulas = true;
+      } else if (formulas.refEbayFormula) {
         refFormulas.push([formulas.refEbayFormula]);
         hasRefFormulas = true;
       } else {
