@@ -408,20 +408,34 @@ function ensureV5ImportSheet_() {
     }
     sheet.getRange(2, 1, 1, headerValues.length).setValues([headerValues]);
 
-    // 1 行目: 結合 + 文言
-    sheet.getRange('A1:D1').merge();
-    sheet.getRange('A1').setValue('この範囲をコピーして作業シートのA列に貼り付け');
-    sheet.getRange('F1:N1').merge();
-    sheet.getRange('F1').setValue('この範囲をコピーして作業シートのF列に貼り付け');
-    sheet.getRange('P1:BB1').merge();
-    sheet.getRange('P1').setValue('作業シートにデータを入れると、自動でv5出品シートに反映されます。');
+    // 1 行目: 既存の結合を全解除 → G1:I1 に H列向けの説明 1 つだけ
+    sheet.getRange(1, 1, 1, headerValues.length).breakApart();
+    sheet.getRange('G1:I1').merge();
+    sheet.getRange('G1').setValue('H列の仕入れ先コードの値を作業シートに貼り付け');
 
-    // 背景色（1〜2 行目の各範囲）
-    sheet.getRange('A1:D2').setBackground('#d9ead3');  // 薄いグリーン
-    sheet.getRange('E1:E2').setBackground('#efefef');  // グレー
-    sheet.getRange('F1:N2').setBackground('#ffd966');  // 濃い黄色
-    sheet.getRange('O1:O2').setBackground('#efefef');  // グレー
-    sheet.getRange('P1:BB2').setBackground('#cfe2f3'); // 薄いブルー
+    // 背景色: 1〜2 行目を全体薄いグレー、H列だけ濃い黄色で目立たせる
+    sheet.getRange(1, 1, 2, headerValues.length).setBackground('#efefef');
+    sheet.getRange('H1:H2').setBackground('#ffd966');
+
+    // BD2: 重複チェック式（出品済み 3 シート [作業シート / 保存データ_ / EAGLE商品一覧] と H 列を突合）
+    var dupFormula = '=ARRAYFORMULA(IF(ROW(BD2:BD)=2,"重複チェック",IF(H2:H<>"",IF(((COUNTIF(\'作業シート\'!H:H,H2:H)>0)+(COUNTIF(\'保存データ_\'!H:H,H2:H)>0)+(COUNTIF(\'EAGLE商品一覧\'!A:A,H2:H)>0))>0,"重複",""),"")))';
+    sheet.getRange('BD2').setFormula(dupFormula);
+
+    // 条件付き書式（既存ルールを置き換え）
+    var rules = [];
+    // ルール 1: H列の同シート内重複（H3 以降で COUNTIF > 1）→ 薄い赤
+    rules.push(SpreadsheetApp.newConditionalFormatRule()
+      .whenFormulaSatisfied('=COUNTIF($H:$H,$H3)>1')
+      .setBackground('#ea9999')
+      .setRanges([sheet.getRange('H3:H')])
+      .build());
+    // ルール 2: BD列が「重複」（出品済み）→ H列を濃いピンク
+    rules.push(SpreadsheetApp.newConditionalFormatRule()
+      .whenFormulaSatisfied('=$BD3="重複"')
+      .setBackground('#c27ba0')
+      .setRanges([sheet.getRange('H3:H')])
+      .build());
+    sheet.setConditionalFormatRules(rules);
 
     // ヘッダー行（2 行目）を太字
     sheet.getRange(2, 1, 1, headerValues.length).setFontWeight('bold');
