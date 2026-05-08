@@ -298,35 +298,29 @@ function createBatches(array, size) {
 function setupTagFormatToggle_() {
   try {
     var docProps = PropertiesService.getDocumentProperties();
-    var v3Name = docProps.getProperty('SHEET_NAME') || '作業シート';
-    var v5Name = (typeof CONFIG !== 'undefined' && CONFIG.V5_WORK_SHEET_NAME) || 'v5作業シート';
+    var sheetName = docProps.getProperty('SHEET_NAME') || '作業シート';
     var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(sheetName);
+    if (!sheet) return;
 
     var rule = SpreadsheetApp.newDataValidation()
       .requireValueInList(['参考eBay ID', 'カテゴリーID'], true)
       .setAllowInvalid(false)
       .setHelpText('F列の式分岐の入力ソース。参考eBay ID = TagShipping から検索 / カテゴリーID = v5インポートから取得')
       .build();
+    var d2 = sheet.getRange('D2');
+    d2.setDataValidation(rule);
 
-    var targets = [v3Name, v5Name];
-    for (var i = 0; i < targets.length; i++) {
-      var sheet = ss.getSheetByName(targets[i]);
-      if (!sheet) continue; // シートが無ければスキップ
-
-      var d2 = sheet.getRange('D2');
-      d2.setDataValidation(rule);
-
-      // 値の初期化:
-      //  - 既に '参考eBay ID' / 'カテゴリーID' のいずれかが入っていれば尊重
-      //  - 空欄、または旧値（'GO'/'STOP' 等）が残っていれば '参考eBay ID' をセット
-      var current = d2.getValue();
-      if (current !== '参考eBay ID' && current !== 'カテゴリーID') {
-        d2.setValue('参考eBay ID');
-      }
-
-      // F4: D2 の値を反映する式（出品用シート側も F4 を読み取って連動できるようにするため）
-      sheet.getRange('F4').setFormula('=$D$2');
+    // 値の初期化:
+    //  - 既に '参考eBay ID' / 'カテゴリーID' のいずれかが入っていれば尊重
+    //  - 空欄、または旧値（'GO'/'STOP' 等）が残っていれば '参考eBay ID' をセット
+    var current = d2.getValue();
+    if (current !== '参考eBay ID' && current !== 'カテゴリーID') {
+      d2.setValue('参考eBay ID');
     }
+
+    // F4: D2 の値を反映する式（出品用シート側も F4 を読み取って連動できるようにするため）
+    sheet.getRange('F4').setFormula('=$D$2');
   } catch (e) {}
 }
 
