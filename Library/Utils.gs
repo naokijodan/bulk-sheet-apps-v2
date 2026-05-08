@@ -253,27 +253,41 @@ function ensureV5ListingSheet_() {
       sheet = ss.insertSheet(v5ListingName);
     }
 
-    var formulaMap = {
-      'A1': '={"タグ";ARRAYFORMULA(\'作業シート\'!D5:D)}',
-      'B1': '={"テンプレ";ARRAYFORMULA(\'作業シート\'!E5:E)}',
-      'C1': '={"参考eBay ID";ARRAYFORMULA(IF(\'作業シート\'!$F$4="参考eBay ID",\'作業シート\'!F5:F,""))}',
-      'D1': '={"カテゴリーID";ARRAYFORMULA(IF(\'作業シート\'!$F$4="カテゴリーID",\'作業シート\'!F5:F,""))}',
-      'E1': '={"仕入先";ARRAYFORMULA(\'作業シート\'!G5:G)}',
-      'F1': '={"仕入先コード";ARRAYFORMULA(\'作業シート\'!H5:H)}',
-      'G1': '={"出品価格";ARRAYFORMULA(IF(\'作業シート\'!R5:R="","",IF((NOT(ISBLANK(\'作業シート\'!AG5:AG)))*(ISNUMBER(\'作業シート\'!AG5:AG)),\'作業シート\'!AG5:AG,IF(UPPER(TRIM(\'作業シート\'!AX5:AX))="DDP",\'作業シート\'!S5:S,\'作業シート\'!R5:R))))}',
-      'H1': '={"title";ARRAYFORMULA(\'作業シート\'!M5:M)}',
-      'I1': '={"label";ARRAYFORMULA(\'作業シート\'!C5:C)}',
-      'M1': '={"Condition/DIscription";ARRAYFORMULA(\'作業シート\'!N5:N)}',
-      'N1': '={"shipping policy";ARRAYFORMULA(\'作業シート\'!O5:O)}'
-    };
-    Object.keys(formulaMap).forEach(function(cell) {
-      sheet.getRange(cell).setFormula(formulaMap[cell]);
-    });
+    // A1〜BD1（1 行 × 56 列）の式を 1 つの配列にまとめて 1 度の setFormulas で書き込む
+    // タイムアウト対策（個別 setFormula を ~50 回呼ぶとシート API がタイムアウトするため）
+    var headerRow = new Array(56);
 
-    sheet.getRange('J1').setValue('offer了承金額');
-    sheet.getRange('K1').setValue('offer拒否金額');
+    headerRow[0]  = '={"タグ";ARRAYFORMULA(\'作業シート\'!D5:D)}';
+    headerRow[1]  = '={"テンプレ";ARRAYFORMULA(\'作業シート\'!E5:E)}';
+    headerRow[2]  = '={"参考eBay ID";ARRAYFORMULA(IF(\'作業シート\'!$F$4="参考eBay ID",\'作業シート\'!F5:F,""))}';
+    headerRow[3]  = '={"カテゴリーID";ARRAYFORMULA(IF(\'作業シート\'!$F$4="カテゴリーID",\'作業シート\'!F5:F,""))}';
+    headerRow[4]  = '={"仕入先";ARRAYFORMULA(\'作業シート\'!G5:G)}';
+    headerRow[5]  = '={"仕入先コード";ARRAYFORMULA(\'作業シート\'!H5:H)}';
+    headerRow[6]  = '={"出品価格";ARRAYFORMULA(IF(\'作業シート\'!R5:R="","",IF((NOT(ISBLANK(\'作業シート\'!AG5:AG)))*(ISNUMBER(\'作業シート\'!AG5:AG)),\'作業シート\'!AG5:AG,IF(UPPER(TRIM(\'作業シート\'!AX5:AX))="DDP",\'作業シート\'!S5:S,\'作業シート\'!R5:R))))}';
+    headerRow[7]  = '={"title";ARRAYFORMULA(\'作業シート\'!M5:M)}';
+    headerRow[8]  = '={"label";ARRAYFORMULA(\'作業シート\'!C5:C)}';
+    headerRow[9]  = '="offer了承金額"';
+    headerRow[10] = '="offer拒否金額"';
+    headerRow[11] = '="private_listing"';
+    headerRow[12] = '={"Condition/DIscription";ARRAYFORMULA(\'作業シート\'!N5:N)}';
+    headerRow[13] = '={"shipping policy";ARRAYFORMULA(\'作業シート\'!O5:O)}';
 
-    sheet.getRange('L1').setValue('private_listing');
+    for (var i = 0; i < 20; i++) {
+      var n = i + 1;
+      var idxBase = 14 + i * 2;
+      var importIsfCol = 16 + i * 2;
+      var importIsValCol = importIsfCol + 1;
+      var importIsfLetter = colNumToA1_(importIsfCol);
+      var importIsValLetter = colNumToA1_(importIsValCol);
+
+      headerRow[idxBase]     = '={"ISF' + n + '";ARRAYFORMULA(IF(F2:F="","",IFERROR(INDEX(' + v5ImportName + '!' + importIsfLetter + ':' + importIsfLetter + ',MATCH(F2:F,' + v5ImportName + '!H:H,0)),"")))}';
+      headerRow[idxBase + 1] = '={"IS値' + n + '";ARRAYFORMULA(IF(F2:F="","",IFERROR(INDEX(' + v5ImportName + '!' + importIsValLetter + ':' + importIsValLetter + ',MATCH(F2:F,' + v5ImportName + '!H:H,0)),"")))}';
+    }
+
+    // 1 度の setFormulas で全 56 列ヘッダーを一括書き込み
+    sheet.getRange(1, 1, 1, 56).setFormulas([headerRow]);
+
+    // L列: TRUE 値書込（999 行）+ DataValidation [TRUE, FALSE]
     var lValues = [];
     for (var li = 0; li < 999; li++) lValues.push([true]);
     sheet.getRange('L2:L1000').setValues(lValues);
@@ -283,28 +297,9 @@ function ensureV5ListingSheet_() {
       .build();
     sheet.getRange('L2:L1000').setDataValidation(lRule);
 
-    for (var i = 0; i < 20; i++) {
-      var n = i + 1;
-      var listingIsfCol = 15 + i * 2;
-      var listingIsValCol = listingIsfCol + 1;
-      var importIsfCol = 16 + i * 2;
-      var importIsValCol = importIsfCol + 1;
-
-      var listingIsfA1 = colNumToA1_(listingIsfCol) + '1';
-      var listingIsValA1 = colNumToA1_(listingIsValCol) + '1';
-      var importIsfLetter = colNumToA1_(importIsfCol);
-      var importIsValLetter = colNumToA1_(importIsValCol);
-
-      var isfFormula = '={"ISF' + n + '";ARRAYFORMULA(IF(F2:F="","",IFERROR(INDEX(' + v5ImportName + '!' + importIsfLetter + ':' + importIsfLetter + ',MATCH(F2:F,' + v5ImportName + '!H:H,0)),"")))}';
-      var isValFormula = '={"IS値' + n + '";ARRAYFORMULA(IF(F2:F="","",IFERROR(INDEX(' + v5ImportName + '!' + importIsValLetter + ':' + importIsValLetter + ',MATCH(F2:F,' + v5ImportName + '!H:H,0)),"")))}';
-
-      sheet.getRange(listingIsfA1).setFormula(isfFormula);
-      sheet.getRange(listingIsValA1).setFormula(isValFormula);
-    }
-
-    // ヘッダー装飾 + 1 行目固定（椛島さん指示 2026-05-08）
+    // ヘッダー装飾 + 1 行目固定
     sheet.getRange('A1:BD1')
-      .setBackground('#4285F4')   // Google Blue
+      .setBackground('#4285F4')
       .setFontColor('#FFFFFF')
       .setFontWeight('bold');
     sheet.setFrozenRows(1);
