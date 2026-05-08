@@ -3220,7 +3220,17 @@ function saveIntegratedSettings(formData) {
     }
 
     // 🆕 V5 ルート設定（v5SheetEnabled = ON）: V5 関連処理を一括実行
+    // - 作業シート B1 に「V5 ON」目印（runSelectedRowsTranslate がここを見て分岐）
     try {
+      // 作業シート B1 に V5 ルート目印を書き込み（OFF なら クリア）
+      if (sheet) {
+        var b1 = sheet.getRange('B1');
+        if (isV5) {
+          b1.setValue('V5 ON').setBackground('#ffd966').setFontWeight('bold');
+        } else {
+          b1.clearContent().setBackground(null).setFontWeight('normal');
+        }
+      }
       if (isV5) {
         ensureV5ListingSheet_();
         Logger.log('v5出品 シートを作成・初期化しました');

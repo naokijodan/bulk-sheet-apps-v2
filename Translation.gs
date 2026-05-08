@@ -6,7 +6,61 @@
  * - 進捗サイドバー表示
  ******************************************************/
 
+/**
+ * 作業シート B1 に値があれば V5 ルートとみなし、SKU 採番だけ実行して return
+ * （V5 ルートでは取り込み君AI が翻訳済みデータを v5インポート 経由で渡すため、翻訳は不要）
+ */
+function runSkuOnlyForSelectedRows_() {
+  try {
+    var settings = getSettings();
+    var sheetName = (settings && settings.sheetName) || '作業シート';
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
+    if (!sheet) {
+      showAlert('作業シートが見つかりません。', 'error');
+      return;
+    }
+    var active = sheet.getActiveRange();
+    if (!active) {
+      conditionalShowAlert('処理する行を選択してください。', 'info');
+      return;
+    }
+    var startRow = active.getRow();
+    var endRow = active.getLastRow();
+    if (endRow < 5) {
+      conditionalShowAlert('5行目以降のデータを選択してください。', 'info');
+      return;
+    }
+    var selectedRows = [];
+    for (var r = startRow; r <= endRow; r++) selectedRows.push(r);
+
+    var result = generateSkuForRows_(sheet, selectedRows);
+    var msg = 'V5 ルート: SKU 採番完了\n生成 ' + result.generated + ' 件 / スキップ ' + result.skipped + ' 件';
+    if (result.warnings && result.warnings.length > 0) {
+      msg += '\n警告: ' + result.warnings.join(' / ');
+    }
+    showAlert(msg, 'info');
+  } catch (e) {
+    showAlert('SKU 採番エラー: ' + e.message, 'error');
+  }
+}
+
 function runSelectedRowsTranslate() {
+  // V5 ルート判定: 作業シート B1 に値があれば V5 → 翻訳をスキップして SKU 採番だけ走らせる
+  try {
+    var settingsForV5 = getSettings();
+    var sheetNameForV5 = (settingsForV5 && settingsForV5.sheetName) || '作業シート';
+    var sheetForV5 = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetNameForV5);
+    if (sheetForV5) {
+      var b1Val = sheetForV5.getRange('B1').getValue();
+      if (b1Val !== '' && b1Val !== null && b1Val !== undefined) {
+        runSkuOnlyForSelectedRows_();
+        return;
+      }
+    }
+  } catch (e) {
+    Logger.log('[runSelectedRowsTranslate] V5 判定エラー（通常ルートに進む）: ' + e.message);
+  }
+
   var SCRIPT_NAME = 'runSelectedRowsTranslate';
   var props = PropertiesService.getDocumentProperties();
   var startTime = new Date();
