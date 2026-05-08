@@ -3224,6 +3224,16 @@ function saveIntegratedSettings(formData) {
       Logger.log('V5 シート作成エラー: ' + e.message);
     }
 
+    // 🆕 作業シート設定（V5 ルート用）: ON の場合、作業シートの A〜N 列を V5 用に書き換え
+    try {
+      if (formData && formData.worksheetV5Enabled === true) {
+        applyV5WorkSheetFormulas_();
+        Logger.log('作業シートに V5 ルート用の式を適用しました');
+      }
+    } catch (e) {
+      Logger.log('作業シート設定エラー: ' + e.message);
+    }
+
     return { success: true };
   } catch (e) {
     ui.alert('設定保存エラー', 'エラー: ' + e.message, ui.ButtonSet.OK);

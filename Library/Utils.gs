@@ -324,6 +324,57 @@ function colNumToA1_(col) {
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  作業シート設定（V5 ルート用）: A〜N 列の式を書き換える（椛島さん指示 2026-05-08）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+function applyV5WorkSheetFormulas_() {
+  try {
+    var docProps = PropertiesService.getDocumentProperties();
+    var sheetName = docProps.getProperty('SHEET_NAME') || '作業シート';
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(sheetName);
+    if (!sheet) {
+      Logger.log('applyV5WorkSheetFormulas_: 作業シートが見つかりません');
+      return;
+    }
+
+    var arrayFormulaCells = {
+      'A4': { name: '日付',                   importCol: 'A' },
+      'B4': { name: '担当',                   importCol: 'B' },
+      'C4': { name: 'label',                  importCol: 'C' },
+      'D4': { name: 'タグ',                   importCol: 'D' },
+      'G4': { name: '仕入れ先',               importCol: 'G' },
+      'I4': { name: '仕入価格',               importCol: 'I' },
+      'J4': { name: 'ttle',                   importCol: 'J' },
+      'K4': { name: '商品説明',               importCol: 'K' },
+      'L4': { name: 'セラーID',               importCol: 'L' },
+      'M4': { name: 'Title',                  importCol: 'M' },
+      'N4': { name: 'Condition/DIscription',  importCol: 'N' }
+    };
+
+    Object.keys(arrayFormulaCells).forEach(function(cell) {
+      var cfg = arrayFormulaCells[cell];
+      var f = '={"' + cfg.name + '";ARRAYFORMULA(IF(H5:H="","",IFERROR(INDEX(v5インポート!' + cfg.importCol + ':' + cfg.importCol + ',MATCH(H5:H,v5インポート!H:H,0)),"")))}';
+      sheet.getRange(cell).setFormula(f);
+    });
+
+    var maxRow = sheet.getMaxRows();
+    var rowCount = maxRow - 4;
+    if (rowCount > 0) {
+      var eFormulas = [];
+      var fFormulas = [];
+      for (var r = 5; r <= maxRow; r++) {
+        eFormulas.push(['=IF(OR(D' + r + '="",ISBLANK(IFERROR(INDEX(TagShipping!G:G,MATCH(D' + r + ',TagShipping!A:A,0)),$O$2)),ISBLANK(AE' + r + '),ISBLANK(X' + r + ')),"",IFERROR(INDEX(Import_Templates!$A$2:$A$50,MATCH("Template_"&IFERROR(INDEX(TagShipping!G:G,MATCH(D' + r + ',TagShipping!A:A,0)),$O$2)&"_"&IF(AE' + r + '="新品","new","used")&"_"&IF(X' + r + '="EP","eco",IF(X' + r + '="CE","eco","xp")),Import_Templates!$C$2:$C$50,0)),"該当なし"))']);
+        fFormulas.push(['=IF($F$4="参考eBay ID",IFERROR(INDEX(TagShipping!E:E,MATCH(D' + r + ',TagShipping!A:A,0)),""),IF($F$4="カテゴリーID",IFERROR(INDEX(v5インポート!F:F,MATCH(H' + r + ',v5インポート!H:H,0)),IFERROR(INDEX(タグカテゴリ!B:B,MATCH(D' + r + ',タグカテゴリ!A:A,0)),"")),""))']);
+      }
+      sheet.getRange(5, 5, rowCount, 1).setFormulas(eFormulas);
+      sheet.getRange(5, 6, rowCount, 1).setFormulas(fFormulas);
+    }
+  } catch (e) {
+    Logger.log('applyV5WorkSheetFormulas_ エラー: ' + e.message);
+  }
+}
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   v5インポート シート: 作成・初期化（椛島さん指示 2026-05-08）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function ensureV5ImportSheet_() {

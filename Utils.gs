@@ -332,6 +332,66 @@ function colNumToA1_(col) {
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  作業シート設定（V5 ルート用）: A〜N 列の式を書き換える（椛島さん指示 2026-05-08）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+// 「作業シート設定」チェックボックス ON 時に呼ばれる。
+// A, B, C, D, G, I, J, K, L, M, N 列はヘッダー(4行目)に ARRAYFORMULA で書込
+//   - H列の仕入先コード で v5インポート!H列 をマッチして該当列を返す
+// E 列(個別行式): テンプレート式（タグ判定 全 ON 相当）
+// F 列(個別行式): 3 ルート式（参考eBay ID = TagShipping / カテゴリーID = v5インポート + タグカテゴリ フォールバック）
+// H 列はユーザー手入力のため触らない
+function applyV5WorkSheetFormulas_() {
+  try {
+    var docProps = PropertiesService.getDocumentProperties();
+    var sheetName = docProps.getProperty('SHEET_NAME') || '作業シート';
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(sheetName);
+    if (!sheet) {
+      Logger.log('applyV5WorkSheetFormulas_: 作業シートが見つかりません');
+      return;
+    }
+
+    // ARRAYFORMULA: ヘッダーセル(4行目) に書く列とヘッダー名・参照先列の対応表
+    var arrayFormulaCells = {
+      'A4': { name: '日付',                   importCol: 'A' },
+      'B4': { name: '担当',                   importCol: 'B' },
+      'C4': { name: 'label',                  importCol: 'C' },
+      'D4': { name: 'タグ',                   importCol: 'D' },
+      'G4': { name: '仕入れ先',               importCol: 'G' },
+      'I4': { name: '仕入価格',               importCol: 'I' },
+      'J4': { name: 'ttle',                   importCol: 'J' },
+      'K4': { name: '商品説明',               importCol: 'K' },
+      'L4': { name: 'セラーID',               importCol: 'L' },
+      'M4': { name: 'Title',                  importCol: 'M' },
+      'N4': { name: 'Condition/DIscription',  importCol: 'N' }
+    };
+
+    Object.keys(arrayFormulaCells).forEach(function(cell) {
+      var cfg = arrayFormulaCells[cell];
+      var f = '={"' + cfg.name + '";ARRAYFORMULA(IF(H5:H="","",IFERROR(INDEX(v5インポート!' + cfg.importCol + ':' + cfg.importCol + ',MATCH(H5:H,v5インポート!H:H,0)),"")))}';
+      sheet.getRange(cell).setFormula(f);
+    });
+
+    // E列・F列: 個別行式（5 行目から最終行まで）
+    var maxRow = sheet.getMaxRows();
+    var rowCount = maxRow - 4; // 5行目から最終行
+    if (rowCount > 0) {
+      var eFormulas = [];
+      var fFormulas = [];
+      for (var r = 5; r <= maxRow; r++) {
+        eFormulas.push(['=IF(OR(D' + r + '="",ISBLANK(IFERROR(INDEX(TagShipping!G:G,MATCH(D' + r + ',TagShipping!A:A,0)),$O$2)),ISBLANK(AE' + r + '),ISBLANK(X' + r + ')),"",IFERROR(INDEX(Import_Templates!$A$2:$A$50,MATCH("Template_"&IFERROR(INDEX(TagShipping!G:G,MATCH(D' + r + ',TagShipping!A:A,0)),$O$2)&"_"&IF(AE' + r + '="新品","new","used")&"_"&IF(X' + r + '="EP","eco",IF(X' + r + '="CE","eco","xp")),Import_Templates!$C$2:$C$50,0)),"該当なし"))']);
+        fFormulas.push(['=IF($F$4="参考eBay ID",IFERROR(INDEX(TagShipping!E:E,MATCH(D' + r + ',TagShipping!A:A,0)),""),IF($F$4="カテゴリーID",IFERROR(INDEX(v5インポート!F:F,MATCH(H' + r + ',v5インポート!H:H,0)),IFERROR(INDEX(タグカテゴリ!B:B,MATCH(D' + r + ',タグカテゴリ!A:A,0)),"")),""))']);
+      }
+      // E列(5列目) / F列(6列目) に一括書込
+      sheet.getRange(5, 5, rowCount, 1).setFormulas(eFormulas);
+      sheet.getRange(5, 6, rowCount, 1).setFormulas(fFormulas);
+    }
+  } catch (e) {
+    Logger.log('applyV5WorkSheetFormulas_ エラー: ' + e.message);
+  }
+}
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   v5インポート シート: 作成・初期化（椛島さん指示 2026-05-08）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 // v5インポート シートが無ければ作成し、ヘッダーと色を初期化。

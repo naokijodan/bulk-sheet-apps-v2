@@ -1031,6 +1031,14 @@
             </label>
           </div>
           <div class="help-text">ON にすると、保存時に v5出品 / v5インポート シートが自動で作成・初期化されます（既存セルの式は上書きされます）。デフォルトは OFF。</div>
+
+          <div class="checkbox-group" style="margin-top:12px;">
+            <label class="checkbox-label">
+              <input type="checkbox" id="worksheetV5Enabled" name="worksheetV5Enabled">
+              作業シート設定
+            </label>
+          </div>
+          <div class="help-text">ON にすると、作業シートの A〜N 列（H 列を除く）の式を V5 ルート用に書き換えます（H 列の仕入先コードを v5インポート から検索）。E 列はテンプレート式、F 列は参考eBay ID/カテゴリーID 切替の 3 ルート式。デフォルトは OFF。</div>
         </div>
       </div>
 
@@ -1509,7 +1517,8 @@
         showPopups: document.querySelector('input[name="showPopups"]:checked').value,
 
         // V5 用シート設定
-        v5SheetEnabled: document.getElementById('v5SheetEnabled').checked
+        v5SheetEnabled: document.getElementById('v5SheetEnabled').checked,
+        worksheetV5Enabled: document.getElementById('worksheetV5Enabled').checked
       };
 
       setLoading(true);
