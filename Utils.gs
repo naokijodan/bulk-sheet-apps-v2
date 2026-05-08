@@ -310,6 +310,13 @@ function ensureV5ListingSheet_() {
       sheet.getRange(listingIsfA1).setFormula(isfFormula);
       sheet.getRange(listingIsValA1).setFormula(isValFormula);
     }
+
+    // ヘッダー装飾 + 1 行目固定（椛島さん指示 2026-05-08）
+    sheet.getRange('A1:BD1')
+      .setBackground('#4285F4')   // Google Blue
+      .setFontColor('#FFFFFF')
+      .setFontWeight('bold');
+    sheet.setFrozenRows(1);
   } catch (e) {
     Logger.log('ensureV5ListingSheet_ エラー: ' + e.message);
   }
