@@ -358,7 +358,6 @@ function applyV5WorkSheetFormulas_() {
     var arrayFormulaCells = {
       'A4': { name: '日付',                   importCol: 'A' },
       'B4': { name: '担当',                   importCol: 'B' },
-      'C4': { name: 'label',                  importCol: 'C' },
       'D4': { name: 'タグ',                   importCol: 'D' },
       'G4': { name: '仕入れ先',               importCol: 'G' },
       'I4': { name: '仕入価格',               importCol: 'I' },
@@ -374,6 +373,10 @@ function applyV5WorkSheetFormulas_() {
       var f = '={"' + cfg.name + '";MAP(H5:H,LAMBDA(h,IF(h="","",IFERROR(INDEX(v5インポート!' + cfg.importCol + ':' + cfg.importCol + ',MATCH(h,v5インポート!H:H,0)),""))))}';
       sheet.getRange(cell).setFormula(f);
     });
+
+    // C 列は SKU 採番(runSkuOnlyForSelectedRows_)が値で書き込むため、式は使わない。
+    // ヘッダー行のみ値で「label」をセット（過去の式残骸が残っていれば上書きクリアされる）
+    sheet.getRange('C4').setValue('label');
 
     // 注意: E列・F列の式は applyCalculationFormulas (v5Mode=true) が書くため、ここでは書かない（重複防止）
   } catch (e) {
