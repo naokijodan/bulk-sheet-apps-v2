@@ -294,15 +294,20 @@ function ensureV5ListingSheet_() {
     // 1 度の setFormulas で全 56 列ヘッダーを一括書き込み
     sheet.getRange(1, 1, 1, 56).setFormulas([headerRow]);
 
-    // L列: TRUE 値書込（999 行）+ DataValidation [TRUE, FALSE]
-    var lValues = [];
-    for (var li = 0; li < 999; li++) lValues.push([true]);
-    sheet.getRange('L2:L1000').setValues(lValues);
-    var lRule = SpreadsheetApp.newDataValidation()
-      .requireValueInList([true, false], true)
-      .setAllowInvalid(false)
-      .build();
-    sheet.getRange('L2:L1000').setDataValidation(lRule);
+    // L列: シート全行に TRUE 値書込 + DataValidation [TRUE, FALSE]
+    // 1000 行固定ではなく getMaxRows() で動的取得（5000 行など拡張済みシートでもカバー）
+    var maxRow = sheet.getMaxRows();
+    var rowCountL = maxRow - 1; // L2 から最終行まで
+    if (rowCountL > 0) {
+      var lValues = [];
+      for (var li = 0; li < rowCountL; li++) lValues.push([true]);
+      sheet.getRange(2, 12, rowCountL, 1).setValues(lValues);
+      var lRule = SpreadsheetApp.newDataValidation()
+        .requireValueInList([true, false], true)
+        .setAllowInvalid(false)
+        .build();
+      sheet.getRange(2, 12, rowCountL, 1).setDataValidation(lRule);
+    }
 
     // ヘッダー装飾 + 1 行目固定
     sheet.getRange('A1:BD1')
