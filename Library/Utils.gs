@@ -241,12 +241,12 @@ function createBatches(array, size) {
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  V5出品 シート: 作成・初期化（椛島さん指示 2026-05-08）
+  v5出品 シート: 作成・初期化（椛島さん指示 2026-05-08）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function ensureV5ListingSheet_() {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var v5ListingName = 'V5出品';
+    var v5ListingName = 'v5出品';
     var v5ImportName = 'v5インポート';
     var sheet = ss.getSheetByName(v5ListingName);
     if (!sheet) {
@@ -353,7 +353,7 @@ function ensureV5ImportSheet_() {
     sheet.getRange('F1:N1').merge();
     sheet.getRange('F1').setValue('この範囲をコピーして作業シートのF列に貼り付け');
     sheet.getRange('P1:BB1').merge();
-    sheet.getRange('P1').setValue('作業シートにデータを入れると、自動でV5出品シートに反映されます。');
+    sheet.getRange('P1').setValue('作業シートにデータを入れると、自動でv5出品シートに反映されます。');
 
     sheet.getRange('A1:D2').setBackground('#d9ead3');
     sheet.getRange('E1:E2').setBackground('#efefef');

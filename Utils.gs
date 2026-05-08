@@ -241,15 +241,15 @@ function createBatches(array, size) {
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  V5出品 シート: 作成・初期化（椛島さん指示 2026-05-08）
+  v5出品 シート: 作成・初期化（椛島さん指示 2026-05-08）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-// V5出品 シートが無ければ作成し、各列のヘッダー + 式を 1 行目に書き込む。
+// v5出品 シートが無ければ作成し、各列のヘッダー + 式を 1 行目に書き込む。
 // ARRAYFORMULA で 2 行目以降にデータを縦展開。
 // L列のみ、各行に値（TRUE）と DataValidation [TRUE/FALSE] を設定。
 function ensureV5ListingSheet_() {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var v5ListingName = 'V5出品';
+    var v5ListingName = 'v5出品';
     var v5ImportName = 'v5インポート';
     var sheet = ss.getSheetByName(v5ListingName);
     if (!sheet) {
@@ -277,7 +277,7 @@ function ensureV5ListingSheet_() {
     headerRow[13] = '={"shipping policy";ARRAYFORMULA(\'作業シート\'!O5:O)}';
 
     // O〜BD列: ISF1/IS値1 〜 ISF20/IS値20 のマッチング式
-    // V5出品: O(15)=ISF1, P(16)=IS値1, ..., BC(55)=ISF20, BD(56)=IS値20
+    // v5出品: O(15)=ISF1, P(16)=IS値1, ..., BC(55)=ISF20, BD(56)=IS値20
     // v5インポート: P(16)=ISF1, Q(17)=IS値1, ..., BC(55)=ISF20, BD(56)=IS値20
     for (var i = 0; i < 20; i++) {
       var n = i + 1;
@@ -365,7 +365,7 @@ function ensureV5ImportSheet_() {
     sheet.getRange('F1:N1').merge();
     sheet.getRange('F1').setValue('この範囲をコピーして作業シートのF列に貼り付け');
     sheet.getRange('P1:BB1').merge();
-    sheet.getRange('P1').setValue('作業シートにデータを入れると、自動でV5出品シートに反映されます。');
+    sheet.getRange('P1').setValue('作業シートにデータを入れると、自動でv5出品シートに反映されます。');
 
     // 背景色（1〜2 行目の各範囲）
     sheet.getRange('A1:D2').setBackground('#d9ead3');  // 薄いグリーン

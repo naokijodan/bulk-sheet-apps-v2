@@ -3212,11 +3212,11 @@ function saveIntegratedSettings(formData) {
       Logger.log('為替レート自動更新トリガーの設定に失敗: ' + e.message);
     }
 
-    // 🆕 V5用シート設定: ON の場合 V5出品 + v5インポート シートを作成・初期化
+    // 🆕 V5用シート設定: ON の場合 v5出品 + v5インポート シートを作成・初期化
     try {
       if (formData && formData.v5SheetEnabled === true) {
         ensureV5ListingSheet_();
-        Logger.log('V5出品 シートを作成・初期化しました');
+        Logger.log('v5出品 シートを作成・初期化しました');
         ensureV5ImportSheet_();
         Logger.log('v5インポート シートを作成・初期化しました');
       }

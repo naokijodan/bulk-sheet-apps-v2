@@ -1012,7 +1012,7 @@
             <span class="priority-badge priority-optional">任意</span>
             <div>
               <div>V5用シート設定</div>
-              <div class="section-description">V5 出品ルートのシート（V5出品）と式を自動セットアップ</div>
+              <div class="section-description">V5 出品ルートのシート（v5出品）と式を自動セットアップ</div>
             </div>
           </div>
           <div class="section-controls">
@@ -1030,7 +1030,7 @@
               V5用シートを作成する
             </label>
           </div>
-          <div class="help-text">ON にすると、保存時に V5出品 シートが自動で作成・初期化されます（既存セルの式は上書きされます）。デフォルトは OFF。</div>
+          <div class="help-text">ON にすると、保存時に v5出品 シートが自動で作成・初期化されます（既存セルの式は上書きされます）。デフォルトは OFF。</div>
         </div>
       </div>
 
