@@ -332,6 +332,59 @@ function colNumToA1_(col) {
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  v5インポート シート: 作成・初期化（椛島さん指示 2026-05-08）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+// v5インポート シートが無ければ作成し、ヘッダーと色を初期化。
+// 式は入れず、ヘッダーは値のみ。データは取り込み君AI が doPost で 3 行目以降に書き込む。
+function ensureV5ImportSheet_() {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var v5ImportName = 'v5インポート';
+    var sheet = ss.getSheetByName(v5ImportName);
+    if (!sheet) {
+      sheet = ss.insertSheet(v5ImportName);
+    }
+
+    // 2 行目: 全 55 列のヘッダー値（A2〜BB2）
+    var headerValues = [
+      '日付', '担当', 'label', 'タグ', 'テンプレート', 'カテゴリーID',
+      '仕入れ先', '仕入れ先コード', '仕入れ価格',
+      '日本語title', '商品説明', 'セラーID', 'Title',
+      'Condition/DIscription', 'シッピングポリシー'
+    ];
+    for (var i = 0; i < 20; i++) {
+      var n = i + 1;
+      headerValues.push('ISF' + n);
+      headerValues.push('IS値' + n);
+    }
+    sheet.getRange(2, 1, 1, headerValues.length).setValues([headerValues]);
+
+    // 1 行目: 結合 + 文言
+    sheet.getRange('A1:D1').merge();
+    sheet.getRange('A1').setValue('この範囲をコピーして作業シートのA列に貼り付け');
+    sheet.getRange('F1:N1').merge();
+    sheet.getRange('F1').setValue('この範囲をコピーして作業シートのF列に貼り付け');
+    sheet.getRange('P1:BB1').merge();
+    sheet.getRange('P1').setValue('作業シートにデータを入れると、自動でV5出品シートに反映されます。');
+
+    // 背景色（1〜2 行目の各範囲）
+    sheet.getRange('A1:D2').setBackground('#d9ead3');  // 薄いグリーン
+    sheet.getRange('E1:E2').setBackground('#efefef');  // グレー
+    sheet.getRange('F1:N2').setBackground('#ffd966');  // 濃い黄色
+    sheet.getRange('O1:O2').setBackground('#efefef');  // グレー
+    sheet.getRange('P1:BB2').setBackground('#cfe2f3'); // 薄いブルー
+
+    // ヘッダー行（2 行目）を太字
+    sheet.getRange(2, 1, 1, headerValues.length).setFontWeight('bold');
+
+    // 1〜2 行目を固定
+    sheet.setFrozenRows(2);
+  } catch (e) {
+    Logger.log('ensureV5ImportSheet_ エラー: ' + e.message);
+  }
+}
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   D2 セル: タグ書式トグル（参考eBay ID / カテゴリーID 切替）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 // 旧 GO/STOP 緊急停止制御は機能していなかったため廃止 (椛島さん指示 2026-05-08)。
