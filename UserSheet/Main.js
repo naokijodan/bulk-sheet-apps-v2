@@ -285,25 +285,31 @@ function doPost(e) {
     // - それ以外（'インポート用' 等の従来ルート）は B列から（A列はユーザーがタグを手入力する欄）
     var startCol = (sheetName === 'v5インポート') ? 1 : 2;
 
-    // 空白行の検索は「必ず値が入る列」= B列（仕入先）で行う
-    // ※ A列（タグ列）で検索すると、タグ未選択時に永遠に同じ行を上書きしてしまうため
-    var searchCol = 2;
+    // 空白行の検索列（必ず値が入る列）
+    // - 'v5インポート': H列(8) = 仕入れ先コード（マッチングキー、必ず値が入る）
+    // - それ以外:        B列(2) = 仕入先
+    // 旧仕様で v5インポート も B列(担当)を使っていたが、担当は空欄ありうるため変更
+    var searchCol = (sheetName === 'v5インポート') ? 8 : 2;
 
-    // 3行目以降で searchCol（B列）が空白の行を探す
+    // 3行目以降で searchCol が空白の行を探す
+    // パフォーマンス対策: 1 行ずつ getValue を呼ぶと大量行（数千行〜）でタイムアウトするため
+    // getValues で範囲一括取得して JS 側でループする
     var row = null;
-    var maxRow = sheet.getMaxRows();
-
-    for (var i = 3; i <= maxRow; i++) {
-      var cellValue = sheet.getRange(i, searchCol).getValue();
-      if (cellValue === '' || cellValue === null) {
-        row = i;
-        break;
+    var lastRow = sheet.getLastRow();
+    if (lastRow >= 3) {
+      var colValues = sheet.getRange(3, searchCol, lastRow - 2, 1).getValues();
+      for (var i = 0; i < colValues.length; i++) {
+        var v = colValues[i][0];
+        if (v === '' || v === null) {
+          row = i + 3;
+          break;
+        }
       }
     }
 
-    // 空白行が見つからない場合は最終行の次に追加
+    // 空白行が見つからない場合は最終行の次に追加（lastRow が 2 以下なら 3 行目）
     if (row === null) {
-      row = sheet.getLastRow() + 1;
+      row = (lastRow < 3) ? 3 : lastRow + 1;
     }
 
     // values を startCol から貼り付け
