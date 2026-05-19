@@ -70,6 +70,15 @@ function onOpen() {
       .addItem('📊 為替レート自動更新の状態確認', 'checkExchangeRateUpdateStatus')
       .addToUi();
 
+    // 5. eBay 翻訳 (AI) メニュー — Library/EbayTranslationSkill.gs 委譲
+    ui.createMenu('🌐 eBay 翻訳 (AI)')
+      .addItem('⚙️ 設定', 'showEbayTranslationSettings')
+      .addItem('📋 選択行の翻訳指示文を作成', 'showEbayTranslationGenerator')
+      .addItem('🔎 現在の設定を確認', 'showEbayTranslationCurrentSettings')
+      .addSeparator()
+      .addItem('📄 スキル本文をダウンロード (Codex/Claude/Gemini 登録用)', 'showEbayTranslationSkillDownload')
+      .addToUi();
+
     // 為替レート自動更新の状態を通知（起動時）
     notifyExchangeRateUpdateStatus_();
 
@@ -4865,4 +4874,38 @@ function writePromptTagMapping_() {
   } catch (e) {
     console.log('writePromptTagMapping_ エラー: ' + e.message);
   }
+}
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  🌐 eBay 翻訳 (AI) — ライブラリ呼出ラッパー
+  ・本体ロジックは Library/EbayTranslationSkill.gs (BulkToolsLib)
+  ・GAS 仕様: HTML から google.script.run で呼ばれる関数 (save*, generate*) も
+    ホスト側に同名関数が必須なため、薄いラッパーとして再公開する
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+function showEbayTranslationSettings() {
+  var html = BulkToolsLib.buildEbayTranslationSettingsHtml();
+  SpreadsheetApp.getUi().showModalDialog(html, 'eBay 翻訳 (AI) 設定');
+}
+
+function showEbayTranslationGenerator() {
+  var html = BulkToolsLib.buildEbayTranslationGeneratorHtml();
+  SpreadsheetApp.getUi().showModalDialog(html, '翻訳指示文を生成');
+}
+
+function showEbayTranslationCurrentSettings() {
+  SpreadsheetApp.getUi().alert(BulkToolsLib.getEbayTranslationCurrentSettingsText());
+}
+
+function showEbayTranslationSkillDownload() {
+  var html = BulkToolsLib.buildEbayTranslationSkillDownloadHtml();
+  SpreadsheetApp.getUi().showModalDialog(html, 'eBay Translation Skill 本文');
+}
+
+// HTML フォーム (google.script.run) から呼ばれる関数
+function saveEbayTranslationSettings(form) {
+  return BulkToolsLib.saveEbayTranslationSettings(form);
+}
+
+function generateEbayTranslationInstruction(startRow, endRow) {
+  return BulkToolsLib.generateEbayTranslationInstruction(startRow, endRow);
 }
