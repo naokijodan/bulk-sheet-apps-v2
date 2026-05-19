@@ -509,3 +509,29 @@ function IS_showDictionaryManager() { LIB.showDictionaryManager(); }
 function IS_initializeDictionaryWithConfirm() { LIB.initializeDictionaryWithConfirm(); }
 function IS_extractSelectedRows() { LIB.extractSelectedRows(); }
 function IS_extractAllRows() { LIB.extractAllRows(); }
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  🌐 eBay 翻訳 (AI)（ライブラリ経由）
+  ・本体ロジック: Library/EbayTranslationSkill.gs
+  ・メニュー定義: Library/コード_Part3 の onOpen 内 (LIB.onOpen() 経由で表示)
+  ・google.script.run 制約のため、HTML フォームから呼ばれる save/generate も
+    ホスト側 (本ファイル) にラッパーが必要
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+function showEbayTranslationSettings() {
+  var html = LIB.buildEbayTranslationSettingsHtml();
+  SpreadsheetApp.getUi().showModalDialog(html, 'eBay 翻訳 (AI) 設定');
+}
+function showEbayTranslationGenerator() {
+  var html = LIB.buildEbayTranslationGeneratorHtml();
+  SpreadsheetApp.getUi().showModalDialog(html, '翻訳指示文を生成');
+}
+function showEbayTranslationCurrentSettings() {
+  SpreadsheetApp.getUi().alert(LIB.getEbayTranslationCurrentSettingsText());
+}
+function showEbayTranslationSkillDownload() {
+  var html = LIB.buildEbayTranslationSkillDownloadHtml();
+  SpreadsheetApp.getUi().showModalDialog(html, 'eBay Translation Skill 本文');
+}
+// HTML フォーム (google.script.run) から呼ばれる関数
+function saveEbayTranslationSettings(form) { return LIB.saveEbayTranslationSettings(form); }
+function generateEbayTranslationInstruction(startRow, endRow) { return LIB.generateEbayTranslationInstruction(startRow, endRow); }

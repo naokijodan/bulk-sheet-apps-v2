@@ -4875,37 +4875,3 @@ function writePromptTagMapping_() {
     console.log('writePromptTagMapping_ エラー: ' + e.message);
   }
 }
-
-/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  🌐 eBay 翻訳 (AI) — ライブラリ呼出ラッパー
-  ・本体ロジックは Library/EbayTranslationSkill.gs (BulkToolsLib)
-  ・GAS 仕様: HTML から google.script.run で呼ばれる関数 (save*, generate*) も
-    ホスト側に同名関数が必須なため、薄いラッパーとして再公開する
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-function showEbayTranslationSettings() {
-  var html = BulkToolsLib.buildEbayTranslationSettingsHtml();
-  SpreadsheetApp.getUi().showModalDialog(html, 'eBay 翻訳 (AI) 設定');
-}
-
-function showEbayTranslationGenerator() {
-  var html = BulkToolsLib.buildEbayTranslationGeneratorHtml();
-  SpreadsheetApp.getUi().showModalDialog(html, '翻訳指示文を生成');
-}
-
-function showEbayTranslationCurrentSettings() {
-  SpreadsheetApp.getUi().alert(BulkToolsLib.getEbayTranslationCurrentSettingsText());
-}
-
-function showEbayTranslationSkillDownload() {
-  var html = BulkToolsLib.buildEbayTranslationSkillDownloadHtml();
-  SpreadsheetApp.getUi().showModalDialog(html, 'eBay Translation Skill 本文');
-}
-
-// HTML フォーム (google.script.run) から呼ばれる関数
-function saveEbayTranslationSettings(form) {
-  return BulkToolsLib.saveEbayTranslationSettings(form);
-}
-
-function generateEbayTranslationInstruction(startRow, endRow) {
-  return BulkToolsLib.generateEbayTranslationInstruction(startRow, endRow);
-}
