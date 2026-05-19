@@ -13,7 +13,39 @@ function onOpen() {
   try {
     var ui = SpreadsheetApp.getUi();
 
-    // 1. 実行メニュー
+    // 1. eBay 翻訳 (AI) メニュー — Library/EbayTranslationSkill.gs 委譲
+    ui.createMenu('🌐 eBay 翻訳 (AI)')
+      .addItem('⚙️ 設定', 'showEbayTranslationSettings')
+      .addItem('📋 選択行の翻訳指示文を作成', 'showEbayTranslationGenerator')
+      .addItem('🔎 現在の設定を確認', 'showEbayTranslationCurrentSettings')
+      .addSeparator()
+      .addItem('📄 スキル本文をダウンロード (Codex/Claude/Gemini 登録用)', 'showEbayTranslationSkillDownload')
+      .addToUi();
+
+    // 2. 設定メニュー（初期設定 + EAGLE更新 + 簡易版）
+    ui.createMenu('⚙️ 設定メニュー')
+      .addItem("⚙️ 初期設定（いつでも変更可）", "initialSetup")
+      .addItem("📝 プロンプト編集", "showPromptEditorSidebar")
+      .addSeparator()
+      .addItem('📊 EAGLE データ更新（初回/定期更新）', 'updateEagleData')
+      .addItem('🛠️ EAGLEシート初期作成', 'setupInitial')
+      .addSeparator()
+      .addItem('🔗 旧データインポート', 'showDataImportDialog')
+      .addItem('📤 設定をエクスポート', 'exportSettingsToSheet')
+      .addItem('📥 設定をインポート', 'showSettingsImportDialog')
+      .addItem('📥 データインポート', 'showDataImportDialog')
+      .addSeparator()
+      .addItem('🔄 テンプレート・ポリシー再取得', 'updateTemplatePolicyOnly')
+      .addItem('🚀 検証→マスター反映', 'validateAndApplyImport')
+      .addItem('🔑 APIトークン管理', 'manageApiToken')
+      .addItem('📋 現在の設定確認', 'showCurrentSetupStatus')
+      .addSeparator()
+      .addSubMenu(ui.createMenu('📱 簡易版')
+        .addItem('🎯 簡易版を開く', 'openSimpleMode')
+        .addItem('🔄 簡易版を更新', 'updateSimpleMode'))
+      .addToUi();
+
+    // 3. 実行メニュー
     ui.createMenu("🔁 実行メニュー")
       .addItem("🧹 選択行を交通整理（ソース整理）", "runSanitizeSelectedRows")
       .addItem("↩️ 交通整理を元に戻す", "restoreSanitizeSelectedRows")
@@ -37,46 +69,14 @@ function onOpen() {
       .addItem('作業シートにコピー', 'copyToWorkSheet')
       .addToUi();
     
-    // 2. 計算メニュー
+    // 4. 計算メニュー
     addPriceCalcStandaloneMenu_();
     
-    // 3. 設定メニュー（初期設定 + EAGLE更新 + 簡易版）
-    ui.createMenu('⚙️ 設定メニュー')
-      .addItem("⚙️ 初期設定（いつでも変更可）", "initialSetup")
-      .addItem("📝 プロンプト編集", "showPromptEditorSidebar")
-      .addSeparator()
-      .addItem('📊 EAGLE データ更新（初回/定期更新）', 'updateEagleData')
-      .addItem('🛠️ EAGLEシート初期作成', 'setupInitial')
-      .addSeparator()
-      .addItem('🔗 旧データインポート', 'showDataImportDialog')
-      .addItem('📤 設定をエクスポート', 'exportSettingsToSheet')
-      .addItem('📥 設定をインポート', 'showSettingsImportDialog')
-      .addItem('📥 データインポート', 'showDataImportDialog')
-      .addSeparator()
-      .addItem('🔄 テンプレート・ポリシー再取得', 'updateTemplatePolicyOnly')
-      .addItem('🚀 検証→マスター反映', 'validateAndApplyImport')
-      .addItem('🔑 APIトークン管理', 'manageApiToken')
-      .addItem('📋 現在の設定確認', 'showCurrentSetupStatus')
-      .addSeparator()
-      .addSubMenu(ui.createMenu('📱 簡易版')
-        .addItem('🎯 簡易版を開く', 'openSimpleMode')
-        .addItem('🔄 簡易版を更新', 'updateSimpleMode'))
-      .addToUi();
-
-    // 4. 為替レートメニュー
+    // 5. 為替レートメニュー
     ui.createMenu('💱 為替レート')
       .addItem('🔄 為替レート自動更新を開始（毎日午前9時）', 'setupExchangeRateUpdateTrigger')
       .addItem('⏸️ 為替レート自動更新を停止', 'removeExchangeRateUpdateTrigger')
       .addItem('📊 為替レート自動更新の状態確認', 'checkExchangeRateUpdateStatus')
-      .addToUi();
-
-    // 5. eBay 翻訳 (AI) メニュー — Library/EbayTranslationSkill.gs 委譲
-    ui.createMenu('🌐 eBay 翻訳 (AI)')
-      .addItem('⚙️ 設定', 'showEbayTranslationSettings')
-      .addItem('📋 選択行の翻訳指示文を作成', 'showEbayTranslationGenerator')
-      .addItem('🔎 現在の設定を確認', 'showEbayTranslationCurrentSettings')
-      .addSeparator()
-      .addItem('📄 スキル本文をダウンロード (Codex/Claude/Gemini 登録用)', 'showEbayTranslationSkillDownload')
       .addToUi();
 
     // 為替レート自動更新の状態を通知（起動時）
