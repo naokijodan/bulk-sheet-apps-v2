@@ -209,8 +209,8 @@ function buildEbayTranslationGeneratorHtml() {
 // ============================================================================
 // 公開関数 — スキル本文ダウンロードダイアログ HTML
 // ============================================================================
-function buildEbayTranslationSkillDownloadHtml(doGetUrl, doGetKey) {
-  var content = getEbayTranslationSkillContent(doGetUrl, doGetKey);
+function buildEbayTranslationSkillDownloadHtml() {
+  var content = getEbayTranslationSkillContent();
   var safe = content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   return HtmlService.createHtmlOutput(
     '<style>' +
@@ -299,8 +299,8 @@ function getEbayTranslationCurrentSettingsText() {
 // ============================================================================
 // 公開関数 — 指示文生成 (HTML フォームから google.script.run で呼ばれる)
 // ============================================================================
-function generateEbayTranslationInstruction(startRow, endRow) {
-  return buildEbayTranslationInstruction_(parseInt(startRow, 10), parseInt(endRow, 10));
+function generateEbayTranslationInstruction(startRow, endRow, doGetUrl, doGetKey) {
+  return buildEbayTranslationInstruction_(parseInt(startRow, 10), parseInt(endRow, 10), doGetUrl, doGetKey);
 }
 
 // ============================================================================
@@ -325,7 +325,7 @@ function getEbayTranslationSelectedRange() {
 // ============================================================================
 // 内部ヘルパー — 指示文の組立
 // ============================================================================
-function buildEbayTranslationInstruction_(startRow, endRow) {
+function buildEbayTranslationInstruction_(startRow, endRow, doGetUrl, doGetKey) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var spreadsheetId = ss.getId();
   var tagSheet = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.TAG_SHEET, EBAY_TRANSLATION_DEFAULTS.TAG_SHEET);
@@ -334,6 +334,13 @@ function buildEbayTranslationInstruction_(startRow, endRow) {
   var skillName = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.SKILL_NAME, EBAY_TRANSLATION_DEFAULTS.SKILL_NAME);
   var batchSize = getEbayTranslationNumericSetting_(EBAY_TRANSLATION_PROPS.BATCH_SIZE, EBAY_TRANSLATION_DEFAULTS.BATCH_SIZE, 1, 50);
   var operator = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.OPERATOR, EBAY_TRANSLATION_DEFAULTS.OPERATOR);
+
+  // doGet URL/キーは host(Main.js wrapper) が IMG_DOGET_URL/KEY を読んで渡す
+  // (host/library で DocumentProperties 名前空間が別のため)。指示文にこのシートの URL を埋め込む。
+  var imgUrl = (doGetUrl && /^https:\/\//i.test(String(doGetUrl).trim())) ? String(doGetUrl).trim().replace(/\/+$/, '') : '';
+  var imgLines = imgUrl
+    ? (doGetKey ? ['doGet URL: ' + imgUrl, 'doGet キー: ' + doGetKey] : ['doGet URL: ' + imgUrl])
+    : ['doGet URL: (未登録) ← シートの webhook を ?action=registerSelfUrl で 1 回叩いて登録してください'];
 
   return [
     'Skill "' + skillName + '" を実行してください。',
@@ -344,39 +351,21 @@ function buildEbayTranslationInstruction_(startRow, endRow) {
     'タグ参照シート名: ' + tagSheet,
     '対象行範囲: ' + startRow + '-' + endRow,
     '集約バッチサイズ: ' + batchSize,
-    '担当者名: ' + operator,
+    '担当者名: ' + operator
+  ].concat(imgLines).concat([
     '',
     '画像も使って Title / Item Specifics / Description の正確性を高めてください。',
     'タグ判定は ' + tagSheet + ' シートの A 列許可リストから 1 つだけ選んでください (画像は使わない)。',
     'A 列に今日の日付 (YYYY/MM/DD)、B 列に上記の「担当者名」を必ず書いてください。'
-  ].join('\n');
+  ]).join('\n');
 }
 
 // ============================================================================
 // 公開関数 — スキル本文 (~/Desktop/gemini-sheets-tool/ebay-translation-skill.md と同じ)
 // ============================================================================
-function getEbayTranslationSkillContent(doGetUrlArg, doGetKeyArg) {
-  // URL/キーは host から引数で受け取る (library の DocumentProperties は host と別名前空間で
-  // host が set した値が見えないため)。引数が無い場合のみ library 名前空間にフォールバック。
-  var __props = PropertiesService.getDocumentProperties();
-  var __url = (doGetUrlArg ? String(doGetUrlArg) : '') || __props.getProperty('IMG_DOGET_URL') || '';
-  var __key = (doGetKeyArg ? String(doGetKeyArg) : '') || __props.getProperty('IMG_DOGET_KEY') || '';
-  var __hasUrl = /^https:\/\//i.test(__url);
-  var __base = __url.replace(/\/+$/, '');
-  var __keyParam = (__hasUrl && __key) ? ('&key=' + encodeURIComponent(__key)) : '';
-  var __callLine = __hasUrl
-    ? ('- **呼び出し**: `' + __base + '?action=getImages&sheet={ソースシート名}&startRow={開始行}&numRows={件数}&maxImages={枚数}' + __keyParam + '`')
-    : '- **呼び出し**: ⚠️ **doGet URL 未登録**。登録するまで画像をメルカリ非経由で取得できない。';
-  var __urlNote = __hasUrl
-    ? '  - 上記 URL はこのシート自身の doGet (= とりこみ君 webhook と同じ /exec) を自動で埋め込み済み。手入力不要。'
-    : '  - **=IMAGE のメルカリ URL に勝手に落とさない**。webhook を `?action=registerSelfUrl` で 1 回叩いて URL を登録し、再度この本文を生成すること。';
-  var __fallbackLine = __hasUrl
-    ? null
-    : '- doGet URL 未登録の間は =IMAGE のメルカリ直アクセスは禁止。テキストのみで翻訳するか、登録を促して停止する。';
-  var __paramUrlLine = __hasUrl
-    ? '- doGet URL: このシートに登録済み。画像入力の呼び出し例に自動埋め込み済み (手入力不要)。'
-    : '- ⚠️ doGet URL 未登録。webhook を `?action=registerSelfUrl` で 1 回叩くと記録され、以後自動で埋め込まれる。';
-  var __lines = [
+function getEbayTranslationSkillContent() {
+  // スキル本体は汎用。doGet URL は実行依頼(指示文)のパラメータで受け取り、固定 URL は持たない。
+  return [
     '# eBay Translation Skill',
     '',
     '日本の商品データ (テキスト + 画像) を英語の eBay 出品データに変換し、Google スプレッドシートに書き戻す。Codex app / Claude Code / Gemini CLI で共通使用可能。',
@@ -399,8 +388,8 @@ function getEbayTranslationSkillContent(doGetUrlArg, doGetKeyArg) {
     '',
     '商品画像は **ユーザーの GAS Web アプリ (doGet) から base64 で取得**する。これでメルカリ (static.mercdn.net) へ自動アクセスせずに翻訳できる。MCP/REST ではセル内画像が空で返るため、画像取得は必ず doGet を使う。',
     '',
-    __callLine,
-    __urlNote,
+    '- **呼び出し**: `{doGet URL}?action=getImages&sheet={ソースシート名}&startRow={開始行}&numRows={件数}&maxImages={枚数}` (指示文に `doGet キー` があれば `&key=<キー>` も付ける)',
+    '  - `{doGet URL}` は実行依頼(指示文)のパラメータで渡される (= とりこみ君 webhook と同じ /exec)。スキル本体に固定 URL は持たない。',
     '  - `numRows × maxImages ≤ 30` に収める (doGet 側の上限)。超える場合は `startRow` をずらして分割して呼ぶ。',
     '- **レスポンス (JSON)**: `{ "ok": true, "rows": [ { "row": 12, "safeImages": ["data:image/jpeg;base64,..."], "mercariUrls": ["https://static.mercdn.net/..."] } ] }`',
     '- **使い方 (行ごと)**:',
@@ -410,7 +399,7 @@ function getEbayTranslationSkillContent(doGetUrlArg, doGetKeyArg) {
     '  - Codex CLI / Gemini CLI: base64 の data URL を image_url にそのまま渡す。',
     '  - Claude Code: base64 を一時ファイル (例 `/tmp/img_{row}_{n}.jpg`) に保存し、Read ツールで読む。',
     '- **禁止**: `safeImages` がある行で =IMAGE のメルカリ URL を使うこと。doGet を介さず直接メルカリ URL を vision に渡すこと。',
-    __fallbackLine,
+    '- **doGet URL が指示文に無ければエラーで停止する。=IMAGE のメルカリ URL に勝手に落とさない。**',
     '',
     '## 必要な接続',
     '',
@@ -426,7 +415,7 @@ function getEbayTranslationSkillContent(doGetUrlArg, doGetKeyArg) {
     '- **対象行範囲 (例: 4-23)** ← これは **ソースシートの行範囲**。書込先シートの行範囲ではない',
     '- 集約バッチサイズ (例: 20)',
     '- **担当者名 (例: Claude / Codex / Gemini / 自分の名前)** ← 書込先 B 列に書く文字列',
-    __paramUrlLine,
+    '- **doGet URL** ← 実行依頼(指示文)で渡される。とりこみ君 webhook と同じ /exec。メルカリ非経由で画像を取得 (スキル本体に固定 URL は持たない)',
     '',
     '## 書込位置のルール (絶対遵守)',
     '',
@@ -499,8 +488,7 @@ function getEbayTranslationSkillContent(doGetUrlArg, doGetKeyArg) {
     '- HTTP 429/5xx → 指数バックオフリトライ (2s/4s/8s)',
     '- HTTP 4xx (429 除く) / Safety フィルター (promptFeedback.blockReason or finishReason=\'SAFETY\') → 即失敗、該当行の Title 列に `ERROR` と書いてスキップ',
     '- バッチで複数件失敗時は、その失敗行のみ直列フォールバック (1 件ずつ再実行)'
-  ];
-  return __lines.filter(function (x) { return x !== null; }).join('\n');
+  ].join('\n');
 }
 
 // ============================================================================

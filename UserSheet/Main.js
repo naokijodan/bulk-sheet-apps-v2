@@ -765,17 +765,18 @@ function showEbayTranslationCurrentSettings() {
   SpreadsheetApp.getUi().alert(LIB.getEbayTranslationCurrentSettingsText());
 }
 function showEbayTranslationSkillDownload() {
-  // doGet URL/キーは host 名前空間の DocumentProperties から読み、library の生成関数へ引数で渡す。
-  // (library 側の getDocumentProperties は別名前空間で host が set した値が見えないため)
-  var __dp = PropertiesService.getDocumentProperties();
-  var __imgUrl = __dp.getProperty('IMG_DOGET_URL') || '';
-  var __imgKey = __dp.getProperty('IMG_DOGET_KEY') || '';
-  var html = LIB.buildEbayTranslationSkillDownloadHtml(__imgUrl, __imgKey);
+  // スキル本体は汎用 (固定 URL を持たない)。doGet URL は実行依頼(指示文)に埋め込まれる。
+  var html = LIB.buildEbayTranslationSkillDownloadHtml();
   SpreadsheetApp.getUi().showModalDialog(html, 'eBay Translation Skill 本文');
 }
 // HTML フォーム (google.script.run) から呼ばれる関数
 function saveEbayTranslationSettings(form) { return LIB.saveEbayTranslationSettings(form); }
-function generateEbayTranslationInstruction(startRow, endRow) { return LIB.generateEbayTranslationInstruction(startRow, endRow); }
+function generateEbayTranslationInstruction(startRow, endRow) {
+  // doGet URL/キーは host 名前空間の DocumentProperties から読み、指示文生成へ渡す
+  // (host/library で DocumentProperties 名前空間が別のため)。
+  var __dp = PropertiesService.getDocumentProperties();
+  return LIB.generateEbayTranslationInstruction(startRow, endRow, __dp.getProperty('IMG_DOGET_URL') || '', __dp.getProperty('IMG_DOGET_KEY') || '');
+}
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   🔑 eBay 翻訳 (AI) ルート②: API翻訳（ライブラリ経由）
