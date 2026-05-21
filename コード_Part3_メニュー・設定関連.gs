@@ -20,6 +20,13 @@ function onOpen() {
       .addItem('🔎 現在の設定を確認', 'showEbayTranslationCurrentSettings')
       .addSeparator()
       .addItem('📄 スキル本文をダウンロード (Codex/Claude/Gemini 登録用)', 'showEbayTranslationSkillDownload')
+      .addSeparator()
+      .addItem('🔑 API設定 (APIキー登録)', 'ebApiShowAllSettingsDialog')
+      .addItem('🔑 APIで翻訳：選択行', 'ebApiTranslateSelectedRows')
+      .addItem('🔑 APIで翻訳：全行', 'ebApiTranslateAllRows')
+      .addItem('🔑 続きを処理 (中断分の再開)', 'ebApiContinueTranslateRows')
+      .addItem('🔑 自動再開を停止', 'ebApiCancelResumeTrigger')
+      .addItem('🔑 現在の処理状態を確認', 'ebApiShowResumeState')
       .addToUi();
 
     // 2. 設定メニュー（初期設定 + EAGLE更新 + 簡易版）
