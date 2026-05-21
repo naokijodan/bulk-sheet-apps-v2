@@ -365,8 +365,24 @@ function buildEbayTranslationInstruction_(startRow, endRow, doGetUrl, doGetKey) 
 // ============================================================================
 function getEbayTranslationSkillContent() {
   // スキル本体は汎用。doGet URL は実行依頼(指示文)のパラメータで受け取り、固定 URL は持たない。
-  return [
+  // ★スキル本文を変えたら CHANGELOG の先頭に {date, text} を1件追加(新しい順・事実を正確に)。
+  //   バージョンは先頭エントリの日付から自動生成。変更履歴は HTMLコメント + 区切り線の「上」に
+  //   置く＝(1)実行AIはコメントを命令と読まない (2)区切り線より下だけ登録すれば本文に履歴は入らない。
+  var CHANGELOG = [
+    { date: '2026-05-22', text: 'doGet URL を「スキル本体に固定」→「指示文(実行依頼)に埋め込み」へ訂正（1 スキルで複数シート対応）' },
+    { date: '2026-05-22', text: 'doGet URL を IMG_DOGET_URL から取得し指示文へ自動埋め込み（手入力廃止）' },
+    { date: '2026-05-21', text: 'doGet 経由（メルカリ非経由）で画像を取得する方式を追加' }
+  ];
+  var version = (CHANGELOG[0] && CHANGELOG[0].date) ? CHANGELOG[0].date : '';
+  var historyBlock = ['<!-- 【変更履歴】人向けメモ。スキル実行には影響しません（新規の方は読み飛ばして OK ／ 更新の方はここで変更点を確認）。']
+    .concat(CHANGELOG.map(function (c) { return '- ' + c.date + ': ' + c.text; }))
+    .concat(['-->']);
+  return historyBlock.concat([
+    '======================（ここから下をコピーしてスキルに登録）======================',
+    '',
     '# eBay Translation Skill',
+    '',
+    'バージョン: ' + version,
     '',
     '日本の商品データ (テキスト + 画像) を英語の eBay 出品データに変換し、Google スプレッドシートに書き戻す。Codex app / Claude Code / Gemini CLI で共通使用可能。',
     '',
@@ -488,7 +504,7 @@ function getEbayTranslationSkillContent() {
     '- HTTP 429/5xx → 指数バックオフリトライ (2s/4s/8s)',
     '- HTTP 4xx (429 除く) / Safety フィルター (promptFeedback.blockReason or finishReason=\'SAFETY\') → 即失敗、該当行の Title 列に `ERROR` と書いてスキップ',
     '- バッチで複数件失敗時は、その失敗行のみ直列フォールバック (1 件ずつ再実行)'
-  ].join('\n');
+  ]).join('\n');
 }
 
 // ============================================================================
