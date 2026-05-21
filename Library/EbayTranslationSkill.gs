@@ -209,8 +209,8 @@ function buildEbayTranslationGeneratorHtml() {
 // ============================================================================
 // 公開関数 — スキル本文ダウンロードダイアログ HTML
 // ============================================================================
-function buildEbayTranslationSkillDownloadHtml() {
-  var content = getEbayTranslationSkillContent();
+function buildEbayTranslationSkillDownloadHtml(doGetUrl, doGetKey) {
+  var content = getEbayTranslationSkillContent(doGetUrl, doGetKey);
   var safe = content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   return HtmlService.createHtmlOutput(
     '<style>' +
@@ -355,10 +355,12 @@ function buildEbayTranslationInstruction_(startRow, endRow) {
 // ============================================================================
 // 公開関数 — スキル本文 (~/Desktop/gemini-sheets-tool/ebay-translation-skill.md と同じ)
 // ============================================================================
-function getEbayTranslationSkillContent() {
+function getEbayTranslationSkillContent(doGetUrlArg, doGetKeyArg) {
+  // URL/キーは host から引数で受け取る (library の DocumentProperties は host と別名前空間で
+  // host が set した値が見えないため)。引数が無い場合のみ library 名前空間にフォールバック。
   var __props = PropertiesService.getDocumentProperties();
-  var __url = __props.getProperty('IMG_DOGET_URL') || '';
-  var __key = __props.getProperty('IMG_DOGET_KEY') || '';
+  var __url = (doGetUrlArg ? String(doGetUrlArg) : '') || __props.getProperty('IMG_DOGET_URL') || '';
+  var __key = (doGetKeyArg ? String(doGetKeyArg) : '') || __props.getProperty('IMG_DOGET_KEY') || '';
   var __hasUrl = /^https:\/\//i.test(__url);
   var __base = __url.replace(/\/+$/, '');
   var __keyParam = (__hasUrl && __key) ? ('&key=' + encodeURIComponent(__key)) : '';

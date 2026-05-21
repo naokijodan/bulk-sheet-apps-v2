@@ -765,7 +765,12 @@ function showEbayTranslationCurrentSettings() {
   SpreadsheetApp.getUi().alert(LIB.getEbayTranslationCurrentSettingsText());
 }
 function showEbayTranslationSkillDownload() {
-  var html = LIB.buildEbayTranslationSkillDownloadHtml();
+  // doGet URL/キーは host 名前空間の DocumentProperties から読み、library の生成関数へ引数で渡す。
+  // (library 側の getDocumentProperties は別名前空間で host が set した値が見えないため)
+  var __dp = PropertiesService.getDocumentProperties();
+  var __imgUrl = __dp.getProperty('IMG_DOGET_URL') || '';
+  var __imgKey = __dp.getProperty('IMG_DOGET_KEY') || '';
+  var html = LIB.buildEbayTranslationSkillDownloadHtml(__imgUrl, __imgKey);
   SpreadsheetApp.getUi().showModalDialog(html, 'eBay Translation Skill 本文');
 }
 // HTML フォーム (google.script.run) から呼ばれる関数
