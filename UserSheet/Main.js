@@ -292,7 +292,7 @@ function doPost(e) {
     rows = data.rows;
   } else {
     // 既存単一件モードを内部的に 1 件の配列に正規化
-    rows = [{ values: data.values, sheetName: data.sheetName }];
+    rows = [{ values: data.values, sheetName: data.sheetName, topImagesBase64: data.topImagesBase64, topImageBase64: data.topImageBase64 }];
   }
 
   // 件数バリデーション
@@ -479,6 +479,29 @@ function _doPostWriteRow_(spreadsheet, item, nextRowBySheet) {
   // values を startCol から貼り付け
   sheet.getRange(row, startCol, 1, values.length).setValues([values]);
 
+  // 商品画像1..N（I列 = startCol + 7 から順）のセル内画像化
+  // メルカリ非経由（getContentUrlで翻訳参照）のため、とりこみ君がbase64を同梱した行のみ。
+  // 失敗時は setValues で書いた =IMAGE がそのまま残る（フォールバック）。
+  var imgs = (item && Array.isArray(item.topImagesBase64)) ? item.topImagesBase64
+           : (item && typeof item.topImageBase64 === 'string') ? [item.topImageBase64]
+           : [];
+  if (sheetName === 'インポート用' && values.length > 7) {
+    for (var i = 0; i < imgs.length; i++) {
+      var b64 = imgs[i];
+      if (typeof b64 === 'string' && b64.indexOf('data:image') === 0) {
+        try {
+          var imageCol = startCol + 7 + i; // 商品画像1=I列(startCol+7)、以降 +1 ずつ
+          var cellImage = SpreadsheetApp.newCellImage().setSourceUrl(b64).build();
+          sheet.getRange(row, imageCol).setValue(cellImage);
+        } catch (imgErr) {
+          console.error('[doPost] newCellImage failed (i=' + i + '): ' + (imgErr && imgErr.message ? imgErr.message : imgErr));
+          // フォールバック: =IMAGE が残る
+        }
+      }
+      // b64 が null/非data URL の枚はスキップ（=IMAGE維持）
+    }
+  }
+
   // 次の行をキャッシュに記録（連続書き込み最適化）
   // 上書き防止のため、書き込み済みの行を絶対に再利用しない（+1 する）
   nextRowBySheet[sheetName] = row + 1;
@@ -535,3 +558,20 @@ function showEbayTranslationSkillDownload() {
 // HTML フォーム (google.script.run) から呼ばれる関数
 function saveEbayTranslationSettings(form) { return LIB.saveEbayTranslationSettings(form); }
 function generateEbayTranslationInstruction(startRow, endRow) { return LIB.generateEbayTranslationInstruction(startRow, endRow); }
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  🔑 eBay 翻訳 (AI) ルート②: API翻訳（ライブラリ経由）
+  ・本体ロジック: Library/EbayTranslationApi.gs
+  ・APIキー(OpenAI/Gemini)で直接翻訳 → v5インポートへ書き込み
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+function ebApiShowAllSettingsDialog() {
+  var html = LIB.ebApiBuildAllSettingsHtml();
+  SpreadsheetApp.getUi().showModalDialog(html, '⚙️ 設定');
+}
+function ebApiTranslateSelectedRows() { return LIB.ebApiTranslateSelectedRows(); }
+function ebApiTranslateAllRows() { return LIB.ebApiTranslateAllRows(); }
+function ebApiContinueTranslateRows() { return LIB.ebApiContinueTranslateRows(); }
+function ebApiCancelResumeTrigger() { return LIB.ebApiCancelResumeTrigger(); }
+function ebApiShowResumeState() { return LIB.ebApiShowResumeState(); }
+// HTML フォーム (google.script.run) から呼ばれる関数
+function ebApiSaveAllSettings(formData) { return LIB.ebApiSaveAllSettings(formData); }
