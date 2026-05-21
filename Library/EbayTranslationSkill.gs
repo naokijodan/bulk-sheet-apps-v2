@@ -356,7 +356,25 @@ function buildEbayTranslationInstruction_(startRow, endRow) {
 // 公開関数 — スキル本文 (~/Desktop/gemini-sheets-tool/ebay-translation-skill.md と同じ)
 // ============================================================================
 function getEbayTranslationSkillContent() {
-  return [
+  var __props = PropertiesService.getDocumentProperties();
+  var __url = __props.getProperty('IMG_DOGET_URL') || '';
+  var __key = __props.getProperty('IMG_DOGET_KEY') || '';
+  var __hasUrl = /^https:\/\//i.test(__url);
+  var __base = __url.replace(/\/+$/, '');
+  var __keyParam = (__hasUrl && __key) ? ('&key=' + encodeURIComponent(__key)) : '';
+  var __callLine = __hasUrl
+    ? ('- **呼び出し**: `' + __base + '?action=getImages&sheet={ソースシート名}&startRow={開始行}&numRows={件数}&maxImages={枚数}' + __keyParam + '`')
+    : '- **呼び出し**: ⚠️ **doGet URL 未登録**。登録するまで画像をメルカリ非経由で取得できない。';
+  var __urlNote = __hasUrl
+    ? '  - 上記 URL はこのシート自身の doGet (= とりこみ君 webhook と同じ /exec) を自動で埋め込み済み。手入力不要。'
+    : '  - **=IMAGE のメルカリ URL に勝手に落とさない**。webhook を `?action=registerSelfUrl` で 1 回叩いて URL を登録し、再度この本文を生成すること。';
+  var __fallbackLine = __hasUrl
+    ? null
+    : '- doGet URL 未登録の間は =IMAGE のメルカリ直アクセスは禁止。テキストのみで翻訳するか、登録を促して停止する。';
+  var __paramUrlLine = __hasUrl
+    ? '- doGet URL: このシートに登録済み。画像入力の呼び出し例に自動埋め込み済み (手入力不要)。'
+    : '- ⚠️ doGet URL 未登録。webhook を `?action=registerSelfUrl` で 1 回叩くと記録され、以後自動で埋め込まれる。';
+  var __lines = [
     '# eBay Translation Skill',
     '',
     '日本の商品データ (テキスト + 画像) を英語の eBay 出品データに変換し、Google スプレッドシートに書き戻す。Codex app / Claude Code / Gemini CLI で共通使用可能。',
@@ -379,8 +397,8 @@ function getEbayTranslationSkillContent() {
     '',
     '商品画像は **ユーザーの GAS Web アプリ (doGet) から base64 で取得**する。これでメルカリ (static.mercdn.net) へ自動アクセスせずに翻訳できる。MCP/REST ではセル内画像が空で返るため、画像取得は必ず doGet を使う。',
     '',
-    '- **呼び出し**: `{doGet URL}?action=getImages&sheet={ソースシート名}&startRow={開始行}&numRows={件数}&maxImages={枚数}` (キーを設定している場合は `&key={キー}` も付ける)',
-    '  - `doGet URL` はユーザーが渡すパラメータ (= とりこみ君 webhook と同じ /exec)。',
+    __callLine,
+    __urlNote,
     '  - `numRows × maxImages ≤ 30` に収める (doGet 側の上限)。超える場合は `startRow` をずらして分割して呼ぶ。',
     '- **レスポンス (JSON)**: `{ "ok": true, "rows": [ { "row": 12, "safeImages": ["data:image/jpeg;base64,..."], "mercariUrls": ["https://static.mercdn.net/..."] } ] }`',
     '- **使い方 (行ごと)**:',
@@ -390,7 +408,7 @@ function getEbayTranslationSkillContent() {
     '  - Codex CLI / Gemini CLI: base64 の data URL を image_url にそのまま渡す。',
     '  - Claude Code: base64 を一時ファイル (例 `/tmp/img_{row}_{n}.jpg`) に保存し、Read ツールで読む。',
     '- **禁止**: `safeImages` がある行で =IMAGE のメルカリ URL を使うこと。doGet を介さず直接メルカリ URL を vision に渡すこと。',
-    '- `doGet URL` が渡されない場合のみ、後方互換として従来どおり =IMAGE の URL を直接 vision に渡してよい。',
+    __fallbackLine,
     '',
     '## 必要な接続',
     '',
@@ -406,8 +424,7 @@ function getEbayTranslationSkillContent() {
     '- **対象行範囲 (例: 4-23)** ← これは **ソースシートの行範囲**。書込先シートの行範囲ではない',
     '- 集約バッチサイズ (例: 20)',
     '- **担当者名 (例: Claude / Codex / Gemini / 自分の名前)** ← 書込先 B 列に書く文字列',
-    '- **doGet URL (画像取得用・推奨)** ← Web アプリ /exec。とりこみ君 webhook と同じ URL。メルカリ非経由で画像を取得する',
-    '- doGet 認証キー (doGet 側で IMG_DOGET_KEY を設定している場合のみ)',
+    __paramUrlLine,
     '',
     '## 書込位置のルール (絶対遵守)',
     '',
@@ -480,7 +497,8 @@ function getEbayTranslationSkillContent() {
     '- HTTP 429/5xx → 指数バックオフリトライ (2s/4s/8s)',
     '- HTTP 4xx (429 除く) / Safety フィルター (promptFeedback.blockReason or finishReason=\'SAFETY\') → 即失敗、該当行の Title 列に `ERROR` と書いてスキップ',
     '- バッチで複数件失敗時は、その失敗行のみ直列フォールバック (1 件ずつ再実行)'
-  ].join('\n');
+  ];
+  return __lines.filter(function (x) { return x !== null; }).join('\n');
 }
 
 // ============================================================================

@@ -547,6 +547,19 @@ function doGet(e) {
       return _doPostJsonResponse_({ ok: false, error: 'unauthorized' });
     }
 
+    // 画像doGet URL の自動登録: この webhook を叩いた文脈の自URL(=実行中デプロイの /exec)を
+    // DocumentProperties に記録する。getService() は editor 文脈や複数デプロイで不確実なため、
+    // 「正しい webhook を実際に叩いて自URLを採る」この方法のみが確実。
+    // 書き込むのは self URL のみ（呼び出し側のパラメータは使わない）＝外部からの値注入は不可。
+    if (params.action === 'registerSelfUrl') {
+      var selfUrl = ScriptApp.getService().getUrl();
+      if (!selfUrl || !/^https:\/\//i.test(selfUrl)) {
+        return _doPostJsonResponse_({ ok: false, error: 'service_url_unavailable', hint: 'deploy as web app first' });
+      }
+      PropertiesService.getDocumentProperties().setProperty('IMG_DOGET_URL', selfUrl);
+      return _doPostJsonResponse_({ ok: true, registered: selfUrl });
+    }
+
     if (params.action !== 'getImages') {
       return _doPostJsonResponse_({ ok: false, error: 'unknown_action' });
     }
