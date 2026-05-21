@@ -523,6 +523,206 @@ function _doPostJsonResponse_(payload) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+// ─────────────────────────────────────────────
+// Webアプリ用 GET エントリーポイント（スキル経路の安全画像参照）
+//
+// スキル(CLI/Codex/Gemini)がこれを叩き、シートの「セル内画像(CellImage)」を
+// getContentUrl(Googleホスト)→base64 data URL にして受け取り、AI に渡す。
+// → メルカリ非経由で画像翻訳できる。
+//
+// 重要(§8厳守): doGet 自身は絶対にメルカリ(static.mercdn.net 等)を fetch しない。
+//   fetch するのは getContentUrl の Google ホスト画像のみ（_doGetIsGoogleHostedImage_ で限定）。
+//   =IMAGE のメルカリURLは文字列として mercariUrls に返すだけ（取得はクライアント側＝スキルが判断）。
+//
+// パラメータ: ?action=getImages&sheet=インポート用&startRow=12&numRows=6&maxImages=1&key=XXXX
+//   key は DocumentProperties の 'IMG_DOGET_KEY' が設定されている場合のみ照合（未設定なら素通り）。
+// ─────────────────────────────────────────────
+function doGet(e) {
+  try {
+    var params = (e && e.parameter) || {};
+
+    // 軽い認証: キーが設定されている場合のみ照合
+    var requiredKey = PropertiesService.getDocumentProperties().getProperty('IMG_DOGET_KEY');
+    if (requiredKey && params.key !== requiredKey) {
+      return _doPostJsonResponse_({ ok: false, error: 'unauthorized' });
+    }
+
+    if (params.action !== 'getImages') {
+      return _doPostJsonResponse_({ ok: false, error: 'unknown_action' });
+    }
+
+    var sheetName = params.sheet || 'インポート用';
+    var startRowP = _doGetParseInt_(params.startRow, 'invalid_startRow');
+    var numRowsP = _doGetParseInt_(params.numRows, 'invalid_numRows');
+    var maxImagesP = _doGetParseInt_(params.maxImages || '1', 'invalid_maxImages');
+    if (startRowP.error) return _doPostJsonResponse_({ ok: false, error: startRowP.error });
+    if (numRowsP.error) return _doPostJsonResponse_({ ok: false, error: numRowsP.error });
+    if (maxImagesP.error) return _doPostJsonResponse_({ ok: false, error: maxImagesP.error });
+
+    var startRow = startRowP.value;
+    var numRows = numRowsP.value;
+    var maxImages = Math.max(1, Math.min(10, maxImagesP.value));
+    if (startRow < 3) return _doPostJsonResponse_({ ok: false, error: 'invalid_startRow' });
+    if (numRows < 1 || numRows > 50) return _doPostJsonResponse_({ ok: false, error: 'invalid_numRows' });
+
+    var COL_IMAGE_START = 9;        // I 列（商品画像1）
+    var COL_IMAGE_COUNT = 10;       // I〜R（商品画像1〜10）
+    var MAX_TOTAL_SAFE_IMAGES = 30; // fetchAll のヒープ圧迫を避ける枚数上限（1枚最大2MB×30）
+
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(sheetName);
+    if (!sheet) {
+      return _doPostJsonResponse_({ ok: false, error: 'sheet_not_found' });
+    }
+
+    // シート境界クランプ: getRange の out of bounds 例外を防ぐ
+    var maxRows = sheet.getMaxRows();
+    if (startRow > maxRows) {
+      return _doPostJsonResponse_({ ok: false, error: 'startRow_out_of_range' });
+    }
+    if (startRow + numRows - 1 > maxRows) {
+      numRows = maxRows - startRow + 1;
+    }
+
+    var range = sheet.getRange(startRow, COL_IMAGE_START, numRows, COL_IMAGE_COUNT);
+    var imageValues = range.getValues();
+    var imageFormulas = range.getFormulas();
+
+    var rows = [];
+    var requests = [];
+    var indexMap = [];
+    var totalSafe = 0;
+
+    for (var i = 0; i < numRows; i++) {
+      var rowResult = { row: startRow + i, safeImages: [], mercariUrls: [] };
+      var safeCount = 0;
+      rows.push(rowResult);
+
+      for (var j = 0; j < COL_IMAGE_COUNT; j++) {
+        var cellVal = imageValues[i][j];
+
+        // セル内画像(CellImage): getContentUrl(Googleホスト) のみ後で fetch→base64
+        if (safeCount < maxImages && totalSafe < MAX_TOTAL_SAFE_IMAGES &&
+            cellVal && typeof cellVal.getContentUrl === 'function') {
+          try {
+            var contentUrl = cellVal.getContentUrl();
+            if (contentUrl && _doGetIsGoogleHostedImage_(contentUrl)) {
+              requests.push({ url: contentUrl, muteHttpExceptions: true, followRedirects: true });
+              indexMap.push({ rowIndex: i });
+              safeCount++;
+              totalSafe++;
+            } else if (contentUrl) {
+              // Googleホスト以外は安全保証外 → fetch しない（§8）
+              console.warn('[doGet] non-google contentUrl skipped (row ' + (startRow + i) +
+                '): ' + String(contentUrl).substring(0, 80));
+            }
+          } catch (ciErr) {
+            console.warn('[doGet] getContentUrl failed (row ' + (startRow + i) + ' col ' + j +
+              '): ' + ((ciErr && ciErr.message) ? ciErr.message : ciErr));
+          }
+        }
+
+        // =IMAGE("url"): メルカリURLを文字列で返すだけ（doGet は取得しない）
+        if (rowResult.mercariUrls.length < maxImages) {
+          var f = imageFormulas[i][j] || '';
+          var m = f.match(/=IMAGE\(\s*"([^"]+)"/i);
+          if (m && m[1]) { rowResult.mercariUrls.push(m[1]); }
+        }
+
+        if (safeCount >= maxImages && rowResult.mercariUrls.length >= maxImages) { break; }
+      }
+    }
+
+    _doGetFillSafeImages_(requests, indexMap, rows);
+
+    return _doPostJsonResponse_({
+      ok: true,
+      sheet: sheetName,
+      startRow: startRow,
+      numRows: numRows,
+      rows: rows
+    });
+  } catch (err) {
+    console.error('[doGet] fatal: ' + ((err && err.stack) ? err.stack : String(err)));
+    return _doPostJsonResponse_({ ok: false, error: String(err) });
+  }
+}
+
+// doGet ヘルパー: 数値パラメータの厳格パース
+function _doGetParseInt_(value, error) {
+  var text = String(value || '').trim();
+  if (!/^\d+$/.test(text)) { return { error: error }; }
+  return { value: parseInt(text, 10) };
+}
+
+// doGet ヘルパー: getContentUrl が Google ホスト(*.googleusercontent.com)かを検証。
+// これ以外のドメインは fetch しない（メルカリ等への自動アクセスを構造的に排除）。
+function _doGetIsGoogleHostedImage_(url) {
+  if (typeof url !== 'string') { return false; }
+  var m = url.match(/^https:\/\/([^\/?#]+)/i);
+  if (!m) { return false; }
+  var host = m[1].toLowerCase();
+  return host === 'googleusercontent.com' || /\.googleusercontent\.com$/.test(host);
+}
+
+// doGet ヘルパー: ヘッダ名を大小無視で取得（GAS は送信元の casing をそのまま返すため）
+function _doGetHeaderValue_(headers, name) {
+  if (!headers) { return null; }
+  var lower = String(name).toLowerCase();
+  var keys = Object.keys(headers);
+  for (var i = 0; i < keys.length; i++) {
+    if (String(keys[i]).toLowerCase() === lower) { return headers[keys[i]]; }
+  }
+  return null;
+}
+
+// doGet ヘルパー: 収集した Google ホスト画像URLを並列取得し base64 data URL 化。
+// 200のみ採用 / 2MB超skip / 総レスポンスサイズ上限で打ち切り / 失敗は記録して継続。
+function _doGetFillSafeImages_(requests, indexMap, rows) {
+  if (!requests.length) { return; }
+
+  var responses;
+  try {
+    responses = UrlFetchApp.fetchAll(requests);
+  } catch (fetchErr) {
+    console.error('[doGet] fetchAll failed: ' + ((fetchErr && fetchErr.message) ? fetchErr.message : fetchErr));
+    return;
+  }
+
+  var MAX_RESPONSE_BYTES = 35 * 1024 * 1024; // ContentService ~50MB 上限への安全マージン
+  var totalBytes = 0;
+
+  for (var i = 0; i < responses.length; i++) {
+    try {
+      var res = responses[i];
+      var code = res.getResponseCode();
+      if (code !== 200) {
+        console.warn('[doGet] image fetch non-200 (' + code + ') at index ' + i);
+        continue;
+      }
+      var bytes = res.getBlob().getBytes();
+      if (bytes.length > 2 * 1024 * 1024) {
+        console.warn('[doGet] skip oversize image (>2MB) at index ' + i);
+        continue;
+      }
+      // base64 化前に概算サイズで上限判定（巨大文字列の無駄な生成を避ける）
+      var estB64 = Math.ceil(bytes.length / 3) * 4;
+      if (totalBytes + estB64 > MAX_RESPONSE_BYTES) {
+        console.warn('[doGet] response size cap reached, stop at index ' + i);
+        break;
+      }
+      var base64 = Utilities.base64Encode(bytes);
+      totalBytes += base64.length;
+      var contentType = _doGetHeaderValue_(res.getHeaders(), 'Content-Type') || 'image/jpeg';
+      contentType = String(contentType).split(';')[0].trim();
+      rows[indexMap[i].rowIndex].safeImages.push('data:' + contentType + ';base64,' + base64);
+    } catch (imgErr) {
+      console.warn('[doGet] image decode failure at index ' + i + ': ' +
+        ((imgErr && imgErr.message) ? imgErr.message : imgErr));
+    }
+  }
+}
+
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   Item Specifics（ライブラリ経由）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
