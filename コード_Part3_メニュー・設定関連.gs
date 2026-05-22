@@ -22,12 +22,6 @@ function onOpen() {
       .addItem('📄 スキル本文をダウンロード (Codex/Claude/Gemini 登録用)', 'showEbayTranslationSkillDownload')
       .addSeparator()
       .addItem('🔑 API設定 (APIキー登録)', 'ebApiShowAllSettingsDialog')
-      .addItem('🔑 APIで翻訳：選択行', 'ebApiTranslateSelectedRows')
-      .addItem('🔑 APIで翻訳：全行', 'ebApiTranslateAllRows')
-      .addItem('🔑 続きを処理 (中断分の再開)', 'ebApiContinueTranslateRows')
-      .addItem('🔑 自動再開を停止', 'ebApiCancelResumeTrigger')
-      .addItem('🔑 現在の処理状態を確認', 'ebApiShowResumeState')
-      .addSeparator()
       .addItem('🔑 サイドパネルでバッチ翻訳', 'ebApiShowSidebar')
       .addToUi();
 
