@@ -1918,6 +1918,32 @@ function ebApiSbCancel() {
   return { ok: true, message: '中止しました' };
 }
 
+// ----- 選択範囲取得(インポート用シートで選択中の行範囲を返す) -----
+function ebApiSbGetSelection() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getActiveSheet();
+  var range = sheet.getActiveRange();
+  if (!range) {
+    return { ok: false, message: '行が選択されていません' };
+  }
+  if (sheet.getName() !== SHEET_INPUT) {
+    return { ok: false, wrongSheet: true, sheetName: sheet.getName(),
+             message: '「' + SHEET_INPUT + '」シートで翻訳したい行を選択してください（今は「' + sheet.getName() + '」シートが開いています）' };
+  }
+  var startRow = range.getRow();
+  var endRow = range.getRow() + range.getNumRows() - 1;
+  // 列全体選択などでデータ最終行を超える場合はクリップ(MEDIUM対応)
+  var lastDataRow = sheet.getLastRow();
+  if (endRow > lastDataRow) endRow = lastDataRow;
+  // 下限補正
+  if (startRow < ROW_START) startRow = ROW_START;
+  // 選択がヘッダーのみ/データ行を含まない場合はエラー(HIGH対応)
+  if (endRow < ROW_START || endRow < startRow) {
+    return { ok: false, message: 'データ行（' + ROW_START + '行目以降）を選択してください' };
+  }
+  return { ok: true, startRow: startRow, endRow: endRow, sheetName: sheet.getName() };
+}
+
 // ----- 進捗オブジェクト生成 -----
 function ebApiSbBuildState_(job, ok, done, message, chunkRange, skipCount) {
   return {

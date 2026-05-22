@@ -307,6 +307,9 @@
 
   <!-- 入力フォーム -->
   <div class="input-card" id="inputCard">
+    <div class="button-row" style="margin-bottom: 12px;">
+      <button class="btn" id="grabSelBtn" onclick="applySelection()" style="background:#eef2ff;color:#4338ca;border:1px solid #c7d2fe;">📥 選択範囲を取り込む</button>
+    </div>
     <div class="input-row">
       <label for="startRow">開始行</label>
       <input type="number" id="startRow" min="1" value="3">
@@ -484,6 +487,24 @@
       stopLoop();
     }
 
+    // ===== 選択範囲を取り込む =====
+    function applySelection() {
+      google.script.run
+        .withSuccessHandler(function(sel) {
+          if (sel && sel.ok) {
+            document.getElementById('startRow').value = sel.startRow;
+            document.getElementById('endRow').value = sel.endRow;
+            addLogEntry('選択範囲を取り込みました（' + sel.startRow + '〜' + sel.endRow + '行）', 'success');
+          } else {
+            addLogEntry((sel && sel.message) ? sel.message : '選択範囲を取得できませんでした', 'warning');
+          }
+        })
+        .withFailureHandler(function(error) {
+          addLogEntry('選択範囲の取得エラー: ' + ((error && error.message) ? error.message : String(error)), 'error');
+        })
+        .ebApiSbGetSelection();
+    }
+
     // ===== 開始ボタン =====
     function onStart() {
       if (isRunning) return;
@@ -543,6 +564,7 @@
 
     // ===== 初期化：既存ジョブがあれば状態を表示（再開導線）=====
     function initState() {
+      applySelection();
       google.script.run
         .withSuccessHandler(function(state) {
           if (state && state.ok && state.totalRows) {

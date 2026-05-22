@@ -800,6 +800,7 @@ function ebApiSbStart(config) { return LIB.ebApiSbStart(config); }
 function ebApiSbProcessChunk() { return LIB.ebApiSbProcessChunk(); }
 function ebApiSbGetState() { return LIB.ebApiSbGetState(); }
 function ebApiSbCancel() { return LIB.ebApiSbCancel(); }
+function ebApiSbGetSelection() { return LIB.ebApiSbGetSelection(); }
 
 // サイドパネル表示 (メニューから起動)。HTML取得は既存のフォールバックパターンを踏襲。
 function ebApiShowSidebar() {
