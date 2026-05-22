@@ -817,7 +817,7 @@ function buildGeminiRequest_(item, apiKey) {
   var payload = {
     contents: [{ role: 'user', parts: parts }],
     systemInstruction: {
-      parts: [{ text: SYSTEM_PROMPT + '\n\n' + getPlatformPrompt_(item.platform) }]
+      parts: [{ text: getSystemPromptWithPlatform_(item.platform) }]
     },
     generationConfig: {
       temperature: 0.3,
@@ -1021,7 +1021,7 @@ function buildOpenAIRequest_(item, apiKey) {
   userPromptLines.push('純粋な JSON のみを返してください（マークダウンのコードフェンスや前置き / 後置きの説明文は禁止）。');
 
   var userPrompt = userPromptLines.join('\n');
-  var systemPrompt = SYSTEM_PROMPT + '\n\n' + getPlatformPrompt_(item.platform);
+  var systemPrompt = getSystemPromptWithPlatform_(item.platform);
 
   var headers = {
     'Authorization': 'Bearer ' + apiKey,
@@ -1583,6 +1583,129 @@ var PLATFORM_MERCARI_PROMPT = [
   '  - 色・素材感',
   '- 画像で確認できない情報を推測した場合は warnings に明記する。'
 ].join('\n');
+
+// ============================================================================
+// ===== 翻訳プロンプト管理 (専用シート「翻訳プロンプト」で SYSTEM_PROMPT を編集可能に) =====
+// 旧 GPT_Prompts/createAIPrompt/getPromptContent/savePromptContent 系とは完全分離・新規実装。
+// 編集があればそれを優先、なければハードコードの SYSTEM_PROMPT を使う。
+// 対象は SYSTEM_PROMPT のみ。PLATFORM_MERCARI_PROMPT は触らない。
+// ============================================================================
+
+var TRANSLATION_PROMPT_SHEET = '翻訳プロンプト';
+
+function getDefaultSystemPrompt_() { return SYSTEM_PROMPT; }
+
+function ensureTranslationPromptSheet_(ss) {
+  ss = ss || SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(TRANSLATION_PROMPT_SHEET);
+  if (sheet) return sheet;
+  sheet = ss.insertSheet(TRANSLATION_PROMPT_SHEET);
+  sheet.getRange(1, 1).setValue('▼ サイドパネル翻訳のシステムプロンプト（下の A2 セルを編集。空にするとデフォルトに戻ります。メニュー「翻訳プロンプト編集」からも編集できます）').setFontWeight('bold');
+  sheet.setColumnWidth(1, 900);
+  sheet.getRange(2, 1).setValue('');
+  return sheet;
+}
+
+function getCustomSystemPrompt_() {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(TRANSLATION_PROMPT_SHEET);
+    if (!sheet) return '';
+    var v = sheet.getRange(2, 1).getValue();
+    return (v == null) ? '' : String(v).trim();
+  } catch (e) { return ''; }
+}
+
+function saveCustomSystemPrompt_(text) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ensureTranslationPromptSheet_(ss);
+  sheet.getRange(2, 1).setValue(text == null ? '' : String(text));
+  SpreadsheetApp.flush();
+  return { ok: true };
+}
+
+// 翻訳で使う(カスタムあればそれ、なければデフォルト) + platform。これを既存2箇所が呼ぶ。
+function getSystemPromptWithPlatform_(platform) {
+  var base = getCustomSystemPrompt_();
+  if (!base) base = getDefaultSystemPrompt_();
+  return base + '\n\n' + getPlatformPrompt_(platform);
+}
+
+// 編集UI用
+function getTranslationPromptForEdit() {
+  var custom = getCustomSystemPrompt_();
+  if (custom) return { ok: true, content: custom, isDefault: false };
+  return { ok: true, content: getDefaultSystemPrompt_(), isDefault: true };
+}
+
+function saveTranslationPrompt(text) { return saveCustomSystemPrompt_(text); }
+
+function resetTranslationPrompt() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(TRANSLATION_PROMPT_SHEET);
+  if (sheet) { sheet.getRange(2, 1).setValue(''); SpreadsheetApp.flush(); }
+  return { ok: true, content: getDefaultSystemPrompt_() };
+}
+
+// 編集UIのHTMLを生成(ライブラリで生成、ホストで showSidebar)。
+// textarea の初期値はサーバ側で埋め込む(HTMLエスケープ < > & " を必ず実施)。
+function buildTranslationPromptEditorHtml() {
+  var data = getTranslationPromptForEdit();
+  var escapeHtml = function (s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  };
+  var statusLabel = data.isDefault ? 'デフォルト' : 'カスタム';
+  var html =
+    '<style>' +
+    'body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 14px; }' +
+    'h3 { margin-top: 0; font-size: 16px; }' +
+    '.status { font-size: 13px; color: #555; margin-bottom: 8px; }' +
+    '.status b { color: #1a73e8; }' +
+    '.hint { color: #888; font-size: 12px; margin: 4px 0 8px; }' +
+    'textarea { width: 100%; height: 420px; font-family: Menlo, monospace; font-size: 12px; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }' +
+    'button { font-size: 14px; padding: 8px 14px; margin: 12px 8px 0 0; cursor: pointer; }' +
+    '.primary { background: #1a73e8; color: white; border: none; border-radius: 4px; }' +
+    '.reset { background: #fff; border: 1px solid #d93025; color: #d93025; border-radius: 4px; }' +
+    '.toast { color: #34a853; font-size: 13px; margin-top: 8px; display: none; }' +
+    '.error { color: #d93025; font-size: 13px; margin-top: 8px; display: none; }' +
+    '</style>' +
+    '<h3>🔑 翻訳プロンプト編集</h3>' +
+    '<div class="status">現在: <b id="statusLabel">' + escapeHtml(statusLabel) + '</b></div>' +
+    '<div class="hint">サイドパネル翻訳のシステムプロンプトを編集します。空にして保存するとデフォルトに戻ります。</div>' +
+    '<textarea id="promptText">' + escapeHtml(data.content) + '</textarea>' +
+    '<div>' +
+    '  <button class="primary" onclick="savePrompt()">保存</button>' +
+    '  <button class="reset" onclick="resetPrompt()">デフォルトに戻す</button>' +
+    '</div>' +
+    '<div class="toast" id="toast"></div>' +
+    '<div class="error" id="error"></div>' +
+    '<script>' +
+    'function setStatus(label){ document.getElementById("statusLabel").innerText = label; }' +
+    'function showToast(msg){ var t = document.getElementById("toast"); t.innerText = msg; t.style.display = "block"; var e = document.getElementById("error"); e.style.display = "none"; }' +
+    'function showError(msg){ var e = document.getElementById("error"); e.innerText = msg; e.style.display = "block"; var t = document.getElementById("toast"); t.style.display = "none"; }' +
+    'function savePrompt(){' +
+    '  var text = document.getElementById("promptText").value;' +
+    '  google.script.run.withSuccessHandler(function(){' +
+    '    setStatus(text.trim() ? "カスタム" : "デフォルト");' +
+    '    showToast("保存しました");' +
+    '  }).withFailureHandler(function(e){ showError("保存失敗: " + (e && e.message ? e.message : e)); })' +
+    '    .saveTranslationPrompt(text);' +
+    '}' +
+    'function resetPrompt(){' +
+    '  google.script.run.withSuccessHandler(function(res){' +
+    '    document.getElementById("promptText").value = (res && res.content) ? res.content : "";' +
+    '    setStatus("デフォルト");' +
+    '    showToast("デフォルトに戻しました");' +
+    '  }).withFailureHandler(function(e){ showError("リセット失敗: " + (e && e.message ? e.message : e)); })' +
+    '    .resetTranslationPrompt();' +
+    '}' +
+    '</script>';
+  return HtmlService.createHtmlOutput(html).setTitle('翻訳プロンプト編集').setWidth(480);
+}
 
 // ============================================================================
 // ===== サイドパネル司令塔方式 バッチ翻訳 (Phase 1: 状態管理・チャンク処理・一括書き込み) =====

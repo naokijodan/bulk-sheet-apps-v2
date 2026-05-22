@@ -821,3 +821,18 @@ function ebApiShowSidebar() {
 
 // HTML フォーム (google.script.run) から呼ばれる関数
 function ebApiSaveAllSettings(formData) { return LIB.ebApiSaveAllSettings(formData); }
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  🔑 翻訳プロンプト編集（ライブラリ経由・新規・旧 GPT_Prompts とは完全分離）
+  ・本体ロジック / HTML 生成: Library/EbayTranslationApi.gs
+  ・サイドパネルの SYSTEM_PROMPT を専用シート「翻訳プロンプト」で編集可能にする
+  ・google.script.run 制約のため save/reset/get の窓口はホスト側に必要
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+function showTranslationPromptEditor() {
+  var html = LIB.buildTranslationPromptEditorHtml();
+  if (!html) { SpreadsheetApp.getUi().alert('翻訳プロンプト編集画面を生成できませんでした'); return; }
+  SpreadsheetApp.getUi().showSidebar(html);
+}
+function getTranslationPromptForEdit() { return LIB.getTranslationPromptForEdit(); }
+function saveTranslationPrompt(text) { return LIB.saveTranslationPrompt(text); }
+function resetTranslationPrompt() { return LIB.resetTranslationPrompt(); }

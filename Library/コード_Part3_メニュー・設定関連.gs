@@ -23,6 +23,7 @@ function onOpen() {
       .addSeparator()
       .addItem('🔑 API設定 (APIキー登録)', 'ebApiShowAllSettingsDialog')
       .addItem('🔑 サイドパネルでバッチ翻訳', 'ebApiShowSidebar')
+      .addItem('🔑 翻訳プロンプト編集', 'showTranslationPromptEditor')
       .addToUi();
 
     // 2. 設定メニュー（初期設定 + EAGLE更新 + 簡易版）
