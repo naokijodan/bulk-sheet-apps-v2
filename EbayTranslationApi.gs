@@ -1586,3 +1586,345 @@ var PLATFORM_MERCARI_PROMPT = [
   '  - 色・素材感',
   '- 画像で確認できない情報を推測した場合は warnings に明記する。'
 ].join('\n');
+
+// ============================================================================
+// ===== サイドパネル司令塔方式 バッチ翻訳 (Phase 1: 状態管理・チャンク処理・一括書き込み) =====
+// 設計: docs/ebApi-sidebar-batch-design.md
+// サイドパネル(HTML)が google.script.run で ebApiSbProcessChunk を小分けに呼び続け、
+// 各実行は数行だけ翻訳して進捗を戻り値で返す。GASの6分制限に構造的に当たらない。
+// ============================================================================
+
+var EBAPI_SB_JOB_KEY = 'EBAPI_SB_JOB';
+var SB_MAX_CHUNK_FAILURES = 3;   // 連続チャンク失敗の上限。これ未満は running 維持で再試行可能
+var SB_MAX_CHUNK_SIZE = 15;      // 1チャンクの最大行数(6分制限への安全マージン)
+
+// ----- ジョブ状態(DocumentProperties に JSON 1本) -----
+function sbLoadJob_() {
+  var raw = PropertiesService.getDocumentProperties().getProperty(EBAPI_SB_JOB_KEY);
+  if (!raw) return null;
+  try { return JSON.parse(raw); } catch (e) { return null; }
+}
+
+function sbSaveJob_(job) {
+  var nextJob = job || {};
+  nextJob.updatedAt = new Date().toISOString();
+  PropertiesService.getDocumentProperties().setProperty(EBAPI_SB_JOB_KEY, JSON.stringify(nextJob));
+  return nextJob;
+}
+
+function sbClearJob_() {
+  PropertiesService.getDocumentProperties().deleteProperty(EBAPI_SB_JOB_KEY);
+}
+
+// ----- ジョブ開始 -----
+function ebApiSbStart(config) {
+  var current = sbLoadJob_();
+  if (current && current.status === 'running') {
+    return { ok: false, message: '既に翻訳ジョブが実行中です' };
+  }
+  var cfg = config || {};
+  var startRow = Math.max(ROW_START, Number(cfg.startRow) || ROW_START);
+  var endRow = Math.max(startRow, Number(cfg.endRow) || startRow);
+  var chunkSize = cfg.chunkSize
+    ? Math.max(1, Math.min(SB_MAX_CHUNK_SIZE, Number(cfg.chunkSize) || 1))
+    : getClampedNumericSetting_('EBAPI_GEMINI_BATCH_SIZE', 5, 1, SB_MAX_CHUNK_SIZE);
+
+  var job = {
+    jobId: Utilities.getUuid(),
+    status: 'running',
+    sourceSheet: SHEET_INPUT,
+    outputSheet: OUTPUT_SHEET,
+    startRow: startRow,
+    endRow: endRow,
+    nextRow: startRow,
+    totalRows: endRow - startRow + 1,
+    processedRows: 0,
+    successRows: 0,
+    failedRows: 0,
+    failedRowList: [], // 行番号のみ格納。詳細情報は DocumentProperties 肥大化防止のため入れない
+    chunkSize: chunkSize,
+    consecutiveChunkFailures: 0,
+    lastWriteRow: null,
+    lastError: '',
+    updatedAt: ''
+  };
+  sbSaveJob_(job);
+  return ebApiSbBuildState_(job, true, false, '翻訳ジョブを開始しました');
+}
+
+// ----- 1チャンク処理(ロック付き) -----
+function ebApiSbProcessChunk() {
+  var lock = LockService.getDocumentLock();
+  try { lock.waitLock(30000); } catch (e) { return { ok: false, busy: true, message: '処理中です' }; }
+  try { return ebApiSbProcessChunkLocked_(); } finally { lock.releaseLock(); }
+}
+
+function ebApiSbProcessChunkLocked_() {
+  var job = sbLoadJob_();
+  if (!job || job.status !== 'running') {
+    return { ok: false, done: true, message: '実行中のジョブがありません' };
+  }
+  var setup = ebApiSbBuildSetup_();
+  if (!setup.ok) {
+    job.status = 'failed'; job.lastError = setup.message; sbSaveJob_(job);
+    return { ok: false, fatal: true, message: setup.message };
+  }
+  var chunkStart = job.nextRow;
+  var chunkEnd = Math.min(job.endRow, chunkStart + job.chunkSize - 1);
+  var chunkResult;
+  try {
+    chunkResult = ebApiSbRunChunk_(job, setup, chunkStart, chunkEnd);
+    ebApiSbApplyChunkResult_(job, chunkResult, chunkStart, chunkEnd);
+    sbSaveJob_(job);
+  } catch (e) {
+    job.consecutiveChunkFailures = (job.consecutiveChunkFailures || 0) + 1;
+    job.lastError = (e && e.message) ? e.message : String(e);
+    if (job.consecutiveChunkFailures >= SB_MAX_CHUNK_FAILURES) { job.status = 'failed'; } else { job.status = 'running'; }
+    sbSaveJob_(job);
+    return {
+      ok: false,
+      retryable: job.status === 'running',
+      fatal: job.status === 'failed',
+      consecutiveChunkFailures: job.consecutiveChunkFailures,
+      message: job.lastError
+    };
+  }
+  var done = job.nextRow > job.endRow;
+  return ebApiSbBuildState_(job, true, done, done ? '全チャンクの処理が完了しました' : 'チャンク処理が完了しました', [chunkStart, chunkEnd], chunkResult.skipCount);
+}
+
+// ----- セットアップ(APIキー・シート取得) -----
+function ebApiSbBuildSetup_() {
+  var props = PropertiesService.getDocumentProperties();
+  var provider = getAIProvider_();
+  var apiKey = (provider === 'openai') ? props.getProperty('EBAPI_OPENAI_API_KEY') : props.getProperty('EBAPI_GEMINI_API_KEY');
+  if (!apiKey) { return { ok: false, message: 'APIキー未設定' }; }
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var inputSheet = ss.getSheetByName(SHEET_INPUT);
+  if (!inputSheet) { return { ok: false, message: '「' + SHEET_INPUT + '」シートが見つかりません' }; }
+  var outputSheet = ss.getSheetByName(OUTPUT_SHEET);
+  if (!outputSheet) { return { ok: false, message: '「' + OUTPUT_SHEET + '」シートが見つかりません' }; }
+  return {
+    ok: true, ss: ss, provider: provider, apiKey: apiKey,
+    operatorName: props.getProperty('EBAPI_OPERATOR_NAME') || 'Gemini',
+    maxRetries: getClampedNumericSetting_('EBAPI_GEMINI_MAX_RETRIES', MAX_RETRIES, 0, 10),
+    maxImagesPerItem: getClampedNumericSetting_('EBAPI_GEMINI_MAX_IMAGES_PER_ITEM', MAX_IMAGES_PER_ITEM, 1, 10),
+    userTags: readUserTags_(ss), inputSheet: inputSheet, outputSheet: outputSheet
+  };
+}
+
+// ----- 1チャンク実行(入力→AI→一括書き込み) -----
+function ebApiSbRunChunk_(job, setup, chunkStart, chunkEnd) {
+  var itemsResult = ebApiSbBuildItems_(setup.inputSheet, chunkStart, chunkEnd, setup.maxImagesPerItem);
+  var successValues = []; var failedRows = [];
+  if (itemsResult.items.length > 0) {
+    fetchImagesBatch_(itemsResult.items);
+    var aiResults = (setup.provider === 'openai')
+      ? ebApiCallOpenAIBatch_(itemsResult.items, setup.apiKey, setup.maxRetries, setup.userTags)
+      : callGeminiBatch_(itemsResult.items, setup.apiKey, setup.maxRetries, setup.userTags);
+    successValues = ebApiSbBuildSuccessValues_(itemsResult.items, aiResults, setup.operatorName, setup.userTags, failedRows);
+  }
+  writeRowsBatch_(setup.outputSheet, successValues, job);
+  if (job) { sbSaveJob_(job); } // 書き込み位置(lastWriteRow)を即永続化(二重書き込みのリスク窓を縮小)
+  return { successCount: successValues.length, failedRows: failedRows, skipCount: itemsResult.skipRows.length };
+}
+
+// ----- 入力収集(translateRows と同じ列・スキップ判定) -----
+function ebApiSbBuildItems_(inputSheet, startRow, endRow, maxImagesPerItem) {
+  var numRows = endRow - startRow + 1;
+  var platformCol = inputSheet.getRange(startRow, COL_PLATFORM, numRows, 1).getValues();
+  var productIdCol = inputSheet.getRange(startRow, COL_PRODUCT_ID, numRows, 1).getValues();
+  var priceCol = inputSheet.getRange(startRow, COL_PRICE, numRows, 1).getValues();
+  var titleCol = inputSheet.getRange(startRow, COL_TITLE_JA, numRows, 1).getValues();
+  var descCol = inputSheet.getRange(startRow, COL_DESC_JA, numRows, 1).getValues();
+  var sellerCol = inputSheet.getRange(startRow, COL_SELLER, numRows, 1).getValues();
+  var imageRange = inputSheet.getRange(startRow, COL_IMAGE_START, numRows, COL_IMAGE_COUNT);
+  var imageFormulas = imageRange.getFormulas();
+  var imageValues = imageRange.getValues();
+  var items = []; var skipRows = [];
+  for (var i = 0; i < numRows; i++) {
+    var item = ebApiSbBuildItem_(startRow + i, i, platformCol, productIdCol, priceCol, titleCol, descCol, sellerCol, imageValues, imageFormulas, maxImagesPerItem);
+    if (!item.titleJa && !item.descJa && item.imageUrls.length === 0) { skipRows.push(item.row); continue; }
+    items.push(item);
+  }
+  return { items: items, skipRows: skipRows };
+}
+
+function ebApiSbBuildItem_(row, index, platformCol, productIdCol, priceCol, titleCol, descCol, sellerCol, imageValues, imageFormulas, maxImagesPerItem) {
+  return {
+    row: row,
+    platform: String(platformCol[index][0] || '').trim() || 'mercari',
+    productId: String(productIdCol[index][0] || '').trim(),
+    price: priceCol[index][0],
+    titleJa: String(titleCol[index][0] || '').trim(),
+    descJa: String(descCol[index][0] || '').trim(),
+    seller: String(sellerCol[index][0] || '').trim(),
+    imageUrls: ebApiSbExtractImageUrls_(row, imageValues[index], imageFormulas[index], maxImagesPerItem),
+    imageDataList: []
+  };
+}
+
+// セル内画像(CellImage)の getContentUrl を優先(メルカリ非経由)。なければ =IMAGE() の URL を抽出
+function ebApiSbExtractImageUrls_(row, imageValues, imageFormulas, maxImagesPerItem) {
+  var imageUrls = [];
+  for (var j = 0; j < COL_IMAGE_COUNT; j++) {
+    var cellVal = imageValues[j];
+    if (cellVal && typeof cellVal.getContentUrl === 'function') {
+      try {
+        var contentUrl = cellVal.getContentUrl();
+        if (contentUrl) { imageUrls.push(contentUrl); continue; }
+      } catch (ciErr) {
+        Logger.log('getContentUrl failed (row ' + row + ' col ' + j + '): ' + ((ciErr && ciErr.message) ? ciErr.message : ciErr));
+      }
+    }
+    var f = imageFormulas[j] || '';
+    var m = f.match(/=IMAGE\(\s*"([^"]+)"/i);
+    if (m && m[1]) imageUrls.push(m[1]);
+  }
+  return imageUrls.length > maxImagesPerItem ? imageUrls.slice(0, maxImagesPerItem) : imageUrls;
+}
+
+// ----- AI結果 → 行値配列(成功のみ)。失敗行は failedRows に記録(出力には書かない) -----
+function ebApiSbBuildSuccessValues_(items, aiResults, operatorName, userTags, failedRows) {
+  var resultByRow = {};
+  for (var r = 0; r < aiResults.length; r++) { resultByRow[aiResults[r].row] = aiResults[r]; }
+  var values = [];
+  for (var i = 0; i < items.length; i++) {
+    var rowValues = ebApiSbBuildRowValues_(items[i], resultByRow[items[i].row], operatorName, userTags);
+    if (rowValues) { values.push(rowValues); } else { failedRows.push(items[i].row); }
+  }
+  return values;
+}
+
+function ebApiSbBuildRowValues_(item, result, operatorName, userTags) {
+  try {
+    if (!result || !result.ok) { throw new Error(result && result.error ? result.error : 'AI API returned no result'); }
+    var json = safeParseJson_(result.text);
+    json = enforceSingleTag_(json, userTags);
+    return buildV5RowValues_(json, {
+      operatorName: operatorName, platform: item.platform, productId: item.productId,
+      price: item.price, titleJa: item.titleJa, descJa: item.descJa, seller: item.seller
+    });
+  } catch (e) {
+    Logger.log('sb row failed (row ' + item.row + '): ' + ((e && e.message) ? e.message : e));
+    return null;
+  }
+}
+
+// ----- ジョブ進捗の更新 -----
+function ebApiSbApplyChunkResult_(job, chunkResult, chunkStart, chunkEnd) {
+  var failedRowList = job.failedRowList || [];
+  // 行番号のみ格納(DocumentProperties 肥大化防止)
+  for (var i = 0; i < chunkResult.failedRows.length; i++) { failedRowList.push(chunkResult.failedRows[i]); }
+  job.nextRow = chunkEnd + 1;
+  job.processedRows = (job.processedRows || 0) + (chunkEnd - chunkStart + 1);
+  job.successRows = (job.successRows || 0) + chunkResult.successCount;
+  job.failedRowList = failedRowList;
+  job.failedRows = failedRowList.length;
+  job.consecutiveChunkFailures = 0;
+  job.lastError = '';
+  if (job.nextRow > job.endRow) { job.status = 'completed'; }
+}
+
+// ----- 一括書き込み(既存セルを絶対に上書きしない) -----
+function writeRowsBatch_(outputSheet, rowsValuesList, job) {
+  if (!rowsValuesList || rowsValuesList.length === 0) return null;
+  var count = rowsValuesList.length;
+  var width = ebApiSbMaxRowWidth_(rowsValuesList);
+  if (width < 1) return null;
+  var padded = ebApiSbPadRows_(rowsValuesList, width);
+  ebApiSbEnsureOutputColumns_(outputSheet, width);
+
+  var startRow = null;
+  var lastWriteRow = job ? Number(job.lastWriteRow) : null;
+  // 候補1: 前回の続き(lastWriteRow+1)から count 行が全て空か
+  if (lastWriteRow && lastWriteRow >= OUTPUT_DATA_ROW_START) {
+    var candidateRow = lastWriteRow + 1;
+    if (ebApiSbIsBlockEmpty_(outputSheet, candidateRow, count)) { startRow = candidateRow; }
+  }
+  // 候補2: 連続空きブロック探索 + 全空再確認
+  if (!startRow) {
+    var blockRow = ebApiSbFindWritableBlock_(outputSheet, count);
+    if (blockRow && ebApiSbIsBlockEmpty_(outputSheet, blockRow, count)) { startRow = blockRow; }
+  }
+  // 候補3(最終手段): 末尾(必ず全空=絶対に既存データを上書きしない)
+  if (!startRow) { startRow = outputSheet.getLastRow() + 1; }
+
+  var requiredLastRow = startRow + count - 1;
+  var maxRows = outputSheet.getMaxRows();
+  if (requiredLastRow > maxRows) { outputSheet.insertRowsAfter(maxRows, requiredLastRow - maxRows); }
+
+  outputSheet.getRange(startRow, OUTPUT_START_COL, count, width).setValues(padded);
+  if (job) { job.lastWriteRow = startRow + count - 1; }
+  return startRow;
+}
+
+// startRow から count 行の H列が全て空か(既存データ保護のための実地検査)
+function ebApiSbIsBlockEmpty_(sheet, startRow, count) {
+  if (!sheet || !startRow || count < 1) return false;
+  var values = sheet.getRange(startRow, OUTPUT_SEARCH_COL, count, 1).getValues();
+  for (var i = 0; i < values.length; i++) {
+    if (values[i][0] !== '' && values[i][0] !== null) { return false; }
+  }
+  return true;
+}
+
+function ebApiSbMaxRowWidth_(rowsValuesList) {
+  var width = 0;
+  for (var i = 0; i < rowsValuesList.length; i++) { width = Math.max(width, rowsValuesList[i] ? rowsValuesList[i].length : 0); }
+  return width;
+}
+
+function ebApiSbPadRows_(rowsValuesList, width) {
+  var padded = [];
+  for (var i = 0; i < rowsValuesList.length; i++) {
+    var row = (rowsValuesList[i] || []).slice();
+    while (row.length < width) row.push('');
+    padded.push(row);
+  }
+  return padded;
+}
+
+function ebApiSbEnsureOutputColumns_(sheet, width) {
+  var requiredCols = Math.max(OUTPUT_SEARCH_COL, OUTPUT_START_COL + width - 1);
+  var maxCols = sheet.getMaxColumns();
+  if (maxCols < requiredCols) { sheet.insertColumnsAfter(maxCols, requiredCols - maxCols); }
+}
+
+// 連続 count 空き行ブロックを探す。なければ末尾(lastRow+1)
+function ebApiSbFindWritableBlock_(sheet, count) {
+  var lastRow = sheet.getLastRow();
+  if (lastRow < OUTPUT_DATA_ROW_START) return OUTPUT_DATA_ROW_START;
+  var rowCount = lastRow - OUTPUT_DATA_ROW_START + 1;
+  var colValues = sheet.getRange(OUTPUT_DATA_ROW_START, OUTPUT_SEARCH_COL, rowCount, 1).getValues();
+  var emptyRun = 0;
+  for (var i = 0; i < colValues.length; i++) {
+    var v = colValues[i][0];
+    emptyRun = (v === '' || v === null) ? emptyRun + 1 : 0;
+    if (emptyRun >= count) { return OUTPUT_DATA_ROW_START + i - count + 1; }
+  }
+  return lastRow + 1;
+}
+
+// ----- 状態取得 / 中止 -----
+function ebApiSbGetState() {
+  var job = sbLoadJob_();
+  if (!job) return { ok: false, message: 'ジョブなし' };
+  return ebApiSbBuildState_(job, true, job.status !== 'running', '');
+}
+
+function ebApiSbCancel() {
+  sbClearJob_();
+  return { ok: true, message: '中止しました' };
+}
+
+// ----- 進捗オブジェクト生成 -----
+function ebApiSbBuildState_(job, ok, done, message, chunkRange, skipCount) {
+  return {
+    ok: ok, done: !!done, jobId: job.jobId, status: job.status,
+    totalRows: job.totalRows, processedRows: job.processedRows,
+    successRows: job.successRows, failedRows: job.failedRows,
+    nextRow: job.nextRow, chunkRange: chunkRange || null,
+    skipCount: skipCount || 0, message: message || '', job: job
+  };
+}
