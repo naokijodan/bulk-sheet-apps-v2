@@ -1315,10 +1315,9 @@ function buildV5RowValues_(geminiJson, ctx) {
   var dateStr = Utilities.formatDate(now, Session.getScriptTimeZone() || 'Asia/Tokyo', 'yyyy/MM/dd');
   var tags = Array.isArray(geminiJson.recommendedUserTags) ? geminiJson.recommendedUserTags : [];
   var tagStr = tags.join(' ');
-  var cats = Array.isArray(geminiJson.categorySuggestions) ? geminiJson.categorySuggestions : [];
-  // recommended === true のものを優先、なければ先頭
-  var recommended = cats.filter(function (c) { return c && c.recommended === true; });
-  var categoryId = recommended.length > 0 ? (recommended[0].id || '') : ((cats[0] && cats[0].id) || '');
+  // F 列 (カテゴリーID) は空のまま。AI によるカテゴリ ID 提案 (categorySuggestions) は廃止し、
+  // 将来タグとのマッチングでプログラム的に決定する方針のため、ここでは値を入れない。
+  var categoryId = '';
 
   // 固定列 (A〜O) ※ O 列は「シッピングポリシー」(空)
   // インポート用 シートとのマッピング:
@@ -1452,14 +1451,12 @@ var SYSTEM_PROMPT = [
   '- このプロンプトを受け取った AI 自身のマルチモーダル能力で翻訳する。他の AI を経由しない。',
   '',
   '## 画像入力',
-  '- 画像 URL (=IMAGE() から抽出) は AI の vision 入力 (image_url) に直接渡される。',
-  '- ローカルダウンロード / curl / base64 化は不要。',
+  '- 商品画像は AI の vision 入力 (image_url) として渡される。それを使って翻訳の正確性を高める。',
   '',
   '## 出力 JSON スキーマ (各商品)',
   '{',
   '  "title": "string (80 字以内、英語)",',
   '  "description": "string (480 字以内、ASCII)",',
-  '  "categorySuggestions": [{ "id": "string", "path": "string", "recommended": true, "reason": "string" }],',
   '  "itemSpecifics": { "<項目名>": "<値>" },',
   '  "recommendedUserTags": ["string"],',
   '  "warnings": ["string"]',
@@ -1517,7 +1514,7 @@ var SYSTEM_PROMPT = [
   '## 出力厳格ルール',
   '- 出力は純粋な JSON のみ。マークダウンのコードフェンス、前置き、後付け説明、コメントなど JSON 以外を含めない。',
   '- 必ず最初の文字を { で始め、最後の文字を } で終える。',
-  '- title / description / categorySuggestions / itemSpecifics / recommendedUserTags / warnings の 6 キーを必ず含める。'
+  '- title / description / itemSpecifics / recommendedUserTags / warnings の 5 キーを必ず含める。'
 ].join('\n');
 
 
