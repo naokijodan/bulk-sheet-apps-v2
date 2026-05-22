@@ -31,6 +31,7 @@ def main():
         'SetupDialog.txt': 'SetupDialog',
         'Shipping_Rates_Dialog.txt': 'Shipping_Rates_Dialog',
         'Profit_Amounts_Dialog.txt': 'Profit_Amounts_Dialog',
+        'CommandSidebar.txt': 'CommandSidebar',
     }
     
     output_lines = [

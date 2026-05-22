@@ -27,6 +27,8 @@ function onOpen() {
       .addItem('🔑 続きを処理 (中断分の再開)', 'ebApiContinueTranslateRows')
       .addItem('🔑 自動再開を停止', 'ebApiCancelResumeTrigger')
       .addItem('🔑 現在の処理状態を確認', 'ebApiShowResumeState')
+      .addSeparator()
+      .addItem('🔑 サイドパネルでバッチ翻訳', 'ebApiShowSidebar')
       .addToUi();
 
     // 2. 設定メニュー（初期設定 + EAGLE更新 + 簡易版）

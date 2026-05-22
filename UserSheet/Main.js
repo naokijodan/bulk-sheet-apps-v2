@@ -792,5 +792,31 @@ function ebApiTranslateAllRows() { return LIB.ebApiTranslateAllRows(); }
 function ebApiContinueTranslateRows() { return LIB.ebApiContinueTranslateRows(); }
 function ebApiCancelResumeTrigger() { return LIB.ebApiCancelResumeTrigger(); }
 function ebApiShowResumeState() { return LIB.ebApiShowResumeState(); }
+
+// route② サイドパネル司令塔方式バッチ翻訳 (段階1ロジック + 段階2サイドパネル)
+// google.script.run 制約のためサイドパネル(CommandSidebar)から呼ばれる窓口はホスト側に必要。
+// 中身はライブラリへ1行委譲する。
+function ebApiSbStart(config) { return LIB.ebApiSbStart(config); }
+function ebApiSbProcessChunk() { return LIB.ebApiSbProcessChunk(); }
+function ebApiSbGetState() { return LIB.ebApiSbGetState(); }
+function ebApiSbCancel() { return LIB.ebApiSbCancel(); }
+
+// サイドパネル表示 (メニューから起動)。HTML取得は既存のフォールバックパターンを踏襲。
+function ebApiShowSidebar() {
+  var html;
+  try {
+    html = HtmlService.createHtmlOutputFromFile('CommandSidebar');
+  } catch (_) {
+    var content = LIB.getHtmlTemplate('CommandSidebar'); // 文字列(プリミティブ)を取得＝境界を確実に越える
+    if (content) { html = HtmlService.createHtmlOutput(content); }
+  }
+  if (!html) {
+    SpreadsheetApp.getUi().alert('CommandSidebar が見つかりません');
+    return;
+  }
+  html.setTitle('サイドパネルでバッチ翻訳').setWidth(340);
+  SpreadsheetApp.getUi().showSidebar(html);
+}
+
 // HTML フォーム (google.script.run) から呼ばれる関数
 function ebApiSaveAllSettings(formData) { return LIB.ebApiSaveAllSettings(formData); }

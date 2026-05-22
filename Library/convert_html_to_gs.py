@@ -21,6 +21,7 @@ HTML_FILES = [
     'UnifiedDataImportDialog.txt',
     'SetupDialog.txt',
     'PriceCalc.txt',
+    'CommandSidebar.txt',
 ]
 
 def escape_for_js(content):

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 16px;
+      background-color: #f5f5f5;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 16px;
+      margin: -16px -16px 16px -16px;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .header h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .status-card {
+      background: white;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .status-label {
+      font-size: 12px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .status-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .status-value.batch {
+      color: #3b82f6;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background-color: #e5e7eb;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      transition: width 0.3s ease;
+      border-radius: 4px;
+    }
+
+    .input-card {
+      background: white;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .input-row {
+      margin-bottom: 10px;
+    }
+
+    .input-row label {
+      display: block;
+      font-size: 12px;
+      color: #444;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .input-row input[type=number] {
+      width: 100%;
+      padding: 7px 8px;
+      box-sizing: border-box;
+      font-size: 13px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .input-hint {
+      font-size: 11px;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    .warning-note {
+      font-size: 11px;
+      color: #b45309;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 4px;
+      padding: 8px 10px;
+      margin-bottom: 12px;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 9px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-start {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .btn-start:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    }
+
+    .btn-cancel {
+      background: white;
+      color: #ef4444;
+      border: 1px solid #ef4444;
+    }
+
+    .btn-cancel:hover:not(:disabled) {
+      background: #fef2f2;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .stat-mini {
+      background: white;
+      border-radius: 6px;
+      padding: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .stat-mini-label {
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 4px;
+    }
+
+    .stat-mini-value {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .log-container {
+      background: white;
+      border-radius: 8px;
+      padding: 12px;
+      max-height: 240px;
+      overflow-y: auto;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .log-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .log-entry {
+      font-size: 12px;
+      padding: 6px 8px;
+      margin-bottom: 4px;
+      border-radius: 4px;
+      border-left: 3px solid #e5e7eb;
+      background-color: #f9fafb;
+      word-break: break-word;
+    }
+
+    .log-entry.success {
+      border-left-color: #10b981;
+      background-color: #f0fdf4;
+    }
+
+    .log-entry.error {
+      border-left-color: #ef4444;
+      background-color: #fef2f2;
+    }
+
+    .log-entry.info {
+      border-left-color: #3b82f6;
+      background-color: #eff6ff;
+    }
+
+    .log-entry.warning {
+      border-left-color: #f59e0b;
+      background-color: #fffbeb;
+    }
+
+    .timestamp {
+      color: #9ca3af;
+      font-size: 10px;
+      margin-right: 6px;
+    }
+
+    .completion-banner {
+      display: none;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 20px;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .completion-banner.show {
+      display: block;
+      animation: slideDown 0.3s ease-out;
+    }
+
+    .completion-banner.failed {
+      background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .completion-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .completion-message {
+      font-size: 14px;
+      margin-bottom: 16px;
+      opacity: 0.95;
+    }
+
+    .close-button {
+      background: white;
+      color: #10b981;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: all 0.2s ease;
+    }
+
+    .close-button:hover {
+      background: #f0fdf4;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h2 id="headerTitle">🔑 サイドパネルでバッチ翻訳</h2>
+  </div>
+
+  <div class="completion-banner" id="completionBanner">
+    <div class="completion-title" id="completionTitle">✅ 処理完了！</div>
+    <div class="completion-message" id="completionMessage">すべての処理が完了しました。</div>
+    <button class="close-button" onclick="closeSidebar()">サイドバーを閉じる</button>
+  </div>
+
+  <div class="warning-note">
+    ⚠️ 処理中は対象シートを編集しないでください。ブラウザを閉じると処理が止まります（メニューから再表示で続きから再開できます）。
+  </div>
+
+  <!-- 入力フォーム -->
+  <div class="input-card" id="inputCard">
+    <div class="input-row">
+      <label for="startRow">開始行</label>
+      <input type="number" id="startRow" min="1" value="3">
+    </div>
+    <div class="input-row">
+      <label for="endRow">終了行</label>
+      <input type="number" id="endRow" min="1" value="12">
+    </div>
+    <div class="input-row">
+      <label for="chunkSize">チャンクサイズ（1回に処理する行数）</label>
+      <input type="number" id="chunkSize" min="1" max="15" value="5">
+      <div class="input-hint">上限15行（サーバー側の安全上限）。既定は5行です。</div>
+    </div>
+    <div class="button-row">
+      <button class="btn btn-start" id="startBtn" onclick="onStart()">開始</button>
+      <button class="btn btn-cancel" id="cancelBtn" onclick="onCancel()" disabled>キャンセル</button>
+    </div>
+  </div>
+
+  <!-- 進捗 -->
+  <div class="status-card">
+    <div class="status-label">進捗（処理済み / 全体）</div>
+    <div class="status-value batch" id="progressText">- / -</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-mini">
+      <div class="stat-mini-label">✅ 成功</div>
+      <div class="stat-mini-value" style="color: #10b981;" id="successCount">0</div>
+    </div>
+    <div class="stat-mini">
+      <div class="stat-mini-label">❌ 失敗</div>
+      <div class="stat-mini-value" style="color: #ef4444;" id="failedCount">0</div>
+    </div>
+  </div>
+
+  <div class="log-container">
+    <div class="log-title">📋 処理ログ</div>
+    <div id="logEntries"></div>
+  </div>
+
+  <script>
+    // ===== 状態 =====
+    var isRunning = false;       // ループ実行中
+    var cancelRequested = false; // キャンセル要求フラグ（runNext ループを止める）
+    var runId = 0; // 実行世代。onStart/onCancel で進め、古いループの遅延レスポンスを無効化する
+
+    // ===== 進捗表示 =====
+    function updateProgress(data) {
+      if (!data) return;
+
+      var total = (data.totalRows !== undefined && data.totalRows !== null) ? data.totalRows : 0;
+      var processed = (data.processedRows !== undefined && data.processedRows !== null) ? data.processedRows : 0;
+
+      document.getElementById('progressText').textContent = processed + ' / ' + total;
+      var pct = (total > 0) ? Math.min(100, Math.round((processed / total) * 100)) : 0;
+      document.getElementById('progressBar').style.width = pct + '%';
+
+      if (data.successRows !== undefined && data.successRows !== null) {
+        document.getElementById('successCount').textContent = data.successRows;
+      }
+      if (data.failedRows !== undefined && data.failedRows !== null) {
+        document.getElementById('failedCount').textContent = data.failedRows;
+      }
+    }
+
+    // ===== ログ =====
+    var lastMessage = '';
+    function addLogEntry(message, type) {
+      if (!message) return;
+      if (message === lastMessage) return;
+      lastMessage = message;
+
+      var logContainer = document.getElementById('logEntries');
+      var entry = document.createElement('div');
+      entry.className = 'log-entry ' + (type || 'info');
+
+      var timestamp = new Date().toLocaleTimeString('ja-JP');
+      var span = document.createElement('span');
+      span.className = 'timestamp';
+      span.textContent = timestamp;
+      entry.appendChild(span);
+      entry.appendChild(document.createTextNode(message));
+
+      logContainer.insertBefore(entry, logContainer.firstChild);
+      while (logContainer.children.length > 50) {
+        logContainer.removeChild(logContainer.lastChild);
+      }
+    }
+
+    // ===== 完了バナー =====
+    function showCompletionBanner(result, failed) {
+      var banner = document.getElementById('completionBanner');
+      var title = document.getElementById('completionTitle');
+      var msg = document.getElementById('completionMessage');
+      if (failed) {
+        banner.classList.add('failed');
+        document.getElementById('headerTitle').textContent = '⛔ 処理停止';
+        title.textContent = '⛔ 処理が停止しました';
+        msg.textContent = (result && result.message) ? result.message : 'エラーにより処理を停止しました。';
+      } else {
+        document.getElementById('headerTitle').textContent = '✅ サイドパネルでバッチ翻訳';
+        title.textContent = '✅ 処理完了！';
+        var s = (result && result.successRows !== undefined) ? result.successRows : 0;
+        var f = (result && result.failedRows !== undefined) ? result.failedRows : 0;
+        msg.textContent = '成功 ' + s + ' 件 / 失敗 ' + f + ' 件。サイドバーを閉じてください。';
+      }
+      banner.classList.add('show');
+    }
+
+    // ===== UI 状態切替 =====
+    function setRunningUi(running) {
+      isRunning = running;
+      document.getElementById('startBtn').disabled = running;
+      document.getElementById('cancelBtn').disabled = !running;
+      document.getElementById('startRow').disabled = running;
+      document.getElementById('endRow').disabled = running;
+      document.getElementById('chunkSize').disabled = running;
+    }
+
+    function stopLoop() {
+      setRunningUi(false);
+    }
+
+    // ===== 司令塔ループ（runNext 再帰コールバック）=====
+    function runNext(result, myRun) {
+      // 古い実行世代の遅延レスポンスは UI に触れず破棄（キャンセル→再開の二重ループ防止）
+      if (myRun !== runId) return;
+
+      // 最優先でキャンセル判定（現役世代のみ）
+      if (cancelRequested) { addLogEntry('キャンセルしました', 'warning'); stopLoop(); return; }
+
+      if (result) {
+        if (result.ok === false && result.message) addLogEntry(result.message, 'error');
+        updateProgress(result);
+        if (result.skipCount && result.skipCount > 0) addLogEntry('空行を ' + result.skipCount + ' 行スキップしました', 'warning');
+      }
+
+      if (result && result.fatal) { addLogEntry('停止: ' + (result.message || '致命的なエラー'), 'error'); showCompletionBanner(result, true); stopLoop(); return; }
+
+      if (result && result.done) { showCompletionBanner(result, false); addLogEntry('✅ 全チャンクの処理が完了しました', 'success'); stopLoop(); return; }
+
+      if (result && result.busy) {
+        addLogEntry('実行中のため待機します…', 'info');
+        setTimeout(function() { if (myRun !== runId) return; if (cancelRequested) { stopLoop(); return; } callProcessChunk(myRun); }, 2000);
+        return;
+      }
+
+      if (result && result.ok === false && result.retryable) {
+        addLogEntry('チャンク失敗（' + (result.message || '') + '）。3秒後に再試行します', 'warning');
+        setTimeout(function() { if (myRun !== runId) return; if (cancelRequested) { stopLoop(); return; } callProcessChunk(myRun); }, 3000);
+        return;
+      }
+
+      if (result && result.ok === false) { addLogEntry('停止: 想定外の応答 ' + (result.message || ''), 'error'); showCompletionBanner(result, true); stopLoop(); return; }
+
+      callProcessChunk(myRun);
+    }
+
+    function callProcessChunk(myRun) {
+      google.script.run
+        .withSuccessHandler(function(result) { runNext(result, myRun); })
+        .withFailureHandler(function(error) { onChunkError(error, myRun); })
+        .ebApiSbProcessChunk();
+    }
+
+    // クライアント側の通信エラー（withFailureHandler）
+    function onChunkError(error, myRun) {
+      if (myRun !== runId) return; // 古い世代は無視
+      var msg = (error && error.message) ? error.message : String(error);
+      addLogEntry('通信エラー: ' + msg, 'error');
+      stopLoop();
+    }
+
+    // ===== 開始ボタン =====
+    function onStart() {
+      if (isRunning) return;
+
+      var startRow = parseInt(document.getElementById('startRow').value, 10);
+      var endRow = parseInt(document.getElementById('endRow').value, 10);
+      var chunkSize = parseInt(document.getElementById('chunkSize').value, 10);
+
+      if (!startRow || startRow < 1) { addLogEntry('開始行が不正です', 'error'); return; }
+      if (!endRow || endRow < startRow) { addLogEntry('終了行は開始行以上にしてください', 'error'); return; }
+      if (!chunkSize || chunkSize < 1) { chunkSize = 5; }
+      if (chunkSize > 15) { chunkSize = 15; addLogEntry('チャンクサイズを上限15に調整しました', 'warning'); }
+
+      cancelRequested = false;
+      var myRun = ++runId; // 新しい実行世代を発行
+      setRunningUi(true);
+      document.getElementById('completionBanner').classList.remove('show', 'failed');
+      addLogEntry('翻訳を開始します（' + startRow + '行〜' + endRow + '行, チャンク' + chunkSize + '行）', 'info');
+
+      var config = { startRow: startRow, endRow: endRow, chunkSize: chunkSize };
+      google.script.run
+        .withSuccessHandler(function(result) { onStartSuccess(result, myRun); })
+        .withFailureHandler(function(error) { onStartError(error, myRun); })
+        .ebApiSbStart(config);
+    }
+
+    function onStartSuccess(result, myRun) {
+      if (myRun !== runId) return;
+      if (result && result.ok === false) { addLogEntry('開始できません: ' + (result.message || ''), 'error'); stopLoop(); return; }
+      addLogEntry((result && result.message) ? result.message : 'ジョブを開始しました', 'info');
+      updateProgress(result);
+      runNext(undefined, myRun); // 初回キック
+    }
+
+    function onStartError(error, myRun) {
+      if (myRun !== runId) return;
+      var msg = (error && error.message) ? error.message : String(error);
+      addLogEntry('開始エラー: ' + msg, 'error');
+      stopLoop();
+    }
+
+    // ===== キャンセルボタン =====
+    function onCancel() {
+      cancelRequested = true;
+      runId++; // 進行中ループを無効化（古い世代の遅延レスポンスを破棄）
+      addLogEntry('キャンセルを要求しました…', 'warning');
+      document.getElementById('cancelBtn').disabled = true;
+      google.script.run
+        .withSuccessHandler(function(result){ addLogEntry((result && result.message) ? result.message : '中止しました', 'warning'); stopLoop(); })
+        .withFailureHandler(function(error){ var msg = (error && error.message) ? error.message : String(error); addLogEntry('キャンセルエラー: ' + msg, 'error'); stopLoop(); })
+        .ebApiSbCancel();
+    }
+
+    function closeSidebar() {
+      google.script.host.close();
+    }
+
+    // ===== 初期化：既存ジョブがあれば状態を表示（再開導線）=====
+    function initState() {
+      google.script.run
+        .withSuccessHandler(function(state) {
+          if (state && state.ok && state.totalRows) {
+            updateProgress(state);
+            if (state.status === 'running') {
+              addLogEntry('未完了のジョブがあります。「開始」で続きから再開できます。', 'info');
+            }
+          }
+        })
+        .withFailureHandler(function() { /* ジョブなしは無視 */ })
+        .ebApiSbGetState();
+    }
+
+    addLogEntry('サイドパネルを初期化しました', 'info');
+    initState();
+  </script>
+</body>
+</html>
