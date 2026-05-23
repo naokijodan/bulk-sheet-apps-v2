@@ -15,6 +15,52 @@
 
 ---
 
+## 2026-05-22〜23: route② サイドパネル司令塔方式バッチ翻訳（別軸の新機能）
+
+> ブランチ `feature/ebapi-sidebar-batch`（main 未マージ）。設計書 `docs/ebApi-sidebar-batch-design.md`。
+
+### このセッションで完了（すべて実機反映済み = clasp push 済）
+| 内容 | commit |
+|---|---|
+| 段階1: 状態管理・チャンク処理・一括書き込み | `0f4848e` |
+| 段階2: サイドパネル本体・窓口・メニュー追加 | `820f0db` |
+| 選択範囲の自動反映（インポート用シートの選択行を取り込む） | `aefdbaf` |
+| 旧翻訳メニュー5項目を廃止（サイドパネルに一本化） | `dd1402b` |
+| 翻訳プロンプトをスキル版に揃える（categorySuggestions廃止・画像記述修正） | `5a7ccea` |
+| A: スキル版(SKILL.md + getEbayTranslationSkillContent)を統合版に揃える | `a9e80fd` |
+| B: 翻訳プロンプト編集機能（専用シート「翻訳プロンプト」A2・編集優先・旧GPT_Promptsと完全分離） | `948e21a` |
+
+- 機能: メニュー「🌐 eBay 翻訳 (AI)」→「🔑 サイドパネルでバッチ翻訳」。インポート用シートの選択行を翻訳し v5インポートへ。runNext 再帰でチャンク処理（6分制限回避）、runId で二重ループ防止、選択範囲の自動取り込み。
+- 入出力: `SHEET_INPUT='インポート用'`、`OUTPUT_SHEET='v5インポート'`、`ROW_START=3`。
+- 廃止した旧メニュー（関数本体は残置）: 選択行翻訳/全行翻訳/続きを処理/自動再開を停止/現在の処理状態を確認。
+
+### 次にやること（この順番）
+- **A**: スキル版を「統合版」に揃える。GAS版 SYSTEM_PROMPT が持つ有用ルール5項目（①動物素材ワード禁止 ②"Occasion"禁止 ③製造国のブランド別判定の詳細 ④ハルシネーション禁止 ⑤メルカリ特化=状態マッピング/カテゴリ別必須項目）を、スキル本文3箇所に移植:
+  - Library版 `EbayTranslationSkill.gs` の `getEbayTranslationSkillContent()`（ユーザーがDLする本体、L366-508、追加位置=子供向け玩具ルール直後）
+  - ルート版 `EbayTranslationSkill.gs`（同期）
+  - `~/.claude/skills/ebay-translation/SKILL.md`（CLI参考、「## ルール (必須)」末尾直後）
+  - CHANGELOG 先頭に `{date:'2026-05-23', text:'...'}` 追加（バージョン自動更新）
+- **B**: 新プロンプト管理。SYSTEM_PROMPT を「新しい場所で編集可能・編集優先（編集なければハードコード）」にする。**旧 GPT_Prompts 方式とは完全分離**（新シート/新編集UI、新規実装）。参考のみ: 旧経路 `createAIPrompt`（AI.gs）の「getPromptContent→なければハードコード」優先パターン。
+
+### 重要な決定事項
+- 新システム（サイドパネル翻訳）のプロンプト管理は**完全分離**（旧 GPT_Prompts と混ぜない、新しい場所・新しい編集機能）
+- GAS版 SYSTEM_PROMPT とスキル版を**統合版**（スキル版コア5キー＋GAS有用ルール）に揃える。GAS版は完了、スキル版がタスクA
+- **categorySuggestions（AIカテゴリID推測）廃止**。F列は空。将来カテゴリIDは**タグとのマッチングでプログラム化**（公式ID参照シート、別タスク）
+
+### 将来課題
+- カテゴリID = タグとのマッチングでプログラム化
+- description の ASCII クリーンアップ（スマートクォート混入対策、Gemini E-02 指摘 MEDIUM）
+- 将来タグマッチング時の表記ゆれ正規化（小文字化・記号除去）
+
+### clasp 反映手順（このプロジェクトの運用）
+- clasp: `/Users/naokijodan/.npm-global/bin/clasp`（PATH非登録、フルパス必須）
+- ライブラリ: `cd Library && yes | clasp push -f`（scriptId `1GjyV4kQPkdXbAriCCa7VvA969s3WhKuovNp8u2wixcFWT1hndh2tLQOP`、Pushed 26 files）
+- ユーザーシート（4つ、すべて椛島さん本人のシート）: `UserSheet/.clasp.json` の scriptId を順に書換→`clasp push -f`→既定値へ復元
+  - 4 scriptId: `1xd0BXi87Y7HgNMAw6AjyGjM2VaxsEipjcunA5X4-n2brHjWtqTmVd0l1`（既定/復元先） / `1YeOEuoJ0P-zOUVEb6gE8VIMUsaS6xwA1VbumeO3niJPU56AODiOXsUXt` / `1ZvW33uAOH9dtAh4sMo7qjFupmpeEds9MsEYyea1aWRtYgxdix0pgJKM3` / `1kcJPtn4CBJ4Z9hKIM4FvW2yJE89kJOX85vhQtmlBpX4CFIk0VZSsXED3`
+- **Main.js 変更時は4シート全部、ライブラリ(.gs/プロンプト/メニュー)のみ変更時はライブラリpushだけでOK**（ユーザーシートは developmentMode:true で HEAD 即反映）
+
+---
+
 ## 2026-04-30〜05-01: DDP 完全対応（最新コミット `afd4ac5`）
 
 ### 状態
