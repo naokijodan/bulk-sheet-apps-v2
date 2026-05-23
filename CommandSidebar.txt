@@ -320,8 +320,8 @@
     </div>
     <div class="input-row">
       <label for="chunkSize">チャンクサイズ（1回に処理する行数）</label>
-      <input type="number" id="chunkSize" min="1" max="15" value="5">
-      <div class="input-hint">上限15行（サーバー側の安全上限）。既定は5行です。</div>
+      <input type="number" id="chunkSize" min="1" max="15" value="15">
+      <div class="input-hint">上限15行（サーバー側の安全上限）。既定は最大の15行。変更すると次回もその値を保持します。</div>
     </div>
     <div class="button-row">
       <button class="btn btn-start" id="startBtn" onclick="onStart()">開始</button>
@@ -515,7 +515,7 @@
 
       if (!startRow || startRow < 1) { addLogEntry('開始行が不正です', 'error'); return; }
       if (!endRow || endRow < startRow) { addLogEntry('終了行は開始行以上にしてください', 'error'); return; }
-      if (!chunkSize || chunkSize < 1) { chunkSize = 5; }
+      if (!chunkSize || chunkSize < 1) { chunkSize = 15; }
       if (chunkSize > 15) { chunkSize = 15; addLogEntry('チャンクサイズを上限15に調整しました', 'warning'); }
 
       cancelRequested = false;
@@ -567,6 +567,10 @@
       applySelection();
       google.script.run
         .withSuccessHandler(function(state) {
+          if (state && state.savedChunkSize) {
+            var csEl = document.getElementById('chunkSize');
+            if (csEl) csEl.value = state.savedChunkSize;
+          }
           if (state && state.ok && state.totalRows) {
             updateProgress(state);
             if (state.status === 'running') {

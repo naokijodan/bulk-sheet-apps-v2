@@ -1745,9 +1745,12 @@ function ebApiSbStart(config) {
   var cfg = config || {};
   var startRow = Math.max(ROW_START, Number(cfg.startRow) || ROW_START);
   var endRow = Math.max(startRow, Number(cfg.endRow) || startRow);
-  var chunkSize = cfg.chunkSize
-    ? Math.max(1, Math.min(SB_MAX_CHUNK_SIZE, Number(cfg.chunkSize) || 1))
-    : getClampedNumericSetting_('EBAPI_GEMINI_BATCH_SIZE', 5, 1, SB_MAX_CHUNK_SIZE);
+  var rawChunkSize = cfg.chunkSize;
+  var chunkSize = (rawChunkSize !== undefined && rawChunkSize !== null && rawChunkSize !== '')
+    ? Math.max(1, Math.min(SB_MAX_CHUNK_SIZE, Number(rawChunkSize) || 1))
+    : getClampedNumericSetting_('EBAPI_SB_CHUNK_SIZE', SB_MAX_CHUNK_SIZE, 1, SB_MAX_CHUNK_SIZE);
+  // 前回のチャンクサイズを保存（次回サイドパネルを開いたとき復元する。専用キーで Gemini バッチサイズと分離）
+  PropertiesService.getDocumentProperties().setProperty('EBAPI_SB_CHUNK_SIZE', String(chunkSize));
 
   var job = {
     jobId: Utilities.getUuid(),
@@ -2028,9 +2031,12 @@ function ebApiSbFindWritableBlock_(sheet, count) {
 
 // ----- 状態取得 / 中止 -----
 function ebApiSbGetState() {
+  var savedChunkSize = getClampedNumericSetting_('EBAPI_SB_CHUNK_SIZE', SB_MAX_CHUNK_SIZE, 1, SB_MAX_CHUNK_SIZE);
   var job = sbLoadJob_();
-  if (!job) return { ok: false, message: 'ジョブなし' };
-  return ebApiSbBuildState_(job, true, job.status !== 'running', '');
+  if (!job) return { ok: false, message: 'ジョブなし', savedChunkSize: savedChunkSize };
+  var state = ebApiSbBuildState_(job, true, job.status !== 'running', '');
+  state.savedChunkSize = savedChunkSize;
+  return state;
 }
 
 function ebApiSbCancel() {
