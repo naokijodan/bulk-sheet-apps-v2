@@ -1971,6 +1971,10 @@ function runSanitizeSelectedRows() {
   // 設定とシート取得
   var settings = getSettings();
   if (!settings) return;
+  if (!settings.apiKey || !String(settings.apiKey).trim()) {
+    showAlert(apiKeyMissingMessage_(), 'error');
+    return;
+  }
 
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(settings.sheetName);
   if (!sheet) {

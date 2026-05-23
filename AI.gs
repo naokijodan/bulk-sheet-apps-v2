@@ -790,6 +790,9 @@ function calculateTokenCost(platform, model, tokens) {
   AI 呼び出し（リトライ制御）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function callAIWithRetry(jpTitle, jpDesc, quantity, costYen, settings, retryCount, startMs) {
+  if (!settings || !settings.apiKey || !String(settings.apiKey).trim()) {
+    return { success:false, error: apiKeyMissingMessage_() };
+  }
   if (typeof retryCount === 'undefined') retryCount = 0;
   if (typeof startMs === 'undefined') startMs = Date.now();
   if ((Date.now() - startMs) > CONFIG.API_TIMEOUT) {
@@ -813,6 +816,9 @@ function callAIWithRetry(jpTitle, jpDesc, quantity, costYen, settings, retryCoun
   AI 呼び出し（各社）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 function callAI(jpTitle, jpDesc, quantity, costYen, settings) {
+  if (!settings || !settings.apiKey || !String(settings.apiKey).trim()) {
+    throw new Error(apiKeyMissingMessage_());
+  }
   var fullText = 'Japanese Title: ' + jpTitle + '\nJapanese Description: ' + jpDesc;
   var prompt = createAIPrompt(fullText, settings.promptId);
   if (settings.platform === 'openai') return callOpenAI(prompt, settings);
@@ -1211,6 +1217,14 @@ function parseProviderResponse_(platform, httpResp) {
 function callAI_parallel_(items, settings) {
   try {
     if (!items || !items.length) return { results: [] };
+    if (!settings || !settings.apiKey || !String(settings.apiKey).trim()) {
+      var missingMessage = apiKeyMissingMessage_();
+      var missingResults = [];
+      for (var k = 0; k < items.length; k++) {
+        missingResults.push({ ok:false, row: items[k].row, error: missingMessage });
+      }
+      return { results: missingResults };
+    }
 
     // APIリクエストの準備
     var reqs = [];

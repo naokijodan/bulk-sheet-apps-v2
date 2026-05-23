@@ -498,7 +498,7 @@
             </div>
 
             <div class="platform-content" id="openai-content">
-              <label for="openaiApiKey">OpenAI APIキー *</label>
+              <label for="openaiApiKey">OpenAI APIキー (任意)</label>
               <div class="api-key-wrapper">
                 <div class="api-key-display <?= hasApiKey.openai ? '' : 'hidden' ?>" id="openaiApiKeyDisplay">
                   <span class="masked-key">••••••••••••••••</span>
@@ -510,7 +510,7 @@
                   <button type="button" class="btn-cancel-key <?= hasApiKey.openai ? '' : 'hidden' ?>" onclick="cancelApiKeyChange('openai')">キャンセル</button>
                 </div>
               </div>
-              <div class="help-text">OpenAIのAPIキーを入力してください</div>
+              <div class="help-text">AI機能（翻訳・交通整理など）を使う場合のみ入力してください。未設定でも価格計算などは使えます。翻訳のサイドパネルは別の専用キーを使います。</div>
 
               <label for="openaiModel">モデル選択 *</label>
               <select id="openaiModel" name="openaiModel">
@@ -522,7 +522,7 @@
             </div>
 
             <div class="platform-content" id="claude-content">
-              <label for="claudeApiKey">Claude APIキー *</label>
+              <label for="claudeApiKey">Claude APIキー (任意)</label>
               <div class="api-key-wrapper">
                 <div class="api-key-display <?= hasApiKey.claude ? '' : 'hidden' ?>" id="claudeApiKeyDisplay">
                   <span class="masked-key">••••••••••••••••</span>
@@ -546,7 +546,7 @@
             </div>
 
             <div class="platform-content" id="gemini-content">
-              <label for="geminiApiKey">Gemini APIキー *</label>
+              <label for="geminiApiKey">Gemini APIキー (任意)</label>
               <div class="api-key-wrapper">
                 <div class="api-key-display <?= hasApiKey.gemini ? '' : 'hidden' ?>" id="geminiApiKeyDisplay">
                   <span class="masked-key">••••••••••••••••</span>
@@ -1425,10 +1425,11 @@
         hasExistingKey = !document.getElementById('geminiApiKeyDisplay').classList.contains('hidden');
       }
 
-      // APIキーが空で既存キーもない場合はエラー
+      // APIキーが空で既存キーもない場合は確認して保存を許可（任意化）
       if (!apiKey && !hasExistingKey) {
-        alert('選択したプラットフォームのAPIキーを入力してください。');
-        return;
+        if (!confirm('APIキー未設定だとAI機能（翻訳・交通整理など）は使えませんが、価格計算やテンプレートなど他の機能は使えます。このまま保存しますか？')) {
+          return;
+        }
       }
 
       // APIキーが空の場合は特別な値を送信（サーバー側で既存キーを維持）

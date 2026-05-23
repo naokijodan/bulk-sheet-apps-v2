@@ -2914,7 +2914,12 @@ function saveIntegratedSettings(formData) {
   try {
     // 基本設定のバリデーション
     var platform = formData.platform;
-    var apiKey = formData.apiKey;
+    // 空/空白のAPIキーは既存キーを誤って消さないよう __KEEP_EXISTING__ 扱い（直接呼び出し対策）
+    var rawApiKey = formData.apiKey;
+    var apiKey = (rawApiKey == null) ? '__KEEP_EXISTING__' : String(rawApiKey);
+    if (apiKey !== '__KEEP_EXISTING__' && !apiKey.trim()) {
+      apiKey = '__KEEP_EXISTING__';
+    }
     var model = formData.model;
     var sheetName = formData.sheetName;
     var profitCalc = formData.profitMethod;
@@ -2958,10 +2963,6 @@ function saveIntegratedSettings(formData) {
     // バリデーション
     if (!platform || !['openai','claude','gemini'].includes(platform)) {
       throw new Error('有効なAIプラットフォームを選択してください。');
-    }
-    // '__KEEP_EXISTING__'は既存キー維持のための特別値
-    if (!apiKey || (!apiKey.trim() && apiKey !== '__KEEP_EXISTING__')) {
-      throw new Error('APIキーは必須です。');
     }
     if (!model || !model.trim()) {
       throw new Error('AIモデルを選択してください。');

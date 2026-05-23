@@ -83,6 +83,12 @@ function runSelectedRowsTranslate() {
       clearAllTriggers();
       return;
     }
+    if (!settings.apiKey || !String(settings.apiKey).trim()) {
+      showAlert(apiKeyMissingMessage_(), 'error');
+      clearProcessingState_translate();
+      clearAllTriggers();
+      return;
+    }
 
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(settings.sheetName);
     if (!sheet) {

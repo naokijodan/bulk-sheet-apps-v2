@@ -367,7 +367,6 @@ function getSettings() {
   var missing = [];
   if (!settings.platform) missing.push('AIプラットフォーム');
   if (!settings.model) missing.push('AIモデル');
-  if (!settings.apiKey) missing.push('APIキー');
   if (!settings.sheetName) missing.push('作業シート名');
   if (!settings.profitCalculationMethod) missing.push('利益計算方法');
   if (!settings.promptId) missing.push('プロンプトID');
@@ -381,6 +380,10 @@ function getSettings() {
     return null;
   }
   return settings;
+}
+
+function apiKeyMissingMessage_() {
+  return 'APIキーが未設定です。AI機能を使うには「設定メニュー →（いつでも変更可）初期設定」でAPIキーを入力してください。価格計算やテンプレートなど他の機能はAPIキー無しで使えます。翻訳のサイドパネル(🌐 eBay 翻訳 (AI))は専用のAPIキーを使います。';
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
