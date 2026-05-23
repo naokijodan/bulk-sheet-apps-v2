@@ -650,7 +650,8 @@ function translateRows(startRow, endRow) {
           price: it.price,
           titleJa: it.titleJa,
           descJa: it.descJa,
-          seller: it.seller
+          seller: it.seller,
+          userTags: userTags
         });
         writeRowToOutput_(outputSheet, rowValues, nextRowCache);
         successCount++;
@@ -817,7 +818,7 @@ function buildGeminiRequest_(item, apiKey) {
   var payload = {
     contents: [{ role: 'user', parts: parts }],
     systemInstruction: {
-      parts: [{ text: getSystemPromptWithPlatform_(item.platform) }]
+      parts: [{ text: getSystemPromptWithPlatform_(item.platform) + getCategoryContextForTags_(item.userTags).section }]
     },
     generationConfig: {
       temperature: 0.3,
@@ -1021,7 +1022,7 @@ function buildOpenAIRequest_(item, apiKey) {
   userPromptLines.push('純粋な JSON のみを返してください（マークダウンのコードフェンスや前置き / 後置きの説明文は禁止）。');
 
   var userPrompt = userPromptLines.join('\n');
-  var systemPrompt = getSystemPromptWithPlatform_(item.platform);
+  var systemPrompt = getSystemPromptWithPlatform_(item.platform) + getCategoryContextForTags_(item.userTags).section;
 
   var headers = {
     'Authorization': 'Bearer ' + apiKey,
@@ -1315,9 +1316,10 @@ function buildV5RowValues_(geminiJson, ctx) {
   var dateStr = Utilities.formatDate(now, Session.getScriptTimeZone() || 'Asia/Tokyo', 'yyyy/MM/dd');
   var tags = Array.isArray(geminiJson.recommendedUserTags) ? geminiJson.recommendedUserTags : [];
   var tagStr = tags.join(' ');
-  // F 列 (カテゴリーID) は空のまま。AI によるカテゴリ ID 提案 (categorySuggestions) は廃止し、
-  // 将来タグとのマッチングでプログラム的に決定する方針のため、ここでは値を入れない。
-  var categoryId = '';
+  // F 列 (カテゴリーID) は、ユーザー許可タグから作った候補内にAI出力がある場合だけ採用する。
+  var categoryContext = getCategoryContextForTags_(ctx.userTags || []);
+  var suggestedCategoryId = String((geminiJson && geminiJson.categoryId) || '').replace(/^\s+|\s+$/g, '');
+  var categoryId = categoryContext.idSet[suggestedCategoryId] ? suggestedCategoryId : '';
 
   // 固定列 (A〜O) ※ O 列は「シッピングポリシー」(空)
   // インポート用 シートとのマッピング:
@@ -1631,6 +1633,167 @@ function getSystemPromptWithPlatform_(platform) {
   return base + '\n\n' + getPlatformPrompt_(platform);
 }
 
+// ============================================================================
+// ===== eBay カテゴリID AI判定 (route② / route①) =====
+// ユーザー許可タグ(userTags, 1バッチ共通) -> 関係ジャンル -> 候補カテゴリ(union)を
+// プロンプトに注入し、AI 出力 categoryId を候補(=絞り込み4,895由来)で検証して F 列へ。
+// 候補が空なら一切注入しない(従来動作維持)。元データは CategoryBuckets.gs。
+// ============================================================================
+
+var EBAY_CATEGORY_TAG_TO_GENRE_MAP_CACHE_ = null;
+var EBAY_CATEGORY_CONTEXT_CACHE_ = {};
+var EBAY_CATEGORY_MAX_CANDIDATES_ = 400;  // プロンプト肥大化のフェイルセーフ上限
+
+function buildTagToGenreMap_() {
+  if (EBAY_CATEGORY_TAG_TO_GENRE_MAP_CACHE_ !== null) {
+    return EBAY_CATEGORY_TAG_TO_GENRE_MAP_CACHE_;
+  }
+
+  var map = Object.create(null);  // プロトタイプ汚染回避
+  if (typeof PROMPT_TAG_MAPPING === 'undefined' || !PROMPT_TAG_MAPPING) {
+    EBAY_CATEGORY_TAG_TO_GENRE_MAP_CACHE_ = map;
+    return map;
+  }
+
+  for (var genreName in PROMPT_TAG_MAPPING) {
+    if (!Object.prototype.hasOwnProperty.call(PROMPT_TAG_MAPPING, genreName)) {
+      continue;
+    }
+
+    var tags = PROMPT_TAG_MAPPING[genreName];
+    if (!tags || !tags.length) {
+      continue;
+    }
+
+    for (var i = 0; i < tags.length; i++) {
+      var tag = String(tags[i] || '').replace(/^\s+|\s+$/g, '');
+      if (tag) {
+        map[tag] = genreName;
+      }
+    }
+  }
+
+  EBAY_CATEGORY_TAG_TO_GENRE_MAP_CACHE_ = map;
+  return map;
+}
+
+function buildCategorySliceForTags_(userTags) {
+  var slice = [];
+  var usedIds = Object.create(null);  // プロトタイプ汚染回避
+
+  if (typeof GENRE_CATEGORY_BUCKETS === 'undefined' || !GENRE_CATEGORY_BUCKETS) {
+    return slice;
+  }
+
+  var tagToGenreMap = buildTagToGenreMap_();
+
+  for (var i = 0; i < userTags.length; i++) {
+    var tag = String(userTags[i] || '').replace(/^\s+|\s+$/g, '');
+    if (!tag) {
+      continue;
+    }
+
+    var genreNames = [];
+    if (tagToGenreMap[tag]) {
+      genreNames.push(tagToGenreMap[tag]);
+    }
+    if (Object.prototype.hasOwnProperty.call(GENRE_CATEGORY_BUCKETS, tag)) {
+      genreNames.push(tag);
+    }
+
+    for (var j = 0; j < genreNames.length; j++) {
+      var genreName = genreNames[j];
+      if (!Object.prototype.hasOwnProperty.call(GENRE_CATEGORY_BUCKETS, genreName)) {
+        continue;
+      }
+      var bucket = GENRE_CATEGORY_BUCKETS[genreName];
+      if (!bucket || !bucket.length) {
+        continue;
+      }
+
+      for (var k = 0; k < bucket.length; k++) {
+        var candidate = bucket[k] || {};
+        var id = String(candidate.id || '').replace(/^\s+|\s+$/g, '');
+        if (!id || usedIds[id]) {
+          continue;
+        }
+
+        usedIds[id] = true;
+        slice.push({
+          id: id,
+          path: String(candidate.path || '')
+        });
+      }
+    }
+  }
+
+  return slice;
+}
+
+function buildCategoryAllowedIdSet_(slice) {
+  var idSet = Object.create(null);  // プロトタイプ汚染回避(AIが'toString'等を返しても検証突破させない)
+  for (var i = 0; i < slice.length; i++) {
+    var id = String((slice[i] || {}).id || '').replace(/^\s+|\s+$/g, '');
+    if (id) {
+      idSet[id] = true;
+    }
+  }
+  return idSet;
+}
+
+function renderCategoryPromptSection_(slice) {
+  if (!slice || !slice.length) {
+    return '';
+  }
+
+  var lines = [
+    '',
+    '',
+    '## eBayカテゴリID判定(必須)',
+    '通常の出力キー(title/description/itemSpecifics/recommendedUserTags/warnings)に加えて categoryId を含めること(計6キー)。',
+    'categoryId は下の候補の番号から、この商品に最も合うものを1つだけ選ぶ。該当なし/不明は "" 。リストに無い番号を創作しない。粒度は粗くてよい(詳細はItem Specificsが持つ)。',
+    '',
+    '### カテゴリ候補 (categoryId | path)'
+  ];
+
+  for (var i = 0; i < slice.length; i++) {
+    lines.push(slice[i].id + ' | ' + slice[i].path);
+  }
+
+  return lines.join('\n');
+}
+
+function getCategoryContextForTags_(userTags) {
+  var normalizedTags = [];
+  var tags = userTags || [];
+
+  for (var i = 0; i < tags.length; i++) {
+    var tag = String(tags[i] || '').replace(/^\s+|\s+$/g, '');
+    if (tag) {
+      normalizedTags.push(tag);
+    }
+  }
+
+  var key = normalizedTags.slice().sort().join('~|~');  // 区切りはタグに現れない文字列(空白入りタグの衝突回避)
+  if (Object.prototype.hasOwnProperty.call(EBAY_CATEGORY_CONTEXT_CACHE_, key)) {
+    return EBAY_CATEGORY_CONTEXT_CACHE_[key];
+  }
+
+  var slice = buildCategorySliceForTags_(normalizedTags);
+  if (slice.length > EBAY_CATEGORY_MAX_CANDIDATES_) {
+    Logger.log('eBay category slice truncated: ' + slice.length + ' -> ' + EBAY_CATEGORY_MAX_CANDIDATES_ + ' (tags=' + normalizedTags.join(',') + ')');
+    slice = slice.slice(0, EBAY_CATEGORY_MAX_CANDIDATES_);
+  }
+  var context = {
+    slice: slice,
+    section: renderCategoryPromptSection_(slice),
+    idSet: buildCategoryAllowedIdSet_(slice)
+  };
+
+  EBAY_CATEGORY_CONTEXT_CACHE_[key] = context;
+  return context;
+}
+
 // 編集UI用
 function getTranslationPromptForEdit() {
   var custom = getCustomSystemPrompt_();
@@ -1926,7 +2089,8 @@ function ebApiSbBuildRowValues_(item, result, operatorName, userTags) {
     json = enforceSingleTag_(json, userTags);
     return buildV5RowValues_(json, {
       operatorName: operatorName, platform: item.platform, productId: item.productId,
-      price: item.price, titleJa: item.titleJa, descJa: item.descJa, seller: item.seller
+      price: item.price, titleJa: item.titleJa, descJa: item.descJa, seller: item.seller,
+      userTags: userTags
     });
   } catch (e) {
     Logger.log('sb row failed (row ' + item.row + '): ' + ((e && e.message) ? e.message : e));

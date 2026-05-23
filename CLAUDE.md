@@ -63,6 +63,8 @@
 - `Config.gs`
 - `Debug.gs`
 - `EAGLE商品データ連携.gs`
+- `EbayTranslationApi.gs`
+- `CategoryBuckets.gs`（自動生成: `gen_category_buckets.py`。手編集禁止。元データ `~/Desktop/ebay-categories-curated.csv`）
 - `Shipping.gs`
 - `Translation.gs`
 - `Utils.gs`

@@ -15,6 +15,46 @@
 
 ---
 
+## 2026-05-23: eBay カテゴリID の AI判定方針＋絞り込み参照リスト（新タスク）
+
+> 旧 HANDOVER の「カテゴリID＝タグとのマッチングでプログラム化（公式ID参照シート）」は**廃止**し本方針に置換。詳細 memory: `project_bulksheet_category_ai.md`。
+
+**方針（確定）**: カテゴリID は AI に判定させる。参照リストを用意するが **AI はライブラリ/シートを自分では読めない**（見えるのはプロンプト＋web検索のみ）。よって GAS コードが商品ごとに「関係ジャンル分だけ」を参照リストから抜き出してプロンプトに渡す（スライス投入）／または AI出力IDをコードが許可リストで検証する。元データはライブラリにハードコード（配布製品なので全ユーザーに自動配布・一括更新）。
+
+**成果物（~/Desktop/）**:
+- `ebay-categories-curated.csv` / `.xlsx` … 絞り込み済み **4,895件**（列: categoryId, department, fullPath）。15,111→4,895。
+- `category-curation-rules.md` … 全34部門の絞り込みルール（再生成の仕様書）。
+- `ebay-departments-overview.md` … 全部門のサブ枝マップ（件数・Other-ID 付き）。
+- `ebay-categories-full.csv` … 絞り込み前 全15,111件。
+
+**全件取得元（Fact）**: eBay Manager（~/Desktop/ebay-manager）の本番OAuth＋Taxonomy API `getCategoryTree`（EBAY_US, treeId 0, treeVersion 134）。
+
+**粒度原則**: 詳細は Item Specifics が持つのでカテゴリは粗くてよい。コア（トレカ/アニメ/フィギュア/時計/カメラ/骨董/コイン等）のみ全残、周辺は Other 代表に畳む。
+
+**安全（web検索）**: web検索は OpenAI 側で実行され自アカウントは無関係。仕入れ元URLをAIに渡さず一般/公式確認に限定すれば一括でも可。タイトル補助にも有効。
+
+**次の実装（未着手）**:
+1. route② の AI 呼び出しコード（OpenAI Responses API か等）とタグ→部門対応を調査。
+2. 4,895件をライブラリにハードコード（元データ）。
+3. 商品ごとにジャンル分をスライスしプロンプト投入する処理を Codex で実装 → Claude+Codex レビュー → 承認後 push（ライブラリ同期・コミット前チェックリスト厳守）。
+
+### ✅ 実装完了（2026-05-23 同日）
+
+実装・反映済み（ライブラリ clasp push 済。テスト: **API翻訳=動作確認OK** / CLI翻訳=確認済）。
+
+- **対応表**: `CategoryBuckets.gs`（root+Library、67ジャンル→公式候補）。`gen_category_buckets.py` が `~/Desktop/ebay-categories-curated.csv` から生成（**手編集禁止**）。treeVersion 134 / EBAY_US。
+- **絞り込みリスト穴埋め**: 釣り(リール/竿/釣具)・ゴルフ・テニスが Sporting Goods 畳みすぎで欠落していたため、全件から **36件補充**（4,895→**4,931**）。`~/Desktop/category-curation-rules.md` に記録。
+- **API翻訳(route②)**: `EbayTranslationApi.gs` で 許可タグ→ジャンル→候補(union)をプロンプト注入し、AI出力 categoryId を候補IDで**検証して F列**へ。候補が空なら従来通り F列空（既存動作不変）。route①(translateRows) と route②(ebApiSb*) 両対応。
+- **CLI翻訳**: `SKILL.md`(~/.claude/skills/ebay-translation/) と `EbayTranslationSkill.gs`(getEbayTranslationSkillContent) が **GitHub公開JSONを HTTP 取得**して同様に判定。配布製品なのでローカルファイル依存にしないこと。
+  - 公開リポジトリ: https://github.com/naokijodan/bulksheet-ebay-categories
+  - 参照URL: https://naokijodan.github.io/bulksheet-ebay-categories/ebay-category-buckets.json
+- **E-02**: Gemini検察官レビューで **プロトタイプ汚染(HIGH)** 修正（idSet等を `Object.create(null)`）。node ローカル検証 13項目 PASS。
+- **更新運用**: `python3 gen_category_buckets.py` → `CategoryBuckets.gs`(ライブラリ用) と `ebay-category-buckets.json`(CLI用) を同時生成 → ①ライブラリ clasp push ②`bulksheet-ebay-categories` リポジトリへ push。両者は同一生成物で整合。
+- **既知の穴（優先度低）**: 関数電卓0件 / 電子辞書1件 / 石鹸2件（curated に該当が薄い。扱いが増えたら curation 再生成）。
+- **別タスク指示書**: `~/Desktop/ebay-category-finder_拡張機能_指示文.md`（手動出品用カテゴリID検索ブラウザ拡張。全15,111件。未着手）。
+
+---
+
 ## 2026-05-22〜23: route② サイドパネル司令塔方式バッチ翻訳（別軸の新機能）
 
 > ブランチ `feature/ebapi-sidebar-batch`（main 未マージ）。設計書 `docs/ebApi-sidebar-batch-design.md`。
