@@ -126,9 +126,14 @@ function buildEbayTranslationGeneratorHtml() {
     'label { display: inline-block; font-size: 13px; color: #333; width: 80px; }' +
     'input[type=number] { width: 100px; padding: 6px 8px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; }' +
     '.count { color: #555; font-size: 13px; margin-left: 12px; }' +
-    'button { font-size: 14px; padding: 8px 16px; margin: 12px 8px 0 0; cursor: pointer; }' +
-    '.primary { background: #1a73e8; color: white; border: none; border-radius: 4px; }' +
+    'button { font-size: 14px; padding: 8px 16px; margin: 12px 8px 0 0; cursor: pointer; transition: transform 0.06s ease, box-shadow 0.1s ease, background 0.1s ease; }' +
+    'button:active { transform: translateY(1px); }' +
+    '.primary { background: #1a73e8; color: white; border: none; border-radius: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.25); }' +
+    '.primary:hover { background: #1666c1; }' +
+    '.primary:active { background: #1558a8; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3); }' +
     '.cancel { background: #eee; border: 1px solid #ccc; border-radius: 4px; }' +
+    '.cancel:hover { background: #e2e2e2; }' +
+    '.cancel:active { background: #d5d5d5; box-shadow: inset 0 1px 3px rgba(0,0,0,0.2); }' +
     '.warn { background: #fff8e1; border: 1px solid #f9a825; color: #6f4d00; padding: 8px 12px; border-radius: 4px; margin-bottom: 12px; font-size: 13px; }' +
     '.result { margin-top: 20px; display: none; }' +
     'textarea { width: 100%; height: 260px; font-family: Menlo, monospace; font-size: 12px; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }' +
