@@ -1031,6 +1031,18 @@
             </label>
           </div>
           <div class="help-text">ON にすると、保存時に V5 ルート用のシート・式がまとめてセットアップされます。具体的には、v5出品 / v5インポート シートの作成、作業シート の V5 用式書出（タグ自動判定 全 ON 相当 + F 列 3 ルート式）、D2/F4 トグル設定、為替レート取得・自動更新が実行されます。一方、AI〜AS 表示パネル書出 / 出品用シート価格式 / セル注釈付与 はスキップされます。デフォルトは OFF。</div>
+
+          <label>利益計算方法（V5）</label>
+          <div class="radio-group">
+            <label><input type="radio" name="v5ProfitMethod" value="RATE" checked> 利益率で計算</label>
+            <label><input type="radio" name="v5ProfitMethod" value="AMOUNT"> 利益額で計算</label>
+          </div>
+
+          <label>送料計算方法（V5）</label>
+          <div class="radio-group">
+            <label><input type="radio" name="v5ShippingMethod" value="TAG_SHIPPING" checked> タグ別送料</label>
+            <label><input type="radio" name="v5ShippingMethod" value="FIXED"> 固定金額</label>
+          </div>
         </div>
       </div>
 
@@ -1510,7 +1522,9 @@
         showPopups: document.querySelector('input[name="showPopups"]:checked').value,
 
         // V5 用シート設定
-        v5SheetEnabled: document.getElementById('v5SheetEnabled').checked
+        v5SheetEnabled: document.getElementById('v5SheetEnabled').checked,
+        v5ProfitMethod: (document.querySelector('input[name="v5ProfitMethod"]:checked') || {value: 'RATE'}).value,
+        v5ShippingMethod: (document.querySelector('input[name="v5ShippingMethod"]:checked') || {value: 'TAG_SHIPPING'}).value
       };
 
       setLoading(true);

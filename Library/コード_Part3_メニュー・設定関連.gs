@@ -3028,6 +3028,23 @@ function saveIntegratedSettings(formData) {
 
     // V5 ルートを使うかどうか
     var isV5 = (formData && formData.v5SheetEnabled === true);
+    var v5ProfitMethodRaw = (formData && formData.v5ProfitMethod) ? String(formData.v5ProfitMethod) : '';
+    var v5ProfitMethod = ['RATE', 'AMOUNT'].indexOf(v5ProfitMethodRaw) !== -1 ? v5ProfitMethodRaw : 'RATE';
+    var v5ShippingMethodRaw = (formData && formData.v5ShippingMethod) ? String(formData.v5ShippingMethod) : '';
+    var v5ShippingMethod = ['TAG_SHIPPING', 'FIXED'].indexOf(v5ShippingMethodRaw) !== -1 ? v5ShippingMethodRaw : 'TAG_SHIPPING';
+
+    // V5固定設定の保存・書き込み（V5 ON時のみ）
+    if (isV5) {
+      docProps.setProperty('V5_PROFIT_METHOD', v5ProfitMethod);
+      docProps.setProperty('V5_SHIPPING_METHOD', v5ShippingMethod);
+      var v5WriteResult = writeV5SettingsToSheet(sheetName, {
+        v5ProfitMethod: v5ProfitMethod,
+        v5ShippingMethod: v5ShippingMethod
+      });
+      if (!v5WriteResult.success) {
+        throw new Error('V5設定のシートへの書き込みに失敗しました: ' + v5WriteResult.error);
+      }
+    }
 
     // システム設定（V5 ON 時はセル注釈付与をスキップ）
     if (!isV5) {
@@ -3075,7 +3092,7 @@ function saveIntegratedSettings(formData) {
 
     // 🆕 計算式ARRAYFORMULAを作業シートに適用（V5 ON 時は v5Mode で tagOverride 全 ON 相当）
     var formulaResult = applyCalculationFormulas(sheetName, {
-      profitCalc: profitCalc,
+      profitCalc: isV5 ? v5ProfitMethod : profitCalc,
       shippingCalcMethod: actualShippingCalcMethod
     }, isV5);
 
@@ -3364,6 +3381,56 @@ function applyGenrePresetInternal_(sheet, genre, weight) {
   } catch (e) {
     Logger.log('[applyGenrePresetInternal_] エラー: ' + e.message);
     return { success: false, error: e.message };
+  }
+}
+
+/**
+ * V5固定設定をシートの AL2 / AJ5 / AK5 / AL5 に書き出す（V5 ON時のみ呼び出す）
+ * AL2: 利益計算方法ラベル、AJ5: 送料計算方法ラベル、AK5/AL5: AL2連動式
+ * ⚠️ 通常版 writeSettingsToSheet の AL2/AJ5/AK5/AL5/データ検証ロジックと同期すること。
+ *    仕様変更時は writeSettingsToSheet と writeV5SettingsToSheet の両方を必ず修正すること。
+ * @param {string} sheetName - 作業シート名
+ * @param {Object} settings - { v5ProfitMethod: 'RATE'|'AMOUNT', v5ShippingMethod: 'TAG_SHIPPING'|'FIXED' }
+ */
+function writeV5SettingsToSheet(sheetName, settings) {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(sheetName);
+    if (!sheet) return { success: false, error: 'シートが見つかりません: ' + sheetName };
+
+    // データ検証をクリア（古いルールが残ると新しい値を拒否されるため）
+    sheet.getRange('AJ5').clearDataValidations();
+    sheet.getRange('AL2').clearDataValidations();
+
+    // AL2: 利益計算方法ラベル（通常版 writeSettingsToSheet 3498-3500 と同一）
+    var profitLabel = (settings.v5ProfitMethod === 'RATE') ? '利益率' : '利益額';
+    sheet.getRange('AL2').setValue(profitLabel);
+
+    // AJ5: 送料計算方法ラベル（通常版 writeSettingsToSheet 3487-3492 と同一）
+    var shippingLabel = getLabelFromShippingCalcMethod_(settings.v5ShippingMethod);
+    sheet.getRange('AJ5').setValue(shippingLabel);
+
+    // AK5/AL5: AL2連動式（通常版 writeSettingsToSheet 3509-3512 と完全同一）
+    sheet.getRange('AK5').setFormula('=IF(AL2="利益率","利益率","利益額")').setBackground('#FFF3E0').setFontWeight('bold');
+    sheet.getRange('AL5').setFormula('=IF(AL2="利益率",H2,H1)').setBackground('#FFF3E0');
+
+    // AJ5: 送料計算方法ドロップダウン（通常版 writeSettingsToSheet 3587-3592 と同一）
+    var ruleAj5 = SpreadsheetApp.newDataValidation()
+      .requireValueInList(['テーブル計算', '固定金額', 'ゲーム・トレカ', 'タグ別送料'], true)
+      .setAllowInvalid(false)
+      .build();
+    sheet.getRange('AJ5').setDataValidation(ruleAj5);
+
+    // AL2: 利益計算方法ドロップダウン（通常版 writeSettingsToSheet 3594-3599 と同一）
+    var ruleAl2 = SpreadsheetApp.newDataValidation()
+      .requireValueInList(['利益率', '利益額'], true)
+      .setAllowInvalid(false)
+      .build();
+    sheet.getRange('AL2').setDataValidation(ruleAl2);
+
+    return { success: true };
+  } catch (e) {
+    return { success: false, error: (e && e.message) ? e.message : String(e) };
   }
 }
 
@@ -4073,19 +4140,44 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
 
     // V5 モード: tagOverride* を全 true で強制上書き（ユーザー設定に依存しない）
     if (v5Mode) {
+      var v5ShippingFixed = (shippingCalc === 'FIXED');
       fullSettings = Object.assign({}, fullSettings || {}, {
-        tagOverrideShipping: true,
-        tagOverrideThreshold: true,
+        tagOverrideShipping:         !v5ShippingFixed,
+        tagOverrideThreshold:        !v5ShippingFixed,
+        tagOverrideLowShipping:      !v5ShippingFixed,
+        tagOverrideHighShipping:     !v5ShippingFixed,
+        tagOverrideShippingCategory: true,
         tagOverrideCondition: true,
         tagOverrideDdpMode: true,
         tagOverrideAdRate: true,
         tagOverrideFeeRate: true,
         tagOverrideProfitRate: true,
-        tagOverrideTemplate: true,
-        tagOverrideShippingCategory: true,
-        tagOverrideLowShipping: true,
-        tagOverrideHighShipping: true
+        tagOverrideTemplate: true
       });
+    }
+    if (v5Mode) {
+      var _paSh = ss.getSheetByName('Profit_Amounts');
+      var _paData = _paSh ? _paSh.getRange('A2:D8').getValues() : [];
+      if (shippingCalc === 'FIXED') {
+        var _j1Val = sheet.getRange('J1').getValue();
+        var _paHasShipping = false;
+        for (var _pi = 0; _pi < _paData.length; _pi++) {
+          if (_paData[_pi][0] !== '' && _paData[_pi][3] !== '') _paHasShipping = true;
+        }
+        if ((_j1Val === '' || _j1Val == null) && !_paHasShipping) {
+          throw new Error('[V5固定モード] J1(送料)が空で、Profit_Amountsにも有効な送料データがありません。J1に送料を入力するかProfit_Amountsを設定してください。');
+        }
+      }
+      if (profitCalc === 'AMOUNT') {
+        var _h1Val = sheet.getRange('H1').getValue();
+        var _paHasProfit = false;
+        for (var _pj = 0; _pj < _paData.length; _pj++) {
+          if (_paData[_pj][0] !== '' && _paData[_pj][2] !== '') _paHasProfit = true;
+        }
+        if ((_h1Val === '' || _h1Val == null) && !_paHasProfit) {
+          throw new Error('[V5固定モード] H1(利益額)が空で、Profit_Amountsにも有効な利益データがありません。H1に利益額を入力するかProfit_Amountsを設定してください。');
+        }
+      }
     }
     var tagMap = buildTagOverrideMap_(ss, fullSettings);
     var effectiveShippingCalc = shippingCalc;
