@@ -359,6 +359,7 @@
     var isRunning = false;       // ループ実行中
     var cancelRequested = false; // キャンセル要求フラグ（runNext ループを止める）
     var runId = 0; // 実行世代。onStart/onCancel で進め、古いループの遅延レスポンスを無効化する
+    var pendingResume = false;   // 再開待ち（未完了ジョブ検出済み・再開指示待ち）
 
     // ===== 進捗表示 =====
     function updateProgress(data) {
@@ -509,6 +510,19 @@
     function onStart() {
       if (isRunning) return;
 
+      if (pendingResume) {
+        // 再開モード: ebApiSbStart を呼ばず既存ジョブで runNext ループを直接再開
+        cancelRequested = false;
+        var myResume = ++runId;
+        pendingResume = false;
+        document.getElementById('startBtn').textContent = '開始';
+        setRunningUi(true);
+        document.getElementById('completionBanner').classList.remove('show', 'failed');
+        addLogEntry('翻訳を再開します', 'info');
+        runNext(undefined, myResume);
+        return;
+      }
+
       var startRow = parseInt(document.getElementById('startRow').value, 10);
       var endRow = parseInt(document.getElementById('endRow').value, 10);
       var chunkSize = parseInt(document.getElementById('chunkSize').value, 10);
@@ -519,7 +533,7 @@
       if (chunkSize > 15) { chunkSize = 15; addLogEntry('チャンクサイズを上限15に調整しました', 'warning'); }
 
       cancelRequested = false;
-      var myRun = ++runId; // 新しい実行世代を発行
+      var myRun = ++runId; // 入力値チェック通過後に世代を発行
       setRunningUi(true);
       document.getElementById('completionBanner').classList.remove('show', 'failed');
       addLogEntry('翻訳を開始します（' + startRow + '行〜' + endRow + '行, チャンク' + chunkSize + '行）', 'info');
@@ -533,7 +547,7 @@
 
     function onStartSuccess(result, myRun) {
       if (myRun !== runId) return;
-      if (result && result.ok === false) { addLogEntry('開始できません: ' + (result.message || ''), 'error'); stopLoop(); return; }
+      if (result && result.ok === false) { addLogEntry('開始できません: ' + (result.message || ''), 'error'); stopLoop(); initState(); return; }
       addLogEntry((result && result.message) ? result.message : 'ジョブを開始しました', 'info');
       updateProgress(result);
       runNext(undefined, myRun); // 初回キック
@@ -550,11 +564,13 @@
     function onCancel() {
       cancelRequested = true;
       runId++; // 進行中ループを無効化（古い世代の遅延レスポンスを破棄）
+      pendingResume = false;
+      document.getElementById('startBtn').textContent = '開始';
       addLogEntry('キャンセルを要求しました…', 'warning');
       document.getElementById('cancelBtn').disabled = true;
       google.script.run
         .withSuccessHandler(function(result){ addLogEntry((result && result.message) ? result.message : '中止しました', 'warning'); stopLoop(); })
-        .withFailureHandler(function(error){ var msg = (error && error.message) ? error.message : String(error); addLogEntry('キャンセルエラー: ' + msg, 'error'); stopLoop(); })
+        .withFailureHandler(function(error){ var msg = (error && error.message) ? error.message : String(error); addLogEntry('キャンセル失敗。再試行してください: ' + msg, 'error'); pendingResume = true; isRunning = false; document.getElementById('startBtn').textContent = '再開'; document.getElementById('startBtn').disabled = false; document.getElementById('cancelBtn').disabled = false; })
         .ebApiSbCancel();
     }
 
@@ -567,14 +583,22 @@
       applySelection();
       google.script.run
         .withSuccessHandler(function(state) {
+          if (isRunning) return; // 実行中は状態同期で UI/フラグを壊さない
           if (state && state.savedChunkSize) {
             var csEl = document.getElementById('chunkSize');
             if (csEl) csEl.value = state.savedChunkSize;
           }
-          if (state && state.ok && state.totalRows) {
-            updateProgress(state);
+          if (state && state.ok) {
+            if (state.totalRows) updateProgress(state);
             if (state.status === 'running') {
-              addLogEntry('未完了のジョブがあります。「開始」で続きから再開できます。', 'info');
+              pendingResume = true;
+              document.getElementById('startBtn').textContent = '再開';
+              document.getElementById('startBtn').disabled = false;
+              document.getElementById('cancelBtn').disabled = false;
+              document.getElementById('startRow').disabled = true;
+              document.getElementById('endRow').disabled = true;
+              document.getElementById('chunkSize').disabled = true;
+              addLogEntry('未完了のジョブがあります。「再開」で続きから、「キャンセル」でリセットできます', 'warning');
             }
           }
         })

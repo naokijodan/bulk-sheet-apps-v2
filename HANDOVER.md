@@ -15,6 +15,33 @@
 
 ---
 
+## 2026-05-25: route② サイドパネル翻訳のデッドロック修正
+
+> route②(司令塔方式サイドパネルバッチ翻訳)で「開始もキャンセルもできない」デッドロックを解消。
+
+### 症状
+サイドパネルが固まり、開始ボタンは「既に翻訳ジョブが実行中です」で拒否、キャンセルボタンは disabled で押せない。前回のジョブ(例:331-332行 running)がブラウザ/パネルを閉じた後も DocumentProperties キー EBAPI_SB_JOB に running のまま残ることが発端。
+
+### 原因(Fact・実コード確認)
+- サーバー ebApiSbStart(EbayTranslationApi.gs 1904-1906): status==='running' を無条件拒否。
+- クライアント initState(CommandSidebar.txt): running 検出時に案内ログのみ。setRunningUi も再開も呼ばず、キャンセルボタン(HTML初期disabled)を有効化しない。
+
+### 修正(CommandSidebar.txt のみ・サーバー不変)
+「再開待ち(pendingResume)」状態を新設。既存の開始ボタンを流用しラベルを「再開」に切替(ボタン新設はしない)。
+
+1. initState: running 検出で pendingResume=true、開始(再開)・キャンセル両ボタン有効化、入力欄disabled(自動再開はしない)。
+2. onStart: pendingResume 時は ebApiSbStart を呼ばず runNext を直接再開(job.nextRow から継続)。
+3. onCancel: ebApiSbCancel でジョブ削除→通常状態へ。失敗時は stopLoop せず再操作可能を維持。
+4. onStartSuccess: {ok:false} 時に initState() で自己同期(別経路のデッドロック防止)。
+5. initState 成功ハンドラ冒頭に if(isRunning) return(非同期競合防止)。
+
+### レビュー・反映
+- 2者レビュー(Claude親 + Gemini検察官)で両者PASS。Gemini指摘 HIGH2/MEDIUM2/LOW1 + 再レビューHIGH1 を全反映。
+- ライブラリ clasp push 済(Pushed 27 files、scriptId 1GjyV4kQ...)。Main.js不変のためユーザーシートpush不要。
+- 動作確認(実機): キャンセル(リセット)→新規開始→完了 OK。「再開」ボタンでの続き処理は実機未検証(コードレビューでは整合確認済)。
+
+---
+
 ## 2026-05-23: eBay カテゴリID の AI判定方針＋絞り込み参照リスト（新タスク）
 
 > 旧 HANDOVER の「カテゴリID＝タグとのマッチングでプログラム化（公式ID参照シート）」は**廃止**し本方針に置換。詳細 memory: `project_bulksheet_category_ai.md`。
