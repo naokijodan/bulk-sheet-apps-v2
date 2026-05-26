@@ -1,10 +1,10 @@
 # 一括シートV3 引き継ぎ文
 
-> **Last updated**: 2026-05-26 夜 (harness-20260526-151218 終了時、TagShipping S/T列追加 設計確定 + 依存検索完了)
-> **次セッションへ最優先で**: 下記「2026-05-26 夜: TagShipping S/T列追加」セクションを読む → Sprint Contract v3.1 を読む → 段階1 実装着手
+> **Last updated**: 2026-05-27 (harness-20260526-233054 終了時、TagShipping S/T列追加 全段階完了 + main push 済み + 椛島さん実機 OK)
+> **次セッションへ最優先で**: 下記「2026-05-27: TagShipping S/T列追加 — 全段階完了」セクションを読む → priority 39 和楽器から再開
 > **唯一の設計基準 (プロンプト改修系)**: [`docs/PROMPT_DESIGN_PRINCIPLE.md`](docs/PROMPT_DESIGN_PRINCIPLE.md) **v1.1** (commit 48cab87)
 > **過去の Sprint Contract / 旧設計書は物理削除済み**。参照しないこと。
-> **進捗**: priority 1-38 完遂、priority 39 和楽器から再開予定。**ただし優先タスクは TagShipping S/T 列追加 (本セッション設計確定済)**
+> **進捗**: priority 1-38 完遂、TagShipping S/T 列追加 完了、**次は priority 39 和楽器から再開**
 
 ---
 
@@ -16,9 +16,78 @@
 
 ---
 
-## 2026-05-26 夜: TagShipping S/T列追加 — 設計確定 + 依存検索完了（次セッションで実装着手）
+## 2026-05-27: TagShipping S/T列追加 — 全段階完了 (harness-20260526-233054)
 
-> **状態**: 設計フェーズ完了、実装フェーズ未着手。本セッション (harness-20260526-151218) は長くなり認識ミスが 3 回発生したため、新セッションへ引き継ぎ (椛島さん判断)。
+> **状態**: 全段階完了。commit 5 件 main push 済み (`899d11a..b2a2f9d`)、Library clasp push 2 回完了 (27 files)、椛島さん実機 OK。
+
+### 完了 commit (5 件)
+
+| Hash | 内容 |
+|---|---|
+| `678f913` | feat(TagShipping): S/T列(利益方法/送料方法)追加 + U/V→W/X列マイグレーション (段階1) |
+| `f967ad8` | feat(setup): V5 利益計算方法ラジオを「タグ別利益計算/利益額計算」に変更 (段階2、Option A=value 継続) |
+| `07b4da5` | feat(pricing): AQ/AR/AS補助列+TagShipping S/T列で行ごと利益・送料切替+1-3行目ガード3重防御+保護範囲+フェイルセーフ (段階3) |
+| `f93b231` | fix(stage3): E-02 round1指摘修正 (技術的負債コメント + 外側snapshot bracket + JSDoc + 定数化) |
+| `b2a2f9d` | fix(stage3): applyAuxColumnsProtection_ から setUnprotectedRanges([]) 削除 (Range Protection API 仕様) |
+
+### 実装範囲
+
+- **Config.gs**: HEADERS 18→20 (S=利益方法, T=送料方法), TAG_LIST_START_COL 21→23, METHOD_VALUES 定数 (Object.freeze)
+- **コード_Part3 ensureTagShippingSheet_**: S/T ヘッダー追加 + U/V→W/X 移行 (べき等、OLD_UV_START_COL=21 定数化)
+- **コード_Part3 applyTagShippingValidations_**: S/T 列ドロップダウン (setAllowInvalid=false), stDataRows=Math.max(100)-1
+- **Utils.gs buildTagOverrideMap_**: 列数 18→20, profitMethod/shippingMethod (NFKC normalize) 追加
+- **SetupDialog.txt + Library/HtmlTemplates.gs**: V5 利益ラジオラベルを「タグ別利益計算/利益額計算」に変更 (value=RATE/AMOUNT 継続=Option A)
+- **Utils.gs**: validateTagShippingMethods_, buildAQFormulas_, buildARFormulas_, buildASFormulas_ 新規
+- **コード_Part3**: ensureAuxHeaders_, seedAuxColumns_, applyAuxColumnsProtection_, applyCalculationFormulas V5 ブロック (3 重防御)
+
+### 3 重防御 (赤字直結対応、Sprint Contract v3.1 §6 完全準拠)
+
+| Layer | 内容 | 実装場所 |
+|---|---|---|
+| Layer 1 物理ガード | getRange(5, AQ_COL, n, 1) のみ書き込み | seedAuxColumns_ |
+| Layer 2 ヘッダーべき等 | 4 行目に想定外値 → throw | ensureAuxHeaders_ |
+| Layer 3 snapshot 検証 | 1-3 行目 JSON.stringify 前後比較 → throw | seedAuxColumns_ (内側) + applyCalculationFormulas (外側、二重) |
+
+### 保護範囲 AQ1:AS3 (Range Protection)
+
+- `getRange(1, AQ_COL, 3, 3).protect()` + `setWarningOnly(false)` + `addEditor(Session.getEffectiveUser())` + description で idempotent
+- ⚠️ **`setUnprotectedRanges([])` は Sheet Protection 専用 API。Range Protection で呼ぶと例外。** (Hotfix b2a2f9d で削除済み、再発防止)
+
+### E-02 検察官レビュー結果
+
+| 段階 | round1 | round2 | findings |
+|---|---|---|---|
+| 段階1 | PASS_WITH_MINORS (M1+L1) | PASS | 修正 2 件 (OLD_UV_START_COL + stDataRows) |
+| 段階2 | PASS (findings ゼロ) | (skip) | - |
+| 段階3 | FAIL (M2+L2) | PASS | 修正 4 件 (技術的負債 + 外側 snapshot + JSDoc + 定数化) |
+
+### 技術的負債 (Sprint Contract v3.1 §13-G、4 ファイル冒頭コメント追記済)
+
+AQ/AR/AS 列は **1-3 行目 (既存設定: AQ=配送式, AR=ラベル, AS=プロンプトID/自動選択モード)** と **4 行目以降 (本機能: 利益・送料計算補助)** で用途が分断されている。将来フェーズで「設定値を別シートに分離」して列を一本化することを推奨。
+
+### 既知の追加課題 (次回改修時に検討)
+
+- `writeTagListToSheet_` 内の「Q-R 列をクリア」コメントが TAG_LIST_START_COL=23 変更後と乖離 (今回スコープ外、コード自体は正常)
+- W 列 (作業シート) の利益額モード行の表示が紛らわしい (計算には使われない、将来フェーズで整理推奨)
+
+### バックワード互換性
+
+- value 属性 RATE/AMOUNT 継続 (Option A) で既存 DocumentProperties (`V5_PROFIT_METHOD='RATE'`) そのまま動作
+- TagShipping S/T 列が空のタグはフォールバック (「タグ別利益率」「タグ別送料」)
+- AQ2/AQ3 既存 X 列絶対参照は不変、AR2/AR3/AS2/AS3 既存値は保護範囲で物理ブロック
+
+### 学習 / 教訓
+
+- **GAS API 仕様は実機で必ず検証**: setUnprotectedRanges([]) の挙動を確認せず Sprint Contract pseudocode をそのまま実装した結果、初期設定で実機エラー発生 → 1 行削除 hotfix で復旧
+- **child-a の独断 commit 防止**: 段階3 で child-a が独断 commit (07b4da5)。今後 child は親指示まで commit しない (Sprint Contract v3.1 §9 のレビューサイクル準拠)
+- **child-c 検察官レビューは 2 周必要**: 段階3 round1 で 4 件 (M2+L2) 検出、round2 で全解消確認 → PASS。椛島さん方針「LOW パス禁止」厳守
+- **Option A の有効性**: value 属性継続でラベルだけ変更 → 既存 DocumentProperties そのまま動作 (移行コード不要、互換性完全)
+
+---
+
+## 2026-05-26 夜: TagShipping S/T列追加 — 設計確定 + 依存検索完了（履歴）
+
+> **状態**: 設計フェーズ完了 (harness-20260526-151218)。本セッション (harness-20260526-233054) で実装完了 → 上記「2026-05-27」セクション参照。
 
 ### このセッションで完了したこと（commit/push なし、設計確定のみ）
 
