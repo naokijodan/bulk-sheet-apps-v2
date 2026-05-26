@@ -1,9 +1,10 @@
 # 一括シートV3 引き継ぎ文
 
-> **Last updated**: 2026-05-02 evening (harness-20260502-093617 終了時)
-> **唯一の設計基準**: [`docs/PROMPT_DESIGN_PRINCIPLE.md`](docs/PROMPT_DESIGN_PRINCIPLE.md) **v1.1** (commit 48cab87)
+> **Last updated**: 2026-05-26 夜 (harness-20260526-151218 終了時、TagShipping S/T列追加 設計確定 + 依存検索完了)
+> **次セッションへ最優先で**: 下記「2026-05-26 夜: TagShipping S/T列追加」セクションを読む → Sprint Contract v3.1 を読む → 段階1 実装着手
+> **唯一の設計基準 (プロンプト改修系)**: [`docs/PROMPT_DESIGN_PRINCIPLE.md`](docs/PROMPT_DESIGN_PRINCIPLE.md) **v1.1** (commit 48cab87)
 > **過去の Sprint Contract / 旧設計書は物理削除済み**。参照しないこと。
-> **進捗**: priority 1-38 完遂、priority 39 和楽器から再開（次セッション）
+> **進捗**: priority 1-38 完遂、priority 39 和楽器から再開予定。**ただし優先タスクは TagShipping S/T 列追加 (本セッション設計確定済)**
 
 ---
 
@@ -15,43 +16,104 @@
 
 ---
 
-## 2026-05-26 後半: 次のタスク（次セッションへ引き継ぎ）
+## 2026-05-26 夜: TagShipping S/T列追加 — 設計確定 + 依存検索完了（次セッションで実装着手）
 
-### このセッション完了（push 済）
-- `3925261` route2 デッドロック修正
-- `0b65f20` V5固定設定（課題A）
-- `dd9db77` 生成ボタンクリック感
-- `fa9c8dd` Profit_Amounts 堅牢化（残骸除外＋検証throw＋最大超過警告）
-- `e6a0905` V5設定ラジオの前回値保持
+> **状態**: 設計フェーズ完了、実装フェーズ未着手。本セッション (harness-20260526-151218) は長くなり認識ミスが 3 回発生したため、新セッションへ引き継ぎ (椛島さん判断)。
 
-### 残（実機動作確認・椛島さん側）
-- 堅牢化: 仕入150000 の利益・送料が正しい／残骸を入れても無視／最大超過時に完了メッセージに⚠N件表示
-- V5前回値保持: 設定を開き直して「利益額／固定金額」が保持
+### このセッションで完了したこと（commit/push なし、設計確定のみ）
 
-### 次のタスク: TagShipping でタグ別の利益方法・送料方法を切替
-**要件**:
-- **TagShipping S列＝利益方法**（利益率/利益額）、**T列＝送料方法**（タグ別送料/固定金額）
-- 初期設定（タグ自動判定セクション）に「**タグ優先（利益・送料方法）**」チェックを追加（既存 tagOverride* パターンに合わせる）
-- 各商品行: そのタグから TagShipping を引いて S/T列の値で**利益式・送料式を行ごとに切替**
-- フォールバック: タグなし／TagShipping値なし／チェックOFF → V5全体設定 or 既存挙動（タグなしは値が出ない）
-- 既存の TagShipping I/J/K列（利益率値・広告費率・手数料率）は維持
+1. **要件確定 (椛島さんとの対話)**:
+   - V5 利益計算ラジオを「タグ別利益計算 / 利益額計算」に変更
+   - V5 送料計算ラジオは「タグ別送料 / 固定金額」維持
+   - 「タグ優先」チェック新規追加は **不要** (V5 ラジオで完結)
+   - TagShipping S列「利益方法」(タグ別利益率 / 利益額（Profit_Amounts参照）)
+   - TagShipping T列「送料方法」(タグ別送料 / 固定金額（Profit_Amounts参照）)
+   - TagShipping U/V → W/X 列移行 (1-3 行目は触らない、視覚的区切り)
+   - 行ごと混在 OK (R 列に IF 分岐)、タグ別モード時は H1/J1 を空にする
+2. **3 者協議 (GPT-5 + Gemini + Claude) 2 ラウンド**:
+   - Round 1: HIGH リスク 3 点 (R 列 800文字, IFERROR 赤字フォールバック, 中間状態リスク) → 補助列方式採用
+   - Round 2: 3 補助列分離案合意、AW 使用中 → 椛島さん指示で AQ/AR/AS の 4 行目以降採用
+   - v3.1 追加: ドライラン、依存検索、保護範囲、冪等性、サンプリング監査、技術的負債明示
+3. **依存検索 (Read-only ドライラン) 完了**:
+   - 総合リスク: **LOW** (設計通り 4 行目以降のみ操作なら問題なし)
+   - 新発見: X 列 (配送方法) 全行が `$AQ$2` `$AQ$3` を絶対参照 → **AQ2/AQ3 絶対書込み禁止**
+   - 新発見: `Translation.gs:103/116` / `コード_Part1:1318/1894/3226` が `AS2/AS3/AQ2/AQ3` を `getValue()` → 触らなければ OK
+   - 既存物理保護範囲・条件付き書式・他シート参照 ゼロ件 (LOW リスク確認)
 
-**列整理（重要）**:
-- TagShipping の S/T 列に新フィールドを置くため、**現状の S/T 列にあるものを W/X 列等に移動**する必要（視認性向上）
-- **過去に同じような列移動の実装あり**（コード／Obsidian ノートに記録あるはず、要調査）
+### 次セッションで読むべきファイル (フルパス・必読)
 
-**進め方（次セッションで）**:
-1. **コードレベルで徹底調査**（サブエージェント使用推奨。このセッションが長くなったので次でフレッシュに）:
-   - 過去の列移動実装の所在（`grep -rn` 関連キーワード、コード or Obsidian ノート）
-   - TagShipping の現状の列構成（S/T／U/V／W/X の中身）
-   - 既存の tagOverride* チェック（保存・読込・SetupDialog scriptlet）の実装パターン
-   - 関連 Obsidian ノート（`開発ログ/一括シートV3_*.md`）
-2. 3者協議で実装方式を固める（行別式生成 vs 数式IF、列移動の安全性、フェイルセーフ）
-3. 実装 → **実シート（spreadsheet_id: 10AXSED05Z1xuwWbh_6d9dNmwelRivSuC9yBLG_RfuyE）で検証**（配布用シート 1p3gC... と取り違えない） → clasp push → 動作確認 → commit
+> ⚠️ ハーネスセッション (`harness-20260526-151218`) は終了済の可能性あり。下記ファイルは保管されている。
 
-### 反省・教訓
-- 配布用シート（1p3gC...）と実シート（10AXSED...）の取り違え事故あり。今後は**ユーザーの実シートで検証**
-- COUNTA 動的範囲は空文字列・残骸に弱い。C案（GAS走査+リテラル埋込）+ GAS検証停止 で安全
+| 種類 | パス |
+|---|---|
+| **Sprint Contract v3.1 (設計確定書)** | `/Users/naokijodan/.tmux-harness/sessions/harness-20260526-151218-dc88b44b/contracts/master-tag-shipping-method.md` |
+| child-a 報告: 列移動・既存式・Profit_Amounts 構造 | `/Users/naokijodan/.tmux-harness/sessions/harness-20260526-151218-dc88b44b/reports/child-a-task02a-20260526-160000.json` |
+| child-b 報告: 依存検索ドライラン結果 | `/Users/naokijodan/.tmux-harness/sessions/harness-20260526-151218-dc88b44b/reports/child-b-task03b-20260526-231056.json` |
+| child-c 報告: Obsidian + 実シート初回確認 | `/Users/naokijodan/.tmux-harness/sessions/harness-20260526-151218-dc88b44b/reports/child-c-task01c-20260526-152053.json` |
+| child-a 報告: 初回コード調査 | `/Users/naokijodan/.tmux-harness/sessions/harness-20260526-151218-dc88b44b/reports/child-a-task01a-20260526-153000.json` |
+| child-b 報告: tagOverride* パターン | `/Users/naokijodan/.tmux-harness/sessions/harness-20260526-151218-dc88b44b/reports/child-b-task01b-20260526-152102.json` |
+
+これらを読めば、設計の全貌・Fact・絶対遵守ルールがすべて分かる。
+
+### 実装フェーズ (段階1〜3、各段階で commit、clasp push は段階3 後一括)
+
+**段階1: TagShipping 列構造変更**
+- `Config.gs` / `Library/Config.gs`: HEADERS 18→20 (S=利益方法, T=送料方法 追加), TAG_LIST_START_COL 21→23, METHOD_VALUES 定数追加
+- `コード_Part3_メニュー・設定関連.gs` / `Library/`: ensureTagShippingSheet_ に S/T 移行 + U/V→W/X 移行処理を追加、applyTagShippingValidations_ に S/T ドロップダウン追加
+- `Utils.gs` / `Library/Utils.gs`: buildTagOverrideMap_ 列数 18→20、profitMethod/shippingMethod フィールド追加
+- コミット: `feat(TagShipping): S/T列(利益方法/送料方法)追加 + U/V→W/X列マイグレーション (段階1)`
+
+**段階2: SetupDialog V5 利益ラジオ改修**
+- `SetupDialog.txt`: V5 利益計算方法ラジオを「タグ別利益計算 / 利益額計算」に変更
+- `Library/HtmlTemplates.gs`: convert_html_to_gs.py で再生成
+- 既存の前回値保持ロジック (V5 ラベル) を新ラベルにマッピング
+- コミット: `feat(setup): V5 利益計算方法ラジオを「タグ別利益計算/利益額計算」に変更 (段階2)`
+
+**段階3: 補助列 AQ/AR/AS + 計算式 + 1-3 行目ガード + 保護範囲 + フェイルセーフ**
+- `コード_Part3` / `Library/`:
+  - `seedAuxColumns_(sheet, lastRow)` 新規: 5 行目以降に AQ/AR/AS の式を seed (1-3 行目を物理参照しない)
+  - `ensureAuxHeaders_(sheet)` 新規: 4 行目に「適用利益率」「適用利益額」「適用送料」をべき等設定
+  - `applyAuxColumnsProtection_(sheet)` 新規: `AQ1:AS3` 保護範囲 (管理者+GAS のみ編集可) 設定
+  - `applyCalculationFormulas` 改修: スナップショット検証 → ヘッダー → 補助列 seed → R/U/T 列の式変更
+- `Utils.gs` / `Library/`:
+  - `validateTagShippingMethods_(sheet)` 新規: S/T 列の値検証 throw
+  - `buildShippingFormulas_` 改修: T 列の式を AS 参照に変更
+- コミット: `feat(pricing): AQ/AR/AS補助列+TagShipping S/T列で行ごと利益・送料切替+1-3行目ガード3重防御+保護範囲+フェイルセーフ (段階3)`
+
+**リリース** (段階3 完了後、一括 clasp push):
+1. clasp push 前に椛島さんに報告 → 承認
+2. `cd Library && yes | clasp push -f`
+3. Main.js 不変なのでユーザーシート再 push 不要
+4. 椛島さん実機確認
+
+### 絶対遵守ルール (赤字直結リスク、新セッションは必読)
+
+1. **作業シート AQ2/AQ3 に絶対書込み禁止**: X 列全行が `$AQ$2` `$AQ$3` を絶対参照しているため、変更すると全行 X 列 (配送方法) が破壊される
+2. **作業シート AS2/AS3 に絶対書込み禁止**: `Translation.gs` / `コード_Part1` が `getValue()` で読む (プロンプトID, 自動選択モード)
+3. **作業シート AR2/AR3 に絶対書込み禁止**: 静的ラベル ("使用プロンプト", "プロンプト選択")。初期設定実行時のみ書き換え、通常運用では不変
+4. **1-3 行目への書き込みを 3 重防御で物理的に防ぐ**:
+   - 防御1: GAS で `getRange(5, col, n, 1)` のみ使う (1-3 行目を物理参照しない)
+   - 防御2: 4 行目ヘッダーべき等チェック (既存値があれば throw)
+   - 防御3: seed 前後で 1-3 行目スナップショット → diff != 0 で throw
+5. **AQ4/AR4/AS4 ヘッダー + AQ5+/AR5+/AS5+ の式 seed のみが許可される**
+6. **検証は実シート `1uLTVBPb1tRzjiEHg-clDwHGs8YHuZkVyGA6TaR3jhC0` (V5 ワークブック、gid 1116471535 = 作業シート)。配布用 `1p3gC...` や旧シート `10AXSED...` と取り違え禁止**
+7. **git add -A 禁止、ファイル明示**
+8. **ライブラリ同期必須 (ルート + `Library/`)**、`ScriptProperties` 禁止 (DocumentProperties のみ)
+
+### 教訓 (このセッションの認識ミス、再発防止)
+
+- AT 列を空きと誤認 (実は ARRAYFORMULA で重複チェック使用中) → **列の用途は実シートで FORMULA 取得して Fact 確認すること**
+- 「作業シート」と「v5インポート」を混同 → **シート名は spreadsheet タイトル + シート名 (gid) で常に明示する**
+- シート ID `10AXSED...` と `1uLTV...` の混同 → **作業対象 spreadsheet ID は明示的に Fact 確認する**
+
+### Profit_Amounts シート構造 (Fact 確認済、Sprint Contract 参照)
+
+`1uLTVBPb1tRzjiEHg-clDwHGs8YHuZkVyGA6TaR3jhC0` の Profit_Amounts シート:
+- A = Cost Range (Min) — 仕入価格閾値下限 (VLOOKUP TRUE の検索対象)
+- B = Cost Range (Max) — 範囲上限 (未使用)
+- **C = Profit Amount (JPY)** — 利益額
+- **D = 想定送料** — 送料額
+- E = 説明 — コメント欄
 
 ---
 
