@@ -1673,6 +1673,101 @@ function buildShippingFormulas_(row, shippingCalcMethod, paValidLastRow) {
 }
 
 /**
+ * TagShipping S/T列の値を検証し、無効値の行番号リストを返す（V5モード専用）
+ * @param {SpreadsheetApp.Spreadsheet} ss
+ * @return {{ok: boolean, invalidRows: Array<number>, message: string}}
+ */
+function validateTagShippingMethods_(ss) {
+  var ts = ss.getSheetByName(CONFIG.TAG_SHIPPING.SHEET_NAME);
+  if (!ts) return { ok: true, invalidRows: [], message: 'TagShippingシートなし（検証スキップ）' };
+  var lastRow = ts.getLastRow();
+  if (lastRow < 2) return { ok: true, invalidRows: [], message: 'TagShippingデータなし' };
+  var data = ts.getRange(2, 1, lastRow - 1, 20).getValues();
+  var mv = CONFIG.TAG_SHIPPING.METHOD_VALUES;
+  var validProfit = [mv.PROFIT_RATE, mv.PROFIT_AMOUNT, ''];
+  var validShipping = [mv.SHIPPING_TAG, mv.SHIPPING_FIXED, ''];
+  var invalidRows = [];
+  for (var i = 0; i < data.length; i++) {
+    var profitMethod = String(data[i][18] || '');
+    var shippingMethod = String(data[i][19] || '');
+    if (validProfit.indexOf(profitMethod) === -1 || validShipping.indexOf(shippingMethod) === -1) {
+      invalidRows.push(i + 2);
+    }
+  }
+  return {
+    ok: invalidRows.length === 0,
+    invalidRows: invalidRows,
+    message: invalidRows.length === 0 ? 'OK' : 'TagShipping S/T列に無効値あり: 行' + invalidRows.join(',')
+  };
+}
+
+/**
+ * AQ列（適用利益率）の式配列を生成（V5 RATEモード専用）
+ * タグ未登録→タグ別利益率フォールバック。AMOUNT行はAQを空に。
+ * @param {number} numRows
+ * @param {number} startRow
+ * @return {Array<Array<string>>}
+ */
+function buildAQFormulas_(numRows, startRow) {
+  var tsName = CONFIG.TAG_SHIPPING.SHEET_NAME;
+  var mv = CONFIG.TAG_SHIPPING.METHOD_VALUES;
+  var formulas = [];
+  for (var i = 0; i < numRows; i++) {
+    var row = startRow + i;
+    var formula = '=IF(D' + row + '="","",IF(IFERROR(INDEX(' + tsName + '!S:S,MATCH(D' + row + ',' + tsName + '!A:A,0)),"' + mv.PROFIT_RATE + '")="' + mv.PROFIT_AMOUNT + '","",IFERROR(VALUE(SUBSTITUTE(INDEX(' + tsName + '!I:I,MATCH(D' + row + ',' + tsName + '!A:A,0)),"%",""))/100,$H$2)))';
+    formulas.push([formula]);
+  }
+  return formulas;
+}
+
+/**
+ * AR列（適用利益額）の式配列を生成（V5 RATEモード専用）
+ * VLOOKUPにIFERRORなし: Profit_Amountsに仕入値なし→#N/A (出品停止トリガー)
+ * @param {number} numRows
+ * @param {number} startRow
+ * @param {number|null} paValidLastRow
+ * @return {Array<Array<string>>}
+ */
+function buildARFormulas_(numRows, startRow, paValidLastRow) {
+  var tsName = CONFIG.TAG_SHIPPING.SHEET_NAME;
+  var mv = CONFIG.TAG_SHIPPING.METHOD_VALUES;
+  var paCRange = paValidLastRow
+    ? 'Profit_Amounts!$A$2:$C$' + paValidLastRow
+    : 'Profit_Amounts!$A$2:INDEX(Profit_Amounts!$C:$C,COUNTA(Profit_Amounts!$A:$A))';
+  var formulas = [];
+  for (var i = 0; i < numRows; i++) {
+    var row = startRow + i;
+    var formula = '=IF(OR(D' + row + '="",I' + row + '=""),"",IF(IFERROR(INDEX(' + tsName + '!S:S,MATCH(D' + row + ',' + tsName + '!A:A,0)),"' + mv.PROFIT_RATE + '")="' + mv.PROFIT_AMOUNT + '",IF($H$1<>"", $H$1, VLOOKUP(I' + row + ',' + paCRange + ',3,TRUE)),""))';
+    formulas.push([formula]);
+  }
+  return formulas;
+}
+
+/**
+ * AS列（適用送料）の式配列を生成（V5モード全体）
+ * タグ別: TagShipping B:D列をSWITCH(X列)でルックアップ（ePacketエイリアス引き継ぎ）
+ * 固定: J1フォールバック→Profit_Amounts D列VLOOKUP（IFERRORなし: #N/A=出品停止トリガー）
+ * @param {number} numRows
+ * @param {number} startRow
+ * @param {number|null} paValidLastRow
+ * @return {Array<Array<string>>}
+ */
+function buildASFormulas_(numRows, startRow, paValidLastRow) {
+  var tsName = CONFIG.TAG_SHIPPING.SHEET_NAME;
+  var mv = CONFIG.TAG_SHIPPING.METHOD_VALUES;
+  var paDRange = paValidLastRow
+    ? 'Profit_Amounts!$A$2:$D$' + paValidLastRow
+    : 'Profit_Amounts!$A$2:INDEX(Profit_Amounts!$D:$D,COUNTA(Profit_Amounts!$A:$A))';
+  var formulas = [];
+  for (var i = 0; i < numRows; i++) {
+    var row = startRow + i;
+    var formula = '=IF(D' + row + '="","",IF(IFERROR(INDEX(' + tsName + '!T:T,MATCH(D' + row + ',' + tsName + '!A:A,0)),"' + mv.SHIPPING_TAG + '")="' + mv.SHIPPING_FIXED + '",IF(I' + row + '="","",IF($J$1<>"", $J$1, VLOOKUP(I' + row + ',' + paDRange + ',4,TRUE))),IF(X' + row + '="","#配送方法未設定",IFERROR(INDEX(' + tsName + '!B:D,MATCH(D' + row + ',' + tsName + '!A:A,0),SWITCH(X' + row + ',"EP",1,"ePacket",1,"CE",2,"Cpass-Economy",2,"CF",3,"Cpass-FedEx",3,"CD",3,"Cpass-DHL",3,"EL",3,"eLogistics",3)),"#タグ未登録"))))';
+    formulas.push([formula]);
+  }
+  return formulas;
+}
+
+/**
  * Profit_Amounts シートの構造を検証し、有効な最終行番号を返す（2層防御 Layer 2）
  * A列が最初に空になるまでを有効データ範囲とし、昇順・数値・非負を検証する
  * @param {SpreadsheetApp.Spreadsheet} ss

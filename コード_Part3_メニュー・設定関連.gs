@@ -4184,6 +4184,74 @@ function updateTagList() {
 }
 
 /**
+ * AQ4/AR4/AS4ヘッダーを冪等に設定する（V5モード専用）
+ * 1-3行目は書かない（引数が4行目固定）
+ * @param {SpreadsheetApp.Sheet} sheet
+ */
+function ensureAuxHeaders_(sheet) {
+  var current = sheet.getRange(4, 43, 1, 3).getValues();
+  if (current[0][0] === '適用利益率' && current[0][1] === '適用利益額' && current[0][2] === '適用送料') {
+    return;
+  }
+  sheet.getRange(4, 43, 1, 3).setValues([['適用利益率', '適用利益額', '適用送料']]);
+}
+
+/**
+ * AQ/AR/AS列（5行目以降）に補助計算式をシードする（V5モード専用）
+ * 3重防御:
+ *   Layer 1: getRange(5,...) 物理ガード（1-3行目は絶対に渡さない）
+ *   Layer 2: ensureAuxHeaders_で4行目ヘッダーの冪等確認済み
+ *   Layer 3: 書き込み前後に1-3行目スナップショットを比較して意図しない変更を検出
+ * @param {SpreadsheetApp.Sheet} sheet
+ * @param {number} lastRow
+ * @param {string} profitCalc 'RATE' or 'AMOUNT'
+ * @param {number|null} paValidLastRow
+ * @param {string} adRateRef (署名互換のため受け取るが現在未使用)
+ */
+function seedAuxColumns_(sheet, lastRow, profitCalc, paValidLastRow, adRateRef) {
+  if (lastRow < 5) return;
+  var numRows = lastRow - 4;
+
+  // Layer 3前スナップショット（1-3行目 AQ/AR/AS列）
+  var snapBefore = JSON.stringify(sheet.getRange(1, 43, 3, 3).getValues());
+
+  // AS列（適用送料）: V5モード全体で常にシード
+  sheet.getRange(5, 45, numRows, 1).setFormulas(buildASFormulas_(numRows, 5, paValidLastRow));
+
+  if (profitCalc === 'RATE') {
+    sheet.getRange(5, 43, numRows, 1).setFormulas(buildAQFormulas_(numRows, 5));
+    sheet.getRange(5, 44, numRows, 1).setFormulas(buildARFormulas_(numRows, 5, paValidLastRow));
+  } else {
+    // AMOUNTモード: AQ/AR列をクリア（誤参照リスク排除）
+    sheet.getRange(5, 43, numRows, 2).clearContent();
+  }
+
+  // Layer 3後スナップショット検証
+  var snapAfter = JSON.stringify(sheet.getRange(1, 43, 3, 3).getValues());
+  if (snapBefore !== snapAfter) {
+    throw new Error('[SAFETY] seedAuxColumns_: AQ/AR/AS列1-3行目への意図しない書き込みを検出。処理中断。before=' + snapBefore);
+  }
+  console.log('seedAuxColumns_ 完了: 5-' + lastRow + '行, profitCalc=' + profitCalc);
+}
+
+/**
+ * AQ4:AS4を保護範囲に設定（警告のみ、ヘッダー誤上書き防止）
+ * @param {SpreadsheetApp.Sheet} sheet
+ */
+function applyAuxColumnsProtection_(sheet) {
+  var existingProtections = sheet.getProtections(SpreadsheetApp.ProtectionType.RANGE);
+  for (var i = 0; i < existingProtections.length; i++) {
+    var r = existingProtections[i].getRange();
+    if (r.getRow() === 4 && r.getColumn() === 43 && r.getNumColumns() === 3) {
+      return;
+    }
+  }
+  var protection = sheet.getRange(4, 43, 1, 3).protect();
+  protection.setDescription('AQ4:AS4補助列ヘッダー（自動生成 V5）');
+  protection.setWarningOnly(true);
+}
+
+/**
  * 🆕 計算式ARRAYFORMULAを作業シートに適用
  * @param {string} sheetName - シート名
  * @param {Object} settings - 設定オブジェクト
@@ -4324,11 +4392,31 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
     if (fullSettings && fullSettings.tagOverrideAdRate && tagMap) {
       adRateRef = 'IFERROR(VALUE(SUBSTITUTE(INDEX(' + tsName + '!J:J,MATCH(D{row},' + tsName + '!A:A,0)),"%",""))/100,$F$2)';
     }
+
+    // ========================================
+    // 🆕 V5モード: AQ/AR/AS補助列シード（3重防御）
+    // AS→T→R→U の依存順序を守るため、R/T/U式より前に実行する
+    // ========================================
+    if (v5Mode) {
+      var _v5Validation = validateTagShippingMethods_(ss);
+      if (!_v5Validation.ok) {
+        throw new Error('[V5検証エラー] ' + _v5Validation.message + ' — TagShipping S/T列を確認してください');
+      }
+      ensureAuxHeaders_(sheet);
+      seedAuxColumns_(sheet, dataLastRow, profitCalc, paValidLastRow, adRateRef);
+      applyAuxColumnsProtection_(sheet);
+      console.log('V5補助列AQ/AR/AS シード完了 (5-' + dataLastRow + '行)');
+    }
+
     var priceFormulas = [];
     for (var row = 5; row <= dataLastRow; row++) {
       var adRef = adRateRef.replace(/\{row\}/g, String(row));
       var formula = '';
-      if (profitCalc === 'RATE') {
+      if (v5Mode && profitCalc === 'RATE') {
+        // V5 タグ別利益計算: TagShipping S列で行ごとにRATE/AMOUNTを分岐
+        var _mvR = CONFIG.TAG_SHIPPING.METHOD_VALUES;
+        formula = '=IF(I' + row + '="","",ROUND(IF(IFERROR(INDEX(' + tsName + '!S:S,MATCH(D' + row + ',' + tsName + '!A:A,0)),"' + _mvR.PROFIT_RATE + '")="' + _mvR.PROFIT_AMOUNT + '",(I' + row + '+AS' + row + '+AR' + row + ')/(1-(V' + row + '+' + adRef + '+$Z$2))/$C$2,(I' + row + '+AS' + row + ')/(1-(V' + row + '+AQ' + row + '+' + adRef + '+$Z$2))/$C$2)*100)/100)';
+      } else if (profitCalc === 'RATE') {
         formula = '=IF(I' + row + '="","",ROUND(((I' + row + '+T' + row + ')/(1-(V' + row + '+W' + row + '+' + adRef + '+$Z$2))/$C$2)*100)/100)';
       } else {
         formula = '=IF(I' + row + '="","",ROUND(((I' + row + '+T' + row + '+U' + row + ')/(1-(V' + row + '+' + adRef + '+$Z$2))/$C$2)*100)/100)';
@@ -4446,17 +4534,20 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
     var refFormulas = [];
     var hasRefFormulas = false;
     for (var row = 5; row <= dataLastRow; row++) {
-      var formulas = buildShippingFormulas_(row, shippingCalc, paValidLastRow);
-      shippingFormulas.push([formulas.shippingFormula]);
       if (v5Mode) {
-        // V5 モード: F 列は 3 ルート式に置換（参考eBay ID = TagShipping / カテゴリーID = v5インポート + タグカテゴリ フォールバック）
+        // V5モード: T列はAS列（適用送料補助列）を参照（buildShippingFormulas_は非V5モード専用）
+        shippingFormulas.push(['=IF(I' + row + '="","",AS' + row + ')']);
         refFormulas.push(['=IF($F$4="参考eBay ID",IFERROR(INDEX(TagShipping!E:E,MATCH(D' + row + ',TagShipping!A:A,0)),""),IF($F$4="カテゴリーID",IFERROR(INDEX(v5インポート!F:F,MATCH(H' + row + ',v5インポート!H:H,0)),IFERROR(INDEX(タグカテゴリ!B:B,MATCH(D' + row + ',タグカテゴリ!A:A,0)),"")),""))']);
         hasRefFormulas = true;
-      } else if (formulas.refEbayFormula) {
-        refFormulas.push([formulas.refEbayFormula]);
-        hasRefFormulas = true;
       } else {
-        refFormulas.push(['']);
+        var formulas = buildShippingFormulas_(row, shippingCalc, paValidLastRow);
+        shippingFormulas.push([formulas.shippingFormula]);
+        if (formulas.refEbayFormula) {
+          refFormulas.push([formulas.refEbayFormula]);
+          hasRefFormulas = true;
+        } else {
+          refFormulas.push(['']);
+        }
       }
     }
     if (shippingFormulas.length > 0) {
@@ -4468,7 +4559,20 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
 
     // U列: 利益
     sheet.getRange('U4').setValue('利益');
-    if (profitCalc === 'RATE') {
+    if (v5Mode && profitCalc === 'RATE') {
+      // V5 タグ別利益計算: TagShipping S列で行ごとにRATE/AMOUNTを分岐
+      // AMOUNT行: U=AR（Profit_Amounts C列の値）
+      // RATE行: U=R*C2*(1-V-adRef-Z2)-I-AS（実送料にASを使用）
+      var _mvU = CONFIG.TAG_SHIPPING.METHOD_VALUES;
+      var uFormulas = [];
+      for (var row = 5; row <= dataLastRow; row++) {
+        var uAdRef = adRateRef.replace(/\{row\}/g, String(row));
+        uFormulas.push(['=IF(R' + row + '="","",IF(IFERROR(INDEX(' + tsName + '!S:S,MATCH(D' + row + ',' + tsName + '!A:A,0)),"' + _mvU.PROFIT_RATE + '")="' + _mvU.PROFIT_AMOUNT + '",AR' + row + ',ROUND(R' + row + '*$C$2*(1-(V' + row + '+' + uAdRef + '+$Z$2))-I' + row + '-AS' + row + ',0)))']);
+      }
+      if (uFormulas.length > 0) {
+        sheet.getRange(5, CONFIG.COLUMNS.PROFIT, uFormulas.length, 1).setFormulas(uFormulas);
+      }
+    } else if (profitCalc === 'RATE') {
       // タグ判定ON時はARRAYFORMULAが使えない（行ごとに広告費率が異なる場合）
       if (fullSettings && fullSettings.tagOverrideAdRate && tagMap) {
         // タグ判定ON: 行ごとの数式（広告費率をINDEX/MATCHで参照）
