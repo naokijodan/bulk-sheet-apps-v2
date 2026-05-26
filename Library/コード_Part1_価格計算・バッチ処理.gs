@@ -158,6 +158,10 @@ function initialSetup() {
     tmpl.currentTagOverrideCondition = docProps.getProperty('TAG_OVERRIDE_CONDITION') || 'false';
     tmpl.currentTagOverrideDdpMode = docProps.getProperty('TAG_OVERRIDE_DDP_MODE') || 'false';
 
+    // V5固定設定の保存値（DocumentProperties）
+    tmpl.currentV5ProfitMethod = docProps.getProperty('V5_PROFIT_METHOD') || 'RATE';
+    tmpl.currentV5ShippingMethod = docProps.getProperty('V5_SHIPPING_METHOD') || 'TAG_SHIPPING';
+
     // ===== ✅ 重複チェック設定の規定値を詳細に設定 =====
     var workSheetName = props.getProperty('SHEET_NAME') || '作業シート';
     
