@@ -3141,7 +3141,19 @@ function saveIntegratedSettings(formData) {
       'DDU調整機能: ' + dduText + '\n' +
       '重複チェック: ' + duplicateText +
       debugInfo;
-      
+
+    // Profit_Amounts 最大超過警告
+    if (formulaResult.overMaxCount > 0) {
+      var _warnMsg = '\n\n⚠ 警告: ' + formulaResult.overMaxCount + '件の商品の仕入が、Profit_Amounts の最大値(' + formulaResult.maxA + '円)を超えています。\n' +
+        'これらの商品は最大行の利益額が一律で適用されます(赤字の可能性)。\n' +
+        '利益表のレンジを広げるか、最後に「上限なし行」を追加してください。';
+      if (formulaResult.overMaxRows && formulaResult.overMaxRows.length > 0) {
+        _warnMsg += '\n（先頭' + formulaResult.overMaxRows.length + '件の行番号: ' + formulaResult.overMaxRows.join(', ') + '行...）';
+      }
+      msg += _warnMsg;
+      Logger.log('[Profit_Amounts超過警告] ' + formulaResult.overMaxCount + '件が最大値' + formulaResult.maxA + '円超 / 先頭行: ' + (formulaResult.overMaxRows || []).join(', '));
+    }
+
     // 送料レート更新処理（チェックボックスがOnの場合のみ）
     var shippingRatesUpdateResult = null;
     if (formData.updateShippingRates === true) {
@@ -4155,26 +4167,30 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
         tagOverrideTemplate: true
       });
     }
+    // 【2層防御 Layer 2+1】Profit_Amounts 構造検証 + 有効最終行の算出
+    var _useShipping = (shippingCalc === 'FIXED');
+    var _useProfit = (profitCalc === 'AMOUNT');
+    var paValidLastRow = null;
+    var _maxA = null;
+    if (_useShipping || _useProfit) {
+      var _paResult = validateProfitAmounts_(ss, _useShipping, _useProfit);
+      if (!_paResult.ok) {
+        throw new Error('[Profit_Amounts検証エラー] ' + _paResult.error);
+      }
+      paValidLastRow = _paResult.lastRow; // null = COUNTA fallback
+      _maxA = _paResult.maxA;            // 正規データ最大仕入値（超過警告用）
+    }
+    // V5固定モード: J1/H1 フォールバック存在チェック
     if (v5Mode) {
-      var _paSh = ss.getSheetByName('Profit_Amounts');
-      var _paData = _paSh ? _paSh.getRange('A2:D8').getValues() : [];
       if (shippingCalc === 'FIXED') {
         var _j1Val = sheet.getRange('J1').getValue();
-        var _paHasShipping = false;
-        for (var _pi = 0; _pi < _paData.length; _pi++) {
-          if (_paData[_pi][0] !== '' && _paData[_pi][3] !== '') _paHasShipping = true;
-        }
-        if ((_j1Val === '' || _j1Val == null) && !_paHasShipping) {
+        if ((_j1Val === '' || _j1Val == null) && paValidLastRow === null) {
           throw new Error('[V5固定モード] J1(送料)が空で、Profit_Amountsにも有効な送料データがありません。J1に送料を入力するかProfit_Amountsを設定してください。');
         }
       }
       if (profitCalc === 'AMOUNT') {
         var _h1Val = sheet.getRange('H1').getValue();
-        var _paHasProfit = false;
-        for (var _pj = 0; _pj < _paData.length; _pj++) {
-          if (_paData[_pj][0] !== '' && _paData[_pj][2] !== '') _paHasProfit = true;
-        }
-        if ((_h1Val === '' || _h1Val == null) && !_paHasProfit) {
+        if ((_h1Val === '' || _h1Val == null) && paValidLastRow === null) {
           throw new Error('[V5固定モード] H1(利益額)が空で、Profit_Amountsにも有効な利益データがありません。H1に利益額を入力するかProfit_Amountsを設定してください。');
         }
       }
@@ -4377,7 +4393,7 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
     var refFormulas = [];
     var hasRefFormulas = false;
     for (var row = 5; row <= dataLastRow; row++) {
-      var formulas = buildShippingFormulas_(row, shippingCalc);
+      var formulas = buildShippingFormulas_(row, shippingCalc, paValidLastRow);
       shippingFormulas.push([formulas.shippingFormula]);
       if (v5Mode) {
         // V5 モード: F 列は 3 ルート式に置換（参考eBay ID = TagShipping / カテゴリーID = v5インポート + タグカテゴリ フォールバック）
@@ -4418,9 +4434,12 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
       }
     } else {
       // 利益額モード：個別行の式を設定（手動変更可能にする）
+      var paCRange = paValidLastRow
+        ? 'Profit_Amounts!$A$2:$C$' + paValidLastRow
+        : 'Profit_Amounts!$A$2:INDEX(Profit_Amounts!$C:$C,COUNTA(Profit_Amounts!$A:$A))';
       var profitFormulas = [];
       for (var row = 5; row <= dataLastRow; row++) {
-        var formula = '=IF(I' + row + '="","",IF($H$1<>"", $H$1, VLOOKUP(I' + row + ',Profit_Amounts!$A$2:$C$8,3,TRUE)))';
+        var formula = '=IF(I' + row + '="","",IF($H$1<>"", $H$1, VLOOKUP(I' + row + ',' + paCRange + ',3,TRUE)))';
         profitFormulas.push([formula]);
       }
       if (profitFormulas.length > 0) {
@@ -4823,7 +4842,21 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
       console.log('AX列(DDPフラグ) tagOverrideDdpMode=OFF: 式のみクリア（手動値は保護）');
     }
 
-    return { success: true };
+    // 最大仕入超過カウント（_maxAがnullの場合はスキップ）
+    var _overMaxCount = 0;
+    var _overMaxRows = [];
+    if (_maxA !== null && dataLastRow >= 5) {
+      var _iColVals = sheet.getRange(5, CONFIG.COLUMNS.COST_YEN, dataLastRow - 4, 1).getValues();
+      for (var _oi = 0; _oi < _iColVals.length; _oi++) {
+        var _iVal = _iColVals[_oi][0];
+        if (typeof _iVal === 'number' && !isNaN(_iVal) && _iVal > _maxA) {
+          _overMaxCount++;
+          if (_overMaxRows.length < 3) _overMaxRows.push(_oi + 5);
+        }
+      }
+    }
+
+    return { success: true, overMaxCount: _overMaxCount, maxA: _maxA, overMaxRows: _overMaxRows };
 
   } catch (e) {
     return { success: false, error: e.message };

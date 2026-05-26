@@ -1633,10 +1633,13 @@ function getLabelFromShippingCalcMethod_(code) {
  * @param {string} shippingCalcMethod - 内部コード（TABLE/FIXED/GAME_CARD/TAG_SHIPPING）
  * @return {Object} { shippingFormula: string, refEbayFormula: string|null }
  */
-function buildShippingFormulas_(row, shippingCalcMethod) {
+function buildShippingFormulas_(row, shippingCalcMethod, paValidLastRow) {
   if (shippingCalcMethod === 'FIXED') {
+    var paDRange = paValidLastRow
+      ? 'Profit_Amounts!$A$2:$D$' + paValidLastRow
+      : 'Profit_Amounts!$A$2:INDEX(Profit_Amounts!$D:$D,COUNTA(Profit_Amounts!$A:$A))';
     return {
-      shippingFormula: '=IF(I' + row + '="","",IF($J$1<>"", $J$1, VLOOKUP(I' + row + ',Profit_Amounts!$A$2:$D$8,4,TRUE)))',
+      shippingFormula: '=IF(I' + row + '="","",IF($J$1<>"", $J$1, VLOOKUP(I' + row + ',' + paDRange + ',4,TRUE)))',
       refEbayFormula: null
     };
   }
@@ -1662,6 +1665,149 @@ function buildShippingFormulas_(row, shippingCalcMethod) {
     shippingFormula: '=IF(AF' + row + '="","",IF(X' + row + '="CF",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$1,subtotal,base+extra,fuel,subtotal*$V$1,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),IF(X' + row + '="CD",ROUND(LET(base,AF' + row + ',extra,MAX(0,(CEILING(AC' + row + '/500)*500-500)/500)*$Y$2,subtotal,base+extra,fuel,subtotal*$V$2,discount,-(subtotal+fuel)*$W$2,subtotal+fuel+discount)),ROUND(AF' + row + '))))',
     refEbayFormula: null
   };
+}
+
+/**
+ * Profit_Amounts シートの構造を検証し、有効な最終行番号を返す（2層防御 Layer 2）
+ * A列が最初に空になるまでを有効データ範囲とし、昇順・数値・非負を検証する
+ * @param {SpreadsheetApp.Spreadsheet} ss
+ * @param {boolean} checkShipping D列(送料)を検証するか
+ * @param {boolean} checkProfit C列(利益額)を検証するか
+ * @param {string} [sheetNameOverride] テスト用シート名（省略時は 'Profit_Amounts'）
+ * @return {{ok: boolean, lastRow: number|null, error: string|null, warning: string|null}}
+ *   lastRow: 有効データの最終シート行番号（A2=2、validLen=6なら7）。null=データなし or シートなし
+ */
+function validateProfitAmounts_(ss, checkShipping, checkProfit, sheetNameOverride) {
+  var sheetName = sheetNameOverride || 'Profit_Amounts';
+  var paSh = ss.getSheetByName(sheetName);
+  if (!paSh) {
+    return { ok: true, lastRow: null, maxA: null, error: null, warning: null };
+  }
+  var paLast = paSh.getLastRow();
+  if (paLast < 2) {
+    return { ok: true, lastRow: null, maxA: null, error: null, warning: sheetName + 'にデータがありません' };
+  }
+  var data = paSh.getRange(2, 1, paLast - 1, 4).getValues();
+  var validLen = 0;
+  var prevA = null;
+  for (var i = 0; i < data.length; i++) {
+    var aVal = data[i][0];
+    if (aVal === '' || aVal === null || aVal === undefined) break;
+    if (typeof aVal !== 'number' || isNaN(aVal)) {
+      return { ok: false, lastRow: null, maxA: null, error: sheetName + ' A列(' + (i + 2) + '行)に数値以外の値があります: ' + aVal, warning: null };
+    }
+    if (prevA !== null && aVal <= prevA) {
+      return { ok: false, lastRow: null, maxA: null, error: sheetName + ' A列が昇順になっていません(' + (i + 2) + '行: ' + aVal + ' <= ' + prevA + ')。VLOOKUP近似一致が正しく動作しません。', warning: null };
+    }
+    if (checkProfit) {
+      var cVal = data[i][2];
+      if (typeof cVal !== 'number' || isNaN(cVal)) {
+        return { ok: false, lastRow: null, maxA: null, error: sheetName + ' C列(' + (i + 2) + '行)に数値以外の値があります: ' + cVal, warning: null };
+      }
+      if (cVal < 0) {
+        return { ok: false, lastRow: null, maxA: null, error: sheetName + ' C列(' + (i + 2) + '行)に負の値があります: ' + cVal, warning: null };
+      }
+    }
+    if (checkShipping) {
+      var dVal = data[i][3];
+      if (typeof dVal !== 'number' || isNaN(dVal)) {
+        return { ok: false, lastRow: null, maxA: null, error: sheetName + ' D列(' + (i + 2) + '行)に数値以外の値があります: ' + dVal, warning: null };
+      }
+      if (dVal < 0) {
+        return { ok: false, lastRow: null, maxA: null, error: sheetName + ' D列(' + (i + 2) + '行)に負の値があります: ' + dVal, warning: null };
+      }
+    }
+    prevA = aVal;
+    validLen++;
+  }
+  if (validLen === 0) {
+    return { ok: true, lastRow: null, maxA: null, error: null, warning: sheetName + 'に有効なデータがありません' };
+  }
+  return { ok: true, lastRow: validLen + 1, maxA: data[validLen - 1][0], error: null, warning: null };
+}
+
+/**
+ * validateProfitAmounts_ の6ケース自動テスト
+ * テスト用一時シートを作成→検証→削除する。実行後に Logger に結果が出る
+ */
+function runProfitRobustTest_() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var TEMP = '_ProfitRobustTest';
+  var existing = ss.getSheetByName(TEMP);
+  if (existing) ss.deleteSheet(existing);
+  var sh = ss.insertSheet(TEMP);
+
+  var cases = [
+    {
+      name: 'TC1_正常昇順',
+      data: [[100,0,500,800],[200,0,600,900],[500,0,700,1000],[1000,0,800,1100],[2000,0,900,1200],[3000,0,1000,1300]],
+      checkS: true, checkP: true,
+      expectOk: true, expectLastRow: 7
+    },
+    {
+      name: 'TC2_空行後デブリ',
+      data: [[100,0,500,800],[200,0,600,900],[300,0,700,1000],['','','',''],['old',0,999,999]],
+      checkS: true, checkP: true,
+      expectOk: true, expectLastRow: 4
+    },
+    {
+      name: 'TC3_昇順違反',
+      data: [[100,0,500,800],[200,0,600,900],[150,0,700,1000]],
+      checkS: false, checkP: false,
+      expectOk: false, expectLastRow: null
+    },
+    {
+      name: 'TC4_D列に文字列',
+      data: [[100,0,500,800],[200,0,600,'text']],
+      checkS: true, checkP: false,
+      expectOk: false, expectLastRow: null
+    },
+    {
+      name: 'TC5_データなし',
+      data: [],
+      checkS: true, checkP: true,
+      expectOk: true, expectLastRow: null
+    },
+    {
+      name: 'TC6_C列に負の値',
+      data: [[100,0,500,800],[200,0,-100,900]],
+      checkS: false, checkP: true,
+      expectOk: false, expectLastRow: null
+    }
+  ];
+
+  var passed = 0;
+  var failed = 0;
+  var log = [];
+  for (var t = 0; t < cases.length; t++) {
+    var tc = cases[t];
+    // 既存データをクリアしてテストデータを書き込む
+    sh.clearContents();
+    if (tc.data.length > 0) {
+      sh.getRange(2, 1, tc.data.length, 4).setValues(tc.data);
+    }
+    SpreadsheetApp.flush();
+    var result = validateProfitAmounts_(ss, tc.checkS, tc.checkP, TEMP);
+    var okMatch = (result.ok === tc.expectOk);
+    var lrMatch = (result.lastRow === tc.expectLastRow);
+    var pass = okMatch && lrMatch;
+    if (pass) {
+      passed++;
+      log.push('[PASS] ' + tc.name);
+    } else {
+      failed++;
+      log.push('[FAIL] ' + tc.name + ' ok=' + result.ok + '(expect ' + tc.expectOk + ') lastRow=' + result.lastRow + '(expect ' + tc.expectLastRow + ') error=' + result.error);
+    }
+  }
+
+  ss.deleteSheet(sh);
+
+  var summary = 'runProfitRobustTest_: ' + passed + '/' + (passed + failed) + ' passed\n' + log.join('\n');
+  Logger.log(summary);
+  if (failed > 0) {
+    throw new Error('テスト失敗:\n' + log.filter(function(l){ return l.indexOf('[FAIL]') === 0; }).join('\n'));
+  }
+  return summary;
 }
 
 /**
