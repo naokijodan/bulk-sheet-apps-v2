@@ -4263,7 +4263,6 @@ function applyAuxColumnsProtection_(sheet) {
   }
   var protection = sheet.getRange(1, AQ_COL, 3, 3).protect(); // AQ1:AS3
   protection.setDescription(DESC);
-  protection.setUnprotectedRanges([]);
   var me = Session.getEffectiveUser();
   protection.addEditor(me);
   protection.setWarningOnly(false); // 編集ブロック（警告のみ不可）
