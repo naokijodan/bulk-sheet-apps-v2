@@ -1359,12 +1359,15 @@ function buildTagOverrideMap_(ss, settings) {
   var lastRow = tsSheet.getLastRow();
   if (lastRow < 2) return null;
   var headers = CONFIG.TAG_SHIPPING.HEADERS;
-  var data = tsSheet.getRange(2, 1, lastRow - 1, 18).getValues();  // 17→18列に拡張(R列=DDP/DDU設定)
+  var data = tsSheet.getRange(2, 1, lastRow - 1, 20).getValues();  // 18→20列に拡張(S列=利益方法,T列=送料方法)
   var map = {};
   for (var i = 0; i < data.length; i++) {
     var tag = String(data[i][0] || '').trim();
     if (!tag) continue;
     var rawDdp = String(data[i][17] || '').trim().toUpperCase();
+    // S列(index=18)、T列(index=19) の値を正規化（全角半角・前後空白を吸収）
+    var rawProfitMethod = String(data[i][18] || '').trim().normalize('NFKC');
+    var rawShippingMethod = String(data[i][19] || '').trim().normalize('NFKC');
     map[tag] = {
       template: data[i][headers.indexOf('テンプレート名')] || null,
       shippingCat: data[i][headers.indexOf('送料上限カテゴリ')] || null,
@@ -1375,7 +1378,9 @@ function buildTagOverrideMap_(ss, settings) {
       highShip: data[i][headers.indexOf('高価格配送')] || null,
       threshold: (function(v) { var n = Number(v); return isNaN(n) ? null : n; })(data[i][headers.indexOf('送料切替基準')]),
       condition: data[i][headers.indexOf('商品状態')] || null,
-      ddpMode: (rawDdp === 'DDP' || rawDdp === 'DDU') ? rawDdp : null
+      ddpMode: (rawDdp === 'DDP' || rawDdp === 'DDU') ? rawDdp : null,
+      profitMethod: rawProfitMethod || null,
+      shippingMethod: rawShippingMethod || null
     };
   }
   return map;

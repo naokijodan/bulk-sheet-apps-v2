@@ -3825,25 +3825,57 @@ function ensureTagShippingSheet_(ss) {
         } else if (String(rColHeader).trim() !== 'DDP/DDU設定') {
           Logger.log('[ensureTagShippingSheet_] CRITICAL: R1に既存ヘッダー "' + rColHeader + '" が存在。DDP/DDU移行をスキップ。手動確認要');
         }
-        // 旧S-T列(19-20)を新U-V列(21-22)へ移行するための明示クリア（安全条件付き）
-        var oldTagStartCol = 19;
-        var newTagStartCol = CONFIG.TAG_SHIPPING.TAG_LIST_START_COL;
-        if (newTagStartCol !== oldTagStartCol) {
-          var oldS1 = String(sheet.getRange(1, oldTagStartCol).getValue() || '').trim();
-          if (oldS1 === '使えるタグ名') {
-            var stLastRow = sheet.getLastRow();
-            if (stLastRow >= 1) {
-              sheet.getRange(1, oldTagStartCol, stLastRow, 2).clearContent();
-              Logger.log('[ensureTagShippingSheet_] 旧S-T列(タグ一覧)をU-V列移行に伴いクリアしました');
-            }
-          } else if (oldS1 !== '') {
-            Logger.log('[ensureTagShippingSheet_] WARNING: S1="' + oldS1 + '" は旧タグ一覧ヘッダーではない。S-T列クリアをスキップ');
-          }
+        // 既存シートの移行処理: S列(19)「利益方法」ヘッダーが無ければ追加（べき等）
+        var s1Value = String(sheet.getRange(1, 19).getValue() || '').trim();
+        if (s1Value === '') {
+          sheet.getRange(1, 19).setValue('利益方法')
+            .setFontWeight('bold')
+            .setBackground(CONFIG.TAG_SHIPPING.HEADER_BG_COLOR)
+            .setFontColor(CONFIG.TAG_SHIPPING.HEADER_FONT_COLOR)
+            .setHorizontalAlignment('center');
+          sheet.setColumnWidth(19, 160);
+          Logger.log('[ensureTagShippingSheet_] S列(19)「利益方法」ヘッダーを追加しました');
+        } else if (s1Value !== '利益方法') {
+          Logger.log('[ensureTagShippingSheet_] WARNING: S1="' + s1Value + '" は予期しない値。S列ヘッダー追加をスキップ');
         }
-        // 既存シートの移行処理: U1セルが空ならタグ一覧を初回出力（TAG_LIST_START_COL=21）
+        // 既存シートの移行処理: T列(20)「送料方法」ヘッダーが無ければ追加（べき等）
+        var t1Value = String(sheet.getRange(1, 20).getValue() || '').trim();
+        if (t1Value === '') {
+          sheet.getRange(1, 20).setValue('送料方法')
+            .setFontWeight('bold')
+            .setBackground(CONFIG.TAG_SHIPPING.HEADER_BG_COLOR)
+            .setFontColor(CONFIG.TAG_SHIPPING.HEADER_FONT_COLOR)
+            .setHorizontalAlignment('center');
+          sheet.setColumnWidth(20, 160);
+          Logger.log('[ensureTagShippingSheet_] T列(20)「送料方法」ヘッダーを追加しました');
+        } else if (t1Value !== '送料方法') {
+          Logger.log('[ensureTagShippingSheet_] WARNING: T1="' + t1Value + '" は予期しない値。T列ヘッダー追加をスキップ');
+        }
+        // 既存シートの移行処理: U/V列(21-22) → W/X列(23-24)へのデータ移行（べき等・安全条件付き）
+        // 条件: W1が空 AND U1=='使えるタグ名' のときのみ移行実行
+        // 旧U列開始位置 (TAG_LIST_START_COL が 21→23 に変更される前の値)。移行完了後はこの定数は使われない。
+        var OLD_UV_START_COL = 21;
+        var w1Value = String(sheet.getRange(1, 23).getValue() || '').trim();
+        var u1Value = String(sheet.getRange(1, OLD_UV_START_COL).getValue() || '').trim();
+        if (w1Value === '' && u1Value === '使えるタグ名') {
+          var uvLastRow = sheet.getLastRow();
+          if (uvLastRow >= 1) {
+            // U列→W列、V列→X列にコピー
+            var uvData = sheet.getRange(1, OLD_UV_START_COL, uvLastRow, 2).getValues();
+            sheet.getRange(1, 23, uvLastRow, 2).setValues(uvData);
+            // U/V列をクリア
+            sheet.getRange(1, OLD_UV_START_COL, uvLastRow, 2).clearContent();
+            Logger.log('[ensureTagShippingSheet_] U/V列(21-22)をW/X列(23-24)へ移行しました (行数=' + uvLastRow + ')');
+          }
+        } else if (w1Value === '使えるタグ名') {
+          Logger.log('[ensureTagShippingSheet_] W列(23)は既に移行済み。U/V→W/X移行をスキップ (no-op)');
+        } else if (u1Value !== '使えるタグ名' && u1Value !== '') {
+          Logger.log('[ensureTagShippingSheet_] WARNING: U1="' + u1Value + '" は旧タグ一覧ヘッダーではない。U/V→W/X移行をスキップ');
+        }
+        // 既存シートの移行処理: W1セルが空ならタグ一覧を初回出力（TAG_LIST_START_COL=23）
         var tagListCol = CONFIG.TAG_SHIPPING.TAG_LIST_START_COL;
-        var q1Value = sheet.getRange(1, tagListCol).getValue();
-        if (!q1Value || String(q1Value).trim() === '') {
+        var tagListW1 = sheet.getRange(1, tagListCol).getValue();
+        if (!tagListW1 || String(tagListW1).trim() === '') {
             writeTagListToSheet_(sheet);
             Logger.log('[ensureTagShippingSheet_] 既存TagShippingシートにタグ一覧を出力しました');
         }
@@ -3883,6 +3915,8 @@ function ensureTagShippingSheet_(ss) {
     sheet.setColumnWidth(16, 100);  // P: 商品状態
     sheet.setColumnWidth(17, 160);  // Q: 翻訳プロンプト
     sheet.setColumnWidth(18, 100);  // R: DDP/DDU設定
+    sheet.setColumnWidth(19, 160);  // S: 利益方法
+    sheet.setColumnWidth(20, 160);  // T: 送料方法
 
     // B〜D列を数値書式に設定（2行目以降）
     var maxRows = sheet.getMaxRows();
@@ -3893,7 +3927,7 @@ function ensureTagShippingSheet_(ss) {
     // シートを右端に配置（最後のシートの後ろ）
     Logger.log('[ensureTagShippingSheet_] TagShippingシートを新規作成しました');
 
-    // タグ名一覧をQ-R列（タグ参照リスト）に出力
+    // タグ名一覧をW-X列（タグ参照リスト）に出力
     writeTagListToSheet_(sheet);
 
     // バリデーション適用
@@ -4114,6 +4148,25 @@ function applyTagShippingValidations_(sheet) {
     .setHelpText('DDP (関税込み) または DDU (関税別) を選択')
     .build();
   sheet.getRange(2, 18, Math.max(sheet.getLastRow(), 100) - 1, 1).setDataValidation(ddpRule);
+
+  // S列(19): 利益方法 ドロップダウン（手入力を物理ブロック）
+  // R列パターン(最小100行)に揃えて将来タグ追加時のドロップダウン UX を確保
+  var mv = CONFIG.TAG_SHIPPING.METHOD_VALUES;
+  var stDataRows = Math.max(sheet.getLastRow(), 100) - 1;
+  var profitMethodRule = SpreadsheetApp.newDataValidation()
+    .requireValueInList([mv.PROFIT_RATE, mv.PROFIT_AMOUNT], true)
+    .setAllowInvalid(false)
+    .setHelpText('タグ別利益率 または 利益額（Profit_Amounts参照）を選択')
+    .build();
+  sheet.getRange(2, 19, stDataRows, 1).setDataValidation(profitMethodRule);
+
+  // T列(20): 送料方法 ドロップダウン（手入力を物理ブロック）
+  var shippingMethodRule = SpreadsheetApp.newDataValidation()
+    .requireValueInList([mv.SHIPPING_TAG, mv.SHIPPING_FIXED], true)
+    .setAllowInvalid(false)
+    .setHelpText('タグ別送料 または 固定金額（Profit_Amounts参照）を選択')
+    .build();
+  sheet.getRange(2, 20, stDataRows, 1).setDataValidation(shippingMethodRule);
 }
 
 /**

@@ -205,8 +205,14 @@ var CONFIG = {
     HEADERS: ['タグ名', 'EP送料', 'CE送料', 'CF/CD送料', '参考eBay ID', 'SKU略称',
               'テンプレート名', '送料上限カテゴリ', '利益率', '広告費率', '手数料率',
               '低価格配送', '高価格配送', '送料切替基準', '想定関税閾値', '商品状態',
-              '翻訳プロンプト', 'DDP/DDU設定'],
-    TAG_LIST_START_COL: 21,
+              '翻訳プロンプト', 'DDP/DDU設定', '利益方法', '送料方法'],
+    TAG_LIST_START_COL: 23,
+    METHOD_VALUES: Object.freeze({
+      PROFIT_RATE:    'タグ別利益率',
+      PROFIT_AMOUNT:  '利益額（Profit_Amounts参照）',
+      SHIPPING_TAG:   'タグ別送料',
+      SHIPPING_FIXED: '固定金額（Profit_Amounts参照）'
+    }),
     HEADER_BG_COLOR: '#4285F4',
     HEADER_FONT_COLOR: '#FFFFFF'
   }
