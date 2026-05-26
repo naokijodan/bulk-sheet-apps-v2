@@ -1034,8 +1034,8 @@
 
           <label>利益計算方法（V5）</label>
           <div class="radio-group">
-            <label><input type="radio" name="v5ProfitMethod" value="RATE" <?= currentV5ProfitMethod === 'RATE' ? 'checked' : '' ?>> 利益率で計算</label>
-            <label><input type="radio" name="v5ProfitMethod" value="AMOUNT" <?= currentV5ProfitMethod === 'AMOUNT' ? 'checked' : '' ?>> 利益額で計算</label>
+            <label><input type="radio" name="v5ProfitMethod" value="RATE" <?= currentV5ProfitMethod === 'RATE' ? 'checked' : '' ?>> タグ別利益計算</label>
+            <label><input type="radio" name="v5ProfitMethod" value="AMOUNT" <?= currentV5ProfitMethod === 'AMOUNT' ? 'checked' : '' ?>> 利益額計算</label>
           </div>
 
           <label>送料計算方法（V5）</label>
