@@ -4183,17 +4183,28 @@ function updateTagList() {
   SpreadsheetApp.getUi().alert('タグ一覧を更新しました。');
 }
 
+// 【技術的負債】AQ/AR/AS 列は 1-3 行目 (既存設定: AQ=配送式, AR=ラベル, AS=プロンプトID/自動選択モード)
+// と 4 行目以降 (本機能: 利益・送料計算補助) で用途が分断されている。
+// 将来フェーズで「設定値を別シートに分離」して列を一本化することを推奨。
+// 関連: HANDOVER.md 2026-05-26 夜, Sprint Contract v3.1 §13-G
 /**
  * AQ4/AR4/AS4ヘッダーを冪等に設定する（V5モード専用）
  * 1-3行目は書かない（引数が4行目固定）
  * @param {SpreadsheetApp.Sheet} sheet
  */
 function ensureAuxHeaders_(sheet) {
-  var current = sheet.getRange(4, 43, 1, 3).getValues();
-  if (current[0][0] === '適用利益率' && current[0][1] === '適用利益額' && current[0][2] === '適用送料') {
-    return;
+  var AQ_COL = 43, AR_COL = 44, AS_COL = 45;
+  var HEADER_VALUES = ['適用利益率', '適用利益額', '適用送料'];
+  var cols = [AQ_COL, AR_COL, AS_COL]; // AQ, AR, AS
+  for (var i = 0; i < cols.length; i++) {
+    var cell = sheet.getRange(4, cols[i]);
+    var cur = String(cell.getValue() || '').trim();
+    if (cur === HEADER_VALUES[i]) continue;
+    if (cur !== '') {
+      throw new Error('作業シート 4 行目 ' + cols[i] + ' 列 に予期しない値: "' + cur + '". 中断します。');
+    }
+    cell.setValue(HEADER_VALUES[i]);
   }
-  sheet.getRange(4, 43, 1, 3).setValues([['適用利益率', '適用利益額', '適用送料']]);
 }
 
 /**
@@ -4209,25 +4220,26 @@ function ensureAuxHeaders_(sheet) {
  * @param {string} adRateRef (署名互換のため受け取るが現在未使用)
  */
 function seedAuxColumns_(sheet, lastRow, profitCalc, paValidLastRow, adRateRef) {
+  var AQ_COL = 43, AR_COL = 44, AS_COL = 45;
   if (lastRow < 5) return;
   var numRows = lastRow - 4;
 
   // Layer 3前スナップショット（1-3行目 AQ/AR/AS列）
-  var snapBefore = JSON.stringify(sheet.getRange(1, 43, 3, 3).getValues());
+  var snapBefore = JSON.stringify(sheet.getRange(1, AQ_COL, 3, 3).getValues());
 
   // AS列（適用送料）: V5モード全体で常にシード
-  sheet.getRange(5, 45, numRows, 1).setFormulas(buildASFormulas_(numRows, 5, paValidLastRow));
+  sheet.getRange(5, AS_COL, numRows, 1).setFormulas(buildASFormulas_(numRows, 5, paValidLastRow));
 
   if (profitCalc === 'RATE') {
-    sheet.getRange(5, 43, numRows, 1).setFormulas(buildAQFormulas_(numRows, 5));
-    sheet.getRange(5, 44, numRows, 1).setFormulas(buildARFormulas_(numRows, 5, paValidLastRow));
+    sheet.getRange(5, AQ_COL, numRows, 1).setFormulas(buildAQFormulas_(numRows, 5));
+    sheet.getRange(5, AR_COL, numRows, 1).setFormulas(buildARFormulas_(numRows, 5, paValidLastRow));
   } else {
     // AMOUNTモード: AQ/AR列をクリア（誤参照リスク排除）
-    sheet.getRange(5, 43, numRows, 2).clearContent();
+    sheet.getRange(5, AQ_COL, numRows, 2).clearContent();
   }
 
   // Layer 3後スナップショット検証
-  var snapAfter = JSON.stringify(sheet.getRange(1, 43, 3, 3).getValues());
+  var snapAfter = JSON.stringify(sheet.getRange(1, AQ_COL, 3, 3).getValues());
   if (snapBefore !== snapAfter) {
     throw new Error('[SAFETY] seedAuxColumns_: AQ/AR/AS列1-3行目への意図しない書き込みを検出。処理中断。before=' + snapBefore);
   }
@@ -4235,20 +4247,26 @@ function seedAuxColumns_(sheet, lastRow, profitCalc, paValidLastRow, adRateRef) 
 }
 
 /**
- * AQ4:AS4を保護範囲に設定（警告のみ、ヘッダー誤上書き防止）
+ * AQ1:AS3を「GAS実行ユーザーのみ編集可」の保護範囲に設定（編集ブロック、べき等）
+ * 既存設定値（AQ=配送式, AR=ラベル, AS=プロンプトID/自動選択モード）の誤上書きを防止
  * @param {SpreadsheetApp.Sheet} sheet
  */
 function applyAuxColumnsProtection_(sheet) {
+  var AQ_COL = 43;
+  // AQ1:AS3 を「GAS実行ユーザーのみ編集可」の保護範囲に設定 (べき等)
+  var DESC = 'AQ1:AS3 既存設定値・式の保護 (1-3行目)';
   var existingProtections = sheet.getProtections(SpreadsheetApp.ProtectionType.RANGE);
   for (var i = 0; i < existingProtections.length; i++) {
-    var r = existingProtections[i].getRange();
-    if (r.getRow() === 4 && r.getColumn() === 43 && r.getNumColumns() === 3) {
+    if (existingProtections[i].getDescription() === DESC) {
       return;
     }
   }
-  var protection = sheet.getRange(4, 43, 1, 3).protect();
-  protection.setDescription('AQ4:AS4補助列ヘッダー（自動生成 V5）');
-  protection.setWarningOnly(true);
+  var protection = sheet.getRange(1, AQ_COL, 3, 3).protect(); // AQ1:AS3
+  protection.setDescription(DESC);
+  protection.setUnprotectedRanges([]);
+  var me = Session.getEffectiveUser();
+  protection.addEditor(me);
+  protection.setWarningOnly(false); // 編集ブロック（警告のみ不可）
 }
 
 /**
@@ -4402,9 +4420,14 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
       if (!_v5Validation.ok) {
         throw new Error('[V5検証エラー] ' + _v5Validation.message + ' — TagShipping S/T列を確認してください');
       }
+      var _outerSnapBefore = JSON.stringify(sheet.getRange(1, 43, 3, 3).getValues());
       ensureAuxHeaders_(sheet);
       seedAuxColumns_(sheet, dataLastRow, profitCalc, paValidLastRow, adRateRef);
       applyAuxColumnsProtection_(sheet);
+      var _outerSnapAfter = JSON.stringify(sheet.getRange(1, 43, 3, 3).getValues());
+      if (_outerSnapBefore !== _outerSnapAfter) {
+        throw new Error('[SAFETY] applyCalculationFormulas V5ブロック: AQ/AR/AS列1-3行目への意図しない書き込みを検出。処理中断。before=' + _outerSnapBefore);
+      }
       console.log('V5補助列AQ/AR/AS シード完了 (5-' + dataLastRow + '行)');
     }
 

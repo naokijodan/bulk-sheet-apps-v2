@@ -1672,6 +1672,10 @@ function buildShippingFormulas_(row, shippingCalcMethod, paValidLastRow) {
   };
 }
 
+// 【技術的負債】AQ/AR/AS 列は 1-3 行目 (既存設定: AQ=配送式, AR=ラベル, AS=プロンプトID/自動選択モード)
+// と 4 行目以降 (本機能: 利益・送料計算補助) で用途が分断されている。
+// 将来フェーズで「設定値を別シートに分離」して列を一本化することを推奨。
+// 関連: HANDOVER.md 2026-05-26 夜, Sprint Contract v3.1 §13-G
 /**
  * TagShipping S/T列の値を検証し、無効値の行番号リストを返す（V5モード専用）
  * @param {SpreadsheetApp.Spreadsheet} ss
