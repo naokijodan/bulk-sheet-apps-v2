@@ -1,7 +1,7 @@
 {
  "treeVersion": "134",
  "marketplace": "EBAY_US",
- "generated": "2026-05-23",
+ "generated": "2026-06-06",
  "note": "CLI翻訳スキル用。各商品の recommendedUserTags(タグ) -> tagToGenre[tag] -> buckets[genre] の候補から categoryId を1つ選ぶ。候補内のIDのみ。無ければ空。",
  "tagToGenre": {
   "時計": "時計用",
@@ -104,6 +104,8 @@
   "SGC": "トレカ汎用",
   "ゲーム": "ゲーム用",
   "ゲームソフト": "ゲーム用",
+  "ゲーム　中古": "ゲーム用",
+  "ゲーム　新品": "ゲーム用",
   "テレビゲーム": "ゲーム用",
   "ゲームソフトPS5": "ゲーム用",
   "ゲームソフトPS4": "ゲーム用",
