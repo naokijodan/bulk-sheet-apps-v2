@@ -1,7 +1,7 @@
 {
  "treeVersion": "134",
  "marketplace": "EBAY_US",
- "generated": "2026-06-06",
+ "generated": "2026-06-08",
  "note": "CLI翻訳スキル用。各商品の recommendedUserTags(タグ) -> tagToGenre[tag] -> buckets[genre] の候補から categoryId を1つ選ぶ。候補内のIDのみ。無ければ空。",
  "tagToGenre": {
   "時計": "時計用",
@@ -399,11 +399,19 @@
   "フレームアームズ": "メカプラモ",
   "メカプラモ": "メカプラモ",
   "ロボットプラモ": "メカプラモ",
+  "CD": "音楽CD",
+  "CD　中古": "音楽CD",
+  "CD　新品": "音楽CD",
   "レコード": "レコード",
   "LP": "レコード",
   "EP": "レコード",
-  "CD": "レコード",
   "カセット": "レコード",
+  "DVD": "映像作品",
+  "DVD　単品": "映像作品",
+  "DVD セット": "映像作品",
+  "ブルーレイ": "映像作品",
+  "Blu-ray": "映像作品",
+  "VHS": "映像作品",
   "サングラス": "サングラス",
   "メガネ": "サングラス",
   "眼鏡": "サングラス",
@@ -6811,6 +6819,12 @@
     "path": "Toys & Hobbies > Robots, Monsters & Space Toys > Space Toys > 1970-Now"
    }
   ],
+  "音楽CD": [
+   {
+    "id": "176984",
+    "path": "Music > CDs"
+   }
+  ],
   "レコード": [
    {
     "id": "618",
@@ -6835,6 +6849,40 @@
    {
     "id": "262054",
     "path": "Music > Music NFTs"
+   }
+  ],
+  "映像作品": [
+   {
+    "id": "309",
+    "path": "Movies & TV > VHS Tapes"
+   },
+   {
+    "id": "381",
+    "path": "Movies & TV > Laserdiscs"
+   },
+   {
+    "id": "617",
+    "path": "Movies & TV > DVDs & Blu-ray Discs"
+   },
+   {
+    "id": "41676",
+    "path": "Movies & TV > Other Formats"
+   },
+   {
+    "id": "52554",
+    "path": "Movies & TV > Video Media Accessories"
+   },
+   {
+    "id": "63821",
+    "path": "Movies & TV > Film Stock"
+   },
+   {
+    "id": "132975",
+    "path": "Movies & TV > UMDs"
+   },
+   {
+    "id": "262053",
+    "path": "Movies & TV > Movie NFTs"
    }
   ],
   "サングラス": [
