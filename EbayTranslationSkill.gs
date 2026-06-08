@@ -212,11 +212,12 @@ function buildEbayTranslationGeneratorHtml() {
 }
 
 // ============================================================================
-// 公開関数 — スキル本文ダウンロードダイアログ HTML
+// 公開関数 — スキル本文ダウンロードダイアログ HTML (最終チェック文セクション含む)
 // ============================================================================
 function buildEbayTranslationSkillDownloadHtml() {
   var content = getEbayTranslationSkillContent();
   var safe = content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  var safeFc = getEbayTranslationFinalCheckContent().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   return HtmlService.createHtmlOutput(
     '<style>' +
     'body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 16px; }' +
@@ -238,6 +239,13 @@ function buildEbayTranslationSkillDownloadHtml() {
     '<button onclick="copySkill()">📋 クリップボードにコピー</button>' +
     '<button class="cancel" onclick="google.script.host.close()">閉じる</button>' +
     '<div id="toast" class="toast"></div>' +
+    '<hr style="margin:20px 0; border:none; border-top:1px solid #ddd;">' +
+    '<h3>📋 最終チェック文 (再チェック指示文)</h3>' +
+    '<div class="hint">翻訳・書込が終わった後、AI に再チェックさせる指示文です。そのまま渡すか、自由にアレンジして使ってください。</div>' +
+    '<textarea id="finalcheck" readonly>' + safeFc + '</textarea>' +
+    '<button class="primary" onclick="downloadFinalCheck()">📥 最終チェック文をダウンロード (ebay-final-check.txt)</button>' +
+    '<button onclick="copyFinalCheck()">📋 コピー</button>' +
+    '<div id="toast2" class="toast"></div>' +
     '<script>' +
     'function downloadSkill() {' +
     '  var content = document.getElementById("skill").value;' +
@@ -267,8 +275,54 @@ function buildEbayTranslationSkillDownloadHtml() {
     '  var t = document.getElementById("toast");' +
     '  t.innerText = msg; t.style.display = "block";' +
     '}' +
+    'function downloadFinalCheck() {' +
+    '  var content = document.getElementById("finalcheck").value;' +
+    '  var blob = new Blob([content], { type: "text/plain;charset=utf-8" });' +
+    '  var url = URL.createObjectURL(blob);' +
+    '  var a = document.createElement("a");' +
+    '  a.href = url; a.download = "ebay-final-check.txt";' +
+    '  document.body.appendChild(a); a.click(); document.body.removeChild(a);' +
+    '  URL.revokeObjectURL(url);' +
+    '  showToast2("✓ ダウンロードしました (ダウンロードフォルダ確認)");' +
+    '}' +
+    'function copyFinalCheck() {' +
+    '  var ta = document.getElementById("finalcheck"); ta.select(); ta.setSelectionRange(0, ta.value.length);' +
+    '  try { navigator.clipboard.writeText(ta.value).then(function(){ showToast2("✓ コピーしました"); }); }' +
+    '  catch(e) { document.execCommand("copy"); showToast2("✓ コピーしました"); }' +
+    '}' +
+    'function showToast2(msg) { var t = document.getElementById("toast2"); t.innerText = msg; t.style.display = "block"; }' +
     '</script>'
-  ).setWidth(700).setHeight(560);
+  ).setWidth(700).setHeight(820);
+}
+
+// ============================================================================
+// 公開関数 — 最終チェック文本体
+// ============================================================================
+function getEbayTranslationFinalCheckContent() {
+  return [
+    '以下の点について、最終チェック(再確認)をお願いします。',
+    '「確認しました」と一度答えていても、改めて1行ずつ実際のセルを見て検証してください。',
+    '',
+    '【チェック項目】',
+    '1. 列やセルがずれていないか(M=Title／N=Description／P列以降=Item Specifics)',
+    '2. 文字数(タイトルは80文字以下か。また短すぎないか)',
+    '3. 誇張表現・嘘が入っていないか',
+    '4. 禁止ワード(VeRO抵触語など)が含まれていないか',
+    '5. 日本語の混入がないか',
+    '6. タグがミスマッチしていないか',
+    '7. カテゴリIDが正しいか(タグ・商品に合った出品可能カテゴリか)',
+    '8. 玩具・キャラ系(フィギュア・ぬいぐるみ・人形・おもちゃ・アニメグッズ等)の扱い',
+    '   ・キャラ物/コレクター物は Collectibles のカテゴリに入っているか',
+    '   ・Collectibles に適切な受け皿が無い純玩具を無理に Collectibles へ入れていないか',
+    '   ・Item Specifics の Type が Collectible 系か、対象年齢が 13+/14+ か(幼児向け 3+ 等のままでないか)',
+    '   ・Title／Description に for kids／ages 3+ 等の幼児向け表現が入っていないか',
+    '9. 基本的に中古であることを確認しているか(未開封でも基本的には中古品)',
+    '',
+    '【報告】',
+    '・修正した内容を具体的に報告してください(どのセルを、どう直したか)。',
+    '・カテゴリID／タグが空欄、Item Specifics が少ない(10未満)行があれば、その行と理由を報告してください。',
+    '・修正がなければ「修正なし」と報告してください。'
+  ].join('\n');
 }
 
 // ============================================================================
@@ -374,6 +428,7 @@ function getEbayTranslationSkillContent() {
   //   バージョンは先頭エントリの日付から自動生成。変更履歴は HTMLコメント + 区切り線の「上」に
   //   置く＝(1)実行AIはコメントを命令と読まない (2)区切り線より下だけ登録すれば本文に履歴は入らない。
   var CHANGELOG = [
+    { date: '2026-06-08', text: '玩具・キャラクター系は categoryId を Collectibles ツリー優先に変更(アニメフィギュア261055/アニメぬいぐるみ261062/アニメグッズ69528/コレクターフィギュア149372)。受け皿が無い純玩具は正しいカテゴリ+warnings記録。Age13+/14+維持。理由にCPaSS Economyの HTSUS紐付け(9503.00.00.90/CPSIA非該当)を追記。完了報告に空欄・IS不足行の理由を添えるよう緩和' },
     { date: '2026-05-30', text: 'Codex 版 (2026-05-30) に統合。第一ルール(情報精査は1行ずつ)を先頭に追加。中古時計の交換バンド表現/時計VeRO回避/青色禁止語/製造国のブランド国判定詳細化/カテゴリID補足(漫画259109・アニメグッズ69528・関数電卓58042)/書込値は実値(数式禁止)/書込後QA/途中承認スキップ を追加。集約バッチ既定を5に (まとめ処理は精度が落ちるため)。TITLE は数値固定せず理由で充実' },
     { date: '2026-05-23', text: 'eBay カテゴリ ID 判定を追加 (GitHub公開JSONを HTTP 取得し tag->genre->候補から選び F 列へ。候補内 ID のみ・無ければ空。全ツール対応)' },
     { date: '2026-05-23', text: '統合版: 動物素材ワード禁止/Occasion禁止/製造国判定詳細/ハルシネーション禁止/メルカリ特化を追加' },
@@ -414,7 +469,7 @@ function getEbayTranslationSkillContent() {
     '',
     '- **全工程を確認なしで一気通貫で実行**。途中で「これを実行してよいか」「次に進むか」は聞かない。',
     '- **途中承認は全てスキップ**。画像取得・カテゴリ参照取得・シート読込・シート書込・QA修正など、このスキル内で必要な通常操作はユーザー確認を挟まず実行する。実行環境が表示する権限ダイアログ等、AI側で省略できないシステム承認だけは例外。',
-    '- 完了後の報告は **「完了。確認お願いします」の 1 行のみ**。詳細な件数や成功/失敗のリストは不要 (ユーザーがシートで直接確認する)。',
+    '- 完了後の報告は原則 **「完了。確認お願いします」の 1 行**。ただし、書込結果に **categoryId または タグが空欄の行、Item Specifics が 10 未満の行** があれば、その行番号と「なぜそうなったか」の理由を短く箇条書きで添える (例: `L58: categoryId 空 — タグに対応する候補が無いため` / `L60: IS 7件 — 画像不鮮明で確認できる仕様が少ないため`)。詳細な成功件数リストは不要。',
     '- 重大エラー (シート不存在 / 連続失敗) のみ短く報告して停止。',
     '',
     '## 翻訳に使う AI (絶対遵守)',
@@ -526,11 +581,17 @@ function getEbayTranslationSkillContent() {
     '  - `アニメグッズ` で候補内に完全一致する細分類がない商品は `69528` (Other Animation Merchandise) を使う。マウスパッド等で他 genre に似たカテゴリがあっても、`アニメグッズ` の genre 外 ID は使わない。',
     '  - 書込前に「D列タグが許可リスト内」「F列categoryIdが tagToGenre/正規化後genre の buckets 内」「候補外IDなし」を必ず確認する。',
     '- **関数電卓カテゴリ補足**: 古い関数電卓 / ポケットコンピュータ / プログラム電卓 (例: SHARP PC-G850V, PC-1360K, PC-1255, PC-1280, CE-120P など) は、参照JSONで `関数電卓` の候補が空の場合でも eBay US `Vintage Calculators` の categoryId `58042` を採用する。通常の現行電卓や事務用電卓ではなく、ヴィンテージ・コレクション性のある計算機に限る。',
-    '- **子供向け玩具 → Collectible 強制 (重要)**: ぬいぐるみ / Plush / フィギュア / Figure / おもちゃ / Toy / 人形 / Doll / ミニカー / Model Car / Action Figure / Soft Toy / Stuffed Animal など子供が遊ぶ可能性のあるアイテムは **全て「Collectible (大人向け収集品)」として扱う**:',
-    '  - Item Specifics の Type は Collectible 系を優先 (例: `Collectible Action Figure` / `Collectible Plush` / `Collectible Doll` / `Collectible Model Car`)',
+    '- **玩具・キャラクター系 → Collectibles カテゴリ優先 (重要)**: ぬいぐるみ / Plush / フィギュア / Figure / おもちゃ / Toy / 人形 / Doll / ミニカー / Action Figure / Soft Toy / Stuffed Animal / アニメグッズ など、子供が遊ぶ可能性のある、またはキャラクター収集品は 13 歳以上のコレクター向けとして扱う:',
+    '  - **categoryId は Collectibles ツリー (path が「Collectibles >」で始まる ID) を優先する**。同じ genre の buckets 候補の中に Collectibles ツリーの ID があれば、Toys & Hobbies / Dolls & Bears ツリーの ID より優先して選ぶ:',
+    '    - アニメ / キャラクターのフィギュア → 261055 (Collectibles > Animation Merchandise > Figures & Statues)',
+    '    - アニメ / キャラクターのぬいぐるみ → 261062 (Collectibles > Animation Merchandise > Plush Items)',
+    '    - アニメグッズ全般 → 69528 (Collectibles > Animation Merchandise > Other Animation Merchandise)。缶バッジ → 261061 / キーホルダー → 261057 / タペストリー・ポスター → 261063 等、buckets["アニメ"] 内に適切な細分類があればそちらを優先',
+    '    - コレクター / キャラクター系のフィギュア・スタチュー・ソフビ → 149372 (Collectibles > Collectible Figures & Bobbleheads)',
+    '  - **Collectibles ツリーに適切な受け皿が無い純玩具** (汎用の非キャラぬいぐるみ・テディベア・遊び人形(リカちゃん / バービー等)・ミニカー / ダイキャスト) は、無理に Collectibles へ入れない。buckets 候補内の正しいカテゴリ (Toys & Hobbies / Dolls & Bears) を選び、warnings に「Collectibles受け皿なし」とその理由を記録する',
+    '  - Item Specifics の Type は Collectible 系を優先 (例: `Collectible Action Figure` / `Collectible Plush` / `Collectible Doll`)',
     '  - **Age Level / Recommended Age Range / Age** は元データに `3+` `6+` `8+` 等の幼児向け年齢が書かれていても **必ず `13+` / `14+` / `16+` のいずれかにする (デフォルト `14+`)**。元データの幼児向け年齢は無視',
     '  - Title / Description にも `for children` / `for kids` / `ages 3+` / `preschool` / `baby toy` 等の幼児向け表現を使わない。代替: `for collectors` / `display piece` / `adult collectible` / `for display`',
-    '  - 理由: eBay US Toys カテゴリの子供向け玩具規制 (CPSIA) を回避し、Collectibles として出品するため',
+    '  - 理由: 子供向け玩具規制 (CPSIA) の回避に加え、CPaSS Economy では HTSUS が eBay カテゴリ ID に紐づき出荷時に変更できないため。13 歳以上のコレクター向け玩具は HTSUS 9503.00.00.90 (CPSIA 非該当) に収束する (クーリエは出荷時に HTSUS 変更可、Economy はカテゴリ依存)',
     '',
     '## メルカリ特化 (ソースがメルカリの場合)',
     '',
@@ -572,7 +633,7 @@ function getEbayTranslationSkillContent() {
     '   - Description に配送方法、梱包、購入条件、値下げ、返品/保証、出品者都合の説明、第三者引用トーンが混入していない。',
     '   - P〜AI (IS 10 ペア分) が可能な限り埋まっている。10 ペア未満なら画像・説明を再確認して追加する。必要なら AJ〜BC まで使ってよい。',
     '   - D列タグは許可リスト内から 1 つ、F列categoryIdはタグに対応する候補内 ID のみ。',
-    '6. **完了報告**: 「完了。確認お願いします」と 1 行表示して終了。',
+    '6. **完了報告**: 「完了。確認お願いします」と表示して終了。ただし categoryId / タグが空欄の行や Item Specifics が 10 未満の行があれば、その行と理由を短く添える。',
     '',
     '## 失敗時の最小ハンドリング',
     '',
