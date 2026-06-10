@@ -218,6 +218,8 @@ function buildEbayTranslationSkillDownloadHtml() {
   var content = getEbayTranslationSkillContent();
   var safe = content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   var safeFc = getEbayTranslationFinalCheckContent().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  var safeRl = getRelistingImportSkillContent().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  var safeRt = getRelistingTranslationSkillContent().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   return HtmlService.createHtmlOutput(
     '<style>' +
     'body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 16px; }' +
@@ -240,10 +242,11 @@ function buildEbayTranslationSkillDownloadHtml() {
     '<button class="cancel" onclick="google.script.host.close()">閉じる</button>' +
     '<div id="toast" class="toast"></div>' +
     '<hr style="margin:20px 0; border:none; border-top:1px solid #ddd;">' +
-    '<h3>📋 最終チェック文 (再チェック指示文)</h3>' +
-    '<div class="hint">翻訳・書込が終わった後、AI に再チェックさせる指示文です。そのまま渡すか、自由にアレンジして使ってください。</div>' +
+    '<h3>📋 最終チェック スキル 本文</h3>' +
+    '<div class="hint">翻訳・再出品翻訳で v5インポートに書き込んだ結果を、1行ずつ再検証して修正するスキルです。Codex/Claude/Gemini に登録してください。</div>' +
+    '<div style="background:#fff3cd; border:2px solid #f1c40f; border-radius:8px; padding:14px 16px; margin:10px 0 14px; font-size:16px; font-weight:bold; color:#7a5b00; line-height:1.6;">⚡ スキルを登録したあとは、AI に <span style="color:#d35400;">「最終チェック」</span> と入力すると起動します（英語のスキル名を打つ必要はありません）。</div>' +
     '<textarea id="finalcheck" readonly>' + safeFc + '</textarea>' +
-    '<button class="primary" onclick="downloadFinalCheck()">📥 最終チェック文をダウンロード (ebay-final-check.txt)</button>' +
+    '<button class="primary" onclick="downloadFinalCheck()">📥 ダウンロード (final-check-skill.md)</button>' +
     '<button onclick="copyFinalCheck()">📋 コピー</button>' +
     '<div id="toast2" class="toast"></div>' +
     '<script>' +
@@ -277,10 +280,10 @@ function buildEbayTranslationSkillDownloadHtml() {
     '}' +
     'function downloadFinalCheck() {' +
     '  var content = document.getElementById("finalcheck").value;' +
-    '  var blob = new Blob([content], { type: "text/plain;charset=utf-8" });' +
+    '  var blob = new Blob([content], { type: "text/markdown;charset=utf-8" });' +
     '  var url = URL.createObjectURL(blob);' +
     '  var a = document.createElement("a");' +
-    '  a.href = url; a.download = "ebay-final-check.txt";' +
+    '  a.href = url; a.download = "final-check-skill.md";' +
     '  document.body.appendChild(a); a.click(); document.body.removeChild(a);' +
     '  URL.revokeObjectURL(url);' +
     '  showToast2("✓ ダウンロードしました (ダウンロードフォルダ確認)");' +
@@ -291,19 +294,98 @@ function buildEbayTranslationSkillDownloadHtml() {
     '  catch(e) { document.execCommand("copy"); showToast2("✓ コピーしました"); }' +
     '}' +
     'function showToast2(msg) { var t = document.getElementById("toast2"); t.innerText = msg; t.style.display = "block"; }' +
+    'function downloadRelisting() {' +
+    '  var content = document.getElementById("relisting").value;' +
+    '  var blob = new Blob([content], { type: "text/markdown;charset=utf-8" });' +
+    '  var url = URL.createObjectURL(blob);' +
+    '  var a = document.createElement("a");' +
+    '  a.href = url; a.download = "relisting-import-skill.md";' +
+    '  document.body.appendChild(a); a.click(); document.body.removeChild(a);' +
+    '  URL.revokeObjectURL(url);' +
+    '  showToast3("✓ ダウンロードしました (ダウンロードフォルダ確認)");' +
+    '}' +
+    'function copyRelisting() {' +
+    '  var ta = document.getElementById("relisting"); ta.select(); ta.setSelectionRange(0, ta.value.length);' +
+    '  try { navigator.clipboard.writeText(ta.value).then(function(){ showToast3("✓ コピーしました"); }); }' +
+    '  catch(e) { document.execCommand("copy"); showToast3("✓ コピーしました"); }' +
+    '}' +
+    'function showToast3(msg) { var t = document.getElementById("toast3"); t.innerText = msg; t.style.display = "block"; }' +
+    '</script>' +
+    '<hr style="margin:20px 0; border:none; border-top:1px solid #ddd;">' +
+    '<h3>📄 再出品取り込みスキル 本文</h3>' +
+    '<div class="hint">再出品ファイル(CSV/xlsx)をインポート用シートへ転記＋商品URL生成するスキルです。Codex/Claude/Gemini に登録してください。</div>' +
+    '<div style="background:#fff3cd; border:2px solid #f1c40f; border-radius:8px; padding:14px 16px; margin:10px 0 14px; font-size:16px; font-weight:bold; color:#7a5b00; line-height:1.6;">⚡ スキルを登録したあとは、AI に <span style="color:#d35400;">「再出品実行」</span> と入力すると起動します（英語のスキル名を打つ必要はありません）。</div>' +
+    '<textarea id="relisting" readonly>' + safeRl + '</textarea>' +
+    '<button class="primary" onclick="downloadRelisting()">📥 ダウンロード (relisting-import-skill.md)</button>' +
+    '<button onclick="copyRelisting()">📋 コピー</button>' +
+    '<div id="toast3" class="toast"></div>' +
+    '<hr style="margin:20px 0; border:none; border-top:1px solid #ddd;">' +
+    '<h3>📄 再出品翻訳スキル 本文</h3>' +
+    '<div class="hint">再出品の英語データ（既存タイトル/コンディション）からTitle再生成・IS生成するスキルです。Codex/Claude/Gemini に登録してください。</div>' +
+    '<div style="background:#fff3cd; border:2px solid #f1c40f; border-radius:8px; padding:14px 16px; margin:10px 0 14px; font-size:16px; font-weight:bold; color:#7a5b00; line-height:1.6;">⚡ スキルを登録したあとは、AI に <span style="color:#d35400;">「再出品翻訳」</span> と入力すると起動します（英語のスキル名を打つ必要はありません）。</div>' +
+    '<textarea id="reltrans" readonly>' + safeRt + '</textarea>' +
+    '<button class="primary" onclick="downloadReltrans()">📥 ダウンロード (relisting-translation-skill.md)</button>' +
+    '<button onclick="copyReltrans()">📋 コピー</button>' +
+    '<div id="toast4" class="toast"></div>' +
+    '<script>' +
+    'function downloadReltrans() {' +
+    '  var content = document.getElementById("reltrans").value;' +
+    '  var blob = new Blob([content], { type: "text/markdown;charset=utf-8" });' +
+    '  var url = URL.createObjectURL(blob);' +
+    '  var a = document.createElement("a");' +
+    '  a.href = url; a.download = "relisting-translation-skill.md";' +
+    '  document.body.appendChild(a); a.click(); document.body.removeChild(a);' +
+    '  URL.revokeObjectURL(url);' +
+    '  showToast4("✓ ダウンロードしました (ダウンロードフォルダ確認)");' +
+    '}' +
+    'function copyReltrans() {' +
+    '  var ta = document.getElementById("reltrans"); ta.select(); ta.setSelectionRange(0, ta.value.length);' +
+    '  try { navigator.clipboard.writeText(ta.value).then(function(){ showToast4("✓ コピーしました"); }); }' +
+    '  catch(e) { document.execCommand("copy"); showToast4("✓ コピーしました"); }' +
+    '}' +
+    'function showToast4(msg) { var t = document.getElementById("toast4"); t.innerText = msg; t.style.display = "block"; }' +
     '</script>'
-  ).setWidth(700).setHeight(820);
+  ).setWidth(700).setHeight(1500);
 }
 
 // ============================================================================
-// 公開関数 — 最終チェック文本体
+// 公開関数 — 最終チェックスキル本文
 // ============================================================================
 function getEbayTranslationFinalCheckContent() {
-  return [
-    '以下の点について、最終チェック(再確認)をお願いします。',
-    '「確認しました」と一度答えていても、改めて1行ずつ実際のセルを見て検証してください。',
+  // ★スキル本文を変えたら CHANGELOG の先頭に {date, text} を1件追加(新しい順・事実を正確に)。
+  var CHANGELOG = [
+    { date: '2026-06-10', text: '最終チェックをスキル化。起動「最終チェック」。v5インポートの書込結果を1行ずつ実セル検証し、問題は修正して報告' }
+  ];
+  var version = (CHANGELOG[0] && CHANGELOG[0].date) ? CHANGELOG[0].date : '';
+  var historyBlock = ['<!-- 【変更履歴】人向けメモ。スキル実行には影響しません（新規の方は読み飛ばして OK ／ 更新の方はここで変更点を確認）。']
+    .concat(CHANGELOG.map(function (c) { return '- ' + c.date + ': ' + c.text; }))
+    .concat(['-->']);
+  return historyBlock.concat([
+    '======================（ここから下をコピーしてスキルに登録）======================',
     '',
-    '【チェック項目】',
+    '# 最終チェック スキル（final-check）',
+    '',
+    'バージョン: ' + version,
+    '',
+    '> **心構え**: 1件1件が実際に販売される商品。「確認しました」と一度答えていても、改めて1行ずつ実際のセルを見て検証する。',
+    '',
+    '## 起動トリガー',
+    '',
+    'ユーザーが「**最終チェック**」と指示したら、このスキルを開始する（英語のスキル名 final-check を入力する必要はない）。',
+    '',
+    '---',
+    '',
+    '## 目的',
+    '',
+    'ebay-translation / 再出品翻訳 で「v5インポート」シートに書き込んだ結果を、改めて1行ずつ実セルを見て検証し、問題があれば修正し、結果を報告する。',
+    '',
+    '---',
+    '',
+    '## チェック項目',
+    '',
+    '以下の点について、最終チェック(再確認)を行う。',
+    '「確認しました」と一度答えていても、改めて1行ずつ実際のセルを見て検証すること。',
+    '',
     '1. 列やセルがずれていないか(M=Title／N=Description／P列以降=Item Specifics)',
     '2. 文字数(タイトルは80文字以下か。また短すぎないか)',
     '3. 誇張表現・嘘が入っていないか',
@@ -318,11 +400,14 @@ function getEbayTranslationFinalCheckContent() {
     '   ・Title／Description に for kids／ages 3+ 等の幼児向け表現が入っていないか',
     '9. 基本的に中古であることを確認しているか(未開封でも基本的には中古品)',
     '',
-    '【報告】',
-    '・修正した内容を具体的に報告してください(どのセルを、どう直したか)。',
-    '・カテゴリID／タグが空欄、Item Specifics が少ない(10未満)行があれば、その行と理由を報告してください。',
-    '・修正がなければ「修正なし」と報告してください。'
-  ].join('\n');
+    '---',
+    '',
+    '## 報告',
+    '',
+    '・修正した内容を具体的に報告すること(どのセルを、どう直したか)。',
+    '・カテゴリID／タグが空欄、Item Specifics が少ない(10未満)行があれば、その行と理由を報告すること。',
+    '・修正がなければ「修正なし」と報告すること。'
+  ]).join('\n');
 }
 
 // ============================================================================
@@ -567,7 +652,7 @@ function getEbayTranslationSkillContent() {
     '  - Dior / Christian Dior / Cartier → France',
     '  - Gucci / Ferragamo / Salvatore Ferragamo / Prada / Fendi / Bvlgari / Panerai → Italy',
     '  - Georg Jensen → Denmark',
-    '  - Rolex / Omega / Tag Heuer / Patek Philippe / Audemars Piguet / IWC / Tudor / Longines / Breitling / Hamilton / Hublot / Zenith / Jaeger-LeCoultre → Switzerland',
+    '  - Omega / Tag Heuer / Patek Philippe / Audemars Piguet / IWC / Tudor / Longines / Breitling / Hamilton / Hublot / Zenith / Jaeger-LeCoultre → Switzerland',
     '  - Titleist / TaylorMade / Callaway / Ping / Cobra / Nixon → USA',
     '  - ブランド国が判定できる場合はその国を採用。辞書外で不明な場合のみ Japan',
     '- **Item Specifics の充実度**: 各商品で、嘘・推測・根拠なし情報を入れない範囲で、**最低 10 フィールドを目標**に埋める。10 未満で終える前に、画像・日本語説明・タイトルから確認できる Brand / Franchise / Type / Character / Artist / Writer / Publisher / Manufacturer / Model / MPN / Quantity / Size / Material / Color / Shape / Closure / Features / Included Items / Format / Language / Publication Year / Edition / Theme / Style / Use / Condition Notes / Country/Region of Manufacture を再確認する。どうしても 10 に届かない場合のみ少なくしてよいが、確認できない仕様を 10 項目達成のために創作することは禁止。特に時計、電卓・ポケットコンピュータ、トレカ、アニメ/音楽グッズ、ドール/フィギュア、書籍・漫画、紙もの、バッグ類は 10 フィールド前後まで増やす。',
@@ -640,6 +725,591 @@ function getEbayTranslationSkillContent() {
     '- HTTP 429/5xx → 指数バックオフリトライ (2s/4s/8s)',
     '- HTTP 4xx (429 除く) / Safety フィルター (promptFeedback.blockReason or finishReason=\'SAFETY\') → 即失敗、該当行の Title 列に `ERROR` と書いてスキップ',
     '- バッチで複数件失敗時は、その失敗行のみ直列フォールバック (1 件ずつ再実行)'
+  ]).join('\n');
+}
+
+// ============================================================================
+// 公開関数 — 再出品取り込みスキル本文
+// ============================================================================
+function getRelistingImportSkillContent() {
+  // ★スキル本文を変えたら CHANGELOG の先頭に {date, text} を1件追加(新しい順・事実を正確に)。
+  var CHANGELOG = [
+    { date: '2026-06-10-2', text: '新フォーマット（Item Specifics入りxlsx）対応を追加。形式判定（旧→インポート用／新→v5インポート直接転記）、ISのname/value物理2列ペア方式（ヘッダー誤記対策）、BF列へのURL生成、BD/BE列保護を明記' },
+    { date: '2026-06-10', text: '【重要修正】インポート用の最初のデータ行は3行目（旧記述「4行目以降・3行目は触らない」は誤り）。3行目から空き行を探すよう修正' },
+    { date: '2026-06-10', text: '書き込み前に実データで空き行を正しく特定してから実行する（行番号を推測しない・既存データ上書き厳禁）を§8の最重要ルールとして明確化' },
+    { date: '2026-06-09', text: '起動トリガーを日本語「再出品実行」に設定。英語スキル名(relisting-import)を入力しなくても起動できるようにした' },
+    { date: '2026-06-09', text: '初版。再出品ファイル(CSV/xlsx)をインポート用シートへ転記＋商品URL生成。仕入価格(円)をD列価格へ(ドル価格は使わない)。翻訳/タグ/IS再構築は対象外' }
+  ];
+  var version = (CHANGELOG[0] && CHANGELOG[0].date) ? CHANGELOG[0].date : '';
+  var historyBlock = ['<!-- 【変更履歴】人向けメモ。スキル実行には影響しません（新規の方は読み飛ばして OK ／ 更新の方はここで変更点を確認）。']
+    .concat(CHANGELOG.map(function (c) { return '- ' + c.date + ': ' + c.text; }))
+    .concat(['-->']);
+  return historyBlock.concat([
+    '======================（ここから下をコピーしてスキルに登録）======================',
+    '',
+    '# Relisting Import',
+    '',
+    'バージョン: ' + version,
+    '',
+    '扱うデータは1件1件が実際に販売される商品です。1行の書き違いがeBay収入に直結します。急がず、確認してから書く。',
+    '',
+    '## 起動トリガー',
+    '',
+    'ユーザーが「再出品実行」と指示したら、このスキルを開始する。英語のスキル名 `relisting-import` を入力する必要はない。',
+    '',
+    '開始時に「再出品ファイル」または「入力先スプレッドシートURL」が指示に含まれていなければ、先にユーザーに尋ねてから進める。',
+    '',
+    'CSV/xlsxの解析には `spreadsheets` スキル、Google Sheetsの読み書きには `google-drive:google-sheets` スキルを使う。',
+    '',
+    '## 目的',
+    '',
+    '再出品ファイルの形式を判定し、形式に合ったシートへ安全に転記する。',
+    '',
+    '| 元ファイル形式 | 転記先 | 目的 |',
+    '|---|---|---|',
+    '| 旧フォーマット | `インポート用` | 最低限の再出品元データを入れ、後続の `relisting-translation` でv5行を生成する |',
+    '| 新フォーマット（IS入り） | `v5インポート` | 既存の英語Title/Condition/Item Specificsを活かしたv5下書きを作る |',
+    '',
+    'このスキルでは英語Title/Condition/Item Specificsの再生成・精査はしない。新フォーマットでは、元ファイルの値をv5へ配置し、URLをBF列に生成するところまで行う。精査・修正は `relisting-translation` のv5モードで行う。',
+    '',
+    '## 入力',
+    '',
+    '必要な入力:',
+    '',
+    '- 再出品ファイルのパス（CSVまたはxlsx）',
+    '- 入力先スプレッドシートのURL',
+    '',
+    '## 必須の事前確認',
+    '',
+    '書き込み前に必ず以下を報告し、ユーザー確認を得る。',
+    '',
+    '- 判定した形式（旧フォーマット / 新フォーマット）',
+    '- 転記先シート名',
+    '- 転記候補件数',
+    '- スキップ予定行と理由',
+    '- 価格に使う元列',
+    '- URL生成対象件数',
+    '- 新フォーマットの場合、Item Specificsの列ペア検査結果',
+    '',
+    'ユーザーが「まだ書き込みしない」と言った場合は、ファイル読取と対応表作成だけで止める。',
+    '',
+    '## 形式判定',
+    '',
+    '2行目をヘッダーとして読む。列位置はファイルごとに変わるため、列記号ではなくヘッダー名で判定する。',
+    '',
+    '### 旧フォーマット',
+    '',
+    '次の列があり、`name1/value1` 系のItem Specifics列がない、または使わない構造の場合:',
+    '',
+    '- `仕入先`',
+    '- `仕入先コード`',
+    '- `ttle`',
+    '- `コンディション説明`',
+    '- `仕入価格`',
+    '',
+    '旧フォーマットは `インポート用` へ転記する。',
+    '',
+    '### 新フォーマット（IS入り）',
+    '',
+    '次の列がある場合は新フォーマットとして扱う。',
+    '',
+    '- `テンプレートID`',
+    '- `参考EbayID`',
+    '- `カテゴリID`',
+    '- `仕入先`',
+    '- `仕入先コード`',
+    '- `価格`',
+    '- `ttle`',
+    '- `custom label`',
+    '- `コンディション説明`',
+    '- `シッピングポリシー`',
+    '- `name1` と `value1`',
+    '- `仕入価格`',
+    '',
+    '新フォーマットは `v5インポート` へ直接転記する。',
+    '',
+    '### 判定不能',
+    '',
+    '必須ヘッダーが欠けている、必須ヘッダー自体が重複している、または旧/新のどちらか確定できない場合は書き込み前に停止して報告する。推測で転記しない。',
+    '',
+    'ただし、新フォーマットのItem Specifics領域で、`value18` が `value19` と誤記されているようなヘッダー番号だけのずれは、後述の物理2列ペア方式で扱う。',
+    '',
+    '## 価格列の取り違え厳禁',
+    '',
+    '仕入価格として使うのは、元ファイルの `仕入価格` のみ。',
+    '',
+    '- `価格` はeBay販売価格系の小数である可能性が高いため、仕入価格として絶対に使わない。',
+    '- `仕入価格` は円の整数として検証する。',
+    '- 欠損、整数化できない値、またはドル価格と思われる値は書き込まず、その行を失敗として報告する。',
+    '- 書き込み前に、選択した元列のヘッダーが完全に `仕入価格` であることを再確認する。',
+    '',
+    '## 対象行判定',
+    '',
+    '3行目以降をデータ行として扱う。',
+    '',
+    '共通スキップ条件:',
+    '',
+    '- `仕入先コード` が空',
+    '- `仕入先` が空、`none`、または未対応値',
+    '- `ttle` が空',
+    '- `仕入価格` が検証できない',
+    '- URL生成に失敗した',
+    '',
+    '新フォーマットでは `コンディション説明` が空の行も原則スキップする。ただし、ユーザーが明示的に許可した場合だけ、Condition空欄としてv5へ入れる。',
+    '',
+    '## 商品URL生成ルール',
+    '',
+    '仕入先コードからURLを組み立てる。`{code}` は仕入先コードの値。',
+    '',
+    '| 仕入先の値 | 組み立てるURL |',
+    '|---|---|',
+    '| `mercari` | `https://jp.mercari.com/item/{code}` |',
+    '| `mercari_shop` | `https://jp.mercari.com/shops/product/{code}` |',
+    '| `yahuoku` / `ヤフオク` | `https://page.auctions.yahoo.co.jp/jp/auction/{code}` |',
+    '| `paypayfurima` / `PayPayフリマ` | `https://paypayfleamarket.yahoo.co.jp/item/{code}` |',
+    '| `rakuma` / `ラクマ` | `https://item.fril.jp/{code}` |',
+    '| `hardoff` | `https://netmall.hardoff.co.jp/product/{code}/` |',
+    '',
+    '`rakuten` / `yahooshopping` / `amazon` はコードの実形に揺れがあるため、確実に生成できない場合は書き込まず報告する。',
+    '',
+    'URL検証は代表サンプル数件の形式確認に留める。eBayへのアクセス・スクレイピングは禁止。',
+    '',
+    '## 旧フォーマット: `インポート用` への転記',
+    '',
+    '入力先 `インポート用` は2行目がヘッダー、3行目以降がデータ。書き込み開始行は、B:Hに既存データがない最初の行。',
+    '',
+    '| インポート用の列 | 元ファイルから取得 |',
+    '|---|---|',
+    '| A タグ | 空欄のまま |',
+    '| B 仕入先 | `仕入先` |',
+    '| C 仕入先コード | `仕入先コード` |',
+    '| D 価格 | `仕入価格` |',
+    '| E title/ttle | `ttle` |',
+    '| F 商品説明 | `コンディション説明` |',
+    '| G セラーID | 空欄のまま |',
+    '| H URL | 生成URL |',
+    '',
+    'ルール:',
+    '',
+    '- B:FおよびHだけに実値を書く。',
+    '- A列とG列は新規書き込みしない。既存値も変更しない。',
+    '- C列の既存仕入先コードを読み、重複する行は追加しない。',
+    '- 既存データがある行は上書きしない。',
+    '',
+    '## 新フォーマット: `v5インポート` への転記',
+    '',
+    '新フォーマットでは `v5インポート` に直接下書きを作る。既存の英語Title/Condition/Item Specificsを活かし、後続のv5上での精査に渡す。',
+    '',
+    '`v5インポート` は2行目がヘッダー、3行目以降がデータ。書き込み開始行は、H列（仕入れ先コード）が空の最初の行。ただし、既存データがある行は上書きしない。',
+    '',
+    '### 列マッピング',
+    '',
+    '| v5インポートの列 | 書込内容 |',
+    '|---|---|',
+    '| A 日付 | 今日の日付（YYYY/MM/DD） |',
+    '| B 担当 | `AI`。ユーザーまたはプロファイルで担当者名が指定されている場合はその値 |',
+    '| C label | 元 `custom label` |',
+    '| D タグ | 元 `タグ` |',
+    '| E テンプレート | 元 `テンプレートID` |',
+    '| F カテゴリーID | 元 `カテゴリID` |',
+    '| G 仕入れ先 | 元 `仕入先` |',
+    '| H 仕入れ先コード | 元 `仕入先コード` |',
+    '| I 仕入れ価格 | 元 `仕入価格` |',
+    '| J 日本語title | 元 `ttle`。新フォーマットでは既存英語Titleだが、元タイトル保管欄として実値で入れる |',
+    '| K 商品説明 | 元 `コンディション説明`。既存英語Conditionを実値で入れる |',
+    '| L セラーID | 空欄 |',
+    '| M Title | 元 `ttle` を初期Titleとして実値で入れる |',
+    '| N Condition/Description | 元 `コンディション説明` を初期Conditionとして実値で入れる |',
+    '| O シッピングポリシー | 元 `シッピングポリシー` |',
+    '| P:BC ISF/IS値 | 元 `nameN/valueN` ペア |',
+    '| BF | 生成URL |',
+    '',
+    '重要:',
+    '',
+    '- BD列（重複チェック）とBE列は触らない。',
+    '- BF列はURL専用として実値を書き込む。',
+    '- A:BC と BF だけを更新対象にする。A:BFを一括更新してBD/BEを空欄で潰さない。',
+    '- J/K/M/Nは数式ではなく実値で入れる。新フォーマットでは元データ自体が再出品v5下書きだから。',
+    '',
+    '### Item Specifics列の扱い',
+    '',
+    '元xlsxの2行目ヘッダーと、`v5インポート` の2行目ヘッダーを必ず確認してから対応させる。',
+    '',
+    '新フォーマットでは、元xlsxのIS領域は `name1/value1` から始まる2列ペアの連続ブロックとして扱う。ヘッダー文字列だけで `valueN` を探さない。理由は、元テンプレート側で `value18` が `value19` と誤記されているなど、ヘッダー名だけがずれている場合があるため。',
+    '',
+    '対応ルール:',
+    '',
+    '1. 元xlsx 2行目で `name1` の列を見つける。',
+    '2. そこから右方向に、`name列 / value列` の2列ペアとして最大20組を読む。',
+    '3. v5側は2行目ヘッダーの `ISF1/IS値1` から `ISF20/IS値20` へ、同じペア番号で入れる。',
+    '4. 例: 元 `name18` の右隣列は、ヘッダー表記が `value19` でも、物理的な18番目の値列としてv5の `IS値18` へ入れる。',
+    '',
+    '今回確認した新フォーマット例:',
+    '',
+    '| 元xlsx列 | 元xlsx 2行目 | 扱い | v5列 |',
+    '|---|---|---|---|',
+    '| AW | `name18` | ISF18 | AX |',
+    '| AX | `value19` | IS値18として扱う（ヘッダー誤記） | AY |',
+    '| AY | `name19` | ISF19 | AZ |',
+    '| AZ | `value19` | IS値19 | BA |',
+    '',
+    '書き込み前に停止する条件:',
+    '',
+    '- `name1` の開始列が見つからない。',
+    '- IS領域が2列ペアとして連続していない。',
+    '- `name` 列と `value` 列の左右関係が崩れている。',
+    '- v5側の `ISF1/IS値1` から `ISF20/IS値20` のヘッダーが2行目に存在しない、または順序が崩れている。',
+    '- 同じv5列へ複数の元列が割り当たる。',
+    '',
+    'ヘッダー名の番号だけが違うが、2列ペア構造が保たれている場合は、停止ではなく警告として報告し、物理ペア順で転記する。',
+    '',
+    '空のItem Specificsペアは空欄のまま入れてよい。値が `Does not apply` の場合はそのまま転記し、精査・削除は `relisting-translation` のv5モードに任せる。',
+    '',
+    '## 書き込みの安全ルール',
+    '',
+    '1. 元データを解析し、形式、対象行、スキップ行、価格列、URL、Item Specifics列を検証する。',
+    '2. 書き込み直前に入力先シートの現状を再取得する。古いスナップショットを使い回さない。',
+    '3. read -> 判定 -> write の順を厳守する。',
+    '4. 既存仕入先コードを読み、同じ仕入先コードが既に存在する行は重複として追加しない。',
+    '5. 既存データのある行は上書きしない。',
+    '6. 書き込み後に対象範囲を再取得し、行数、仕入先コード、仕入価格、URL、列ずれがないことを照合する。',
+    '7. 同一エラーが2回連続で発生したら停止して報告する。',
+    '',
+    '## 完了報告',
+    '',
+    '問題がなければ、次の1行だけを返す。',
+    '',
+    '`完了。確認をお願いします`',
+    '',
+    '次の場合だけ、対象となる元ファイル行または入力先行と理由を短く箇条書きで追加する。',
+    '',
+    '- URL生成に失敗した行がある',
+    '- 仕入価格が取れなかった、または検証できなかった行がある',
+    '- 重複と判断してスキップした行がある',
+    '- 新フォーマットでItem Specificsのヘッダー誤記・構造不整合がある',
+    '- 新フォーマットでCondition空欄など、v5下書きとして危険な行をスキップした',
+  ]).join('\n');
+}
+
+// ============================================================================
+// 公開関数 — 再出品翻訳スキル本文
+// ============================================================================
+function getRelistingTranslationSkillContent() {
+  // ★スキル本文を変えたら CHANGELOG の先頭に {date, text} を1件追加(新しい順・事実を正確に)。
+  var CHANGELOG = [
+    { date: '2026-06-10-5', text: 'v5インポート上で直接精査するモードA（既存v5精査）/モードB（URL参照つき精査）を追加。消失チェックスキルへの依存を削除しG列「消失」は手動除外フラグに変更。BF列URLを参照情報として使用' },
+    { date: '2026-06-10', text: '初版。再出品向けに既存英語タイトル/コンディションからTitle再生成＋Condition(原則転記/誤りは訂正)＋IS/タグ/カテゴリをv5インポートへ生成。起動「再出品翻訳」。モード1/2選択・対象行は自動検出後に確認' }
+  ];
+  var version = (CHANGELOG[0] && CHANGELOG[0].date) ? CHANGELOG[0].date : '';
+  var historyBlock = ['<!-- 【変更履歴】人向けメモ。スキル実行には影響しません（新規の方は読み飛ばして OK ／ 更新の方はここで変更点を確認）。']
+    .concat(CHANGELOG.map(function (c) { return '- ' + c.date + ': ' + c.text; }))
+    .concat(['-->']);
+  return historyBlock.concat([
+    '======================（ここから下をコピーしてスキルに登録）======================',
+    '',
+    '# Relisting Translation',
+    '',
+    'バージョン: ' + version,
+    '',
+    '扱うデータは1件1件が実際に販売される商品です。1行の書き違いがeBay収入に直結します。急がず、確認してから書く。',
+    '',
+    '## 起動トリガー',
+    '',
+    'ユーザーが「再出品翻訳」と指示したら、このスキルを開始する。英語のスキル名 `relisting-translation` を入力する必要はない。',
+    '',
+    '## 第一ルール: 情報精査は1行ずつ',
+    '',
+    'これは商品です。データ行ではありません。1件1件が実際に販売される商品です。',
+    '',
+    '- 情報精査（ソーステキスト読込・タグ判定・カテゴリ判定・Title/Condition/IS生成または精査）は必ず1行ずつ実行する。',
+    '- バッチ処理で複数行を一度に判定してはならない。',
+    '- 書き込み（Sheets APIによる更新）はバッチでもよい。ただし、書き込む前に各行の情報精査を必ず1行ずつ完了させる。',
+    '',
+    'このルールは他の全てのルールに優先する。',
+    '',
+    '## 最初に確認すること',
+    '',
+    '毎回、対象シートを確認する。',
+    '',
+    '| 対象シート | 方針 |',
+    '|---|---|',
+    '| `インポート用` | 旧方式。B:Hの元データから `v5インポート` へ新しいv5行を生成する |',
+    '| `v5インポート` | 新方式。既にv5へ入っているTitle/Condition/Item Specificsを検査・補正する |',
+    '',
+    'ユーザーが対象シートを明示していない場合は、最初に「インポート用とv5インポートのどちらで実行しますか？」と聞く。',
+    '',
+    '## モード',
+    '',
+    '対象シートごとにモードの意味が変わる。',
+    '',
+    '### `インポート用` から実行する場合',
+    '',
+    '- モード1 = 仕入れ先ページ主軸: 仕入れ先URLの実ページ情報を主軸に、正しい情報でTitle / Condition / IS / カテゴリ / タグを作成する。ページが削除・売り切れで存在しない行はモード2相当で処理する。',
+    '- モード2 = 既存主軸＋補助: ソースE列の既存英語タイトル・F列の既存英語コンディションを主軸に作成し、仕入れ先URLは補助情報としてのみ参照する。',
+    '',
+    '### `v5インポート` 上で実行する場合',
+    '',
+    '- モードA = 既存v5精査: 既に入っているM列Title、N列Condition、P:BCのItem Specificsを主軸に、文字数・禁止語・列ずれ・明らかな誤りを直す。BF列URLは必要時だけ補助として使う。',
+    '- モードB = URL参照つき精査: BF列URLの仕入れ先ページを補助情報として参照し、既存v5内容と矛盾があれば修正する。ページが見られない場合はモードA相当で処理する。',
+    '',
+    '`v5インポート` モードでは、原則として全文再生成ではなく「既存データの検査・補正」を行う。ユーザーが「作り直し」と明示した行だけ、Title/Condition/ISを再生成してよい。',
+    '',
+    '## 入力: 旧方式 `インポート用`',
+    '',
+    '| 列 | 内容 | 補足 |',
+    '|---|---|---|',
+    '| B | 仕入先 | mercari / yahuoku 等 |',
+    '| C | 仕入先コード | 商品固有ID |',
+    '| D | 仕入価格（円） | 数値 |',
+    '| E | 既存の英語タイトル | 再出品取り込み済み・すでに英語 |',
+    '| F | 既存の英語コンディション | 再出品取り込み済み・すでに英語 |',
+    '| G | セラーID / 除外フラグ | `消失` が入っている行は翻訳対象から除外する |',
+    '| H | 商品URL | 仕入れ先の商品ページURL |',
+    '',
+    '重要: `ebay-translation` と違い、E/F列はすでに英語。日本語ではない。',
+    '',
+    '## 入力: 新方式 `v5インポート`',
+    '',
+    '`relisting-import` が新フォーマットIS入りxlsxから直接作ったv5下書きを処理する。',
+    '',
+    '| 列 | 内容 |',
+    '|---|---|',
+    '| A | 日付 |',
+    '| B | 担当 |',
+    '| C | label |',
+    '| D | タグ |',
+    '| E | テンプレート |',
+    '| F | カテゴリーID |',
+    '| G | 仕入れ先 |',
+    '| H | 仕入れ先コード |',
+    '| I | 仕入れ価格 |',
+    '| J | 元タイトル保管欄。新方式では英語Titleが入っていることがある |',
+    '| K | 元商品説明保管欄。新方式では英語Conditionが入っていることがある |',
+    '| M | Title |',
+    '| N | Condition/Description |',
+    '| O | シッピングポリシー |',
+    '| P:BC | Item Specifics（ISF1/IS値1〜ISF20/IS値20） |',
+    '| BD | 重複チェック。変更禁止 |',
+    '| BF | 仕入先URL。新方式ではここを参照URLとして使う |',
+    '',
+    '重要:',
+    '',
+    '- BF列はURL参照用。タイトルやISを直すかどうかの判断材料にする。',
+    '- BD列とBE列は変更しない。',
+    '- M/N/P:BCを主な修正対象にする。A:I/J/K/O/BFは原則変更しない。',
+    '',
+    '## 出力: 旧方式で `v5インポート` に新規作成する場合',
+    '',
+    '`ebay-translation` と同じ列構成で書き込む。',
+    '',
+    '| 列 | 内容 |',
+    '|---|---|',
+    '| A | 今日の日付（YYYY/MM/DD） |',
+    '| B | 担当者名 |',
+    '| D | タグ（TagShipping A列許可リストから0〜1個） |',
+    '| F | categoryID（参照JSONから） |',
+    '| G | 仕入先（ソースB列） |',
+    '| H | 仕入先コード（ソースC列） |',
+    '| I | 仕入価格（ソースD列） |',
+    '| J | `=\'インポート用\'!E{行}` |',
+    '| K | `=\'インポート用\'!F{行}` |',
+    '| L | セラーID（ソースG列。ただし `消失` の場合は空欄） |',
+    '| M | Title（英語80字以内・再生成） |',
+    '| N | Condition/Description（英語480字以内・1行） |',
+    '| P:BC | Item Specifics（ISF/IS値ペア） |',
+    '',
+    'J列・K列は必ずソース参照式で出す。手転記は禁止。書込行は `v5インポート` のH列が空の最初の行から順次追記し、既存データを上書きしない。`valueInputOption` は `USER_ENTERED` を使う（RAW禁止）。',
+    '',
+    '## 出力: 新方式で `v5インポート` を精査する場合',
+    '',
+    '既存行を直接更新する。新規行は作らない。',
+    '',
+    '主な更新対象:',
+    '',
+    '- D列タグ（必要な場合だけ）',
+    '- F列カテゴリーID（明らかに空または不適切な場合だけ）',
+    '- M列Title',
+    '- N列Condition/Description',
+    '- P:BC Item Specifics',
+    '',
+    '原則変更しない列:',
+    '',
+    '- A:B 日付・担当',
+    '- C label',
+    '- E テンプレート',
+    '- G:H 仕入先・仕入先コード',
+    '- I 仕入価格',
+    '- J:K 元タイトル・元説明保管欄',
+    '- O シッピングポリシー',
+    '- BD:BE',
+    '- BF URL',
+    '',
+    '## 対象行検出',
+    '',
+    '### `インポート用`',
+    '',
+    'ソースシート「インポート用」にデータ（仕入先コードなど）があり、書込先「v5インポート」のH列（仕入先コード）が未記入の行を「処理待ち行」として自動検出する。G列が `消失` の行は翻訳対象に含めない。',
+    '',
+    '### `v5インポート`',
+    '',
+    'ユーザーが範囲を指定した場合はその範囲を使う。指定がない場合は、H列に仕入先コードがあり、次のいずれかに該当する行を候補として提示する。',
+    '',
+    '- BF列にURLがある',
+    '- M列またはN列が空',
+    '- P:BCにItem Specificsが入っている',
+    '- D/F/M/N/P:BCの精査が必要だとユーザーが述べている',
+    '',
+    '候補行を提示し、ユーザー確認後に実行する。',
+    '',
+    '## 除外フラグ',
+    '',
+    '- `消失` は「インポート用」G列だけに記録する。A列には書かない。',
+    '- `消失` はTagShippingのタグではないため、`v5インポート` D列タグには書かない。',
+    '- ソースG列が `消失` の場合、`v5インポート` L列（セラーID）は空欄にする。`消失` をセラーIDとして転記しない。',
+    '- `消失` 行は原則として `v5インポート` に書き込まない。ユーザーが「消失行も翻訳する」と明示した場合だけ、既存情報主軸で処理する。',
+    '- 通信失敗やDNS失敗だけで消失扱いにしない。',
+    '',
+    '## Title（M列）',
+    '',
+    '旧方式では前回と同一タイトルにしない。新方式では既存Titleを主軸にするが、ユーザーが「タイトル再生成」「タイトルを変える」「再生成」と指示した場合は、対象全行のM列Titleに必ず何らかの変更を加える。変更後も80字以内・禁止記号なし・根拠なし誇張なしを守る。',
+    '',
+    '共通ルール:',
+    '',
+    '- 80字以内。書込前にコード等でTitle文字数を機械的に実測する。目視は禁止。',
+    '- 最初の30字に高価値キーワードを入れる。',
+    '- 許可記号: `& / : - . ,`（TCG・グレード等では `# \' +` も可）。',
+    '- 禁止記号: `* $ ~ ^ @ ! ? ™ ( ) [ ] { } " _ % = | \\ < > ;`。',
+    '- VeRO抵触語 `AUTHENTIC` / `OFFICIAL` は使わない。',
+    '- 根拠なき誇張語 `RARE` / `LIMITED` / `VINTAGE` はソース根拠がある場合のみ。`Mint` / `Excellent` などもソース根拠が薄ければ使わない。',
+    '- ブランド名は1つ。時計のTitleには時計本体のブランドのみ使う。',
+    '- 色名として `Tiffany Blue` / `Tiffany blue` は使わない。青系は `Turquoise Blue` / `Aqua Blue` / `Light Blue` などで表現する。',
+    '',
+    '## Condition（N列）',
+    '',
+    '旧方式では既存コンディション（ソースF列）をベースに作る。新方式では既存N列を主軸に、必要な場合だけ修正する。',
+    '',
+    '共通ルール:',
+    '',
+    '- 480字以内・ASCII・1行のみ。改行 `\\n` を含めない。',
+    '- Pre-owned基調。ソースが「未使用」でも `new` / `Brand New` は使わない。`Pre-owned, unused` / `Pre-owned, sealed and unopened` は可。',
+    '- 第三者引用 `per seller notes` / `according to seller` などは禁止。出品者自身が言い切る形で書く。',
+    '- 配送方法・梱包条件・補償/取引文言・保管環境・値下げ情報・eBay側で別管理する情報は除去する。',
+    '- 書込前にコード等でDescription文字数を機械的に実測する。目視は禁止。',
+    '',
+    '## Item Specifics / categoryID / タグ',
+    '',
+    '### Item Specifics',
+    '',
+    'P:BCをISF/IS値ペアとして扱う。',
+    '',
+    '旧方式:',
+    '',
+    '- 画像・テキストから確実に分かるもののみ出力する。',
+    '- 最低10フィールドを目標にする。ただし嘘・推測・根拠なし情報は入れない。',
+    '',
+    '新方式:',
+    '',
+    '- 既存P:BCを主軸に、列ずれ、禁止語、明らかな誤り、空欄の補完だけを行う。',
+    '- `Does not apply` は機械的に削除しない。カテゴリや項目として不適切な場合のみ修正する。',
+    '- 元xlsx由来の順序があるため、必要な場合だけ並び替える。',
+    '- ISF列とIS値列のペアが崩れている場合は書き込み前に停止して報告する。',
+    '',
+    '共通禁止・優先ルール:',
+    '',
+    '- `Country/Region of Manufacture` は原則必ず出力する。製造国ではなくブランド国・権利元の国で判定する。',
+    '- `Occasion` は出品ツールが `CASIO` と誤認するため使用禁止。代替として `Use` / `Scene` / `Style` / `Wear` / `Event` を使う。',
+    '- 動物素材ワード `Crocodile` / `Alligator` / `Ivory` / `Ostrich` / `Snake` などは禁止。素材不明・人工なら `Leather` / `Faux leather` などで表現する。',
+    '- ハルシネーション禁止。画像・テキスト・Web検索で確認できない仕様は推測しない。',
+    '- 玩具・キャラクター系はCollectiblesカテゴリ優先。Age Levelは元データに幼児向け年齢が書かれていても必ず `13+` / `14+` / `16+` のいずれかにする（デフォルト `14+`）。',
+    '',
+    '`Country/Region of Manufacture` の基準:',
+    '',
+    '| 商品・ブランド | 値 |',
+    '|---|---|',
+    '| フィギュア / アニメグッズ / 漫画 / 書籍 / CD / DVD / 日本作品キャラクター商品 | Japan |',
+    '| Casio / Seiko / Citizen / Orient | Japan |',
+    '| Dior / Christian Dior / Cartier | France |',
+    '| Gucci / Prada / Fendi / Bvlgari / Panerai | Italy |',
+    '| Omega / Tag Heuer / IWC / Longines / Breitling / Hamilton | Switzerland |',
+    '| ブランド国が判定できる場合 | その国 |',
+    '| 辞書外で不明な場合 | Japan |',
+    '',
+    '### eBayカテゴリID（F列）',
+    '',
+    '実行前にカテゴリ参照JSONを1回HTTP取得する。',
+    '',
+    '`https://naokijodan.github.io/bulksheet-ebay-categories/ebay-category-buckets.json`',
+    '',
+    'このJSONは `{ tagToGenre, buckets }` 形式で、eBay US treeVersion 134の公式確定IDを含む。',
+    '',
+    '- 商品の実態（画像・テキスト）からカテゴリを判定する。タグのgenreに縛られない。',
+    '- `buckets` のいずれかの候補リスト内に実在する数値IDのみ採用する。リストにない番号は創作しない。',
+    '- 新方式では既存F列があり、明らかな誤りがなければ維持する。',
+    '- 候補がない、または不明の場合は空にする。',
+    '- 漫画セット/単巻は原則 `259109`。アニメグッズで細分類なしは `69528`。',
+    '- 玩具・キャラクター系はCollectiblesツリー（pathが `Collectibles >` で始まるID）を優先する。',
+    '',
+    '### タグ（D列）',
+    '',
+    '- TagShippingシートのA列許可リストから0個または1個だけ選ぶ。',
+    '- 配送カテゴリで選ぶ。リストにない新規タグは禁止。該当なしなら空。',
+    '- タグとcategoryIDは独立した別軸。タグに合わせてカテゴリを歪めない。',
+    '- 新方式では既存D列があり、許可リスト内で妥当なら維持する。',
+    '',
+    '## 仕入れ先ページとBF列URL',
+    '',
+    '- `インポート用` ではH列URLを使う。',
+    '- `v5インポート` ではBF列URLを使う。',
+    '- BF列URLは新フォーマットの元商品URLであり、Title/Condition/ISを修正するかどうかの判断材料にする。',
+    '- 仕入れ先ページに到達できる場合は、商品タイトル・価格・商品画像メタ情報など、商品固有の情報を補助または主軸情報として使う。',
+    '- 仕入れ先ページに到達できない、または商品固有情報を確認できない場合でも、通信失敗やDNS失敗だけで消失扱いにしない。',
+    '- 商品ページの共通辞書やUI文言に含まれる `soldOut` / `売り切れ` などの文字列だけでは、売り切れ・消失と判定しない。',
+    '- eBayへのアクセス・スクレイピングは禁止。仕入れ先ページへの直接アクセスはモードに必要な範囲に留める。',
+    '',
+    '## 翻訳に使うAI',
+    '',
+    'このスキルを実行しているAI自身の能力で処理する。外部AI API呼出は禁止。',
+    '',
+    '- Codex app / CLIで実行中: GPT本体で処理する。',
+    '- Claude Codeで実行中: Claude自身で処理する。MCP openai-bridge / gemini-bridge等の他AI呼出を使わない。',
+    '- Gemini CLIで実行中: Gemini自身で処理する。',
+    '',
+    '## 必要な接続',
+    '',
+    '- MCP google-sheets: テキスト読込・結果書込',
+    '- インターネット接続 / HTTP取得: カテゴリ参照JSON取得・仕入れ先ページ参照',
+    '',
+    '## 動作手順',
+    '',
+    '1. 対象シート確認: `インポート用` か `v5インポート` かを確認する。',
+    '2. モード確認: 対象シートに応じたモードをユーザーに選んでもらう。',
+    '3. 対象行検出: 対象候補行、除外行、理由を提示し、ユーザー確認を得る。',
+    '4. 準備: TagShipping A列（タグ許可リスト）をシートから取得し、カテゴリ参照JSONを1回HTTP取得する。',
+    '5. 対象再取得: 書込直前に対象範囲を再取得する。',
+    '6. 精査: 各行について、必ず1行ずつ以下を順番に行う。',
+    '   - ソーステキストを読む。書かれていることだけをFactとする。',
+    '   - 必要なモードではURL（旧H列 / 新BF列）のページを参照する。商品固有情報が取れない場合は既存情報主軸にする。',
+    '   - タグを判定または維持する。',
+    '   - カテゴリIDを判定または維持する。',
+    '   - Titleを生成または精査する。',
+    '   - Conditionを生成または精査する。',
+    '   - Item Specificsを生成または精査する。',
+    '7. 書込前に機械実測: 全行のM（Title）・N（Condition）の文字数をコード等で機械的に実測する。M > 80 / N > 480は直してから書き込む。',
+    '8. 書込:',
+    '   - 旧方式: `v5インポート` のH列空行を毎バッチ再取得して特定し、新規行として書き込む。',
+    '   - 新方式: 対象既存行の必要セルだけを更新する。BD/BE/BFを変更しない。',
+    '9. 書込後QA: 対象範囲を読み戻して確認する。',
+    '   - M列がTitle、N列がCondition、P:BCがISになっており列ずれがない。',
+    '   - Title/Conditionの文字数制限を満たす。',
+    '   - D列タグは許可リスト内から1つまで、F列categoryIdはbuckets候補内IDのみ。',
+    '   - 新方式ではBF列URLが保持され、BD/BEが変更されていない。',
+    '10. 完了報告: 問題がなければ `完了。確認をお願いします` の1行で終える。ただし、categoryId / タグが空欄の行、IS 10未満の行、ページ参照できず既存情報主軸にした行、Conditionを訂正した行があれば行番号と理由を短く箇条書きで添える。',
+    '',
+    '## 失敗時の最小ハンドリング',
+    '',
+    '- HTTP 429/5xx: 指数バックオフリトライ（2s/4s/8s）。',
+    '- HTTP 4xx（429除く）/ ページ参照不可: `消失` は書かず、既存情報を主軸に処理する。',
+    '- 連続失敗（2回以上同一エラー）: 停止して報告する。',
   ]).join('\n');
 }
 
