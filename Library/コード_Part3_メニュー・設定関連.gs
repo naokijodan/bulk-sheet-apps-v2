@@ -3217,13 +3217,14 @@ function saveIntegratedSettings(formData) {
           Logger.log('プリセット適用完了: ' + genreName + ' / ' + formData.presetWeight + 'g');
 
           // 🆕 プリセット適用後、AJ5が「ゲーム・トレカ」になっているので式を再出力
+          // V5 シートの場合は v5ProfitMethod / v5Mode=true を引き継ぐ
           var aj5AfterPreset = sheet.getRange('AJ5').getValue();
           if (aj5AfterPreset === 'ゲーム・トレカ') {
-            Logger.log('プリセット適用後のAJ5: ' + aj5AfterPreset + ' → GAME_CARDモードで式を再出力');
+            Logger.log('プリセット適用後のAJ5: ' + aj5AfterPreset + ' → GAME_CARDモードで式を再出力（V5=' + isV5 + '）');
             var reapplyResult = applyCalculationFormulas(sheetName, {
-              profitCalc: profitCalc,
+              profitCalc: isV5 ? v5ProfitMethod : profitCalc,
               shippingCalcMethod: 'GAME_CARD'
-            });
+            }, isV5);
             if (reapplyResult.success) {
               Logger.log('GAME_CARDモードの式を再出力しました');
             } else {
@@ -5122,17 +5123,29 @@ function reapplyCalculationFormulasToSelectedRows() {
       return;
     }
 
-    // AI～AQ列から設定値を読み取る
-    var profitCalcText = sheet.getRange('AL2').getValue(); // "利益率" or "利益額"
-    var profitCalc = (profitCalcText === '利益額') ? 'AMOUNT' : 'RATE';
+    // V5 シートかどうかを B1 セルで判定
+    var v5Mode = isV5WorkSheet_(sheet);
 
-    var shippingCalc = getShippingCalcMethodFromLabel_(sheet);
+    var profitCalc, shippingCalc;
+    if (v5Mode) {
+      // V5 時: profitCalc は docProps から取得、shippingCalc はシートの AJ5 から取得
+      // （AJ5 が「ゲーム・トレカ」の場合は GAME_CARD になるため docProps では読めない）
+      var docPropsR = PropertiesService.getDocumentProperties();
+      var v5ProfitRaw = docPropsR.getProperty('V5_PROFIT_METHOD') || 'RATE';
+      profitCalc = (['RATE', 'AMOUNT'].indexOf(v5ProfitRaw) !== -1) ? v5ProfitRaw : 'RATE';
+      shippingCalc = getShippingCalcMethodFromLabel_(sheet);
+    } else {
+      // 非 V5 時: 従来通り AL2/AJ5 から読み取る
+      var profitCalcText = sheet.getRange('AL2').getValue(); // "利益率" or "利益額"
+      profitCalc = (profitCalcText === '利益額') ? 'AMOUNT' : 'RATE';
+      shippingCalc = getShippingCalcMethodFromLabel_(sheet);
+    }
 
     // applyCalculationFormulas関数を呼び出して初期設定と同じ処理を実行
     var result = applyCalculationFormulas(settings.sheetName, {
       profitCalc: profitCalc,
       shippingCalcMethod: shippingCalc
-    });
+    }, v5Mode);
 
     if (!result.success) {
       showAlert("計算式の再出力エラー: " + result.error, "error");

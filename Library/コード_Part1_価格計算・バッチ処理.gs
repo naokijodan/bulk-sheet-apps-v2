@@ -164,6 +164,10 @@ function initialSetup() {
 
     // ===== ✅ 重複チェック設定の規定値を詳細に設定 =====
     var workSheetName = props.getProperty('SHEET_NAME') || '作業シート';
+
+    // V5チェックボックスの初期値: 作業シートの B1 が 'V5 ON' なら true（実態に合わせる）
+    var v5CheckSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(workSheetName);
+    tmpl.currentV5SheetEnabled = (v5CheckSheet && v5CheckSheet.getRange('B1').getValue() === 'V5 ON');
     
     // 基本設定
     tmpl.currentDuplicateCheckEnabled = props.getProperty('DUPLICATE_CHECK_ENABLED') || 'false';
@@ -3619,10 +3623,22 @@ function saveSelectedRowsAndClear() {
     var targetSheet = getOrCreateSaveSheet(ss, requiredRows);
     var savedCount = saveRowsToSheet(sheet, targetSheet, startRow, endRow);
 
-    // 2. 計算モードの読み取り
-    var profitCalcText = sheet.getRange('AL2').getValue(); // "利益率" or "利益額"
-    var profitCalc = (profitCalcText === '利益額') ? 'AMOUNT' : 'RATE';
-    var shippingCalc = getShippingCalcMethodFromLabel_(sheet);
+    // 2. 計算モードの読み取り（V5 シートかどうかを B1 セルで判定）
+    var v5ModeSave = isV5WorkSheet_(sheet);
+    var profitCalc, shippingCalc;
+    if (v5ModeSave) {
+      // V5 時: profitCalc は docProps から取得、shippingCalc はシートの AJ5 から取得
+      // （AJ5 が「ゲーム・トレカ」の場合は GAME_CARD になるため docProps では読めない）
+      var docPropsSave = PropertiesService.getDocumentProperties();
+      var v5ProfitRaw = docPropsSave.getProperty('V5_PROFIT_METHOD') || 'RATE';
+      profitCalc = (['RATE', 'AMOUNT'].indexOf(v5ProfitRaw) !== -1) ? v5ProfitRaw : 'RATE';
+      shippingCalc = getShippingCalcMethodFromLabel_(sheet);
+    } else {
+      // 非 V5 時: 従来通り AL2/AJ5 から読み取る
+      var profitCalcText = sheet.getRange('AL2').getValue(); // "利益率" or "利益額"
+      profitCalc = (profitCalcText === '利益額') ? 'AMOUNT' : 'RATE';
+      shippingCalc = getShippingCalcMethodFromLabel_(sheet);
+    }
 
     // 3. クリア処理
     clearSelectedRowsValues(sheet, startRow, endRow, shippingCalc);
@@ -3631,7 +3647,7 @@ function saveSelectedRowsAndClear() {
     var result = applyCalculationFormulas(settings.sheetName, {
       profitCalc: profitCalc,
       shippingCalcMethod: shippingCalc
-    });
+    }, v5ModeSave);
 
     if (!result.success) {
       showAlert("計算式の再出力エラー: " + result.error, "error");
@@ -3867,10 +3883,22 @@ function clearAndReapplyFormulas() {
     var settings = getSettings();
     if (!settings) return;
 
-    // 1. 計算モードの読み取り
-    var profitCalcText = sheet.getRange('AL2').getValue(); // "利益率" or "利益額"
-    var profitCalc = (profitCalcText === '利益額') ? 'AMOUNT' : 'RATE';
-    var shippingCalc = getShippingCalcMethodFromLabel_(sheet);
+    // 1. 計算モードの読み取り（V5 シートかどうかを B1 セルで判定）
+    var v5ModeClear = isV5WorkSheet_(sheet);
+    var profitCalc, shippingCalc;
+    if (v5ModeClear) {
+      // V5 時: profitCalc は docProps から取得、shippingCalc はシートの AJ5 から取得
+      // （AJ5 が「ゲーム・トレカ」の場合は GAME_CARD になるため docProps では読めない）
+      var docPropsClear = PropertiesService.getDocumentProperties();
+      var v5ProfitRaw = docPropsClear.getProperty('V5_PROFIT_METHOD') || 'RATE';
+      profitCalc = (['RATE', 'AMOUNT'].indexOf(v5ProfitRaw) !== -1) ? v5ProfitRaw : 'RATE';
+      shippingCalc = getShippingCalcMethodFromLabel_(sheet);
+    } else {
+      // 非 V5 時: 従来通り AL2/AJ5 から読み取る
+      var profitCalcText = sheet.getRange('AL2').getValue(); // "利益率" or "利益額"
+      profitCalc = (profitCalcText === '利益額') ? 'AMOUNT' : 'RATE';
+      shippingCalc = getShippingCalcMethodFromLabel_(sheet);
+    }
 
     // 2. 選択行をクリア
     clearSelectedRowsValues(sheet, startRow, endRow, shippingCalc);
@@ -3879,7 +3907,7 @@ function clearAndReapplyFormulas() {
     var result = applyCalculationFormulas(settings.sheetName, {
       profitCalc: profitCalc,
       shippingCalcMethod: shippingCalc
-    });
+    }, v5ModeClear);
 
     if (!result.success) {
       showAlert("計算式の再出力エラー: " + result.error, "error");

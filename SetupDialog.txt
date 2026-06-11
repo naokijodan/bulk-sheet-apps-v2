@@ -1026,7 +1026,7 @@
         <div class="section-content" id="content-v5-sheet">
           <div class="checkbox-group">
             <label class="checkbox-label">
-              <input type="checkbox" id="v5SheetEnabled" name="v5SheetEnabled">
+              <input type="checkbox" id="v5SheetEnabled" name="v5SheetEnabled" <?= currentV5SheetEnabled ? 'checked' : '' ?>>
               V5 ルートを使う
             </label>
           </div>

@@ -1591,6 +1591,21 @@ function parseShippingPolicyName_(policyName) {
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  V5 モード判定ヘルパー
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+/**
+ * 作業シートが V5 ルートで設定されているかを判定する
+ * 初期設定（saveIntegratedSettings）が B1 に 'V5 ON' を書き込む仕様に基づく
+ * @param {Sheet} sheet - 作業シートオブジェクト
+ * @return {boolean} B1 の値が 'V5 ON' なら true
+ */
+function isV5WorkSheet_(sheet) {
+  if (!sheet) return false;
+  return sheet.getRange('B1').getValue() === 'V5 ON';
+}
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   送料モード共通関数（Single Source of Truth）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
