@@ -354,6 +354,7 @@ function buildEbayTranslationSkillDownloadHtml() {
 function getEbayTranslationFinalCheckContent() {
   // ★スキル本文を変えたら CHANGELOG の先頭に {date, text} を1件追加(新しい順・事実を正確に)。
   var CHANGELOG = [
+    { date: '2026-06-11', text: 'チェック項目7にトレカ／スポーツトレカの categoryId 4 ID 固定(261328/261329/183454/183455)の確認を追加。メンコ等の非CCGカードも CCG カテゴリ必須' },
     { date: '2026-06-10', text: '最終チェックをスキル化。起動「最終チェック」。v5インポートの書込結果を1行ずつ実セル検証し、問題は修正して報告' }
   ];
   var version = (CHANGELOG[0] && CHANGELOG[0].date) ? CHANGELOG[0].date : '';
@@ -393,6 +394,8 @@ function getEbayTranslationFinalCheckContent() {
     '5. 日本語の混入がないか',
     '6. タグがミスマッチしていないか',
     '7. カテゴリIDが正しいか(タグ・商品に合った出品可能カテゴリか)',
+    '   ・トレカ／スポーツトレカのカード商品は 4 ID 固定か(スポーツ1枚=261328／スポーツ2枚以上・ボックス=261329／キャラ・アニメ系1枚=183454／同2枚以上=183455)',
+    '   ・メンコ等の非CCGカードが Collectibles 側 (183050/183051) や Sets/Sealed Boxes (261330-261332) に逃げていないか(CCGカテゴリでないとカード商品を登録できない)',
     '8. 玩具・キャラ系(フィギュア・ぬいぐるみ・人形・おもちゃ・アニメグッズ等)の扱い',
     '   ・キャラ物/コレクター物は Collectibles のカテゴリに入っているか',
     '   ・Collectibles に適切な受け皿が無い純玩具を無理に Collectibles へ入れていないか',
@@ -513,6 +516,7 @@ function getEbayTranslationSkillContent() {
   //   バージョンは先頭エントリの日付から自動生成。変更履歴は HTMLコメント + 区切り線の「上」に
   //   置く＝(1)実行AIはコメントを命令と読まない (2)区切り線より下だけ登録すれば本文に履歴は入らない。
   var CHANGELOG = [
+    { date: '2026-06-11', text: 'トレカ／スポーツトレカの categoryId を 4 ID に固定(スポーツ1枚=261328/スポーツ2枚以上・ボックス=261329/キャラ・アニメ系1枚=183454/同2枚以上=183455)。Sets/Sealed Boxes/Collectibles側Singles・Lots は使用禁止。メンコ等の非CCGカードも CCG カテゴリ必須(CCGでないとカード商品を登録できないため)' },
     { date: '2026-06-08', text: '玩具・キャラクター系は categoryId を Collectibles ツリー優先に変更(アニメフィギュア261055/アニメぬいぐるみ261062/アニメグッズ69528/コレクターフィギュア149372)。受け皿が無い純玩具は正しいカテゴリ+warnings記録。Age13+/14+維持。理由にCPaSS Economyの HTSUS紐付け(9503.00.00.90/CPSIA非該当)を追記。完了報告に空欄・IS不足行の理由を添えるよう緩和' },
     { date: '2026-05-30', text: 'Codex 版 (2026-05-30) に統合。第一ルール(情報精査は1行ずつ)を先頭に追加。中古時計の交換バンド表現/時計VeRO回避/青色禁止語/製造国のブランド国判定詳細化/カテゴリID補足(漫画259109・アニメグッズ69528・関数電卓58042)/書込値は実値(数式禁止)/書込後QA/途中承認スキップ を追加。集約バッチ既定を5に (まとめ処理は精度が落ちるため)。TITLE は数値固定せず理由で充実' },
     { date: '2026-05-23', text: 'eBay カテゴリ ID 判定を追加 (GitHub公開JSONを HTTP 取得し tag->genre->候補から選び F 列へ。候補内 ID のみ・無ければ空。全ツール対応)' },
@@ -665,6 +669,13 @@ function getEbayTranslationSkillContent() {
     '  - タグが `漫画　６〜１５冊` / `漫画　１〜５冊` / `漫画　１６冊以上` のように数量修飾付きで `tagToGenre` に完全一致しない場合、タグ許可リスト上の値は D 列にそのまま書き、カテゴリ判定だけ `漫画` に正規化して `buckets["漫画"]` から選ぶ。漫画セット/単巻は原則 `259109` (Manga & Asian Comics > Single Volumes) を使う。',
     '  - `アニメグッズ` で候補内に完全一致する細分類がない商品は `69528` (Other Animation Merchandise) を使う。マウスパッド等で他 genre に似たカテゴリがあっても、`アニメグッズ` の genre 外 ID は使わない。',
     '  - 書込前に「D列タグが許可リスト内」「F列categoryIdが tagToGenre/正規化後genre の buckets 内」「候補外IDなし」を必ず確認する。',
+    '- **【必須・固定】トレカ／スポーツトレカの categoryId は次の 4 つだけを使う (絶対遵守)**: トレカ系タグ (トレカ／スポーツトレカの単品・まとめ売り・未開封・未鑑定・PSA 等) の商品は、F 列を必ず以下の 4 ID のいずれかに固定する。Sets (261330)・Sealed Trading Card Packs/Boxes (261331/261332)・Collectibles 側の Trading Card Singles/Lots (183050/183051) など、buckets 内の他候補があっても**絶対に使わない**:',
+    '  - スポーツカード (野球・サッカー等の実在選手/球団のカード) **1 枚** → `261328` (Sports Mem, Cards & Fan Shop > Sports Trading Cards > Trading Card Singles)',
+    '  - スポーツカード **2 枚以上・セット・ボックス・未開封** → `261329` (Sports Mem, Cards & Fan Shop > Sports Trading Cards > Trading Card Lots)',
+    '  - キャラクター/アニメ等のトレカ **1 枚** → `183454` (Toys & Hobbies > Collectible Card Games > CCG Individual Cards)',
+    '  - キャラクター/アニメ等のトレカ **2 枚以上・まとめ売り** → `183455` (Toys & Hobbies > Collectible Card Games > CCG Mixed Card Lots)',
+    '  - **非 CCG のカード (メンコ・ミニカード・ポストカード状のコレクションカード・アーケードゲーム排出カード等) も、カード商品である限り必ず上記の CCG カテゴリ (183454/183455) を使う**。「ゲーム用カードではないから」と Collectibles > Non-Sport Trading Cards (183050/183051) 等へ逃がさない。理由: 出品ツール側は CCG カテゴリでないとカード商品を登録できない。',
+    '  - ポケカ・遊戯王・ワンピース等、専用 genre が buckets にあるカードはその bucket の候補に従ってよいが、汎用のトレカ／スポーツトレカは上記 4 ID に固定する。判断基準は「スポーツか否か」×「1 枚か 2 枚以上か」だけ。未開封・鑑定済みなどの状態は ID を変える理由にならない。',
     '- **関数電卓カテゴリ補足**: 古い関数電卓 / ポケットコンピュータ / プログラム電卓 (例: SHARP PC-G850V, PC-1360K, PC-1255, PC-1280, CE-120P など) は、参照JSONで `関数電卓` の候補が空の場合でも eBay US `Vintage Calculators` の categoryId `58042` を採用する。通常の現行電卓や事務用電卓ではなく、ヴィンテージ・コレクション性のある計算機に限る。',
     '- **玩具・キャラクター系 → Collectibles カテゴリ優先 (重要)**: ぬいぐるみ / Plush / フィギュア / Figure / おもちゃ / Toy / 人形 / Doll / ミニカー / Action Figure / Soft Toy / Stuffed Animal / アニメグッズ など、子供が遊ぶ可能性のある、またはキャラクター収集品は 13 歳以上のコレクター向けとして扱う:',
     '  - **categoryId は Collectibles ツリー (path が「Collectibles >」で始まる ID) を優先する**。同じ genre の buckets 候補の中に Collectibles ツリーの ID があれば、Toys & Hobbies / Dolls & Bears ツリーの ID より優先して選ぶ:',
@@ -997,6 +1008,7 @@ function getRelistingImportSkillContent() {
 function getRelistingTranslationSkillContent() {
   // ★スキル本文を変えたら CHANGELOG の先頭に {date, text} を1件追加(新しい順・事実を正確に)。
   var CHANGELOG = [
+    { date: '2026-06-11', text: 'トレカ／スポーツトレカのカード商品の categoryId を 4 ID に固定(スポーツ1枚=261328/スポーツ2枚以上・ボックス=261329/キャラ・アニメ系1枚=183454/同2枚以上=183455)。メンコ等の非CCGカードも CCG カテゴリ必須。既存F列が反する場合は修正' },
     { date: '2026-06-10-5', text: 'v5インポート上で直接精査するモードA（既存v5精査）/モードB（URL参照つき精査）を追加。消失チェックスキルへの依存を削除しG列「消失」は手動除外フラグに変更。BF列URLを参照情報として使用' },
     { date: '2026-06-10', text: '初版。再出品向けに既存英語タイトル/コンディションからTitle再生成＋Condition(原則転記/誤りは訂正)＋IS/タグ/カテゴリをv5インポートへ生成。起動「再出品翻訳」。モード1/2選択・対象行は自動検出後に確認' }
   ];
@@ -1248,6 +1260,7 @@ function getRelistingTranslationSkillContent() {
     '- 候補がない、または不明の場合は空にする。',
     '- 漫画セット/単巻は原則 `259109`。アニメグッズで細分類なしは `69528`。',
     '- 玩具・キャラクター系はCollectiblesツリー（pathが `Collectibles >` で始まるID）を優先する。',
+    '- **【必須・固定】トレカ／スポーツトレカのカード商品は次の 4 ID だけを使う**: スポーツカード1枚=`261328`(Trading Card Singles)／スポーツカード2枚以上・セット・ボックス・未開封=`261329`(Trading Card Lots)／キャラ・アニメ系トレカ1枚=`183454`(CCG Individual Cards)／同2枚以上・まとめ売り=`183455`(CCG Mixed Card Lots)。Sets・Sealed Packs/Boxes・Collectibles側Singles/Lots(183050/183051)は使わない。メンコ等の非CCGカードも必ずCCGカテゴリを使う(CCGでないとカード商品を登録できない)。既存F列がこれに反する場合は修正する。',
     '',
     '### タグ（D列）',
     '',
