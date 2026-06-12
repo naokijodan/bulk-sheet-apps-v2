@@ -1,10 +1,10 @@
 # 一括シートV3 引き継ぎ文
 
-> **Last updated**: 2026-05-27 (harness-20260526-233054 終了時、TagShipping S/T列追加 全段階完了 + main push 済み + 椛島さん実機 OK)
-> **次セッションへ最優先で**: 下記「2026-05-27: TagShipping S/T列追加 — 全段階完了」セクションを読む → priority 39 和楽器から再開
+> **Last updated**: 2026-06-12 (V5タグ自動判定 自動ON修正 完了・push済み。次回=新V5刷新の企画の続き)
+> **次セッションへ最優先で**: 下記「2026-06-12」セクションを読む → 新V5刷新（案A/B）の続きから
 > **唯一の設計基準 (プロンプト改修系)**: [`docs/PROMPT_DESIGN_PRINCIPLE.md`](docs/PROMPT_DESIGN_PRINCIPLE.md) **v1.1** (commit 48cab87)
 > **過去の Sprint Contract / 旧設計書は物理削除済み**。参照しないこと。
-> **進捗**: priority 1-38 完遂、TagShipping S/T 列追加 完了、**次は priority 39 和楽器から再開**
+> **進捗**: priority 1-38 完遂、TagShipping S/T 列追加 完了
 
 ---
 
@@ -13,6 +13,37 @@
 **過去の設計書を「探してきて」はいけない。** 過去の Sprint Contract と古い docs/ 設計書は物理削除済み。
 
 設計判断は **`docs/PROMPT_DESIGN_PRINCIPLE.md` v1.1 のみ** を根源基準とする。
+
+---
+
+## 2026-06-12: V5タグ自動判定 自動ON修正 完了 + 新V5刷新の企画（途中）
+
+### 完了（commit 5cba599、BulkToolsLib clasp push済・GitHub push済）
+
+- **問題**: ユーザーには設定ダイアログで「V5ルート」のチェックだけを案内していたため、「タグ自動判定 > 商品状態」が未保存のシートでは `clearSelectedRowsOnly` でAE列（商品状態）の数式が消えていた（DocumentProperties `TAG_OVERRIDE_CONDITION` 未設定のシートはAE列がクリア対象になる仕様だった）。
+- **修正**（ルート+Library 計8ファイル: Config.gs / Translation.gs / コード_Part1 / コード_Part3）:
+  1. 設定保存時、V5有効なら TAG_OVERRIDE_* 全12キーを 'true' で強制保存（コード_Part3 saveIntegratedSettings、isV5ブロック内）
+  2. 実行時、B1='V5 ON'（isV5WorkSheet_）なら保存値に関わらずON扱い（Config.gs getSettings の v5AllOn / コード_Part1 clearSelectedRowsValues / Translation.gs Step6）→ 再保存不要で既存V5ユーザーも救済
+  3. clearSelectedRowsOnly の確認ダイアログ文言を実動作（keepAE 判定）と連動
+- 2者レビューPASS（code-reviewerサブ＋親）。push後に clasp pull で再取得し、デプロイ反映をマーカー文字列で実測確認済み。
+
+### 未解決1: TagShipping S1/T1ヘッダー問題（実機確認待ち）
+
+- 報告: V5選択時にS/T列ドロップダウンは入るが、S1=利益方法 / T1=送料方法 のヘッダーが書かれないシートがある。
+- 調査済みFact: デプロイ済みBulkToolsLib HEADと手元コードは全26ファイル完全一致（clasp pullで実測）。コード上は `ensureTagShippingSheet_`（コード_Part3）がヘッダー書込→ドロップダウン適用を同一関数内で必ず両方実行する。ヘッダーだけ欠ける経路は見つからず。S1/T1に別の値が入っている場合のみスキップ（Apps Scriptログに警告が残る仕様）。
+- 次の一手: 該当シートのURLをもらい、S1/T1の実値とログを実機確認。
+
+### 未解決2: 新V5刷新の企画（次回ここから再開）
+
+- ユーザー意向: 今までの機能（旧翻訳など）を外し、**V5の機能だけの新しい一括シートを作りたい**。既存版は今まで通り使う人のために**残す**。
+- 提示済みの選択肢（ユーザー回答待ち）:
+  - 案A（推奨として提示）: 新ライブラリを別GASプロジェクトとして新規作成。既存BulkToolsLib無影響でリスクゼロ。共通修正は2か所メンテになる。
+  - 案B: 既存ライブラリ内に新V5モードを同居。メンテ1か所だが、修正のたびに既存ユーザーへの影響リスク。
+- 方式決定後、着手前に「V5の機能の正確な範囲」（新版に残す機能一覧）の洗い出しが必要。
+
+### 既知の小課題（今回未対応）
+
+- ルート `Config.gs` とLibrary `Config.gs` にタグ辞書の未同期差分（ルート側にのみ「音楽CD」「映像作品」等が存在、Library未反映）。同期ルール違反状態。扱いは次回ユーザーに確認。
 
 ---
 
