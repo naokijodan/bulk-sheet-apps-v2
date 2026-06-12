@@ -962,10 +962,11 @@ function applyTranslationBatch_(sheet, results, conditionMode) {
 
     // ========================================
     // Step 6: AE列（商品状態）のデータ配列を作成（既存値保持）
-    // tagOverrideCondition=ONの場合、AE列に数式が入っているため上書きしない
+    // tagOverrideCondition=ON または V5ルートの場合、AE列に数式が入っているため上書きしない
     // ========================================
     var docProps = PropertiesService.getDocumentProperties();
-    var tagOverrideCondition = docProps.getProperty('TAG_OVERRIDE_CONDITION') === 'true';
+    var tagOverrideCondition = isV5WorkSheet_(sheet) ||
+      docProps.getProperty('TAG_OVERRIDE_CONDITION') === 'true';
     var conditionNotes = [];
 
     if (!tagOverrideCondition) {

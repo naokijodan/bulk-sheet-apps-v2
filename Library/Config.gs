@@ -334,6 +334,16 @@ function getSettings() {
                (platform==='claude') ? docProps.getProperty('CLAUDE_API_KEY') :
                (platform==='gemini') ? docProps.getProperty('GEMINI_API_KEY') : '';
 
+  // V5ルートは設定1種類のため、タグ自動判定は保存値に関わらず常に全ON扱い
+  var v5AllOn = false;
+  try {
+    var wsName = docProps.getProperty('SHEET_NAME');
+    var ws = wsName ? SpreadsheetApp.getActiveSpreadsheet().getSheetByName(wsName) : null;
+    v5AllOn = isV5WorkSheet_(ws);
+  } catch (e) {
+    v5AllOn = false;
+  }
+
   var settings = {
     platform: platform,
     model: model,
@@ -355,19 +365,19 @@ function getSettings() {
 
     duplicateCheckEnabled: docProps.getProperty('DUPLICATE_CHECK_ENABLED') === 'true',
 
-    // タグ自動判定
-    tagOverridePrompt: docProps.getProperty('TAG_OVERRIDE_PROMPT') === 'true',
-    tagOverrideTemplate: docProps.getProperty('TAG_OVERRIDE_TEMPLATE') === 'true',
-    tagOverrideShippingCategory: docProps.getProperty('TAG_OVERRIDE_SHIPPING_CATEGORY') === 'true',
-    tagOverrideProfitRate: docProps.getProperty('TAG_OVERRIDE_PROFIT_RATE') === 'true',
-    tagOverrideAdRate: docProps.getProperty('TAG_OVERRIDE_AD_RATE') === 'true',
-    tagOverrideFeeRate: docProps.getProperty('TAG_OVERRIDE_FEE_RATE') === 'true',
-    tagOverrideShipping: docProps.getProperty('TAG_OVERRIDE_SHIPPING') === 'true',
-    tagOverrideLowShipping: docProps.getProperty('TAG_OVERRIDE_LOW_SHIPPING') === 'true',
-    tagOverrideHighShipping: docProps.getProperty('TAG_OVERRIDE_HIGH_SHIPPING') === 'true',
-    tagOverrideThreshold: docProps.getProperty('TAG_OVERRIDE_THRESHOLD') === 'true',
-    tagOverrideCondition: docProps.getProperty('TAG_OVERRIDE_CONDITION') === 'true',
-    tagOverrideDdpMode: docProps.getProperty('TAG_OVERRIDE_DDP_MODE') === 'true'
+    // タグ自動判定（V5ルートは常に全ON）
+    tagOverridePrompt: v5AllOn || docProps.getProperty('TAG_OVERRIDE_PROMPT') === 'true',
+    tagOverrideTemplate: v5AllOn || docProps.getProperty('TAG_OVERRIDE_TEMPLATE') === 'true',
+    tagOverrideShippingCategory: v5AllOn || docProps.getProperty('TAG_OVERRIDE_SHIPPING_CATEGORY') === 'true',
+    tagOverrideProfitRate: v5AllOn || docProps.getProperty('TAG_OVERRIDE_PROFIT_RATE') === 'true',
+    tagOverrideAdRate: v5AllOn || docProps.getProperty('TAG_OVERRIDE_AD_RATE') === 'true',
+    tagOverrideFeeRate: v5AllOn || docProps.getProperty('TAG_OVERRIDE_FEE_RATE') === 'true',
+    tagOverrideShipping: v5AllOn || docProps.getProperty('TAG_OVERRIDE_SHIPPING') === 'true',
+    tagOverrideLowShipping: v5AllOn || docProps.getProperty('TAG_OVERRIDE_LOW_SHIPPING') === 'true',
+    tagOverrideHighShipping: v5AllOn || docProps.getProperty('TAG_OVERRIDE_HIGH_SHIPPING') === 'true',
+    tagOverrideThreshold: v5AllOn || docProps.getProperty('TAG_OVERRIDE_THRESHOLD') === 'true',
+    tagOverrideCondition: v5AllOn || docProps.getProperty('TAG_OVERRIDE_CONDITION') === 'true',
+    tagOverrideDdpMode: v5AllOn || docProps.getProperty('TAG_OVERRIDE_DDP_MODE') === 'true'
   };
 
   var missing = [];

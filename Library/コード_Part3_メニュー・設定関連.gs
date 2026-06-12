@@ -3035,6 +3035,15 @@ function saveIntegratedSettings(formData) {
 
     // V5固定設定の保存・書き込み（V5 ON時のみ）
     if (isV5) {
+      // V5ルートは設定1種類: タグ自動判定は画面のチェック状態に関わらず全ONで保存
+      [
+        'TAG_OVERRIDE_PROMPT', 'TAG_OVERRIDE_TEMPLATE', 'TAG_OVERRIDE_SHIPPING_CATEGORY',
+        'TAG_OVERRIDE_PROFIT_RATE', 'TAG_OVERRIDE_AD_RATE', 'TAG_OVERRIDE_FEE_RATE',
+        'TAG_OVERRIDE_SHIPPING', 'TAG_OVERRIDE_LOW_SHIPPING', 'TAG_OVERRIDE_HIGH_SHIPPING',
+        'TAG_OVERRIDE_THRESHOLD', 'TAG_OVERRIDE_CONDITION', 'TAG_OVERRIDE_DDP_MODE'
+      ].forEach(function(key) {
+        docProps.setProperty(key, 'true');
+      });
       docProps.setProperty('V5_PROFIT_METHOD', v5ProfitMethod);
       docProps.setProperty('V5_SHIPPING_METHOD', v5ShippingMethod);
       var v5WriteResult = writeV5SettingsToSheet(sheetName, {

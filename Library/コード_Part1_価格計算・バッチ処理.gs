@@ -3678,10 +3678,15 @@ function clearSelectedRowsOnly() {
       return; 
     }
 
+    // AE列の保持判定（clearSelectedRowsValues内の判定と同一条件）
+    var keepAE = isV5WorkSheet_(sheet) ||
+      PropertiesService.getDocumentProperties().getProperty('TAG_OVERRIDE_CONDITION') === 'true';
+
     // 🔹 修正：確認ダイアログを条件付きに変更
     var ok = conditionalConfirmDialog(
       '選択 ' + startRow + '～' + endRow + ' 行のセル値を削除します。\n' +
-      '・E列・O列・P列以降の数式は保持（AE列は削除）\n・ドロップダウン設定は保持\n・元に戻せません\n\n続行しますか？',
+      '・E列・O列・P列以降の数式は保持' + (keepAE ? '（AE列の数式も保持）' : '（AE列は削除）') +
+      '\n・ドロップダウン設定は保持\n・元に戻せません\n\n続行しますか？',
       '選択行のデータ削除'
     );
 
@@ -3689,14 +3694,14 @@ function clearSelectedRowsOnly() {
       conditionalShowAlert('キャンセルしました。', "info");
       return;
     }
-    
+
     // クリア処理前に配送計算モードを取得
     var method = getShippingCalcMethodFromLabel_(sheet);
     clearSelectedRowsValues(sheet, startRow, endRow, method);
     var count = endRow - startRow + 1;
     var deletedCols = (method === 'TAG_SHIPPING')
-      ? 'A,B,C,D,G～N列,AE列の値／ハイライト（F列の式は保持）'
-      : 'A,B,C,D,F～N列,AE列の値／ハイライト';
+      ? 'A,B,C,D,G～N列' + (keepAE ? '' : ',AE列') + 'の値／ハイライト（F列の式は保持）'
+      : 'A,B,C,D,F～N列' + (keepAE ? '' : ',AE列') + 'の値／ハイライト';
     var msg = '✅ データ削除完了\n\n' +
       '🗑️ ' + startRow + '～' + endRow + ' 行 (' + count + '行)\n' +
       '✅ 保持：E列・O列・P列以降の数式／全列のドロップダウン\n' +
@@ -3836,9 +3841,10 @@ function clearSelectedRowsValues(sheet, startRow, endRow, opt_method) {
       sheet.getRange(startRow, 6, rowCount, 9).clearContent();
     }
 
-    // AE列（31列目）をクリア（tagOverrideCondition=ONの場合は数式を保持）
+    // AE列（31列目）をクリア（tagOverrideCondition=ON または V5ルートの場合は数式を保持）
     var docProps = PropertiesService.getDocumentProperties();
-    var tagOverrideCondition = docProps.getProperty('TAG_OVERRIDE_CONDITION') === 'true';
+    var tagOverrideCondition = isV5WorkSheet_(sheet) ||
+      docProps.getProperty('TAG_OVERRIDE_CONDITION') === 'true';
     if (!tagOverrideCondition) {
       sheet.getRange(startRow, CONFIG.COLUMNS.CONDITION, rowCount, 1).clearContent();
     }
