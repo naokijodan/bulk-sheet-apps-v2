@@ -354,6 +354,7 @@ function buildEbayTranslationSkillDownloadHtml() {
 function getEbayTranslationFinalCheckContent() {
   // ★スキル本文を変えたら CHANGELOG の先頭に {date, text} を1件追加(新しい順・事実を正確に)。
   var CHANGELOG = [
+    { date: '2026-06-28', text: 'チェック項目に、トレカ／スポーツトレカ等のカード商品(スポーツ含む全カード)も Title に Collectible 13+ が入っているか確認する項目を追加' },
     { date: '2026-06-24', text: '手元最新版へ同期: ポジティブ遵守の詳述追加(ルールはeBayポリシー由来・明文にない場面も趣旨適用・new /newly/brand new を機械検索で全セル検出)。チェック項目8にCollectible 13+ Titleチェック(Age Level 14+/16+でもTitle常に固定)・アニメ系コレクター扱い確認(categoryId アニメbucket・Type Collectible〜・Age Level付与 既定13+)を追加' },
     { date: '2026-06-11', text: 'チェック項目7にトレカ／スポーツトレカの categoryId 4 ID 固定(261328/261329/183454/183455)の確認を追加。メンコ等の非CCGカードも CCG カテゴリ必須' },
     { date: '2026-06-10', text: '最終チェックをスキル化。起動「最終チェック」。v5インポートの書込結果を1行ずつ実セル検証し、問題は修正して報告' }
@@ -404,6 +405,7 @@ function getEbayTranslationFinalCheckContent() {
     '   ・Collectibles に適切な受け皿が無い純玩具を無理に Collectibles へ入れていないか',
     '   ・Item Specifics の Type が Collectible 系か、対象年齢が 13+/14+ か(幼児向け 3+ 等のままでないか)',
     '   ・コレクター扱い(Type が `Collectible 〜`＝Age Level を付与)の商品は、Title に `Collectible 13+` の文字列が入っているか(Age Level が 14+/16+ でも Title 表記は常に `Collectible 13+` 固定)。無ければ追加する(80字制限内)',
+    '   ・トレカ／スポーツトレカ等のカード商品(スポーツ含む全カード商品)も、Title に `Collectible 13+` の文字列が入っているか。無ければ80字制限内で追加する',
     '   ・Title／Description に for kids／ages 3+ 等の幼児向け表現が入っていないか',
     '   ・アニメグッズ・キャラ/アイドルグッズ(アクスタ・アクキー・缶バッジ・ブロマイド・ファングッズ・実在アイドル/バンドの音楽メモラビリア含む)は、元データに年齢記載が無くてもコレクター扱いになっているか＝categoryId が アニメ bucket から付与され空欄でない / Type が `Collectible 〜` / `Age Level` が必ず付与(既定 13+)されているか',
     '9. 基本的に中古であることを確認しているか(未開封でも基本的には中古品)',
@@ -521,6 +523,7 @@ function getEbayTranslationSkillContent() {
   //   バージョンは先頭エントリの日付から自動生成。変更履歴は HTMLコメント + 区切り線の「上」に
   //   置く＝(1)実行AIはコメントを命令と読まない (2)区切り線より下だけ登録すれば本文に履歴は入らない。
   var CHANGELOG = [
+    { date: '2026-06-28', text: 'トレカ／スポーツトレカ等のカード商品(4 ID 該当品全般・スポーツ含む)も Title に Collectible 13+ を必ず入れる規則を追加(Age Level 付与有無に関わらず Title 表記は Collectible 13+ 固定)' },
     { date: '2026-06-24', text: '手元/Codex最新版に同期: Collectible 13+ をTitleに固定/アニメ・アイドルグッズは年齢記載なくてもコレクター扱い・既定13+/J列K列はソース参照式の例外/categoryIdはタグ非依存で商品実態判定/推測時warnings抜け道廃止/第0ルール・ポジティブ遵守・実行体制ルール追加/Yearハイフン禁止/書込前文字数機械実測/修正は個別セル指定/製造国対応表拡充 等' },
     { date: '2026-06-11', text: 'トレカ／スポーツトレカの categoryId を 4 ID に固定(スポーツ1枚=261328/スポーツ2枚以上・ボックス=261329/キャラ・アニメ系1枚=183454/同2枚以上=183455)。Sets/Sealed Boxes/Collectibles側Singles・Lots は使用禁止。メンコ等の非CCGカードも CCG カテゴリ必須(CCGでないとカード商品を登録できないため)' },
     { date: '2026-06-08', text: '玩具・キャラクター系は categoryId を Collectibles ツリー優先に変更(アニメフィギュア261055/アニメぬいぐるみ261062/アニメグッズ69528/コレクターフィギュア149372)。受け皿が無い純玩具は正しいカテゴリ+warnings記録。Age13+/14+維持。理由にCPaSS Economyの HTSUS紐付け(9503.00.00.90/CPSIA非該当)を追記。完了報告に空欄・IS不足行の理由を添えるよう緩和' },
@@ -732,6 +735,7 @@ function getEbayTranslationSkillContent() {
     '  - キャラクター/アニメ等のトレカ **2 枚以上・まとめ売り** → `183455` (Toys & Hobbies > Collectible Card Games > CCG Mixed Card Lots)',
     '  - **非 CCG のカード (メンコ・ミニカード・ポストカード状のコレクションカード・アーケードゲーム排出カード等) も、カード商品である限り必ず上記の CCG カテゴリ (183454/183455) を使う**。「ゲーム用カードではないから」と Collectibles > Non-Sport Trading Cards (183050/183051) 等へ逃がさない。理由: 出品ツール側は CCG カテゴリでないとカード商品を登録できない。',
     '  - ポケカ・遊戯王・ワンピース等、専用 genre が buckets にあるカードはその bucket の候補に従ってよいが、汎用のトレカ／スポーツトレカは上記 4 ID に固定する。判断基準は「スポーツか否か」×「1 枚か 2 枚以上か」だけ。未開封・鑑定済みなどの状態は ID を変える理由にならない。',
+    '  - **【必須】カード商品は Title (M 列) に必ず `Collectible 13+` を入れる**: 上記 4 ID に該当するカード商品 (スポーツカード・キャラ/アニメ系トレカ・非 CCG カードすべて) は、Age Level の付与有無に関わらず、Title (M 列) に必ず `Collectible 13+` の文字列を入れる。値は `Collectible 13+` 固定。Title 80 字制限内に収める。',
     '- **関数電卓カテゴリ補足**: 古い関数電卓 / ポケットコンピュータ / プログラム電卓 (例: SHARP PC-G850V, PC-1360K, PC-1255, PC-1280, CE-120P など) は、参照JSONで `関数電卓` の候補が空の場合でも eBay US `Vintage Calculators` の categoryId `58042` を採用する。通常の現行電卓や事務用電卓ではなく、ヴィンテージ・コレクション性のある計算機に限る。',
     '- **玩具・キャラクター系 → Collectibles カテゴリ優先 (重要)**: ぬいぐるみ / Plush / フィギュア / Figure / おもちゃ / Toy / 人形 / Doll / ミニカー / Action Figure / Soft Toy / Stuffed Animal / アニメグッズ など、子供が遊ぶ可能性のある、またはキャラクター収集品は 13 歳以上のコレクター向けとして扱う:',
     '  - **categoryId は Collectibles ツリー (path が「Collectibles >」で始まる ID) を優先する**。同じ genre の buckets 候補の中に Collectibles ツリーの ID があれば、Toys & Hobbies / Dolls & Bears ツリーの ID より優先して選ぶ:',
@@ -741,7 +745,7 @@ function getEbayTranslationSkillContent() {
     '    - コレクター / キャラクター系のフィギュア・スタチュー・ソフビ → 149372 (Collectibles > Collectible Figures & Bobbleheads)',
     '  - **Collectibles ツリーに適切な受け皿が無い純玩具** (汎用の非キャラぬいぐるみ・テディベア・遊び人形(リカちゃん / バービー等)・ミニカー / ダイキャスト) は、無理に Collectibles へ入れない。buckets 候補内の正しいカテゴリ (Toys & Hobbies / Dolls & Bears) を選び、warnings に「Collectibles受け皿なし」とその理由を記録する',
     '  - Item Specifics の Type は Collectible 系を優先 (例: `Collectible Action Figure` / `Collectible Plush` / `Collectible Doll`)',
-    '  - **【必須】Title に `Collectible 13+` を必ず入れる**: コレクター扱い (Item Specifics の Type を `Collectible 〜` にする＝Age Level を付与する) にする商品 (アニメグッズ・キャラ/アイドルグッズ・フィギュア・ドール等) は、Title (M 列) に必ず `Collectible 13+` の文字列を入れる。Age Level を `14+` / `16+` にした商品でも Title 表記は常に `Collectible 13+` 固定 (Age Level 欄と一致させない)。Title 80 字制限内に必ず収める。',
+    '  - **【必須】Title に `Collectible 13+` を必ず入れる**: コレクター扱い (Item Specifics の Type を `Collectible 〜` にする＝Age Level を付与する) にする商品 (アニメグッズ・キャラ/アイドルグッズ・フィギュア・ドール等) は、Title (M 列) に必ず `Collectible 13+` の文字列を入れる。Age Level を `14+` / `16+` にした商品でも Title 表記は常に `Collectible 13+` 固定 (Age Level 欄と一致させない)。Title 80 字制限内に必ず収める。 なお、トレカ／スポーツトレカ等のカード商品 (上記カテゴリ 4 ID 該当品) も、Age Level の付与有無に関わらず Title に `Collectible 13+` を必ず入れる。',
     '  - **【アニメグッズ・キャラ/アイドルグッズは年齢記載が無くてもコレクター扱い (重要)】**: アクリルスタンド (アクスタ) / アクリルキーホルダー / 缶バッジ / ブロマイド / ポストカード / タオル・バッグ等のファングッズや、実在アイドル・バンドの音楽メモラビリアは、元データに年齢の記載が一切無くても **必ずコレクター向けアイテムとして扱う**。具体的には (1) `categoryId` は `アニメ` bucket から付与 (キーホルダー→261057 / 缶バッジ→261061 / ポスター・タペストリー→261063、一意の細分類が無い物は 69528)、(2) Item Specifics の `Type` を `Collectible 〜` にする (例 `Collectible Acrylic Stand` / `Collectible Acrylic Keychain`)、(3) Item Specifics に `Age Level` を **必ず 1 つ付与する (既定 `13+`)**。空欄にしない。categoryId を空欄にしない。',
     '  - **Age Level / Recommended Age Range / Age** は元データに `3+` `6+` `8+` 等の幼児向け年齢が書かれていても **必ず `13+` / `14+` / `16+` のいずれかにする (デフォルト `14+`、アニメグッズ・キャラ/アイドルグッズは `13+`)**。元データの幼児向け年齢は無視',
     '  - Title / Description にも `for children` / `for kids` / `ages 3+` / `preschool` / `baby toy` 等の幼児向け表現を使わない。代替: `for collectors` / `display piece` / `adult collectible` / `for display`',
@@ -1085,6 +1089,7 @@ function getRelistingImportSkillContent() {
 function getRelistingTranslationSkillContent() {
   // ★スキル本文を変えたら CHANGELOG の先頭に {date, text} を1件追加(新しい順・事実を正確に)。
   var CHANGELOG = [
+    { date: '2026-06-28', text: 'トレカ／スポーツトレカ等のカード商品(4 ID 該当品全般・スポーツ含む)も再作成 Title に Collectible 13+ を必ず入れる規則を追加' },
     { date: '2026-06-24', text: '手元最新版へ同期: コレクター扱い商品の再作成 Title に `Collectible 13+` を必ず入れるルールを追加(Age Level 14+/16+でも常に固定、80字内)。製造国対応表を ebay-translation 版に揃える' },
     { date: '2026-06-18-1', text: '再出品の前提（既に出品・完成済みの商品／売れ残りを新規リスティング化するのが核心）を冒頭に明記。Titleは機械的な語順入れ替えでなく『精査して作り直す（再生成）』に明確化。同義語置換必須・語順大幅変更の機械検査・元の語だけ使う縛りを撤廃。前回タイトルと同一禁止の機械確認は維持。' },
     { date: '2026-06-17-2', text: 'Title組み替えに同義語置換(最低1語)とSEO語順を明文化。トレカ4カテゴリ(261328/261329/183454/183455)固定をカテゴリ節に統合。旧方式・新方式とも全件組み替え必須を再確認' },
@@ -1331,7 +1336,7 @@ function getRelistingTranslationSkillContent() {
     '- 動物素材ワード `Crocodile` / `Alligator` / `Ivory` / `Ostrich` / `Snake` などは禁止。素材不明・人工なら `Leather` / `Faux leather` などで表現する。',
     '- ハルシネーション禁止。画像・テキスト・Web検索で確認できない仕様は推測しない。',
     '- 玩具・キャラクター系はCollectiblesカテゴリ優先。Age Levelは元データに幼児向け年齢が書かれていても必ず `13+` / `14+` / `16+` のいずれかにする（デフォルト `14+`）。',
-    '- **【必須】コレクター扱いの商品は再作成 Title に `Collectible 13+` を必ず入れる**: コレクター扱い (Item Specifics の Type を `Collectible 〜` にする＝Age Level を付与する) にする商品 (アニメグッズ・キャラ/アイドルグッズ・フィギュア・ドール等) は、再作成する Title (M 列) に必ず `Collectible 13+` の文字列を入れる。Age Level を `14+` / `16+` にした商品でも Title 表記は常に `Collectible 13+` 固定 (Age Level 欄と一致させない)。Title 80 字制限内に必ず収める。',
+    '- **【必須】コレクター扱いの商品は再作成 Title に `Collectible 13+` を必ず入れる**: コレクター扱い (Item Specifics の Type を `Collectible 〜` にする＝Age Level を付与する) にする商品 (アニメグッズ・キャラ/アイドルグッズ・フィギュア・ドール等) は、再作成する Title (M 列) に必ず `Collectible 13+` の文字列を入れる。Age Level を `14+` / `16+` にした商品でも Title 表記は常に `Collectible 13+` 固定 (Age Level 欄と一致させない)。Title 80 字制限内に必ず収める。 なお、トレカ／スポーツトレカ等のカード商品 (上記カテゴリ 4 ID 該当品) も、Age Level の付与有無に関わらず Title に `Collectible 13+` を必ず入れる。',
     '',
     '`Country/Region of Manufacture` の基準:',
     '',
@@ -1361,6 +1366,7 @@ function getRelistingTranslationSkillContent() {
     '- 漫画セット/単巻は原則 `259109`。アニメグッズで細分類なしは `69528`。',
     '- 玩具・キャラクター系はCollectiblesツリー（pathが `Collectibles >` で始まるID）を優先する。',
     '- **【必須・固定】トレカ／スポーツトレカのカード商品は次の 4 ID だけを使う**: スポーツカード1枚=`261328`(Trading Card Singles)／スポーツカード2枚以上・セット・ボックス・未開封=`261329`(Trading Card Lots)／キャラ・アニメ系トレカ1枚=`183454`(CCG Individual Cards)／同2枚以上・まとめ売り=`183455`(CCG Mixed Card Lots)。Sets・Sealed Packs/Boxes・Collectibles側Singles/Lots(183050/183051)は使わない。メンコ等の非CCGカードも必ずCCGカテゴリを使う(CCGでないとカード商品を登録できない)。既存F列がこれに反する場合は修正する。',
+    '- **【必須】カード商品は Title (M 列) に必ず `Collectible 13+` を入れる**: 上記 4 ID に該当するカード商品 (スポーツカード・キャラ/アニメ系トレカ・非 CCG カードすべて) は、Age Level の付与有無に関わらず、Title (M 列) に必ず `Collectible 13+` の文字列を入れる。値は `Collectible 13+` 固定。Title 80 字制限内に収める。',
     '',
     '### タグ（D列）',
     '',
