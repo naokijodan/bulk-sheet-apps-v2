@@ -524,6 +524,7 @@ function getEbayTranslationSkillContent() {
   //   バージョンは先頭エントリの日付から自動生成。変更履歴は HTMLコメント + 区切り線の「上」に
   //   置く＝(1)実行AIはコメントを命令と読まない (2)区切り線より下だけ登録すれば本文に履歴は入らない。
   var CHANGELOG = [
+    { date: '2026-09-01', text: 'Size は eBay 公式の許容値のみ使用するルールを追加(Free / cm / M/L 等のリスト外表記は 902:ebay更新エラーで登録不可。フリーサイズ→One Size 等の変換ルール)。必須 Item Specifics への「NA」プレースホルダ禁止(トレカ Game / フィギュア Type の公式値例)も追加' },
     { date: '2026-07-02', text: 'フィギュア／アニメ・キャラ・アイドルグッズ・ドール等のコレクター扱い商品の Age Level と Title を 15+ に統一(Collectible 15+)。トレカ等のカード商品は Collectible 13+ のまま維持' },
     { date: '2026-06-28', text: 'トレカ／スポーツトレカ等のカード商品(4 ID 該当品全般・スポーツ含む)も Title に Collectible 13+ を必ず入れる規則を追加(Age Level 付与有無に関わらず Title 表記は Collectible 13+ 固定)' },
     { date: '2026-06-24', text: '手元/Codex最新版に同期: Collectible 13+ をTitleに固定/アニメ・アイドルグッズは年齢記載なくてもコレクター扱い・既定13+/J列K列はソース参照式の例外/categoryIdはタグ非依存で商品実態判定/推測時warnings抜け道廃止/第0ルール・ポジティブ遵守・実行体制ルール追加/Yearハイフン禁止/書込前文字数機械実測/修正は個別セル指定/製造国対応表拡充 等' },
@@ -772,6 +773,8 @@ function getEbayTranslationSkillContent() {
     '  - 電化製品: Brand / Model / MPN / Type / Color / Power Source / Connectivity',
     '  - 本・雑誌: Author / Publisher / Language / Format / Publication Year',
     '  - アンティーク・骨董: Original/Reproduction / Vintage / Material / Style / Period',
+    '- **Size は eBay 公式の許容値のみ使用 (帽子・衣類など Size が必須のカテゴリ)**: リスト外の値 (Free / 58cm / 55-61cm / M/L / S/M / NA 等) を入れると「902:ebay更新エラー」で登録に失敗する (2026-09-01 実測)。帽子カテゴリ (Men 52365 / Women 45230 / Boys 57884) の許容値は `XS / S / M / L / XL / 帽子サイズ数値 (6〜8 1/2、例 7 1/2) / One Size`。`Adjustable` は Women・Boys のみ可で Men (52365) には無い。変換ルール: フリーサイズ・Free → `One Size`／「7 1/2 / 59.6cm」等の併記 → `7 1/2` のみ／単独 cm・範囲 cm・M/L・S/M・L/XL 等のリスト外表記 → `One Size` (実寸 cm は Title・Description に残るので情報は失われない)。',
+    '- **必須 Item Specifics に「NA」等のプレースホルダを入れない**: 必須項目も公式許容値で埋める。例: トレカ 183454 の Game は `Pokémon TCG` (「NA」は登録エラー)、フィギュア 261055 の Type は `Figure` (「Collectible Figure」はリスト外で登録エラー)。',
     '',
     '## 動作手順 (最小)',
     '',
