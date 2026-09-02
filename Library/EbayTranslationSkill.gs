@@ -354,6 +354,7 @@ function buildEbayTranslationSkillDownloadHtml() {
 function getEbayTranslationFinalCheckContent() {
   // ★スキル本文を変えたら CHANGELOG の先頭に {date, text} を1件追加(新しい順・事実を正確に)。
   var CHANGELOG = [
+    { date: '2026-09-03', text: 'final-check にアパレル行の Size Type／Size／必須項目チェックを追加。ユーザー指示' },
     { date: '2026-07-02', text: 'コレクター扱い(フィギュア/アニメ系)のチェック基準を Age Level 15+ / Title は Collectible 15+ に更新。カード商品は Collectible 13+ のまま' },
     { date: '2026-06-28', text: 'チェック項目に、トレカ／スポーツトレカ等のカード商品(スポーツ含む全カード)も Title に Collectible 13+ が入っているか確認する項目を追加' },
     { date: '2026-06-24', text: '手元最新版へ同期: ポジティブ遵守の詳述追加(ルールはeBayポリシー由来・明文にない場面も趣旨適用・new /newly/brand new を機械検索で全セル検出)。チェック項目8にCollectible 13+ Titleチェック(Age Level 14+/16+でもTitle常に固定)・アニメ系コレクター扱い確認(categoryId アニメbucket・Type Collectible〜・Age Level付与 既定13+)を追加' },
@@ -410,6 +411,7 @@ function getEbayTranslationFinalCheckContent() {
     '   ・Title／Description に for kids／ages 3+ 等の幼児向け表現が入っていないか',
     '   ・アニメグッズ・キャラ/アイドルグッズ(アクスタ・アクキー・缶バッジ・ブロマイド・ファングッズ・実在アイドル/バンドの音楽メモラビリア含む)は、元データに年齢記載が無くてもコレクター扱いになっているか＝categoryId が アニメ bucket から付与され空欄でない / Type が `Collectible 〜` / `Age Level` が必ず付与(既定 15+)されているか',
     '9. 基本的に中古であることを確認しているか(未開封でも基本的には中古品)',
+    '10. アパレル (Clothing, Shoes & Accessories 配下) の行: Size Type に文字サイズ (S/M/L/XL 等) が入っていないこと (体型区分なので Regular 等のみ)、Size が文字サイズ＋Regular か参照ページ https://naokijodan.github.io/ebay-size-guide/ のカテゴリ別カードの許容値であること、必須項目 (Brand / Color / Department / Style / Type / Outer Shell Material / Inseam / Dress Length / Skirt Length / US Shoe Size 等、カード記載のもの) に NA・空欄・小文字の自由語が無いことを確認し、違反は公式語に修正する。',
     '',
     '---',
     '',
@@ -524,6 +526,7 @@ function getEbayTranslationSkillContent() {
   //   バージョンは先頭エントリの日付から自動生成。変更履歴は HTMLコメント + 区切り線の「上」に
   //   置く＝(1)実行AIはコメントを命令と読まない (2)区切り線より下だけ登録すれば本文に履歴は入らない。
   var CHANGELOG = [
+    { date: '2026-09-03', text: 'アパレル (Clothing, Shoes & Accessories 配下) の必須 Item Specifics と Size×Size Type 組み合わせルールを追加。Size Type は体型区分で常に Regular (L/M 等を入れない)、Size は文字サイズ S/M/L/XL 中心 (レディースの裸の数字 18〜50 は Plus 専用、EU 40 等の国別表記は可)、必須項目に NA 禁止、参照ページ https://naokijodan.github.io/ebay-size-guide/ のカテゴリ別カードで必須項目を全部埋める。2026-09-02 Taxonomy API 実測 (主要28カテゴリ)。ユーザー指示' },
     { date: '2026-09-01', text: 'Size 公式許容値ルールをカテゴリ別に拡張(衣類・バッグを Taxonomy API 実測で追加)。メンズスーツ 3001 とバッグ 169291/52357 は One Size 不可、Tシャツ 15687・トップス 53159 は S/M・M/L・One Size 可、バッグは Size 任意で Micro〜Nano の 7 種のみ。「迷ったら One Size」を全カテゴリ共通にしない' },
     { date: '2026-09-01', text: 'Size は eBay 公式の許容値のみ使用するルールを追加(Free / cm / M/L 等のリスト外表記は 902:ebay更新エラーで登録不可。フリーサイズ→One Size 等の変換ルール)。必須 Item Specifics への「NA」プレースホルダ禁止(トレカ Game / フィギュア Type の公式値例)も追加' },
     { date: '2026-07-02', text: 'フィギュア／アニメ・キャラ・アイドルグッズ・ドール等のコレクター扱い商品の Age Level と Title を 15+ に統一(Collectible 15+)。トレカ等のカード商品は Collectible 13+ のまま維持' },
@@ -774,15 +777,16 @@ function getEbayTranslationSkillContent() {
     '  - 電化製品: Brand / Model / MPN / Type / Color / Power Source / Connectivity',
     '  - 本・雑誌: Author / Publisher / Language / Format / Publication Year',
     '  - アンティーク・骨董: Original/Reproduction / Vintage / Material / Style / Period',
-    '- **Size は eBay 公式の許容値のみ使用 (許容値はカテゴリごとに異なる。「迷ったら One Size」を全カテゴリ共通にしない)**: リスト外の値 (Free / 58cm / 55-61cm / NA 等) を入れると「902:ebay更新エラー」で登録に失敗する (2026-09-01 Taxonomy API 実測)。実寸 cm は Title・Description に残す (情報は失われない)。カテゴリ別の確定ルール:',
-    '  - **帽子 (Men 52365 / Women 45230 / Boys 57884)**: 許容値は `XS / S / M / L / XL / 帽子サイズ数値 (6〜8 1/2、例 7 1/2) / One Size`。`Adjustable` は Women・Boys のみ可で Men (52365) には無い。S/M・M/L 等の複合表記は不可。変換: フリーサイズ・Free・単独 cm・範囲 cm・S/M・M/L → `One Size`／「7 1/2 / 59.6cm」等の併記 → `7 1/2` のみ。',
-    '  - **Tシャツ・トップス (メンズTシャツ 15687 / レディーストップス 53159)**: `One Size` 可。`S/M / M/L / L/XL / XS/S` の複合表記も可。XS〜XL 等の文字サイズ・数値サイズも可。フリーサイズ → `One Size`。',
-    '  - **メンズスーツ (Suits & Suit Separates 3001)**: `One Size` 不可・S/M 等の複合表記も不可。Size 必須のため空欄も不可。許容 76 種 (2XS〜8XL／数値 28〜62／Big 1X〜6X／ST・MT・LT〜6XLT の Tall 系／IT・EU・FR 表記) から実寸に基づき必ず選ぶ。',
-    '  - **レディーススーツ (63865)**: `One Size` 可・S/M 等の複合表記も可。',
-    '  - **メンズコート・ジャケット (57988)**: `One Size` 可。S/M・M/L は不可。',
-    '  - **バッグ (レディースバッグ 169291 / メンズバッグ 52357)**: Size は必須ではない。許容値は `Micro / Mini / Small / Medium / Large / Extra Large / Nano` の 7 種のみで `One Size` 不可。判断できなければ Size は空欄にする (無理に入れない)。入れる場合は実寸に応じて `Small / Medium / Large` 等。',
-    '  - **Size 以外の必須項目**: 衣類カテゴリは `Size Type` (Regular / Big & Tall 等の選択式)・`Department`・`Brand`・`Color` も必須。バッグは `Brand`・`Exterior Material` (Men は `Material`)・`Style`・`Exterior Color` (Men は `Color`)・`Department` が必須。空欄にしない。',
-    '  - 上記以外のカテゴリで Size を求められた場合は、リスト外の値を推測で入れず、公式許容値を確認してから入れる。',
+    '- **アパレル (Clothing, Shoes & Accessories 配下) は必須 Item Specifics を全部そろえ、Size と Size Type の組み合わせを合わせる (2026-09-02 Taxonomy API 実測・主要28カテゴリ)**: 必須項目の欠落／リスト外の値／Size と Size Type の組み合わせ違反は、いずれも「902:ebay更新エラー」で登録に失敗する。対処は「3つの決め事」と「参照ページ」で行う。',
+    '  - **決め事1: Size Type は常に `Regular`**。Size Type は体型区分であってサイズではない (服のカテゴリだけにあり、帽子・バッグ・靴には無い)。許容値はメンズ `Regular / Big & Tall`、レディース `Regular / Plus / Petites / Tall / Juniors / Maternity` のみ。`L` や `M` を Size Type に入れない。大きいサイズ専門の商品でない限り Regular 以外を選ばない。',
+    '  - **決め事2: Size は文字サイズ `S / M / L / XL` (2XS〜2XL) だけ使う**。タグが数字でも実寸から文字に読み替える。cm・Free・裸の数字は使わない。文字サイズ＋Regular は服の主要カテゴリ全てで通る。理由: レディースでは裸の数字 `18〜50` が Plus 専用 (`40` を Regular と組むとエラー)、メンズでは `52` 以上が Big & Tall 専用。欧州ブランドのタグ数字を残す場合だけ `EU 40` / `IT 40` の国別表記にする (Regular で可)。`One Size` は帽子・小物用で、服では Tシャツ・トップス等は可だがスーツ 3001・ドレスシャツ 57991・バッグは不可。`S/M` 等の複合表記はトップス・ワンピース・セーター・スーツ・Tシャツ・カジュアルシャツのみ可で、パンツ・ジーンズ・ショーツ・スカートは不可。実寸 cm は Title・Description に残す (情報は失われない)。',
+    '  - **決め事3: 必須項目に `NA` を入れない**。Department は `Men` か `Women` (許容は Men / Women / Teens / Unisex Adults)、Color は公式17色 (`Black / White / Gray / Beige / Brown / Blue / Green / Red / Pink / Purple / Yellow / Orange / Gold / Silver / Ivory / Multicolor / Clear`) から、Brand は不明なら `Unbranded`。値は公式表記のまま (頭文字大文字。`black` `wool` `jacket` のような小文字・自由語は使わない)。',
+    '  - **参照ページ (アパレルでは必須)**: アパレルの categoryId が決まったら https://naokijodan.github.io/ebay-size-guide/ のカテゴリ別カードを読み、必須項目を全部埋め、値はカードに書かれた語だけを使う。見落としやすい必須項目: コート・ジャケット・ベスト (男女) の `Outer Shell Material`、メンズのジーンズ・パンツの `Inseam` (`30 in` 形式)、ワンピースの `Dress Length`、スカートの `Skirt Length`、多くの服の `Style` と `Type` (カテゴリごとに語が違う。例: トップス Type = `Blouse / Button-Up / Polo / Tank / T-Shirt`、コート Type = `Jacket / Coat / Vest` 等、Style は `jacket` ではなく `Basic Jacket` 等の公式語)。',
+    '  - **帽子 (Men 52365 / Women 45230)**: Size 必須。許容値は `XS / S / M / L / XL / 帽子サイズ数値 (6〜8 1/2、例 7 1/2) / One Size` (Women は `Adjustable` も可)。cm・Free・S/M は `One Size` に、「7 1/2 / 59.6cm」等の併記は `7 1/2` のみ。Brand / Style / Color / Department も必須。',
+    '  - **バッグ (Women 169291 / Men 52357)**: Size は必須ではなく、許容値は `Micro / Mini / Small / Medium / Large / Extra Large / Nano` のみで `One Size` 不可。判断できなければ空欄。Brand / Style / Department と、Women は `Exterior Material`・`Exterior Color`、Men は `Material`・`Color` が必須。',
+    '  - **靴**: Size 欄は無く `US Shoe Size` (0.5 刻みの数値。メンズ 2〜20、レディース 3〜21.5) が必須。cm→US の換算はブランド公式サイズ表等の根拠を確認してから入れる (推測禁止)。Brand / Color / Department と、多くは `Style`・`Upper Material` も必須。',
+    '  - 参照ページに無いカテゴリで Size を求められた場合は、リスト外の値を推測で入れず、公式許容値 (Taxonomy API getItemAspectsForCategory) を確認してから入れる。',
+    '  - **書込後の機械確認**: アパレル行は Size Type に文字サイズ (S/M/L/XL 等) が入っていないこと、必須項目に `NA`・空欄が無いことを機械的に確認する。',
     '- **必須 Item Specifics に「NA」等のプレースホルダを入れない**: 必須項目も公式許容値で埋める。例: トレカ 183454 の Game は `Pokémon TCG` (「NA」は登録エラー)、フィギュア 261055 の Type は `Figure` (「Collectible Figure」はリスト外で登録エラー)。',
     '',
     '## 動作手順 (最小)',
