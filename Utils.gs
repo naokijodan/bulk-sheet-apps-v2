@@ -98,6 +98,11 @@ function getFallbackRate_(sheet) {
   return 145;
 }
 
+/** 為替自動更新トリガーの実行時刻（時）。変更時はここだけ直せば自動移行が全シートに波及する */
+var FX_TRIGGER_HOUR_ = 11;
+/** 登録済みトリガー時刻を記録する DocumentProperties キー（自動移行の判定用） */
+var FX_TRIGGER_HOUR_KEY_ = 'FX_TRIGGER_HOUR';
+
 /**
  * 1日1回為替レートを自動更新するトリガーを設定
  * @param {boolean} silent - trueの場合、アラートを表示しない（初期設定から呼ばれる場合）
@@ -117,12 +122,15 @@ function setupExchangeRateUpdateTrigger(silent) {
     // 9時台に実行すると前日値を取ることがあるため（2026-09-04 実測）、11時にする
     ScriptApp.newTrigger('updateExchangeRateAutomatically')
       .timeBased()
-      .atHour(11)
+      .atHour(FX_TRIGGER_HOUR_)
       .everyDays(1)
       .create();
 
+    // 登録済み時刻を記録（updateExchangeRateAutomatically の自動移行判定で参照）
+    PropertiesService.getDocumentProperties().setProperty(FX_TRIGGER_HOUR_KEY_, String(FX_TRIGGER_HOUR_));
+
     if (!silent) {
-      showAlert('為替レート自動更新トリガーを設定しました（毎日午前11時）\n\nデータソース: exchangerate-api.com', 'success');
+      showAlert('為替レート自動更新トリガーを設定しました（毎日午前' + FX_TRIGGER_HOUR_ + '時）\n\nデータソース: exchangerate-api.com', 'success');
     }
   } catch (e) {
     if (!silent) {
@@ -132,9 +140,50 @@ function setupExchangeRateUpdateTrigger(silent) {
 }
 
 /**
+ * 為替自動更新トリガーを現行の実行時刻（FX_TRIGGER_HOUR_）へ自動移行する
+ * 旧版（9時登録）のまま動いているシートを、ユーザー操作なしで移行するための処理。
+ * DocumentProperties の FX_TRIGGER_HOUR が現行値なら何もしない。
+ * 安全順序: 新トリガー作成 → 記録更新 → 旧トリガー削除（作成失敗時は何も削除せず翌日再試行）
+ * 注意: 削除・再作成できるのは実行ユーザー自身が登録したトリガーのみ（Apps Script の仕様）
+ * @private
+ */
+function migrateExchangeRateTriggerIfNeeded_() {
+  try {
+    var docProps = PropertiesService.getDocumentProperties();
+    if (docProps.getProperty(FX_TRIGGER_HOUR_KEY_) === String(FX_TRIGGER_HOUR_)) {
+      return;
+    }
+
+    var newTrigger = ScriptApp.newTrigger('updateExchangeRateAutomatically')
+      .timeBased()
+      .atHour(FX_TRIGGER_HOUR_)
+      .everyDays(1)
+      .create();
+    var newId = newTrigger.getUniqueId();
+    docProps.setProperty(FX_TRIGGER_HOUR_KEY_, String(FX_TRIGGER_HOUR_));
+
+    var triggers = ScriptApp.getProjectTriggers();
+    var deleted = 0;
+    for (var i = 0; i < triggers.length; i++) {
+      if (triggers[i].getHandlerFunction() === 'updateExchangeRateAutomatically' &&
+          triggers[i].getUniqueId() !== newId) {
+        ScriptApp.deleteTrigger(triggers[i]);
+        deleted++;
+      }
+    }
+    Logger.log('為替トリガーを' + FX_TRIGGER_HOUR_ + '時へ自動移行しました（旧トリガー削除: ' + deleted + '件）');
+  } catch (e) {
+    Logger.log('為替トリガー自動移行に失敗（次回実行時に再試行）: ' + e.message);
+  }
+}
+
+/**
  * トリガーから呼ばれる為替レート更新関数
  */
 function updateExchangeRateAutomatically() {
+  // 旧9時登録のトリガーを現行時刻へ自動移行（ユーザー操作不要）。失敗しても為替更新は続行する
+  migrateExchangeRateTriggerIfNeeded_();
+
   try {
     var docProps = PropertiesService.getDocumentProperties();
     var sheetName = docProps.getProperty('SHEET_NAME') || '作業シート';
@@ -166,6 +215,8 @@ function removeExchangeRateUpdateTrigger() {
         count++;
       }
     }
+    // 記録も消す（次に手動で「開始」したときに再記録される）
+    PropertiesService.getDocumentProperties().deleteProperty(FX_TRIGGER_HOUR_KEY_);
     showAlert('為替レート自動更新トリガーを削除しました（' + count + '個）', 'success');
   } catch (e) {
     showAlert('トリガー削除に失敗しました: ' + e.message, 'error');
