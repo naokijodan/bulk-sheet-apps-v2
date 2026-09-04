@@ -46,9 +46,14 @@ function updateExchangeRate(sheet) {
     }
 
     // exchangerate-api.com v6（Open Access推奨エンドポイント）から USD/JPY レートを取得
-    var url = 'https://open.er-api.com/v6/latest/USD';
-    var response = UrlFetchApp.fetch(url);
+    // CDNキャッシュ（Cache-Control: max-age=3600）で前日値が返るのを避けるため、
+    // 毎回変わるクエリを付与し、no-cache ヘッダーを送る
+    var url = 'https://open.er-api.com/v6/latest/USD?_=' + Date.now();
+    var response = UrlFetchApp.fetch(url, { headers: { 'Cache-Control': 'no-cache' } });
     var data = JSON.parse(response.getContentText());
+    if (data && data.time_last_update_utc) {
+      Logger.log('為替API更新時刻: ' + data.time_last_update_utc);
+    }
 
     if (data && data.rates && data.rates.JPY) {
       var rate = Number(data.rates.JPY);
@@ -107,15 +112,17 @@ function setupExchangeRateUpdateTrigger(silent) {
       }
     }
 
-    // 毎日午前9時のトリガーを設定（exchangerate-api.comは1日1回更新）
+    // 毎日午前11時のトリガーを設定
+    // APIの日次更新は 09:02〜09:21 JST 頃＋CDNキャッシュ最大1時間。
+    // 9時台に実行すると前日値を取ることがあるため（2026-09-04 実測）、11時にする
     ScriptApp.newTrigger('updateExchangeRateAutomatically')
       .timeBased()
-      .atHour(9)
+      .atHour(11)
       .everyDays(1)
       .create();
 
     if (!silent) {
-      showAlert('為替レート自動更新トリガーを設定しました（毎日午前9時）\n\nデータソース: exchangerate-api.com', 'success');
+      showAlert('為替レート自動更新トリガーを設定しました（毎日午前11時）\n\nデータソース: exchangerate-api.com', 'success');
     }
   } catch (e) {
     if (!silent) {

@@ -78,7 +78,7 @@ function onOpen() {
     
     // 5. 為替レートメニュー
     ui.createMenu('💱 為替レート')
-      .addItem('🔄 為替レート自動更新を開始（毎日午前9時）', 'setupExchangeRateUpdateTrigger')
+      .addItem('🔄 為替レート自動更新を開始（毎日午前11時）', 'setupExchangeRateUpdateTrigger')
       .addItem('⏸️ 為替レート自動更新を停止', 'removeExchangeRateUpdateTrigger')
       .addItem('📊 為替レート自動更新の状態確認', 'checkExchangeRateUpdateStatus')
       .addToUi();
@@ -149,7 +149,7 @@ function checkExchangeRateUpdateStatus() {
     var message = '【為替レート自動更新の状態】\n\n';
 
     if (isActive) {
-      message += '✅ 自動更新: 有効（毎日午前9時）\n';
+      message += '✅ 自動更新: 有効（毎日午前11時）\n';
       message += 'データソース: exchangerate-api.com\n\n';
     } else {
       message += '⚠️ 自動更新: 無効\n\n';
@@ -3267,7 +3267,7 @@ function saveIntegratedSettings(formData) {
     // 🆕 為替レート自動更新トリガーを設定（初期設定時に自動で有効化）
     try {
       setupExchangeRateUpdateTrigger(true); // silentモードで実行
-      Logger.log('為替レート自動更新トリガーを設定しました（1時間ごと）');
+      Logger.log('為替レート自動更新トリガーを設定しました（毎日午前11時）');
     } catch (e) {
       Logger.log('為替レート自動更新トリガーの設定に失敗: ' + e.message);
     }
