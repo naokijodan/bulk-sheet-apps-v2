@@ -1,6 +1,6 @@
 # 一括シートV3 引き継ぎ文
 
-> **Last updated**: 2026-06-12 (V5タグ自動判定 自動ON修正 完了・push済み。次回=新V5刷新の企画の続き)
+> **Last updated**: 2026-09-04 (為替自動更新の前日値取得を修正・BulkToolsLib push済み・GitHub push は承認待ち。次回=新V5刷新の企画の続き)
 > **次セッションへ最優先で**: 下記「2026-06-12」セクションを読む → 新V5刷新（案A/B）の続きから
 > **唯一の設計基準 (プロンプト改修系)**: [`docs/PROMPT_DESIGN_PRINCIPLE.md`](docs/PROMPT_DESIGN_PRINCIPLE.md) **v1.1** (commit 48cab87)
 > **過去の Sprint Contract / 旧設計書は物理削除済み**。参照しないこと。
@@ -13,6 +13,33 @@
 **過去の設計書を「探してきて」はいけない。** 過去の Sprint Contract と古い docs/ 設計書は物理削除済み。
 
 設計判断は **`docs/PROMPT_DESIGN_PRINCIPLE.md` v1.1 のみ** を根源基準とする。
+
+---
+
+## 2026-09-04: 為替自動更新の前日値取得を修正（commit 9696adc、BulkToolsLib clasp push済み）
+
+### 症状
+- 5シート中2シート（例: 「DPJ 一般」）で作業シート C2（使用為替）が前日値 159.088772 のまま。正常シートは 156.019704。
+
+### 原因（Fact、実機ログ＋API直叩きで確認）
+- コード・ライブラリ版は全シート同一（Apps Script API で取得して比較）。コード差ではない。
+- 毎日9時トリガーが 09:02:25 JST に実行され、API（open.er-api.com）の日次更新 09:02:31 JST の6秒前だった → 前日値を取得。次回更新予告は 09:21 JST で日によりずれる。
+- API は Cloudflare 経由で `cache-control: public, max-age=3600`。切替直後は最大1時間古い値が返り得る。
+- 9/2→9/3 で USD/JPY が 159.6→156.0 と急変したため表面化。普段は差が小さく気づかなかった。
+
+### 修正（ルート＋Library の Utils.gs / コード_Part3、計4ファイル）
+1. `updateExchangeRate`: URL に `?_=Date.now()` を付与し `Cache-Control: no-cache` ヘッダー送信。`time_last_update_utc` をログ出力。
+2. `setupExchangeRateUpdateTrigger`: `atHour(9)` → `atHour(11)`。
+3. メニュー文言・状態確認文言・ログ文言を「毎日午前11時」に統一（誤記「1時間ごと」も修正）。
+- 2者レビュー PASS（code-reviewer サブ＋親）。push 後に Apps Script API で HEAD を再取得し、27ファイル全一致を実測。
+
+### ユーザー側の残作業（トリガーは登録時に時刻が固定されるためコード変更だけでは既存9時トリガーは変わらない）
+- 5シートそれぞれで「💱 為替レート → 🔄 為替レート自動更新を開始（毎日午前11時）」を1回押す → 「📊 状態確認」で「有効（毎日午前11時）」を確認。
+- 今日の値を今すぐ直したい場合は、初期設定の保存 または 翻訳/価格計算の実行（開始時に為替取得が走る）。
+- 翌日 11時以降に C2 が当日値になっているか確認。
+
+### 未実施
+- GitHub push（ユーザー承認待ち）。
 
 ---
 
