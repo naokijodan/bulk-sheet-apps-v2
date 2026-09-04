@@ -1,6 +1,6 @@
 # 一括シートV3 引き継ぎ文
 
-> **Last updated**: 2026-09-04 (為替自動更新: 前日値取得修正＋トリガー9時→11時の自動移行を実装・BulkToolsLib push済み・GitHub push済み bec5e9c。次回=新V5刷新の企画の続き)
+> **Last updated**: 2026-09-04 (製造国 China 禁止ルールを配布スキル本文へ追加・BulkToolsLib push済み・GitHub push済み 6d7c832。同日: 為替自動更新の前日値取得修正＋トリガー自動移行 bec5e9c。次回=新V5刷新の企画の続き)
 > **次セッションへ最優先で**: 下記「2026-06-12」セクションを読む → 新V5刷新（案A/B）の続きから
 > **唯一の設計基準 (プロンプト改修系)**: [`docs/PROMPT_DESIGN_PRINCIPLE.md`](docs/PROMPT_DESIGN_PRINCIPLE.md) **v1.1** (commit 48cab87)
 > **過去の Sprint Contract / 旧設計書は物理削除済み**。参照しないこと。
@@ -13,6 +13,22 @@
 **過去の設計書を「探してきて」はいけない。** 過去の Sprint Contract と古い docs/ 設計書は物理削除済み。
 
 設計判断は **`docs/PROMPT_DESIGN_PRINCIPLE.md` v1.1 のみ** を根源基準とする。
+
+---
+
+## 2026-09-04: 製造国に China を使わないルールを配布スキル本文へ追加（commit 6d7c832、BulkToolsLib clasp push済み・HEAD一致を clasp pull で実測）
+
+### 経緯（Fact）
+- ebay-translation 実行中（ソース 244〜270 → v5インポート L244〜L270）、中国ブランド TOPTOY の Country/Region of Manufacture を China と書いたところ、ユーザー指示「中国は絶対使うな。日本にしなさい」。
+- スキル本文・claude-rules-ref・CLAUDE.md のどこにも China 禁止は書かれていなかった（規則は「ブランド国で判定、辞書外は Japan」のみ）。口頭ルールが未反映だった。
+
+### 変更（ルート＋Library の EbayTranslationSkill.gs、同一内容）
+- `getEbayTranslationSkillContent()`: 製造国判定の箇条書き末尾に「China は絶対に使わない。中国ブランド (TOPTOY 等)・中国製でも Japan。Description に Made in China も書かない。書込後 QA で China を機械検索」を追加。CHANGELOG 先頭に 2026-09-04 を追加（版は元から 2026-09-04）。
+- `getRelistingTranslationSkillContent()`: 製造国対応表に「中国ブランド・中国製 → Japan」行を追加。
+- 同じ1行を `~/.claude/skills/ebay-translation/SKILL.md` と `~/.codex/skills/ebay-translation/SKILL.md` にも追加（版 2026-09-04）。
+
+### 未同期の差分（Fact、今回は触っていない）
+- 配布本文の CHANGELOG には「eBay 公式サイズ標準化ガイドとの照合（2026-09-04、S/M 等複合表記を全カテゴリ不可）」があるが、手元の Claude/Codex 用 SKILL.md にはこの変更が入っていない。次に SKILL.md を触るときに揃えること。
 
 ---
 
