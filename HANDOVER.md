@@ -1,6 +1,6 @@
 # 一括シートV3 引き継ぎ文
 
-> **Last updated**: 2026-09-04 (為替自動更新の前日値取得を修正・BulkToolsLib push済み・GitHub push は承認待ち。次回=新V5刷新の企画の続き)
+> **Last updated**: 2026-09-04 (為替自動更新: 前日値取得修正＋トリガー9時→11時の自動移行を実装・BulkToolsLib push済み。GitHub push は自動移行分が承認待ち。次回=新V5刷新の企画の続き)
 > **次セッションへ最優先で**: 下記「2026-06-12」セクションを読む → 新V5刷新（案A/B）の続きから
 > **唯一の設計基準 (プロンプト改修系)**: [`docs/PROMPT_DESIGN_PRINCIPLE.md`](docs/PROMPT_DESIGN_PRINCIPLE.md) **v1.1** (commit 48cab87)
 > **過去の Sprint Contract / 旧設計書は物理削除済み**。参照しないこと。
@@ -33,13 +33,21 @@
 3. メニュー文言・状態確認文言・ログ文言を「毎日午前11時」に統一（誤記「1時間ごと」も修正）。
 - 2者レビュー PASS（code-reviewer サブ＋親）。push 後に Apps Script API で HEAD を再取得し、27ファイル全一致を実測。
 
-### ユーザー側の残作業（トリガーは登録時に時刻が固定されるためコード変更だけでは既存9時トリガーは変わらない）
-- 5シートそれぞれで「💱 為替レート → 🔄 為替レート自動更新を開始（毎日午前11時）」を1回押す → 「📊 状態確認」で「有効（毎日午前11時）」を確認。
-- 今日の値を今すぐ直したい場合は、初期設定の保存 または 翻訳/価格計算の実行（開始時に為替取得が走る）。
-- 翌日 11時以降に C2 が当日値になっているか確認。
+### 追加修正: トリガー時刻の自動移行（同日、Library/Utils.gs、BulkToolsLib push済み・HEAD 27ファイル一致を実測）
+- 背景: 利用者は30〜40人、全員が BulkToolsLib を HEAD 参照。トリガー時刻は登録時に固定されるため、コード変更だけでは既存9時トリガーは変わらない。全員にアナウンスせず反映するため自動移行を実装。
+- 仕組み: `updateExchangeRateAutomatically` 冒頭で `migrateExchangeRateTriggerIfNeeded_()` を呼ぶ。DocumentProperties `FX_TRIGGER_HOUR` が現行値（定数 `FX_TRIGGER_HOUR_`=11）でなければ、新11時トリガー作成 → 記録 → 旧トリガー削除（新トリガーは getUniqueId で除外）。作成失敗時は削除に到達せず翌日再試行。関数自体は例外を外に出さない。
+- `setupExchangeRateUpdateTrigger` は記録を書き、`removeExchangeRateUpdateTrigger` は記録を消す。
+- 使用サービスは既存と同じ（ScriptApp / PropertiesService / Logger）で新規スコープなし → 利用者に再認可プロンプトは出ない（Library/appsscript.json は oauthScopes 明示なし＝自動検出）。
+- 期待動作: 翌日9時台の実行で各シートが自ら11時へ移行。その日1日分は前日値の可能性が残るが、翌々日以降は当日値。
+- 既知の限界（レビュー指摘）: 1シートに複数ユーザーが個別にトリガー登録している場合、最初に発火した1人分しか移行されない（他人のトリガーは見えない仕様＋記録がドキュメント共有のため）。レート更新の欠落や無限増殖は起きない。
+- 2者レビュー PASS（code-reviewer サブ＝Warning付きPASS、親 PASS）。
+- 確認方法: 翌日、任意のシートの Apps Script「実行数」で updateExchangeRateAutomatically のログに「為替トリガーを11時へ自動移行しました」が出る → 翌々日 11時台に実行され C2 が当日値。
+
+### ユーザー側の残作業
+- なし（自動移行）。急いで当日値にしたいシートだけ、初期設定の保存 または 翻訳/価格計算の実行。
 
 ### 未実施
-- GitHub push（ユーザー承認待ち）。
+- 自動移行分の GitHub push（ユーザー承認待ち）。前日値修正分 998f6d1 までは push 済み。
 
 ---
 
