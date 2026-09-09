@@ -1,6 +1,6 @@
 # 一括シートV3 引き継ぎ文
 
-> **Last updated**: 2026-09-04 (製造国 China 禁止ルールを配布スキル本文へ追加・BulkToolsLib push済み・GitHub push済み 6d7c832。同日: 為替自動更新の前日値取得修正＋トリガー自動移行 bec5e9c。次回=新V5刷新の企画の続き)
+> **Last updated**: 2026-09-09 (翻訳指示文に「着手前の約束」5項目を追加・BulkToolsLib push済み・GitHub push済み aaf816d。次回=新V5刷新の企画の続き)
 > **次セッションへ最優先で**: 下記「2026-06-12」セクションを読む → 新V5刷新（案A/B）の続きから
 > **唯一の設計基準 (プロンプト改修系)**: [`docs/PROMPT_DESIGN_PRINCIPLE.md`](docs/PROMPT_DESIGN_PRINCIPLE.md) **v1.1** (commit 48cab87)
 > **過去の Sprint Contract / 旧設計書は物理削除済み**。参照しないこと。
@@ -16,7 +16,25 @@
 
 ---
 
-## 2026-09-04: 製造国に China を使わないルールを配布スキル本文へ追加（commit 6d7c832、BulkToolsLib clasp push済み・HEAD一致を clasp pull で実測）
+## 2026-09-09: 翻訳指示文に「着手前の約束」を追加（commit aaf816d、BulkToolsLib clasp push済み・HEAD一致を clasp pull で実測）
+
+### 経緯（Fact）
+- ebay-translation 実行時に AI がスキル本文を読まず独自スクリプトで動き、v5インポートの空き行を確認せずに既存データを上書きした事故があった（ユーザー報告）。
+- スキル本文には第0ルール（スキル記述最優先）・H列毎バッチ再取得・上書き厳禁が既にあったが、指示文側には遵守や空き行確認への言及がなかった。
+
+### 変更（ルート＋Library の EbayTranslationSkill.gs、同一内容）
+- `buildEbayTranslationInstruction_()` の return 配列末尾に「【着手前の約束（必読）】」＋5項目を追加: ①スキル全文を読む（読まなくてよい・守らなくてよいルールは無い）②手順どおり実行、独自スクリプト・別方式・追加作業禁止 ③書込先シート（targetSheet 変数）の H 列を実データで再取得し空き行を正確に把握、上書き・飛ばし禁止 ④書込後に連続行・既存データ不変を機械的に確認 ⑤着手前に遵守を一言宣言。
+- スキル本文（getEbayTranslationSkillContent）と CHANGELOG は未変更（版 2026-09-04 のまま）。
+- 2者レビュー PASS（code-reviewer サブ＋親）。Library を clasp push 後、別フォルダに clasp pull して EbayTranslationSkill が手元と一致することを diff で実測。
+
+### 未確認（Unknown）
+- 実機ダイアログ「📋 選択行の翻訳指示文を作成」で生成した指示文の末尾表示は未確認。次回スキル実行時に確認する。
+
+---
+
+## 2026-09-04: 製造国に China を使わないルールを配布スキル本文へ追加
+
+（commit 6d7c832、BulkToolsLib clasp push済み・HEAD一致を clasp pull で実測）
 
 ### 経緯（Fact）
 - ebay-translation 実行中（ソース 244〜270 → v5インポート L244〜L270）、中国ブランド TOPTOY の Country/Region of Manufacture を China と書いたところ、ユーザー指示「中国は絶対使うな。日本にしなさい」。
