@@ -9,6 +9,19 @@
  * シート本体側 (コード_Part3 の薄いラッパー) からの呼出例:
  *   var html = BulkToolsLib.buildEbayTranslationSettingsHtml();
  *   SpreadsheetApp.getUi().showModalDialog(html, 'eBay 翻訳 (AI) 設定');
+ *
+ * ---------------------------------------------------------------------------
+ * eBay Motors 拡張 (2026-09-19, ライブラリ側のみの追加):
+ *  - メニュー・Main.js は一切変更しない。既存の「eBay 翻訳 (AI)」設定/生成/スキルダウンロードの
+ *    各ダイアログに、モータース用の設定項目とモード切替を追加しただけ。
+ *  - google.script.run はホスト (ユーザーの紐づきスクリプト Main.js) に既に存在する関数しか呼べない
+ *    ため (ライブラリ関数を直接呼ぶ手段が無い)、新しい host wrapper は追加せずに、既存の
+ *    saveEbayTranslationSettings(form) / generateEbayTranslationInstruction(startRow, endRow) の
+ *    2 つだけを使い回す。モード切替は saveEbayTranslationSettings({instructionMode: 'normal'|'motors'})
+ *    を部分フォームとして呼ぶことで DocumentProperties に保存し、指示文生成時にそれを読む方式にした。
+ *  - INSTRUCTION_MODE が既定値 'normal' かつモータース関連設定が全て空欄のときは、今までどおりの
+ *    通常の指示文・ダイアログ表示と完全に同じ挙動になる (buildEbayTranslationInstruction_ 参照)。
+ * ---------------------------------------------------------------------------
  */
 
 // ============================================================================
@@ -20,7 +33,15 @@ var EBAY_TRANSLATION_PROPS = {
   SOURCE_SHEET: 'EBAY_TRANSLATION_SOURCE_SHEET',
   SKILL_NAME:   'EBAY_TRANSLATION_SKILL_NAME',
   BATCH_SIZE:   'EBAY_TRANSLATION_BATCH_SIZE',
-  OPERATOR:     'EBAY_TRANSLATION_OPERATOR'
+  OPERATOR:     'EBAY_TRANSLATION_OPERATOR',
+  // --- eBay Motors 拡張 (library-only) ---
+  MOTORS_SKILL_NAME:       'EBAY_TRANSLATION_MOTORS_SKILL_NAME',
+  MOTORS_SOURCE_SHEET:     'EBAY_TRANSLATION_MOTORS_SOURCE_SHEET',
+  MOTORS_TARGET_SHEET:     'EBAY_TRANSLATION_MOTORS_TARGET_SHEET',
+  MOTORS_TAG_SHEET:        'EBAY_TRANSLATION_MOTORS_TAG_SHEET',
+  MOTORS_CATEGORY_REF_URL: 'EBAY_TRANSLATION_MOTORS_CATEGORY_REF_URL',
+  MOTORS_ASPECTS_BASE_URL: 'EBAY_TRANSLATION_MOTORS_ASPECTS_BASE_URL',
+  INSTRUCTION_MODE:        'EBAY_TRANSLATION_INSTRUCTION_MODE'
 };
 
 var EBAY_TRANSLATION_DEFAULTS = {
@@ -29,7 +50,16 @@ var EBAY_TRANSLATION_DEFAULTS = {
   SOURCE_SHEET: 'インポート用',
   SKILL_NAME:   'ebay-translation',
   BATCH_SIZE:   5,
-  OPERATOR:     'AI'
+  OPERATOR:     'AI',
+  // --- eBay Motors 拡張 (library-only)。空文字列は「生成時に通常用と同じ値を使う」を意味する ---
+  MOTORS_SKILL_NAME:       'ebay-motors-translation',
+  MOTORS_SOURCE_SHEET:     '',
+  MOTORS_TARGET_SHEET:     '',
+  MOTORS_TAG_SHEET:        '',
+  // 2026-09-19: 参照データを GitHub Pages で公開。未登録 (空欄) の場合はこの既定 URL を使う
+  MOTORS_CATEGORY_REF_URL: 'https://naokijodan.github.io/bulksheet-ebay-motors-categories/motors-category-reference.json',
+  MOTORS_ASPECTS_BASE_URL: 'https://naokijodan.github.io/bulksheet-ebay-motors-categories/aspects',
+  INSTRUCTION_MODE:        'normal' // 'normal' | 'motors'
 };
 
 // ============================================================================
@@ -42,7 +72,13 @@ function buildEbayTranslationSettingsHtml() {
     sourceSheet: getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.SOURCE_SHEET, EBAY_TRANSLATION_DEFAULTS.SOURCE_SHEET),
     skillName:   getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.SKILL_NAME, EBAY_TRANSLATION_DEFAULTS.SKILL_NAME),
     batchSize:   getEbayTranslationNumericSetting_(EBAY_TRANSLATION_PROPS.BATCH_SIZE, EBAY_TRANSLATION_DEFAULTS.BATCH_SIZE, 1, 50),
-    operator:    getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.OPERATOR, EBAY_TRANSLATION_DEFAULTS.OPERATOR)
+    operator:    getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.OPERATOR, EBAY_TRANSLATION_DEFAULTS.OPERATOR),
+    motorsSkillName:      getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_SKILL_NAME, EBAY_TRANSLATION_DEFAULTS.MOTORS_SKILL_NAME),
+    motorsSourceSheet:    getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_SOURCE_SHEET, EBAY_TRANSLATION_DEFAULTS.MOTORS_SOURCE_SHEET),
+    motorsTargetSheet:    getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_TARGET_SHEET, EBAY_TRANSLATION_DEFAULTS.MOTORS_TARGET_SHEET),
+    motorsTagSheet:       getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_TAG_SHEET, EBAY_TRANSLATION_DEFAULTS.MOTORS_TAG_SHEET),
+    motorsCategoryRefUrl: getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_CATEGORY_REF_URL, EBAY_TRANSLATION_DEFAULTS.MOTORS_CATEGORY_REF_URL),
+    motorsAspectsBaseUrl: getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_ASPECTS_BASE_URL, EBAY_TRANSLATION_DEFAULTS.MOTORS_ASPECTS_BASE_URL)
   };
   var escapeAttr = function (s) {
     return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -73,6 +109,21 @@ function buildEbayTranslationSettingsHtml() {
     '<input type="text" id="operator" value="' + escapeAttr(cur.operator) + '">' +
     '<label>集約バッチサイズ (1-50)</label>' +
     '<input type="number" id="batchSize" min="1" max="50" step="1" value="' + cur.batchSize + '">' +
+    '<hr style="margin:18px 0 4px; border:none; border-top:1px solid #ddd;">' +
+    '<div style="font-weight:bold; color:#555; margin-top:8px;">モータース用 (任意。空欄なら通常用と同じ)</div>' +
+    '<label>モータース Skill 名</label>' +
+    '<input type="text" id="motorsSkillName" value="' + escapeAttr(cur.motorsSkillName) + '">' +
+    '<label>モータース ソースシート名</label>' +
+    '<input type="text" id="motorsSourceSheet" value="' + escapeAttr(cur.motorsSourceSheet) + '">' +
+    '<label>モータース 書込先シート名</label>' +
+    '<input type="text" id="motorsTargetSheet" value="' + escapeAttr(cur.motorsTargetSheet) + '">' +
+    '<label>モータース タグ参照シート名</label>' +
+    '<input type="text" id="motorsTagSheet" value="' + escapeAttr(cur.motorsTagSheet) + '">' +
+    '<label>カテゴリ参照 URL (https:// で始まる URL)</label>' +
+    '<input type="text" id="motorsCategoryRefUrl" value="' + escapeAttr(cur.motorsCategoryRefUrl) + '">' +
+    '<label>アイテムスペシフィック参照ベース URL (https:// で始まる URL)</label>' +
+    '<input type="text" id="motorsAspectsBaseUrl" value="' + escapeAttr(cur.motorsAspectsBaseUrl) + '">' +
+    '<div class="hint">空欄のままなら公開済みの既定 URL を使います</div>' +
     '<div class="error" id="error"></div>' +
     '<div style="margin-top: 8px;">' +
     '  <button class="primary" onclick="submitForm()">保存</button>' +
@@ -86,7 +137,13 @@ function buildEbayTranslationSettingsHtml() {
     '    sourceSheet: document.getElementById("sourceSheet").value.trim(),' +
     '    skillName: document.getElementById("skillName").value.trim(),' +
     '    operator: document.getElementById("operator").value.trim(),' +
-    '    batchSize: parseInt(document.getElementById("batchSize").value, 10)' +
+    '    batchSize: parseInt(document.getElementById("batchSize").value, 10),' +
+    '    motorsSkillName: document.getElementById("motorsSkillName").value.trim(),' +
+    '    motorsSourceSheet: document.getElementById("motorsSourceSheet").value.trim(),' +
+    '    motorsTargetSheet: document.getElementById("motorsTargetSheet").value.trim(),' +
+    '    motorsTagSheet: document.getElementById("motorsTagSheet").value.trim(),' +
+    '    motorsCategoryRefUrl: document.getElementById("motorsCategoryRefUrl").value.trim(),' +
+    '    motorsAspectsBaseUrl: document.getElementById("motorsAspectsBaseUrl").value.trim()' +
     '  };' +
     '  var err = document.getElementById("error");' +
     '  err.style.display = "none";' +
@@ -103,7 +160,7 @@ function buildEbayTranslationSettingsHtml() {
     '    .saveEbayTranslationSettings(data);' +
     '}' +
     '</script>'
-  ).setWidth(480).setHeight(620);
+  ).setWidth(480).setHeight(940);
 }
 
 // ============================================================================
@@ -116,6 +173,11 @@ function buildEbayTranslationGeneratorHtml() {
   var endRow = sel.endRow || 4;
   var sourceSheet = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.SOURCE_SHEET, EBAY_TRANSLATION_DEFAULTS.SOURCE_SHEET);
   var sheetWarning = (sheetName !== sourceSheet) ? '<div class="warn">⚠ 現在 "' + sheetName + '" シートが選択されています。本来のソースシートは "' + sourceSheet + '" です。続行する場合は対象行範囲を確認してください。</div>' : '';
+  // --- eBay Motors 拡張 (library-only) ---
+  var instructionMode = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.INSTRUCTION_MODE, EBAY_TRANSLATION_DEFAULTS.INSTRUCTION_MODE);
+  var motorsCategoryRefUrlCur = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_CATEGORY_REF_URL, EBAY_TRANSLATION_DEFAULTS.MOTORS_CATEGORY_REF_URL);
+  var motorsAspectsBaseUrlCur = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_ASPECTS_BASE_URL, EBAY_TRANSLATION_DEFAULTS.MOTORS_ASPECTS_BASE_URL);
+  var motorsUrlsMissing = (!motorsCategoryRefUrlCur || !motorsAspectsBaseUrlCur);
 
   return HtmlService.createHtmlOutput(
     '<style>' +
@@ -143,6 +205,12 @@ function buildEbayTranslationGeneratorHtml() {
     '<h3>📋 選択行の翻訳指示文を作成</h3>' +
     '<div class="info">現在の選択範囲: <b>' + sheetName + '</b> シート (Row ' + startRow + '-' + endRow + ')</div>' +
     sheetWarning +
+    '<div class="row">' +
+    '  <label style="width:auto; margin-right:10px;">指示文の種類:</label>' +
+    '  <label style="width:auto; display:inline-block; margin-right:14px; font-weight:normal;"><input type="radio" name="instructionMode" id="modeNormal" value="normal"' + (instructionMode === 'motors' ? '' : ' checked') + '> 通常</label>' +
+    '  <label style="width:auto; display:inline-block; font-weight:normal;"><input type="radio" name="instructionMode" id="modeMotors" value="motors"' + (instructionMode === 'motors' ? ' checked' : '') + '> モータース</label>' +
+    '</div>' +
+    '<div class="warn" id="motorsWarn" style="display:none;">参照 URL が未登録です。指示文には (未登録) と出ます。設定画面で登録してください</div>' +
     '<div class="row">' +
     '  <label>開始行:</label>' +
     '  <input type="number" id="startRow" min="3" step="1" value="' + startRow + '">' +
@@ -174,6 +242,15 @@ function buildEbayTranslationGeneratorHtml() {
     '}' +
     'document.getElementById("startRow").addEventListener("input", updateCount);' +
     'document.getElementById("endRow").addEventListener("input", updateCount);' +
+    'var MOTORS_URLS_MISSING = ' + (motorsUrlsMissing ? 'true' : 'false') + ';' +
+    'function getSelectedMode() { return document.querySelector(\'input[name="instructionMode"]:checked\').value; }' +
+    'function updateMotorsWarn() {' +
+    '  var w = document.getElementById("motorsWarn");' +
+    '  w.style.display = (getSelectedMode() === "motors" && MOTORS_URLS_MISSING) ? "block" : "none";' +
+    '}' +
+    'document.getElementById("modeNormal").addEventListener("change", updateMotorsWarn);' +
+    'document.getElementById("modeMotors").addEventListener("change", updateMotorsWarn);' +
+    'updateMotorsWarn();' +
     'function generate() {' +
     '  var s = parseInt(document.getElementById("startRow").value, 10);' +
     '  var e = parseInt(document.getElementById("endRow").value, 10);' +
@@ -181,16 +258,25 @@ function buildEbayTranslationGeneratorHtml() {
     '  err.style.display = "none";' +
     '  if (isNaN(s) || s < 3) { err.innerText = "開始行は 3 以上の整数"; err.style.display="block"; return; }' +
     '  if (isNaN(e) || e < s) { err.innerText = "終了行は開始行以上の整数"; err.style.display="block"; return; }' +
+    '  var mode = getSelectedMode();' +
     '  google.script.run' +
-    '    .withSuccessHandler(function(text){' +
-    '      document.getElementById("instr").value = text;' +
-    '      document.getElementById("result").style.display = "block";' +
+    '    .withSuccessHandler(function(){' +
+    '      google.script.run' +
+    '        .withSuccessHandler(function(text){' +
+    '          document.getElementById("instr").value = text;' +
+    '          document.getElementById("result").style.display = "block";' +
+    '        })' +
+    '        .withFailureHandler(function(e2){' +
+    '          err.innerText = "生成失敗: " + (e2 && e2.message ? e2.message : e2);' +
+    '          err.style.display = "block";' +
+    '        })' +
+    '        .generateEbayTranslationInstruction(s, e);' +
     '    })' +
-    '    .withFailureHandler(function(e2){' +
-    '      err.innerText = "生成失敗: " + (e2 && e2.message ? e2.message : e2);' +
+    '    .withFailureHandler(function(e3){' +
+    '      err.innerText = "設定保存失敗: " + (e3 && e3.message ? e3.message : e3);' +
     '      err.style.display = "block";' +
     '    })' +
-    '    .generateEbayTranslationInstruction(s, e);' +
+    '    .saveEbayTranslationSettings({ instructionMode: mode });' +
     '}' +
     'function copyResult() {' +
     '  var ta = document.getElementById("instr");' +
@@ -208,7 +294,7 @@ function buildEbayTranslationGeneratorHtml() {
     '  t.style.display = "block";' +
     '}' +
     '</script>'
-  ).setWidth(620).setHeight(620);
+  ).setWidth(620).setHeight(700);
 }
 
 // ============================================================================
@@ -220,6 +306,7 @@ function buildEbayTranslationSkillDownloadHtml() {
   var safeFc = getEbayTranslationFinalCheckContent().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   var safeRl = getRelistingImportSkillContent().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   var safeRt = getRelistingTranslationSkillContent().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  var safeMotors = getEbayMotorsTranslationSkillContent().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   return HtmlService.createHtmlOutput(
     '<style>' +
     'body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 16px; }' +
@@ -344,8 +431,33 @@ function buildEbayTranslationSkillDownloadHtml() {
     '  catch(e) { document.execCommand("copy"); showToast4("✓ コピーしました"); }' +
     '}' +
     'function showToast4(msg) { var t = document.getElementById("toast4"); t.innerText = msg; t.style.display = "block"; }' +
+    '</script>' +
+    '<hr style="margin:20px 0; border:none; border-top:1px solid #ddd;">' +
+    '<h3>📄 eBay Motors 翻訳スキル 本文 (下書き)</h3>' +
+    '<div class="hint">汎用の eBay 翻訳スキルを元に派生させた、eBay Motors (自動車・バイク等の部品・アクセサリー) 向けスキルの下書きです。Codex/Claude/Gemini に、上のモータース Skill 名 (既定 ebay-motors-translation) で登録してください。Claude Code の場合は <code>~/.claude/skills/ebay-motors-translation/SKILL.md</code> に保存します。</div>' +
+    '<textarea id="motors" readonly>' + safeMotors + '</textarea>' +
+    '<button class="primary" onclick="downloadMotors()">📥 ダウンロード (ebay-motors-translation-skill.md)</button>' +
+    '<button onclick="copyMotors()">📋 コピー</button>' +
+    '<div id="toast5" class="toast"></div>' +
+    '<script>' +
+    'function downloadMotors() {' +
+    '  var content = document.getElementById("motors").value;' +
+    '  var blob = new Blob([content], { type: "text/markdown;charset=utf-8" });' +
+    '  var url = URL.createObjectURL(blob);' +
+    '  var a = document.createElement("a");' +
+    '  a.href = url; a.download = "ebay-motors-translation-skill.md";' +
+    '  document.body.appendChild(a); a.click(); document.body.removeChild(a);' +
+    '  URL.revokeObjectURL(url);' +
+    '  showToast5("✓ ダウンロードしました (ダウンロードフォルダ確認)");' +
+    '}' +
+    'function copyMotors() {' +
+    '  var ta = document.getElementById("motors"); ta.select(); ta.setSelectionRange(0, ta.value.length);' +
+    '  try { navigator.clipboard.writeText(ta.value).then(function(){ showToast5("✓ コピーしました"); }); }' +
+    '  catch(e) { document.execCommand("copy"); showToast5("✓ コピーしました"); }' +
+    '}' +
+    'function showToast5(msg) { var t = document.getElementById("toast5"); t.innerText = msg; t.style.display = "block"; }' +
     '</script>'
-  ).setWidth(700).setHeight(1500);
+  ).setWidth(700).setHeight(1900);
 }
 
 // ============================================================================
@@ -428,14 +540,46 @@ function getEbayTranslationFinalCheckContent() {
 // ============================================================================
 function saveEbayTranslationSettings(form) {
   var props = PropertiesService.getDocumentProperties();
-  props.setProperty(EBAY_TRANSLATION_PROPS.TAG_SHEET, String(form.tagSheet));
-  props.setProperty(EBAY_TRANSLATION_PROPS.TARGET_SHEET, String(form.targetSheet));
-  props.setProperty(EBAY_TRANSLATION_PROPS.SOURCE_SHEET, String(form.sourceSheet));
-  props.setProperty(EBAY_TRANSLATION_PROPS.SKILL_NAME, String(form.skillName));
-  props.setProperty(EBAY_TRANSLATION_PROPS.OPERATOR, String(form.operator));
-  var n = parseInt(form.batchSize, 10);
-  if (isNaN(n) || n < 1 || n > 50) n = EBAY_TRANSLATION_DEFAULTS.BATCH_SIZE;
-  props.setProperty(EBAY_TRANSLATION_PROPS.BATCH_SIZE, String(n));
+  var hasField = function (key) { return Object.prototype.hasOwnProperty.call(form, key); };
+
+  if (hasField('tagSheet')) props.setProperty(EBAY_TRANSLATION_PROPS.TAG_SHEET, String(form.tagSheet));
+  if (hasField('targetSheet')) props.setProperty(EBAY_TRANSLATION_PROPS.TARGET_SHEET, String(form.targetSheet));
+  if (hasField('sourceSheet')) props.setProperty(EBAY_TRANSLATION_PROPS.SOURCE_SHEET, String(form.sourceSheet));
+  if (hasField('skillName')) props.setProperty(EBAY_TRANSLATION_PROPS.SKILL_NAME, String(form.skillName));
+  if (hasField('operator')) props.setProperty(EBAY_TRANSLATION_PROPS.OPERATOR, String(form.operator));
+  if (hasField('batchSize')) {
+    var n = parseInt(form.batchSize, 10);
+    if (isNaN(n) || n < 1 || n > 50) n = EBAY_TRANSLATION_DEFAULTS.BATCH_SIZE;
+    props.setProperty(EBAY_TRANSLATION_PROPS.BATCH_SIZE, String(n));
+  }
+
+  // --- eBay Motors 拡張 (library-only)。partial form (例: {instructionMode:'motors'}) にも対応 ---
+  var isHttpsOrEmpty = function (s) { return s === '' || s.indexOf('https://') === 0; };
+
+  if (hasField('motorsSkillName')) props.setProperty(EBAY_TRANSLATION_PROPS.MOTORS_SKILL_NAME, String(form.motorsSkillName).trim());
+  if (hasField('motorsSourceSheet')) props.setProperty(EBAY_TRANSLATION_PROPS.MOTORS_SOURCE_SHEET, String(form.motorsSourceSheet).trim());
+  if (hasField('motorsTargetSheet')) props.setProperty(EBAY_TRANSLATION_PROPS.MOTORS_TARGET_SHEET, String(form.motorsTargetSheet).trim());
+  if (hasField('motorsTagSheet')) props.setProperty(EBAY_TRANSLATION_PROPS.MOTORS_TAG_SHEET, String(form.motorsTagSheet).trim());
+
+  if (hasField('motorsCategoryRefUrl')) {
+    var catUrl = String(form.motorsCategoryRefUrl).trim();
+    if (!isHttpsOrEmpty(catUrl)) {
+      throw new Error('URL は https:// で始まる必要があります: カテゴリ参照 URL');
+    }
+    props.setProperty(EBAY_TRANSLATION_PROPS.MOTORS_CATEGORY_REF_URL, catUrl);
+  }
+  if (hasField('motorsAspectsBaseUrl')) {
+    var aspUrl = String(form.motorsAspectsBaseUrl).trim();
+    if (!isHttpsOrEmpty(aspUrl)) {
+      throw new Error('URL は https:// で始まる必要があります: アイテムスペシフィック参照ベース URL');
+    }
+    props.setProperty(EBAY_TRANSLATION_PROPS.MOTORS_ASPECTS_BASE_URL, aspUrl);
+  }
+  if (hasField('instructionMode')) {
+    var mode = (form.instructionMode === 'motors') ? 'motors' : 'normal';
+    props.setProperty(EBAY_TRANSLATION_PROPS.INSTRUCTION_MODE, mode);
+  }
+
   return { ok: true };
 }
 
@@ -450,7 +594,14 @@ function getEbayTranslationCurrentSettingsText() {
     'ソースシート: ' + getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.SOURCE_SHEET, EBAY_TRANSLATION_DEFAULTS.SOURCE_SHEET) + '\n' +
     'Skill 名: ' + getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.SKILL_NAME, EBAY_TRANSLATION_DEFAULTS.SKILL_NAME) + '\n' +
     '担当者名: ' + getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.OPERATOR, EBAY_TRANSLATION_DEFAULTS.OPERATOR) + '\n' +
-    'バッチサイズ: ' + getEbayTranslationNumericSetting_(EBAY_TRANSLATION_PROPS.BATCH_SIZE, EBAY_TRANSLATION_DEFAULTS.BATCH_SIZE, 1, 50);
+    'バッチサイズ: ' + getEbayTranslationNumericSetting_(EBAY_TRANSLATION_PROPS.BATCH_SIZE, EBAY_TRANSLATION_DEFAULTS.BATCH_SIZE, 1, 50) + '\n' +
+    '指示文の種類: ' + ((getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.INSTRUCTION_MODE, EBAY_TRANSLATION_DEFAULTS.INSTRUCTION_MODE) === 'motors') ? 'モータース' : '通常') + '\n' +
+    'モータース Skill 名: ' + getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_SKILL_NAME, EBAY_TRANSLATION_DEFAULTS.MOTORS_SKILL_NAME) + '\n' +
+    'モータース ソースシート (空欄=通常用と同じ): ' + getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_SOURCE_SHEET, EBAY_TRANSLATION_DEFAULTS.MOTORS_SOURCE_SHEET) + '\n' +
+    'モータース 書込先シート: ' + getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_TARGET_SHEET, EBAY_TRANSLATION_DEFAULTS.MOTORS_TARGET_SHEET) + '\n' +
+    'モータース タグ参照シート: ' + getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_TAG_SHEET, EBAY_TRANSLATION_DEFAULTS.MOTORS_TAG_SHEET) + '\n' +
+    'カテゴリ参照 URL: ' + getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_CATEGORY_REF_URL, EBAY_TRANSLATION_DEFAULTS.MOTORS_CATEGORY_REF_URL) + '\n' +
+    'アイテムスペシフィック参照ベース URL: ' + getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_ASPECTS_BASE_URL, EBAY_TRANSLATION_DEFAULTS.MOTORS_ASPECTS_BASE_URL);
 }
 
 // ============================================================================
@@ -492,6 +643,36 @@ function buildEbayTranslationInstruction_(startRow, endRow, doGetUrl, doGetKey) 
   var batchSize = getEbayTranslationNumericSetting_(EBAY_TRANSLATION_PROPS.BATCH_SIZE, EBAY_TRANSLATION_DEFAULTS.BATCH_SIZE, 1, 50);
   var operator = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.OPERATOR, EBAY_TRANSLATION_DEFAULTS.OPERATOR);
 
+  // --- eBay Motors 拡張 (library-only)。INSTRUCTION_MODE が 'motors' のときだけ skillName / 3シート名を
+  //     モータース用設定で上書きする (モータース側が空欄なら通常用のままフォールバック)。
+  //     'normal' (既定) のときはここより下の分岐に一切入らず、今までの出力と構造的に同一になる。
+  var instructionMode = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.INSTRUCTION_MODE, EBAY_TRANSLATION_DEFAULTS.INSTRUCTION_MODE);
+  var isMotorsMode = (instructionMode === 'motors');
+  var motorsRefLines = [];
+  var extraPreFlightBullets = [];
+
+  if (isMotorsMode) {
+    skillName = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_SKILL_NAME, EBAY_TRANSLATION_DEFAULTS.MOTORS_SKILL_NAME);
+    var motorsSourceSheet = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_SOURCE_SHEET, EBAY_TRANSLATION_DEFAULTS.MOTORS_SOURCE_SHEET);
+    var motorsTargetSheet = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_TARGET_SHEET, EBAY_TRANSLATION_DEFAULTS.MOTORS_TARGET_SHEET);
+    var motorsTagSheet = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_TAG_SHEET, EBAY_TRANSLATION_DEFAULTS.MOTORS_TAG_SHEET);
+    if (motorsSourceSheet) sourceSheet = motorsSourceSheet;
+    if (motorsTargetSheet) targetSheet = motorsTargetSheet;
+    if (motorsTagSheet) tagSheet = motorsTagSheet;
+
+    var motorsNotRegistered = '(未登録) ← 設定画面「モータース用」で登録してください';
+    var motorsCategoryRefUrl = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_CATEGORY_REF_URL, EBAY_TRANSLATION_DEFAULTS.MOTORS_CATEGORY_REF_URL);
+    var motorsAspectsBaseUrl = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_ASPECTS_BASE_URL, EBAY_TRANSLATION_DEFAULTS.MOTORS_ASPECTS_BASE_URL);
+    motorsRefLines = [
+      'カテゴリ参照 URL: ' + (motorsCategoryRefUrl || motorsNotRegistered),
+      'アイテムスペシフィック参照ベース URL: ' + (motorsAspectsBaseUrl || motorsNotRegistered)
+    ];
+
+    extraPreFlightBullets = [
+      '- 保留した商品 (スキル本文「保留の確認」) は、対象行全件の処理・書込・書込後QAが終わった後に、1件ずつ質問してください。実行の途中では質問しないでください。'
+    ];
+  }
+
   // doGet URL/キーは host(Main.js wrapper) が IMG_DOGET_URL/KEY を読んで渡す
   // (host/library で DocumentProperties 名前空間が別のため)。指示文にこのシートの URL を埋め込む。
   var imgUrl = (doGetUrl && /^https:\/\//i.test(String(doGetUrl).trim())) ? String(doGetUrl).trim().replace(/\/+$/, '') : '';
@@ -509,7 +690,7 @@ function buildEbayTranslationInstruction_(startRow, endRow, doGetUrl, doGetKey) 
     '対象行範囲: ' + startRow + '-' + endRow,
     '集約バッチサイズ: ' + batchSize,
     '担当者名: ' + operator
-  ].concat(imgLines).concat([
+  ].concat(imgLines).concat(motorsRefLines).concat([
     '',
     '画像も使って Title / Item Specifics / Description の正確性を高めてください。',
     'タグ判定は ' + tagSheet + ' シートの A 列許可リストから 1 つだけ選んでください (基本は配送カテゴリで選ぶ。状態で分かれたタグがある場合のみ、上記の状態判断を使う)。',
@@ -523,7 +704,7 @@ function buildEbayTranslationInstruction_(startRow, endRow, doGetUrl, doGetKey) 
     '- 商品の状態（新品か中古か、傷・汚れ・欠品の有無）は、ソース原文の説明文（「商品の状態」の記載を含む）と画像を実際に見て、1行ずつ判断してください。機械的な一括処理や推測で決めると必ず見落とします。中古品を新品として扱うことは絶対に避けてください（新品で出品すると箱・保証書付きと解釈され、クレームになります）。',
     '- タグ参照シートに「時計 中古」「時計 新品」のように状態で分かれたタグがある場合、タグは上記の状態判断に基づいて選んでください。状態を見ずに配送カテゴリだけで選んではいけません。',
     '- 作業開始前に「登録されているスキルを全て読み、全ルールを守る」ことを一言宣言してから着手してください。'
-  ]).join('\n');
+  ]).concat(extraPreFlightBullets).join('\n');
 }
 
 // ============================================================================
@@ -1463,6 +1644,346 @@ function getRelistingTranslationSkillContent() {
     '- HTTP 4xx（429除く）/ ページ参照不可: `消失` は書かず、既存情報を主軸に処理する。',
     '- 連続失敗（2回以上同一エラー）: 停止して報告する。',
   ]).join('\n');
+}
+
+// ============================================================================
+// 公開関数 — eBay Motors 翻訳スキル本文 (下書き。library-only 拡張)
+// gen_motors_skill_gs.py で ~/Desktop/ebay-motors-categories/skill/ebay-motors-translation-SKILL.v2.md
+// から機械生成。手編集禁止・再生成時はこの関数ごと置き換えること。
+// ============================================================================
+function getEbayMotorsTranslationSkillContent() {
+  return [
+    '---',
+    'name: ebay-motors-translation',
+    'description: Convert Japanese marketplace product rows (Mercari, Yahoo Auctions, Hard Off, Mercari Shops) for eBay Motors US parts and accessories (car, motorcycle, ATV/UTV, commercial truck, boat, RV, snowmobile, golf cart parts) into English eBay listing import data and write them to Google Sheets: Title, Condition/Description, Item Specifics from the official per-category aspect file, tag, and the eBay Motors categoryId. Use when the user asks to run "ebay-motors-translation", translate vehicle parts for eBay Motors, or fill the bulk sheet for Motors rows. It produces nothing else and creates no compatibility (fitment) data.dpoint.',
+    '---',
+    '',
+    '<!-- 【変更履歴】人向けメモ。スキル実行には影響しません（新規の方は読み飛ばして OK ／ 更新の方はここで変更点を確認）。',
+    '- このスキルは ebay-translation スキル (バージョン 2026-09-04) をベースとして派生させたもの。蓄積された一般ルールをそのまま土台にし、モータース固有の部分だけを置き換えている。',
+    '- 2026-09-18: モータース版として派生。変更点:',
+    '  - B. タイトル/イントロを eBay Motors US (自動車・バイク・ATV 等の部品・アクセサリー) 向けに変更し、「このスキルが出すもの (5つだけ)」ブロック (Title / Condition・Description / Item Specifics / タグ / カテゴリID) を追加。対応車種表 (フィットメント情報) は別の専用スキルの仕事であり一切作らず保持もしない旨、完成車両・作業サービス・卸ロット・ヘルメットは対象外 (参照データ側で除外・印付け済み) である旨を明記。',
+    '  - C. 実行体制ルールの検証スキャン文言と第一ルールの手順3・4をモータースのカテゴリ参照・タグ許可リストに合わせて修正。実行モードに保留行の一覧・質問の確認例外を追加。出力 JSON に `detection`（`status`/`reason`）と `sellerDecision` を追加。',
+    '  - D. ルール (必須) から、旧スキルにあった収集品・装身具ジャンル固有の各ブロック (交換バンド表現・ブランド重複回避・数量や制作年の曖昧値禁止・小型プライズ品の換算・特定ジャンルの categoryId 固定・電子計算機カテゴリ補足・玩具/キャラクター系ジャンル優先) を削除。「eBay カテゴリ ID 判定」「Item Specifics の充実度」、および製造国系 Item Specific の aspect 名をモータースのカテゴリ参照・aspect 参照に基づく内容へ置換。TITLE にパーツ出品の語順、DESCRIPTION に走行距離計・車両適合の表記の注意を1文ずつ追加。',
+    '  - E. 新セクション「保留の確認 (翻訳するかどうかの手前の確認)」を追加。特徴ベースの確認、カテゴリ mark ベースの確認、保留行を実行の最後にまとめて1件ずつ質問するフローを規定。',
+    '  - F. メルカリ特化から、一般マーケットプレイス向けの商品カテゴリ別 Item Specifics リストと衣類専用ブロック (決め事1〜3・参照ページ・帽子・バッグ・靴・書込後の機械確認) を削除し、カテゴリの aspect ファイルを参照する1文に置換。',
+    '  - G. 動作手順のカテゴリ参照 URL・categoryId 判定・QA チェック項目をモータース向けに修正し、部品番号/シャシーコードのテキスト化と保留行一覧の追記を明記。',
+    '  - H. 実行運用に、aspect ファイルの categoryId 単位での使い回し、部品番号確認時の画像省略条件、保留質問がバッチ処理の外にある旨を追加。',
+    '  - I. 失敗時の最小ハンドリングは変更なし。',
+    '  - J. 新セクション「未決事項一覧」を追加 (参照 URL・MULTI 区切り文字・必須 aspect 未確認時の値・封入オイル/ガス部品・Genuine/OEM/JDM 表記・NOS・部品タグリストの7項目)。',
+    '- 2026-09-19: 参照データを公開 (GitHub Pages) し、仮の URL を実 URL に置換。未決 7→6。',
+    '- 2026-09-19 (2件目): Codex 側レビューを受けた文言補強 3 点（製造国ルールの根拠、`=` `+` `-` `@` で始まる値の書き方、画像確認の原則と省略条件）。',
+    '-->',
+    '======================（ここから下をコピーしてスキルに登録）======================',
+    '',
+    '# eBay Motors Translation Skill',
+    '',
+    'バージョン: 2026-09-19 draft (base: ebay-translation 2026-09-04)',
+    '',
+    '日本の商品データ (テキスト + 画像) を英語の eBay Motors US (自動車・バイク・ATV 等の部品・アクセサリー) 出品データに変換し、Google スプレッドシートに書き戻す。Codex app / Claude Code / Gemini CLI で共通使用可能。',
+    '',
+    '## このスキルが出すもの (5つだけ)',
+    '',
+    'Title / Condition・Description / Item Specifics / タグ / カテゴリID。それ以外は何も作らない。',
+    '',
+    '対応車種表 (compatibility / fitment) は別の専用スキルの仕事であり、このスキルでは一切作らず、保持もしない。',
+    '',
+    '完成車両・作業サービス・卸ロットは対象外 (参照データから除外済みで、カテゴリID自体が存在しない)。ヘルメットはユーザー決定 (2026-09-17) で対象外だが、参照データには `mark: "exclude"` (markGroup `helmet`) として残してあるため、機構上は下記「保留の確認」の通常フロー (保留 → 実行の最後にセラーへ質問) に乗る。AI が自動で除外を決めることはない。',
+    '',
+    '## 第0ルール: このスキルの記述を最優先で守る (絶対遵守・全ルールの上位)',
+    '',
+    '**このスキルは「実行する指示書」であり、「自分で組み直すための素材」ではない。書かれている通りにそのまま実行する。**',
+    '',
+    '- このスキルの記述は、実行者 (AI) 自身の判断・好み・癖、およびグローバルルール (親=司令塔/委託の段取り等) よりも**優先する**。両者が衝突した場合は必ずこのスキルに従う。',
+    '- **着手前にこのスキル全文 (特に「実行モード」「実行運用」) を読んでから動く**。読む前に独自の段取り・アーキテクチャを設計してはならない。',
+    '- スキルに既に書かれている方式 (例:「実行運用」の **1ワーカーでバッチ処理／多数のサブエージェントへ細分化委託しない／QAは1回・やり直しを作らない／I/Oはまとめる／画像は要所のみ・並列で読む**) を、速度・慎重さ・その他の理由で**勝手に別方式へ置き換えない**。スキルが「遅くなるからやるな」と名指しで禁じた手 (直列の細分化委託、Title手戻り等) を取らない。',
+    '- 速くしたい/詰まった場合も、独自の代替手段に切り替える前に、まずスキル記載の方法を正しく適用できているかを確認する。スキルの範囲で解決できないときだけユーザーに報告する。',
+    '',
+    '## ルールの心構え: ポジティブ遵守 (全ルール共通の前提)',
+    '',
+    '**このスキルの全ルールは eBay 自身のルール (ポリシー) に則っており、実際に出品してきてダメだった事例 (eBay 登録拒否・VeRO・誤認トラブル・列ずれ事故・文字数超過など) が網羅されている。ルールを理解し、守り、実行することが、出品成功への近道である。**',
+    '',
+    '- **このルールを守ることで、アカウントもセラーもバイヤーも eBay も守られる。** 中古品に New と書かない=商品状態の正確な表示、VeRO 回避=知的財産の尊重、創作・推測の禁止=正確な商品説明 — どれも eBay ポリシーに対応しており、守ればバイヤーは説明どおりの商品を受け取れ、セラーはクレーム・返品・ペナルティから守られ、アカウントは停止リスクから守られ、eBay はマーケットプレイスの信頼を保てる。誰かを縛るための禁止リストではなく、全員を守る仕組み。',
+    '- ルールを「制約」と捉えない。守るほど成果物の品質と出品成功率が上がる、**成功のための手順**として前向きに適用する。',
+    '- 迷ったときは「このルールを回避できる理由」を探すのではなく、「ルールの趣旨に最も沿う表現・手順」を選ぶ。',
+    '- **明文にない場面でも、ルールの趣旨を同じ方向に適用する**。例: 「中古時計の New Band 禁止」の趣旨は「中古品に New の語があると新品と誤認され登録で弾かれる」ことなので、バンドに限らず New Battery など他の部位にも同様に適用し、`Battery Replaced` / `battery replaced June 2026` のように交換済みの事実で表現する (「未使用」= `Unused` は明示的に許可された表現で、使ってよい)。',
+    '- 各ルールの背景には実害がある。1 つの違反が出品不可・アカウントリスクに直結するため、「だいたい守れている」ではなく全行・全セルで守る。守れたかどうかは目視ではなく機械実測で確認する。',
+    '',
+    '## 実行体制ルール: 判断はメイン、機械作業だけ委託 (絶対遵守)',
+    '',
+    '役割は「誰が全部やるか」ではなく**タスクの性質**で切り分ける。委託してよいのは、次の2条件を**両方**満たす作業だけ: **(1) 中身の判断を伴わない (集める・数える・検出するだけ)、(2) 出力をメインが安く再検証できる (番地・出典URL・画像ファイル等、確認可能な形で返る)**。',
+    '',
+    '- **メイン (実行している AI 自身) が必ず直接やる = 判断を伴う作業 (委託厳禁)**:',
+    '  - ソース原文の読み取り (要約・言い換えのリスクがあるため自分で読む)',
+    '  - 画像から事実を拾う判断 / 1行ずつの情報精査',
+    '  - タグ判定・カテゴリID判定',
+    '  - Title / Description / Item Specifics の生成 (翻訳・取捨選択)',
+    '  - リサーチ結果から**何を採用するかの判断**',
+    '  - シートへの**実際の書き込み** (= **書き込みステップ自体をサブエージェント・別 AI に渡さない**。日本語など非ASCII・長文を引数に渡すのが嫌でも委託しない。malformed 回避を理由に委託しない。必要なら範囲を分割し、メインが自分で書く)',
+    '  - 内容が正しいかの**最終判断**と修正',
+    '  - 理由: 判断をサブエージェントへ渡すと、メインは成果物を自分で見ずに本人の要約だけ信じて素通しになり、ハルシネーション・誤判定が必ず漏れる (今回 89 行中約 64 行で実証)。メインは Opus 系で精度が高く、子は通常 Sonnet で精度が下がる。精度が要る判断ほどメインがやる。',
+    '',
+    '- **サブエージェントへ委託してよい = 判断のいらない機械作業 (並列・短時間で可)**:',
+    '  1. **最終の機械的検証スキャン** (中心): 禁止語・ハルシネーション疑い・日本語残り・文字数超過・改行・禁止記号・「タグが許可リスト内か」「categoryId がモータースのカテゴリ参照に実在するか」を検出。セル番地＋引用で返させる。例外判定 (Limited=限定盤 等) と修正はメインが行う。',
+    '  2. **画像の取得・ダウンロード**: doGet を叩いて画像 URL を取得し、URL から /tmp の jpg にダウンロードするだけ。画像を見て事実を拾うのはメイン。',
+    '  3. **リサーチ (出典付き生証拠の収集のみ)**: 不足仕様について商品・型番を Web 検索し、**1項目ごとに「見つけた仕様＋出典URL＋逐語引用＋なぜこの商品/型番に一致するか」を返すだけ**。結論・採用判断・要約・言い換えはさせない (させると検索版ハルシネーションになる)。採用可否はメインが URL で裏を取って決める。',
+    '  4. **一回限りの参照データ取得 (軽微)**: タグ許可リスト (TagShipping A列) の読み出し、カテゴリ参照 JSON の HTTP 取得。',
+    '  5. **読み取り専用のステータス/構造スキャン**: 書込先で H 列が空の最初の行、M 列が空 (未翻訳) の行、列ずれ (M=Title/N=Desc/P以降=IS) の有無などを数えて番地で返す。',
+    '',
+    '- **バッチ可否の原則 (重要)**: 読み込み・書き込みは**まとめて行ってよい (範囲一括)**。1行ずつでなければならないのは**判断 (精査・各行へのルール適用)** であって I/O ではない。翻訳も、各行をきちんと精査できているなら**まとめて出力してよい (正しければその方が速い)**。死守すべきは「商品ごとにソースと突き合わせて全ルールを当てる」判断が、バッチ化で飛ばないこと (タグ全行同一化・1点を Set of 2・字数/IS数のための捏造・ソースにない語の追加が、バッチで崩れる典型)。**個別セル更新は散らばった箇所の"修正"時のみ (行ずれ事故防止)** で、最初の本書き込みは範囲一括でよい。',
+    '- 一言: **「集める・数える・検出する」は委託可。「決める・訳す・書く」はメイン。** これ以上は増やさない (増やすと判断を精度の低い側に渡すことになる)。',
+    '',
+    '## 第一ルール: 情報精査は1行ずつ (絶対遵守・最優先)',
+    '',
+    '**これは商品です。データ行ではありません。1件1件が実際に販売される商品です。**',
+    '',
+    '- **情報精査 (ソーステキスト読込・画像確認・タグ判定・カテゴリ判定・Title/Description/IS 生成) は必ず1行ずつ実行する**。',
+    '- **バッチ処理で複数行を一度に判定してはならない**。テンプレ思考に逃げると以下が必ず発生する:',
+    '  - タグ誤判定 (本もネックレスもジュエリーボックスも全部「アニメグッズ」になる等)',
+    '  - ハルシネーション (ソースにない「Carefully wrapped」「smoke-free home」「Animate exclusive」「Limited」等を勝手に追加)',
+    '  - Brand 雑判定 (CLAMP は作者なのに全行 Brand=CLAMP になる)',
+    '  - セット数誤認 (1点なのに「Set of 2」になる)',
+    '  - 個別仕様の見落とし (色、サイズ、メーカー名、限定情報、コラボ先など)',
+    '- **書き込み (Sheets API による更新) はバッチでも良い**。ただし、書き込む前に各行の情報精査を必ず1行ずつ完了させていること。',
+    '- 各行について、以下のステップを順番に実行する:',
+    '  1. **ソーステキストを読む** (B-H列)。書かれていることだけを Fact とする。書かれていない情報は推測しない。',
+    '  2. **その行の画像を確認する** (優先順位: ① doGet が返す `mercariUrls` の画像 URL → ② 画像 URL で確認できない・取得失敗時のみ H 列の商品ページ。商品 ID・内容がソース行と不一致なら停止。原則として毎行確認する。省略できるのは、部品番号と車両情報 (メーカー/車種/型式) の両方がソーステキストに明記されている行だけ (「実行運用」参照))。',
+    '  3. **タグを判定** (TagShipping A列許可リストから、商品の性質と配送カテゴリで1つ選ぶ。許可リストにある部品向けのタグから配送実態で選ぶ。合うものが無ければ無し)。',
+    '  4. **カテゴリ ID を判定** (モータースのカテゴリ参照から、商品の実態に最も合う末端カテゴリ。参照に無い ID は絶対に使わない)。',
+    '  5. **Title / Description / Item Specifics を生成** (ソース・画像から確認できることのみ。Brand はメーカー明記あればそれ、無ければ空欄にして warnings に理由を書く)。',
+    '  6. **書き込み** (バッチで複数行まとめて書き込んでも可)。',
+    '',
+    '※ 手順の途中で「保留の確認」(a)(b) により保留 (`held`) と判定した行は、以降の生成・書込を行わず、実行の最後の質問に回す。',
+    '',
+    '**このルールは他の全てのルールに優先する。** 「実行モード (一気通貫)」「集約バッチサイズ」よりも上位。',
+    '',
+    '## 実行モード (最優先)',
+    '',
+    '- **全工程を確認なしで一気通貫で実行**。途中で「これを実行してよいか」「次に進むか」は聞かない。',
+    '- **途中承認は全てスキップ**。画像取得・カテゴリ参照取得・シート読込・シート書込・QA修正など、このスキル内で必要な通常操作はユーザー確認を挟まず実行する。実行環境が表示する権限ダイアログ等、AI側で省略できないシステム承認だけは例外。',
+    '- 完了後の報告は原則 **「完了。確認お願いします」の 1 行**。ただし、書込結果に **categoryId または タグが空欄の行、Item Specifics が 10 未満の行** があれば、その行番号と「なぜそうなったか」の理由を短く箇条書きで添える (例: `L58: categoryId 空 — モータースのカテゴリ参照に合致する末端カテゴリが無いため` / `L60: IS 7件 — 画像不鮮明で確認できる仕様が少ないため`)。詳細な成功件数リストは不要。',
+    '- 保留 (後述「保留の確認」) になった行があれば、全件を行番号・日本語タイトル・理由つきで列挙し、その後で1件ずつ質問する (実行の途中では質問しない。これが唯一の確認例外)。',
+    '- 重大エラー (シート不存在 / 連続失敗) のみ短く報告して停止。',
+    '',
+    '## 翻訳に使う AI (絶対遵守)',
+    '',
+    '- **このスキルを実行している AI 自身のマルチモーダル能力で翻訳する**。他の AI を経由しない。',
+    '  - Codex app / CLI で実行中 → GPT-5.5 (Codex 本体) で翻訳',
+    '  - **Claude Code で実行中 → Claude 自身 (マルチモーダル) で翻訳。MCP openai-bridge / anthropic-bridge / gemini-bridge 等の他 AI 呼出を絶対に使わない**',
+    '  - Gemini CLI で実行中 → Gemini 自身で翻訳',
+    '- 「OpenAI API を呼ぶ」「Gemini API を呼ぶ」のような外部 AI API 呼出は禁止。実行 AI が自分の能力で読込・翻訳・書込を完結させる。',
+    '',
+    '## 画像入力 (doGet 経由の画像 URL)',
+    '',
+    '商品画像は **ユーザーの GAS Web アプリ (doGet) から画像 URL で取得**する。シートの画像は全て URL 形式 (`=IMAGE(URL)`) であり、Base64 (safeImages) は使わない。ソースシートの画像式を直接読まず、画像 URL の取得は必ず doGet を使う。',
+    '',
+    '- **呼び出し**: `{doGet URL}?action=getImages&sheet={ソースシート名}&startRow={開始行}&numRows={件数}&maxImages={枚数}` (指示文に `doGet キー` があれば `&key=<キー>` も付ける)',
+    '  - `{doGet URL}` は実行依頼(指示文)のパラメータで渡される (= とりこみ君 webhook と同じ /exec)。スキル本体に固定 URL は持たない。',
+    '  - `numRows × maxImages <= 30` に収める (doGet 側の上限)。超える場合は `startRow` をずらして分割して呼ぶ。',
+    '- **レスポンス (JSON)**: `{ "ok": true, "rows": [ { "row": 12, "safeImages": [], "mercariUrls": ["https://static.mercdn.net/..."] } ] }`。使うのは `mercariUrls` (画像 URL) のみ。`safeImages` は全画像の URL 化に伴い使用しない (常に空の前提)。',
+    '- **使い方 (行ごと・この優先順位を厳守)**:',
+    '  1. `mercariUrls` の画像 URL を直接使う (商品ページよりアクセス負担が小さいため画像 URL を先に使う)。',
+    '  2. 画像 URL で確認できない・取得に失敗した場合**だけ**、同じ行の H 列にあるソース商品 URL の商品ページを開いて画像を確認する (商品ページは最後のフォールバック)。',
+    '  3. どの方法でも、行番号・URL 内の商品 ID・画像の中身がソース行の商品と一致しない場合は、翻訳・シート書込へ進まず**停止してユーザーに報告**する。別の行の画像を流用して続行しない。',
+    '- **vision への渡し方 (どの環境も「ファイル化して読む」)**:',
+    '  - 全環境共通: 画像 URL からローカル画像ファイル (例 `/tmp/img_{row}_{n}.jpg`) にダウンロードしてから視覚入力に渡す。',
+    '  - Claude Code: ダウンロードした画像ファイルを Read ツールで読む。複数枚は 1 応答で並列に Read してよい。',
+    '  - ダウンロードは画像データをモデル文脈に載せずに行う (後述「実行運用」参照)。',
+    '- **禁止**: doGet を介さず、ソースシートの =IMAGE 式から取り出した URL を直接使うこと (画像 URL は必ず doGet のレスポンスから取る)。',
+    '- **doGet URL が指示文に無ければエラーで停止する。=IMAGE のメルカリ URL に勝手に落とさない。**',
+    '',
+    '## 必要な接続',
+    '',
+    '- **MCP google-sheets** (各 AI 環境で接続済み前提。テキスト読込・結果書込に使う)',
+    '- **インターネット接続 / HTTP 取得** (doGet URL を叩いて画像 URL を取得し、画像をダウンロードするため。curl / WebFetch 等)',
+    '',
+    '## ユーザーが渡すパラメータ',
+    '',
+    '- スプレッドシート ID',
+    '- ソースシート名 (例: インポート用)',
+    '- 書込先シート名 (例: v5インポート)',
+    '- タグ参照シート名 (例: TagShipping)',
+    '- **対象行範囲 (例: 4-23)** ← これは **ソースシートの行範囲**。書込先シートの行範囲ではない',
+    '- 集約バッチサイズ (例: 20)',
+    '- **担当者名 (例: Claude / Codex / Gemini / 自分の名前)** ← 書込先 B 列に書く文字列',
+    '- **doGet URL** ← 実行依頼(指示文)で渡される。とりこみ君 webhook と同じ /exec。画像 URL の取得に使う (スキル本体に固定 URL は持たない)',
+    '- **カテゴリ参照 URL / アイテムスペシフィック参照ベース URL** ← 既定値は下記の公開 URL (2026-09-19 公開)。実行依頼 (指示文) にこれらの URL が渡されていればそちらを優先して使う (指示文の値がスキル既定値より優先。渡されていなければ既定値を使う)。',
+    '  - カテゴリ参照 (既定): `https://naokijodan.github.io/bulksheet-ebay-motors-categories/motors-category-reference.json`',
+    '  - アイテムスペシフィック参照ベース (既定): `https://naokijodan.github.io/bulksheet-ebay-motors-categories/aspects` (`/index.json`、`/by-category/<categoryId>.json`、`/shared-values.json`)',
+    '',
+    '## 書込位置のルール (絶対遵守)',
+    '',
+    '- **対象行範囲はソースシートの行範囲のみ**を指す。書込先シートの位置とは無関係。',
+    '- 書込先シートには **H 列 (仕入れ先コード列) が空の最初の行** を毎バッチ再取得して特定し、その行から順次書き込む。',
+    '- **絶対に書込先シートの既存データを上書きしない**。既存行は H 列が埋まっているのでスキップされる。',
+    '- 例: ソース 4-23 (20 件) を読込、書込先で H 列空が L57 → L57 から L76 に書く。',
+    '',
+    '## ソースシート構造 (3 行目以降)',
+    '',
+    '| 列 | 内容 |',
+    '|---|---|',
+    '| B | プラットフォーム / C 商品 ID / D 価格 / E 日本語 title / F 日本語説明 / G 出品者 / H URL / I-R 商品画像1〜10 (※この列は MCP で直接読まない。画像 URL は doGet で取得。全画像 =IMAGE(URL) 形式) |',
+    '',
+    '## 書込先シート構造 (3 行目以降)',
+    '',
+    'A 日付 / B 担当 / C label / **D タグ** / E テンプレ / F カテゴリID / G 仕入れ先 / **H 仕入れ先コード** (空行探索キー) / I 仕入れ価格 / J 日本語 title / K 商品説明 / L セラーID / **M Title** (英語 80 字内) / **N Condition/Description** (英語 480 字内) / O シッピング / **P-BC ISF1-IS値20** (20 ペア) / BD 重複チェック',
+    '',
+    '## 出力 JSON (各商品)',
+    '',
+    '```json',
+    '{',
+    '  "title": "string (80 字以内、英語)",',
+    '  "description": "string (480 字以内、ASCII)",',
+    '  "itemSpecifics": { "<項目名>": "<値>" },',
+    '  "recommendedUserTags": ["string"],',
+    '  "categoryId": "string (eBay 数値カテゴリ ID。該当なしは空文字)",',
+    '  "detection": { "status": "ok | caution_checked | held", "reason": "string" },',
+    '  "sellerDecision": "list | withdraw | null (held の行のみ)",',
+    '  "warnings": ["string"]',
+    '}',
+    '```',
+    '',
+    '## ルール (必須)',
+    '',
+    '- **【最優先・軸の分離】D 列タグ (配送) と F 列カテゴリ ID (eBay) は独立した別軸**。タグはユーザーが送料・利益率を管理するためのもので、**商品と正しくマッチすることが最重要**。カテゴリ ID は商品に対して正確に判定するが、**タグと一致している必要はない**。タグに合わせてカテゴリを歪めたり、カテゴリに合わせてタグを書き換えたりしてはならない。',
+    '- **TITLE**: 80 字以内。短く済ませず、根拠のある Brand / Franchise / Type / Model / Size / Quantity / Year / Edition / Included Item を使ってタイトルを充実させる。最初の 30 字に高価値キーワード。許可記号 `& / : - . ,` (+ TCG・グレード等で `# \' +`)。禁止記号 `* $ ~ ^ @ ! ? ™ ( ) [ ] { } " _ % = | \\ < > ;`。VeRO 抵触語 (AUTHENTIC/OFFICIAL) 禁止、捏造 (RARE/LIMITED/VINTAGE) 根拠なし禁止。根拠がある年代・版・数量・サイズは優先して入れるが、`Rare` / `Limited` / `Mint` / `Excellent` 等の誇張語はソース根拠が薄ければ使わない。`vintage` はソースに年号がある／『ヴィンテージ・レトロ・当時物』の語がある場合のみ可。',
+    '  - **パーツ出品の語順**: 車両メーカー/車種/型式・シャシーコード → 部品名 → 部品番号 → 位置/左右 → (入るなら) 状態語。「NOS」(New Old Stock) は使用可否が未決定【未決】のため、決定するまで使わない (`Unused` / `Unused old stock` で表現する)。`Genuine` / `OEM` / `JDM` は、商品自体に根拠 (ラベル・刻印等) が確認できたときだけ使う。正確な表記・使用条件ポリシーは未決定【未決】。',
+    '- **DESCRIPTION**: 480 字以内 ASCII、**1 行のみ (改行 \\n を一切含めない)**。商品の状態と仕様だけを書く。構造化情報は ` - ` 区切りで 1 行に並べる (例: `Lot of 3 sets. Item Details: - Brand: Topps - Year: 2023 - Player: Yamamoto - Grade: PSA 9`)。**転売ソースは全商品が中古 (二次流通) 前提。ソースが「新品」「未開封」「未使用」でも "new"/"Brand New" は使わず Pre-owned 基調で書く** (例 `Pre-owned, unused` / `Pre-owned, sealed and unopened`。「未使用」=Unused 自体は可)。配送方法・梱包・購入条件・値下げ・返品/保証・出品者都合の説明は入れない。',
+    '  - (これは Description の事実表現の精度に関する注意であり、対応車種データの生成ではない) **走行距離計 (Instrument Clusters 等)**: 表示されている数値をそのまま記載するだけにとどめ、実走行距離を保証・断定しない。**車両への適合は確認できた範囲のみ記載する**: `removed from …` (取外し元の車両として確認できた場合)、`for … as stated on the label` (ラベル記載の適合として) のように根拠の範囲を超えて書かず、車種の拡大解釈はしない。',
+    '- **青色表現の禁止語 (重要)**: 色名として `Tiffany Blue` / `Tiffany blue` / `ティファニーブルー` は絶対に使わない。Tiffany ブランドと無関係な青系は `Turquoise Blue` / `Aqua Blue` / `Light Blue` など、画像とテキストから安全に言える一般色で表現する。',
+    '- **トーン (重要)**: Description は **eBay 出品者 (= ユーザー自身) が自分の商品として直接説明する第一人称トーン**で書く。ソースを引用するような第三者表現は **絶対禁止**:',
+    '  - 禁止例: `per seller notes` / `according to seller` / `the seller states` / `seller mentions` / `per description` / `according to the original listing` / `as noted by the seller` / `based on seller\'s information` / `the original seller says`',
+    '  - 推奨: 出品者自身が言い切る形 (`Minor marks may be present.` / `Used condition with light wear.` / `Includes original box.`)',
+    '- **除去対象 (DESCRIPTION / Item Specifics 共に含めない)**:',
+    '  - 配送方法: メルカリ便、ゆうゆうメルカリ便、らくらくメルカリ便、匿名配送、ヤマト、佐川、ゆうパック、定形外、レターパック、補償付き 等',
+    '  - 梱包条件: 水濡れ防止、折れ防止、プチプチ、ダンボール、緩衝材、丁寧に梱包 等',
+    '  - 補償・取引文言: ノークレーム、ノーリターン、即購入 OK、即購入歓迎、コメント不要、お値引き不可、専用、お取り置き不可 等',
+    '  - 出品者の主観評価: 美品、極美品、超美品、激安、お買い得、希少、レア (ソース根拠なしの捏造表現)',
+    '  - 保管環境: ペット飼育なし、喫煙者なし、自宅保管、神経質な方はご遠慮 等',
+    '  - 値下げ・キャンペーン: 値下げ中、最終価格、週末値下げ、フォロー割 等',
+    '  - eBay 側で別管理する情報全般 (送料・関税・返品ポリシー)',
+    '- **Item Specifics**: 画像・テキストから確実に分かるもののみ。`Country of Origin` は原則必ず出力し、**製造国ではなくブランド国・権利元の国で判定**する (Motors の aspect 名は `Country/Region of Manufacture` ではなく `Country of Origin`。`SELECTION_ONLY`・公式リスト 244 値・`Japan` を含む。そのカテゴリの aspect ファイルに実在する名前をそのまま使い、旧名称を押し付けない):',
+    '  - ブランド国が判定できる場合はその国を採用する (例: Honda / Toyota / Nissan / Mazda / Subaru / Mitsubishi / Suzuki / Daihatsu / Yamaha / Kawasaki → Japan、Bosch → Germany)。辞書外で不明な場合のみ Japan。',
+    '  - **China は絶対に使わない (ユーザー固定ルール)**: 中国ブランドや中国製と分かる商品でも `Country of Origin` は Japan にする。Description にも `Made in China` と書かない。書込後 QA で `China` を機械検索して検出する。根拠: 原産地証明を出せない商品は原産地を主張できず、発送国 (日本) を原産地とみなす扱いに基づく (利用者確認済みの運用ルール)。',
+    '- **Item Specifics の充実度**: 各商品で、嘘・推測・根拠なし情報を入れない範囲で、**最低 10 フィールドを目標**に埋める。**カテゴリID確定後に、そのカテゴリの aspect ファイル (`https://naokijodan.github.io/bulksheet-ebay-motors-categories/aspects/by-category/<categoryId>.json`) を取得**する。aspect 名は完全一致でそのままコピーする (大文字小文字含む。`Suitable For` と `Suitable for` のように表記違いの aspect 名が実在するので名寄せ・正規化をしない)。`required: true` を最優先で埋める (`usage` は必須判定に使わない)。`mode: "SELECTION_ONLY"` は公式リストの値のみ、表記ゆれ (大文字小文字含む) もそのまま使い勝手に統一しない (`valuesRef` は `shared-values.json` の該当キーで解決する)。`selectionOnlyNoValues: true` はその aspect に値を入れない。`mode: "FREE_TEXT"` かつ `values` があれば eBay の公式推奨表記を優先して使うが、一致しない他の事実でも真であれば自由入力してよい。`suggestedValueCount: 0` の `FREE_TEXT` は完全な自由入力欄 (部品番号系の aspect で典型)。`cardinality: "MULTI"` は複数の真である値を入れてよい (義務ではない。1セルへの区切り文字は未決定【未決】。決まるまでは最も確証度の高い値を1つだけセルに書き、他に真である値は warnings に列挙する)。`values` の要素が `{ "value": ..., "constraints": [{ "aspect": ..., "values": [...] }] }` の形の場合、指定された他の aspect が列挙された値のいずれかを持つときだけその値を使う。`aspectsMissing: true` のカテゴリ (本スキル対象では `263269`・`180159` の2件のみ) は確認できた一般的な仕様のみを書き、その旨を warnings に記録する。**シート上限 20 ペアの優先順位**: ① `required: true` の aspect ② 部品番号系 aspect (Manufacturer Part Number / OE/OEM Part Number / Interchange Part Number / 使える候補があれば Superseded Part Number) ③ Brand ④ Type ⑤ Placement on Vehicle ⑥ その他確認できた事実。**`required: true` の aspect の値が確認できない場合は空欄にし、warnings に理由を書く。`Does Not Apply` 等のプレースホルダを裏取りなしに当てはめてはならない【未決】**。証明書・認証系 aspect/値 (DOT・SAE・ECE・CARB・EPA・`Road Legal`・`Labels & Certifications` 等) は、商品自体にその表示 (刻印・ラベル・タグ) が確認できたときだけ書く。`DOT approved` / `street legal` / `road legal` / `race only` / `off-road only` は推測で書かない。確認できない仕様を 10 項目達成のために創作することは禁止。',
+    '- **動物素材ワード禁止**: "Crocodile", "Alligator", "Ivory", "Ostrich", "Snake", "Snakeskin", "Lizard", "Tortoiseshell", "Python", "Stingray" 等は禁止。素材が不明・人工なら "Leather" / "Faux leather" / "Synthetic" / "Embossed leather" などに置換。',
+    '- **"Occasion" 禁止**: 出品ツールが "CASIO" と誤認するため使用禁止。代替: "Use" / "Scene" / "Style" / "Wear" / "Event"。',
+    '- **ハルシネーション禁止 / 創作・推測の全面禁止 (絶対・例外なし)**: 自分の頭で考えて仕様を作ってはならない。Title / Description / Item Specifics の全記載は、実在のソース由来でなければならない。データが足りないときの手順は必ず次の順序で行う:',
+    '  1. **その行の商品画像を確認する** (doGet で取得した画像を見て、確認できる仕様を拾う)。',
+    '  2. **それでも不足する仕様** (型番・シリーズ名・年代・寸法・素材・キャラクター名・収録内容・ブランド等) は、**該当商品・型番を Web 検索して実在の事実を裏取りする** (製品情報・公式/販売ページ等の検索。eBay / メルカリのスクレイピングやブラウザ操作はしない)。検索で確証が取れた事実のみ採用する。',
+    '  3. **画像でも Web 検索でも確認できない項目だけ空欄にする**。空欄は最後の手段であり、最初の手段は「調べる」。Title を充実させる目標や Item Specifics 10 項目目標は、この絶対ルールより下位。目標を満たせないときは目標を諦める。',
+    '  - **「どうしても推測した場合は warnings に明記すれば可」という抜け道は廃止**。推測値・創作値は、warnings に書く場合も含めて、いかなる場合もセルに書き込まない。色・寸法・キャラ名・カード数値・ブランド・付属品・限定/年代などを、ソース・画像・検索の裏付けなしに書くことを固く禁じる。',
+    '- **タグ判定 (画像不要)**: タグ参照シート A 列の許可リストから **必ず 0 個または 1 個だけ**。配送カテゴリで選ぶ。リストにない新規タグ禁止。該当なしなら `[]`。(部品用のタグ許可リストはまだ存在しない【未決】。渡されたリストをそのまま使い、合うものが無ければ `[]`)',
+    '- **画像の役割**: Title/IS/Description の正確性向上のため。タグ判定には使わない。',
+    '- **eBay カテゴリ ID 判定 (タグとは独立)**: カテゴリ参照 `https://naokijodan.github.io/bulksheet-ebay-motors-categories/motors-category-reference.json` を翻訳前に 1 回 HTTP 取得する (`curl` / WebFetch)。構造: `sections` 配下にセクションごとのカテゴリ配列があり、各エントリは `{ id, path, req, mark, markGroup, markReason }`。eBay Motors リーフカテゴリ 1,891 件 (完成車両・作業サービス・卸ロットは参照データの段階で除外済み)。**categoryId は D 列の配送タグではなく、商品そのものの実態 (画像・日本語タイトル・説明) から判定する**。商品の実態に最も合う、最も詳細な末端カテゴリを選ぶ。**参照データに実在する数値 ID のみ採用し、無い番号を創作しない**。合う候補が無い/不明の場合は categoryId を空にし、理由を warnings に書く。**タグと categoryId は独立軸であり、一致しているかは確認しない**。`mark` フィールドの意味: `exclude` はこの行を保留 (`held`) してセラーに質問する対象、`caution` は `markReason` に書かれたチェックを行う対象 (詳細は後述「保留の確認」参照)。',
+    '',
+    '## 保留の確認 (翻訳するかどうかの手前の確認)',
+    '',
+    '**AI は出品可否を一切決めない。それは常にセラーの決定。** この確認で問題が見つかった行は「保留 (`held`)」とし、Title/Description/Item Specifics/タグを生成せずシートに何も書かない。全行の処理が終わったあと、実行の最後にセラーへ1件ずつ質問して回答を待つ ((c) 参照)。',
+    '',
+    '- **(a) 特徴ベースの確認 (該当行を読んだ直後、カテゴリID判定より前に行う)**: 画像・説明から見える特徴で判定する。以下に該当すれば `held` にする:',
+    '  - エアバッグ本体、またはエアバッグ・カバーが装着された状態のもの (例: ステアリングホイール)',
+    '  - 排気系部品の内部に触媒コンバーターが内蔵されているもの',
+    '  - タイヤが含まれるもの',
+    '  - **液体・危険物 (正確に)**: 商品自体が液体・薬品・塗料・エアゾール (スプレー缶) であるもの／部品が燃料・オイル・冷却水・ブレーキ液・冷媒を抜き切っていない (残留物を含む) 状態で提供されるもの (抜き取り済み・空の部品はこの項目を理由に保留しない)／バッテリーそのもの、またはバッテリーが付属するもの／加圧容器そのもの、または加圧容器を含むもの',
+    '  - チューニング/リフラッシュ済み、または社外スタンドアロンの ECU',
+    '  - 鍵複製・デコード装置',
+    '  - 排ガス無効化を示唆する文言 (defeat device 等)',
+    '  - **確認不能時の扱い**: 上記各項目は、その部品の性質上もっともらしく該当しうるのに画像・テキスト・Web検索のいずれでも判定できない場合だけ「確認不能→`held`」とする。**その部品の性質上、明らかに該当しえない項目は確認そのものが不要であり、理由にしない** (例: ドアミラーに触媒コンバーターが内蔵される可能性は無いので確認不要)。「分からないから通す」は禁止。',
+    '  - **封入オイル・ガスを持つ密閉部品の扱いは未決定【未決】**: ショックアブソーバー、ストラット、ガスショック/リフトサポート、ステアリングダンパー等、構造上オイル・ガスを密閉した状態が正常な製造仕様である部品は、この液体・危険物の項目を理由に保留**しない**。決定するまでは出品データを作成したうえで warnings に「sealed oil/gas component — carrier shipping restrictions may apply, needs the seller\'s judgement」を追加する。',
+    '- **(b) カテゴリ mark の確認 (カテゴリIDを仮決定した直後に行う)**: 参照データの `mark: "exclude"` は、フィールド値としてこの名前のまま使うが、意味は「保留して質問する」であり、AI が「出品しない」と決めることではない。',
+    '  - `mark: "exclude"` → 問題ありと確認できた。`held` にし、reason に `markReason` を転記する。',
+    '  - `mark: "caution"` の `markReason` に書かれたチェックを行い、問題が無いと積極的に確認できた → `caution_checked` とし、reason に確認内容を具体的に書く。',
+    '  - `mark: "caution"` の `markReason` に書かれたチェックを行い、markReason が示す問題 (例: 冷媒が入っている／触媒コンバーターを含む／燃料が残っている／エアバッグが付いている／チューン済み・社外スタンドアロンECUである／年代物・年代不明の摩擦材である) が実際にあると確認できた → `held` にし、reason に markReason と確認した具体的な問題を書く。',
+    '  - `markReason` が問う論点について画像・テキスト・Web検索のいずれでも判断できない (確認不能) → `held` とし、reason に何が確認できなかったかを書く。「わからないから通す」は禁止。**この規定は markReason が実際に問う論点だけに適用し、無関係な論点まで持ち出して確認不能扱いにしない**。',
+    '  - `mark` キーが無いカテゴリはこの確認の対象外。categoryId が空欄 (未判定) の場合はこの (b) を適用できず (a) だけを適用する。categoryId 未確定のみを理由に保留しない。',
+    '- **(c) 保留行の扱い**: 保留行にはメインバッチ中は何も書き込まない (ブックキーピング列を含め一切)。**通常行は従来どおり H 列の空き行から連続で書き込む**。全行の処理・書込・書込後QAが終わったあと、実行の最後に:',
+    '  1. 保留行を**全件**列挙する (件数だけで済ませない): 行番号・ソースの日本語タイトル・保留にした具体的な理由 (複数あれば全て)。これは質問前に実行が中断しても内容が失われないための安全策で、シートには書かない。',
+    '  2. **ソース行番号順に1件ずつ質問する (一問一答。表形式で複数行を並べない)**。各質問に含める内容: 行番号／ソースの日本語タイトル／保留にした具体的理由の全て／理由ごとの根拠事実を1文で (カテゴリ mark 由来なら `markReason` の要点、(a) の特徴ヒット由来なら次の対応: エアバッグ→「eBayはエアバッグ (カバー含む) の出品を禁止しています」、触媒→「中古の触媒コンバーターは再認証済みかスクラップとしてのみ出品可能というルールです」、タイヤ→「タイヤは DOT マーキングが必要というルールです」、液体・バッテリー・加圧容器→「液体・バッテリー・加圧容器は国際発送できない危険物として扱われます」、ECU→「ECUは純正OEM品のみが対象で、チューン・リフラッシュ・社外スタンドアロン品は出品できないというルールです」、鍵複製・デコード装置→「eBayは鍵の複製・デコード装置の出品を禁止しています」、排ガス無効化→「eBayは排ガス無効化装置の出品を禁止しています」)／質問文「出品予定ですか？ それとも取り下げますか？」。**賛否は言わない**。',
+    '  3. **回答が「出品予定」**: この行について今このタイミングで Title/Description/Item Specifics/タグの生成と書込を行う (`sellerDecision = "list"`)。ワード遵守ルール (未検証の認証・road legal・適合の主張禁止、中古品に New 禁止、推測禁止、禁止語スキャン) は全て通常どおり適用する。セラーが回答の中で述べた事実は、ソース・画像からも裏取りできない限り出品データの本文にはそのまま書き込まず、使う場合は warnings に `"seller-confirmed: <内容>"` の形で明記する。書込直前に H 列を再取得して最新の空き行に書き込む (既存データは絶対に上書きしない)。',
+    '  4. **回答が「取り下げ」**: 何も書き込まない。',
+    '  5. **回答が事実だけで意思表示が無い場合 (例:「エアバッグは付いていません」とだけ)**: 不明瞭な回答として扱い、出品予定と推測せず、同じ行についてもう一度1文だけで聞き直す。',
+    '  6. **無回答・聞き直しても不明瞭な場合**: 保留のまま何も書き込まない。**沈黙は承認として扱わない**。',
+    '  7. **保留行が0件なら、この一覧・質問・下記の最終まとめは丸ごと省略する**。',
+    '  8. **最終まとめ**: 全質問が終わったら、保留行ごとに「出品 (書込済み。行番号・categoryId・書込日を明記)」「取り下げ」「未回答のまま保留」のいずれかを短く報告する。**セラーの承認は今回のチャットにしか残らずシートには一切書かないため、あとからシートだけを見ても承認済みの `mark: "exclude"` の categoryId か単なる誤りかを区別できない。この最終まとめが唯一の記録になる**。`mark: "exclude"` の categoryId は、この最終まとめで「出品 (承認済み)」と記録された行にだけ合法的に出現する。',
+    '',
+    '## メルカリ特化 (ソースがメルカリの場合)',
+    '',
+    'ソースがメルカリ (platform が `mercari` または `mercari_shop`) の場合、以下を適用する。メルカリ特有のノイズ文言の除外は上記「除去対象」に従う。',
+    '',
+    '- **メルカリの「商品の状態」マッピング** (Condition/Description に反映):',
+    '  - 「新品、未使用」 → `Unused`',
+    '  - 「未使用に近い」 → `Used (very minimal signs of use)`',
+    '  - 「目立った傷や汚れなし」 → `Used (minimal signs of use)`',
+    '  - 「やや傷や汚れあり」 → `Used (light signs of use)`',
+    '  - 「傷や汚れあり」 → `Used (visible signs of use)`',
+    '  - 「全体的に状態が悪い」 → `Used (heavy wear)` / `For parts or not working`',
+    '- **推奨 Item Specifics**: 商品カテゴリ別の一般リストではなく、確定した categoryId の公式 aspect ファイル (`https://naokijodan.github.io/bulksheet-ebay-motors-categories/aspects/by-category/<categoryId>.json`) を参照する (上記「Item Specifics の充実度」参照)。',
+    '- **必須 Item Specifics に「NA」等のプレースホルダを入れない**: 必須項目も公式許容値で埋める。',
+    '',
+    '## 動作手順 (最小)',
+    '',
+    '1. **取得**: タグ参照シート A 列 + ソースシートのテキスト列 (B〜H) を取得。**カテゴリ参照 JSON (`https://naokijodan.github.io/bulksheet-ebay-motors-categories/motors-category-reference.json`) も最初に 1 回 HTTP 取得**。**画像は doGet で取得** (上記「画像入力」参照): 行ごとに `mercariUrls` の画像 URL を使う (safeImages は使わない)。画像 URL で確認できない・取得失敗の行のみ H 列の商品ページで画像を確認する。doGet レスポンスの `row` とテキストの行番号を突き合わせ、商品 ID・内容が不一致なら停止する。',
+    '2. **集約バッチ**: 行範囲を集約バッチサイズで区切り、各バッチで AI に 1 リクエスト (システム 1 回 + 商品 N 件 + 画像を vision に渡す。画像 URL からダウンロードしたファイルを使う) → JSON 配列で受け取り。',
+    '3. **後処理**: 各 JSON の recommendedUserTags をタグ許可リストでフィルタ + 先頭 1 つだけ採用 (0 件は `[]`)。**categoryId はモータースのカテゴリ参照に実在する ID のみ採用 (無ければ空)。categoryId 確定後にそのカテゴリの aspect ファイルを取得して Item Specifics を確定する**。Title は 80 字以内で短すぎないよう根拠ある語で充実させ、Description は 480 字以内・1 行・不要文除去済み、Item Specifics は可能な限り 10 フィールド以上になるまで再チェックする。**書込前に、生成した全行の M(Title)・N(Description) の文字数をコード等で機械的に実測する (目視で数えない)。N>480 は意味を保ったまま 480 以内に切り、M>80 も同様に直してから書き込む。実測前に書き込まない。**',
+    '4. **書込**: 書込先シートの H 列を **毎バッチ再取得** して空行特定 → その行に書き込み (A〜BC、IS は ISF1-IS値20)。',
+    '   - **A 列 = 今日の日付 (YYYY/MM/DD 形式、例: 2026/05/19)**',
+    '   - **B 列 = 担当者名 (ユーザーから渡されたパラメータの「担当者名」)**',
+    '   - **F 列 = categoryId** (上記「eBay カテゴリ ID 判定」で確定した数値 ID。候補内 ID のみ、無ければ空)',
+    '   - **valueInputOption は `USER_ENTERED`** を使う (RAW 禁止)。',
+    '   - **書き込み値は全て実値**にする。`=IMAGE(...)`、`=HYPERLINK(...)`、その他の数式は絶対に書き込まない。ソースシートからコピーする項目も、原則として参照式ではなく読み取った値そのものを書き込む。**ただし J 列・K 列だけは例外で、下記の専用ルールによりソース参照式 `=ソースシート!E{行}` / `=ソースシート!F{行}` を使う (転記ミス防止のため)。**',
+    '   - **数値項目 (仕入れ価格 / Year / Card Number 等) は数値型のまま書き込む** (文字列化禁止、先頭 `\'` が付加される現象を回避)。ただし `-` や `/` を含む短い英数値 (カード番号 `3-31`・型番・サイズ) は日付/分数に自動変換されるためテキストで書く (該当セルのみ RAW 可)。**部品番号 (例 `16211-438-000`) や型式・シャシーコードも同様に日付/分数へ自動変換されうるため、該当セルのみテキスト (RAW) で書く。** 書込後 QA で、本来テキストの値が日付シリアル (40000 台の数値) に化けていないか確認する。',
+    '   - **Year 系 Item Specific (Year / Year Manufactured / Year of Manufacture / Publication Year / 制作年) の数値年フィールドは必ず 1 つの西暦4桁だけにする。`1999-2000` のハイフン区切り・`1999/2000`・`1999 to 2000`・`1999, 2000` のカンマ区切り・空白入り・文字入りはいずれも eBay 側でエラーになり登録できない。複数年が必要な場合でも数値年フィールドには代表年 (最も明確な 1 年) だけを入れ、複数年情報は `Season` や Description に逃がす。**',
+    '   - **`=` `+` `-` `@` で始まる値は、そのまま書くと数式として解釈されうる。** Title / Description / Item Specifics の値がこれらの記号で始まる場合は、先頭の記号を外すか語順を変えて記号で始まらない形にする (意味が変わる場合は該当セルのみ RAW で書く)。J 列・K 列の参照式だけが意図した数式であり、それ以外のセルに数式を書き込まない。',
+    '   - ソースシートからコピーする項目 (仕入れ価格・商品 ID・セラー ID) は、ソース側の型を保ったまま転記する。文字列を数値化したり、数値を文字列化したりしない。日本語 title (J) ・日本語説明 (K) は上記のとおりソース参照式で出す。',
+    '   - **【J 列・K 列はソース参照式で出す (絶対)】 日本語原文を手で打ち直してはならない (転記すると全角/半角・記号・脱字の誤りが必ず混入するため、実運用で複数行の不一致が発生した)。代わりに、J 列 = `=ソースシート名!E{対象行}`、K 列 = `=ソースシート名!F{対象行}` の参照式を書き込む (例: ソースが「インポート用」で対象行 187 なら J=`=\'インポート用\'!E187`、K=`=\'インポート用\'!F187`)。要約・翻訳・短縮も当然禁止。これは下記「書き込み値は全て実値」ルールの明示的な例外で、J/K のみソース参照式を許可する。`valueInputOption` は `USER_ENTERED` で式として評価させる。書込配列の H/I/L (商品 ID・仕入れ価格・セラー ID) は従来どおり取得済みの値そのものを差し込む (本文に日本語を再生成・再入力しない)。',
+    '5. **書込後 QA (必須)**: 書込直後に対象範囲を読み戻し、以下を確認・修正する。',
+    '   - A列が今日の日付、B列が担当者名、H列が対象ソースの商品ID順になっている。',
+    '   - M列が Title、N列が Description、P列以降が Item Specifics になっており、列ずれがない。',
+    '   - **Title(M)・Description(N) の文字数はコード等で機械実測する (目視禁止)。M≤80・N≤480 を全行満たすことを数値で確認する。「だいたい大丈夫」で合格にしない。実測していないなら「合格」と報告しない。**',
+    '   - Title は 80 字以内で、短すぎる場合は根拠ある語で充実させる。',
+    '   - Description に配送方法、梱包、購入条件、値下げ、返品/保証、出品者都合の説明、第三者引用トーンが混入していない。',
+    '   - **J 列・K 列が、対象行に対応するソース参照式 (`=ソースシート!E{行}` / `=ソースシート!F{行}`) になっており、評価結果がソース E/F 全文と一致しているかを確認する (行ずれ・参照先ズレがないか)。**',
+    '   - **J・K 列以外に数式 (先頭が `=`) が入っていない。**',
+    '   - P〜AI (IS 10 ペア分) が可能な限り埋まっている。10 ペア未満なら画像・説明を再確認して追加する。必要なら AJ〜BC まで使ってよい。',
+    '   - D列タグは許可リスト内から 1 つ、F列categoryIdはモータースのカテゴリ参照に実在する ID (mark が exclude のカテゴリは保留から承認された行のみ)。',
+    '   - 書き込んだ Item Specifics の aspect 名が、そのカテゴリの aspect ファイルに (大文字小文字含め) 完全一致で実在する。',
+    '   - `SELECTION_ONLY` の aspect に書いた値が、公式値リスト (`valuesRef` 解決後含む) 内に存在する。',
+    '   - `required: true` の aspect が理由なく空になっていない (空にする場合は根拠を warnings に残す)。',
+    '   - 部品番号・型式・シャシーコード・サイズ表記などテキストで書くべきセルが日付シリアル値に化けていない。',
+    '   - **禁止語スキャン (閉じたリスト)**: `China` / `New`・`Brand New` (中古品の文脈で) / `DOT approved` / `street legal` / `road legal` / `race only` / `off-road only` / 走行距離保証を示す表現 / `Tiffany Blue` / `AUTHENTIC`・`OFFICIAL` / トーンで挙げた第三者引用調の言い回し / `NOS` (New Old Stock の意) が残っていないか確認する。単語単位・大文字小文字を区別しないマッチで、文脈で判断する (`Newton`・`Newmar`・`renew`・`Official Factory Service Manual`・亜酸化窒素ブランドとしての `NOS` 等は違反ではない誤検出であり「直さない」)。',
+    '6. **完了報告**: 「完了。確認お願いします」と表示して終了。ただし categoryId / タグが空欄の行や Item Specifics が 10 未満の行があれば、その行と理由を短く添える。**保留になった行があれば、上記「保留の確認」のとおり全件を行番号・日本語タイトル・理由つきで列挙し、そのあと1件ずつ質問する。**',
+    '',
+    '## 実行運用 (速度・信頼性)',
+    '',
+    '- **担当範囲は最後まで仕上げる**: 1 つの実行単位 (AI / サブエージェント) が、担当行についてスキル一連 (読込 → 必要な画像確認 → 1 行精査 → タグ・カテゴリ判定 → 書込 → 自己 QA) を完結させる。「翻訳だけ」「QA だけ」と役割を細切れに分けない (段階間の往復と待ちが増え、かえって遅くなる)。',
+    '- **共通準備は 1 回だけ**: タグ許可リスト取得・カテゴリ参照 JSON 取得などの固定準備は最初に 1 回行い使い回す。分割しすぎて各単位が同じ準備を重複取得しない。**aspect ファイル (`https://naokijodan.github.io/bulksheet-ebay-motors-categories/aspects/by-category/<categoryId>.json`) は同じ categoryId が複数行で再登場したら再取得せず使い回す (categoryId ごとに初回取得のみ)。**',
+    '- **QA は読み取り専用で最後に 1 回**: QA 層を何段も重ねない。特に「タグとカテゴリを揃える」QA はしない (両者は独立軸)。',
+    '- **修正は個別セル指定で行う**: 書込先の修正は `D35` `F35` のように 1 セルずつ明示指定で更新する。**チャンク単位の列範囲の一括書き換えは行ずれ事故を起こすため禁止**。',
+    '- **画像は要所のみ、ただし部品番号の確認は例外**: テキスト (日本語タイトル・説明) だけで Title/IS/Description が十分に書ける商品は画像取得をスキップする。**第一ルール手順2のとおり、画像確認は原則として毎行必須であり、省略できるのはただ一つの例外 (部品番号と車両情報 (メーカー/車種/型式) の両方がソーステキストに既に明記されている商品) だけ。どちらか一方でも欠ける場合は画像を確認する (ラベル・刻印が部品番号の唯一の情報源になっている実例があるため)。** 全行 1 枚ずつ取得しない (URL ダウンロード → 一時ファイル → Read の往復が最大のコスト要因)。',
+    '- **画像は URL からファイルへ直接ダウンロードする**: doGet が返す画像 URL は、シェル内で応答 JSON から抜き出し (例: `jq`)、`curl` 等で画像ファイルへ直接ダウンロードする。**画像のバイナリやエンコード文字列を標準出力やツール結果としてモデルのコンテキストに載せない**。最後にできた小さな画像ファイルだけを Read する (Claude Code では vision の入口が Read (ファイル) のみのため、ファイル化は必須)。',
+    '- **着手前に必ずタグ参照シート (TagShipping 等) の A 列を読む**: 推測でタグ許可リストを作らない。',
+    '- **I/O はまとめる / 精査は 1 行ずつ (両立)**: スプレッドシートの読みは batch 取得、書き込みは範囲一括 (例 `A16` から N 行分まとめて) で行う。画像取得 (doGet) と参照取得 (タグ許可リスト・カテゴリ JSON) はバッチに 1 回だけ。**ただしスキル冒頭の第一ルール (商品ごとの情報精査・タグ/カテゴリ判定・英文化は 1 行ずつ) は維持する**。まとめてよいのは I/O であって、商品判断ではない。',
+    '- **画像は並列で読む**: ダウンロード済みの画像ファイルは 1 応答でまとめて (例 7 枚程度ずつ) 並列に視覚入力する。1 枚ずつ往復しない。',
+    '- **1 ワーカーでバッチ処理する**: この作業は 1 つの実行単位がバッチ (例 1 回 4〜21 行) を I/O まとめ + 画像並列 + 範囲書込で処理するのが速い。**多数のサブエージェントへ細分化委託したり、QA・修正を別パスに何段も分けたりしない** (準備の重複・段階間の往復・行ずれ事故でかえって遅くなる、と実測)。',
+    '- **書込後 QA も範囲まとめで 1 回**: 書込先を範囲 batch 取得し (例 `A:B` `D:F` `H` `M:N` `P:AI`)、列ずれ・参照式残り・タグ/カテゴリ・IS 充実度をまとめて確認する。修正は個別セル指定で行う。',
+    '- **保留 (`held`) 行の質問はバッチ処理の外にある**: 「保留の確認」の質問は、対象行全件の処理・書込・書込後QAが終わったあとにだけ、1件ずつ行う。バッチの途中や各バッチの終わりに個別の保留質問を挟まない。',
+    '',
+    '## 失敗時の最小ハンドリング',
+    '',
+    '- HTTP 429/5xx → 指数バックオフリトライ (2s/4s/8s)',
+    '- HTTP 4xx (429 除く) / Safety フィルター (promptFeedback.blockReason or finishReason=\'SAFETY\') → 即失敗、該当行の Title 列に `ERROR` と書いてスキップ',
+    '- バッチで複数件失敗時は、その失敗行のみ直列フォールバック (1 件ずつ再実行)',
+    '',
+    '## 未決事項一覧',
+    '',
+    '- **MULTI aspectの区切り文字**: `cardinality: "MULTI"` のaspectで複数値を1つのシートセルにどう書くか (区切り文字) は未確定。決定するまでは最も確証度の高い値を1つだけセルに書き、他の真である値はwarningsに列挙する。',
+    '- **必須aspectが確認できない場合の値**: `required: true` のaspect (例 Manufacturer Part Number) で値が確認できない場合にセルへ何を書くかは未確定。`Does Not Apply` 等を裏取りなしに仮定しない。決定するまでは空欄+理由をwarningsに残す。',
+    '- **封入オイル・ガスを持つ密閉部品の扱い**: ショックアブソーバー、ストラット、ガスショック/リフトサポート、ステアリングダンパー等を「保留の確認」の液体・危険物ルールでどう扱うかは未確定。決定するまでは保留せず出品データを作成し、warningsに「sealed oil/gas component — carrier shipping restrictions may apply, needs the seller\'s judgement」を付ける。',
+    '- **Genuine/OEM/JDMの文言ポリシー**: Titleで使う際の正確な表記・使用条件ポリシー文言は未確定。決定するまでは商品自体に根拠 (ラベル・刻印等) がある場合だけ使い、無ければ省略する。',
+    '- **NOSの使用可否**: 「NOS」(New Old Stock) という業界慣用略語を使ってよいかは未確定。決定するまでは一切使用しない (`Unused` / `Unused old stock` で表現する)。',
+    '- **部品用タグリスト**: 部品・アクセサリー用のタグ許可リスト (D列用) はまだ存在しない。作成されるまでは、その回の実行で渡されたリストをそのまま使い、合うものが無ければタグ無し ([]) とする。',
+    ''
+  ].join('\n');
 }
 
 // ============================================================================
