@@ -1,6 +1,6 @@
 # 一括シートV3 引き継ぎ文
 
-> **Last updated**: 2026-09-09 (翻訳指示文に「着手前の約束」7項目を追加・BulkToolsLib push済み・GitHub push済み aaf816d/6be6855。次回=スキル本文側のタグ判定4箇所を指示文に同期 → その後 新V5刷新の企画の続き)
+> **Last updated**: 2026-10-04 (翻訳スキル本文に「画像 URL 使用時の手順」「Windows 版 Codex での取得方法」を追記・BulkToolsLib push済み・GitHub push済み 7027e03。前回 2026-09-09 の「次回」事項はそのまま有効=スキル本文側のタグ判定4箇所を指示文に同期 → その後 新V5刷新の企画の続き)
 > **次セッションへ最優先で**: 下記「2026-06-12」セクションを読む → 新V5刷新（案A/B）の続きから
 > **唯一の設計基準 (プロンプト改修系)**: [`docs/PROMPT_DESIGN_PRINCIPLE.md`](docs/PROMPT_DESIGN_PRINCIPLE.md) **v1.1** (commit 48cab87)
 > **過去の Sprint Contract / 旧設計書は物理削除済み**。参照しないこと。
@@ -15,6 +15,36 @@
 設計判断は **`docs/PROMPT_DESIGN_PRINCIPLE.md` v1.1 のみ** を根源基準とする。
 
 ---
+
+## 2026-10-04: 翻訳スキル本文に画像 URL 使用時の手順と Windows 版 Codex での取得方法を追記（commit 7027e03、BulkToolsLib clasp push済み・HEAD一致を clasp pull で実測）
+
+### 経緯（Fact）
+- Windows + Codex の利用者が、配布版スキルで翻訳を実行できなかった（利用者からの報告）。事象は2段階。
+  1. doGet の `safeImages` が空で `mercariUrls` の URL に進み、画像取得が全件 HTTP 404。対象はメルカリ Shops の画像（URL 末尾が `.jpg@jpg`）。こちらの実測で、この形の URL はそのままなら 200、`@` を `%40` に変えると 404。
+  2. curl は `SEC_E_NO_CREDENTIALS`、PowerShell は `Authentication failed` で HTTPS 通信が失敗。サンドボックス外実行は利用者環境で許可されなかった。
+- 2 は Windows 版 Codex のサンドボックスの既知の不具合（openai/codex issue #17459 / #50582 / #46726）。Schannel を使う通信が失敗し、Node.js と Python は影響を受けない。
+- 利用者のスキルを「Node.js または Python で取得、URL を加工しない」に書き換えたところ、2 件の翻訳が完了まで通った（Codex 同梱の Node.js v24 / Python 3.12 が入っていた）。
+
+### 変更（ルート＋Library の EbayTranslationSkill.gs、同一内容。`getEbayTranslationSkillContent` のみ）
+- 「画像入力」の章の「使い方 (行ごと)」に 3 行追加: URL 使用時はファイルへダウンロードして読む／URL を加工しない（`@` を `%40` にしない）／個別 URL が 404 等のときは加工して再試行せず「失敗時の最小ハンドリング」に従う。
+- 同章に「HTTPS 取得の方法」の項目を追加: Windows 版 Codex では curl と PowerShell を使わず Node.js（`fetch`）または Python（`urllib.request`）で取得、保存先は OS の一時フォルダ、通信が全く通らない場合は報告して停止。
+- 「必要な接続」「カテゴリ参照 JSON の取得」「base64 をモデル文脈に通さない」の 3 か所に、Windows 版 Codex での方法を一言追記。
+- CHANGELOG 先頭に 2026-10-04 を追加（版 2026-10-04）。
+- base64 優先（`safeImages` があればそれだけ使う）の方式は変更なし。最終チェック・再出品取り込み・再出品翻訳・モータース翻訳の各スキル本文は変更なし（生成本文の前後一致を機械確認）。
+
+### 検証
+- 2 者レビュー PASS（独立レビュー用サブ＋親）。指摘 3 件のうち 2 件を反映（停止とスキップの書き分け、一時フォルダの表記）。
+- `node --check` 合格、ルート版と Library 版の一致、他スキル 4 本の生成本文の前後一致を機械確認。
+- clasp push 前に配布先を clasp pull し、手元との差が今回の修正分だけであることを確認。push 後に再度 clasp pull し、27 ファイルすべて手元と一致。
+
+### 未確認（Unknown）
+- 修正後の配布版スキル本文そのものを Windows 実機で通した確認はしていない（利用者環境で通ったのは、同趣旨の指示文を手作業で入れた版）。
+- `safeImages`（base64）が返る行を、Windows 版 Codex が Node.js / Python で復号する流れは実機未確認。
+- 404 の原因が実際に `%40` への変換だったかは未確認（実測できたのは「`%40` にすると 404 になる」まで）。
+- 設定は「セル内画像 1 枚」なのに、メルカリ Shops の行で 1 枚目も `=IMAGE(URL)` 式になっていた理由は未調査。
+
+### 残り
+- モータース翻訳など他スキル本文にも curl 前提の記述がある。今回は対象外（未対応）。
 
 ## 2026-09-09: 翻訳指示文に「着手前の約束」を追加（commit aaf816d、BulkToolsLib clasp push済み・HEAD一致を clasp pull で実測）
 
