@@ -16,6 +16,26 @@
 
 ---
 
+## 2026-10-13: 翻訳指示文ダイアログの「指示文の種類」初期値を常に「通常」に固定（BulkToolsLib clasp push済み・HEAD一致を clasp pull で実測）
+
+### 経緯（Fact）
+- ユーザー報告: モータースで翻訳した後、次回ダイアログを開くと「モータース」が選ばれたままになり、切り替え忘れで通常商品をモータース指示文で流してしまい翻訳が止まる。
+- 原因: `buildEbayTranslationGeneratorHtml()` がラジオの初期選択に DocumentProperties の `INSTRUCTION_MODE`（前回「生成」時に保存した値）を使っていた。
+
+### 変更（ルート＋Library の EbayTranslationSkill.gs、同一内容。`buildEbayTranslationGeneratorHtml()` のみ）
+- ラジオ初期値を固定: `modeNormal` に常に checked、`modeMotors` は未選択。
+- 初期選択専用だったローカル変数 `instructionMode`（`getEbayTranslationSetting_` 呼び出し）を削除。
+- 「生成」時に選択モードを `saveEbayTranslationSettings` で保存→`generateEbayTranslationInstruction` が `INSTRUCTION_MODE` を読む流れは変更なし。スキル本文（`getEbayTranslationSkillContent` 等）は変更なし。
+
+### 検証
+- 独立レビュー用サブ（code-reviewer）6項目 PASS＋親確認。`node --check` 合格、ルート版と Library 版の一致。
+- clasp push 前に配布先を scratch フォルダへ clasp pull し、手元との差が EbayTranslationSkill の5行だけであることを確認。push 後に再度 clasp pull し、27 ファイルすべて手元と一致。
+- 実機（シートでダイアログを開いて「通常」が選ばれていること）はユーザー未確認。
+
+### 次にやること（ユーザーと合意済みの順番）
+1. 配布版スキル本文（`getEbayTranslationSkillContent`）を手元版 `~/.claude/skills/ebay-translation/SKILL.md` のルールに同期する。配布版は 09-04 以前の本文に 10-04 追記を足した状態で、手元版にある 07-22〜09-24 のルール（年は単年・中古前提・体数換算表・カード枚数の曖昧値禁止・タグとカテゴリIDの軸分離・画像URLのみ）を欠く。配布版は年のカンマ列挙を許可しており決定済みルールと矛盾。10-04 追記（Windows版Codex・メルカリShops URL非加工）と配布先向け base64 方式は残す。差分一覧は本セッションの調査結果参照（scratchpad の tr_diff.txt は揮発）。
+2. その後、通常・モータース両スキル本文に「行ごとの入口判定」を追加（担当外の行は何も書かず飛ばし、最終報告で行番号・タイトル・理由を列挙し、もう一方の指示文で流し直すよう案内。通常側は迷う行を通常処理、モータース側は参照データに該当カテゴリがあるかで決める）。モータース本文に残る無関係な例文（アニメグッズ・Topps等）はルールを含まない例だけ削除。`~/.claude` と `~/.codex` の両スキルにも同じ追加。
+
 ## 2026-10-04: 翻訳スキル本文に画像 URL 使用時の手順と Windows 版 Codex での取得方法を追記（commit 7027e03、BulkToolsLib clasp push済み・HEAD一致を clasp pull で実測）
 
 ### 経緯（Fact）

@@ -174,7 +174,6 @@ function buildEbayTranslationGeneratorHtml() {
   var sourceSheet = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.SOURCE_SHEET, EBAY_TRANSLATION_DEFAULTS.SOURCE_SHEET);
   var sheetWarning = (sheetName !== sourceSheet) ? '<div class="warn">⚠ 現在 "' + sheetName + '" シートが選択されています。本来のソースシートは "' + sourceSheet + '" です。続行する場合は対象行範囲を確認してください。</div>' : '';
   // --- eBay Motors 拡張 (library-only) ---
-  var instructionMode = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.INSTRUCTION_MODE, EBAY_TRANSLATION_DEFAULTS.INSTRUCTION_MODE);
   var motorsCategoryRefUrlCur = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_CATEGORY_REF_URL, EBAY_TRANSLATION_DEFAULTS.MOTORS_CATEGORY_REF_URL);
   var motorsAspectsBaseUrlCur = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_ASPECTS_BASE_URL, EBAY_TRANSLATION_DEFAULTS.MOTORS_ASPECTS_BASE_URL);
   var motorsUrlsMissing = (!motorsCategoryRefUrlCur || !motorsAspectsBaseUrlCur);
@@ -207,8 +206,8 @@ function buildEbayTranslationGeneratorHtml() {
     sheetWarning +
     '<div class="row">' +
     '  <label style="width:auto; margin-right:10px;">指示文の種類:</label>' +
-    '  <label style="width:auto; display:inline-block; margin-right:14px; font-weight:normal;"><input type="radio" name="instructionMode" id="modeNormal" value="normal"' + (instructionMode === 'motors' ? '' : ' checked') + '> 通常</label>' +
-    '  <label style="width:auto; display:inline-block; font-weight:normal;"><input type="radio" name="instructionMode" id="modeMotors" value="motors"' + (instructionMode === 'motors' ? ' checked' : '') + '> モータース</label>' +
+    '  <label style="width:auto; display:inline-block; margin-right:14px; font-weight:normal;"><input type="radio" name="instructionMode" id="modeNormal" value="normal" checked> 通常</label>' +
+    '  <label style="width:auto; display:inline-block; font-weight:normal;"><input type="radio" name="instructionMode" id="modeMotors" value="motors"> モータース</label>' +
     '</div>' +
     '<div class="warn" id="motorsWarn" style="display:none;">参照 URL が未登録です。指示文には (未登録) と出ます。設定画面で登録してください</div>' +
     '<div class="row">' +
