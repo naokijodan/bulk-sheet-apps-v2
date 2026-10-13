@@ -1,6 +1,6 @@
 # 一括シートV3 引き継ぎ文
 
-> **Last updated**: 2026-10-13 午後 (通常翻訳スキル3版（Claude版・Codex版・配布版）を91項目で精査して揃え、書込開始行を「最終使用行の次」に統一。手元スキル4本はコミット済み、.gs 更新済みだが BulkToolsLib clasp push は未・GitHub push は未。午前分: 翻訳指示文ダイアログ初期値「通常」固定＋行ごとの入口判定は push済み 03aa7bd / f3fd61d / 5727d80)
+> **Last updated**: 2026-10-13 午後 (通常翻訳スキル3版（Claude版・Codex版・配布版）を91項目で精査して揃え、書込開始行を「最終使用行の次」に統一。手元スキル4本はコミット済み、BulkToolsLib clasp push 済み（pull 前後照合で27ファイル一致）・GitHub push 済み a2335cb / 9480f64、手元 890ebfe / 8205522。午前分: 翻訳指示文ダイアログ初期値「通常」固定＋行ごとの入口判定は push済み 03aa7bd / f3fd61d / 5727d80)
 > **次セッションへ最優先で**: 下記「2026-06-12」セクションを読む → 新V5刷新（案A/B）の続きから
 > **唯一の設計基準 (プロンプト改修系)**: [`docs/PROMPT_DESIGN_PRINCIPLE.md`](docs/PROMPT_DESIGN_PRINCIPLE.md) **v1.1** (commit 48cab87)
 > **過去の Sprint Contract / 旧設計書は物理削除済み**。参照しないこと。
@@ -16,7 +16,7 @@
 
 ---
 
-## 2026-10-13 (午後): 通常翻訳スキル3版（Claude版・Codex版・配布版）を項目ごとに精査して揃えた＋書込開始行を「最終使用行の次」に統一（BulkToolsLib は push 未）
+## 2026-10-13 (午後): 通常翻訳スキル3版（Claude版・Codex版・配布版）を項目ごとに精査して揃えた＋書込開始行を「最終使用行の次」に統一（BulkToolsLib clasp push 済み・GitHub push 済み）
 
 ### 経緯（Fact）
 - 通常翻訳スキルの3版（A=Claude版 ~/.claude、B=Codex版 ~/.codex、C=配布版 .gs 内の本文）の差分を91項目に分解した（集計表: scratchpad の review_table.md）。
@@ -54,12 +54,12 @@
 - node --check 合格、ルートと Library の .gs は cmp 同一、PII grep 0件。
 
 ### 未実施
-- BulkToolsLib clasp push（pull 前後照合）、3リポジトリの git push、Obsidian ノート、Discord 通知、実機確認。
+- 実機確認。
 
 ### 次にやること
-1. clasp push（pull で差が EbayTranslationSkill のみであることを確認 → push → 再 pull で27ファイル一致）。
-2. git push 3リポジトリ。
-3. Obsidian 開発ログ/ebay-translation_スキル運用ルール.md に追記、Discord 通知。
+1. clasp push 完了（pull 前後照合で27ファイル一致）。
+2. git push 完了（apps_v3 a2335cb, 9480f64／~/.claude/skills 890ebfe／~/.codex/skills 8205522）。
+3. Obsidian ノート追記・Discord 通知 完了。
 4. 実機確認（通常・モータースを1回ずつ、行は本人が選ぶ。開始行が「最終使用行の次」になることも確認）。
 5. 残課題: モータース3本・再出品翻訳の `Pre-owned, unused` 例文を通常版と同じ扱いにするか本人判断。
 
