@@ -62,6 +62,7 @@
 3. Obsidian ノート追記・Discord 通知 完了。
 4. 実機確認（通常・モータースを1回ずつ、行は本人が選ぶ。開始行が「最終使用行の次」になることも確認）。
 5. 完了: モータース3本・再出品翻訳の `Pre-owned, unused`・「Unused 自体は可」を外し、通常版と同じ `Pre-owned, used/stored condition` に統一（New は従来どおり禁止。本人「任せるが、Newだけは使わないで」）。clasp push・git push 済み。
+6. 完了: 翻訳指示文ダイアログの「生成」ボタンに「生成中…」表示（回転マーク・無効化で二重クリック防止、成功・失敗で復帰）を追加（10a9a27、clasp push 済み・pull 前後27ファイル一致、GitHub push 済み）。本日出た「設定保存失敗: ストレージからの読み取り中にサーバーエラー INTERNAL」は PropertiesService 側の Google 一時エラーで、再度「生成」で回復。
 
 ---
 
