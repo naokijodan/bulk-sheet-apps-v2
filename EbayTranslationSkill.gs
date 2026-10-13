@@ -200,6 +200,9 @@ function buildEbayTranslationGeneratorHtml() {
     'textarea { width: 100%; height: 260px; font-family: Menlo, monospace; font-size: 12px; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }' +
     '.toast { color: #34a853; font-size: 13px; margin-top: 8px; display: none; }' +
     '.error { color: #d93025; font-size: 13px; margin-top: 8px; display: none; }' +
+    '.spin { display: inline-block; width: 12px; height: 12px; border: 2px solid #fff; border-top-color: transparent; border-radius: 50%; animation: spin .8s linear infinite; vertical-align: middle; margin-right: 6px; }' +
+    '@keyframes spin { to { transform: rotate(360deg); } }' +
+    'button:disabled { opacity: .6; cursor: default; }' +
     '</style>' +
     '<h3>📋 選択行の翻訳指示文を作成</h3>' +
     '<div class="info">現在の選択範囲: <b>' + sheetName + '</b> シート (Row ' + startRow + '-' + endRow + ')</div>' +
@@ -221,7 +224,7 @@ function buildEbayTranslationGeneratorHtml() {
     '</div>' +
     '<div class="error" id="error"></div>' +
     '<div>' +
-    '  <button class="primary" onclick="generate()">生成</button>' +
+    '  <button class="primary" id="genBtn" onclick="generate()">生成</button>' +
     '  <button class="cancel" onclick="google.script.host.close()">閉じる</button>' +
     '</div>' +
     '<div class="result" id="result">' +
@@ -258,25 +261,32 @@ function buildEbayTranslationGeneratorHtml() {
     '  if (isNaN(s) || s < 3) { err.innerText = "開始行は 3 以上の整数"; err.style.display="block"; return; }' +
     '  if (isNaN(e) || e < s) { err.innerText = "終了行は開始行以上の整数"; err.style.display="block"; return; }' +
     '  var mode = getSelectedMode();' +
+    '  var gb = document.getElementById("genBtn");' +
+    '  gb.disabled = true;' +
+    '  gb.innerHTML = \'<span class="spin"></span>生成中…\';' +
     '  google.script.run' +
     '    .withSuccessHandler(function(){' +
     '      google.script.run' +
     '        .withSuccessHandler(function(text){' +
+    '          genDone();' +
     '          document.getElementById("instr").value = text;' +
     '          document.getElementById("result").style.display = "block";' +
     '        })' +
     '        .withFailureHandler(function(e2){' +
+    '          genDone();' +
     '          err.innerText = "生成失敗: " + (e2 && e2.message ? e2.message : e2);' +
     '          err.style.display = "block";' +
     '        })' +
     '        .generateEbayTranslationInstruction(s, e);' +
     '    })' +
     '    .withFailureHandler(function(e3){' +
+    '      genDone();' +
     '      err.innerText = "設定保存失敗: " + (e3 && e3.message ? e3.message : e3);' +
     '      err.style.display = "block";' +
     '    })' +
     '    .saveEbayTranslationSettings({ instructionMode: mode });' +
     '}' +
+    'function genDone() { var b = document.getElementById("genBtn"); b.disabled = false; b.innerText = "生成"; }' +
     'function copyResult() {' +
     '  var ta = document.getElementById("instr");' +
     '  ta.select();' +
