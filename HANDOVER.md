@@ -1,6 +1,6 @@
 # 一括シートV3 引き継ぎ文
 
-> **Last updated**: 2026-10-13 (翻訳指示文ダイアログ初期値「通常」固定＋通常・モータース両スキルに「行ごとの入口判定」追加・BulkToolsLib push済み・GitHub push済み 03aa7bd。手元版スキル2リポジトリも push 済み f3fd61d / 5727d80)
+> **Last updated**: 2026-10-13 午後 (通常翻訳スキル3版（Claude版・Codex版・配布版）を91項目で精査して揃え、書込開始行を「最終使用行の次」に統一。手元スキル4本はコミット済み、.gs 更新済みだが BulkToolsLib clasp push は未・GitHub push は未。午前分: 翻訳指示文ダイアログ初期値「通常」固定＋行ごとの入口判定は push済み 03aa7bd / f3fd61d / 5727d80)
 > **次セッションへ最優先で**: 下記「2026-06-12」セクションを読む → 新V5刷新（案A/B）の続きから
 > **唯一の設計基準 (プロンプト改修系)**: [`docs/PROMPT_DESIGN_PRINCIPLE.md`](docs/PROMPT_DESIGN_PRINCIPLE.md) **v1.1** (commit 48cab87)
 > **過去の Sprint Contract / 旧設計書は物理削除済み**。参照しないこと。
@@ -13,6 +13,55 @@
 **過去の設計書を「探してきて」はいけない。** 過去の Sprint Contract と古い docs/ 設計書は物理削除済み。
 
 設計判断は **`docs/PROMPT_DESIGN_PRINCIPLE.md` v1.1 のみ** を根源基準とする。
+
+---
+
+## 2026-10-13 (午後): 通常翻訳スキル3版（Claude版・Codex版・配布版）を項目ごとに精査して揃えた＋書込開始行を「最終使用行の次」に統一（BulkToolsLib は push 未）
+
+### 経緯（Fact）
+- 通常翻訳スキルの3版（A=Claude版 ~/.claude、B=Codex版 ~/.codex、C=配布版 .gs 内の本文）の差分を91項目に分解した（集計表: scratchpad の review_table.md）。
+- 91項目の内訳: A のみ12、B のみ27、C のみ3、AB のみ3、AC のみ26、BC のみ1、3本とも別内容6、AB同・C別4、AC同・B別9、BC同・A別0。
+- 見立ての内訳: A と B の間の揃え漏れの疑い47、A/B→C 取り込み候補17、C→A/B 取り込み候補3、配布専用で A/B に不要6、本人専用で C に不要5、判断材料不足13。
+- 重要8件を本人が1つずつ決定。残り77件を区分①〜⑥で扱い、⑥（判断材料不足）12件は事実調査（Taxonomy API 実測を含む）の上で決定した。決定の全記録は scratchpad の decisions.md。
+
+### 決定の要点
+- 決定1 年の表記: 単年のみ。配布版のカンマ列挙を撤回（西暦4桁1年のみ、カンマ列挙も不可）。
+- 決定2 J/K列: 参照式を Codex版にも入れ、参照式禁止文を外した。
+- 決定3 M/N列: 文字数の機械実測規定を Codex版に入れた。
+- 決定4 推測時の warnings 抜け道: 廃止版に Codex版を揃えた。
+- 決定5 末尾空行注意＋開始行の二重検証: Claude版・配布版に組み込んだ。
+- 決定6 カテゴリID: タグとは独立軸で3本とも統一（Codex版のタグ起点の判定文も含む）。4ID固定の発動条件も「カード系タグの商品」から「カード商品（D列タグに関係なく商品の実態で判定）」に改めた。
+- 決定7-① 書込開始行: H列の最終使用行の次に3本とも統一。途中に空欄があっても穴埋めしない。
+- 決定7-② 集約バッチサイズ: 3本とも例は5（Claude版の「例: 20」を5へ）。
+- 決定7-③ Item Specifics 10項目未満: 「最低10フィールドを目標」「10未満の行は完了報告で理由付き報告」を Codex版に入れた。推測で埋めない絶対ルールは維持。
+- 決定7-④ categoryId 空欄時: 空欄で放置しない。候補JSON(buckets)に合う末端が無ければ、公開の全件末端カテゴリJSON（https://raw.githubusercontent.com/naokijodan/ebay-category-finder/HEAD/data/categories.json、leaves 18,076件、US 15,111・Motors 2,965、2026-09-26生成）を翻訳前に1回取得し、tree=US のみを使って探す（ファイル保存して検索し、文脈に読み込まない）。JSONにも無ければ空欄にして完了報告で理由を知らせる。Codex版の Excel 参照2本と Web 検索手順は削除。
+- 決定7-⑤ 専用genre例外: 例外なし（4ID固定）。配布版の「専用 genre が buckets にあるカードはその候補に従ってよい」を外した。
+- 決定8 Codex版に無かった節（第0ルール・心構え・実行体制・実行運用）: Codex版に入れて揃えた。
+- ⑥の扱い: No.31 商品ID照合を A・C にも入れる／No.36 v5出品は読み取りのみを A に入れる（C には入れない）／No.58 カード系タグの使い分け＋代替を A・C に入れる／No.73 C の「(Age Level 欄と一致させない)」を外し80字制限内に収める文へ揃える／No.11, 12, 38, 57, 71, 91 は変更なし。
+- No.41 Card Condition: 183455（まとめ売り）だけに公式推奨値（確実な根拠が無ければ Heavily Played）を書く。1枚物（183454・261328）には書かない。Condition Notes は書かない。実測 Fact（Taxonomy API）: 183454 と 261328 に Card Condition の項目は無く、183455 にはあり（FREE_TEXT、推奨値 Excellent / Lightly Played (Excellent) / Moderately Played (Very Good) / Heavily Played (Poor) / Damaged）。Condition Notes はどのカテゴリにも無い。
+- No.43 状態表現: 「新品、未使用」→ Used/stored condition（未開封は Sealed package, handled as used/stored collectible）、「未使用に近い」→ Used/stored condition with very minimal signs of use。3本とも Codex版に揃えた。本人談: メルカリ表記は当てにならない、特にカード。カードの一段控えめルール（No.42）も A・C に入れた。DESCRIPTION 規定の例 `Pre-owned, unused` も `Pre-owned, used/stored condition` / `Pre-owned, sealed and unopened` に置換。
+- 計画要確認への親判断: Brand 不明は書籍・漫画なら版元、それ以外は Unbranded（Various 不可）／ミニカー単品は D列タグに関係なく 180506、Type 例に Collectible Model Car を併記／Year は全商品で西暦4桁の単年のみ（トレカの詳細例は残す）／IS左詰めは対象1行分に限り行全体の書き直し可／画像保存は doGet 取得を範囲一括、画像ファイル保存だけ1行ずつ／No.40 は C に A の中古前提を入れ、B は used/stored 基調のまま／全件JSONはファイル保存して検索／「例 1回 4〜21行」は B へ入れず A も変更しない。
+- 7-① の波及（本人承認 10-13「その方が確実で安全なら」）: 次も「H列の最終使用行の次の行を毎バッチ再取得。途中に空欄があっても穴埋めしない」に揃えた。.gs の翻訳指示文（ダイアログ生成の指示文、1行）／モータース本文3本（構造スキャンの「H列が空の最初の行」は「H列の最終使用行」に）／再出品スキル2本（getRelistingImportSkillContent と getRelistingTranslationSkillContent、各1行。親判断、報告済み）／入口判定の「H列の空き行も消費せず」6本は「次の書込行も消費せず」に。
+
+### 変更ファイル
+- ~/.claude/skills と ~/.codex/skills の ebay-translation と ebay-motors-translation（計4本、各リポジトリにコミット済み）。
+- EbayTranslationSkill.gs（ルートと Library は同一内容）: 通常本文62ブロック、指示文1行、Motors 5行＋変更履歴、再出品2関数各1行＋変更履歴。再出品2本の版表示は変更履歴連動で 2026-10-13 に上がった。
+
+### 検証（Fact）
+- 計画（edit_plan）を独立レビュー2回: 1回目 FAIL 8件 → 修正 → 2回目 PASS（軽微1件のみ残り、実害なし）。
+- 実装を独立レビュー: 条件付き PASS。残滓1件＝モータース3本（~/.claude と ~/.codex の motors SKILL.md、.gs）と再出品翻訳の `Pre-owned, unused` は、通常スキルの決定対象外のため未変更。
+- A/B は再現結果（sim）と diff 0。C は .gs から生成した本文が再現結果と一致（変更履歴の表現形式による2行目の差のみ）。
+- node --check 合格、ルートと Library の .gs は cmp 同一、PII grep 0件。
+
+### 未実施
+- BulkToolsLib clasp push（pull 前後照合）、3リポジトリの git push、Obsidian ノート、Discord 通知、実機確認。
+
+### 次にやること
+1. clasp push（pull で差が EbayTranslationSkill のみであることを確認 → push → 再 pull で27ファイル一致）。
+2. git push 3リポジトリ。
+3. Obsidian 開発ログ/ebay-translation_スキル運用ルール.md に追記、Discord 通知。
+4. 実機確認（通常・モータースを1回ずつ、行は本人が選ぶ。開始行が「最終使用行の次」になることも確認）。
+5. 残課題: モータース3本・再出品翻訳の `Pre-owned, unused` 例文を通常版と同じ扱いにするか本人判断。
 
 ---
 
