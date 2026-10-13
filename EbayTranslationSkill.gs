@@ -1379,6 +1379,7 @@ function getRelistingImportSkillContent() {
 function getRelistingTranslationSkillContent() {
   // ★スキル本文を変えたら CHANGELOG の先頭に {date, text} を1件追加(新しい順・事実を正確に)。
   var CHANGELOG = [
+    { date: '2026-10-13', text: '中古前提の例文から Pre-owned, unused を外し、通常スキルと同じ Pre-owned, used/stored condition に (New は従来どおり禁止)。ユーザー指示' },
     { date: '2026-10-13', text: '書込開始行を「H 列の最終使用行の次」(途中の空欄は穴埋めしない) に統一 (通常スキルと同じ)。ユーザー指示' },
     { date: '2026-07-02', text: 'コレクター扱い(フィギュア/アニメ系)の再作成 Title と Age Level を 15+ に統一(Collectible 15+)。カード商品は Collectible 13+ のまま' },
     { date: '2026-06-28', text: 'トレカ／スポーツトレカ等のカード商品(4 ID 該当品全般・スポーツ含む)も再作成 Title に Collectible 13+ を必ず入れる規則を追加' },
@@ -1598,7 +1599,7 @@ function getRelistingTranslationSkillContent() {
     '共通ルール:',
     '',
     '- 480字以内・ASCII・1行のみ。改行 `\\n` を含めない。',
-    '- Pre-owned基調。ソースが「未使用」でも `new` / `Brand New` は使わない。`Pre-owned, unused` / `Pre-owned, sealed and unopened` は可。',
+    '- Pre-owned基調。ソースが「未使用」でも `new` / `Brand New` は使わない。`Pre-owned, used/stored condition` / `Pre-owned, sealed and unopened` は可。ソースの「未使用」表記を根拠に `Unused` と断言しない。',
     '- 第三者引用 `per seller notes` / `according to seller` などは禁止。出品者自身が言い切る形で書く。',
     '- 配送方法・梱包条件・補償/取引文言・保管環境・値下げ情報・eBay側で別管理する情報は除去する。',
     '- 書込前にコード等でDescription文字数を機械的に実測する。目視は禁止。',
@@ -1740,6 +1741,7 @@ function getEbayMotorsTranslationSkillContent() {
     '<!-- 【変更履歴】人向けメモ。スキル実行には影響しません（新規の方は読み飛ばして OK ／ 更新の方はここで変更点を確認）。',
     '- 2026-10-13: 「対象行の入口判定（部品以外の混在）」を追加。対象行範囲の各行を日本語タイトル・説明・画像で見て、実車に取り付ける／使う部品・アクセサリーかどうかを判定し、部品でないと判定した行はこのスキルの対象外として「保留の確認」にも乗せず、書込先に何も書かず（行も消費せず）バッチ出力からも除く。迷う行はモータースのカテゴリ参照データに該当する末端カテゴリがあるかで決める。最終報告の冒頭で飛ばした行を行番号・日本語タイトル・理由で列挙し、指示文の種類を「通常」にして流し直すよう案内する。完成車両・作業サービス・卸ロットは飛ばさず従来どおり。ユーザー指示',
     '- 2026-10-13: 書込開始行を「H 列の最終使用行の次」(途中の空欄は穴埋めしない) に統一 (通常スキルと同じ)。ユーザー指示',
+    '- 2026-10-13: 中古前提の例文から `Pre-owned, unused`・「Unused 自体は可」を外し、通常スキルと同じ `Pre-owned, used/stored condition` に (New は従来どおり禁止)。ユーザー指示',
     '- 2026-09-25 (5件目): タグは当面「常に中古側」に固定 (新品側タグはユーザーが解禁するまで使わない)。ユーザー指示',
     '- 2026-09-25 (4件目): タグの中古/新品の決め方を明文化 (ソースに「新品」「未使用」「未開封」の明記があるときだけ新品側、それ以外は中古側。Description の Pre-owned 基調ルールとは独立)。タグ2件追加 (車 電装品／車 アクセサリー 小物)。ユーザー指示',
     '- 2026-09-25 (3件目): タグ名を「基本名＋商品状態」に変更 (例: 車部品 小物 中古 / 車部品 小物 新品、TagShipping に中古25件・新品25件を作成)。タグ4件追加 (車部品 マット・カバー／車 マニュアル・カタログ／バイク用品 アパレル／バイク用品 小物)。ATV・船・除雪機等の部品は大きさで車部品タグを使う旨を追記。ユーザー指示',
@@ -1943,7 +1945,7 @@ function getEbayMotorsTranslationSkillContent() {
     '- **【最優先・軸の分離】D 列タグ (配送) と F 列カテゴリ ID (eBay) は独立した別軸**。タグはユーザーが送料・利益率を管理するためのもので、**商品と正しくマッチすることが最重要**。カテゴリ ID は商品に対して正確に判定するが、**タグと一致している必要はない**。タグに合わせてカテゴリを歪めたり、カテゴリに合わせてタグを書き換えたりしてはならない。',
     '- **TITLE**: 80 字以内。短く済ませず、根拠のある Brand / Franchise / Type / Model / Size / Quantity / Year / Edition / Included Item を使ってタイトルを充実させる。最初の 30 字に高価値キーワード。許可記号 `& / : - . ,` (+ TCG・グレード等で `# \' +`)。禁止記号 `* $ ~ ^ @ ! ? ™ ( ) [ ] { } " _ % = | \\ < > ;`。VeRO 抵触語 (AUTHENTIC/OFFICIAL) 禁止、捏造 (RARE/LIMITED/VINTAGE) 根拠なし禁止。根拠がある年代・版・数量・サイズは優先して入れるが、`Rare` / `Limited` / `Mint` / `Excellent` 等の誇張語はソース根拠が薄ければ使わない。`vintage` はソースに年号がある／『ヴィンテージ・レトロ・当時物』の語がある場合のみ可。',
     '  - **パーツ出品の語順**: 車両メーカー/車種/型式・シャシーコード → 部品名 → 部品番号 → 位置/左右 → (入るなら) 状態語。「NOS」(New Old Stock) は使用可否が未決定【未決】のため、決定するまで使わない (`Unused` / `Unused old stock` で表現する)。`Genuine` / `OEM` / `JDM` は、商品自体に根拠 (ラベル・刻印等) が確認できたときだけ使う。正確な表記・使用条件ポリシーは未決定【未決】。',
-    '- **DESCRIPTION**: 480 字以内 ASCII、**1 行のみ (改行 \\n を一切含めない)**。商品の状態と仕様だけを書く。構造化情報は ` - ` 区切りで 1 行に並べる (例: `Lot of 3 sets. Item Details: - Brand: Topps - Year: 2023 - Player: Yamamoto - Grade: PSA 9`)。**転売ソースは全商品が中古 (二次流通) 前提。ソースが「新品」「未開封」「未使用」でも "new"/"Brand New" は使わず Pre-owned 基調で書く** (例 `Pre-owned, unused` / `Pre-owned, sealed and unopened`。「未使用」=Unused 自体は可)。配送方法・梱包・購入条件・値下げ・返品/保証・出品者都合の説明は入れない。',
+    '- **DESCRIPTION**: 480 字以内 ASCII、**1 行のみ (改行 \\n を一切含めない)**。商品の状態と仕様だけを書く。構造化情報は ` - ` 区切りで 1 行に並べる (例: `Lot of 3 sets. Item Details: - Brand: Topps - Year: 2023 - Player: Yamamoto - Grade: PSA 9`)。**転売ソースは全商品が中古 (二次流通) 前提。ソースが「新品」「未開封」「未使用」でも "new"/"Brand New" は使わず Pre-owned 基調で書く** (例 `Pre-owned, used/stored condition` / `Pre-owned, sealed and unopened`。メルカリ等の「未使用」表記を根拠に `Unused` と断言しない)。配送方法・梱包・購入条件・値下げ・返品/保証・出品者都合の説明は入れない。',
     '  - (これは Description の事実表現の精度に関する注意であり、対応車種データの生成ではない) **走行距離計 (Instrument Clusters 等)**: 表示されている数値をそのまま記載するだけにとどめ、実走行距離を保証・断定しない。**車両への適合は確認できた範囲のみ記載する**: `removed from …` (取外し元の車両として確認できた場合)、`for … as stated on the label` (ラベル記載の適合として) のように根拠の範囲を超えて書かず、車種の拡大解釈はしない。',
     '- **青色表現の禁止語 (重要)**: 色名として `Tiffany Blue` / `Tiffany blue` / `ティファニーブルー` は絶対に使わない。Tiffany ブランドと無関係な青系は `Turquoise Blue` / `Aqua Blue` / `Light Blue` など、画像とテキストから安全に言える一般色で表現する。',
     '- **トーン (重要)**: Description は **eBay 出品者 (= ユーザー自身) が自分の商品として直接説明する第一人称トーン**で書く。ソースを引用するような第三者表現は **絶対禁止**:',

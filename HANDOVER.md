@@ -61,7 +61,7 @@
 2. git push 完了（apps_v3 a2335cb, 9480f64／~/.claude/skills 890ebfe／~/.codex/skills 8205522）。
 3. Obsidian ノート追記・Discord 通知 完了。
 4. 実機確認（通常・モータースを1回ずつ、行は本人が選ぶ。開始行が「最終使用行の次」になることも確認）。
-5. 残課題: モータース3本・再出品翻訳の `Pre-owned, unused` 例文を通常版と同じ扱いにするか本人判断。
+5. 完了: モータース3本・再出品翻訳の `Pre-owned, unused`・「Unused 自体は可」を外し、通常版と同じ `Pre-owned, used/stored condition` に統一（New は従来どおり禁止。本人「任せるが、Newだけは使わないで」）。clasp push・git push 済み。
 
 ---
 
