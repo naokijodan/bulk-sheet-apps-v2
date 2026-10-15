@@ -651,6 +651,10 @@ function buildEbayTranslationInstruction_(startRow, endRow, doGetUrl, doGetKey) 
   var skillName = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.SKILL_NAME, EBAY_TRANSLATION_DEFAULTS.SKILL_NAME);
   var batchSize = getEbayTranslationNumericSetting_(EBAY_TRANSLATION_PROPS.BATCH_SIZE, EBAY_TRANSLATION_DEFAULTS.BATCH_SIZE, 1, 50);
   var operator = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.OPERATOR, EBAY_TRANSLATION_DEFAULTS.OPERATOR);
+  var normalSkillName = skillName;
+  var normalSourceSheet = sourceSheet;
+  var normalTargetSheet = targetSheet;
+  var normalTagSheet = tagSheet;
 
   // --- eBay Motors 拡張 (library-only)。INSTRUCTION_MODE が 'motors' のときだけ skillName / 3シート名を
   //     モータース用設定で上書きする (モータース側が空欄なら通常用のままフォールバック)。
@@ -683,6 +687,33 @@ function buildEbayTranslationInstruction_(startRow, endRow, doGetUrl, doGetKey) 
     ];
   }
 
+  // --- 混在行の引き継ぎ欄 (両モード共通)。入口判定で飛ばした行を、もう一方のスキルへ渡すための情報。
+  var handoffLines = ['', '混在行の引き継ぎ (入口判定で対象外にした行がある場合):'];
+  if (isMotorsMode) {
+    handoffLines.push('もう一方のスキル名: ' + normalSkillName);
+    if (normalSourceSheet !== sourceSheet || normalTargetSheet !== targetSheet || normalTagSheet !== tagSheet) {
+      handoffLines.push('通常用ソースシート名: ' + normalSourceSheet);
+      handoffLines.push('通常用書込先シート名: ' + normalTargetSheet);
+      handoffLines.push('通常用タグ参照シート名: ' + normalTagSheet);
+    }
+  } else {
+    var hoMotorsSkill = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_SKILL_NAME, EBAY_TRANSLATION_DEFAULTS.MOTORS_SKILL_NAME);
+    var hoSource = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_SOURCE_SHEET, EBAY_TRANSLATION_DEFAULTS.MOTORS_SOURCE_SHEET);
+    var hoTarget = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_TARGET_SHEET, EBAY_TRANSLATION_DEFAULTS.MOTORS_TARGET_SHEET);
+    var hoTag = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_TAG_SHEET, EBAY_TRANSLATION_DEFAULTS.MOTORS_TAG_SHEET);
+    var hoUrl = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_CATEGORY_REF_URL, EBAY_TRANSLATION_DEFAULTS.MOTORS_CATEGORY_REF_URL);
+    var hoBase = getEbayTranslationSetting_(EBAY_TRANSLATION_PROPS.MOTORS_ASPECTS_BASE_URL, EBAY_TRANSLATION_DEFAULTS.MOTORS_ASPECTS_BASE_URL);
+    handoffLines.push('もう一方のスキル名: ' + hoMotorsSkill);
+    if ((hoSource && hoSource !== sourceSheet) || (hoTarget && hoTarget !== targetSheet) || (hoTag && hoTag !== tagSheet)) {
+      handoffLines.push('モータース用ソースシート名: ' + (hoSource || sourceSheet));
+      handoffLines.push('モータース用書込先シート名: ' + (hoTarget || targetSheet));
+      handoffLines.push('モータース用タグ参照シート名: ' + (hoTag || tagSheet));
+    }
+    handoffLines.push('カテゴリ参照 URL: ' + (hoUrl || '(未登録) ← 設定画面「モータース用」で登録してください'));
+    handoffLines.push('アイテムスペシフィック参照ベース URL: ' + (hoBase || '(未登録) ← 設定画面「モータース用」で登録してください'));
+  }
+  handoffLines.push('引き継ぎ実行では入口判定をせず、渡された行だけを処理する。詳細はスキル本文「対象行の入口判定」。');
+
   // doGet URL/キーは host(Main.js wrapper) が IMG_DOGET_URL/KEY を読んで渡す
   // (host/library で DocumentProperties 名前空間が別のため)。指示文にこのシートの URL を埋め込む。
   var imgUrl = (doGetUrl && /^https:\/\//i.test(String(doGetUrl).trim())) ? String(doGetUrl).trim().replace(/\/+$/, '') : '';
@@ -700,7 +731,7 @@ function buildEbayTranslationInstruction_(startRow, endRow, doGetUrl, doGetKey) 
     '対象行範囲: ' + startRow + '-' + endRow,
     '集約バッチサイズ: ' + batchSize,
     '担当者名: ' + operator
-  ].concat(imgLines).concat(motorsRefLines).concat([
+  ].concat(imgLines).concat(motorsRefLines).concat(handoffLines).concat([
     '',
     '画像も使って Title / Item Specifics / Description の正確性を高めてください。',
     'タグ判定は ' + tagSheet + ' シートの A 列許可リストから 1 つだけ選んでください (基本は配送カテゴリで選ぶ。状態で分かれたタグがある場合のみ、上記の状態判断を使う)。',
@@ -727,6 +758,7 @@ function getEbayTranslationSkillContent() {
   //   バージョンは先頭エントリの日付から自動生成。変更履歴は HTMLコメント + 区切り線の「上」に
   //   置く＝(1)実行AIはコメントを命令と読まない (2)区切り線より下だけ登録すれば本文に履歴は入らない。
   var CHANGELOG = [
+    { date: '2026-10-15', text: '入口判定で飛ばした行は、自分の担当完了後に もう一方のスキル（ebay-motors-translation）を「引き継ぎ実行」して処理し、最終報告は両方終了後に 1 回にする（引き継ぎ実行では入口判定をしない。もう一方のスキルが無い時だけ従来の流し直し案内）。指示文末尾の「混在行の引き継ぎ」欄を使う。ユーザー指示' },
     { date: '2026-10-13', text: '手元版・Codex版に同期して3版のルールを揃えた。書込開始行は「H 列の最終使用行の次」(途中の空欄は穴埋めしない)に統一し、末尾空行の省略への注意と書込直前の開始行二重検証を追加。Year 系 Item Specifics は単年のみ(カンマ列挙の記述を撤回)。カテゴリ判定は商品実態の独立軸のままとし、候補に合う末端が無い時は全件末端カテゴリ JSON(ebay-category-finder の data/categories.json)から探す(空欄で放置しない)。トレカ 4 ID の専用 genre 例外を削除。非 TCG カード用タグ不在時の自動代替・カード系タグの使い分け・未開封タグ禁止・送料タグの厳密判定・フィギュア体数換算、雑誌 259114・ミニカー 180506 の固定、ゲームソフトの Region Code/Language、Brand 不明時の Unbranded、IS 左詰め、ポケモン英語名、カードの状態表現と Card Condition(183455 のまとめ売りだけ)、Mercari の「新品、未使用」等を中古基調の表現に統一、Pre-owned 基調、E 列は必ず空欄、doGet タイムアウト対策、一時画像の隔離と照合、商品ID照合、vintage の条件、数量系・ハルシネーション禁止の補足を追加' },
     { date: '2026-10-13', text: '「対象行の入口判定（モータース混在）」を追加。対象行範囲の各行を日本語タイトル・説明・画像で見て、実車に取り付ける／使う部品・アクセサリーかどうかを判定し、部品と判定した行はこのスキルの対象外として書込先に何も書かず（行も消費せず）バッチ出力からも除く。迷う行は通常どおり処理する。最終報告で飛ばした行を行番号・日本語タイトル・理由で列挙し、指示文の種類を「モータース」にして流し直すよう案内する' },
     { date: '2026-10-04', text: '画像入力の章に追記。①safeImages が空で mercariUrls の URL を使う場合の手順 (ファイルへダウンロードして読む、URL を加工しない。メルカリ Shops の画像 URL は `@` を `%40` に変えると HTTP 404 になることを実測)。②Windows 版 Codex のサンドボックス内では curl と PowerShell の HTTPS 通信が TLS エラー (SEC_E_NO_CREDENTIALS) で失敗するため、Node.js または Python で取得する (利用者環境で実証)。base64 優先の方式は変更なし' },
@@ -831,7 +863,7 @@ function getEbayTranslationSkillContent() {
     '- **全工程を確認なしで一気通貫で実行**。途中で「これを実行してよいか」「次に進むか」は聞かない。',
     '- **途中承認は全てスキップ**。画像取得・カテゴリ参照取得・シート読込・シート書込・QA修正など、このスキル内で必要な通常操作はユーザー確認を挟まず実行する。実行環境が表示する権限ダイアログ等、AI側で省略できないシステム承認だけは例外。',
     '- 完了後の報告は原則 **「完了。確認お願いします」の 1 行**。ただし、書込結果に **categoryId または タグが空欄の行、Item Specifics が 10 未満の行** があれば、その行番号と「なぜそうなったか」の理由を短く箇条書きで添える (例: `L58: categoryId 空 — buckets にも全件末端 JSON にも合う末端が無いため` / `L60: IS 7件 — 画像不鮮明で確認できる仕様が少ないため`)。詳細な成功件数リストは不要。**例外: 下記「ルール (必須)」の「非 TCG / 非スポーツカード用タグ不在時の自動代替」に該当しない理由でタグを判断できず D 列を空欄にした行がある場合は、1 行報告で終わらず、その行ごとに「行番号・商品・迷った候補タグ」を示してユーザーに 1 問ずつ確認する (回答が返るまで完了扱いにしない)。**',
-    '- 入口判定で飛ばした行があれば、最終報告で「行番号・日本語タイトル・理由」を全件列挙し、「翻訳指示文ダイアログで指示文の種類を『モータース』にして、この行だけ流し直してください」と添える。飛ばした行が無ければ「対象外の行なし」と 1 行書く。これは上記「原則 1 行」の例外であり、categoryId・タグの空欄行の報告には数えない。',
+    '- 入口判定で飛ばした行があれば、自分の担当完了後に「引き継ぎ実行」として Skill `ebay-motors-translation` で処理し、最終報告は引き継ぎまで終わってから 1 回だけ出す（詳細は「対象行の入口判定」）。引き継いだ行は「行番号・日本語タイトル・引き継ぎ先スキル・結果」で列挙し、飛ばした行が無ければ「対象外の行なし」と 1 行書く。これは上記「原則 1 行」の例外であり、categoryId・タグの空欄行の報告には数えない。',
     '- 重大エラー (シート不存在 / 連続失敗) のみ短く報告して停止。',
     '',
     '## 翻訳に使う AI (絶対遵守)',
@@ -912,7 +944,10 @@ function getEbayTranslationSkillContent() {
     '- 翻訳に入る前に、対象行範囲（ソースシートの行範囲）の各行を日本語タイトル・説明・画像で見て、「実車（自動車・バイク・ATV/UTV・トラック・ボート・RV・スノーモービル・ゴルフカート）に取り付ける／実車で使う部品・アクセサリー」かどうかを判定する。カーナビ・ドライブレコーダー・洗車用品・車載工具などの車用品も部品・アクセサリーに含む。ミニカー・プラモデル・自動車ブランドのTシャツやキーホルダーなどのグッズ・自動車関連の書籍やゲームは部品ではない（通常どおり処理する）。',
     '- 部品・アクセサリーと判定した行は、このスキルの対象外。書込先シートには何も書かず（H 列の最終使用行の次も消費せず）、バッチの出力からも除く。「候補が空 / 合わない場合は空欄で放置しない」「categoryId が空欄の行は全件末端 JSON で補完する」「categoryId / タグが空欄の行の理由報告」「タグを判断できない行のユーザー確認」などの通常ルールは、対象外の行には適用しない。',
     '- 迷う行は部品扱いにせず、通常どおり処理する。',
-    '- 最終報告で、飛ばした行を「行番号・日本語タイトル・理由」で列挙し、「翻訳指示文ダイアログで指示文の種類を『モータース』にして、この行だけ流し直してください」と添える。飛ばした行が無ければ「対象外の行なし」と1行書く。',
+    '- 飛ばした行は「行番号・日本語タイトル・理由」で控えておき、自分の担当範囲（飛ばした行以外）の書込と書込後 QA を終えたあと、**引き継ぎ実行**として Skill `ebay-motors-translation` を発動し（Claude Code は Skill ツール、Codex は skills フォルダの SKILL.md を読んで従う）、飛ばした行だけを対象行範囲にして処理する。呼び出し時に「引き継ぎ実行」と明記する。パラメータは指示文と同じ（スプレッドシート ID・ソースシート名・書込先シート名・タグ参照シート名・集約バッチサイズ・担当者名・doGet URL）。指示文末尾に「混在行の引き継ぎ」の欄があれば、そこに書かれたスキル名・シート名・参照 URL を優先して使う。飛ばした行が連続していなければ行番号を列挙して渡す（例: 171, 175, 180）。',
+    '- 引き継ぎ実行では、受け取った側は入口判定を行わず、渡された行を全部そのスキルで処理する（行の行き来を防ぐ）。自分が「引き継ぎ実行」として呼ばれた場合も同様に入口判定をせず、渡された行を全部処理する。',
+    '- 最終報告は、引き継ぎ実行まで終わってから 1 回だけ出す。引き継いだ行は「行番号・日本語タイトル・引き継ぎ先スキル・結果（書込先の行番号、または categoryId 空欄などの理由）」で列挙する。飛ばした行が無ければ「対象外の行なし」と 1 行書く。',
+    '- もう一方のスキルを読み込めない（手元に入っていない）場合だけ、引き継ぎ実行をせず、最終報告で飛ばした行を列挙し「翻訳指示文ダイアログで指示文の種類を『モータース』にして、この行だけ流し直してください」と添える。',
     '',
     '## ソースシート構造 (3 行目以降)',
     '',
@@ -1749,6 +1784,7 @@ function getEbayMotorsTranslationSkillContent() {
     '---',
     '',
     '<!-- 【変更履歴】人向けメモ。スキル実行には影響しません（新規の方は読み飛ばして OK ／ 更新の方はここで変更点を確認）。',
+    '- 2026-10-15: 入口判定で飛ばした行は、自分の担当完了後に もう一方のスキル（ebay-translation）を「引き継ぎ実行」して処理し、最終報告は両方終了後に 1 回にする（引き継ぎ実行では入口判定をしない。もう一方のスキルが無い時だけ従来の流し直し案内）。指示文末尾の「混在行の引き継ぎ」欄を使う。ユーザー指示',
     '- 2026-10-13: 「対象行の入口判定（部品以外の混在）」を追加。対象行範囲の各行を日本語タイトル・説明・画像で見て、実車に取り付ける／使う部品・アクセサリーかどうかを判定し、部品でないと判定した行はこのスキルの対象外として「保留の確認」にも乗せず、書込先に何も書かず（行も消費せず）バッチ出力からも除く。迷う行はモータースのカテゴリ参照データに該当する末端カテゴリがあるかで決める。最終報告の冒頭で飛ばした行を行番号・日本語タイトル・理由で列挙し、指示文の種類を「通常」にして流し直すよう案内する。完成車両・作業サービス・卸ロットは飛ばさず従来どおり。ユーザー指示',
     '- 2026-10-13: 書込開始行を「H 列の最終使用行の次」(途中の空欄は穴埋めしない) に統一 (通常スキルと同じ)。ユーザー指示',
     '- 2026-10-13: 中古前提の例文から `Pre-owned, unused`・「Unused 自体は可」を外し、通常スキルと同じ `Pre-owned, used/stored condition` に (New は従来どおり禁止)。ユーザー指示',
@@ -1776,7 +1812,7 @@ function getEbayMotorsTranslationSkillContent() {
     '',
     '# eBay Motors Translation Skill',
     '',
-    'バージョン: 2026-10-13 (base: ebay-translation 2026-09-04)',
+    'バージョン: 2026-10-15 (base: ebay-translation 2026-10-15)',
     '',
     '日本の商品データ (テキスト + 画像) を英語の eBay Motors US (自動車・バイク・ATV 等の部品・アクセサリー) 出品データに変換し、Google スプレッドシートに書き戻す。Codex app / Claude Code / Gemini CLI で共通使用可能。',
     '',
@@ -1859,7 +1895,7 @@ function getEbayMotorsTranslationSkillContent() {
     '',
     '- **全工程を確認なしで一気通貫で実行**。途中で「これを実行してよいか」「次に進むか」は聞かない。',
     '- **途中承認は全てスキップ**。画像取得・カテゴリ参照取得・シート読込・シート書込・QA修正など、このスキル内で必要な通常操作はユーザー確認を挟まず実行する。実行環境が表示する権限ダイアログ等、AI側で省略できないシステム承認だけは例外。',
-    '- 最終報告の冒頭で、入口判定で飛ばした行を「行番号・日本語タイトル・理由」で列挙し、「翻訳指示文ダイアログで指示文の種類を『通常』にして、この行だけ流し直してください」と添える。飛ばした行が無ければ「対象外の行なし」と 1 行書く。これは下記の保留行の列挙・質問とは別の一覧で、先に出す。',
+    '- 入口判定で飛ばした行は、自分の担当完了後に「引き継ぎ実行」として Skill `ebay-translation` で処理し、最終報告は引き継ぎまで終わってから 1 回だけ出す（詳細は「対象行の入口判定」）。冒頭で引き継いだ行の一覧（無ければ「対象外の行なし」）を出し、これは下記の保留行の列挙・質問とは別の一覧で、先に出す。',
     '- 完了後の報告は原則 **「完了。確認お願いします」の 1 行**。ただし、書込結果に **categoryId または タグが空欄の行、Item Specifics が 10 未満の行** があれば、その行番号と「なぜそうなったか」の理由を短く箇条書きで添える (例: `L58: categoryId 空 — モータースのカテゴリ参照に合致する末端カテゴリが無いため` / `L60: IS 7件 — 画像不鮮明で確認できる仕様が少ないため`)。詳細な成功件数リストは不要。 **個別見積り対象の行 (下記「タグ選択の目安」参照) は、タグ空欄の理由として必ず `L58: 個別見積り対象 (バンパー) — 送料タグなし、送料は手動で決定` の形で1行ずつ列挙する (省略禁止)。** 入口判定で対象外にした行は、categoryId 空欄の行としては報告しない。',
     '- 保留 (後述「保留の確認」) になった行があれば、全件を行番号・日本語タイトル・理由つきで列挙し、その後で1件ずつ質問する (実行の途中では質問しない。これが唯一の確認例外)。',
     '- 重大エラー (シート不存在 / 連続失敗) のみ短く報告して停止。',
@@ -1923,7 +1959,10 @@ function getEbayMotorsTranslationSkillContent() {
     '- 部品でないと判定した行は、このスキルの対象外。「保留の確認」にも乗せず（`detection` の `held` にもせず）、書込先シートには何も書かず（H 列の最終使用行の次も消費せず）、バッチの出力からも除く。「categoryId 空欄の行の理由報告」などの通常ルールは、対象外の行には適用しない。',
     '- 迷う行は、モータースのカテゴリ参照データに該当する末端カテゴリがあるかで決める。あれば部品として処理し、無ければ対象外として飛ばす。',
     '- 完成車両・作業サービス・卸ロットは、入口判定で対象外にして飛ばさない（通常スキルでも扱えないため）。従来どおり、このスキルで categoryId を空欄にして理由を warnings と最終報告に書く。',
-    '- 最終報告の冒頭で、飛ばした行を「行番号・日本語タイトル・理由」で列挙し、「翻訳指示文ダイアログで指示文の種類を『通常』にして、この行だけ流し直してください」と添える。飛ばした行が無ければ「対象外の行なし」と1行書く。',
+    '- 飛ばした行は「行番号・日本語タイトル・理由」で控えておき、自分の担当範囲（飛ばした行以外）の書込・保留の確認・書込後 QA を終えたあと、**引き継ぎ実行**として Skill `ebay-translation` を発動し（Claude Code は Skill ツール、Codex は skills フォルダの SKILL.md を読んで従う）、飛ばした行だけを対象行範囲にして処理する。呼び出し時に「引き継ぎ実行」と明記する。パラメータは指示文と同じ（スプレッドシート ID・ソースシート名・書込先シート名・タグ参照シート名・集約バッチサイズ・担当者名・doGet URL）。指示文末尾に「混在行の引き継ぎ」の欄があれば、そこに書かれたスキル名・シート名を優先して使う。飛ばした行が連続していなければ行番号を列挙して渡す（例: 171, 175, 180）。',
+    '- 引き継ぎ実行では、受け取った側は入口判定を行わず、渡された行を全部そのスキルで処理する（行の行き来を防ぐ）。自分が「引き継ぎ実行」として呼ばれた場合も同様に入口判定をせず、渡された行を全部このスキルで処理する。',
+    '- 最終報告は、引き継ぎ実行まで終わってから 1 回だけ出す。冒頭で、引き継いだ行を「行番号・日本語タイトル・引き継ぎ先スキル・結果（書込先の行番号、または categoryId 空欄などの理由）」で列挙する。飛ばした行が無ければ「対象外の行なし」と 1 行書く。これは保留行の列挙・質問とは別の一覧で、先に出す。',
+    '- もう一方のスキルを読み込めない（手元に入っていない）場合だけ、引き継ぎ実行をせず、最終報告の冒頭で飛ばした行を列挙し「翻訳指示文ダイアログで指示文の種類を『通常』にして、この行だけ流し直してください」と添える。',
     '',
     '## ソースシート構造 (3 行目以降)',
     '',
