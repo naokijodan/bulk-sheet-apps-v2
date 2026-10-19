@@ -1,6 +1,6 @@
 # 一括シートV3 引き継ぎ文
 
-> **Last updated**: 2026-10-15 (入口判定で飛ばした行を「引き継ぎ実行」で もう一方のスキルが処理する方式に変更、指示文に「混在行の引き継ぎ」欄、生成ボタンに「生成中…」表示。BulkToolsLib clasp push 済み・GitHub push 済み 7dcab65 / 手元 8834f99 / 0fdee35。前回: 2026-10-13 午後 (通常翻訳スキル3版（Claude版・Codex版・配布版）を91項目で精査して揃え、書込開始行を「最終使用行の次」に統一。手元スキル4本はコミット済み、BulkToolsLib clasp push 済み（pull 前後照合で27ファイル一致）・GitHub push 済み a2335cb / 9480f64、手元 890ebfe / 8205522。午前分: 翻訳指示文ダイアログ初期値「通常」固定＋行ごとの入口判定は push済み 03aa7bd / f3fd61d / 5727d80)
+> **Last updated**: 2026-10-19 (免除DDP「DDP_TF_<帯>」追加: 米国関税免除品をEP×中古の行だけ関税0のDDPで出品。コミット cdc9571 / 9222e0b、clasp push 済み。前回: 2026-10-15 (入口判定で飛ばした行を「引き継ぎ実行」で もう一方のスキルが処理する方式に変更、指示文に「混在行の引き継ぎ」欄、生成ボタンに「生成中…」表示。BulkToolsLib clasp push 済み・GitHub push 済み 7dcab65 / 手元 8834f99 / 0fdee35。前回: 2026-10-13 午後 (通常翻訳スキル3版（Claude版・Codex版・配布版）を91項目で精査して揃え、書込開始行を「最終使用行の次」に統一。手元スキル4本はコミット済み、BulkToolsLib clasp push 済み（pull 前後照合で27ファイル一致）・GitHub push 済み a2335cb / 9480f64、手元 890ebfe / 8205522。午前分: 翻訳指示文ダイアログ初期値「通常」固定＋行ごとの入口判定は push済み 03aa7bd / f3fd61d / 5727d80)
 > **次セッションへ最優先で**: 下記「2026-06-12」セクションを読む → 新V5刷新（案A/B）の続きから
 > **唯一の設計基準 (プロンプト改修系)**: [`docs/PROMPT_DESIGN_PRINCIPLE.md`](docs/PROMPT_DESIGN_PRINCIPLE.md) **v1.1** (commit 48cab87)
 > **過去の Sprint Contract / 旧設計書は物理削除済み**。参照しないこと。
@@ -13,6 +13,45 @@
 **過去の設計書を「探してきて」はいけない。** 過去の Sprint Contract と古い docs/ 設計書は物理削除済み。
 
 設計判断は **`docs/PROMPT_DESIGN_PRINCIPLE.md` v1.1 のみ** を根源基準とする。
+
+---
+
+## 2026-10-19: 免除DDP（DDP_TF_<帯>）追加
+
+### 目的（Fact）
+- 米国関税免除品（本・CD・非ゲームカード 4911.99.6000 等）を、日本郵便エコノミー（EP）×中古の行だけ関税0のDDPで出品する。
+
+### 仕組み（Fact）
+- TagShipping R列に DDP_TF_0500 / 1000 / 1500 / 2000 を指定する（Import_Policies の eco_used_taxfree_NNNN から選択肢を自動生成）。
+- 作業シート: AY列=TF_<帯>、O列=eco_used_taxfree_<帯>（未登録帯は「該当なし」）。
+- AD=(AZ2 Zonos 1.69USD + BA2 ラベル代50円/C2)/(1-F1-F2-Z2)、AH=AZ2+BA2/C2、関税0・MPF0。
+- CE／クーリエ／新品は従来のDDU。
+- DDP_TFタグが無いシートは式が従来と完全同一（安全装置）。
+- R列で選んだ後は「初期設定」保存が必要（1回）。
+
+### コミット（Fact）
+- cdc9571（本体、clasp 版123を事前保存）。
+- 9222e0b（列確保を書き込み前の末尾追加へ変更。O列式のAY参照がBBにずれる不具合を修正、版124を事前保存）。
+- 両方 clasp push・pull 前後27ファイル一致。
+
+### 実機確認（Fact、本人シート V5 1uLTVB…、10-19）
+- Policy_Master DDP専用に4本、TagShipping 7〜25行 R=DDP_TF_0500・L=EP。
+- 作業シート 5〜15行で照合 NG 0（TF 7行 AD=2.95 / AH=2.01 / O=325319705011、仕入1万円以上CFと未設定タグはDDU）。
+
+### ポリシー（eBayメイン）
+- eco_used_taxfree_0500=325319705011（Europe/FR $23、米国 Standard(EMS) $17）。
+- _1000=325319732011（$25/$20）。_1500=325319733011（$25/$22）。_2000=325319739011（$37/$25）。
+- 米国 EconomyShippingFromOutsideUS $0、SpeedPAK 2つ削除、他は eco_used_free と同じ。
+- 根拠: 米国=国際エアパケット基準、欧州=SpeedPAK基準（郵便不可5か国 DE/AT/BE/CZ/PT の最大）。€3(555円×1.021)+UHF€2+(SpeedPAK×1.12−米国エアパケット) を帯内最大とし、EMS=(EMS−エアパケット) を帯上限として、÷0.75÷150円 切上げ。
+- 新品は構想外。
+
+### 次にやること（順番）
+1. 別件・既存不具合の調査: P4 applyUnifiedSettingsBatch_ で、通常DDP行が findDdpPolicyIdFromCache_ の呼称不一致（エコノミー/中古 vs eco/used）により常にDDUへ無音フォールバックする。他ユーザーにも影響するため、単独で設計・承認を得る。
+2. 注意点: トレカのまとめ売りは500g超の可能性。ポケモン・遊戯王等ゲーム用カードは米国 9504.40 で免除外の可能性（CBP N352819 / N359352）。
+3. 既存の懸念: applyCalculationBatch_ が AD に旧個別式を書く。setUnifiedSettingsToRow が AX/AY を見ない（未使用）。
+
+### その他
+- テスト用 Apps Script プロジェクト 1ScJloRCd356r0TYPOkP5ySdiPytxRaOX3nGB-ZQd3GOli0IyrLBONPXi（不要なら削除可、本人判断）。
 
 ---
 
