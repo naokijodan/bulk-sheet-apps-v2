@@ -4379,6 +4379,15 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
         if (tagMap[_tfTag] && parseTaxfreeTagMode_(tagMap[_tfTag].ddpMode) !== null) { tfGate = true; break; }
       }
     }
+    // 免除DDP(DDP_TF)ゲート時の列確保: 作業シートへ式・値を書くより前に、末尾へ追加するだけで一度だけ行う。
+    // （式を書いた後に挿入すると、Sheetsが既存式内のAY等の参照をずらす事故(O列がBB参照になる)を防ぐ。既存列の途中には挿入しない）
+    if (tfGate) {
+      var tfNeedCols = 53; // BA列(AZ/BA固定費セルまで)。AY(51)も含む
+      var tfMaxCols = sheet.getMaxColumns();
+      if (tfMaxCols < tfNeedCols) {
+        sheet.insertColumnsAfter(tfMaxCols, tfNeedCols - tfMaxCols);
+      }
+    }
     var effectiveShippingCalc = shippingCalc;
     if (fullSettings && fullSettings.tagOverrideShipping && tagMap) {
       effectiveShippingCalc = 'TAG_SHIPPING';
@@ -4819,11 +4828,7 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
 
     // 免除DDP(DDP_TF): 固定費セル AZ2(Zonos固定手数料USD) / BA2(ラベル代円)。ゲート時のみ、空のときだけ初期値設定
     if (tfGate) {
-      var tfNeedCols = 53; // BA列
-      var tfMaxCols = sheet.getMaxColumns();
-      if (tfMaxCols < tfNeedCols) {
-        sheet.insertColumnsAfter(tfMaxCols, tfNeedCols - tfMaxCols);
-      }
+      // 列確保は applyCalculationFormulas 冒頭で実施済み
       if (sheet.getRange('AZ1').getValue() === '') sheet.getRange('AZ1').setValue('Zonos固定手数料(USD)');
       if (sheet.getRange('AZ2').getValue() === '') sheet.getRange('AZ2').setValue(CONFIG.TAXFREE_POLICY.DEFAULT_ZONOS_USD);
       if (sheet.getRange('BA1').getValue() === '') sheet.getRange('BA1').setValue('ラベル代(円)');
@@ -5097,10 +5102,7 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
         sheet.getRange(5, CONFIG.COLUMNS.DDP_MODE, axFormulas.length, 1).setFormulas(axFormulas);
       }
       if (tfGate && ayFormulas.length > 0) {
-        var tfMaxColsAy = sheet.getMaxColumns();
-        if (tfMaxColsAy < CONFIG.COLUMNS.TAXFREE_FLAG) {
-          sheet.insertColumnsAfter(tfMaxColsAy, CONFIG.COLUMNS.TAXFREE_FLAG - tfMaxColsAy);
-        }
+        // 列確保は applyCalculationFormulas 冒頭で実施済み（ここでは挿入しない）
         sheet.getRange(4, CONFIG.COLUMNS.TAXFREE_FLAG).setValue('免除フラグ');
         sheet.getRange(5, CONFIG.COLUMNS.TAXFREE_FLAG, ayFormulas.length, 1).setFormulas(ayFormulas);
         console.log('AY列(免除フラグ) DDP_TFゲートON: 式を' + ayFormulas.length + '行に設定しました');
