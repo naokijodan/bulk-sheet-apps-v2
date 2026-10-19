@@ -4152,10 +4152,38 @@ function applyTagShippingValidations_(sheet) {
   }
 
   // R列: DDP/DDU設定 ドロップダウン
+  // DDP_TF_<帯>（免除DDP）は、R列に既にある帯 と Import_Policies の eco_used_taxfree_<4桁> から帯ごとに選択肢を自動生成。無ければ DDP/DDU のみ
+  var ddpChoices = ['DDP', 'DDU'];
+  var ddpHelp = 'DDP (関税込み) または DDU (関税別) を選択';
+  try {
+    var tfBands = [];
+    var rColVals = sheet.getRange(2, 18, dataRows, 1).getValues();
+    for (var rv = 0; rv < rColVals.length; rv++) {
+      var rBand = parseTaxfreeTagMode_(rColVals[rv][0]);
+      if (rBand !== null && tfBands.indexOf(rBand) === -1) tfBands.push(rBand);
+    }
+    var ipSheetTf = ss.getSheetByName('Import_Policies');
+    if (ipSheetTf && ipSheetTf.getLastRow() >= 2) {
+      var ipNames = ipSheetTf.getRange(2, 2, ipSheetTf.getLastRow() - 1, 1).getValues();
+      for (var ip = 0; ip < ipNames.length; ip++) {
+        var pBand = parseTaxfreePolicyName_(ipNames[ip][0]);
+        if (pBand !== null && tfBands.indexOf(pBand) === -1) tfBands.push(pBand);
+      }
+    }
+    if (tfBands.length > 0) {
+      tfBands.sort();
+      for (var tb = 0; tb < tfBands.length; tb++) {
+        ddpChoices.push(CONFIG.TAXFREE_POLICY.TAG_PREFIX + tfBands[tb]);
+      }
+      ddpHelp = ddpHelp + '／DDP_TF_xxxx=日本郵便エコノミー(EP)×中古の行だけ免除DDP（関税0）。xxxxは重量帯';
+    }
+  } catch (eTf) {
+    console.log('R列DDP_TF可視判定をスキップ: ' + eTf.message);
+  }
   var ddpRule = SpreadsheetApp.newDataValidation()
-    .requireValueInList(['DDP', 'DDU'], true)
+    .requireValueInList(ddpChoices, true)
     .setAllowInvalid(false)
-    .setHelpText('DDP (関税込み) または DDU (関税別) を選択')
+    .setHelpText(ddpHelp)
     .build();
   sheet.getRange(2, 18, Math.max(sheet.getLastRow(), 100) - 1, 1).setDataValidation(ddpRule);
 
@@ -4344,6 +4372,13 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
       }
     }
     var tagMap = buildTagOverrideMap_(ss, fullSettings);
+    // DDP_TF_<帯>（免除DDP）ゲート: DDPフラグ有効かつ、DDP_TF_xxxxタグが1つ以上ある場合のみ新ロジックを式に含める
+    var tfGate = false;
+    if (fullSettings && fullSettings.tagOverrideDdpMode && tagMap) {
+      for (var _tfTag in tagMap) {
+        if (tagMap[_tfTag] && parseTaxfreeTagMode_(tagMap[_tfTag].ddpMode) !== null) { tfGate = true; break; }
+      }
+    }
     var effectiveShippingCalc = shippingCalc;
     if (fullSettings && fullSettings.tagOverrideShipping && tagMap) {
       effectiveShippingCalc = 'TAG_SHIPPING';
@@ -4526,6 +4561,11 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
         var conditionExpr = 'IF(AE' + row + '="新品","new",IF(AE' + row + '="中古","used",""))';
         var ddpCall = 'IFERROR(INDEX(Policy_Master!A:A,MATCH("*"&' + shippingTypeExpr + '&"_"&' + conditionExpr + '&"_free",Policy_Master!B:B,0)),"該当なし")';
         var formula = '=IF(OR(' + guards.join(',') + '),"",IF(UPPER(TRIM(AX' + row + '))="DDP",' + ddpCall + ',' + dduCall + '))';
+        if (tfGate) {
+          // 免除DDP行(AY="TF_xxxx")は eco_used_taxfree_xxxx ポリシーを参照。未発見は「該当なし」（DDUへフォールバックしない）
+          var tfCall = 'IFERROR(INDEX(Policy_Master!A:A,MATCH("*' + CONFIG.TAXFREE_POLICY.NAME_PREFIX + '"&RIGHT(AY' + row + ',4),Policy_Master!B:B,0)),"該当なし")';
+          formula = '=IF(OR(' + guards.join(',') + '),"",IF(LEFT(AY' + row + ',' + CONFIG.TAXFREE_POLICY.FLAG_PREFIX.length + ')="' + CONFIG.TAXFREE_POLICY.FLAG_PREFIX + '",' + tfCall + ',IF(UPPER(TRIM(AX' + row + '))="DDP",' + ddpCall + ',' + dduCall + ')))';
+        }
         policyFormulas.push([formula]);
       }
       if (policyFormulas.length > 0) {
@@ -4777,6 +4817,19 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
     // 調整式: 実際の関税率 ÷ (1 - 手数料率 - 広告費率) × 1.03（3%安全係数）
     sheet.getRange('AF2').setFormula('=$AA$2/(1-$F$1-$F$2)*1.03');
 
+    // 免除DDP(DDP_TF): 固定費セル AZ2(Zonos固定手数料USD) / BA2(ラベル代円)。ゲート時のみ、空のときだけ初期値設定
+    if (tfGate) {
+      var tfNeedCols = 53; // BA列
+      var tfMaxCols = sheet.getMaxColumns();
+      if (tfMaxCols < tfNeedCols) {
+        sheet.insertColumnsAfter(tfMaxCols, tfNeedCols - tfMaxCols);
+      }
+      if (sheet.getRange('AZ1').getValue() === '') sheet.getRange('AZ1').setValue('Zonos固定手数料(USD)');
+      if (sheet.getRange('AZ2').getValue() === '') sheet.getRange('AZ2').setValue(CONFIG.TAXFREE_POLICY.DEFAULT_ZONOS_USD);
+      if (sheet.getRange('BA1').getValue() === '') sheet.getRange('BA1').setValue('ラベル代(円)');
+      if (sheet.getRange('BA2').getValue() === '') sheet.getRange('BA2').setValue(CONFIG.TAXFREE_POLICY.DEFAULT_LABEL_YEN);
+    }
+
     // AD列: 想定関税（ARRAYFORMULA）
     // 計算式: 関税額 + 関税処理手数料 + (米国通関処理手数料円 ÷ 為替) + MPF$ + (EU送料差額円 ÷ 為替)
     // 関税額 = 販売価格 × 関税率
@@ -4784,12 +4837,29 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
     // つまり: 販売価格 × 関税率 × (1 + 関税処理手数料率) + 販売価格 × VAT率 × 関税処理手数料率 + その他
     // AF2=調整後関税率, AE2=VAT率, AG2=関税処理手数料率, AE1=米国通関処理手数料(円)※将来用, AB2=CE用通関手数料(円), AH2=MPF($), AC2=EU送料差額(円), C2=為替レート
     // CE（Cpass-Economy）の場合のみAB2の通関手数料を適用、それ以外のクーリエは0
-    sheet.getRange('AD4').setFormula('=ARRAYFORMULA(IF(ROW(AD4:AD)=4,"想定関税",IF(R4:R="","",ROUND(R4:R*$AF$2*(1+$AG$2)+R4:R*$AE$2*$AG$2+IF(X4:X="CE",$AB$2/$C$2,0)+$AH$2+$AC$2/$C$2,2))))');
+    var adFormulaStr = '=ARRAYFORMULA(IF(ROW(AD4:AD)=4,"想定関税",IF(R4:R="","",ROUND(R4:R*$AF$2*(1+$AG$2)+R4:R*$AE$2*$AG$2+IF(X4:X="CE",$AB$2/$C$2,0)+$AH$2+$AC$2/$C$2,2))))';
+    if (tfGate) {
+      // 免除行(AY="TF_xxxx"): (Zonos固定+ラベル代/為替) ÷ (1-手数料率-広告費率-Z2)。分母<=0はNA()（IFERRORで黙らせない）
+      var tfZonos = 'IF(ISNUMBER($AZ$2),$AZ$2,' + CONFIG.TAXFREE_POLICY.DEFAULT_ZONOS_USD + ')';
+      var tfLabel = 'IF(ISNUMBER($BA$2),$BA$2,' + CONFIG.TAXFREE_POLICY.DEFAULT_LABEL_YEN + ')';
+      var tfFlagCond = 'LEFT(AY4:AY,' + CONFIG.TAXFREE_POLICY.FLAG_PREFIX.length + ')="' + CONFIG.TAXFREE_POLICY.FLAG_PREFIX + '"';
+      var tfDen = '(1-$F$1-$F$2-$Z$2)';
+      adFormulaStr = '=ARRAYFORMULA(IF(ROW(AD4:AD)=4,"想定関税",IF(R4:R="","",IF(' + tfFlagCond + ',IF(' + tfDen + '<=0,NA(),ROUND((' + tfZonos + '+' + tfLabel + '/$C$2)/' + tfDen + ',2)),ROUND(R4:R*$AF$2*(1+$AG$2)+R4:R*$AE$2*$AG$2+IF(X4:X="CE",$AB$2/$C$2,0)+$AH$2+$AC$2/$C$2,2)))))';
+    }
+    sheet.getRange('AD4').setFormula(adFormulaStr);
 
     // AH列: 実際の関税額（ARRAYFORMULA）
     // AD列（想定関税）と同じ計算式だが、AF2（調整関税率）ではなくAA2（実際の関税率）を使用
     // これにより実際に支払う関税額がわかり、正確な利益計算ができる
-    sheet.getRange('AH4').setFormula('=ARRAYFORMULA(IF(ROW(AH4:AH)=4,"実際の関税額",IF(R4:R="","",ROUND(R4:R*$AA$2*(1+$AG$2)+R4:R*$AE$2*$AG$2+IF(X4:X="CE",$AB$2/$C$2,0)+$AH$2+$AC$2/$C$2,2))))');
+    var ahFormulaStr = '=ARRAYFORMULA(IF(ROW(AH4:AH)=4,"実際の関税額",IF(R4:R="","",ROUND(R4:R*$AA$2*(1+$AG$2)+R4:R*$AE$2*$AG$2+IF(X4:X="CE",$AB$2/$C$2,0)+$AH$2+$AC$2/$C$2,2))))';
+    if (tfGate) {
+      // 免除行(AY="TF_xxxx")の実費: Zonos固定 + ラベル代/為替（関税0・手数料率の割戻しなし）
+      var tfFlagCondAh = 'LEFT(AY4:AY,' + CONFIG.TAXFREE_POLICY.FLAG_PREFIX.length + ')="' + CONFIG.TAXFREE_POLICY.FLAG_PREFIX + '"';
+      var tfZonosAh = 'IF(ISNUMBER($AZ$2),$AZ$2,' + CONFIG.TAXFREE_POLICY.DEFAULT_ZONOS_USD + ')';
+      var tfLabelAh = 'IF(ISNUMBER($BA$2),$BA$2,' + CONFIG.TAXFREE_POLICY.DEFAULT_LABEL_YEN + ')';
+      ahFormulaStr = '=ARRAYFORMULA(IF(ROW(AH4:AH)=4,"実際の関税額",IF(R4:R="","",IF(' + tfFlagCondAh + ',ROUND(' + tfZonosAh + '+' + tfLabelAh + '/$C$2,2),ROUND(R4:R*$AA$2*(1+$AG$2)+R4:R*$AE$2*$AG$2+IF(X4:X="CE",$AB$2/$C$2,0)+$AH$2+$AC$2/$C$2,2)))))';
+    }
+    sheet.getRange('AH4').setFormula(ahFormulaStr);
 
     // AG列: DDU調整後価格（AP2:AP3のセル参照を使用）
     // AP3は想定関税の閾値、想定関税がAP3以上の場合にDDP価格から想定関税を引く
@@ -5004,6 +5074,7 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
     if (fullSettings && fullSettings.tagOverrideDdpMode && tagMap) {
       // ON: AX列に行ごとのINDEX/MATCH式（UPPER/TRIMで値ブレ許容）
       var axFormulas = [];
+      var ayFormulas = [];
       for (var axRow = 5; axRow <= dataLastRow; axRow++) {
         var axFormula = '=IFERROR(' +
           'IF(OR(UPPER(TRIM(INDEX(' + tsName + '!R:R,MATCH(D' + axRow + ',' + tsName + '!A:A,0))))="DDP",' +
@@ -5011,10 +5082,28 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
           'UPPER(TRIM(INDEX(' + tsName + '!R:R,MATCH(D' + axRow + ',' + tsName + '!A:A,0)))),' +
           '"DDU"),' +
           '"DDU")';
+        if (tfGate) {
+          // DDP_TF_xxxx: 配送EP かつ 状態=中古 の行だけ "DDP"、それ以外は "DDU"（AXは常にDDP/DDUの2値）
+          var tfTagPre = CONFIG.TAXFREE_POLICY.TAG_PREFIX;
+          axFormula = '=IFERROR(LET(t,UPPER(TRIM(INDEX(' + tsName + '!R:R,MATCH(D' + axRow + ',' + tsName + '!A:A,0)))),' +
+            'IF(OR(t="DDP",t="DDU"),t,IF(AND(REGEXMATCH(t,"^' + tfTagPre + '[0-9]{4}$"),X' + axRow + '="EP",AE' + axRow + '="中古"),"DDP","DDU"))),"DDU")';
+          // AY: 免除行の印（AX=DDP かつ タグR列=DDP_TF_xxxx → "TF_xxxx"）
+          ayFormulas.push(['=IFERROR(LET(t,UPPER(TRIM(INDEX(' + tsName + '!R:R,MATCH(D' + axRow + ',' + tsName + '!A:A,0)))),' +
+            'IF(AND(AX' + axRow + '="DDP",REGEXMATCH(t,"^' + tfTagPre + '[0-9]{4}$")),"' + CONFIG.TAXFREE_POLICY.FLAG_PREFIX + '"&RIGHT(t,4),"")),"")']);
+        }
         axFormulas.push([axFormula]);
       }
       if (axFormulas.length > 0) {
         sheet.getRange(5, CONFIG.COLUMNS.DDP_MODE, axFormulas.length, 1).setFormulas(axFormulas);
+      }
+      if (tfGate && ayFormulas.length > 0) {
+        var tfMaxColsAy = sheet.getMaxColumns();
+        if (tfMaxColsAy < CONFIG.COLUMNS.TAXFREE_FLAG) {
+          sheet.insertColumnsAfter(tfMaxColsAy, CONFIG.COLUMNS.TAXFREE_FLAG - tfMaxColsAy);
+        }
+        sheet.getRange(4, CONFIG.COLUMNS.TAXFREE_FLAG).setValue('免除フラグ');
+        sheet.getRange(5, CONFIG.COLUMNS.TAXFREE_FLAG, ayFormulas.length, 1).setFormulas(ayFormulas);
+        console.log('AY列(免除フラグ) DDP_TFゲートON: 式を' + ayFormulas.length + '行に設定しました');
       }
       console.log('AX列(DDPフラグ) tagOverrideDdpMode=ON: INDEX/MATCH式を' + axFormulas.length + '行に設定しました');
     } else {
@@ -5029,6 +5118,16 @@ function applyCalculationFormulas(sheetName, settings, v5Mode) {
         }
       }
       console.log('AX列(DDPフラグ) tagOverrideDdpMode=OFF: 式のみクリア（手動値は保護）');
+    }
+
+    // AY列(免除フラグ): ゲート偽(OFF含む)のときは、このライブラリが生成した免除フラグ式(目印: "TF_"&RIGHT)だけをクリア。他の式・手動値には一切触れない
+    if (!tfGate && dataLastRow >= 5 && sheet.getMaxColumns() >= CONFIG.COLUMNS.TAXFREE_FLAG) {
+      var ayFormulasExisting = sheet.getRange(5, CONFIG.COLUMNS.TAXFREE_FLAG, dataLastRow - 4, 1).getFormulas();
+      for (var ayI = 0; ayI < ayFormulasExisting.length; ayI++) {
+        if (isTaxfreeFlagFormula_(ayFormulasExisting[ayI][0])) {
+          sheet.getRange(5 + ayI, CONFIG.COLUMNS.TAXFREE_FLAG).clearContent();
+        }
+      }
     }
 
     // 最大仕入超過カウント（_maxAがnullの場合はスキップ）

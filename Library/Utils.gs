@@ -1436,7 +1436,7 @@ function buildTagOverrideMap_(ss, settings) {
       highShip: data[i][headers.indexOf('高価格配送')] || null,
       threshold: (function(v) { var n = Number(v); return isNaN(n) ? null : n; })(data[i][headers.indexOf('送料切替基準')]),
       condition: data[i][headers.indexOf('商品状態')] || null,
-      ddpMode: (rawDdp === 'DDP' || rawDdp === 'DDU') ? rawDdp : null,
+      ddpMode: (rawDdp === 'DDP' || rawDdp === 'DDU' || parseTaxfreeTagMode_(rawDdp) !== null) ? rawDdp : null,
       profitMethod: rawProfitMethod || null,
       shippingMethod: rawShippingMethod || null
     };

@@ -17,6 +17,18 @@ var CONFIG = {
   CONTINUATION_INTERVAL_MINUTES: 1,
   PARALLEL_REQUESTS: 10,   // 1バッチで同時に投げるAIリクエスト数
 
+  // 免除DDP(DDP_TF_<4桁帯>)用の名前規約。ポリシー名・タグ値・AYフラグの組み立ては全てここと下のヘルパー経由
+  //   TagShipping R列: DDP_TF_0500 / Policy名: ..._eco_used_taxfree_0500 / AY列: TF_0500
+  TAXFREE_POLICY: {
+    NAME_PREFIX: 'eco_used_taxfree_',  // Policy名末尾 = NAME_PREFIX + 4桁帯
+    TAG_PREFIX: 'DDP_TF_',             // R列の値 = TAG_PREFIX + 4桁帯
+    FLAG_PREFIX: 'TF_',                // AY列の値 = FLAG_PREFIX + 4桁帯
+    SHIPPING_TYPE: 'eco_tf',           // DDPキャッシュ上の shippingType
+    CONDITION: 'used',                 // DDPキャッシュ上の condition
+    DEFAULT_ZONOS_USD: 1.69,           // AZ2(Zonos固定手数料USD)の既定値・数値でないときのフォールバック
+    DEFAULT_LABEL_YEN: 50              // BA2(ラベル代円)の既定値・数値でないときのフォールバック
+  },
+
   // 列番号（1-based）
   COLUMNS: {
     // A-I列: 基本情報
@@ -72,7 +84,8 @@ var CONFIG = {
     // AV列: 交通整理バックアップ
     JP_DESC_BACKUP: 48,      // AV列: 商品説明バックアップ
     EN_DESC_SANITIZED: 49,   // AW列: 交通整理英語版
-    DDP_MODE: 50             // AX列: DDP/DDUフラグ (タグ別関税モード)
+    DDP_MODE: 50,            // AX列: DDP/DDUフラグ (タグ別関税モード)
+    TAXFREE_FLAG: 51         // AY列: 免除DDP補助フラグ ("TF_<帯>"=DDP_TF_<帯>タグ×EP×中古の免除行)
   },
 
   // 交通整理: カテゴリ判定は IS_TAG_TO_CATEGORY（Config_IS.gs）に統合済み
@@ -468,4 +481,33 @@ function updateListingSheetPriceFormula(workSheetName, priceDisplayMode) {
 function setPriceCellHighlight(sheet, row) {
   // ハイライト機能を無効化
   return;
+}
+
+/**
+ * 免除DDPのR列値(大文字化・trim済み想定)から4桁帯を返す。該当しなければ null
+ * 例: 'DDP_TF_0500' → '0500'
+ * @private
+ */
+function parseTaxfreeTagMode_(v) {
+  var m = /^DDP_TF_(\d{4})$/.exec(String(v || '').trim().toUpperCase());
+  return m ? m[1] : null;
+}
+
+/**
+ * 免除DDPポリシー名から4桁帯を返す。該当しなければ null
+ * 例: 'xxx_eco_used_taxfree_0500' → '0500'
+ * @private
+ */
+function parseTaxfreePolicyName_(name) {
+  var m = /eco_used_taxfree_(\d{4})$/.exec(String(name || '').trim());
+  return m ? m[1] : null;
+}
+
+/**
+ * 渡された式が、免除DDP用にこのライブラリが生成したAY列の式か判定する（目印: "TF_"&RIGHT(...)）。
+ * ゲート偽時のクリア対象を自分の式だけに限定するために使う
+ * @private
+ */
+function isTaxfreeFlagFormula_(formula) {
+  return String(formula || '').indexOf('"' + CONFIG.TAXFREE_POLICY.FLAG_PREFIX + '"&RIGHT(') !== -1;
 }

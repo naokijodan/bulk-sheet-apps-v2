@@ -386,6 +386,18 @@ function loadPolicyMasterCache_() {
         }
 
         if (ddpId) {
+          // 免除DDP(eco_used_taxfree_<4桁帯>): 帯付きで登録（固定パターンの末尾一致とは別に判定）
+          var tfBand = parseTaxfreePolicyName_(ddpName);
+          if (tfBand !== null) {
+            ddpPolicies.push({
+              id: String(ddpId),
+              name: ddpName,
+              shippingType: CONFIG.TAXFREE_POLICY.SHIPPING_TYPE,
+              condition: CONFIG.TAXFREE_POLICY.CONDITION,
+              band: tfBand
+            });
+            continue;
+          }
           for (var p = 0; p < DDP_CACHE_PATTERNS.length; p++) {
             if (ddpName.indexOf(DDP_CACHE_PATTERNS[p].pattern) !== -1) {
               ddpPolicies.push({
@@ -473,7 +485,25 @@ function findShippingPolicyIdFromCache_(policyCache, category, condition, shippi
 }
 
 /**
+ * 免除DDP専用ポリシーを帯(4桁)でキャッシュから検索して返す。
+ * @param {Array<Object>} ddpPolicies - cache.ddpPolicies
+ * @param {string} band - 4桁の帯（例 '0500'）
+ * @return {string|null} ポリシーID、見つからない場合はnull
+ */
+function findTaxfreePolicyIdFromCache_(ddpPolicies, band) {
+  if (!ddpPolicies || !ddpPolicies.length) return null;
+  for (var i = 0; i < ddpPolicies.length; i++) {
+    var p = ddpPolicies[i];
+    if (p.shippingType === CONFIG.TAXFREE_POLICY.SHIPPING_TYPE && p.band === band) {
+      return p.id;
+    }
+  }
+  return null;
+}
+
+/**
  * DDP専用ポリシーをキャッシュから検索して返す（Policy_Masterの都度読み禁止）。
+ * 免除DDPは findTaxfreePolicyIdFromCache_ を使う。
  * @param {Array<Object>} ddpPolicies - cache.ddpPolicies (loadPolicyMasterCache_で構築済み)
  * @param {string} shippingType - 'eco' | 'xp'
  * @param {string} condition - 'new' | 'used'
@@ -765,6 +795,11 @@ function applyUnifiedSettingsBatch_(sheet, batchRows, category, templateName, te
   // AX列(CONFIG.COLUMNS.DDP_MODE) batch read: ポリシー判定の真実の源
   SpreadsheetApp.flush();  // AX列数式の再計算を確実に完了させてから読み取る
   var axColValues = sheet.getRange(minRow, CONFIG.COLUMNS.DDP_MODE, rowCount, 1).getValues();
+  // AY列(CONFIG.COLUMNS.TAXFREE_FLAG): 免除DDP行の印("TF")。列が存在しないシートは空配列扱い
+  var ayColValues = [];
+  if (sheet.getMaxColumns() >= CONFIG.COLUMNS.TAXFREE_FLAG) {
+    ayColValues = sheet.getRange(minRow, CONFIG.COLUMNS.TAXFREE_FLAG, rowCount, 1).getValues();
+  }
 
   var templateData = [];
   var policyData = [];
@@ -856,8 +891,24 @@ function applyUnifiedSettingsBatch_(sheet, batchRows, category, templateName, te
       var rowAxValueRaw = axColValues[rowIndex][0];
       var rowAxValue = String(rowAxValueRaw || '').trim().toUpperCase();
       var isDdpRow = (rowAxValue === 'DDP');
+      var rowAyValue = ayColValues[rowIndex] ? String(ayColValues[rowIndex][0] || '').trim().toUpperCase() : '';
+      var flagPre = CONFIG.TAXFREE_POLICY.FLAG_PREFIX;
+      var isTfRow = (rowAyValue.indexOf(flagPre) === 0);
 
-      if (isDdpRow) {
+      // 警告: タグがDDP_TF_xxxx かつ EP かつ 中古 なのに AYが"TF_"始まりでない（数式再適用忘れの可能性）
+      if (!isTfRow && parseTaxfreeTagMode_(getTagVal_(row, 'ddpMode')) !== null && shippingMethod === 'EP' && condition === '中古') {
+        console.warn('[applyUnifiedSettingsBatch_] 警告: row=' + row + ' はタグDDP_TF_xxxx×EP×中古ですがAY列が"' + flagPre + 'xxxx"ではありません（数式の再適用が必要な可能性）');
+      }
+
+      if (isTfRow) {
+        // 免除DDP行: AYの帯(TF_0500→0500)で eco_used_taxfree_<帯> のみ検索。未発見は「該当なし」でエラー計上（DDUフォールバック禁止）
+        var tfRowBand = rowAyValue.substring(flagPre.length);
+        policyId = /^\d{4}$/.test(tfRowBand) ? findTaxfreePolicyIdFromCache_(cache.ddpPolicies, tfRowBand) : null;
+        if (!policyId) {
+          console.warn('[applyUnifiedSettingsBatch_] 免除DDPポリシー未発見 row=' + row + ' (' + CONFIG.TAXFREE_POLICY.NAME_PREFIX + tfRowBand + ') → 該当なし');
+        }
+        console.log('  免除DDPポリシーID: ' + policyId + ' (AY=' + rowAyValue + ')');
+      } else if (isDdpRow) {
         policyId = findDdpPolicyIdFromCache_(cache.ddpPolicies, shippingType, condition);
         if (!policyId) {
           var tagForLog = tagMap ? String((tagValues ? tagValues[rowIndex][0] : '') || '').trim() : '(tagMap未構築)';
@@ -1935,6 +1986,12 @@ function writePoliciesToMaster(masterSheet, sourceSheet, startRow) {
 
       if (!id || !name || String(id).indexOf('（例）') !== -1) continue;
 
+      // 免除DDP(eco_used_taxfree_<4桁帯>)は fee列の値(手動用/数値)に関係なく DDP専用セクションへ
+      if (parseTaxfreePolicyName_(name) !== null) {
+        ddpPolicies.push([id, name]);
+        continue;
+      }
+
       if (typeof fee === 'number' && !isNaN(fee)) {
         // 自動判定用 → A-C 列上部
         autoRows.push([id, name, fee]);
@@ -1948,6 +2005,7 @@ function writePoliciesToMaster(masterSheet, sourceSheet, startRow) {
             break;
           }
         }
+
         if (isDdp) {
           ddpPolicies.push([id, name]);
         } else {
